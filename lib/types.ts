@@ -1,0 +1,78 @@
+export interface LineItem {
+  id: string;
+  name: string;
+  quantity: number;
+  price: number;
+}
+
+export type PaperStyle = "thermal" | "modern" | "minimal";
+
+export type PaymentMethod =
+  | "Cash"
+  | "Credit Card"
+  | "Debit Card"
+  | "Mobile Payment"
+  | "Gift Card"
+  | "Check";
+
+export interface ReceiptData {
+  // Business
+  businessName: string;
+  addressLine1: string;
+  addressLine2: string;
+  phone: string;
+  website: string;
+
+  // Meta
+  receiptNumber: string;
+  date: string; // yyyy-mm-dd
+  time: string; // HH:mm
+  cashier: string;
+  register: string;
+
+  // Items
+  items: LineItem[];
+
+  // Money
+  currency: string; // ISO 4217 code
+  taxLabel: string;
+  taxRate: number; // percent
+  discount: number; // flat amount
+  tip: number; // flat amount
+  paymentMethod: PaymentMethod;
+  cardLastFour: string;
+  amountTendered: number; // for cash change
+
+  // Footer / extras
+  footerMessage: string;
+  showBarcode: boolean;
+  paperStyle: PaperStyle;
+}
+
+export interface ReceiptTotals {
+  subtotal: number;
+  discount: number;
+  tax: number;
+  tip: number;
+  total: number;
+  change: number;
+}
+
+export interface TemplateFaq {
+  question: string;
+  answer: string;
+}
+
+export interface ReceiptTemplate {
+  slug: string;
+  name: string;
+  shortName: string;
+  icon: string;
+  seoTitle: string;
+  seoDescription: string;
+  heading: string;
+  intro: string;
+  useCases: string[];
+  faqs: TemplateFaq[];
+  defaults: Partial<ReceiptData> & { items: LineItem[] };
+}
