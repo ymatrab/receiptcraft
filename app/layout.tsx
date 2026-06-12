@@ -33,6 +33,10 @@ export const metadata: Metadata = {
     "pdf receipt generator",
     "custom receipt",
   ],
+  icons: {
+    icon: "/icon.svg",
+    shortcut: "/icon.svg",
+  },
   alternates: {
     canonical: "/",
   },

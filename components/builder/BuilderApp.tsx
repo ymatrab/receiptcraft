@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import type { ReceiptData, LineItem, PaymentMethod, PaperStyle } from "@/lib/types";
 import { TEMPLATES, getTemplate } from "@/lib/templates";
 import { receiptFromTemplate } from "@/lib/receipt";
@@ -29,6 +29,11 @@ interface Props {
   initialTemplate?: string;
 }
 
+function getQueryTemplate(): string {
+  if (typeof window === "undefined") return "";
+  return new URLSearchParams(window.location.search).get("template") ?? "";
+}
+
 export default function BuilderApp({ initialData, initialTemplate }: Props) {
   const [data, setData] = useState<ReceiptData>(initialData);
   const [activeTemplate, setActiveTemplate] = useState(initialTemplate ?? "");
@@ -36,6 +41,15 @@ export default function BuilderApp({ initialData, initialTemplate }: Props) {
   const [exporting, setExporting] = useState<"png" | "pdf" | null>(null);
   const [mobileTab, setMobileTab] = useState<"edit" | "preview">("edit");
   const receiptRef = useRef<HTMLDivElement>(null);
+
+  // Apply ?template= query param client-side (works on Cloudflare/Vercel edge SSR)
+  useEffect(() => {
+    const slug = getQueryTemplate();
+    if (slug && slug !== activeTemplate) {
+      applyTemplate(slug);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const patch = (partial: Partial<ReceiptData>) =>
     setData((prev) => ({ ...prev, ...partial }));
