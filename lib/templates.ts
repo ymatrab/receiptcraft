@@ -513,6 +513,493 @@ export const TEMPLATES: ReceiptTemplate[] = [
       ],
     },
   },
+  {
+    slug: "rent-receipt",
+    name: "Rent Receipt",
+    shortName: "Rent",
+    icon: "🏠",
+    seoTitle: "Free Rent Receipt Generator — Landlord Rent Receipt Maker",
+    seoDescription:
+      "Create a rent receipt for tenants and landlords. Show rent paid, period, property and payment method. Free PDF & PNG download, no sign-up.",
+    heading: "Rent Receipt Generator",
+    intro:
+      "Create a rent receipt that documents a rent payment with the amount, rental period, property address and payment method. Landlords use it to give tenants proof of payment; tenants use it for records and reimbursement.",
+    useCases: [
+      "Landlords issuing proof of payment to tenants",
+      "Tenants documenting rent for records or benefits",
+      "Cash rent payments that need a paper trail",
+      "Housing-allowance and reimbursement claims",
+    ],
+    faqs: [
+      {
+        question: "What should a rent receipt include?",
+        answer:
+          "A complete rent receipt shows the date paid, the rental period it covers, the property address, the tenant and landlord names, the amount paid and the payment method. Use the business field for the landlord or property name and a line item for the rent period.",
+      },
+      {
+        question: "Is a rent receipt a legal document?",
+        answer:
+          "A rent receipt is a record of payment and can serve as evidence that rent was paid. In some jurisdictions landlords are required to provide one on request. It is most useful when it accurately reflects a real payment between the named tenant and landlord.",
+      },
+    ],
+    defaults: {
+      businessName: "Maple Grove Properties",
+      addressLine1: "Unit 4B, 215 Birch Lane",
+      addressLine2: "Seattle, WA 98101",
+      phone: "(206) 555-0119",
+      taxLabel: "Tax",
+      taxRate: 0,
+      cashier: "Received by: M. Reyes",
+      footerMessage: "Payment received in full. Thank you.",
+      paymentMethod: "Check",
+      paperStyle: "modern",
+      items: [
+        { id: id(), name: "Monthly Rent — June 2026", quantity: 1, price: 1850.0 },
+      ],
+    },
+  },
+  {
+    slug: "cash-receipt",
+    name: "Cash Receipt",
+    shortName: "Cash",
+    icon: "💵",
+    seoTitle: "Free Cash Receipt Generator — Cash Payment Receipt Maker",
+    seoDescription:
+      "Make a cash payment receipt with amount, payer and purpose. Free cash receipt template — download as PDF or PNG instantly, no watermark.",
+    heading: "Cash Receipt Generator",
+    intro:
+      "Create a simple cash receipt that records a payment made in cash: the amount, who paid, what it was for and the date. Ideal for any transaction where cash changed hands and both sides want a record.",
+    useCases: [
+      "Documenting a cash payment between two parties",
+      "Small businesses giving customers cash proof of payment",
+      "Recording deposits, fees or one-off payments",
+      "Petty cash and reimbursement records",
+    ],
+    faqs: [
+      {
+        question: "How do I write a cash receipt?",
+        answer:
+          "Enter who received the payment as the business name, add a line item describing what the payment was for, set the amount, choose Cash as the payment method, and date it. Download the PDF and give a copy to the payer.",
+      },
+    ],
+    defaults: {
+      businessName: "Cash Payment Receipt",
+      addressLine1: "",
+      addressLine2: "",
+      phone: "",
+      taxLabel: "Tax",
+      taxRate: 0,
+      cashier: "Received from: J. Carter",
+      footerMessage: "Paid in cash — received with thanks.",
+      paymentMethod: "Cash",
+      showBarcode: false,
+      paperStyle: "minimal",
+      items: [
+        { id: id(), name: "Payment for services rendered", quantity: 1, price: 150.0 },
+      ],
+    },
+  },
+  {
+    slug: "donation-receipt",
+    name: "Donation Receipt",
+    shortName: "Donation",
+    icon: "🎗️",
+    seoTitle: "Free Donation Receipt Generator — Charity Receipt Maker",
+    seoDescription:
+      "Create a donation receipt for nonprofits and charities. Show donor, amount and date for tax records. Free PDF & PNG download, no sign-up.",
+    heading: "Donation Receipt Generator",
+    intro:
+      "Create a charitable donation receipt that records a gift to a nonprofit, including the donor, amount, date and organization details. Useful for charities acknowledging donations and for donors keeping tax records.",
+    useCases: [
+      "Nonprofits acknowledging donor contributions",
+      "Donors keeping records for tax deductions",
+      "Fundraisers and community drives",
+      "In-kind and cash donation documentation",
+    ],
+    faqs: [
+      {
+        question: "What does a donation receipt need for tax purposes?",
+        answer:
+          "A donation receipt generally needs the organization's name, the donor's name, the date and amount of the contribution, and a statement about whether goods or services were provided in return. Tax rules vary by country, so confirm your local requirements before relying on it for a deduction.",
+      },
+    ],
+    defaults: {
+      businessName: "Helping Hands Foundation",
+      addressLine1: "501 Charity Way",
+      addressLine2: "Denver, CO 80203",
+      phone: "(303) 555-0188",
+      taxLabel: "Tax",
+      taxRate: 0,
+      cashier: "Donor: A. Thompson",
+      footerMessage: "No goods or services were provided in exchange for this gift.",
+      paperStyle: "modern",
+      items: [
+        { id: id(), name: "Charitable Donation", quantity: 1, price: 250.0 },
+      ],
+    },
+  },
+  {
+    slug: "invoice",
+    name: "Invoice Receipt",
+    shortName: "Invoice",
+    icon: "📋",
+    seoTitle: "Free Invoice Generator — Simple Paid Invoice Receipt Maker",
+    seoDescription:
+      "Create a simple paid invoice receipt with line items, tax and total. Free invoice maker for freelancers and small businesses — PDF & PNG download.",
+    heading: "Invoice Receipt Generator",
+    intro:
+      "Create a clean paid-invoice receipt for freelancers, contractors and small businesses, with itemized services, tax and a total. A fast way to give a client proof that an invoice was paid without invoicing software.",
+    useCases: [
+      "Freelancers confirming a paid invoice",
+      "Small businesses billing for services",
+      "Contractors documenting completed work",
+      "Client records and bookkeeping",
+    ],
+    faqs: [
+      {
+        question: "What's the difference between an invoice and a receipt?",
+        answer:
+          "An invoice requests payment before it's made; a receipt confirms payment after it's made. This generator produces a paid-style document that itemizes the work and shows the total as settled — useful when a client needs proof that they have already paid.",
+      },
+    ],
+    defaults: {
+      businessName: "Bright Studio Design",
+      addressLine1: "120 Creative Blvd",
+      addressLine2: "Brooklyn, NY 11201",
+      phone: "(718) 555-0142",
+      website: "brightstudio.design",
+      taxLabel: "Sales Tax",
+      taxRate: 8.875,
+      register: "Invoice #INV-2041",
+      footerMessage: "Paid in full — thank you for your business!",
+      paymentMethod: "Mobile Payment",
+      paperStyle: "modern",
+      items: [
+        { id: id(), name: "Logo Design", quantity: 1, price: 450.0 },
+        { id: id(), name: "Brand Style Guide", quantity: 1, price: 300.0 },
+        { id: id(), name: "Revisions (hrs)", quantity: 2, price: 75.0 },
+      ],
+    },
+  },
+  {
+    slug: "sales-receipt",
+    name: "Sales Receipt",
+    shortName: "Sales",
+    icon: "🛍️",
+    seoTitle: "Free Sales Receipt Generator — Itemized Sales Receipt Maker",
+    seoDescription:
+      "Create an itemized sales receipt for any product sale with tax and payment details. Free sales receipt template — download as PDF or PNG.",
+    heading: "Sales Receipt Generator",
+    intro:
+      "Create a general-purpose sales receipt for any product or service sale, with itemized lines, tax, discount and payment method. Flexible enough for market stalls, online sellers, pop-ups and side businesses.",
+    useCases: [
+      "Independent sellers and market vendors",
+      "Online resellers shipping with a receipt",
+      "Pop-up shops and craft fairs",
+      "General proof of sale and bookkeeping",
+    ],
+    faqs: [
+      {
+        question: "Can I use a sales receipt as proof of purchase?",
+        answer:
+          "Yes — an itemized sales receipt showing the seller, date, items, amounts and payment method is a standard proof of purchase. Keep it with your card or bank statement for the strongest record.",
+      },
+    ],
+    defaults: {
+      businessName: "Riverside Goods",
+      addressLine1: "78 Market Street",
+      addressLine2: "Savannah, GA 31401",
+      phone: "(912) 555-0173",
+      taxLabel: "Sales Tax",
+      taxRate: 7.0,
+      footerMessage: "Thank you for your purchase!",
+      paperStyle: "thermal",
+      items: [
+        { id: id(), name: "Handmade Candle", quantity: 2, price: 16.0 },
+        { id: id(), name: "Gift Wrap", quantity: 1, price: 3.5 },
+      ],
+    },
+  },
+  {
+    slug: "itemized-receipt",
+    name: "Itemized Receipt",
+    shortName: "Itemized",
+    icon: "📝",
+    seoTitle: "Free Itemized Receipt Generator — Detailed Receipt Maker",
+    seoDescription:
+      "Create a fully itemized receipt listing every product, quantity and price with tax. Free itemized receipt maker for expenses — PDF & PNG download.",
+    heading: "Itemized Receipt Generator",
+    intro:
+      "Create a fully itemized receipt that breaks out every product or service with its quantity and price. Expense systems and reimbursement policies often require an itemized receipt rather than just a total.",
+    useCases: [
+      "Expense reports that require itemization",
+      "Insurance and reimbursement claims",
+      "Detailed bookkeeping records",
+      "Splitting shared costs accurately",
+    ],
+    faqs: [
+      {
+        question: "Why do expense policies require an itemized receipt?",
+        answer:
+          "An itemized receipt shows exactly what was purchased, which lets approvers verify that each line is eligible under the policy (for example, excluding alcohol or personal items). A total-only receipt doesn't provide that detail, so many systems reject it.",
+      },
+    ],
+    defaults: {
+      businessName: "Office Supply Depot",
+      addressLine1: "44 Commerce Drive",
+      addressLine2: "Dallas, TX 75201",
+      phone: "(214) 555-0160",
+      taxLabel: "Sales Tax",
+      taxRate: 8.25,
+      footerMessage: "Itemized receipt — keep for your records.",
+      paperStyle: "thermal",
+      items: [
+        { id: id(), name: "Printer Paper A4 (Ream)", quantity: 3, price: 5.99 },
+        { id: id(), name: "Ballpoint Pens 12ct", quantity: 2, price: 4.49 },
+        { id: id(), name: "Sticky Notes 4pk", quantity: 1, price: 6.99 },
+        { id: id(), name: "Stapler", quantity: 1, price: 9.99 },
+      ],
+    },
+  },
+  {
+    slug: "medical-receipt",
+    name: "Medical Receipt",
+    shortName: "Medical",
+    icon: "🩺",
+    seoTitle: "Free Medical Receipt Generator — Doctor & Clinic Receipt Maker",
+    seoDescription:
+      "Create a medical or clinic receipt for services and copays. Free receipt maker for HSA/FSA and insurance records — PDF & PNG, no sign-up.",
+    heading: "Medical Receipt Generator",
+    intro:
+      "Create a receipt for medical services, copays or treatments, with provider details and itemized charges. Useful for HSA/FSA reimbursement, insurance submissions and personal medical expense records.",
+    useCases: [
+      "HSA / FSA reimbursement claims",
+      "Insurance reimbursement submissions",
+      "Medical expense tax records",
+      "Copay and treatment documentation",
+    ],
+    faqs: [
+      {
+        question: "What should a medical receipt include for reimbursement?",
+        answer:
+          "For HSA/FSA or insurance, a medical receipt should show the provider's name, the date of service, a description of the service or item, the amount paid and the payment method. Keep any explanation-of-benefits paperwork with it for the strongest claim.",
+      },
+    ],
+    defaults: {
+      businessName: "Lakeside Family Clinic",
+      addressLine1: "330 Wellness Avenue",
+      addressLine2: "Minneapolis, MN 55401",
+      phone: "(612) 555-0137",
+      taxLabel: "Tax",
+      taxRate: 0,
+      cashier: "Patient: R. Daniels",
+      footerMessage: "Thank you. Please keep this receipt for your records.",
+      paperStyle: "modern",
+      items: [
+        { id: id(), name: "Office Visit Copay", quantity: 1, price: 30.0 },
+        { id: id(), name: "Lab Work — Basic Panel", quantity: 1, price: 45.0 },
+      ],
+    },
+  },
+  {
+    slug: "proof-of-purchase",
+    name: "Proof of Purchase Receipt",
+    shortName: "Proof",
+    icon: "✅",
+    seoTitle: "Free Proof of Purchase Generator — Receipt of Purchase Maker",
+    seoDescription:
+      "Create a proof of purchase receipt for warranties, returns and claims. Free template with item, date and payment details — PDF & PNG download.",
+    heading: "Proof of Purchase Generator",
+    intro:
+      "Create a proof-of-purchase receipt documenting what was bought, when, for how much and how it was paid. Commonly needed for warranty registration, returns, exchanges and insurance claims.",
+    useCases: [
+      "Warranty registration and claims",
+      "Returns and exchange documentation",
+      "Insurance claims for purchased items",
+      "Replacing a lost original receipt",
+    ],
+    faqs: [
+      {
+        question: "What counts as proof of purchase?",
+        answer:
+          "Proof of purchase typically shows the seller, the item purchased, the date and the amount paid. Recreate the details of a genuine purchase here and pair the PDF with your bank or card statement, which together form strong proof for most warranty and return policies.",
+      },
+    ],
+    defaults: {
+      businessName: "Tech & Home Store",
+      addressLine1: "1200 Retail Park",
+      addressLine2: "Phoenix, AZ 85001",
+      phone: "(602) 555-0124",
+      taxLabel: "Sales Tax",
+      taxRate: 8.6,
+      footerMessage: "Retain as proof of purchase for warranty claims.",
+      paperStyle: "thermal",
+      items: [
+        { id: id(), name: "Cordless Vacuum Cleaner", quantity: 1, price: 199.99 },
+      ],
+    },
+  },
+  {
+    slug: "childcare-receipt",
+    name: "Childcare Receipt",
+    shortName: "Childcare",
+    icon: "👶",
+    seoTitle: "Free Childcare Receipt Generator — Babysitting Receipt Maker",
+    seoDescription:
+      "Create a childcare or babysitting receipt with hours, rate and dates. Free receipt maker for tax credits and reimbursement — PDF & PNG download.",
+    heading: "Childcare Receipt Generator",
+    intro:
+      "Create a childcare or babysitting receipt showing the provider, dates, hours and rate. Parents use it for childcare tax credits and employer benefits; providers use it to give families a professional record.",
+    useCases: [
+      "Childcare tax credit documentation",
+      "Dependent-care FSA reimbursement",
+      "Independent babysitters issuing receipts",
+      "Nanny and daycare payment records",
+    ],
+    faqs: [
+      {
+        question: "What should a childcare receipt show for a tax credit?",
+        answer:
+          "Childcare receipts for tax credits usually need the provider's name, the dates of care, the amount paid and often the provider's tax ID. Use the business field for the provider, line items for sessions or weeks, and the footer or cashier field for any required identifier.",
+      },
+    ],
+    defaults: {
+      businessName: "Sunshine Childcare",
+      addressLine1: "Care Provider",
+      addressLine2: "Portland, OR 97205",
+      phone: "(503) 555-0181",
+      taxLabel: "Tax",
+      taxRate: 0,
+      cashier: "Provider: L. Nguyen",
+      footerMessage: "Thank you for trusting us with your family.",
+      paymentMethod: "Mobile Payment",
+      paperStyle: "modern",
+      items: [
+        { id: id(), name: "Full-Day Care (days)", quantity: 5, price: 55.0 },
+      ],
+    },
+  },
+  {
+    slug: "handyman-receipt",
+    name: "Handyman Receipt",
+    shortName: "Handyman",
+    icon: "🔨",
+    seoTitle: "Free Handyman Receipt Generator — Contractor Receipt Maker",
+    seoDescription:
+      "Create a handyman or contractor receipt with labor, materials and tax. Free receipt maker for home services — download as PDF or PNG, no sign-up.",
+    heading: "Handyman & Contractor Receipt Generator",
+    intro:
+      "Create a handyman or contractor receipt that separates labor, materials and tax. Ideal for independent tradespeople giving customers a professional record and for homeowners tracking home-improvement costs.",
+    useCases: [
+      "Independent handymen issuing receipts",
+      "Home repair and improvement records",
+      "Landlord maintenance documentation",
+      "Customer proof of completed work",
+    ],
+    faqs: [
+      {
+        question: "How do I separate labor and materials on the receipt?",
+        answer:
+          "Add a line item for labor with the quantity set to hours and the price set to your hourly rate, then list each material as its own line. This mirrors how professional service invoices break out labor from parts, which customers and tax records expect.",
+      },
+    ],
+    defaults: {
+      businessName: "Reliable Home Repairs",
+      addressLine1: "Licensed & Insured",
+      addressLine2: "Charlotte, NC 28202",
+      phone: "(704) 555-0166",
+      taxLabel: "Sales Tax",
+      taxRate: 7.25,
+      footerMessage: "90-day workmanship guarantee. Thank you!",
+      paperStyle: "modern",
+      items: [
+        { id: id(), name: "Labor (hrs)", quantity: 3, price: 65.0 },
+        { id: id(), name: "Drywall & Supplies", quantity: 1, price: 48.5 },
+        { id: id(), name: "Paint (Gal)", quantity: 1, price: 32.0 },
+      ],
+    },
+  },
+  {
+    slug: "tutoring-receipt",
+    name: "Tutoring Receipt",
+    shortName: "Tutoring",
+    icon: "📚",
+    seoTitle: "Free Tutoring Receipt Generator — Tutor Payment Receipt Maker",
+    seoDescription:
+      "Create a tutoring receipt with sessions, hours and rate. Free receipt maker for tutors and parents — download as PDF or PNG, no watermark.",
+    heading: "Tutoring Receipt Generator",
+    intro:
+      "Create a tutoring receipt showing sessions, hours and rate for academic or test-prep tutoring. Independent tutors use it to bill families professionally; parents use it for education expense records.",
+    useCases: [
+      "Independent tutors issuing client receipts",
+      "Education expense and reimbursement records",
+      "Test-prep and lesson payment tracking",
+      "Employer education-benefit claims",
+    ],
+    faqs: [
+      {
+        question: "How do I bill for multiple tutoring sessions on one receipt?",
+        answer:
+          "Add a line item such as 'Math Tutoring' with the quantity set to the number of hours or sessions and the price set to your per-hour or per-session rate. You can list different subjects as separate lines so the receipt clearly shows what each charge covers.",
+      },
+    ],
+    defaults: {
+      businessName: "Bright Minds Tutoring",
+      addressLine1: "Private Tutor",
+      addressLine2: "Boston, MA 02116",
+      phone: "(617) 555-0190",
+      taxLabel: "Tax",
+      taxRate: 0,
+      cashier: "Tutor: S. Patel",
+      footerMessage: "Next session booked — see you then!",
+      paymentMethod: "Mobile Payment",
+      paperStyle: "minimal",
+      items: [
+        { id: id(), name: "Algebra Tutoring (hrs)", quantity: 4, price: 45.0 },
+        { id: id(), name: "SAT Prep Session (hrs)", quantity: 2, price: 60.0 },
+      ],
+    },
+  },
+  {
+    slug: "cleaning-service-receipt",
+    name: "Cleaning Service Receipt",
+    shortName: "Cleaning",
+    icon: "🧹",
+    seoTitle: "Free Cleaning Service Receipt Generator — House Cleaning Receipt",
+    seoDescription:
+      "Create a cleaning service receipt with services, hours and tax. Free receipt maker for house cleaners and clients — PDF & PNG download, no sign-up.",
+    heading: "Cleaning Service Receipt Generator",
+    intro:
+      "Create a house-cleaning or commercial-cleaning receipt with itemized services, hours and tax. Independent cleaners use it to give clients a professional record; clients use it for expense and reimbursement tracking.",
+    useCases: [
+      "Independent house cleaners issuing receipts",
+      "Recurring service payment records",
+      "Move-in / move-out cleaning documentation",
+      "Office cleaning expense tracking",
+    ],
+    faqs: [
+      {
+        question: "How do I show recurring cleaning visits on a receipt?",
+        answer:
+          "Use a line item like 'Standard Clean' with the quantity set to the number of visits and the price set to your per-visit rate, or list each dated visit separately. Add extras such as deep cleaning or window washing as their own lines.",
+      },
+    ],
+    defaults: {
+      businessName: "Spotless Home Cleaning",
+      addressLine1: "Insured Cleaning Service",
+      addressLine2: "Tampa, FL 33602",
+      phone: "(813) 555-0155",
+      taxLabel: "Sales Tax",
+      taxRate: 7.5,
+      footerMessage: "Thank you — your next clean is on us if you're not satisfied!",
+      paymentMethod: "Mobile Payment",
+      paperStyle: "modern",
+      items: [
+        { id: id(), name: "Standard Home Clean", quantity: 1, price: 120.0 },
+        { id: id(), name: "Interior Windows", quantity: 1, price: 35.0 },
+      ],
+    },
+  },
 ];
 
 export function getTemplate(slug: string): ReceiptTemplate | undefined {
