@@ -4,6 +4,7 @@ import { randomReceiptNumber, todayISO, nowHHMM, uid } from "./format";
 export function baseReceipt(): ReceiptData {
   return {
     businessName: "Your Business Name",
+    logoDataUrl: "",
     addressLine1: "123 Main Street",
     addressLine2: "City, State 00000",
     phone: "(555) 000-0000",

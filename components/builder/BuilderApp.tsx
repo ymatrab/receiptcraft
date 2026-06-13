@@ -54,6 +54,21 @@ export default function BuilderApp({ initialData, initialTemplate }: Props) {
   const patch = (partial: Partial<ReceiptData>) =>
     setData((prev) => ({ ...prev, ...partial }));
 
+  const handleLogoUpload = (file: File | undefined) => {
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      alert("Please choose an image file (PNG, JPG or SVG).");
+      return;
+    }
+    if (file.size > 2 * 1024 * 1024) {
+      alert("Logo is too large. Please use an image under 2 MB.");
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => patch({ logoDataUrl: String(reader.result) });
+    reader.readAsDataURL(file);
+  };
+
   const patchItem = (id: string, partial: Partial<LineItem>) =>
     setData((prev) => ({
       ...prev,
@@ -164,6 +179,49 @@ export default function BuilderApp({ initialData, initialTemplate }: Props) {
         >
           <FormSection title="Business Details">
             <div className="grid gap-4 sm:grid-cols-2">
+              <div className="sm:col-span-2">
+                <span className="mb-1.5 block text-xs font-medium text-slate-600">
+                  Your Logo (optional)
+                </span>
+                <div className="flex items-center gap-3">
+                  {data.logoDataUrl ? (
+                    <span className="flex h-14 w-14 items-center justify-center overflow-hidden rounded-lg border border-slate-200 bg-white">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={data.logoDataUrl}
+                        alt="Logo preview"
+                        className="max-h-12 w-auto object-contain"
+                      />
+                    </span>
+                  ) : (
+                    <span className="flex h-14 w-14 items-center justify-center rounded-lg border border-dashed border-slate-300 text-slate-300">
+                      <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                      </svg>
+                    </span>
+                  )}
+                  <div className="flex flex-col gap-1.5">
+                    <label className="cursor-pointer rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50">
+                      {data.logoDataUrl ? "Change logo" : "Upload logo"}
+                      <input
+                        type="file"
+                        accept="image/png,image/jpeg,image/svg+xml,image/webp"
+                        className="hidden"
+                        onChange={(e) => handleLogoUpload(e.target.files?.[0])}
+                      />
+                    </label>
+                    {data.logoDataUrl && (
+                      <button
+                        type="button"
+                        onClick={() => patch({ logoDataUrl: "" })}
+                        className="text-left text-xs font-medium text-red-600 hover:text-red-700"
+                      >
+                        Remove logo
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
               <div className="sm:col-span-2">
                 <TextField
                   label="Business Name"

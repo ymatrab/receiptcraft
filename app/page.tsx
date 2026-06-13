@@ -7,6 +7,7 @@ import ReceiptPaper from "@/components/receipt/ReceiptPaper";
 
 const DEMO_RECEIPT: ReceiptData = {
   businessName: "Daily Grind Coffee Co.",
+  logoDataUrl: "",
   addressLine1: "412 Oak Street",
   addressLine2: "Austin, TX 78701",
   phone: "(512) 555-0177",

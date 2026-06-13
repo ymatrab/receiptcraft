@@ -30,6 +30,14 @@ export default function ReceiptPaper({ data }: Props) {
       <div className="bg-paper px-6 py-5 text-[13px] leading-relaxed text-slate-800">
         {/* Business header */}
         <div className="text-center">
+          {data.logoDataUrl && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={data.logoDataUrl}
+              alt={`${data.businessName || "Business"} logo`}
+              className="mx-auto mb-2 max-h-16 w-auto object-contain"
+            />
+          )}
           <p
             className={
               isThermal

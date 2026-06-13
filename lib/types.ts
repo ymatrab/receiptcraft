@@ -18,6 +18,7 @@ export type PaymentMethod =
 export interface ReceiptData {
   // Business
   businessName: string;
+  logoDataUrl: string; // user-uploaded logo (data URL), empty if none
   addressLine1: string;
   addressLine2: string;
   phone: string;
