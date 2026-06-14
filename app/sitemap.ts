@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { SITE } from "@/lib/site";
 import { TEMPLATES } from "@/lib/templates";
+import { BRAND_TEMPLATES } from "@/lib/brands";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
@@ -21,5 +22,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  return [...staticPages, ...templatePages];
+  const brandPages: MetadataRoute.Sitemap = BRAND_TEMPLATES.map((t) => ({
+    url: `${SITE.url}/brands/${t.slug}`,
+    lastModified,
+    changeFrequency: "monthly",
+    priority: 0.7,
+  }));
+
+  brandPages.push({
+    url: `${SITE.url}/brands`,
+    lastModified,
+    changeFrequency: "weekly",
+    priority: 0.8,
+  });
+
+  return [...staticPages, ...templatePages, ...brandPages];
 }

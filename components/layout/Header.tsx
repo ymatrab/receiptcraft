@@ -7,6 +7,7 @@ import Logo from "./Logo";
 
 const NAV_LINKS = [
   { href: "/templates", label: "Templates" },
+  { href: "/brands", label: "Brands" },
   { href: "/#how-it-works", label: "How It Works" },
   { href: "/#faq", label: "FAQ" },
 ];

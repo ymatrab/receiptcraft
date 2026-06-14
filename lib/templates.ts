@@ -1,4 +1,5 @@
 import type { ReceiptTemplate } from "./types";
+import { BRAND_TEMPLATES } from "./brands";
 
 let n = 0;
 const id = () => `tpl-${++n}`;
@@ -1003,5 +1004,5 @@ export const TEMPLATES: ReceiptTemplate[] = [
 ];
 
 export function getTemplate(slug: string): ReceiptTemplate | undefined {
-  return TEMPLATES.find((t) => t.slug === slug);
+  return [...TEMPLATES, ...BRAND_TEMPLATES].find((t) => t.slug === slug);
 }

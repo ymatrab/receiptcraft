@@ -54,6 +54,11 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/brands" className="text-sm text-slate-500 transition-colors hover:text-indigo-600">
+                  Brand Templates
+                </Link>
+              </li>
+              <li>
                 <Link href="/#how-it-works" className="text-sm text-slate-500 transition-colors hover:text-indigo-600">
                   How It Works
                 </Link>
