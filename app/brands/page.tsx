@@ -23,7 +23,7 @@ export default function BrandsPage() {
         </p>
       </div>
 
-      <ul className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      <ul className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
         {BRAND_TEMPLATES.map((t) => {
           const preview = previewFromTemplate(t);
           return (
