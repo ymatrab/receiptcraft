@@ -1,11 +1,11 @@
 export const SITE = {
-  name: "ReceiptCraft",
+  name: "Makecepeit",
   tagline: "Free Receipt Maker — Create & Download Receipts in Seconds",
   description:
     "Create professional receipts online for free. 12+ receipt templates for restaurants, gas stations, taxis, hotels and more. Live preview, instant PDF & PNG download. No sign-up, no watermark.",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://receiptcraft.vercel.app",
-  twitter: "@receiptcraft",
-  email: "hello@receiptcraft.app",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://makecepeit.com",
+  twitter: "@makecepeit",
+  email: "hello@makecepeit.com",
 } as const;
 
 export function absoluteUrl(path: string): string {

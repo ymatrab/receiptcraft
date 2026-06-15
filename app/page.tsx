@@ -127,7 +127,7 @@ const howToJsonLd = {
   "@type": "HowTo",
   name: "How to make a receipt online for free",
   description:
-    "Create a professional receipt in under a minute with ReceiptCraft's free online receipt maker.",
+    "Create a professional receipt in under a minute with Makecepeit's free online receipt maker.",
   totalTime: "PT1M",
   step: STEPS.map((step, i) => ({
     "@type": "HowToStep",

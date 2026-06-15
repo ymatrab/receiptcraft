@@ -1,8 +1,8 @@
-# ReceiptCraft
+# Makecepeit
 
-> ReceiptCraft is a free online receipt maker. Users create professional receipts with a live preview and download them as PDF or PNG — no sign-up, no watermark, no cost. All receipt data is processed entirely in the browser and never stored on a server.
+> Makecepeit is a free online receipt maker. Users create professional receipts with a live preview and download them as PDF or PNG — no sign-up, no watermark, no cost. All receipt data is processed entirely in the browser and never stored on a server.
 
-ReceiptCraft offers 12+ receipt templates pre-filled with realistic items and tax rates: grocery store, restaurant, coffee shop, gas station, taxi & rideshare, hotel, retail store, pharmacy, bar & pub, salon & spa, auto repair, and parking. Each receipt supports custom business details, unlimited line items, tax (any label and rate, e.g. Sales Tax, VAT, GST), discounts, tips, six payment methods, 10 currencies (USD, EUR, GBP, CAD, AUD, INR, JPY, AED, SAR, MAD), three visual styles (thermal, modern, minimal), and an optional barcode.
+Makecepeit offers 12+ receipt templates pre-filled with realistic items and tax rates: grocery store, restaurant, coffee shop, gas station, taxi & rideshare, hotel, retail store, pharmacy, bar & pub, salon & spa, auto repair, and parking. Each receipt supports custom business details, unlimited line items, tax (any label and rate, e.g. Sales Tax, VAT, GST), discounts, tips, six payment methods, 10 currencies (USD, EUR, GBP, CAD, AUD, INR, JPY, AED, SAR, MAD), three visual styles (thermal, modern, minimal), and an optional barcode.
 
 Typical legitimate uses: replacing lost or faded receipts for real purchases, expense report documentation, small-business receipt issuing, bookkeeping records, and design or film props. Creating receipts to defraud is illegal and against the terms of use.
 

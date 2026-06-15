@@ -5,7 +5,7 @@ export interface Faq {
 
 export const HOMEPAGE_FAQS: Faq[] = [
   {
-    question: "Is ReceiptCraft really free?",
+    question: "Is Makecepeit really free?",
     answer:
       "Yes. Every feature is free: all 12+ templates, unlimited line items, live preview, and unlimited PDF and PNG downloads. There is no trial, no premium tier, no watermark and no hidden cost.",
   },
@@ -27,7 +27,7 @@ export const HOMEPAGE_FAQS: Faq[] = [
   {
     question: "Can I change the currency, tax rate and tip?",
     answer:
-      "Yes. ReceiptCraft supports 10 currencies including USD, EUR, GBP and INR, a custom tax label (Sales Tax, VAT, GST) with any rate, flat discounts, and tips. Totals are recalculated instantly as you type.",
+      "Yes. Makecepeit supports 10 currencies including USD, EUR, GBP and INR, a custom tax label (Sales Tax, VAT, GST) with any rate, flat discounts, and tips. Totals are recalculated instantly as you type.",
   },
   {
     question: "How long does it take to create a receipt?",
@@ -37,7 +37,7 @@ export const HOMEPAGE_FAQS: Faq[] = [
   {
     question: "Will my receipt have a watermark?",
     answer:
-      "No. Downloaded receipts are completely clean, with no watermark, logo or branding from ReceiptCraft anywhere on the document.",
+      "No. Downloaded receipts are completely clean, with no watermark, logo or branding from Makecepeit anywhere on the document.",
   },
   {
     question: "Is my data stored anywhere?",

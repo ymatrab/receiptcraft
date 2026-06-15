@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "ReceiptCraft — Free Receipt Maker";
+export const alt = "Makecepeit — Free Receipt Maker";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -30,7 +30,7 @@ export default function OpenGraphImage() {
               fontWeight: 700,
             }}
           >
-            🧾 ReceiptCraft
+            🧾 Makecepeit
           </div>
           <div
             style={{
