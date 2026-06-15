@@ -1,10 +1,45 @@
-import type { ReceiptData } from "@/lib/types";
+import type { ReceiptData, ReceiptProfile } from "@/lib/types";
 import { calcTotals, formatMoney, formatDisplayDate } from "@/lib/format";
 import Barcode from "./Barcode";
 
 interface Props {
   data: ReceiptData;
 }
+
+const RECEIPT_TITLE: Record<ReceiptProfile, string> = {
+  airline: "E-TICKET RECEIPT",
+  auto: "AUTO PARTS RECEIPT",
+  beauty: "BEAUTY RECEIPT",
+  coffee: "CAFE ORDER",
+  delivery: "DELIVERY RECEIPT",
+  digital: "DIGITAL INVOICE",
+  electronics: "SALES RECEIPT",
+  fashion: "STORE RECEIPT",
+  fuel: "FUEL RECEIPT",
+  grocery: "GROCERY RECEIPT",
+  home: "HOME & GARDEN RECEIPT",
+  hotel: "GUEST FOLIO",
+  pet: "PET STORE RECEIPT",
+  pharmacy: "PHARMACY RECEIPT",
+  rental: "RENTAL AGREEMENT",
+  restaurant: "ORDER RECEIPT",
+  retail: "SALES RECEIPT",
+  ride: "TRIP RECEIPT",
+  sporting: "SPORTING GOODS RECEIPT",
+  travel: "BOOKING RECEIPT",
+  warehouse: "MEMBER RECEIPT",
+};
+
+// Store-type receipts that list items in the classic stacked style (item name
+// on one line, "qty @ unit price" beneath) rather than a columnar table.
+const STACKED_PROFILES: ReceiptProfile[] = [
+  "grocery",
+  "warehouse",
+  "pharmacy",
+  "home",
+  "auto",
+  "pet",
+];
 
 /**
  * Renders the receipt itself. This exact DOM is exported to PNG/PDF,
@@ -16,6 +51,8 @@ export default function ReceiptPaper({ data }: Props) {
 
   const profile = data.receiptProfile ?? "retail";
   const accent = data.brandAccent ?? "#4f46e5";
+  const seed = data.layoutSeed ?? 0;
+  const logoScale = data.logoScale ?? 1;
   const isThermal = data.paperStyle === "thermal";
   const isMinimal = data.paperStyle === "minimal";
   const isTicket = profile === "restaurant" || profile === "coffee";
@@ -28,23 +65,26 @@ export default function ReceiptPaper({ data }: Props) {
     profile === "hotel" ||
     profile === "rental";
   const isFuel = profile === "fuel";
+  const isGrocery = profile === "grocery" || profile === "warehouse";
+  const isPharmacy = profile === "pharmacy";
+  const stackedItems = STACKED_PROFILES.includes(profile);
 
   const fontClass = isThermal && !isService ? "font-mono" : "font-sans";
-  const receiptTitle = {
-    airline: "E-TICKET RECEIPT",
-    coffee: "CAFE ORDER",
-    delivery: "DELIVERY RECEIPT",
-    digital: "DIGITAL INVOICE",
-    fashion: "STORE RECEIPT",
-    fuel: "FUEL RECEIPT",
-    hotel: "GUEST FOLIO",
-    rental: "RENTAL AGREEMENT",
-    restaurant: "ORDER RECEIPT",
-    retail: "SALES RECEIPT",
-    ride: "TRIP RECEIPT",
-    travel: "BOOKING RECEIPT",
-    warehouse: "MEMBER RECEIPT",
-  }[profile];
+  const receiptTitle = RECEIPT_TITLE[profile];
+
+  // Logo height adapts to the receipt type (small printed mark on thermal
+  // receipts, larger on modern/digital ones) and to each brand's logoScale.
+  const logoBasePx = isService ? 46 : isTicket ? 44 : 38;
+  const logoMaxHeight = Math.round(logoBasePx * logoScale);
+
+  // Synthetic identifiers, deterministic per brand so previews stay stable.
+  const storeNumber = 100 + (seed % 8900);
+  const registerNumber = 1 + (seed % 12);
+  const unitsSold = Math.max(1, Math.round(data.items.reduce((n, i) => n + i.quantity, 0)));
+  const rxNumber = String(7000000 + ((seed * 137) % 999999));
+  const memberNumber = `${111}${String(100000 + ((seed * 9301) % 899999))}`;
+  const showSurvey = !isService && seed % 3 === 0;
+
   const divider = isThermal ? (
     <div className="my-2 border-t border-dashed border-slate-400" />
   ) : (
@@ -72,8 +112,12 @@ export default function ReceiptPaper({ data }: Props) {
               crossOrigin="anonymous"
               // Matte/monochrome so brand logos read as printed ink on the
               // receipt rather than full-colour web graphics.
-              style={{ filter: "grayscale(1) contrast(1.08)" }}
-              className={`${isService ? "mb-3" : "mx-auto mb-2"} max-h-16 w-auto object-contain`}
+              style={{
+                filter: "grayscale(1) contrast(1.08)",
+                maxHeight: logoMaxHeight,
+                maxWidth: 210,
+              }}
+              className={`${isService ? "mb-3" : "mx-auto mb-2"} h-auto w-auto object-contain`}
             />
           )}
           <p
@@ -116,6 +160,16 @@ export default function ReceiptPaper({ data }: Props) {
             {data.register && <span>{data.register}</span>}
           </div>
         )}
+        {/* Store / register line for in-store thermal receipts */}
+        {!isService && !isTicket && !data.register && (
+          <div className="mt-0.5 flex flex-wrap justify-between gap-x-4 text-xs text-slate-600">
+            <span>Store #{storeNumber}</span>
+            <span>Reg {registerNumber}</span>
+          </div>
+        )}
+        {profile === "warehouse" && (
+          <div className="mt-0.5 text-xs text-slate-600">Member {memberNumber}</div>
+        )}
 
         {isTicket && (
           <div className="mt-3 grid grid-cols-2 gap-2 text-center text-[11px] font-bold uppercase tracking-wide">
@@ -124,6 +178,23 @@ export default function ReceiptPaper({ data }: Props) {
             </div>
             <div className="rounded border border-dashed border-slate-300 py-1.5">
               Paid
+            </div>
+          </div>
+        )}
+
+        {isPharmacy && (
+          <div className="mt-3 rounded border border-slate-300 p-2 text-[11px]">
+            <div className="flex justify-between">
+              <span className="font-bold">RX #</span>
+              <span>{rxNumber}</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Pharmacist</span>
+              <span>{data.cashier || "On Duty"}</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Pickup</span>
+              <span>Ready</span>
             </div>
           </div>
         )}
@@ -148,30 +219,54 @@ export default function ReceiptPaper({ data }: Props) {
         {sectionDivider}
 
         {/* Items */}
-        <table className="w-full">
-          <thead>
-            <tr className="text-left text-[11px] uppercase tracking-wider text-slate-500">
-              <th className="pb-1 font-medium">Item</th>
-              <th className="pb-1 text-center font-medium">Qty</th>
-              <th className="pb-1 text-right font-medium">Price</th>
-              <th className="pb-1 text-right font-medium">Total</th>
-            </tr>
-          </thead>
-          <tbody>
+        {stackedItems ? (
+          <div className="space-y-1.5">
             {data.items.map((item) => (
-              <tr key={item.id} className="align-top">
-                <td className="max-w-40 break-words py-0.5 pr-2">
-                  {item.name || "—"}
-                </td>
-                <td className="py-0.5 text-center text-slate-600">{item.quantity}</td>
-                <td className="py-0.5 text-right text-slate-600">{money(item.price)}</td>
-                <td className="py-0.5 text-right font-medium">
-                  {money(item.quantity * item.price)}
-                </td>
-              </tr>
+              <div key={item.id}>
+                <div className="flex justify-between gap-2">
+                  <span className="break-words pr-2">{item.name || "—"}</span>
+                  <span className="font-medium tabular-nums">
+                    {money(item.quantity * item.price)}
+                  </span>
+                </div>
+                {item.quantity !== 1 && (
+                  <div className="text-[11px] text-slate-500">
+                    {item.quantity} @ {money(item.price)}
+                  </div>
+                )}
+              </div>
             ))}
-          </tbody>
-        </table>
+          </div>
+        ) : (
+          <table className="w-full">
+            <thead>
+              <tr className="text-left text-[11px] uppercase tracking-wider text-slate-500">
+                <th className="pb-1 font-medium">Item</th>
+                <th className="pb-1 text-center font-medium">Qty</th>
+                <th className="pb-1 text-right font-medium">Price</th>
+                <th className="pb-1 text-right font-medium">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.items.map((item) => (
+                <tr key={item.id} className="align-top">
+                  <td className="max-w-40 break-words py-0.5 pr-2">{item.name || "—"}</td>
+                  <td className="py-0.5 text-center text-slate-600">{item.quantity}</td>
+                  <td className="py-0.5 text-right text-slate-600">{money(item.price)}</td>
+                  <td className="py-0.5 text-right font-medium">
+                    {money(item.quantity * item.price)}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+
+        {isGrocery && (
+          <p className="mt-2 text-[11px] uppercase tracking-wide text-slate-500">
+            Items sold: {unitsSold}
+          </p>
+        )}
 
         {sectionDivider}
 
@@ -183,7 +278,7 @@ export default function ReceiptPaper({ data }: Props) {
           </div>
           {totals.discount > 0 && (
             <div className="flex justify-between text-emerald-700">
-              <span>Discount</span>
+              <span>{isGrocery ? "You saved" : "Discount"}</span>
               <span>-{money(totals.discount)}</span>
             </div>
           )}
@@ -243,11 +338,16 @@ export default function ReceiptPaper({ data }: Props) {
         </div>
 
         {/* Footer */}
-        {(data.footerMessage || data.showBarcode) && (
+        {(data.footerMessage || data.showBarcode || showSurvey) && (
           <div className="mt-4 text-center">
             {data.footerMessage && (
               <p className={`text-xs text-slate-600 ${isThermal ? "uppercase tracking-wide" : ""}`}>
                 {data.footerMessage}
+              </p>
+            )}
+            {showSurvey && (
+              <p className="mt-1 text-[10px] text-slate-500">
+                Tell us how we did · survey #{storeNumber}-{registerNumber}
               </p>
             )}
             {data.showBarcode && (

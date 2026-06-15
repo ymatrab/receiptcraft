@@ -48,6 +48,37 @@ const PROFILE_BY_SLUG: Record<string, ReceiptProfile> = {
   sheetz: "fuel",
   costco: "warehouse",
   "sam-s-club": "warehouse",
+  // Grocery
+  kroger: "grocery",
+  publix: "grocery",
+  safeway: "grocery",
+  aldi: "grocery",
+  "whole-foods": "grocery",
+  "trader-joe-s": "grocery",
+  // Pharmacy
+  walgreens: "pharmacy",
+  "cvs-pharmacy": "pharmacy",
+  // Electronics
+  "best-buy": "electronics",
+  gamestop: "electronics",
+  "apple-store": "electronics",
+  // Beauty
+  sephora: "beauty",
+  "ulta-beauty": "beauty",
+  // Home & improvement
+  "home-depot": "home",
+  "lowe-s": "home",
+  ikea: "home",
+  michaels: "home",
+  joann: "home",
+  // Pet
+  petco: "pet",
+  petsmart: "pet",
+  // Auto parts
+  autozone: "auto",
+  "o-reilly-auto-parts": "auto",
+  // Sporting goods
+  "dick-s-sporting-goods": "sporting",
   zara: "fashion",
   "h-m": "fashion",
   "tj-maxx": "fashion",
@@ -127,6 +158,30 @@ const BRAND_ACCENTS: Record<string, string> = {
   "h-m": "#cc071e",
 };
 
+// Per-brand logo size tweaks (multiplier). Most logos look right at the
+// profile's default height; these are the exceptions whose wordmark reads too
+// large or too small at that height.
+const LOGO_SCALE: Record<string, number> = {
+  walmart: 1.15,
+  target: 0.85, // square bullseye
+  amazon: 1.1,
+  ebay: 1.1,
+  netflix: 1.15,
+  spotify: 1.1,
+  mcdonalds: 0.8, // tall arches
+  starbucks: 0.85,
+  shell: 0.85,
+  "in-n-out-burger": 1.2,
+  subway: 1.15,
+  costco: 1.1,
+  "best-buy": 0.9,
+  ikea: 1.1,
+  lyft: 1.1,
+  uber: 1.1,
+  "burger-king": 0.85,
+  kfc: 0.85,
+};
+
 function hashSlug(slug: string): number {
   return [...slug].reduce((acc, char) => acc + char.charCodeAt(0), 0);
 }
@@ -142,6 +197,8 @@ function brandMetadata(template: ReceiptTemplate) {
   return {
     receiptProfile: inferProfile(template),
     brandAccent: BRAND_ACCENTS[template.slug] ?? "#4f46e5",
+    logoScale: LOGO_SCALE[template.slug] ?? 1,
+    layoutSeed: hashSlug(template.slug),
   };
 }
 

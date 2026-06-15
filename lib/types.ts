@@ -10,6 +10,14 @@ export type PaperStyle = "thermal" | "modern" | "minimal";
 export type ReceiptProfile =
   | "retail"
   | "warehouse"
+  | "grocery"
+  | "pharmacy"
+  | "electronics"
+  | "beauty"
+  | "home"
+  | "pet"
+  | "auto"
+  | "sporting"
   | "restaurant"
   | "coffee"
   | "delivery"
@@ -65,6 +73,8 @@ export interface ReceiptData {
   paperStyle: PaperStyle;
   receiptProfile?: ReceiptProfile;
   brandAccent?: string;
+  logoScale?: number; // multiplier on the receipt logo height (1 = default)
+  layoutSeed?: number; // deterministic per-brand seed for structural variety
 }
 
 export interface ReceiptTotals {
