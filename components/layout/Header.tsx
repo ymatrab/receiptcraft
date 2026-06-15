@@ -23,9 +23,7 @@ export default function Header() {
       >
         <Link href="/" className="flex items-center gap-2.5" aria-label={`${SITE.name} home`}>
           <Logo />
-          <span className="text-lg font-bold tracking-tight text-slate-900">
-            Receipt<span className="text-indigo-600">Craft</span>
-          </span>
+          <span className="text-lg font-bold tracking-tight text-slate-900">{SITE.name}</span>
         </Link>
 
         <div className="hidden items-center gap-8 md:flex">

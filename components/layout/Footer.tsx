@@ -13,9 +13,7 @@ export default function Footer() {
           <div className="col-span-2 md:col-span-1">
             <Link href="/" className="flex items-center gap-2.5">
               <Logo />
-              <span className="text-lg font-bold tracking-tight text-slate-900">
-                Receipt<span className="text-indigo-600">Craft</span>
-              </span>
+              <span className="text-lg font-bold tracking-tight text-slate-900">{SITE.name}</span>
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-slate-500">
               The fastest free receipt maker online. Create, customize and
