@@ -1,5 +1,149 @@
-import type { ReceiptData, ReceiptTemplate } from "./types";
+import type { ReceiptData, ReceiptProfile, ReceiptTemplate } from "./types";
 import { randomReceiptNumber, todayISO, nowHHMM, uid } from "./format";
+
+const PROFILE_BY_SLUG: Record<string, ReceiptProfile> = {
+  uber: "ride",
+  lyft: "ride",
+  doordash: "delivery",
+  "uber-eats": "delivery",
+  grubhub: "delivery",
+  postmates: "delivery",
+  instacart: "delivery",
+  amazon: "digital",
+  ebay: "digital",
+  netflix: "digital",
+  spotify: "digital",
+  hulu: "digital",
+  disney: "digital",
+  "apple-services": "digital",
+  "google-play": "digital",
+  "microsoft-store": "digital",
+  steam: "digital",
+  "playstation-store": "digital",
+  "xbox-store": "digital",
+  adobe: "digital",
+  zoom: "digital",
+  airbnb: "travel",
+  expedia: "travel",
+  "booking-com": "travel",
+  "delta-airlines": "airline",
+  "american-airlines": "airline",
+  "united-airlines": "airline",
+  "southwest-airlines": "airline",
+  marriott: "hotel",
+  hilton: "hotel",
+  hyatt: "hotel",
+  hertz: "rental",
+  enterprise: "rental",
+  avis: "rental",
+  "7-eleven": "fuel",
+  shell: "fuel",
+  chevron: "fuel",
+  exxon: "fuel",
+  mobil: "fuel",
+  bp: "fuel",
+  speedway: "fuel",
+  wawa: "fuel",
+  quiktrip: "fuel",
+  sheetz: "fuel",
+  costco: "warehouse",
+  "sam-s-club": "warehouse",
+  zara: "fashion",
+  "h-m": "fashion",
+  "tj-maxx": "fashion",
+  marshalls: "fashion",
+  "macy-s": "fashion",
+  nordstrom: "fashion",
+};
+
+const COFFEE_SLUGS = new Set([
+  "starbucks",
+  "dunkin",
+  "tim-hortons",
+  "peet-s-coffee",
+  "caribou-coffee",
+  "dutch-bros",
+  "jamba-juice",
+  "boba-guys",
+]);
+
+const RESTAURANT_SLUGS = new Set([
+  "mcdonalds",
+  "burger-king",
+  "wendy-s",
+  "subway",
+  "taco-bell",
+  "kfc",
+  "chipotle",
+  "domino-s-pizza",
+  "pizza-hut",
+  "papa-john-s",
+  "chick-fil-a",
+  "panera-bread",
+  "five-guys",
+  "in-n-out-burger",
+  "shake-shack",
+  "panda-express",
+  "sonic-drive-in",
+  "dairy-queen",
+  "arby-s",
+  "jack-in-the-box",
+  "popeyes",
+]);
+
+const BRAND_ACCENTS: Record<string, string> = {
+  walmart: "#0071ce",
+  target: "#cc0000",
+  uber: "#111827",
+  starbucks: "#006241",
+  mcdonalds: "#ffbc0d",
+  "burger-king": "#d62300",
+  "taco-bell": "#702082",
+  kfc: "#e4002b",
+  chipotle: "#a81612",
+  costco: "#005daa",
+  "sam-s-club": "#0067a0",
+  "whole-foods": "#00674b",
+  "trader-joe-s": "#c8102e",
+  shell: "#fbd000",
+  chevron: "#0054a6",
+  bp: "#509e2f",
+  "7-eleven": "#008061",
+  amazon: "#ff9900",
+  ebay: "#e53238",
+  netflix: "#e50914",
+  spotify: "#1db954",
+  airbnb: "#ff385c",
+  "delta-airlines": "#c8102e",
+  "american-airlines": "#0078d2",
+  "united-airlines": "#005daa",
+  marriott: "#8b1d41",
+  hilton: "#104c97",
+  hyatt: "#6d6e71",
+  hertz: "#ffd100",
+  enterprise: "#169a5a",
+  avis: "#d71920",
+  zara: "#111111",
+  "h-m": "#cc071e",
+};
+
+function hashSlug(slug: string): number {
+  return [...slug].reduce((acc, char) => acc + char.charCodeAt(0), 0);
+}
+
+function inferProfile(template: ReceiptTemplate): ReceiptProfile {
+  if (PROFILE_BY_SLUG[template.slug]) return PROFILE_BY_SLUG[template.slug];
+  if (COFFEE_SLUGS.has(template.slug)) return "coffee";
+  if (RESTAURANT_SLUGS.has(template.slug)) return "restaurant";
+  return "retail";
+}
+
+function brandMetadata(template: ReceiptTemplate) {
+  return {
+    receiptProfile: inferProfile(template),
+    brandAccent: BRAND_ACCENTS[template.slug] ?? "#4f46e5",
+  };
+}
 
 export function baseReceipt(): ReceiptData {
   return {
@@ -34,6 +178,7 @@ export function receiptFromTemplate(template: ReceiptTemplate): ReceiptData {
   return {
     ...base,
     ...template.defaults,
+    ...brandMetadata(template),
     items: template.defaults.items.map((item) => ({ ...item, id: uid() })),
     receiptNumber: randomReceiptNumber(),
     date: todayISO(),
@@ -44,12 +189,14 @@ export function receiptFromTemplate(template: ReceiptTemplate): ReceiptData {
 /** Deterministic version for statically rendered template previews. */
 export function previewFromTemplate(template: ReceiptTemplate): ReceiptData {
   const base = baseReceipt();
+  const hash = hashSlug(template.slug);
   return {
     ...base,
     ...template.defaults,
+    ...brandMetadata(template),
     items: template.defaults.items,
-    receiptNumber: "284916",
-    date: "2026-06-12",
-    time: "14:32",
+    receiptNumber: String(280000 + hash).slice(0, 6),
+    date: `2026-06-${String((hash % 20) + 1).padStart(2, "0")}`,
+    time: `${String(8 + (hash % 12)).padStart(2, "0")}:${String((hash * 7) % 60).padStart(2, "0")}`,
   };
 }

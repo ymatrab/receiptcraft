@@ -14,30 +14,72 @@ export default function ReceiptPaper({ data }: Props) {
   const totals = calcTotals(data);
   const money = (n: number) => formatMoney(n, data.currency);
 
+  const profile = data.receiptProfile ?? "retail";
+  const accent = data.brandAccent ?? "#4f46e5";
   const isThermal = data.paperStyle === "thermal";
   const isMinimal = data.paperStyle === "minimal";
+  const isTicket = profile === "restaurant" || profile === "coffee";
+  const isService =
+    profile === "ride" ||
+    profile === "delivery" ||
+    profile === "digital" ||
+    profile === "travel" ||
+    profile === "airline" ||
+    profile === "hotel" ||
+    profile === "rental";
+  const isFuel = profile === "fuel";
 
-  const fontClass = isThermal ? "font-mono" : "font-sans";
+  const fontClass = isThermal && !isService ? "font-mono" : "font-sans";
+  const receiptTitle = {
+    airline: "E-TICKET RECEIPT",
+    coffee: "CAFE ORDER",
+    delivery: "DELIVERY RECEIPT",
+    digital: "DIGITAL INVOICE",
+    fashion: "STORE RECEIPT",
+    fuel: "FUEL RECEIPT",
+    hotel: "GUEST FOLIO",
+    rental: "RENTAL AGREEMENT",
+    restaurant: "ORDER RECEIPT",
+    retail: "SALES RECEIPT",
+    ride: "TRIP RECEIPT",
+    travel: "BOOKING RECEIPT",
+    warehouse: "MEMBER RECEIPT",
+  }[profile];
   const divider = isThermal ? (
     <div className="my-2 border-t border-dashed border-slate-400" />
   ) : (
     <div className="my-2.5 border-t border-slate-200" />
   );
+  const sectionDivider = isService ? <div className="my-3 border-t border-slate-200" /> : divider;
 
   return (
     <div className={`w-95 max-w-full ${fontClass}`}>
-      <div className="receipt-tear-top" />
-      <div className="bg-paper px-6 py-5 text-[13px] leading-relaxed text-slate-800">
+      {!isService && <div className="receipt-tear-top" />}
+      <div
+        className={`overflow-hidden bg-paper text-[13px] leading-relaxed text-slate-800 ${
+          isService ? "rounded-xl border border-slate-200 shadow-sm" : ""
+        }`}
+      >
+        {isService && <div className="h-2" style={{ backgroundColor: accent }} />}
+        <div className="px-6 py-5">
         {/* Business header */}
-        <div className="text-center">
+        <div className={isService ? "text-left" : "text-center"}>
           {data.logoDataUrl && (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={data.logoDataUrl}
               alt={`${data.businessName || "Business"} logo`}
-              className="mx-auto mb-2 max-h-16 w-auto object-contain"
+              className={`${isService ? "mb-3" : "mx-auto mb-2"} max-h-16 w-auto object-contain`}
             />
           )}
+          <p
+            className={`mb-1 text-[10px] font-bold uppercase tracking-[0.22em] ${
+              isService ? "text-slate-500" : "text-slate-400"
+            }`}
+            style={isService ? { color: accent } : undefined}
+          >
+            {receiptTitle}
+          </p>
           <p
             className={
               isThermal
@@ -53,10 +95,14 @@ export default function ReceiptPaper({ data }: Props) {
           {data.website && <p className="text-slate-600">{data.website}</p>}
         </div>
 
-        {divider}
+        {sectionDivider}
 
         {/* Meta row */}
-        <div className={`flex flex-wrap justify-between gap-x-4 text-xs text-slate-600 ${isMinimal ? "justify-center gap-x-6" : ""}`}>
+        <div
+          className={`flex flex-wrap justify-between gap-x-4 text-xs text-slate-600 ${
+            isMinimal ? "justify-center gap-x-6" : ""
+          } ${isService ? "rounded-lg bg-slate-50 p-3" : ""}`}
+        >
           <span>{formatDisplayDate(data.date)} {data.time}</span>
           {data.receiptNumber && <span>Receipt #{data.receiptNumber}</span>}
         </div>
@@ -67,7 +113,35 @@ export default function ReceiptPaper({ data }: Props) {
           </div>
         )}
 
-        {divider}
+        {isTicket && (
+          <div className="mt-3 grid grid-cols-2 gap-2 text-center text-[11px] font-bold uppercase tracking-wide">
+            <div className="rounded border border-dashed border-slate-300 py-1.5">
+              {data.register || "Counter Order"}
+            </div>
+            <div className="rounded border border-dashed border-slate-300 py-1.5">
+              Paid
+            </div>
+          </div>
+        )}
+
+        {isFuel && (
+          <div className="mt-3 grid grid-cols-3 gap-2 text-center text-[11px]">
+            <div className="rounded border border-slate-300 py-1">
+              <span className="block font-bold">PUMP</span>
+              <span>{data.register?.replace(/[^0-9]/g, "") || "04"}</span>
+            </div>
+            <div className="rounded border border-slate-300 py-1">
+              <span className="block font-bold">GRADE</span>
+              <span>UNLEAD</span>
+            </div>
+            <div className="rounded border border-slate-300 py-1">
+              <span className="block font-bold">AUTH</span>
+              <span>{data.receiptNumber.slice(-4)}</span>
+            </div>
+          </div>
+        )}
+
+        {sectionDivider}
 
         {/* Items */}
         <table className="w-full">
@@ -95,10 +169,10 @@ export default function ReceiptPaper({ data }: Props) {
           </tbody>
         </table>
 
-        {divider}
+        {sectionDivider}
 
         {/* Totals */}
-        <div className="space-y-1">
+        <div className={`space-y-1 ${isService ? "rounded-lg bg-slate-50 p-3" : ""}`}>
           <div className="flex justify-between text-slate-600">
             <span>Subtotal</span>
             <span>{money(totals.subtotal)}</span>
@@ -129,7 +203,7 @@ export default function ReceiptPaper({ data }: Props) {
             }`}
           >
             <span>TOTAL</span>
-            <span>{money(totals.total)}</span>
+            <span style={{ color: isService ? accent : undefined }}>{money(totals.total)}</span>
           </div>
         </div>
 
@@ -144,6 +218,12 @@ export default function ReceiptPaper({ data }: Props) {
                 : ""}
             </span>
           </div>
+          {isService && (
+            <div className="flex justify-between">
+              <span>Status</span>
+              <span className="font-medium text-slate-800">Paid</span>
+            </div>
+          )}
           {data.paymentMethod === "Cash" && data.amountTendered > totals.total && (
             <>
               <div className="flex justify-between">
@@ -176,8 +256,9 @@ export default function ReceiptPaper({ data }: Props) {
             )}
           </div>
         )}
+        </div>
       </div>
-      <div className="receipt-tear-bottom" />
+      {!isService && <div className="receipt-tear-bottom" />}
     </div>
   );
 }

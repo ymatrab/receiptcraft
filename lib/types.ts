@@ -7,6 +7,21 @@ export interface LineItem {
 
 export type PaperStyle = "thermal" | "modern" | "minimal";
 
+export type ReceiptProfile =
+  | "retail"
+  | "warehouse"
+  | "restaurant"
+  | "coffee"
+  | "delivery"
+  | "ride"
+  | "digital"
+  | "travel"
+  | "airline"
+  | "hotel"
+  | "rental"
+  | "fuel"
+  | "fashion";
+
 export type PaymentMethod =
   | "Cash"
   | "Credit Card"
@@ -48,6 +63,8 @@ export interface ReceiptData {
   footerMessage: string;
   showBarcode: boolean;
   paperStyle: PaperStyle;
+  receiptProfile?: ReceiptProfile;
+  brandAccent?: string;
 }
 
 export interface ReceiptTotals {
