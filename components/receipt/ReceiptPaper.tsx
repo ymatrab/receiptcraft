@@ -1,4 +1,10 @@
-import type { LayoutVariant, LineItem, ReceiptData, ReceiptProfile } from "@/lib/types";
+import type {
+  LayoutVariant,
+  LineItem,
+  ReceiptData,
+  ReceiptProfile,
+  ReceiptSection,
+} from "@/lib/types";
 import { calcTotals, formatMoney, formatDisplayDate } from "@/lib/format";
 import Barcode from "./Barcode";
 
@@ -216,6 +222,66 @@ function Items({
   );
 }
 
+function Section({ section }: { section: ReceiptSection }) {
+  return (
+    <div className="mt-3 text-xs text-slate-600">
+      {section.title && (
+        <p className="mb-1 text-[11px] font-bold uppercase tracking-wide text-slate-500">
+          {section.title}
+        </p>
+      )}
+      <div className="space-y-0.5">
+        {section.rows.map((r, i) =>
+          r.label ? (
+            <div key={i} className="flex justify-between gap-3">
+              <span>{r.label}</span>
+              <span className="text-right text-slate-800">{r.value}</span>
+            </div>
+          ) : (
+            <p key={i}>{r.value}</p>
+          )
+        )}
+      </div>
+    </div>
+  );
+}
+
+function CardAuth({ data, seed }: { data: ReceiptData; seed: number }) {
+  const cardType =
+    data.paymentMethod === "Credit Card"
+      ? "Credit"
+      : data.paymentMethod === "Debit Card"
+        ? "Debit"
+        : data.paymentMethod;
+  const ref = `${String(60000000 + ((seed * 9301) % 89999999))}${String.fromCharCode(
+    65 + (seed % 26)
+  )}`;
+  return (
+    <div className="mt-3 space-y-0.5 text-xs text-slate-600">
+      <div className="flex justify-between">
+        <span>Card number</span>
+        <span>**** **** **** {data.cardLastFour || "4922"}</span>
+      </div>
+      <div className="flex justify-between">
+        <span>Card type</span>
+        <span>{cardType}</span>
+      </div>
+      <div className="flex justify-between">
+        <span>Card entry</span>
+        <span>Chip</span>
+      </div>
+      <div className="flex justify-between">
+        <span>Reference #</span>
+        <span>{ref}</span>
+      </div>
+      <div className="flex justify-between">
+        <span>Status</span>
+        <span>APPROVED</span>
+      </div>
+    </div>
+  );
+}
+
 export default function ReceiptPaper({ data }: Props) {
   const totals = calcTotals(data);
   const money = (n: number) => formatMoney(n, data.currency);
@@ -226,13 +292,14 @@ export default function ReceiptPaper({ data }: Props) {
   const logoScale = data.logoScale ?? 1;
 
   const isService =
-    profile === "ride" ||
-    profile === "delivery" ||
-    profile === "digital" ||
-    profile === "travel" ||
-    profile === "airline" ||
-    profile === "hotel" ||
-    profile === "rental";
+    !data.forcePaper &&
+    (profile === "ride" ||
+      profile === "delivery" ||
+      profile === "digital" ||
+      profile === "travel" ||
+      profile === "airline" ||
+      profile === "hotel" ||
+      profile === "rental");
 
   const receiptTitle = RECEIPT_TITLE[profile];
 
@@ -387,18 +454,30 @@ export default function ReceiptPaper({ data }: Props) {
                 />
               </div>
             )}
-            <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.22em] text-slate-400">
-              {receiptTitle}
-            </p>
+            {!data.greeting && (
+              <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.22em] text-slate-400">
+                {receiptTitle}
+              </p>
+            )}
             <p className={vs.nameClass}>{data.businessName || "Business Name"}</p>
             {data.addressLine1 && <p className="text-slate-600">{data.addressLine1}</p>}
             {data.addressLine2 && <p className="text-slate-600">{data.addressLine2}</p>}
             {data.phone && <p className="text-slate-600">{data.phone}</p>}
             {data.website && <p className="text-slate-600">{data.website}</p>}
             {vs.vat && <p className="mt-1 text-[11px] text-slate-600">Tax Reg: {taxRegNumber}</p>}
+            {data.greeting && <p className="mt-2 text-slate-700">{data.greeting}</p>}
           </div>
 
           <Rule rule={vs.rule} />
+
+          {data.topBarcode && (
+            <div className="mb-1 flex flex-col items-center">
+              <Barcode seed={data.receiptNumber} />
+              <p className="mt-1 text-[10px] tracking-[0.3em] text-slate-500">
+                {data.receiptNumber}
+              </p>
+            </div>
+          )}
 
           {/* Meta */}
           <div className="flex flex-wrap justify-between gap-x-4 text-xs text-slate-600">
@@ -495,6 +574,10 @@ export default function ReceiptPaper({ data }: Props) {
             </div>
           )}
 
+          {data.sections?.map((s, i) => (
+            <Section key={i} section={s} />
+          ))}
+
           <Rule rule={vs.rule} />
 
           {/* Items */}
@@ -535,7 +618,7 @@ export default function ReceiptPaper({ data }: Props) {
               </div>
             )}
             <div className="flex justify-between border-t border-slate-400 pt-1 text-base font-bold">
-              <span>TOTAL</span>
+              <span>{data.grandTotalLabel ?? "TOTAL"}</span>
               <span>{money(totals.total)}</span>
             </div>
           </div>
@@ -566,22 +649,17 @@ export default function ReceiptPaper({ data }: Props) {
           </div>
 
           {/* Card authorisation block */}
-          {vs.cardAuth && data.paymentMethod !== "Cash" && (
-            <div className="mt-2 space-y-0.5 text-[11px] text-slate-600">
-              <div className="flex justify-between">
-                <span>{data.paymentMethod.toUpperCase()}</span>
-                <span>**** **** **** {data.cardLastFour || "0000"}</span>
-              </div>
-              <div className="flex justify-between">
-                <span>AID</span>
-                <span>A0000000031010</span>
-              </div>
-              <div className="flex justify-between">
-                <span>TID</span>
-                <span>{String(10000000 + ((seed * 31) % 89999999))}</span>
-              </div>
-              <p className="pt-0.5">APPROVED — THANK YOU</p>
-            </div>
+          {(vs.cardAuth || data.showCardAuth) && data.paymentMethod !== "Cash" && (
+            <CardAuth data={data} seed={seed} />
+          )}
+
+          {data.policyText && (
+            <p className="mt-3 text-center text-[11px] leading-relaxed text-slate-500">
+              {data.policyText}
+            </p>
+          )}
+          {data.manager && (
+            <p className="mt-3 text-center text-[11px] text-slate-600">{data.manager}</p>
           )}
 
           {/* Footer */}

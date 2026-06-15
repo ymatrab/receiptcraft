@@ -204,6 +204,22 @@ const VARIANT_ORDER: LayoutVariant[] = [
   "compact",
   "elegant",
 ];
+// Brands recreated after a real-world reference receipt pin a specific
+// template (see each brand's defaults in lib/brands.ts for the matching
+// greeting / sections / card-auth data).
+const VARIANT_OVERRIDE: Record<string, LayoutVariant> = {
+  ebay: "modern", // Grailed-style marketplace
+  chipotle: "classic", // Spice Taj-style restaurant
+  bp: "classic", // IndianOil-style fuel
+  lyft: "classic", // Ola-style ride
+  doordash: "modern", // Swiggy-style delivery
+  grubhub: "modern", // Zomato-style delivery
+  "best-buy": "modern", // Nova modern-POS
+  amazon: "classic", // UPS-style shipping
+  postmates: "modern", // RapidRoute-style courier
+  kroger: "classic", // Ralphs-style grocery
+};
+
 const VARIANT_BY_SLUG: Record<string, LayoutVariant> = (() => {
   const seen: Partial<Record<ReceiptProfile, number>> = {};
   const map: Record<string, LayoutVariant> = {};
@@ -211,7 +227,7 @@ const VARIANT_BY_SLUG: Record<string, LayoutVariant> = (() => {
     const p = inferProfile(t);
     const i = seen[p] ?? 0;
     seen[p] = i + 1;
-    map[t.slug] = VARIANT_ORDER[i % VARIANT_ORDER.length];
+    map[t.slug] = VARIANT_OVERRIDE[t.slug] ?? VARIANT_ORDER[i % VARIANT_ORDER.length];
   }
   return map;
 })();
