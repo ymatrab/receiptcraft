@@ -1,13 +1,14 @@
 import type { ReceiptTemplate } from "./types";
+import { WIKIMEDIA_LOGOS } from "./brand-logos";
 
 /**
- * Brand logo URL for a company domain. Served through our own /api/logo proxy
- * (which fetches Google's key-less favicon service) so logos are same-origin —
- * this lets the browser display them and lets html-to-image embed them into
- * exported PNG/PDF receipts. The upstream provider lives in app/api/logo so it
- * can be swapped in one place.
+ * Brand logo URL for a company domain. Prefers the official Wikimedia logo
+ * (real wordmarks, CORS-enabled so they embed into exported receipts) resolved
+ * by scripts/resolve-logos.mjs. Domains without a verified Wikimedia logo fall
+ * back to the same-origin /api/logo favicon proxy (see app/api/logo).
  */
-export const brandLogo = (domain: string) => `/api/logo?domain=${domain}`;
+export const brandLogo = (domain: string) =>
+  WIKIMEDIA_LOGOS[domain] ?? `/api/logo?domain=${domain}`;
 
 let n = 0;
 const id = () => `brand-${++n}`;

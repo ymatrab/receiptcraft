@@ -106,13 +106,13 @@ export default function BrandsPage() {
                 <div className="relative z-20 flex flex-1 flex-col bg-white p-6 pt-5">
                   <div className="flex items-center gap-3">
                     {t.defaults.logoDataUrl ? (
-                      <span className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-slate-200 bg-white p-1.5 shadow-sm">
+                      <span className="flex h-8 shrink-0 items-center">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={t.defaults.logoDataUrl}
                           alt={`${t.shortName} logo`}
                           loading="lazy"
-                          className="h-full w-full object-contain"
+                          className="h-full w-auto max-w-[120px] object-contain"
                         />
                       </span>
                     ) : (

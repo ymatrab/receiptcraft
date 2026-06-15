@@ -93,12 +93,12 @@ export default async function BrandTemplatePage({ params }: Props) {
         <div className="mt-8 grid items-start gap-12 lg:grid-cols-2">
           <div>
             {template.defaults.logoDataUrl ? (
-              <span className="inline-flex h-16 w-16 items-center justify-center overflow-hidden rounded-2xl border border-slate-200 bg-white p-2.5 shadow-sm">
+              <span className="inline-flex h-12 items-center">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={template.defaults.logoDataUrl}
                   alt={`${template.shortName} logo`}
-                  className="h-full w-full object-contain"
+                  className="h-full w-auto max-w-[200px] object-contain"
                 />
               </span>
             ) : (
@@ -182,13 +182,13 @@ export default async function BrandTemplatePage({ params }: Props) {
                   className="group flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-5 transition-all hover:border-indigo-300 hover:shadow-md"
                 >
                   {t.defaults.logoDataUrl ? (
-                    <span className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-lg border border-slate-200 bg-white p-1.5">
+                    <span className="flex h-7 items-center">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={t.defaults.logoDataUrl}
                         alt={`${t.shortName} logo`}
                         loading="lazy"
-                        className="h-full w-full object-contain"
+                        className="h-full w-auto max-w-[110px] object-contain"
                       />
                     </span>
                   ) : (

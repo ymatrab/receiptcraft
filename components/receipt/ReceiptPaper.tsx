@@ -69,6 +69,10 @@ export default function ReceiptPaper({ data }: Props) {
             <img
               src={data.logoDataUrl}
               alt={`${data.businessName || "Business"} logo`}
+              crossOrigin="anonymous"
+              // Matte/monochrome so brand logos read as printed ink on the
+              // receipt rather than full-colour web graphics.
+              style={{ filter: "grayscale(1) contrast(1.08)" }}
               className={`${isService ? "mb-3" : "mx-auto mb-2"} max-h-16 w-auto object-contain`}
             />
           )}
