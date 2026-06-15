@@ -1,5 +1,14 @@
 import type { ReceiptTemplate } from "./types";
 
+/**
+ * Brand logo URL for a company domain. Served through our own /api/logo proxy
+ * (which fetches Google's key-less favicon service) so logos are same-origin —
+ * this lets the browser display them and lets html-to-image embed them into
+ * exported PNG/PDF receipts. The upstream provider lives in app/api/logo so it
+ * can be swapped in one place.
+ */
+export const brandLogo = (domain: string) => `/api/logo?domain=${domain}`;
+
 let n = 0;
 const id = () => `brand-${++n}`;
 
@@ -28,7 +37,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/walmart.com",
+      logoDataUrl: brandLogo("walmart.com"),
       businessName: "Walmart",
       addressLine1: "702 SW 8th Street",
       addressLine2: "Bentonville, AR 72712",
@@ -68,7 +77,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/uber.com",
+      logoDataUrl: brandLogo("uber.com"),
       businessName: "Uber",
       addressLine1: "Trip Details",
       addressLine2: "San Francisco, CA",
@@ -111,7 +120,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/target.com",
+      logoDataUrl: brandLogo("target.com"),
       businessName: "Target",
       addressLine1: "1000 Nicollet Mall",
       addressLine2: "Minneapolis, MN 55403",
@@ -151,7 +160,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/mcdonalds.com",
+      logoDataUrl: brandLogo("mcdonalds.com"),
       businessName: "McDonald's",
       addressLine1: "110 N Carpenter St",
       addressLine2: "Chicago, IL 60607",
@@ -192,7 +201,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/starbucks.com",
+      logoDataUrl: brandLogo("starbucks.com"),
       businessName: "Starbucks",
       addressLine1: "1912 Pike Place",
       addressLine2: "Seattle, WA 98101",
@@ -239,7 +248,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/bk.com",
+      logoDataUrl: brandLogo("bk.com"),
       businessName: "Burger King",
       addressLine1: "5505 Blue Lagoon Dr",
       addressLine2: "Miami, FL 33126",
@@ -280,7 +289,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/wendys.com",
+      logoDataUrl: brandLogo("wendys.com"),
       businessName: "Wendy's",
       addressLine1: "1 Dave Thomas Blvd",
       addressLine2: "Dublin, OH 43017",
@@ -321,7 +330,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/subway.com",
+      logoDataUrl: brandLogo("subway.com"),
       businessName: "Subway",
       addressLine1: "325 Bic Dr",
       addressLine2: "Milford, CT 06461",
@@ -363,7 +372,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/tacobell.com",
+      logoDataUrl: brandLogo("tacobell.com"),
       businessName: "Taco Bell",
       addressLine1: "1 Glen Bell Way",
       addressLine2: "Irvine, CA 92618",
@@ -405,7 +414,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/kfc.com",
+      logoDataUrl: brandLogo("kfc.com"),
       businessName: "KFC",
       addressLine1: "1441 Gardiner Ln",
       addressLine2: "Louisville, KY 40213",
@@ -447,7 +456,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/chipotle.com",
+      logoDataUrl: brandLogo("chipotle.com"),
       businessName: "Chipotle Mexican Grill",
       addressLine1: "610 Newport Center Dr",
       addressLine2: "Newport Beach, CA 92660",
@@ -490,7 +499,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/dominos.com",
+      logoDataUrl: brandLogo("dominos.com"),
       businessName: "Domino's Pizza",
       addressLine1: "30 Frank Lloyd Wright Dr",
       addressLine2: "Ann Arbor, MI 48105",
@@ -532,7 +541,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/pizzahut.com",
+      logoDataUrl: brandLogo("pizzahut.com"),
       businessName: "Pizza Hut",
       addressLine1: "7100 Corporate Dr",
       addressLine2: "Plano, TX 75024",
@@ -574,7 +583,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/papajohns.com",
+      logoDataUrl: brandLogo("papajohns.com"),
       businessName: "Papa John's",
       addressLine1: "2002 Papa Johns Blvd",
       addressLine2: "Louisville, KY 40299",
@@ -617,7 +626,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/chick-fil-a.com",
+      logoDataUrl: brandLogo("chick-fil-a.com"),
       businessName: "Chick-fil-A",
       addressLine1: "5200 Buffington Rd",
       addressLine2: "Atlanta, GA 30349",
@@ -661,7 +670,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/panerabread.com",
+      logoDataUrl: brandLogo("panerabread.com"),
       businessName: "Panera Bread",
       addressLine1: "3630 S Geyer Rd",
       addressLine2: "Sunset Hills, MO 63127",
@@ -704,7 +713,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/fiveguys.com",
+      logoDataUrl: brandLogo("fiveguys.com"),
       businessName: "Five Guys",
       addressLine1: "10718 Richmond Hwy",
       addressLine2: "Lorton, VA 22079",
@@ -746,7 +755,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/in-n-out.com",
+      logoDataUrl: brandLogo("in-n-out.com"),
       businessName: "In-N-Out Burger",
       addressLine1: "13502 Hamburger Ln",
       addressLine2: "Baldwin Park, CA 91706",
@@ -789,7 +798,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/shakeshack.com",
+      logoDataUrl: brandLogo("shakeshack.com"),
       businessName: "Shake Shack",
       addressLine1: "Madison Square Park",
       addressLine2: "New York, NY 10010",
@@ -832,7 +841,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/pandaexpress.com",
+      logoDataUrl: brandLogo("pandaexpress.com"),
       businessName: "Panda Express",
       addressLine1: "1683 Walnut Grove Ave",
       addressLine2: "Rosemead, CA 91770",
@@ -876,7 +885,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/sonicdrivein.com",
+      logoDataUrl: brandLogo("sonicdrivein.com"),
       businessName: "Sonic Drive-In",
       addressLine1: "300 Johnny Bench Dr",
       addressLine2: "Oklahoma City, OK 73104",
@@ -918,7 +927,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/dairyqueen.com",
+      logoDataUrl: brandLogo("dairyqueen.com"),
       businessName: "Dairy Queen",
       addressLine1: "7505 Metro Blvd",
       addressLine2: "Bloomington, MN 55439",
@@ -959,7 +968,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/arbys.com",
+      logoDataUrl: brandLogo("arbys.com"),
       businessName: "Arby's",
       addressLine1: "1155 Perimeter Ctr W",
       addressLine2: "Atlanta, GA 30338",
@@ -1002,7 +1011,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/jackinthebox.com",
+      logoDataUrl: brandLogo("jackinthebox.com"),
       businessName: "Jack in the Box",
       addressLine1: "9357 Spectrum Center Blvd",
       addressLine2: "San Diego, CA 92123",
@@ -1044,7 +1053,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/popeyes.com",
+      logoDataUrl: brandLogo("popeyes.com"),
       businessName: "Popeyes Louisiana Kitchen",
       addressLine1: "400 Poydras St",
       addressLine2: "New Orleans, LA 70130",
@@ -1086,7 +1095,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/dunkinbrands.com",
+      logoDataUrl: brandLogo("dunkinbrands.com"),
       businessName: "Dunkin'",
       addressLine1: "130 Royall St",
       addressLine2: "Canton, MA 02021",
@@ -1130,7 +1139,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/timhortons.com",
+      logoDataUrl: brandLogo("timhortons.com"),
       businessName: "Tim Hortons",
       addressLine1: "130 King St W",
       addressLine2: "Toronto, ON M5X 1E4",
@@ -1173,7 +1182,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/peets.com",
+      logoDataUrl: brandLogo("peets.com"),
       businessName: "Peet's Coffee",
       addressLine1: "1400 Park Ave",
       addressLine2: "Emeryville, CA 94608",
@@ -1215,7 +1224,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/cariboucoffee.com",
+      logoDataUrl: brandLogo("cariboucoffee.com"),
       businessName: "Caribou Coffee",
       addressLine1: "3900 Lakebreeze Ave N",
       addressLine2: "Brooklyn Center, MN 55429",
@@ -1257,7 +1266,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/dutchbros.com",
+      logoDataUrl: brandLogo("dutchbros.com"),
       businessName: "Dutch Bros Coffee",
       addressLine1: "1135 NE Dustin Ct",
       addressLine2: "Grants Pass, OR 97526",
@@ -1299,7 +1308,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/jamba.com",
+      logoDataUrl: brandLogo("jamba.com"),
       businessName: "Jamba",
       addressLine1: "1700 Montgomery St",
       addressLine2: "San Francisco, CA 94111",
@@ -1340,7 +1349,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/bobaguys.com",
+      logoDataUrl: brandLogo("bobaguys.com"),
       businessName: "Boba Guys",
       addressLine1: "429 Stockton St",
       addressLine2: "San Francisco, CA 94108",
@@ -1381,7 +1390,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/costco.com",
+      logoDataUrl: brandLogo("costco.com"),
       businessName: "Costco Wholesale",
       addressLine1: "999 Lake Dr",
       addressLine2: "Issaquah, WA 98027",
@@ -1425,7 +1434,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/samsclub.com",
+      logoDataUrl: brandLogo("samsclub.com"),
       businessName: "Sam's Club",
       addressLine1: "2101 SE Simple Savings Dr",
       addressLine2: "Bentonville, AR 72712",
@@ -1468,7 +1477,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/wholefoodsmarket.com",
+      logoDataUrl: brandLogo("wholefoodsmarket.com"),
       businessName: "Whole Foods Market",
       addressLine1: "550 Bowie St",
       addressLine2: "Austin, TX 78703",
@@ -1512,7 +1521,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/traderjoes.com",
+      logoDataUrl: brandLogo("traderjoes.com"),
       businessName: "Trader Joe's",
       addressLine1: "263 S La Brea Ave",
       addressLine2: "Los Angeles, CA 90036",
@@ -1555,7 +1564,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/kroger.com",
+      logoDataUrl: brandLogo("kroger.com"),
       businessName: "Kroger",
       addressLine1: "1014 Vine St",
       addressLine2: "Cincinnati, OH 45202",
@@ -1598,7 +1607,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/publix.com",
+      logoDataUrl: brandLogo("publix.com"),
       businessName: "Publix Super Markets",
       addressLine1: "3300 Publix Corporate Pkwy",
       addressLine2: "Lakeland, FL 33811",
@@ -1641,7 +1650,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/safeway.com",
+      logoDataUrl: brandLogo("safeway.com"),
       businessName: "Safeway",
       addressLine1: "5918 Stoneridge Mall Rd",
       addressLine2: "Pleasanton, CA 94588",
@@ -1684,7 +1693,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/aldi.us",
+      logoDataUrl: brandLogo("aldi.us"),
       businessName: "Aldi",
       addressLine1: "1200 N Kirk Rd",
       addressLine2: "Batavia, IL 60510",
@@ -1726,7 +1735,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/walgreens.com",
+      logoDataUrl: brandLogo("walgreens.com"),
       businessName: "Walgreens",
       addressLine1: "200 Wilmot Rd",
       addressLine2: "Deerfield, IL 60015",
@@ -1769,7 +1778,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/cvs.com",
+      logoDataUrl: brandLogo("cvs.com"),
       businessName: "CVS Pharmacy",
       addressLine1: "1 CVS Dr",
       addressLine2: "Woonsocket, RI 02895",
@@ -1813,7 +1822,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/homedepot.com",
+      logoDataUrl: brandLogo("homedepot.com"),
       businessName: "The Home Depot",
       addressLine1: "2455 Paces Ferry Rd",
       addressLine2: "Atlanta, GA 30339",
@@ -1856,7 +1865,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/lowes.com",
+      logoDataUrl: brandLogo("lowes.com"),
       businessName: "Lowe's",
       addressLine1: "1000 Lowe's Blvd",
       addressLine2: "Mooresville, NC 28117",
@@ -1899,7 +1908,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/ikea.com",
+      logoDataUrl: brandLogo("ikea.com"),
       businessName: "IKEA",
       addressLine1: "1 Ikea Way",
       addressLine2: "Conshohocken, PA 19428",
@@ -1942,7 +1951,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/bestbuy.com",
+      logoDataUrl: brandLogo("bestbuy.com"),
       businessName: "Best Buy",
       addressLine1: "7601 Penn Ave S",
       addressLine2: "Richfield, MN 55423",
@@ -1984,7 +1993,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/macys.com",
+      logoDataUrl: brandLogo("macys.com"),
       businessName: "Macy's",
       addressLine1: "151 W 34th St",
       addressLine2: "New York, NY 10001",
@@ -2026,7 +2035,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/nordstrom.com",
+      logoDataUrl: brandLogo("nordstrom.com"),
       businessName: "Nordstrom",
       addressLine1: "1617 6th Ave",
       addressLine2: "Seattle, WA 98101",
@@ -2068,7 +2077,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/sephora.com",
+      logoDataUrl: brandLogo("sephora.com"),
       businessName: "Sephora",
       addressLine1: "525 Market St",
       addressLine2: "San Francisco, CA 94105",
@@ -2111,7 +2120,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/ulta.com",
+      logoDataUrl: brandLogo("ulta.com"),
       businessName: "Ulta Beauty",
       addressLine1: "1000 Remington Blvd",
       addressLine2: "Bolingbrook, IL 60440",
@@ -2153,7 +2162,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/gamestop.com",
+      logoDataUrl: brandLogo("gamestop.com"),
       businessName: "GameStop",
       addressLine1: "625 Westport Pkwy",
       addressLine2: "Grapevine, TX 76051",
@@ -2196,7 +2205,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/apple.com",
+      logoDataUrl: brandLogo("apple.com"),
       businessName: "Apple Store",
       addressLine1: "767 Fifth Ave",
       addressLine2: "New York, NY 10153",
@@ -2237,7 +2246,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/tjmaxx.tjx.com",
+      logoDataUrl: brandLogo("tjmaxx.tjx.com"),
       businessName: "TJ Maxx",
       addressLine1: "770 Cochituate Rd",
       addressLine2: "Framingham, MA 01701",
@@ -2278,7 +2287,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/marshalls.com",
+      logoDataUrl: brandLogo("marshalls.com"),
       businessName: "Marshalls",
       addressLine1: "770 Cochituate Rd",
       addressLine2: "Framingham, MA 01701",
@@ -2321,7 +2330,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/dickssportinggoods.com",
+      logoDataUrl: brandLogo("dickssportinggoods.com"),
       businessName: "Dick's Sporting Goods",
       addressLine1: "345 Court St",
       addressLine2: "Coraopolis, PA 15108",
@@ -2363,7 +2372,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/petco.com",
+      logoDataUrl: brandLogo("petco.com"),
       businessName: "Petco",
       addressLine1: "10850 Via Frontera",
       addressLine2: "San Diego, CA 92127",
@@ -2404,7 +2413,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/petsmart.com",
+      logoDataUrl: brandLogo("petsmart.com"),
       businessName: "PetSmart",
       addressLine1: "19601 N 27th Ave",
       addressLine2: "Phoenix, AZ 85027",
@@ -2446,7 +2455,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/autozone.com",
+      logoDataUrl: brandLogo("autozone.com"),
       businessName: "AutoZone",
       addressLine1: "123 S Front St",
       addressLine2: "Memphis, TN 38103",
@@ -2489,7 +2498,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/oreillyauto.com",
+      logoDataUrl: brandLogo("oreillyauto.com"),
       businessName: "O'Reilly Auto Parts",
       addressLine1: "233 S Patterson Ave",
       addressLine2: "Springfield, MO 65802",
@@ -2530,7 +2539,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/amazon.com",
+      logoDataUrl: brandLogo("amazon.com"),
       businessName: "Amazon.com",
       addressLine1: "Order #114-3941689-8772632",
       addressLine2: "Seattle, WA 98101",
@@ -2570,7 +2579,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/ebay.com",
+      logoDataUrl: brandLogo("ebay.com"),
       businessName: "eBay",
       addressLine1: "Order #23-09184-47821",
       addressLine2: "San Jose, CA 95125",
@@ -2609,7 +2618,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/netflix.com",
+      logoDataUrl: brandLogo("netflix.com"),
       businessName: "Netflix",
       addressLine1: "100 Winchester Cir",
       addressLine2: "Los Gatos, CA 95032",
@@ -2647,7 +2656,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/spotify.com",
+      logoDataUrl: brandLogo("spotify.com"),
       businessName: "Spotify",
       addressLine1: "4 World Trade Center",
       addressLine2: "New York, NY 10007",
@@ -2685,7 +2694,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/hulu.com",
+      logoDataUrl: brandLogo("hulu.com"),
       businessName: "Hulu",
       addressLine1: "2500 Broadway",
       addressLine2: "Santa Monica, CA 90404",
@@ -2723,7 +2732,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/disneyplus.com",
+      logoDataUrl: brandLogo("disneyplus.com"),
       businessName: "Disney+",
       addressLine1: "500 S Buena Vista St",
       addressLine2: "Burbank, CA 91521",
@@ -2762,7 +2771,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/apple.com",
+      logoDataUrl: brandLogo("apple.com"),
       businessName: "Apple",
       addressLine1: "One Apple Park Way",
       addressLine2: "Cupertino, CA 95014",
@@ -2802,7 +2811,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/play.google.com",
+      logoDataUrl: brandLogo("play.google.com"),
       businessName: "Google Play",
       addressLine1: "Order #GPA.3384-5219-7782",
       addressLine2: "Mountain View, CA 94043",
@@ -2842,7 +2851,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/microsoft.com",
+      logoDataUrl: brandLogo("microsoft.com"),
       businessName: "Microsoft Store",
       addressLine1: "Order #MSO-291847362",
       addressLine2: "Redmond, WA 98052",
@@ -2881,7 +2890,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/store.steampowered.com",
+      logoDataUrl: brandLogo("store.steampowered.com"),
       businessName: "Steam",
       addressLine1: "Transaction #8247193650",
       addressLine2: "Valve Corporation — Bellevue, WA",
@@ -2921,7 +2930,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/playstation.com",
+      logoDataUrl: brandLogo("playstation.com"),
       businessName: "PlayStation Store",
       addressLine1: "Transaction #WO-2847163950",
       addressLine2: "Sony Interactive Entertainment",
@@ -2961,7 +2970,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/xbox.com",
+      logoDataUrl: brandLogo("xbox.com"),
       businessName: "Xbox Store",
       addressLine1: "Order #XBOX-3918274650",
       addressLine2: "Microsoft Corporation — Redmond, WA",
@@ -3000,7 +3009,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/adobe.com",
+      logoDataUrl: brandLogo("adobe.com"),
       businessName: "Adobe Inc.",
       addressLine1: "345 Park Ave",
       addressLine2: "San Jose, CA 95110",
@@ -3039,7 +3048,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/zoom.us",
+      logoDataUrl: brandLogo("zoom.us"),
       businessName: "Zoom Video Communications",
       addressLine1: "55 Almaden Blvd",
       addressLine2: "San Jose, CA 95113",
@@ -3078,7 +3087,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/lyft.com",
+      logoDataUrl: brandLogo("lyft.com"),
       businessName: "Lyft",
       addressLine1: "Ride Details",
       addressLine2: "San Francisco, CA",
@@ -3121,7 +3130,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/doordash.com",
+      logoDataUrl: brandLogo("doordash.com"),
       businessName: "DoorDash",
       addressLine1: "Order from: Thai Basil Kitchen",
       addressLine2: "San Francisco, CA",
@@ -3164,7 +3173,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/ubereats.com",
+      logoDataUrl: brandLogo("ubereats.com"),
       businessName: "Uber Eats",
       addressLine1: "Order from: Chinatown Express",
       addressLine2: "Washington, DC",
@@ -3207,7 +3216,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/grubhub.com",
+      logoDataUrl: brandLogo("grubhub.com"),
       businessName: "Grubhub",
       addressLine1: "Order from: Luigi's Pizzeria",
       addressLine2: "Chicago, IL",
@@ -3250,7 +3259,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/postmates.com",
+      logoDataUrl: brandLogo("postmates.com"),
       businessName: "Postmates (by Uber)",
       addressLine1: "Order from: Sweetgreen",
       addressLine2: "Los Angeles, CA",
@@ -3293,7 +3302,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/instacart.com",
+      logoDataUrl: brandLogo("instacart.com"),
       businessName: "Instacart",
       addressLine1: "Delivered from: Costco",
       addressLine2: "San Francisco, CA",
@@ -3336,7 +3345,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/airbnb.com",
+      logoDataUrl: brandLogo("airbnb.com"),
       businessName: "Airbnb",
       addressLine1: "Confirmation #HM7X9K2B",
       addressLine2: "San Francisco, CA 94103",
@@ -3376,7 +3385,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/expedia.com",
+      logoDataUrl: brandLogo("expedia.com"),
       businessName: "Expedia",
       addressLine1: "Itinerary #72849163058",
       addressLine2: "Seattle, WA 98101",
@@ -3416,7 +3425,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/booking.com",
+      logoDataUrl: brandLogo("booking.com"),
       businessName: "Booking.com",
       addressLine1: "Confirmation #1847293650",
       addressLine2: "Amsterdam, Netherlands",
@@ -3456,7 +3465,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/delta.com",
+      logoDataUrl: brandLogo("delta.com"),
       businessName: "Delta Air Lines",
       addressLine1: "Confirmation #GKLT7M",
       addressLine2: "Atlanta, GA 30354",
@@ -3497,7 +3506,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/aa.com",
+      logoDataUrl: brandLogo("aa.com"),
       businessName: "American Airlines",
       addressLine1: "Record Locator: RTYM4N",
       addressLine2: "Fort Worth, TX 76155",
@@ -3538,7 +3547,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/united.com",
+      logoDataUrl: brandLogo("united.com"),
       businessName: "United Airlines",
       addressLine1: "Confirmation #H4KM9W",
       addressLine2: "Chicago, IL 60666",
@@ -3580,7 +3589,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/southwest.com",
+      logoDataUrl: brandLogo("southwest.com"),
       businessName: "Southwest Airlines",
       addressLine1: "Confirmation #R4HKJ7",
       addressLine2: "Dallas, TX 75235",
@@ -3619,7 +3628,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/marriott.com",
+      logoDataUrl: brandLogo("marriott.com"),
       businessName: "Marriott International",
       addressLine1: "Marriott Marquis Times Square",
       addressLine2: "New York, NY 10036",
@@ -3661,7 +3670,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/hilton.com",
+      logoDataUrl: brandLogo("hilton.com"),
       businessName: "Hilton Hotels & Resorts",
       addressLine1: "Hilton Chicago",
       addressLine2: "Chicago, IL 60605",
@@ -3702,7 +3711,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/hyatt.com",
+      logoDataUrl: brandLogo("hyatt.com"),
       businessName: "Hyatt Hotels Corporation",
       addressLine1: "Grand Hyatt San Francisco",
       addressLine2: "San Francisco, CA 94102",
@@ -3743,7 +3752,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/hertz.com",
+      logoDataUrl: brandLogo("hertz.com"),
       businessName: "Hertz",
       addressLine1: "Rental Agreement #H41927384",
       addressLine2: "Estero, FL 33928",
@@ -3784,7 +3793,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/enterprise.com",
+      logoDataUrl: brandLogo("enterprise.com"),
       businessName: "Enterprise Rent-A-Car",
       addressLine1: "Rental Agreement #E-58391047",
       addressLine2: "St. Louis, MO 63105",
@@ -3824,7 +3833,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/avis.com",
+      logoDataUrl: brandLogo("avis.com"),
       businessName: "Avis Rent A Car",
       addressLine1: "Rental Agreement #A-729184630",
       addressLine2: "Parsippany, NJ 07054",
@@ -3864,7 +3873,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/7-eleven.com",
+      logoDataUrl: brandLogo("7-eleven.com"),
       businessName: "7-Eleven",
       addressLine1: "3200 Hackberry Rd",
       addressLine2: "Irving, TX 75063",
@@ -3906,7 +3915,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/shell.com",
+      logoDataUrl: brandLogo("shell.com"),
       businessName: "Shell",
       addressLine1: "Pump #6 — 910 Main St",
       addressLine2: "Houston, TX 77002",
@@ -3946,7 +3955,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/chevron.com",
+      logoDataUrl: brandLogo("chevron.com"),
       businessName: "Chevron",
       addressLine1: "Pump #3 — 6001 Bollinger Canyon Rd",
       addressLine2: "San Ramon, CA 94583",
@@ -3986,7 +3995,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/exxon.com",
+      logoDataUrl: brandLogo("exxon.com"),
       businessName: "Exxon",
       addressLine1: "Pump #8 — 5959 Las Colinas Blvd",
       addressLine2: "Irving, TX 75039",
@@ -4027,7 +4036,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/mobil.com",
+      logoDataUrl: brandLogo("mobil.com"),
       businessName: "Mobil",
       addressLine1: "Pump #5 — 3225 Gallows Rd",
       addressLine2: "Fairfax, VA 22037",
@@ -4067,7 +4076,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/bp.com",
+      logoDataUrl: brandLogo("bp.com"),
       businessName: "BP",
       addressLine1: "Pump #4 — 501 Westlake Park Blvd",
       addressLine2: "Houston, TX 77079",
@@ -4108,7 +4117,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/speedway.com",
+      logoDataUrl: brandLogo("speedway.com"),
       businessName: "Speedway",
       addressLine1: "Pump #2 — 539 S Main St",
       addressLine2: "Findlay, OH 45840",
@@ -4149,7 +4158,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/wawa.com",
+      logoDataUrl: brandLogo("wawa.com"),
       businessName: "Wawa",
       addressLine1: "260 W Baltimore Pike",
       addressLine2: "Wawa, PA 19063",
@@ -4190,7 +4199,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/quiktrip.com",
+      logoDataUrl: brandLogo("quiktrip.com"),
       businessName: "QuikTrip",
       addressLine1: "Store #417 — 901 N Mingo Rd",
       addressLine2: "Tulsa, OK 74116",
@@ -4231,7 +4240,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/sheetz.com",
+      logoDataUrl: brandLogo("sheetz.com"),
       businessName: "Sheetz",
       addressLine1: "Store #001 — 5700 Sixth Ave",
       addressLine2: "Altoona, PA 16602",
@@ -4273,7 +4282,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/barnesandnoble.com",
+      logoDataUrl: brandLogo("barnesandnoble.com"),
       businessName: "Barnes & Noble",
       addressLine1: "555 Fifth Ave",
       addressLine2: "New York, NY 10017",
@@ -4315,7 +4324,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/michaels.com",
+      logoDataUrl: brandLogo("michaels.com"),
       businessName: "Michaels",
       addressLine1: "3939 W John Carpenter Fwy",
       addressLine2: "Irving, TX 75063",
@@ -4356,7 +4365,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/joann.com",
+      logoDataUrl: brandLogo("joann.com"),
       businessName: "JOANN Fabric and Craft",
       addressLine1: "5555 Darrow Rd",
       addressLine2: "Hudson, OH 44236",
@@ -4397,7 +4406,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/zara.com",
+      logoDataUrl: brandLogo("zara.com"),
       businessName: "Zara",
       addressLine1: "666 Fifth Ave",
       addressLine2: "New York, NY 10103",
@@ -4438,7 +4447,7 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     defaults: {
-      logoDataUrl: "https://logo.clearbit.com/hm.com",
+      logoDataUrl: brandLogo("hm.com"),
       businessName: "H&M",
       addressLine1: "505 Fifth Ave",
       addressLine2: "New York, NY 10017",

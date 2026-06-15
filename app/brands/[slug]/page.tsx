@@ -92,7 +92,18 @@ export default async function BrandTemplatePage({ params }: Props) {
 
         <div className="mt-8 grid items-start gap-12 lg:grid-cols-2">
           <div>
-            <span className="text-4xl" aria-hidden="true">{template.icon}</span>
+            {template.defaults.logoDataUrl ? (
+              <span className="inline-flex h-16 w-16 items-center justify-center overflow-hidden rounded-2xl border border-slate-200 bg-white p-2.5 shadow-sm">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={template.defaults.logoDataUrl}
+                  alt={`${template.shortName} logo`}
+                  className="h-full w-full object-contain"
+                />
+              </span>
+            ) : (
+              <span className="text-4xl" aria-hidden="true">{template.icon}</span>
+            )}
             <h1 className="mt-4 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
               {template.heading}
             </h1>
@@ -170,7 +181,19 @@ export default async function BrandTemplatePage({ params }: Props) {
                   href={`/brands/${t.slug}`}
                   className="group flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-5 transition-all hover:border-indigo-300 hover:shadow-md"
                 >
-                  <span className="text-2xl" aria-hidden="true">{t.icon}</span>
+                  {t.defaults.logoDataUrl ? (
+                    <span className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-lg border border-slate-200 bg-white p-1.5">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={t.defaults.logoDataUrl}
+                        alt={`${t.shortName} logo`}
+                        loading="lazy"
+                        className="h-full w-full object-contain"
+                      />
+                    </span>
+                  ) : (
+                    <span className="text-2xl" aria-hidden="true">{t.icon}</span>
+                  )}
                   <span className="mt-2 text-sm font-semibold text-slate-900 group-hover:text-indigo-700">
                     {t.name}
                   </span>
