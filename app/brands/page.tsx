@@ -104,15 +104,15 @@ export default function BrandsPage() {
 
                 {/* Content */}
                 <div className="relative z-20 flex flex-1 flex-col bg-white p-6 pt-5">
-                  <div className="flex items-center gap-3">
+                  <div>
                     {t.defaults.logoDataUrl ? (
-                      <span className="flex h-8 shrink-0 items-center">
+                      <span className="flex h-9 items-center">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={t.defaults.logoDataUrl}
                           alt={`${t.shortName} logo`}
                           loading="lazy"
-                          className="h-full w-auto max-w-[120px] object-contain"
+                          className="h-full w-auto max-w-[150px] object-contain"
                         />
                       </span>
                     ) : (
@@ -120,7 +120,7 @@ export default function BrandsPage() {
                         {t.icon}
                       </span>
                     )}
-                    <h2 className="text-xl font-bold text-slate-900 transition-colors group-hover:text-indigo-600">
+                    <h2 className="mt-3 text-xl font-bold text-slate-900 transition-colors group-hover:text-indigo-600">
                       {t.name}
                     </h2>
                   </div>

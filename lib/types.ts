@@ -7,6 +7,18 @@ export interface LineItem {
 
 export type PaperStyle = "thermal" | "modern" | "minimal";
 
+/**
+ * Distinct visual templates for paper (non-digital) receipts. Brands are
+ * spread across these so two stores in the same category don't look alike.
+ */
+export type LayoutVariant =
+  | "classic" // centered monospace thermal, dashed rules
+  | "modern" // clean sans, solid rules, larger logo
+  | "pos" // left-aligned till/POS: table, server, check #
+  | "euro" // VAT-style, double rules, registered-business header
+  | "compact" // narrow till roll with card auth (AID/TID) detail
+  | "elegant"; // serif, airy, big logo, minimal rules
+
 export type ReceiptProfile =
   | "retail"
   | "warehouse"
@@ -75,6 +87,7 @@ export interface ReceiptData {
   brandAccent?: string;
   logoScale?: number; // multiplier on the receipt logo height (1 = default)
   layoutSeed?: number; // deterministic per-brand seed for structural variety
+  layoutVariant?: LayoutVariant; // which paper-receipt template to render
 }
 
 export interface ReceiptTotals {

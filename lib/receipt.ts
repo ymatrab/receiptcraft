@@ -1,5 +1,6 @@
-import type { ReceiptData, ReceiptProfile, ReceiptTemplate } from "./types";
+import type { LayoutVariant, ReceiptData, ReceiptProfile, ReceiptTemplate } from "./types";
 import { randomReceiptNumber, todayISO, nowHHMM, uid } from "./format";
+import { BRAND_TEMPLATES } from "./brands";
 
 const PROFILE_BY_SLUG: Record<string, ReceiptProfile> = {
   uber: "ride",
@@ -193,12 +194,35 @@ function inferProfile(template: ReceiptTemplate): ReceiptProfile {
   return "retail";
 }
 
+// Spread layout templates across brands so two stores in the same category
+// don't render the same way. Round-robin within each profile group.
+const VARIANT_ORDER: LayoutVariant[] = [
+  "classic",
+  "modern",
+  "pos",
+  "euro",
+  "compact",
+  "elegant",
+];
+const VARIANT_BY_SLUG: Record<string, LayoutVariant> = (() => {
+  const seen: Partial<Record<ReceiptProfile, number>> = {};
+  const map: Record<string, LayoutVariant> = {};
+  for (const t of BRAND_TEMPLATES) {
+    const p = inferProfile(t);
+    const i = seen[p] ?? 0;
+    seen[p] = i + 1;
+    map[t.slug] = VARIANT_ORDER[i % VARIANT_ORDER.length];
+  }
+  return map;
+})();
+
 function brandMetadata(template: ReceiptTemplate) {
   return {
     receiptProfile: inferProfile(template),
     brandAccent: BRAND_ACCENTS[template.slug] ?? "#4f46e5",
     logoScale: LOGO_SCALE[template.slug] ?? 1,
     layoutSeed: hashSlug(template.slug),
+    layoutVariant: VARIANT_BY_SLUG[template.slug] ?? "classic",
   };
 }
 
