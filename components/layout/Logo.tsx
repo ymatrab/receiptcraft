@@ -1,23 +1,25 @@
 export default function Logo({ className = "h-8 w-8" }: { className?: string }) {
   return (
-    <svg
-      viewBox="0 0 32 32"
-      fill="none"
-      aria-hidden="true"
-      className={className}
-    >
-      <rect width="32" height="32" rx="8" fill="url(#logo-gradient)" />
+    <svg viewBox="0 0 32 32" fill="none" aria-hidden="true" className={className}>
+      <rect width="32" height="32" rx="9" fill="url(#mc-bg)" />
+      {/* top sheen */}
+      <rect width="32" height="32" rx="9" fill="url(#mc-shine)" fillOpacity="0.35" />
+      {/* receipt with torn bottom edge */}
       <path
-        d="M10 7h12v17l-2-1.5L18 24l-2-1.5L14 24l-2-1.5L10 24V7z"
+        d="M9 7.5h14v15.6l-2-1.4-2 1.4-2-1.4-2 1.4-2-1.4-2 1.4V7.5z"
         fill="white"
       />
-      <rect x="12.5" y="10.5" width="7" height="1.6" rx="0.8" fill="#4f46e5" />
-      <rect x="12.5" y="14" width="7" height="1.6" rx="0.8" fill="#a5b4fc" />
-      <rect x="12.5" y="17.5" width="4.5" height="1.6" rx="0.8" fill="#a5b4fc" />
+      <rect x="11.4" y="11" width="9.2" height="1.7" rx="0.85" fill="#4f46e5" />
+      <rect x="11.4" y="14.4" width="9.2" height="1.7" rx="0.85" fill="#a5b4fc" />
+      <rect x="11.4" y="17.8" width="6" height="1.7" rx="0.85" fill="#c7d2fe" />
       <defs>
-        <linearGradient id="logo-gradient" x1="0" y1="0" x2="32" y2="32">
-          <stop stopColor="#4f46e5" />
+        <linearGradient id="mc-bg" x1="0" y1="0" x2="32" y2="32">
+          <stop stopColor="#6366f1" />
           <stop offset="1" stopColor="#7c3aed" />
+        </linearGradient>
+        <linearGradient id="mc-shine" x1="0" y1="0" x2="0" y2="20">
+          <stop stopColor="#ffffff" />
+          <stop offset="1" stopColor="#ffffff" stopOpacity="0" />
         </linearGradient>
       </defs>
     </svg>

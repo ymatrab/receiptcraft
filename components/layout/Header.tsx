@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { SITE } from "@/lib/site";
-import Logo from "./Logo";
+import Wordmark from "./Wordmark";
 
 const NAV_LINKS = [
   { href: "/templates", label: "Templates" },
@@ -21,9 +21,8 @@ export default function Header() {
         aria-label="Main navigation"
         className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8"
       >
-        <Link href="/" className="flex items-center gap-2.5" aria-label={`${SITE.name} home`}>
-          <Logo />
-          <span className="text-lg font-bold tracking-tight text-slate-900">{SITE.name}</span>
+        <Link href="/" aria-label={`${SITE.name} home`}>
+          <Wordmark />
         </Link>
 
         <div className="hidden items-center gap-8 md:flex">

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { SITE } from "@/lib/site";
 import { TEMPLATES } from "@/lib/templates";
-import Logo from "./Logo";
+import Wordmark from "./Wordmark";
 
 export default function Footer() {
   const popularTemplates = TEMPLATES.slice(0, 6);
@@ -11,9 +11,8 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 gap-10 md:grid-cols-4">
           <div className="col-span-2 md:col-span-1">
-            <Link href="/" className="flex items-center gap-2.5">
-              <Logo />
-              <span className="text-lg font-bold tracking-tight text-slate-900">{SITE.name}</span>
+            <Link href="/">
+              <Wordmark />
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-slate-500">
               The fastest free receipt maker online. Create, customize and
