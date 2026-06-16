@@ -37,7 +37,9 @@ const PROFILE_BY_SLUG: Record<string, ReceiptProfile> = {
   hertz: "rental",
   enterprise: "rental",
   avis: "rental",
-  "7-eleven": "fuel",
+  // 7-Eleven and QuikTrip references are in-store convenience receipts (no
+  // fuel pump block), so they live under retail rather than fuel.
+  "7-eleven": "retail",
   shell: "fuel",
   chevron: "fuel",
   exxon: "fuel",
@@ -45,7 +47,7 @@ const PROFILE_BY_SLUG: Record<string, ReceiptProfile> = {
   bp: "fuel",
   speedway: "fuel",
   wawa: "fuel",
-  quiktrip: "fuel",
+  quiktrip: "retail",
   sheetz: "fuel",
   costco: "warehouse",
   "sam-s-club": "warehouse",
@@ -181,6 +183,13 @@ const LOGO_SCALE: Record<string, number> = {
   uber: 1.1,
   "burger-king": 0.85,
   kfc: 0.85,
+  // Batch 2 — reference designs lead with a large wordmark
+  nordstrom: 1.5,
+  "macy-s": 1.25,
+  "7-eleven": 1.5,
+  publix: 1.4,
+  zara: 1.3,
+  adobe: 1.15,
 };
 
 function hashSlug(slug: string): number {
@@ -218,6 +227,17 @@ const VARIANT_OVERRIDE: Record<string, LayoutVariant> = {
   amazon: "classic", // UPS-style shipping
   postmates: "modern", // RapidRoute-style courier
   kroger: "classic", // Ralphs-style grocery
+  // Batch 2 (references 11-20)
+  nordstrom: "classic", // PRADA luxury
+  "macy-s": "classic", // BURBERRY luxury
+  zara: "classic", // Aurelia Luxe boutique
+  "apple-services": "modern", // Cash App payment
+  "google-play": "classic", // Horizon Bank transfer
+  adobe: "classic", // SilverPeak credit-card receipt
+  safeway: "classic", // King Soopers grocery
+  publix: "modern", // Publix grocery
+  "7-eleven": "classic", // 7-Eleven convenience
+  quiktrip: "classic", // Circle K convenience
 };
 
 const VARIANT_BY_SLUG: Record<string, LayoutVariant> = (() => {

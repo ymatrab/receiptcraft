@@ -50,6 +50,25 @@ export type PaymentMethod =
   | "Gift Card"
   | "Check";
 
+/** Divider styles between receipt sections. */
+export type RuleStyle =
+  | "dashed"
+  | "solid"
+  | "dotted"
+  | "double"
+  | "asterisk" // a run of ******
+  | "colon" // a run of ::::::
+  | "none";
+
+/** How line items are laid out. */
+export type ItemStyle =
+  | "table" // Item / Qty / Price / Total columns
+  | "stacked" // name over "qty @ price"
+  | "equals" // "qty name ........ = total"
+  | "lined"; // header row + "name .......... total"
+
+export type FontFamily = "mono" | "sans" | "serif";
+
 /** A row inside a receipt section: a key/value pair, or a plain line (no label). */
 export interface ReceiptRow {
   label?: string;
@@ -110,6 +129,16 @@ export interface ReceiptData {
   policyText?: string; // small print / disclaimer paragraph at the bottom
   topBarcode?: boolean; // barcode directly under the header
   manager?: string; // store manager line near the footer
+
+  // Per-brand design overrides (take precedence over the layout variant) so a
+  // brand can match a specific reference receipt exactly.
+  ruleStyle?: RuleStyle;
+  itemStyle?: ItemStyle;
+  itemHeader?: { left: string; right: string }; // header row for "lined" items
+  fontFamily?: FontFamily;
+  headerAlign?: "center" | "left";
+  hideItems?: boolean; // pure key/value receipts (payments, transfers)
+  hideTotals?: boolean;
 }
 
 export interface ReceiptTotals {

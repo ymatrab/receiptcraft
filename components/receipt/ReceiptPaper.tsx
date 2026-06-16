@@ -1,9 +1,12 @@
 import type {
+  FontFamily,
+  ItemStyle,
   LayoutVariant,
   LineItem,
   ReceiptData,
   ReceiptProfile,
   ReceiptSection,
+  RuleStyle,
 } from "@/lib/types";
 import { calcTotals, formatMoney, formatDisplayDate } from "@/lib/format";
 import Barcode from "./Barcode";
@@ -39,8 +42,8 @@ const RECEIPT_TITLE: Record<ReceiptProfile, string> = {
 interface VariantStyle {
   font: string;
   align: "center" | "left";
-  rule: "dashed" | "solid" | "dotted" | "double" | "none";
-  items: "table" | "stacked" | "equals";
+  rule: RuleStyle;
+  items: ItemStyle;
   logoMul: number;
   nameClass: string;
   posMeta: boolean; // table / server / check #
@@ -121,6 +124,12 @@ const VARIANT_STYLES: Record<LayoutVariant, VariantStyle> = {
 
 const SERVERS = ["Alex", "Jamie", "Taylor", "Morgan", "Riley", "Sam", "Jordan", "Casey"];
 
+const FONT_CLASS: Record<FontFamily, string> = {
+  mono: "font-mono",
+  sans: "font-sans",
+  serif: "font-serif",
+};
+
 function LogoImg({
   src,
   name,
@@ -143,8 +152,18 @@ function LogoImg({
   );
 }
 
-function Rule({ rule }: { rule: VariantStyle["rule"] }) {
+function Rule({ rule }: { rule: RuleStyle }) {
   if (rule === "none") return <div className="my-3" />;
+  if (rule === "asterisk" || rule === "colon") {
+    return (
+      <div
+        className="my-2 overflow-hidden whitespace-nowrap text-slate-400"
+        aria-hidden="true"
+      >
+        {(rule === "asterisk" ? "*" : ":").repeat(72)}
+      </div>
+    );
+  }
   const cls = {
     dashed: "border-t border-dashed border-slate-400",
     solid: "border-t border-slate-300",
@@ -158,11 +177,37 @@ function Items({
   items,
   style,
   money,
+  header,
 }: {
   items: LineItem[];
-  style: VariantStyle["items"];
+  style: ItemStyle;
   money: (n: number) => string;
+  header?: { left: string; right: string };
 }) {
+  if (style === "lined") {
+    return (
+      <div>
+        {header && (
+          <div className="flex justify-between text-[11px] text-slate-500">
+            <span>{header.left}</span>
+            <span>{header.right}</span>
+          </div>
+        )}
+        <div className="mt-1 space-y-0.5">
+          {items.map((item) => (
+            <div key={item.id} className="flex justify-between gap-2">
+              <span className="break-words pr-2">
+                {item.quantity !== 1 ? `${item.quantity} ` : ""}
+                {item.name || "—"}
+              </span>
+              <span className="tabular-nums">{money(item.quantity * item.price)}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   if (style === "equals") {
     return (
       <div className="space-y-0.5">
@@ -413,9 +458,13 @@ export default function ReceiptPaper({ data }: Props) {
     );
   }
 
-  // ---- Paper receipts: one of six templates ----
+  // ---- Paper receipts: one of six templates, with optional per-brand overrides ----
   const variant = data.layoutVariant ?? "classic";
   const vs = VARIANT_STYLES[variant];
+  const font = data.fontFamily ? FONT_CLASS[data.fontFamily] : vs.font;
+  const align = data.headerAlign ?? vs.align;
+  const rule = data.ruleStyle ?? vs.rule;
+  const itemStyle = data.itemStyle ?? vs.items;
   const isTicket = profile === "restaurant" || profile === "coffee";
   const isFuel = profile === "fuel";
   const isGrocery = profile === "grocery" || profile === "warehouse";
@@ -436,17 +485,17 @@ export default function ReceiptPaper({ data }: Props) {
   const checkNumber = data.receiptNumber.slice(-4);
   const showSurvey = seed % 3 === 0;
 
-  const alignClass = vs.align === "center" ? "text-center" : "text-left";
+  const alignClass = align === "center" ? "text-center" : "text-left";
 
   return (
-    <div className={`w-95 max-w-full ${vs.font}`}>
+    <div className={`w-95 max-w-full ${font}`}>
       <div className="receipt-tear-top" />
       <div className="overflow-hidden bg-paper text-[13px] leading-relaxed text-slate-800">
         <div className="px-6 py-5">
           {/* Header */}
           <div className={alignClass}>
             {data.logoDataUrl && (
-              <div className={`mb-2 flex ${vs.align === "center" ? "justify-center" : ""}`}>
+              <div className={`mb-2 flex ${align === "center" ? "justify-center" : ""}`}>
                 <LogoImg
                   src={data.logoDataUrl}
                   name={data.businessName}
@@ -468,7 +517,7 @@ export default function ReceiptPaper({ data }: Props) {
             {data.greeting && <p className="mt-2 text-slate-700">{data.greeting}</p>}
           </div>
 
-          <Rule rule={vs.rule} />
+          <Rule rule={rule} />
 
           {data.topBarcode && (
             <div className="mb-1 flex flex-col items-center">
@@ -578,75 +627,88 @@ export default function ReceiptPaper({ data }: Props) {
             <Section key={i} section={s} />
           ))}
 
-          <Rule rule={vs.rule} />
+          {!data.hideItems && (
+            <>
+              <Rule rule={rule} />
 
-          {/* Items */}
-          <Items items={data.items} style={vs.items} money={money} />
+              {/* Items */}
+              <Items
+                items={data.items}
+                style={itemStyle}
+                money={money}
+                header={data.itemHeader}
+              />
 
-          {isGrocery && (
-            <p className="mt-2 text-[11px] uppercase tracking-wide text-slate-500">
-              Items sold: {unitsSold}
-            </p>
+              {isGrocery && (
+                <p className="mt-2 text-[11px] uppercase tracking-wide text-slate-500">
+                  Items sold: {unitsSold}
+                </p>
+              )}
+            </>
           )}
 
-          <Rule rule={vs.rule} />
+          {!data.hideTotals && (
+            <>
+              <Rule rule={rule} />
 
-          {/* Totals */}
-          <div className="space-y-1">
-            <div className="flex justify-between text-slate-600">
-              <span>{vs.vat ? "Net" : "Subtotal"}</span>
-              <span>{money(totals.subtotal)}</span>
-            </div>
-            {totals.discount > 0 && (
-              <div className="flex justify-between text-emerald-700">
-                <span>{isGrocery ? "You saved" : "Discount"}</span>
-                <span>-{money(totals.discount)}</span>
+              {/* Totals */}
+              <div className="space-y-1">
+                <div className="flex justify-between text-slate-600">
+                  <span>{vs.vat ? "Net" : "Subtotal"}</span>
+                  <span>{money(totals.subtotal)}</span>
+                </div>
+                {totals.discount > 0 && (
+                  <div className="flex justify-between text-emerald-700">
+                    <span>{isGrocery ? "You saved" : "Discount"}</span>
+                    <span>-{money(totals.discount)}</span>
+                  </div>
+                )}
+                {data.taxRate > 0 && (
+                  <div className="flex justify-between text-slate-600">
+                    <span>
+                      {data.taxLabel || "Tax"} ({data.taxRate}%)
+                    </span>
+                    <span>{money(totals.tax)}</span>
+                  </div>
+                )}
+                {totals.tip > 0 && (
+                  <div className="flex justify-between text-slate-600">
+                    <span>Tip</span>
+                    <span>{money(totals.tip)}</span>
+                  </div>
+                )}
+                <div className="flex justify-between border-t border-slate-400 pt-1 text-base font-bold">
+                  <span>{data.grandTotalLabel ?? "TOTAL"}</span>
+                  <span>{money(totals.total)}</span>
+                </div>
               </div>
-            )}
-            {data.taxRate > 0 && (
-              <div className="flex justify-between text-slate-600">
-                <span>
-                  {data.taxLabel || "Tax"} ({data.taxRate}%)
-                </span>
-                <span>{money(totals.tax)}</span>
-              </div>
-            )}
-            {totals.tip > 0 && (
-              <div className="flex justify-between text-slate-600">
-                <span>Tip</span>
-                <span>{money(totals.tip)}</span>
-              </div>
-            )}
-            <div className="flex justify-between border-t border-slate-400 pt-1 text-base font-bold">
-              <span>{data.grandTotalLabel ?? "TOTAL"}</span>
-              <span>{money(totals.total)}</span>
-            </div>
-          </div>
 
-          {/* Payment */}
-          <div className="mt-3 space-y-1 text-xs text-slate-600">
-            <div className="flex justify-between">
-              <span>Payment Method</span>
-              <span className="font-medium text-slate-800">
-                {data.paymentMethod}
-                {data.paymentMethod !== "Cash" && data.cardLastFour
-                  ? ` •••• ${data.cardLastFour}`
-                  : ""}
-              </span>
-            </div>
-            {data.paymentMethod === "Cash" && data.amountTendered > totals.total && (
-              <>
+              {/* Payment */}
+              <div className="mt-3 space-y-1 text-xs text-slate-600">
                 <div className="flex justify-between">
-                  <span>Amount Tendered</span>
-                  <span>{money(data.amountTendered)}</span>
+                  <span>Payment Method</span>
+                  <span className="font-medium text-slate-800">
+                    {data.paymentMethod}
+                    {data.paymentMethod !== "Cash" && data.cardLastFour
+                      ? ` •••• ${data.cardLastFour}`
+                      : ""}
+                  </span>
                 </div>
-                <div className="flex justify-between">
-                  <span>Change</span>
-                  <span>{money(totals.change)}</span>
-                </div>
-              </>
-            )}
-          </div>
+                {data.paymentMethod === "Cash" && data.amountTendered > totals.total && (
+                  <>
+                    <div className="flex justify-between">
+                      <span>Amount Tendered</span>
+                      <span>{money(data.amountTendered)}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Change</span>
+                      <span>{money(totals.change)}</span>
+                    </div>
+                  </>
+                )}
+              </div>
+            </>
+          )}
 
           {/* Card authorisation block */}
           {(vs.cardAuth || data.showCardAuth) && data.paymentMethod !== "Cash" && (
