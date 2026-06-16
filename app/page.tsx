@@ -3,7 +3,8 @@ import { SITE } from "@/lib/site";
 import { TEMPLATES } from "@/lib/templates";
 import { HOMEPAGE_FAQS } from "@/lib/faqs";
 import type { ReceiptData } from "@/lib/types";
-import ReceiptPaper from "@/components/receipt/ReceiptPaper";
+import { docFromReceiptData } from "@/lib/sections";
+import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
 
 const DEMO_RECEIPT: ReceiptData = {
   businessName: "Daily Grind Coffee Co.",
@@ -205,7 +206,7 @@ export default function HomePage() {
 
           <div className="flex justify-center lg:justify-end">
             <div className="receipt-shadow rotate-2 transition-transform duration-300 hover:rotate-0">
-              <ReceiptPaper data={DEMO_RECEIPT} />
+              <ReceiptDocPaper doc={docFromReceiptData(DEMO_RECEIPT)} />
             </div>
           </div>
         </div>

@@ -3,7 +3,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { BRAND_TEMPLATES } from "@/lib/brands";
 import { previewFromTemplate } from "@/lib/receipt";
-import ReceiptPaper from "@/components/receipt/ReceiptPaper";
+import { docFromReceiptData } from "@/lib/sections";
+import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
 
 const BRAND_FAQS = [
   {
@@ -97,7 +98,7 @@ export default function BrandsPage() {
                   
                   <div className="origin-top scale-[0.6] transition-transform duration-300 ease-out group-hover:scale-[0.63]">
                     <div className="receipt-shadow rounded bg-white">
-                      <ReceiptPaper data={preview} />
+                      <ReceiptDocPaper doc={docFromReceiptData(preview)} />
                     </div>
                   </div>
                 </div>

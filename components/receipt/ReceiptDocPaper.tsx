@@ -19,6 +19,7 @@ interface Props {
 export default function ReceiptDocPaper({ doc }: Props) {
   const money = (n: number) => formatMoney(n, doc.settings.currency);
   const accent = doc.settings.accent || "#4f46e5";
+  const card = doc.settings.style === "card";
 
   // Grand total across all item sections (used for cash change).
   const grandTotal = doc.sections.reduce(
@@ -40,6 +41,14 @@ export default function ReceiptDocPaper({ doc }: Props) {
                 <LogoImg src={s.logoDataUrl} name={s.storeName} maxHeight={56} />
               </div>
             ) : null}
+            {s.title && (
+              <p
+                className="mb-1 text-[10px] font-bold uppercase tracking-[0.22em] text-slate-400"
+                style={card ? { color: accent } : undefined}
+              >
+                {s.title}
+              </p>
+            )}
             {s.storeName && <p className="text-base font-bold">{s.storeName}</p>}
             {s.address &&
               s.address.split("\n").map((line, i) => (
@@ -80,6 +89,11 @@ export default function ReceiptDocPaper({ doc }: Props) {
               header={s.itemHeader}
               columns={s.columns}
             />
+            {s.showItemsSold && (
+              <p className="mt-2 text-[11px] uppercase tracking-wide text-slate-500">
+                Items sold: {Math.max(1, Math.round(s.items.reduce((n, i) => n + i.quantity, 0)))}
+              </p>
+            )}
             {s.totalsDivider && s.totalsDivider !== "none" && <Rule rule={s.totalsDivider} />}
             <div className="space-y-1 text-slate-600">
               <div className="flex justify-between">
@@ -198,22 +212,32 @@ export default function ReceiptDocPaper({ doc }: Props) {
     }
   }
 
-  return (
-    <div
-      className={`max-w-full ${FONT_CLASS[doc.settings.font]}`}
-      style={{ width: doc.settings.widthPx }}
-    >
-      <div className="receipt-tear-top" />
-      <div className="overflow-hidden bg-paper text-[13px] leading-relaxed text-slate-800">
-        <div className="px-6 py-5">
-          {doc.sections.map((s) => (
-            <div key={s.id}>
-              <div className={alignClass(s.align)}>{renderSection(s)}</div>
-              {s.divider && s.divider !== "none" && <Rule rule={s.divider} />}
-            </div>
-          ))}
+  const body = (
+    <div className="px-6 py-5">
+      {doc.sections.map((s) => (
+        <div key={s.id}>
+          <div className={alignClass(s.align)}>{renderSection(s)}</div>
+          {s.divider && s.divider !== "none" && <Rule rule={s.divider} />}
+        </div>
+      ))}
+    </div>
+  );
+
+  if (card) {
+    return (
+      <div className={`max-w-full ${FONT_CLASS[doc.settings.font]}`} style={{ width: doc.settings.widthPx }}>
+        <div className="overflow-hidden rounded-xl border border-slate-200 bg-paper text-[13px] leading-relaxed text-slate-800 shadow-sm">
+          <div className="h-2" style={{ backgroundColor: accent }} />
+          {body}
         </div>
       </div>
+    );
+  }
+
+  return (
+    <div className={`max-w-full ${FONT_CLASS[doc.settings.font]}`} style={{ width: doc.settings.widthPx }}>
+      <div className="receipt-tear-top" />
+      <div className="overflow-hidden bg-paper text-[13px] leading-relaxed text-slate-800">{body}</div>
       <div className="receipt-tear-bottom" />
     </div>
   );

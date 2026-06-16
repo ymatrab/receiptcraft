@@ -4,8 +4,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BRAND_TEMPLATES } from "@/lib/brands";
 import { previewFromTemplate } from "@/lib/receipt";
+import { docFromReceiptData } from "@/lib/sections";
 import { SITE, absoluteUrl } from "@/lib/site";
-import ReceiptPaper from "@/components/receipt/ReceiptPaper";
+import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -147,7 +148,7 @@ export default async function BrandTemplatePage({ params }: Props) {
 
           <div className="flex justify-center lg:sticky lg:top-24">
             <div className="receipt-shadow">
-              <ReceiptPaper data={preview} />
+              <ReceiptDocPaper doc={docFromReceiptData(preview)} />
             </div>
           </div>
         </div>

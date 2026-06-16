@@ -5,6 +5,7 @@ import type {
   LayoutVariant,
   LineItem,
   ReceiptData,
+  ReceiptProfile,
   ReceiptRow,
   RuleStyle,
 } from "./types";
@@ -43,6 +44,7 @@ export interface HeaderSection extends BaseSection {
   type: "header";
   logoDataUrl?: string;
   logoText?: string;
+  title?: string; // small label above the name, e.g. "TRIP RECEIPT"
   storeName: string;
   address: string; // newline-separated
   phone?: string;
@@ -73,6 +75,7 @@ export interface ItemsSection extends BaseSection {
   tip: number;
   grandTotalLabel?: string;
   totalsDivider?: RuleStyle;
+  showItemsSold?: boolean; // "Items sold: N" line (grocery / warehouse)
 }
 export interface PaymentSection extends BaseSection {
   type: "payment";
@@ -129,6 +132,7 @@ export interface DocSettings {
   widthPx: number;
   accent: string;
   currency: string;
+  style?: "paper" | "card"; // card = rounded chrome + accent bar (digital brands)
 }
 
 export interface ReceiptDoc {
@@ -168,6 +172,40 @@ const VARIANT_RULE: Record<LayoutVariant, RuleStyle> = {
   compact: "dotted",
   elegant: "none",
 };
+
+const RECEIPT_TITLE: Record<ReceiptProfile, string> = {
+  airline: "E-TICKET RECEIPT",
+  auto: "AUTO PARTS RECEIPT",
+  beauty: "BEAUTY RECEIPT",
+  coffee: "CAFE ORDER",
+  delivery: "DELIVERY RECEIPT",
+  digital: "DIGITAL INVOICE",
+  electronics: "SALES RECEIPT",
+  fashion: "STORE RECEIPT",
+  fuel: "FUEL RECEIPT",
+  grocery: "GROCERY RECEIPT",
+  home: "HOME & GARDEN RECEIPT",
+  hotel: "GUEST FOLIO",
+  pet: "PET STORE RECEIPT",
+  pharmacy: "PHARMACY RECEIPT",
+  rental: "RENTAL AGREEMENT",
+  restaurant: "ORDER RECEIPT",
+  retail: "SALES RECEIPT",
+  ride: "TRIP RECEIPT",
+  sporting: "SPORTING GOODS RECEIPT",
+  travel: "BOOKING RECEIPT",
+  warehouse: "MEMBER RECEIPT",
+};
+
+const SERVICE_PROFILES: ReceiptProfile[] = [
+  "ride",
+  "delivery",
+  "digital",
+  "travel",
+  "airline",
+  "hotel",
+  "rental",
+];
 
 /** Build a fresh, generic receipt document for "start from scratch". */
 export function blankDoc(): ReceiptDoc {
@@ -217,7 +255,11 @@ export function docFromReceiptData(data: ReceiptData): ReceiptDoc {
   const variant: LayoutVariant = data.layoutVariant ?? "classic";
   const font: FontFamily = data.fontFamily ?? VARIANT_FONT[variant];
   const rule: RuleStyle = data.ruleStyle ?? VARIANT_RULE[variant];
-  const align: SectionAlign = data.headerAlign ?? "center";
+  const profile: ReceiptProfile = data.receiptProfile ?? "retail";
+  const isService = SERVICE_PROFILES.includes(profile);
+  const isTicket = profile === "restaurant" || profile === "coffee";
+  const seed = data.layoutSeed ?? 0;
+  const headerAlign: SectionAlign = isService ? "left" : data.headerAlign ?? "center";
   const minimal = data.dividers === "minimal";
   const d = (on: boolean): RuleStyle => (minimal || !on ? "none" : rule);
 
@@ -226,10 +268,11 @@ export function docFromReceiptData(data: ReceiptData): ReceiptDoc {
   sections.push({
     id: uid(),
     type: "header",
-    align,
+    align: headerAlign,
     divider: d(true),
     logoDataUrl: data.logoText ? undefined : data.logoDataUrl || undefined,
     logoText: data.logoText,
+    title: data.greeting ? undefined : RECEIPT_TITLE[profile],
     storeName: data.businessName,
     address: [data.addressLine1, data.addressLine2].filter(Boolean).join("\n"),
     phone: data.phone || undefined,
@@ -237,7 +280,7 @@ export function docFromReceiptData(data: ReceiptData): ReceiptDoc {
   });
 
   if (data.greeting) {
-    sections.push({ id: uid(), type: "message", align, divider: "none", text: data.greeting });
+    sections.push({ id: uid(), type: "message", align: headerAlign, divider: "none", text: data.greeting });
   }
 
   sections.push({
@@ -249,6 +292,53 @@ export function docFromReceiptData(data: ReceiptData): ReceiptDoc {
     time: data.time,
     receiptNumber: data.receiptNumber,
   });
+
+  // Profile-specific detail blocks (mirrors ReceiptPaper's fuel/pharmacy/etc).
+  if (!isService) {
+    const storeNumber = 100 + (seed % 8900);
+    const reg = 1 + (seed % 12);
+    if (profile === "fuel") {
+      sections.push({
+        id: uid(),
+        type: "twocol",
+        divider: "none",
+        rows: [
+          { label: "Pump", value: data.register?.replace(/[^0-9]/g, "") || "04" },
+          { label: "Grade", value: "Unleaded" },
+          { label: "Auth", value: data.receiptNumber.slice(-4) },
+        ],
+      });
+    } else if (profile === "pharmacy") {
+      sections.push({
+        id: uid(),
+        type: "twocol",
+        divider: "none",
+        rows: [
+          { label: "RX #", value: String(7000000 + ((seed * 137) % 999999)) },
+          { label: "Pharmacist", value: data.cashier || "On Duty" },
+          { label: "Pickup", value: "Ready" },
+        ],
+      });
+    } else if (profile === "warehouse") {
+      sections.push({
+        id: uid(),
+        type: "twocol",
+        divider: "none",
+        rows: [{ label: "Member", value: `111${String(100000 + ((seed * 9301) % 899999))}` }],
+      });
+    } else if (!isTicket && !data.register) {
+      sections.push({
+        id: uid(),
+        type: "twocol",
+        divider: "none",
+        flow: true,
+        rows: [
+          { label: "Store #", value: String(storeNumber) },
+          { label: "Reg", value: String(reg) },
+        ],
+      });
+    }
+  }
 
   for (const s of data.sections ?? []) {
     sections.push({
@@ -274,6 +364,7 @@ export function docFromReceiptData(data: ReceiptData): ReceiptDoc {
     tip: data.tip,
     grandTotalLabel: data.grandTotalLabel,
     totalsDivider: d(true),
+    showItemsSold: profile === "grocery" || profile === "warehouse",
   });
 
   sections.push({
@@ -320,10 +411,11 @@ export function docFromReceiptData(data: ReceiptData): ReceiptDoc {
 
   return {
     settings: {
-      font,
+      font: isService ? "sans" : font,
       widthPx: 380,
       accent: data.brandAccent ?? "#4f46e5",
       currency: data.currency,
+      style: isService ? "card" : "paper",
     },
     sections,
   };
