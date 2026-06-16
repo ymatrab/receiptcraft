@@ -282,7 +282,7 @@ function Items({
   );
 }
 
-function Section({ section }: { section: ReceiptSection }) {
+function Section({ section, flow }: { section: ReceiptSection; flow?: boolean }) {
   return (
     <div className="mt-3 text-xs text-slate-600">
       {section.title && (
@@ -290,18 +290,29 @@ function Section({ section }: { section: ReceiptSection }) {
           {section.title}
         </p>
       )}
-      <div className="space-y-0.5">
-        {section.rows.map((r, i) =>
-          r.label ? (
-            <div key={i} className="flex justify-between gap-3">
-              <span>{r.label}</span>
-              <span className="text-right text-slate-800">{r.value}</span>
-            </div>
-          ) : (
-            <p key={i}>{r.value}</p>
-          )
-        )}
-      </div>
+      {flow ? (
+        <div className="flex flex-wrap gap-x-5 gap-y-0.5">
+          {section.rows.map((r, i) => (
+            <span key={i}>
+              {r.label && <span className="text-slate-500">{r.label} </span>}
+              <span className="text-slate-800">{r.value}</span>
+            </span>
+          ))}
+        </div>
+      ) : (
+        <div className="space-y-0.5">
+          {section.rows.map((r, i) =>
+            r.label ? (
+              <div key={i} className="flex justify-between gap-3">
+                <span>{r.label}</span>
+                <span className="text-right text-slate-800">{r.value}</span>
+              </div>
+            ) : (
+              <p key={i}>{r.value}</p>
+            )
+          )}
+        </div>
+      )}
     </div>
   );
 }
@@ -480,6 +491,7 @@ export default function ReceiptPaper({ data }: Props) {
   const align = data.headerAlign ?? vs.align;
   const rule = data.ruleStyle ?? vs.rule;
   const itemStyle = data.itemStyle ?? vs.items;
+  const minimal = data.dividers === "minimal";
   const isTicket = profile === "restaurant" || profile === "coffee";
   const isFuel = profile === "fuel";
   const isGrocery = profile === "grocery" || profile === "warehouse";
@@ -538,7 +550,7 @@ export default function ReceiptPaper({ data }: Props) {
             {data.greeting && <p className="mt-2 text-slate-700">{data.greeting}</p>}
           </div>
 
-          <Rule rule={rule} />
+          {!minimal && <Rule rule={rule} />}
 
           {data.topBarcode && (
             <div className="mb-1 flex flex-col items-center">
@@ -645,12 +657,13 @@ export default function ReceiptPaper({ data }: Props) {
           )}
 
           {data.sections?.map((s, i) => (
-            <Section key={i} section={s} />
+            <Section key={i} section={s} flow={data.sectionStyle === "flow"} />
           ))}
 
           {!data.hideItems && (
             <>
-              <Rule rule={rule} />
+              {!minimal && <Rule rule={rule} />}
+              {minimal && <div className="mt-3" />}
 
               {/* Items */}
               <Items
@@ -670,7 +683,8 @@ export default function ReceiptPaper({ data }: Props) {
 
           {!data.hideTotals && (
             <>
-              <Rule rule={rule} />
+              {!minimal && <Rule rule={rule} />}
+              {minimal && <div className="mt-3" />}
 
               {/* Totals */}
               <div className="space-y-1">
@@ -704,17 +718,28 @@ export default function ReceiptPaper({ data }: Props) {
                 </div>
               </div>
 
+              {minimal && <Rule rule={rule} />}
+
               {/* Payment */}
               <div className="mt-3 space-y-1 text-xs text-slate-600">
-                <div className="flex justify-between">
-                  <span>Payment Method</span>
-                  <span className="font-medium text-slate-800">
-                    {data.paymentMethod}
+                {data.paymentInline ? (
+                  <p className="text-slate-700">
+                    Payment Method: {data.paymentMethod}
                     {data.paymentMethod !== "Cash" && data.cardLastFour
                       ? ` •••• ${data.cardLastFour}`
                       : ""}
-                  </span>
-                </div>
+                  </p>
+                ) : (
+                  <div className="flex justify-between">
+                    <span>Payment Method</span>
+                    <span className="font-medium text-slate-800">
+                      {data.paymentMethod}
+                      {data.paymentMethod !== "Cash" && data.cardLastFour
+                        ? ` •••• ${data.cardLastFour}`
+                        : ""}
+                    </span>
+                  </div>
+                )}
                 {data.paymentMethod === "Cash" && data.amountTendered > totals.total && (
                   <>
                     <div className="flex justify-between">
@@ -736,6 +761,12 @@ export default function ReceiptPaper({ data }: Props) {
             <CardAuth data={data} seed={seed} />
           )}
 
+          {/* Slogan / thank-you line */}
+          {data.footerMessage && (
+            <p className="mt-4 text-center text-xs text-slate-600">{data.footerMessage}</p>
+          )}
+
+          {/* Fine print */}
           {data.policyText && (
             <p className="mt-3 text-center text-[11px] leading-relaxed text-slate-500">
               {data.policyText}
@@ -745,16 +776,11 @@ export default function ReceiptPaper({ data }: Props) {
             <p className="mt-3 text-center text-[11px] text-slate-600">{data.manager}</p>
           )}
 
-          {/* Footer */}
-          {(data.footerMessage || data.showBarcode || showSurvey) && (
+          {/* Survey + barcode/QR */}
+          {(showSurvey || data.showBarcode) && (
             <div className="mt-4 text-center">
-              {data.footerMessage && (
-                <p className="text-xs uppercase tracking-wide text-slate-600">
-                  {data.footerMessage}
-                </p>
-              )}
               {showSurvey && (
-                <p className="mt-1 text-[10px] text-slate-500">
+                <p className="text-[10px] text-slate-500">
                   Tell us how we did · survey #{storeNumber}-{registerNumber}
                 </p>
               )}

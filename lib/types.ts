@@ -143,6 +143,9 @@ export interface ReceiptData {
   logoText?: string; // render a large text wordmark instead of the image logo
   hideStoreLine?: boolean; // suppress the auto "Store #/Reg" line
   qrCode?: boolean; // show a QR code instead of a barcode
+  dividers?: "default" | "minimal"; // minimal = only one rule, above payment
+  paymentInline?: boolean; // "Payment Method: X •••• 1234" on one left line
+  sectionStyle?: "rows" | "flow"; // flow = inline label/value pairs
 }
 
 export interface ReceiptTotals {

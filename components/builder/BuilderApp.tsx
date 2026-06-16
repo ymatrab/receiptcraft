@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import type { ReceiptData, LineItem, PaymentMethod, PaperStyle } from "@/lib/types";
+import type { ReceiptData, LineItem, PaymentMethod } from "@/lib/types";
 import { TEMPLATES, getTemplate } from "@/lib/templates";
 import { receiptFromTemplate } from "@/lib/receipt";
 import { CURRENCIES, calcTotals, formatMoney, uid } from "@/lib/format";
@@ -16,12 +16,6 @@ const PAYMENT_METHODS: PaymentMethod[] = [
   "Mobile Payment",
   "Gift Card",
   "Check",
-];
-
-const PAPER_STYLES: { value: PaperStyle; label: string }[] = [
-  { value: "thermal", label: "Thermal" },
-  { value: "modern", label: "Modern" },
-  { value: "minimal", label: "Minimal" },
 ];
 
 interface Props {
@@ -417,42 +411,125 @@ export default function BuilderApp({ initialData, initialTemplate }: Props) {
             </div>
           </FormSection>
 
-          <FormSection title="Style & Footer">
+          <FormSection title="Design & Layout">
             <div className="space-y-4">
-              <div>
-                <span className="mb-1.5 block text-xs font-medium text-slate-600">Receipt Style</span>
-                <div className="grid grid-cols-3 gap-1 rounded-full bg-slate-100 p-1">
-                  {PAPER_STYLES.map((style) => (
-                    <button
-                      key={style.value}
-                      type="button"
-                      onClick={() => patch({ paperStyle: style.value })}
-                      className={`rounded-full py-2 text-sm font-medium transition-colors ${
-                        data.paperStyle === style.value
-                          ? "bg-white text-slate-900 shadow-sm"
-                          : "text-slate-500 hover:text-slate-700"
-                      }`}
-                    >
-                      {style.label}
-                    </button>
-                  ))}
-                </div>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <SelectField
+                  label="Font"
+                  defaultValue={data.fontFamily ?? ""}
+                  onChange={(v) =>
+                    patch({ fontFamily: (v || undefined) as ReceiptData["fontFamily"] })
+                  }
+                  options={[
+                    { value: "", label: "Template default" },
+                    { value: "mono", label: "Monospace (thermal)" },
+                    { value: "sans", label: "Sans-serif (modern)" },
+                    { value: "serif", label: "Serif (elegant)" },
+                  ]}
+                />
+                <SelectField
+                  label="Header alignment"
+                  defaultValue={data.headerAlign ?? ""}
+                  onChange={(v) =>
+                    patch({ headerAlign: (v || undefined) as ReceiptData["headerAlign"] })
+                  }
+                  options={[
+                    { value: "", label: "Template default" },
+                    { value: "center", label: "Centered" },
+                    { value: "left", label: "Left" },
+                  ]}
+                />
+                <SelectField
+                  label="Divider line"
+                  defaultValue={data.ruleStyle ?? ""}
+                  onChange={(v) =>
+                    patch({ ruleStyle: (v || undefined) as ReceiptData["ruleStyle"] })
+                  }
+                  options={[
+                    { value: "", label: "Template default" },
+                    { value: "dashed", label: "Dashed" },
+                    { value: "solid", label: "Solid" },
+                    { value: "dotted", label: "Dotted" },
+                    { value: "double", label: "Double" },
+                    { value: "asterisk", label: "Asterisks ******" },
+                    { value: "colon", label: "Colons ::::::" },
+                    { value: "none", label: "None" },
+                  ]}
+                />
+                <SelectField
+                  label="Item layout"
+                  defaultValue={data.itemStyle ?? ""}
+                  onChange={(v) =>
+                    patch({ itemStyle: (v || undefined) as ReceiptData["itemStyle"] })
+                  }
+                  options={[
+                    { value: "", label: "Template default" },
+                    { value: "table", label: "Table (Item/Qty/Price/Total)" },
+                    { value: "qtycol", label: "Qty + name + total" },
+                    { value: "lined", label: "Name + total" },
+                    { value: "stacked", label: "Stacked (qty @ price)" },
+                    { value: "equals", label: "Qty name = total" },
+                  ]}
+                />
+                <SelectField
+                  label="Layout density"
+                  defaultValue={data.dividers ?? ""}
+                  onChange={(v) =>
+                    patch({ dividers: (v || undefined) as ReceiptData["dividers"] })
+                  }
+                  options={[
+                    { value: "", label: "Standard" },
+                    { value: "minimal", label: "Minimal (fewer lines)" },
+                  ]}
+                />
+                <TextField
+                  label="Total label"
+                  defaultValue={data.grandTotalLabel ?? ""}
+                  onChange={(v) => patch({ grandTotalLabel: v || undefined })}
+                  placeholder="TOTAL"
+                />
               </div>
               <TextField
-                label="Footer Message"
+                label="Big logo text (optional)"
+                defaultValue={data.logoText ?? ""}
+                onChange={(v) => patch({ logoText: v || undefined })}
+                placeholder="e.g. ACME — shows a large text wordmark"
+              />
+              <TextField
+                label="Footer message"
                 defaultValue={data.footerMessage}
                 onChange={(v) => patch({ footerMessage: v })}
                 placeholder="Thank you for your business!"
               />
-              <label className="flex items-center gap-2.5">
-                <input
-                  type="checkbox"
-                  defaultChecked={data.showBarcode}
-                  onChange={(e) => patch({ showBarcode: e.target.checked })}
-                  className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
-                />
-                <span className="text-sm text-slate-700">Show barcode</span>
-              </label>
+              <div className="flex flex-wrap gap-x-6 gap-y-2">
+                <label className="flex items-center gap-2.5">
+                  <input
+                    type="checkbox"
+                    defaultChecked={data.showBarcode}
+                    onChange={(e) => patch({ showBarcode: e.target.checked })}
+                    className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                  />
+                  <span className="text-sm text-slate-700">Show code</span>
+                </label>
+                <label className="flex items-center gap-2.5">
+                  <input
+                    type="checkbox"
+                    defaultChecked={data.qrCode}
+                    onChange={(e) => patch({ qrCode: e.target.checked })}
+                    className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                  />
+                  <span className="text-sm text-slate-700">Use QR code</span>
+                </label>
+                <label className="flex items-center gap-2.5">
+                  <input
+                    type="checkbox"
+                    defaultChecked={data.paymentInline}
+                    onChange={(e) => patch({ paymentInline: e.target.checked })}
+                    className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                  />
+                  <span className="text-sm text-slate-700">Inline payment line</span>
+                </label>
+              </div>
             </div>
           </FormSection>
         </div>
