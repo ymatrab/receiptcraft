@@ -10,7 +10,16 @@ import type {
   SectionType,
   TwoColSection,
 } from "@/lib/sections";
-import { blankDoc, docFromReceiptData, itemsTotals, newSection, SECTION_LABEL } from "@/lib/sections";
+import type { PresetId } from "@/lib/sections";
+import {
+  blankDoc,
+  docFromReceiptData,
+  itemsTotals,
+  newSection,
+  presetDoc,
+  PRESETS,
+  SECTION_LABEL,
+} from "@/lib/sections";
 import { getTemplate, TEMPLATES } from "@/lib/templates";
 import { receiptFromTemplate } from "@/lib/receipt";
 import { CURRENCIES, formatMoney, uid } from "@/lib/format";
@@ -32,6 +41,9 @@ const FONTS: { value: FontFamily; label: string }[] = [
   { value: "mono", label: "Monospace (thermal)" },
   { value: "sans", label: "Sans-serif (modern)" },
   { value: "serif", label: "Serif (elegant)" },
+  { value: "courier", label: "Courier (classic receipt)" },
+  { value: "oswald", label: "Oswald (bold condensed)" },
+  { value: "playfair", label: "Playfair (luxury serif)" },
 ];
 const ITEM_STYLES = [
   { value: "table", label: "Table (Item / Qty / Price / Total)" },
@@ -104,6 +116,12 @@ export default function SectionBuilder() {
   const reset = () => {
     setDoc(blankDoc());
     setActiveTemplate("");
+  };
+
+  const applyPreset = (id: PresetId) => {
+    setDoc(presetDoc(id));
+    setActiveTemplate("");
+    setCollapsed({});
   };
 
   const handleFile = (file: File | undefined, apply: (dataUrl: string) => void) => {
@@ -354,8 +372,23 @@ export default function SectionBuilder() {
         </div>
       </div>
 
+      {/* Start-from-scratch presets */}
+      <div className="flex flex-wrap items-center gap-2 pt-4">
+        <span className="text-xs font-medium text-slate-500">Start from scratch:</span>
+        {PRESETS.map((p) => (
+          <button
+            key={p.id}
+            type="button"
+            onClick={() => applyPreset(p.id)}
+            className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:border-indigo-300 hover:text-indigo-700"
+          >
+            {p.label}
+          </button>
+        ))}
+      </div>
+
       {/* Template quick-switch */}
-      <div className="-mx-4 overflow-x-auto px-4 py-4 sm:mx-0 sm:px-0">
+      <div className="-mx-4 overflow-x-auto px-4 pb-4 pt-3 sm:mx-0 sm:px-0">
         <div className="flex gap-2">
           {TEMPLATES.map((t) => (
             <button key={t.slug} type="button" onClick={() => applyTemplate(t.slug)} className={`flex shrink-0 items-center gap-1.5 rounded-full border px-4 py-2 text-sm font-medium transition-colors ${activeTemplate === t.slug ? "border-indigo-600 bg-indigo-600 text-white" : "border-slate-200 bg-white text-slate-600 hover:border-indigo-300"}`}>

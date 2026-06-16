@@ -68,7 +68,7 @@ export type ItemStyle =
   | "lined" // header row + "name .......... total"
   | "qtycol"; // small qty column + name + line total
 
-export type FontFamily = "mono" | "sans" | "serif";
+export type FontFamily = "mono" | "sans" | "serif" | "courier" | "oswald" | "playfair";
 
 /** Column header labels for the table item layout. */
 export interface ItemColumns {

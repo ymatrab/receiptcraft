@@ -247,6 +247,106 @@ export function blankDoc(): ReceiptDoc {
   };
 }
 
+export const PRESETS = [
+  { id: "blank", label: "Blank" },
+  { id: "simple", label: "Simple receipt" },
+  { id: "service", label: "Service invoice" },
+  { id: "donation", label: "Donation" },
+] as const;
+export type PresetId = (typeof PRESETS)[number]["id"];
+
+/** Generic, non-brand starting layouts for the builder. */
+export function presetDoc(id: PresetId): ReceiptDoc {
+  const base: DocSettings = {
+    font: "mono",
+    widthPx: 380,
+    accent: "#4f46e5",
+    currency: "USD",
+    style: "paper",
+  };
+  const dash: RuleStyle = "dashed";
+
+  if (id === "blank") return blankDoc();
+
+  if (id === "simple") {
+    return {
+      settings: base,
+      sections: [
+        { id: uid(), type: "header", align: "center", divider: dash, storeName: "Your Store", address: "", phone: "" },
+        { id: uid(), type: "datetime", align: "left", divider: dash, date: todayISO(), time: nowHHMM(), receiptNumber: randomReceiptNumber() },
+        {
+          id: uid(),
+          type: "items",
+          divider: dash,
+          items: [{ id: uid(), name: "Item", quantity: 1, price: 0 }],
+          itemStyle: "lined",
+          taxLabel: "Sales Tax",
+          taxRate: 0,
+          discount: 0,
+          discountPercent: true,
+          tip: 0,
+          totalsDivider: "none",
+        },
+        { id: uid(), type: "message", align: "center", text: "Thank you!" },
+      ],
+    };
+  }
+
+  if (id === "service") {
+    return {
+      settings: { ...base, font: "sans" },
+      sections: [
+        { id: uid(), type: "header", align: "left", divider: "solid", title: "INVOICE", storeName: "Your Business", address: "123 Main St\nCity, ST 00000", phone: "(555) 000-0000", website: "" },
+        { id: uid(), type: "twocol", divider: "solid", rows: [{ label: "Bill to", value: "Client name" }, { label: "Invoice #", value: randomReceiptNumber() }, { label: "Date", value: todayISO() }] },
+        {
+          id: uid(),
+          type: "items",
+          divider: "solid",
+          items: [
+            { id: uid(), name: "Consulting (hrs)", quantity: 4, price: 75 },
+            { id: uid(), name: "Materials", quantity: 1, price: 50 },
+          ],
+          itemStyle: "table",
+          columns: { item: "Description", qty: "Hrs/Qty", price: "Rate", total: "Amount" },
+          taxLabel: "Tax",
+          taxRate: 0,
+          discount: 0,
+          discountPercent: true,
+          tip: 0,
+          totalsDivider: "solid",
+        },
+        { id: uid(), type: "payment", divider: "solid", method: "Card", cardType: "Credit", cardLastFour: "" },
+        { id: uid(), type: "signature", align: "center", divider: "none", label: "Authorized signature" },
+        { id: uid(), type: "message", align: "center", text: "Payment due within 30 days. Thank you!" },
+      ],
+    };
+  }
+
+  // donation
+  return {
+    settings: { ...base, font: "serif" },
+    sections: [
+      { id: uid(), type: "header", align: "center", divider: dash, title: "DONATION RECEIPT", storeName: "Charity Name", address: "Tax ID: 00-0000000", phone: "" },
+      { id: uid(), type: "datetime", align: "left", divider: dash, date: todayISO(), time: nowHHMM(), receiptNumber: randomReceiptNumber() },
+      { id: uid(), type: "twocol", divider: dash, rows: [{ label: "Donor", value: "Donor name" }, { label: "Method", value: "Credit card" }] },
+      {
+        id: uid(),
+        type: "items",
+        divider: dash,
+        items: [{ id: uid(), name: "Charitable donation", quantity: 1, price: 100 }],
+        itemStyle: "lined",
+        taxLabel: "Tax",
+        taxRate: 0,
+        discount: 0,
+        tip: 0,
+        grandTotalLabel: "Total donated",
+        totalsDivider: "none",
+      },
+      { id: uid(), type: "message", align: "center", text: "No goods or services were provided in exchange for this contribution. This receipt may be used for tax purposes." },
+    ],
+  };
+}
+
 /**
  * Convert a flat (template) ReceiptData into an editable section document.
  * Reuses the override fields already present on brand templates.

@@ -1,3 +1,4 @@
+import type { FontFamily } from "@/lib/types";
 import type { ReceiptDoc, Section, SectionAlign } from "@/lib/sections";
 import { itemsTotals } from "@/lib/sections";
 import { formatMoney, formatDisplayDate } from "@/lib/format";
@@ -5,7 +6,14 @@ import Barcode from "./Barcode";
 import Qr from "./Qr";
 import { CardAuth, Items, KeyValueRows, LogoImg, Rule } from "./parts";
 
-const FONT_CLASS = { mono: "font-mono", sans: "font-sans", serif: "font-serif" };
+const FONT_STACK: Record<FontFamily, string> = {
+  mono: "var(--font-geist-mono), ui-monospace, monospace",
+  sans: "var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif",
+  serif: "ui-serif, Georgia, serif",
+  courier: "var(--font-courier), ui-monospace, monospace",
+  oswald: "var(--font-oswald), ui-sans-serif, sans-serif",
+  playfair: "var(--font-playfair), ui-serif, Georgia, serif",
+};
 
 function alignClass(a?: SectionAlign): string {
   return a === "left" ? "text-left" : a === "right" ? "text-right" : "text-center";
@@ -223,9 +231,11 @@ export default function ReceiptDocPaper({ doc }: Props) {
     </div>
   );
 
+  const fontStack = FONT_STACK[doc.settings.font] ?? FONT_STACK.mono;
+
   if (card) {
     return (
-      <div className={`max-w-full ${FONT_CLASS[doc.settings.font]}`} style={{ width: doc.settings.widthPx }}>
+      <div className="max-w-full" style={{ width: doc.settings.widthPx, fontFamily: fontStack }}>
         <div className="overflow-hidden rounded-xl border border-slate-200 bg-paper text-[13px] leading-relaxed text-slate-800 shadow-sm">
           <div className="h-2" style={{ backgroundColor: accent }} />
           {body}
@@ -235,7 +245,7 @@ export default function ReceiptDocPaper({ doc }: Props) {
   }
 
   return (
-    <div className={`max-w-full ${FONT_CLASS[doc.settings.font]}`} style={{ width: doc.settings.widthPx }}>
+    <div className="max-w-full" style={{ width: doc.settings.widthPx, fontFamily: fontStack }}>
       <div className="receipt-tear-top" />
       <div className="overflow-hidden bg-paper text-[13px] leading-relaxed text-slate-800">{body}</div>
       <div className="receipt-tear-bottom" />
