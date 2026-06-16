@@ -1,0 +1,433 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import type { FontFamily } from "@/lib/types";
+import type {
+  HeaderSection,
+  ItemsSection,
+  ReceiptDoc,
+  Section,
+  SectionType,
+  TwoColSection,
+} from "@/lib/sections";
+import { blankDoc, docFromReceiptData, itemsTotals, newSection, SECTION_LABEL } from "@/lib/sections";
+import { getTemplate, TEMPLATES } from "@/lib/templates";
+import { receiptFromTemplate } from "@/lib/receipt";
+import { CURRENCIES, formatMoney, uid } from "@/lib/format";
+import { downloadPng, downloadPdf, exportFilename } from "@/lib/download";
+import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
+import AddSectionModal from "./AddSectionModal";
+import {
+  AlignToggle,
+  DividerRow,
+  NumberField,
+  SelectField,
+  TextAreaField,
+  TextField,
+  Toggle,
+  inputClass,
+} from "./fields";
+
+const FONTS: { value: FontFamily; label: string }[] = [
+  { value: "mono", label: "Monospace (thermal)" },
+  { value: "sans", label: "Sans-serif (modern)" },
+  { value: "serif", label: "Serif (elegant)" },
+];
+const ITEM_STYLES = [
+  { value: "table", label: "Table (Item / Qty / Price / Total)" },
+  { value: "qtycol", label: "Qty + name + total" },
+  { value: "lined", label: "Name + total" },
+  { value: "stacked", label: "Stacked (qty @ price)" },
+  { value: "equals", label: "Qty name = total" },
+];
+const CARD_TYPES = ["Credit", "Debit", "Mobile Payment", "Gift Card"];
+
+function getQueryTemplate(): string {
+  if (typeof window === "undefined") return "";
+  return new URLSearchParams(window.location.search).get("template") ?? "";
+}
+
+export default function SectionBuilder() {
+  const [doc, setDoc] = useState<ReceiptDoc>(blankDoc);
+  const [collapsed, setCollapsed] = useState<Record<string, boolean>>({});
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [showAdd, setShowAdd] = useState(false);
+  const [exporting, setExporting] = useState<"png" | "pdf" | null>(null);
+  const [mobileTab, setMobileTab] = useState<"edit" | "preview">("edit");
+  const [activeTemplate, setActiveTemplate] = useState("");
+  const dragIndex = useRef<number | null>(null);
+  const receiptRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const slug = getQueryTemplate();
+    if (slug) applyTemplate(slug);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // ---- mutations ----
+  const patchSettings = (p: Partial<ReceiptDoc["settings"]>) =>
+    setDoc((d) => ({ ...d, settings: { ...d.settings, ...p } }));
+
+  const patchSection = (id: string, patch: Record<string, unknown>) =>
+    setDoc((d) => ({
+      ...d,
+      sections: d.sections.map((s) => (s.id === id ? ({ ...s, ...patch } as Section) : s)),
+    }));
+
+  const removeSection = (id: string) =>
+    setDoc((d) => ({ ...d, sections: d.sections.filter((s) => s.id !== id) }));
+
+  const addSection = (type: SectionType) => {
+    setDoc((d) => ({ ...d, sections: [...d.sections, newSection(type, d.settings.currency)] }));
+    setShowAdd(false);
+  };
+
+  const reorder = (from: number, to: number) =>
+    setDoc((d) => {
+      if (from === to || from < 0 || to < 0) return d;
+      const next = [...d.sections];
+      const [moved] = next.splice(from, 1);
+      next.splice(to, 0, moved);
+      return { ...d, sections: next };
+    });
+
+  const applyTemplate = (slug: string) => {
+    const t = getTemplate(slug);
+    if (!t) return;
+    setDoc(docFromReceiptData(receiptFromTemplate(t)));
+    setActiveTemplate(slug);
+    setCollapsed({});
+  };
+
+  const reset = () => {
+    setDoc(blankDoc());
+    setActiveTemplate("");
+  };
+
+  const handleFile = (file: File | undefined, apply: (dataUrl: string) => void) => {
+    if (!file) return;
+    if (!file.type.startsWith("image/")) return alert("Please choose an image file.");
+    if (file.size > 2 * 1024 * 1024) return alert("Image too large (max 2 MB).");
+    const reader = new FileReader();
+    reader.onload = () => apply(String(reader.result));
+    reader.readAsDataURL(file);
+  };
+
+  const handleExport = async (kind: "png" | "pdf") => {
+    if (!receiptRef.current || exporting) return;
+    setExporting(kind);
+    try {
+      const header = doc.sections.find((s) => s.type === "header") as HeaderSection | undefined;
+      const dt = doc.sections.find((s) => s.type === "datetime");
+      const filename = exportFilename(
+        header?.storeName ?? "receipt",
+        (dt && "receiptNumber" in dt && dt.receiptNumber) || "0000"
+      );
+      if (kind === "png") await downloadPng(receiptRef.current, filename);
+      else await downloadPdf(receiptRef.current, filename);
+    } catch {
+      alert("Sorry, the export failed. Please try again.");
+    } finally {
+      setExporting(null);
+    }
+  };
+
+  const grandTotal = doc.sections.reduce(
+    (sum, s) => (s.type === "items" ? sum + itemsTotals(s).total : sum),
+    0
+  );
+
+  // ---- per-section item helpers ----
+  const updateItem = (sec: ItemsSection, itemId: string, patch: Record<string, unknown>) =>
+    patchSection(sec.id, {
+      items: sec.items.map((i) => (i.id === itemId ? { ...i, ...patch } : i)),
+    });
+  const updateRow = (sec: TwoColSection, idx: number, patch: Record<string, unknown>) =>
+    patchSection(sec.id, { rows: sec.rows.map((r, i) => (i === idx ? { ...r, ...patch } : r)) });
+
+  function sectionBody(s: Section) {
+    switch (s.type) {
+      case "header":
+        return (
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-medium text-slate-600">Alignment</span>
+              <AlignToggle value={s.align ?? "center"} onChange={(v) => patchSection(s.id, { align: v })} />
+            </div>
+            <div>
+              <span className="mb-1.5 block text-xs font-medium text-slate-600">Logo</span>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => handleFile(e.target.files?.[0], (u) => patchSection(s.id, { logoDataUrl: u }))}
+                className="text-sm text-slate-600 file:mr-3 file:rounded-lg file:border-0 file:bg-indigo-50 file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-indigo-700"
+              />
+            </div>
+            <TextField label="Big logo text (optional)" defaultValue={s.logoText ?? ""} onChange={(v) => patchSection(s.id, { logoText: v || undefined })} placeholder="e.g. ACME" />
+            <TextField label="Store name" defaultValue={s.storeName} onChange={(v) => patchSection(s.id, { storeName: v })} />
+            <TextAreaField label="Address" defaultValue={s.address} onChange={(v) => patchSection(s.id, { address: v })} placeholder={"123 Main St\nCity, ST 00000"} />
+            <div className="grid gap-3 sm:grid-cols-2">
+              <TextField label="Phone" defaultValue={s.phone ?? ""} onChange={(v) => patchSection(s.id, { phone: v })} />
+              <TextField label="Website / Email" defaultValue={s.website ?? ""} onChange={(v) => patchSection(s.id, { website: v })} />
+            </div>
+          </div>
+        );
+      case "datetime":
+        return (
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-medium text-slate-600">Alignment</span>
+              <AlignToggle value={s.align ?? "left"} onChange={(v) => patchSection(s.id, { align: v })} />
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <TextField label="Date" type="date" defaultValue={s.date} onChange={(v) => patchSection(s.id, { date: v })} />
+              <TextField label="Time" type="time" defaultValue={s.time} onChange={(v) => patchSection(s.id, { time: v })} />
+            </div>
+            <TextField label="Receipt number" defaultValue={s.receiptNumber ?? ""} onChange={(v) => patchSection(s.id, { receiptNumber: v })} />
+          </div>
+        );
+      case "twocol":
+        return (
+          <div className="space-y-3">
+            <TextField label="Title (optional)" defaultValue={s.title ?? ""} onChange={(v) => patchSection(s.id, { title: v || undefined })} />
+            {s.rows.map((r, i) => (
+              <div key={i} className="flex items-center gap-2">
+                <input className={inputClass} defaultValue={r.label ?? ""} placeholder="Label" onChange={(e) => updateRow(s, i, { label: e.target.value })} />
+                <input className={inputClass} defaultValue={r.value} placeholder="Value" onChange={(e) => updateRow(s, i, { value: e.target.value })} />
+                <button type="button" aria-label="Remove line" onClick={() => patchSection(s.id, { rows: s.rows.filter((_, j) => j !== i) })} className="text-red-500 hover:text-red-600">✕</button>
+              </div>
+            ))}
+            <button type="button" onClick={() => patchSection(s.id, { rows: [...s.rows, { label: "", value: "" }] })} className="w-full rounded-lg border border-dashed border-slate-300 py-2 text-sm font-medium text-slate-500 hover:border-indigo-400 hover:text-indigo-600">+ Add line</button>
+          </div>
+        );
+      case "items":
+        return (
+          <div className="space-y-3">
+            <div className="flex justify-end">
+              <button type="button" onClick={() => patchSection(s.id, { items: [...s.items, { id: uid(), name: "", quantity: 1, price: 0 }] })} className="text-sm font-semibold text-indigo-600">+ Add item</button>
+            </div>
+            {s.items.map((it) => (
+              <div key={it.id} className="grid grid-cols-[52px_1fr_80px_28px] items-center gap-2">
+                <input className={inputClass} type="number" defaultValue={it.quantity} onChange={(e) => updateItem(s, it.id, { quantity: parseFloat(e.target.value) || 0 })} aria-label="Qty" />
+                <input className={inputClass} defaultValue={it.name} placeholder="Item name" onChange={(e) => updateItem(s, it.id, { name: e.target.value })} aria-label="Name" />
+                <input className={inputClass} type="number" step="0.01" defaultValue={it.price} onChange={(e) => updateItem(s, it.id, { price: parseFloat(e.target.value) || 0 })} aria-label="Price" />
+                <button type="button" aria-label="Remove item" onClick={() => patchSection(s.id, { items: s.items.filter((x) => x.id !== it.id) })} className="text-red-500 hover:text-red-600">✕</button>
+              </div>
+            ))}
+            <SelectField label="Item layout" defaultValue={s.itemStyle ?? "table"} onChange={(v) => patchSection(s.id, { itemStyle: v })} options={ITEM_STYLES} />
+            <div className="grid gap-3 sm:grid-cols-3">
+              <NumberField label="Tax rate (%)" defaultValue={s.taxRate} onChange={(v) => patchSection(s.id, { taxRate: v })} />
+              <NumberField label="Discount" defaultValue={s.discount} onChange={(v) => patchSection(s.id, { discount: v })} />
+              <NumberField label="Tip" defaultValue={s.tip} onChange={(v) => patchSection(s.id, { tip: v })} />
+            </div>
+            <TextField label="Total label" defaultValue={s.grandTotalLabel ?? ""} onChange={(v) => patchSection(s.id, { grandTotalLabel: v || undefined })} placeholder="TOTAL" />
+            <DividerRow label="Divider after totals" value={s.totalsDivider ?? "none"} onChange={(v) => patchSection(s.id, { totalsDivider: v })} />
+          </div>
+        );
+      case "payment":
+        return (
+          <div className="space-y-3">
+            <div className="grid grid-cols-2 gap-1 rounded-lg bg-slate-100 p-1">
+              {(["Cash", "Card"] as const).map((m) => (
+                <button key={m} type="button" onClick={() => patchSection(s.id, { method: m })} className={`rounded-md py-2 text-sm font-medium ${s.method === m ? "bg-white text-slate-900 shadow-sm" : "text-slate-500"}`}>{m}</button>
+              ))}
+            </div>
+            {s.method === "Card" ? (
+              <>
+                <SelectField label="Card type" defaultValue={s.cardType ?? "Credit"} onChange={(v) => patchSection(s.id, { cardType: v })} options={CARD_TYPES.map((c) => ({ value: c, label: c }))} />
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <TextField label="Card last 4" defaultValue={s.cardLastFour ?? ""} onChange={(v) => patchSection(s.id, { cardLastFour: v.replace(/\D/g, "").slice(0, 4) })} placeholder="1234" />
+                  <TextField label="Auth code" defaultValue={s.authCode ?? ""} onChange={(v) => patchSection(s.id, { authCode: v })} placeholder="123456" />
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-slate-700">Show card authorisation block</span>
+                  <Toggle checked={!!s.showCardAuth} onChange={(c) => patchSection(s.id, { showCardAuth: c })} />
+                </div>
+              </>
+            ) : (
+              <NumberField label="Amount tendered (for change)" defaultValue={s.amountTendered ?? 0} onChange={(v) => patchSection(s.id, { amountTendered: v })} />
+            )}
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-slate-700">Inline payment line</span>
+              <Toggle checked={!!s.inline} onChange={(c) => patchSection(s.id, { inline: c })} />
+            </div>
+          </div>
+        );
+      case "message":
+        return (
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-medium text-slate-600">Alignment</span>
+              <AlignToggle value={s.align ?? "center"} onChange={(v) => patchSection(s.id, { align: v })} />
+            </div>
+            <TextAreaField label="Message" defaultValue={s.text} onChange={(v) => patchSection(s.id, { text: v })} />
+          </div>
+        );
+      case "barcode":
+        return (
+          <div className="space-y-3">
+            <TextField label="Value" defaultValue={s.value} onChange={(v) => patchSection(s.id, { value: v })} />
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-slate-700">Show value text</span>
+              <Toggle checked={s.showText ?? true} onChange={(c) => patchSection(s.id, { showText: c })} />
+            </div>
+          </div>
+        );
+      case "qr":
+        return <TextField label="Value" defaultValue={s.value} onChange={(v) => patchSection(s.id, { value: v })} />;
+      case "image":
+        return (
+          <div className="space-y-3">
+            <input type="file" accept="image/*" onChange={(e) => handleFile(e.target.files?.[0], (u) => patchSection(s.id, { src: u }))} className="text-sm text-slate-600 file:mr-3 file:rounded-lg file:border-0 file:bg-indigo-50 file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-indigo-700" />
+            <label className="block text-xs font-medium text-slate-600">
+              Width: {s.widthPct ?? 50}%
+              <input type="range" min={20} max={100} defaultValue={s.widthPct ?? 50} onChange={(e) => patchSection(s.id, { widthPct: parseInt(e.target.value) })} className="mt-1 w-full" />
+            </label>
+          </div>
+        );
+      case "signature":
+        return (
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-medium text-slate-600">Alignment</span>
+              <AlignToggle value={s.align ?? "center"} onChange={(v) => patchSection(s.id, { align: v })} />
+            </div>
+            <TextField label="Label" defaultValue={s.label} onChange={(v) => patchSection(s.id, { label: v })} />
+          </div>
+        );
+      case "spacer":
+        return (
+          <label className="block text-xs font-medium text-slate-600">
+            Height: {s.size ?? 24}px
+            <input type="range" min={8} max={96} defaultValue={s.size ?? 24} onChange={(e) => patchSection(s.id, { size: parseInt(e.target.value) })} className="mt-1 w-full" />
+          </label>
+        );
+    }
+  }
+
+  return (
+    <div className="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">
+      {/* Top bar */}
+      <div className="flex items-center justify-between gap-3 border-b border-slate-200 py-4">
+        <h2 className="text-lg font-bold text-slate-900">Editor</h2>
+        <div className="flex items-center gap-2">
+          <button type="button" onClick={() => handleExport("png")} disabled={!!exporting} className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-60">🖼️ {exporting === "png" ? "…" : "PNG"}</button>
+          <button type="button" onClick={() => handleExport("pdf")} disabled={!!exporting} className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-60">📄 {exporting === "pdf" ? "…" : "PDF"}</button>
+          <button type="button" onClick={reset} className="rounded-lg px-3 py-1.5 text-sm font-medium text-slate-500 hover:text-slate-700">↺ Reset</button>
+        </div>
+      </div>
+
+      {/* Template quick-switch */}
+      <div className="-mx-4 overflow-x-auto px-4 py-4 sm:mx-0 sm:px-0">
+        <div className="flex gap-2">
+          {TEMPLATES.map((t) => (
+            <button key={t.slug} type="button" onClick={() => applyTemplate(t.slug)} className={`flex shrink-0 items-center gap-1.5 rounded-full border px-4 py-2 text-sm font-medium transition-colors ${activeTemplate === t.slug ? "border-indigo-600 bg-indigo-600 text-white" : "border-slate-200 bg-white text-slate-600 hover:border-indigo-300"}`}>
+              <span aria-hidden="true">{t.icon}</span>
+              {t.shortName}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Mobile tabs */}
+      <div className="mb-4 grid grid-cols-2 gap-1 rounded-full bg-slate-100 p-1 lg:hidden">
+        {(["edit", "preview"] as const).map((tab) => (
+          <button key={tab} type="button" onClick={() => setMobileTab(tab)} className={`rounded-full py-2 text-sm font-semibold capitalize ${mobileTab === tab ? "bg-white text-slate-900 shadow-sm" : "text-slate-500"}`}>{tab === "edit" ? "✏️ Edit" : "🧾 Preview"}</button>
+        ))}
+      </div>
+
+      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_440px]">
+        {/* EDITOR */}
+        <div className={`space-y-4 ${mobileTab === "edit" ? "" : "hidden"} lg:block`}>
+          {/* Settings */}
+          <div className="rounded-2xl border border-slate-200 bg-white shadow-sm">
+            <button type="button" onClick={() => setSettingsOpen((o) => !o)} className="flex w-full items-center justify-between p-4 text-sm font-semibold text-slate-900">
+              <span>⚙️ Settings</span>
+              <span>{settingsOpen ? "▴" : "▾"}</span>
+            </button>
+            {settingsOpen && (
+              <div className="grid gap-3 border-t border-slate-100 p-4 sm:grid-cols-2">
+                <SelectField label="Font" defaultValue={doc.settings.font} onChange={(v) => patchSettings({ font: v as FontFamily })} options={FONTS} />
+                <SelectField label="Currency" defaultValue={doc.settings.currency} onChange={(v) => patchSettings({ currency: v })} options={CURRENCIES.map((c) => ({ value: c.code, label: c.label }))} />
+                <label className="block text-xs font-medium text-slate-600">
+                  Paper width: {doc.settings.widthPx}px
+                  <input type="range" min={300} max={460} defaultValue={doc.settings.widthPx} onChange={(e) => patchSettings({ widthPx: parseInt(e.target.value) })} className="mt-1 w-full" />
+                </label>
+                <label className="block text-xs font-medium text-slate-600">
+                  Accent color
+                  <input type="color" defaultValue={doc.settings.accent} onChange={(e) => patchSettings({ accent: e.target.value })} className="mt-1 block h-9 w-full rounded-lg border border-slate-300" />
+                </label>
+              </div>
+            )}
+          </div>
+
+          {/* Section cards */}
+          {doc.sections.map((s, i) => (
+            <div
+              key={s.id}
+              className="rounded-2xl border border-slate-200 bg-white shadow-sm"
+              onDragOver={(e) => e.preventDefault()}
+              onDrop={() => {
+                if (dragIndex.current !== null) reorder(dragIndex.current, i);
+                dragIndex.current = null;
+              }}
+            >
+              <div className="flex items-center gap-2 border-b border-slate-100 p-4">
+                <span
+                  draggable
+                  onDragStart={() => (dragIndex.current = i)}
+                  className="cursor-grab select-none text-slate-300"
+                  aria-label="Drag to reorder"
+                >
+                  ⠿
+                </span>
+                <span className="flex-1 text-sm font-semibold text-slate-900">{SECTION_LABEL[s.type]}</span>
+                <button type="button" onClick={() => reorder(i, i - 1)} disabled={i === 0} className="text-slate-400 hover:text-slate-600 disabled:opacity-30" aria-label="Move up">↑</button>
+                <button type="button" onClick={() => reorder(i, i + 1)} disabled={i === doc.sections.length - 1} className="text-slate-400 hover:text-slate-600 disabled:opacity-30" aria-label="Move down">↓</button>
+                <button type="button" onClick={() => setCollapsed((c) => ({ ...c, [s.id]: !c[s.id] }))} className="text-slate-400 hover:text-slate-600" aria-label="Collapse">{collapsed[s.id] ? "▾" : "▴"}</button>
+                <button type="button" onClick={() => removeSection(s.id)} className="text-red-400 hover:text-red-600" aria-label="Remove section">✕</button>
+              </div>
+              {!collapsed[s.id] && (
+                <div className="space-y-4 p-4">
+                  {sectionBody(s)}
+                  {s.type !== "items" && (
+                    <DividerRow value={s.divider ?? "none"} onChange={(v) => patchSection(s.id, { divider: v })} />
+                  )}
+                  {s.type === "items" && (
+                    <DividerRow label="Divider after items" value={s.divider ?? "none"} onChange={(v) => patchSection(s.id, { divider: v })} />
+                  )}
+                </div>
+              )}
+            </div>
+          ))}
+
+          <button type="button" onClick={() => setShowAdd(true)} className="w-full rounded-2xl border border-dashed border-slate-300 py-3.5 text-sm font-semibold text-slate-500 hover:border-indigo-400 hover:text-indigo-600">+ Add Section</button>
+        </div>
+
+        {/* PREVIEW */}
+        <div className={`${mobileTab === "preview" ? "" : "hidden"} lg:block`}>
+          <div className="lg:sticky lg:top-20">
+            <div className="rounded-3xl bg-gradient-to-b from-slate-100 to-slate-200/60 p-6 sm:p-8">
+              <div className="mb-4 flex items-center justify-between">
+                <h2 className="text-sm font-semibold text-slate-700">Live Preview</h2>
+                <span className="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-medium text-emerald-700">Total: {formatMoney(grandTotal, doc.settings.currency)}</span>
+              </div>
+              <div className="flex justify-center">
+                <div ref={receiptRef}>
+                  <ReceiptDocPaper doc={doc} />
+                </div>
+              </div>
+              <div className="mt-6 flex gap-3">
+                <button type="button" onClick={() => handleExport("pdf")} disabled={!!exporting} className="flex-1 rounded-full bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 disabled:opacity-60">{exporting === "pdf" ? "Preparing PDF…" : "Download PDF"}</button>
+                <button type="button" onClick={() => handleExport("png")} disabled={!!exporting} className="flex-1 rounded-full border border-indigo-200 bg-indigo-50 px-5 py-3 text-sm font-semibold text-indigo-700 hover:bg-indigo-100 disabled:opacity-60">{exporting === "png" ? "Preparing PNG…" : "Download PNG"}</button>
+              </div>
+              <p className="mt-3 text-center text-[11px] leading-relaxed text-slate-400">Free download · No watermark · No sign-up</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {showAdd && <AddSectionModal onPick={addSection} onClose={() => setShowAdd(false)} />}
+    </div>
+  );
+}
