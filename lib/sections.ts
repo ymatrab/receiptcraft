@@ -451,38 +451,42 @@ export function docFromReceiptData(data: ReceiptData): ReceiptDoc {
     });
   }
 
-  sections.push({
-    id: uid(),
-    type: "items",
-    divider: d(true),
-    items: data.items.map((i) => ({ ...i, id: uid() })),
-    itemStyle: data.itemStyle,
-    itemHeader: data.itemHeader,
-    taxLabel: data.taxLabel,
-    taxRate: data.taxRate,
-    discount: data.discount,
-    tip: data.tip,
-    grandTotalLabel: data.grandTotalLabel,
-    totalsDivider: d(true),
-    showItemsSold: profile === "grocery" || profile === "warehouse",
-  });
+  if (!data.hideItems) {
+    sections.push({
+      id: uid(),
+      type: "items",
+      divider: d(true),
+      items: data.items.map((i) => ({ ...i, id: uid() })),
+      itemStyle: data.itemStyle,
+      itemHeader: data.itemHeader,
+      taxLabel: data.taxLabel,
+      taxRate: data.taxRate,
+      discount: data.discount,
+      tip: data.tip,
+      grandTotalLabel: data.grandTotalLabel,
+      totalsDivider: d(true),
+      showItemsSold: profile === "grocery" || profile === "warehouse",
+    });
+  }
 
-  sections.push({
-    id: uid(),
-    type: "payment",
-    divider: d(true),
-    method: data.paymentMethod === "Cash" ? "Cash" : "Card",
-    cardType:
-      data.paymentMethod === "Credit Card"
-        ? "Credit"
-        : data.paymentMethod === "Debit Card"
-          ? "Debit"
-          : data.paymentMethod,
-    cardLastFour: data.cardLastFour,
-    amountTendered: data.amountTendered,
-    showCardAuth: data.showCardAuth,
-    inline: data.paymentInline,
-  });
+  if (!data.hideTotals) {
+    sections.push({
+      id: uid(),
+      type: "payment",
+      divider: d(true),
+      method: data.paymentMethod === "Cash" ? "Cash" : "Card",
+      cardType:
+        data.paymentMethod === "Credit Card"
+          ? "Credit"
+          : data.paymentMethod === "Debit Card"
+            ? "Debit"
+            : data.paymentMethod,
+      cardLastFour: data.cardLastFour,
+      amountTendered: data.amountTendered,
+      showCardAuth: data.showCardAuth,
+      inline: data.paymentInline,
+    });
+  }
 
   if (data.footerMessage) {
     sections.push({ id: uid(), type: "message", align: "center", divider: "none", text: data.footerMessage });
