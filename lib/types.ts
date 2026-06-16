@@ -139,6 +139,8 @@ export interface ReceiptData {
   headerAlign?: "center" | "left";
   hideItems?: boolean; // pure key/value receipts (payments, transfers)
   hideTotals?: boolean;
+  logoText?: string; // render a large text wordmark instead of the image logo
+  hideStoreLine?: boolean; // suppress the auto "Store #/Reg" line
 }
 
 export interface ReceiptTotals {

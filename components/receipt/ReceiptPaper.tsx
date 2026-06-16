@@ -494,7 +494,11 @@ export default function ReceiptPaper({ data }: Props) {
         <div className="px-6 py-5">
           {/* Header */}
           <div className={alignClass}>
-            {data.logoDataUrl && (
+            {data.logoText ? (
+              <p className="mb-3 font-sans text-[2.6rem] font-black leading-none tracking-tight text-slate-900">
+                {data.logoText}
+              </p>
+            ) : data.logoDataUrl ? (
               <div className={`mb-2 flex ${align === "center" ? "justify-center" : ""}`}>
                 <LogoImg
                   src={data.logoDataUrl}
@@ -502,7 +506,7 @@ export default function ReceiptPaper({ data }: Props) {
                   maxHeight={logoMaxHeight}
                 />
               </div>
-            )}
+            ) : null}
             {!data.greeting && (
               <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.22em] text-slate-400">
                 {receiptTitle}
@@ -568,7 +572,7 @@ export default function ReceiptPaper({ data }: Props) {
                   {data.register && <span>{data.register}</span>}
                 </div>
               )}
-              {!isTicket && !data.register && (
+              {!isTicket && !data.register && !data.hideStoreLine && (
                 <div className="mt-0.5 flex flex-wrap justify-between gap-x-4 text-xs text-slate-600">
                   <span>Store #{storeNumber}</span>
                   <span>Reg {registerNumber}</span>
