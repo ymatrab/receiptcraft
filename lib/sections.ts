@@ -1,5 +1,6 @@
 import type {
   FontFamily,
+  ItemColumns,
   ItemStyle,
   LayoutVariant,
   LineItem,
@@ -64,9 +65,11 @@ export interface ItemsSection extends BaseSection {
   items: LineItem[];
   itemStyle?: ItemStyle;
   itemHeader?: { left: string; right: string };
+  columns?: ItemColumns; // custom table column names
   taxLabel: string;
   taxRate: number;
   discount: number;
+  discountPercent?: boolean; // treat `discount` as a % of subtotal
   tip: number;
   grandTotalLabel?: string;
   totalsDivider?: RuleStyle;
@@ -326,10 +329,14 @@ export function docFromReceiptData(data: ReceiptData): ReceiptDoc {
   };
 }
 
-/** Totals for an items section (reuses the same math as calcTotals). */
+/** Totals for an items section. `discount` is a flat amount, or a percent of
+ *  the subtotal when `discountPercent` is set. Returns the computed money values. */
 export function itemsTotals(s: ItemsSection) {
   const subtotal = s.items.reduce((sum, i) => sum + (i.quantity || 0) * (i.price || 0), 0);
-  const discount = Math.min(Math.max(s.discount || 0, 0), subtotal);
+  const rawDiscount = s.discountPercent
+    ? subtotal * (Math.max(s.discount || 0, 0) / 100)
+    : Math.max(s.discount || 0, 0);
+  const discount = Math.min(rawDiscount, subtotal);
   const taxable = subtotal - discount;
   const tax = taxable * ((s.taxRate || 0) / 100);
   const tip = Math.max(s.tip || 0, 0);
@@ -357,6 +364,7 @@ export function newSection(type: SectionType, currency = "USD"): Section {
         taxLabel: "Sales Tax",
         taxRate: 0,
         discount: 0,
+        discountPercent: true,
         tip: 0,
         totalsDivider: "dashed",
       };

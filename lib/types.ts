@@ -70,6 +70,14 @@ export type ItemStyle =
 
 export type FontFamily = "mono" | "sans" | "serif";
 
+/** Column header labels for the table item layout. */
+export interface ItemColumns {
+  item: string;
+  qty: string;
+  price: string;
+  total: string;
+}
+
 /** A row inside a receipt section: a key/value pair, or a plain line (no label). */
 export interface ReceiptRow {
   label?: string;

@@ -1,63 +1,37 @@
-// Deterministic decorative QR-style block: the same seed always renders the
-// same pattern, with three finder squares so it reads as a QR code. Not a
-// scannable code — receipts here are templates/mockups.
-function seededBits(seed: string, count: number): boolean[] {
-  let h = 2166136261;
-  for (let i = 0; i < seed.length; i++) {
-    h ^= seed.charCodeAt(i);
-    h = Math.imul(h, 16777619);
-  }
-  const bits: boolean[] = [];
-  for (let i = 0; i < count; i++) {
-    h ^= h << 13;
-    h ^= h >>> 17;
-    h ^= h << 5;
-    bits.push(Math.abs(h) % 2 === 0);
-  }
-  return bits;
-}
+import qrcode from "qrcode-generator";
 
-const N = 21; // grid size
+// Real, scannable QR code generated from the given value (error-correction
+// level M). Rendered as inline SVG so it exports cleanly to PNG/PDF.
+export default function Qr({ value, size = 116 }: { value: string; size?: number }) {
+  const qr = qrcode(0, "M");
+  qr.addData(value || " ");
+  qr.make();
+  const count = qr.getModuleCount();
+  const margin = 2; // quiet zone (required for scanners)
+  const dim = count + margin * 2;
 
-// Returns true/false for finder-pattern cells, or null for data cells.
-function finder(r: number, c: number): boolean | null {
-  for (const [r0, c0] of [
-    [0, 0],
-    [0, N - 7],
-    [N - 7, 0],
-  ]) {
-    if (r >= r0 && r < r0 + 7 && c >= c0 && c < c0 + 7) {
-      const rr = r - r0;
-      const cc = c - c0;
-      const border = rr === 0 || rr === 6 || cc === 0 || cc === 6;
-      const core = rr >= 2 && rr <= 4 && cc >= 2 && cc <= 4;
-      return border || core;
+  const rects: React.ReactNode[] = [];
+  for (let r = 0; r < count; r++) {
+    for (let c = 0; c < count; c++) {
+      if (qr.isDark(r, c)) {
+        rects.push(
+          <rect key={`${r}-${c}`} x={c + margin} y={r + margin} width={1} height={1} fill="#1e293b" />
+        );
+      }
     }
-    // 1-cell quiet separator around each finder
-    if (r >= r0 - 1 && r <= r0 + 7 && c >= c0 - 1 && c <= c0 + 7) return false;
   }
-  return null;
-}
 
-export default function Qr({ seed, size = 116 }: { seed: string; size?: number }) {
-  const bits = seededBits(seed || "000000", N * N);
   return (
     <svg
-      viewBox={`0 0 ${N} ${N}`}
+      viewBox={`0 0 ${dim} ${dim}`}
       width={size}
       height={size}
       shapeRendering="crispEdges"
-      aria-hidden="true"
+      role="img"
+      aria-label="QR code"
     >
-      {Array.from({ length: N * N }, (_, idx) => {
-        const r = Math.floor(idx / N);
-        const c = idx % N;
-        const f = finder(r, c);
-        const on = f === null ? bits[idx] : f;
-        return on ? (
-          <rect key={idx} x={c} y={r} width={1} height={1} fill="#1e293b" />
-        ) : null;
-      })}
+      <rect width={dim} height={dim} fill="#ffffff" />
+      {rects}
     </svg>
   );
 }

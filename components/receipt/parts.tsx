@@ -1,4 +1,4 @@
-import type { ItemStyle, LineItem, ReceiptSection, RuleStyle } from "@/lib/types";
+import type { ItemColumns, ItemStyle, LineItem, ReceiptSection, RuleStyle } from "@/lib/types";
 
 // Shared receipt primitives used by both the fixed ReceiptPaper renderer and the
 // section-based ReceiptDocPaper renderer, so the two never drift visually.
@@ -48,11 +48,13 @@ export function Items({
   style,
   money,
   header,
+  columns,
 }: {
   items: LineItem[];
   style: ItemStyle;
   money: (n: number) => string;
   header?: { left: string; right: string };
+  columns?: ItemColumns;
 }) {
   if (style === "qtycol") {
     return (
@@ -127,14 +129,15 @@ export function Items({
     );
   }
 
+  const col = columns ?? { item: "Item", qty: "Qty", price: "Price", total: "Total" };
   return (
     <table className="w-full">
       <thead>
         <tr className="text-left text-[11px] uppercase tracking-wider text-slate-500">
-          <th className="pb-1 font-medium">Item</th>
-          <th className="pb-1 text-center font-medium">Qty</th>
-          <th className="pb-1 text-right font-medium">Price</th>
-          <th className="pb-1 text-right font-medium">Total</th>
+          <th className="pb-1 font-medium">{col.item}</th>
+          <th className="pb-1 text-center font-medium">{col.qty}</th>
+          <th className="pb-1 text-right font-medium">{col.price}</th>
+          <th className="pb-1 text-right font-medium">{col.total}</th>
         </tr>
       </thead>
       <tbody>

@@ -73,7 +73,13 @@ export default function ReceiptDocPaper({ doc }: Props) {
         const t = itemsTotals(s);
         return (
           <>
-            <Items items={s.items} style={s.itemStyle ?? "table"} money={money} header={s.itemHeader} />
+            <Items
+              items={s.items}
+              style={s.itemStyle ?? "table"}
+              money={money}
+              header={s.itemHeader}
+              columns={s.columns}
+            />
             {s.totalsDivider && s.totalsDivider !== "none" && <Rule rule={s.totalsDivider} />}
             <div className="space-y-1 text-slate-600">
               <div className="flex justify-between">
@@ -82,7 +88,7 @@ export default function ReceiptDocPaper({ doc }: Props) {
               </div>
               {t.discount > 0 && (
                 <div className="flex justify-between text-emerald-700">
-                  <span>Discount</span>
+                  <span>Discount{s.discountPercent ? ` (${s.discount}%)` : ""}</span>
                   <span>-{money(t.discount)}</span>
                 </div>
               )}
@@ -168,7 +174,7 @@ export default function ReceiptDocPaper({ doc }: Props) {
       case "qr":
         return (
           <div className="flex justify-center">
-            <Qr seed={s.value} />
+            <Qr value={s.value} />
           </div>
         );
       case "image":

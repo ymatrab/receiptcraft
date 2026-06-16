@@ -590,7 +590,7 @@ export default function ReceiptPaper({ data }: Props) {
               {data.showBarcode &&
                 (data.qrCode ? (
                   <div className="mt-3 flex justify-center">
-                    <Qr seed={data.receiptNumber} />
+                    <Qr value={data.receiptNumber} />
                   </div>
                 ) : (
                   <div className="mt-3 flex flex-col items-center">

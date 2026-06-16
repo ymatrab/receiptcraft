@@ -41,6 +41,8 @@ const ITEM_STYLES = [
   { value: "equals", label: "Qty name = total" },
 ];
 const CARD_TYPES = ["Credit", "Debit", "Mobile Payment", "Gift Card"];
+const DEFAULT_COLS = { item: "Item", qty: "Qty", price: "Price", total: "Total" };
+const COLS = ["item", "qty", "price", "total"] as const;
 
 function getQueryTemplate(): string {
   if (typeof window === "undefined") return "";
@@ -215,9 +217,44 @@ export default function SectionBuilder() {
               </div>
             ))}
             <SelectField label="Item layout" defaultValue={s.itemStyle ?? "table"} onChange={(v) => patchSection(s.id, { itemStyle: v })} options={ITEM_STYLES} />
-            <div className="grid gap-3 sm:grid-cols-3">
+            {(s.itemStyle ?? "table") === "table" && (
+              <div>
+                <span className="mb-1.5 block text-xs font-medium text-slate-600">Column names</span>
+                <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+                  {COLS.map((k) => (
+                    <input
+                      key={k}
+                      className={inputClass}
+                      defaultValue={(s.columns ?? DEFAULT_COLS)[k]}
+                      onChange={(e) =>
+                        patchSection(s.id, { columns: { ...DEFAULT_COLS, ...s.columns, [k]: e.target.value } })
+                      }
+                      aria-label={`${k} column name`}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
+            {s.itemStyle === "lined" && (
+              <div className="grid grid-cols-2 gap-2">
+                <input className={inputClass} placeholder="Left header" defaultValue={s.itemHeader?.left ?? ""} onChange={(e) => patchSection(s.id, { itemHeader: { left: e.target.value, right: s.itemHeader?.right ?? "" } })} aria-label="Left header" />
+                <input className={inputClass} placeholder="Right header" defaultValue={s.itemHeader?.right ?? ""} onChange={(e) => patchSection(s.id, { itemHeader: { left: s.itemHeader?.left ?? "", right: e.target.value } })} aria-label="Right header" />
+              </div>
+            )}
+            <div className="grid items-start gap-3 sm:grid-cols-3">
               <NumberField label="Tax rate (%)" defaultValue={s.taxRate} onChange={(v) => patchSection(s.id, { taxRate: v })} />
-              <NumberField label="Discount" defaultValue={s.discount} onChange={(v) => patchSection(s.id, { discount: v })} />
+              <div>
+                <div className="mb-1.5 flex items-center justify-between gap-2">
+                  <span className="text-xs font-medium text-slate-600">
+                    Discount {s.discountPercent ? "(%)" : "($)"}
+                  </span>
+                  <div className="inline-flex overflow-hidden rounded-md border border-slate-200 text-xs">
+                    <button type="button" onClick={() => patchSection(s.id, { discountPercent: false })} className={`px-2 py-0.5 ${!s.discountPercent ? "bg-indigo-50 text-indigo-700" : "text-slate-500"}`}>$</button>
+                    <button type="button" onClick={() => patchSection(s.id, { discountPercent: true })} className={`px-2 py-0.5 ${s.discountPercent ? "bg-indigo-50 text-indigo-700" : "text-slate-500"}`}>%</button>
+                  </div>
+                </div>
+                <input type="number" step="0.01" className={inputClass} defaultValue={s.discount || ""} placeholder="0" onChange={(e) => patchSection(s.id, { discount: parseFloat(e.target.value) || 0 })} aria-label="Discount" />
+              </div>
               <NumberField label="Tip" defaultValue={s.tip} onChange={(v) => patchSection(s.id, { tip: v })} />
             </div>
             <TextField label="Total label" defaultValue={s.grandTotalLabel ?? ""} onChange={(v) => patchSection(s.id, { grandTotalLabel: v || undefined })} placeholder="TOTAL" />
