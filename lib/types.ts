@@ -65,7 +65,8 @@ export type ItemStyle =
   | "table" // Item / Qty / Price / Total columns
   | "stacked" // name over "qty @ price"
   | "equals" // "qty name ........ = total"
-  | "lined"; // header row + "name .......... total"
+  | "lined" // header row + "name .......... total"
+  | "qtycol"; // small qty column + name + line total
 
 export type FontFamily = "mono" | "sans" | "serif";
 
@@ -141,6 +142,7 @@ export interface ReceiptData {
   hideTotals?: boolean;
   logoText?: string; // render a large text wordmark instead of the image logo
   hideStoreLine?: boolean; // suppress the auto "Store #/Reg" line
+  qrCode?: boolean; // show a QR code instead of a barcode
 }
 
 export interface ReceiptTotals {

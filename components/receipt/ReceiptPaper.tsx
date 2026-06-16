@@ -10,6 +10,7 @@ import type {
 } from "@/lib/types";
 import { calcTotals, formatMoney, formatDisplayDate } from "@/lib/format";
 import Barcode from "./Barcode";
+import Qr from "./Qr";
 
 interface Props {
   data: ReceiptData;
@@ -184,6 +185,20 @@ function Items({
   money: (n: number) => string;
   header?: { left: string; right: string };
 }) {
+  if (style === "qtycol") {
+    return (
+      <div className="space-y-1">
+        {items.map((item) => (
+          <div key={item.id} className="flex items-baseline gap-2">
+            <span className="w-4 shrink-0 text-[11px] text-slate-500">{item.quantity}</span>
+            <span className="flex-1 break-words">{item.name || "—"}</span>
+            <span className="tabular-nums">{money(item.quantity * item.price)}</span>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   if (style === "lined") {
     return (
       <div>
@@ -512,7 +527,9 @@ export default function ReceiptPaper({ data }: Props) {
                 {receiptTitle}
               </p>
             )}
-            <p className={vs.nameClass}>{data.businessName || "Business Name"}</p>
+            {(data.businessName || !data.logoText) && (
+              <p className={vs.nameClass}>{data.businessName || "Business Name"}</p>
+            )}
             {data.addressLine1 && <p className="text-slate-600">{data.addressLine1}</p>}
             {data.addressLine2 && <p className="text-slate-600">{data.addressLine2}</p>}
             {data.phone && <p className="text-slate-600">{data.phone}</p>}
@@ -584,7 +601,7 @@ export default function ReceiptPaper({ data }: Props) {
             <div className="mt-0.5 text-xs text-slate-600">Member {memberNumber}</div>
           )}
 
-          {isTicket && !vs.posMeta && (
+          {isTicket && !vs.posMeta && !data.sections?.length && (
             <div className="mt-3 grid grid-cols-2 gap-2 text-center text-[11px] font-bold uppercase tracking-wide">
               <div className="rounded border border-dashed border-slate-300 py-1.5">
                 {data.register || "Counter Order"}
@@ -741,14 +758,19 @@ export default function ReceiptPaper({ data }: Props) {
                   Tell us how we did · survey #{storeNumber}-{registerNumber}
                 </p>
               )}
-              {data.showBarcode && (
-                <div className="mt-3 flex flex-col items-center">
-                  <Barcode seed={data.receiptNumber} />
-                  <p className="mt-1 text-[10px] tracking-[0.3em] text-slate-500">
-                    {data.receiptNumber}
-                  </p>
-                </div>
-              )}
+              {data.showBarcode &&
+                (data.qrCode ? (
+                  <div className="mt-3 flex justify-center">
+                    <Qr seed={data.receiptNumber} />
+                  </div>
+                ) : (
+                  <div className="mt-3 flex flex-col items-center">
+                    <Barcode seed={data.receiptNumber} />
+                    <p className="mt-1 text-[10px] tracking-[0.3em] text-slate-500">
+                      {data.receiptNumber}
+                    </p>
+                  </div>
+                ))}
             </div>
           )}
         </div>

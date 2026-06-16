@@ -217,6 +217,7 @@ const VARIANT_ORDER: LayoutVariant[] = [
 // template (see each brand's defaults in lib/brands.ts for the matching
 // greeting / sections / card-auth data).
 const VARIANT_OVERRIDE: Record<string, LayoutVariant> = {
+  mcdonalds: "classic", // Uber-style wordmark receipt
   ebay: "modern", // Grailed-style marketplace
   chipotle: "classic", // Spice Taj-style restaurant
   bp: "classic", // IndianOil-style fuel
