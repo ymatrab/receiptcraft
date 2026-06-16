@@ -82,6 +82,11 @@ const PROFILE_BY_SLUG: Record<string, ReceiptProfile> = {
   "o-reilly-auto-parts": "auto",
   // Sporting goods
   "dick-s-sporting-goods": "sporting",
+  // New luxury + grocery brands
+  gucci: "fashion",
+  rolex: "fashion",
+  "louis-vuitton": "fashion",
+  lidl: "grocery",
   zara: "fashion",
   "h-m": "fashion",
   "tj-maxx": "fashion",
