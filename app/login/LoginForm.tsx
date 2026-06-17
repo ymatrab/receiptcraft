@@ -12,6 +12,27 @@ export default function LoginForm() {
   const next = params.get("next") ?? "/account";
   const hadError = params.get("error");
   const [busy, setBusy] = useState<Provider | null>(null);
+  const [email, setEmail] = useState("");
+  const [emailBusy, setEmailBusy] = useState(false);
+  const [emailSent, setEmailSent] = useState(false);
+
+  async function sendMagicLink(e: React.FormEvent) {
+    e.preventDefault();
+    if (emailBusy || !email.trim()) return;
+    setEmailBusy(true);
+    const supabase = createClient();
+    const emailRedirectTo = `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}`;
+    const { error } = await supabase.auth.signInWithOtp({
+      email: email.trim(),
+      options: { emailRedirectTo },
+    });
+    setEmailBusy(false);
+    if (error) {
+      alert(`Couldn't send link: ${error.message}`);
+      return;
+    }
+    setEmailSent(true);
+  }
 
   async function signIn(provider: Provider) {
     if (busy) return;
@@ -44,6 +65,38 @@ export default function LoginForm() {
           Sign-in didn&apos;t complete. Please try again.
         </p>
       )}
+
+      {/* Email magic link — works without any OAuth provider setup */}
+      {emailSent ? (
+        <p className="rounded-xl bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
+          Check your inbox — we emailed a sign-in link to <strong>{email}</strong>.
+        </p>
+      ) : (
+        <form onSubmit={sendMagicLink} className="space-y-2">
+          <input
+            type="email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="you@example.com"
+            className="w-full rounded-full border border-slate-300 px-4 py-3 text-sm focus:border-indigo-400 focus:outline-none"
+          />
+          <button
+            type="submit"
+            disabled={emailBusy || !email.trim()}
+            className="w-full rounded-full bg-indigo-600 px-5 py-3 text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60"
+          >
+            {emailBusy ? "Sending…" : "Email me a sign-in link"}
+          </button>
+        </form>
+      )}
+
+      <div className="flex items-center gap-3 py-1">
+        <span className="h-px flex-1 bg-slate-200" />
+        <span className="text-[11px] uppercase tracking-wide text-slate-400">or</span>
+        <span className="h-px flex-1 bg-slate-200" />
+      </div>
+
       <button
         type="button"
         onClick={() => signIn("google")}
