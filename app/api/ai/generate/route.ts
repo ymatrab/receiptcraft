@@ -96,7 +96,18 @@ export async function POST(req: Request) {
     )) as AiReceiptResult;
   } catch (err) {
     console.error("[ai] generation failed", err);
-    return NextResponse.json({ error: "Generation failed. Please try again." }, { status: 502 });
+    const msg = err instanceof Error ? err.message : String(err);
+    // Provider quota / rate-limit / overload → tell the user to come back later.
+    if (/\b429\b|quota|resource_exhausted|rate.?limit|overloaded|exhausted/i.test(msg)) {
+      return NextResponse.json(
+        { error: "The AI generator is taking a break right now — please try again in a little while." },
+        { status: 503 }
+      );
+    }
+    return NextResponse.json(
+      { error: "Couldn't generate that one — please try again in a moment." },
+      { status: 502 }
+    );
   }
 
   // Record usage for rate limiting (free users only).

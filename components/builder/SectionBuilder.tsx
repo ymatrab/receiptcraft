@@ -31,6 +31,7 @@ import { createClient } from "@/lib/supabase/client";
 import { supabaseConfigured } from "@/lib/supabase/config";
 import Link from "next/link";
 import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
+import Watermark from "@/components/receipt/Watermark";
 import AddSectionModal from "./AddSectionModal";
 import {
   AlignToggle,
@@ -254,8 +255,8 @@ export default function SectionBuilder() {
         header?.storeName ?? "receipt",
         (dt && "receiptNumber" in dt && dt.receiptNumber) || "0000"
       );
-      if (kind === "png") await downloadPng(receiptRef.current, filename, watermark);
-      else await downloadPdf(receiptRef.current, filename, watermark);
+      if (kind === "png") await downloadPng(receiptRef.current, filename);
+      else await downloadPdf(receiptRef.current, filename);
     } catch {
       alert("Sorry, the export failed. Please try again.");
     } finally {
@@ -671,8 +672,9 @@ export default function SectionBuilder() {
                 <span className="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-medium text-emerald-700">Total: {formatMoney(grandTotal, doc.settings.currency)}</span>
               </div>
               <div className="flex justify-center">
-                <div ref={receiptRef}>
+                <div ref={receiptRef} className="relative">
                   <ReceiptDocPaper doc={doc} />
+                  {watermark && <Watermark />}
                 </div>
               </div>
               <div className="mt-6 flex gap-3">
