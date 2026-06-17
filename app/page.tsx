@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { SITE } from "@/lib/site";
+import HomeAiGenerator from "@/components/HomeAiGenerator";
 import { TEMPLATES } from "@/lib/templates";
 import { HOMEPAGE_FAQS } from "@/lib/faqs";
 import type { ReceiptData } from "@/lib/types";
@@ -174,6 +175,9 @@ export default function HomePage() {
               items, tax and payment details with a live preview, then download
               your receipt as a PDF or PNG — instantly.
             </p>
+
+            <HomeAiGenerator />
+
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
                 href="/create"
@@ -190,7 +194,7 @@ export default function HomePage() {
             </div>
             <dl className="mt-10 grid max-w-md grid-cols-3 gap-6">
               <div>
-                <dt className="text-2xl font-bold text-slate-900">12+</dt>
+                <dt className="text-2xl font-bold text-slate-900">100+</dt>
                 <dd className="mt-0.5 text-sm text-slate-500">Templates</dd>
               </div>
               <div>

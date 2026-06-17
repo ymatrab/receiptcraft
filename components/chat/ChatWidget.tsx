@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
@@ -24,7 +24,38 @@ export default function ChatWidget() {
   const [sending, setSending] = useState(false);
   const endRef = useRef<HTMLDivElement>(null);
 
-  const ensureConversation = useCallback(async (): Promise<string | null> => {
+  // Load the user's existing conversation + full history as soon as they're
+  // known — so the thread persists across reloads and page navigation. We do
+  // NOT create a conversation here; that happens lazily on the first send, to
+  // avoid spawning empty conversations.
+  useEffect(() => {
+    if (!account.isLoggedIn) return;
+    let active = true;
+    (async () => {
+      const supabase = createClient();
+      const { data: convo } = await supabase
+        .from("conversations")
+        .select("id")
+        .order("last_message_at", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+      if (!active || !convo?.id) return;
+      setConversationId(convo.id);
+      const { data } = await supabase
+        .from("messages")
+        .select("*")
+        .eq("conversation_id", convo.id)
+        .order("created_at", { ascending: true });
+      if (active) setMessages((data as ChatMessage[]) ?? []);
+    })();
+    return () => {
+      active = false;
+    };
+  }, [account.isLoggedIn]);
+
+  /** Returns the conversation id, creating one on first use. */
+  async function getOrCreateConversation(): Promise<string | null> {
+    if (conversationId) return conversationId;
     const supabase = createClient();
     const { data: existing } = await supabase
       .from("conversations")
@@ -32,36 +63,19 @@ export default function ChatWidget() {
       .order("last_message_at", { ascending: false })
       .limit(1)
       .maybeSingle();
-    if (existing?.id) return existing.id;
-
-    const { data: created } = await supabase
-      .from("conversations")
-      .insert({ user_id: account.userId })
-      .select("id")
-      .single();
-    return created?.id ?? null;
-  }, [account.userId]);
-
-  // Open the conversation + load history the first time the panel opens.
-  useEffect(() => {
-    if (!open || !account.isLoggedIn || conversationId) return;
-    let active = true;
-    (async () => {
-      const id = await ensureConversation();
-      if (!active || !id) return;
-      setConversationId(id);
-      const supabase = createClient();
-      const { data } = await supabase
-        .from("messages")
-        .select("*")
-        .eq("conversation_id", id)
-        .order("created_at", { ascending: true });
-      if (active) setMessages((data as ChatMessage[]) ?? []);
-    })();
-    return () => {
-      active = false;
-    };
-  }, [open, account.isLoggedIn, conversationId, ensureConversation]);
+    const id =
+      existing?.id ??
+      (
+        await supabase
+          .from("conversations")
+          .insert({ user_id: account.userId })
+          .select("id")
+          .single()
+      ).data?.id ??
+      null;
+    if (id) setConversationId(id);
+    return id;
+  }
 
   // Subscribe to new messages for this conversation.
   useEffect(() => {
@@ -94,12 +108,18 @@ export default function ChatWidget() {
 
   async function send() {
     const text = draft.trim();
-    if (!text || !conversationId || sending) return;
+    if (!text || sending) return;
     setSending(true);
     setDraft("");
+    const id = await getOrCreateConversation();
+    if (!id) {
+      setDraft(text);
+      setSending(false);
+      return;
+    }
     const supabase = createClient();
     const { error } = await supabase.from("messages").insert({
-      conversation_id: conversationId,
+      conversation_id: id,
       sender_id: account.userId,
       sender_role: "user",
       body: text,

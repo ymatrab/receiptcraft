@@ -84,8 +84,20 @@ export default function SectionBuilder() {
   const [aiLoading, setAiLoading] = useState(false);
   const [aiError, setAiError] = useState<string | null>(null);
   const [saveState, setSaveState] = useState<"idle" | "saving" | "saved">("idle");
+  const [exportFormat, setExportFormat] = useState<"pdf" | "png">("pdf");
 
   useEffect(() => {
+    // A receipt generated from the homepage AI box, handed off via sessionStorage.
+    const handoff = sessionStorage.getItem("rc_ai_receipt");
+    if (handoff) {
+      sessionStorage.removeItem("rc_ai_receipt");
+      try {
+        applyAi(JSON.parse(handoff) as AiReceiptResult);
+        return;
+      } catch {
+        /* fall through to template/receipt handling */
+      }
+    }
     const params = new URLSearchParams(window.location.search);
     const receiptId = params.get("receipt");
     if (receiptId && supabaseConfigured) {
@@ -462,18 +474,50 @@ export default function SectionBuilder() {
   return (
     <div className="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">
       {/* Top bar */}
-      <div className="flex items-center justify-between gap-3 border-b border-slate-200 py-4">
-        <h2 className="text-lg font-bold text-slate-900">Editor</h2>
-        <div className="flex items-center gap-2">
-          <button type="button" onClick={() => handleExport("png")} disabled={!!exporting} className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-60">🖼️ {exporting === "png" ? "…" : "PNG"}</button>
-          <button type="button" onClick={() => handleExport("pdf")} disabled={!!exporting} className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-60">📄 {exporting === "pdf" ? "…" : "PDF"}</button>
-          {account.isLoggedIn && (
-            <button type="button" onClick={saveReceipt} disabled={saveState === "saving"} className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-60">
-              {saveState === "saving" ? "Saving…" : saveState === "saved" ? "✓ Saved" : "💾 Save"}
+      <div className="sticky top-16 z-30 -mx-4 mb-1 flex items-center justify-end gap-2 border-b border-slate-200 bg-slate-50/80 px-4 py-3 backdrop-blur sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
+        {/* Format toggle */}
+        <div className="inline-flex overflow-hidden rounded-lg border border-slate-300 bg-white text-xs font-medium">
+          {(["pdf", "png"] as const).map((f) => (
+            <button
+              key={f}
+              type="button"
+              onClick={() => setExportFormat(f)}
+              className={`px-3 py-1.5 uppercase ${exportFormat === f ? "bg-slate-900 text-white" : "text-slate-500 hover:text-slate-700"}`}
+            >
+              {f}
             </button>
-          )}
-          <button type="button" onClick={reset} className="rounded-lg px-3 py-1.5 text-sm font-medium text-slate-500 hover:text-slate-700">↺ Reset</button>
+          ))}
         </div>
+
+        {/* Primary download */}
+        <button
+          type="button"
+          onClick={() => handleExport(exportFormat)}
+          disabled={!!exporting}
+          className="inline-flex items-center gap-1.5 rounded-lg bg-indigo-600 px-4 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 disabled:opacity-60"
+        >
+          {exporting ? "Preparing…" : `⬇ Download`}
+        </button>
+
+        {account.isLoggedIn && (
+          <button
+            type="button"
+            onClick={saveReceipt}
+            disabled={saveState === "saving"}
+            title="Save to your account"
+            className="rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-sm text-slate-600 hover:bg-slate-50 disabled:opacity-60"
+          >
+            {saveState === "saving" ? "…" : saveState === "saved" ? "✓" : "💾"}
+          </button>
+        )}
+        <button
+          type="button"
+          onClick={reset}
+          title="Reset"
+          className="rounded-lg px-2.5 py-1.5 text-sm text-slate-400 hover:text-slate-700"
+        >
+          ↺
+        </button>
       </div>
 
       {/* AI generator */}
