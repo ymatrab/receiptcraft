@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import SectionBuilder from "@/components/builder/SectionBuilder";
 
-export const runtime = "edge";
-
 export const metadata: Metadata = {
   title: "Receipt Builder — Create a Custom Receipt Online",
   description:
