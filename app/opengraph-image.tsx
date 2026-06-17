@@ -45,7 +45,7 @@ export default function OpenGraphImage() {
             Make a receipt in 60 seconds
           </div>
           <div style={{ marginTop: 28, color: "#c7d2fe", fontSize: 30, lineHeight: 1.4 }}>
-            Free · No sign-up · No watermark · PDF & PNG download
+            Free · No sign-up · 100+ templates · PDF & PNG download
           </div>
         </div>
 

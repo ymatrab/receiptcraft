@@ -30,7 +30,7 @@ const BRAND_FAQS = [
   {
     question: "Are brand receipts downloaded with a watermark?",
     answer:
-      "No. PDF and PNG downloads are clean and do not include Makecepeit branding or watermarks on the receipt.",
+      "Free downloads include a small Makecepeit watermark. Upgrade to Pro for clean PDF and PNG receipts with no branding or watermark on the document.",
   },
   {
     question: "Is my receipt data stored?",

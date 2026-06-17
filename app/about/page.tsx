@@ -18,9 +18,9 @@ export default function AboutPage() {
         <p>
           {SITE.name} is a free online receipt maker built around three ideas:
           it should be <strong className="text-slate-900">fast</strong> (a finished receipt in under a
-          minute), <strong className="text-slate-900">honest</strong> (genuinely free — no trial walls,
-          watermarks or surprise paywalls), and{" "}
-          <strong className="text-slate-900">private</strong> (your data never leaves your browser).
+          minute), <strong className="text-slate-900">honest</strong> (free to use with no sign-up; an
+          optional Pro plan removes the watermark — no trial walls or surprise paywalls), and{" "}
+          <strong className="text-slate-900">private</strong> (your receipt data never leaves your browser).
         </p>
         <p>
           Receipts go missing. Thermal paper fades in months. Pump printers run

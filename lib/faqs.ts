@@ -5,9 +5,9 @@ export interface Faq {
 
 export const HOMEPAGE_FAQS: Faq[] = [
   {
-    question: "Is Makecepeit really free?",
+    question: "Is Makecepeit free?",
     answer:
-      "Yes. Every feature is free: all 12+ templates, unlimited line items, live preview, and unlimited PDF and PNG downloads. There is no trial, no premium tier, no watermark and no hidden cost.",
+      "Yes. You can use every template, unlimited line items, live preview and PDF/PNG downloads for free, with no sign-up. Free downloads include a small Makecepeit watermark. Upgrade to Pro to remove the watermark and unlock HD exports, unlimited AI generation and saved receipt history.",
   },
   {
     question: "Do I need to create an account to make a receipt?",
@@ -37,7 +37,7 @@ export const HOMEPAGE_FAQS: Faq[] = [
   {
     question: "Will my receipt have a watermark?",
     answer:
-      "No. Downloaded receipts are completely clean, with no watermark, logo or branding from Makecepeit anywhere on the document.",
+      "Free downloads include a small Makecepeit watermark. Upgrading to Pro removes it completely, so your PDF and PNG receipts are clean with no branding anywhere on the document.",
   },
   {
     question: "Is my data stored anywhere?",

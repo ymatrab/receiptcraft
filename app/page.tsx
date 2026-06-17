@@ -69,9 +69,9 @@ const FEATURES = [
   },
   {
     icon: "🆓",
-    title: "Free, no sign-up, no watermark",
+    title: "Free to start, no sign-up",
     description:
-      "No account, no email, no trial limits, no branding on your receipt. Just create and download.",
+      "Create and download receipts free with no account. Go Pro to remove the watermark and unlock HD exports.",
   },
 ];
 
@@ -89,7 +89,7 @@ const STEPS = [
   {
     title: "Download instantly",
     description:
-      "Export your receipt as a PDF or high-resolution PNG with one click. No watermark, no sign-up, completely free.",
+      "Export your receipt as a PDF or high-resolution PNG with one click — free, no sign-up. Upgrade to Pro for watermark-free HD downloads.",
   },
 ];
 
@@ -119,7 +119,7 @@ const appJsonLd = {
     "Custom tax, discount and tip",
     "10 currencies",
     "No sign-up required",
-    "No watermark",
+    "AI receipt generator",
   ],
 };
 
@@ -161,7 +161,7 @@ export default function HomePage() {
           <div>
             <p className="inline-flex items-center gap-1.5 rounded-full border border-indigo-200 bg-indigo-50 px-3 py-1 text-xs font-medium text-indigo-700">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-              Free forever · No sign-up · No watermark
+              Free to use · No sign-up · 100+ templates
             </p>
             <h1 className="mt-5 text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
               Make a receipt in{" "}
@@ -340,7 +340,7 @@ export default function HomePage() {
             Your receipt is 60 seconds away
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-lg text-indigo-100">
-            No sign-up. No watermark. No catch. Just a clean, professional
+            No sign-up to start. 100+ templates. Just a clean, professional
             receipt ready to download.
           </p>
           <Link

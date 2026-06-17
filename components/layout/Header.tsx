@@ -3,17 +3,22 @@
 import { useState } from "react";
 import Link from "next/link";
 import { SITE } from "@/lib/site";
+import { useAccount } from "@/lib/useAccount";
 import Wordmark from "./Wordmark";
 
 const NAV_LINKS = [
   { href: "/templates", label: "Templates" },
   { href: "/brands", label: "Brands" },
-  { href: "/#how-it-works", label: "How It Works" },
+  { href: "/pricing", label: "Pricing" },
+  { href: "/blog", label: "Blog" },
   { href: "/#faq", label: "FAQ" },
 ];
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const { account } = useAccount();
+  const accountHref = account.isLoggedIn ? "/account" : "/login";
+  const accountLabel = account.isLoggedIn ? "Account" : "Log in";
 
   return (
     <header className="sticky top-0 z-50 border-b border-slate-200/70 bg-white/80 backdrop-blur-lg">
@@ -35,6 +40,12 @@ export default function Header() {
               {link.label}
             </Link>
           ))}
+          <Link
+            href={accountHref}
+            className="text-sm font-medium text-slate-600 transition-colors hover:text-slate-900"
+          >
+            {accountLabel}
+          </Link>
           <Link
             href="/create"
             className="rounded-full bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-indigo-700 hover:shadow-md"
@@ -72,6 +83,13 @@ export default function Header() {
               {link.label}
             </Link>
           ))}
+          <Link
+            href={accountHref}
+            onClick={() => setOpen(false)}
+            className="block rounded-lg px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50"
+          >
+            {accountLabel}
+          </Link>
           <Link
             href="/create"
             onClick={() => setOpen(false)}

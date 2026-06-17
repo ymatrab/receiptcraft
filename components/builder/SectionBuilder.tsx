@@ -23,7 +23,13 @@ import {
 import { getTemplate, TEMPLATES } from "@/lib/templates";
 import { receiptFromTemplate } from "@/lib/receipt";
 import { CURRENCIES, formatMoney, uid } from "@/lib/format";
+import type { ReceiptData } from "@/lib/types";
+import type { AiReceiptResult } from "@/lib/ai-receipt";
 import { downloadPng, downloadPdf, exportFilename } from "@/lib/download";
+import { useAccount } from "@/lib/useAccount";
+import { createClient } from "@/lib/supabase/client";
+import { supabaseConfigured } from "@/lib/supabase/config";
+import Link from "next/link";
 import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
 import AddSectionModal from "./AddSectionModal";
 import {
@@ -71,12 +77,49 @@ export default function SectionBuilder() {
   const [activeTemplate, setActiveTemplate] = useState("");
   const dragIndex = useRef<number | null>(null);
   const receiptRef = useRef<HTMLDivElement>(null);
+  const { account } = useAccount();
+  // Free / anonymous users export with a watermark; Pro removes it.
+  const watermark = !account.isPro;
+  const [aiPrompt, setAiPrompt] = useState("");
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiError, setAiError] = useState<string | null>(null);
+  const [saveState, setSaveState] = useState<"idle" | "saving" | "saved">("idle");
 
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const receiptId = params.get("receipt");
+    if (receiptId && supabaseConfigured) {
+      loadReceipt(receiptId);
+      return;
+    }
     const slug = getQueryTemplate();
     if (slug) applyTemplate(slug);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const loadReceipt = async (id: string) => {
+    const supabase = createClient();
+    const { data } = await supabase.from("receipts").select("data").eq("id", id).maybeSingle();
+    if (data?.data) setDoc(data.data as ReceiptDoc);
+  };
+
+  const saveReceipt = async () => {
+    if (saveState === "saving") return;
+    setSaveState("saving");
+    const supabase = createClient();
+    const header = doc.sections.find((s) => s.type === "header") as HeaderSection | undefined;
+    const { error } = await supabase.from("receipts").insert({
+      user_id: account.userId,
+      title: header?.storeName || "Untitled receipt",
+      data: doc,
+    });
+    if (error) {
+      setSaveState("idle");
+      alert("Couldn't save. Make sure you're logged in.");
+      return;
+    }
+    setSaveState("saved");
+    setTimeout(() => setSaveState("idle"), 2000);
+  };
 
   // ---- mutations ----
   const patchSettings = (p: Partial<ReceiptDoc["settings"]>) =>
@@ -118,6 +161,62 @@ export default function SectionBuilder() {
     setActiveTemplate("");
   };
 
+  // Convert the AI result into a full ReceiptData and load it into the builder.
+  const applyAi = (r: AiReceiptResult) => {
+    const data: ReceiptData = {
+      businessName: r.businessName,
+      logoDataUrl: "",
+      addressLine1: r.addressLine1,
+      addressLine2: r.addressLine2,
+      phone: r.phone,
+      website: r.website,
+      receiptNumber: r.receiptNumber,
+      date: r.date,
+      time: r.time,
+      cashier: "",
+      register: "",
+      items: r.items.map((it) => ({ id: uid(), name: it.name, quantity: it.quantity, price: it.price })),
+      currency: r.currency || "USD",
+      taxLabel: r.taxLabel || "Sales Tax",
+      taxRate: r.taxRate || 0,
+      discount: 0,
+      tip: 0,
+      paymentMethod: (r.paymentMethod as ReceiptData["paymentMethod"]) || "Credit Card",
+      cardLastFour: "",
+      amountTendered: 0,
+      footerMessage: r.footerMessage,
+      showBarcode: true,
+      paperStyle: "thermal",
+    };
+    setDoc(docFromReceiptData(data));
+    setActiveTemplate("");
+    setCollapsed({});
+  };
+
+  const generateAi = async () => {
+    if (!aiPrompt.trim() || aiLoading) return;
+    setAiLoading(true);
+    setAiError(null);
+    try {
+      const res = await fetch("/api/ai/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt: aiPrompt }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setAiError(data.error ?? "Generation failed.");
+        return;
+      }
+      applyAi(data.receipt as AiReceiptResult);
+      setAiPrompt("");
+    } catch {
+      setAiError("Generation failed. Please try again.");
+    } finally {
+      setAiLoading(false);
+    }
+  };
+
   const applyPreset = (id: PresetId) => {
     setDoc(presetDoc(id));
     setActiveTemplate("");
@@ -143,8 +242,8 @@ export default function SectionBuilder() {
         header?.storeName ?? "receipt",
         (dt && "receiptNumber" in dt && dt.receiptNumber) || "0000"
       );
-      if (kind === "png") await downloadPng(receiptRef.current, filename);
-      else await downloadPdf(receiptRef.current, filename);
+      if (kind === "png") await downloadPng(receiptRef.current, filename, watermark);
+      else await downloadPdf(receiptRef.current, filename, watermark);
     } catch {
       alert("Sorry, the export failed. Please try again.");
     } finally {
@@ -368,8 +467,53 @@ export default function SectionBuilder() {
         <div className="flex items-center gap-2">
           <button type="button" onClick={() => handleExport("png")} disabled={!!exporting} className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-60">🖼️ {exporting === "png" ? "…" : "PNG"}</button>
           <button type="button" onClick={() => handleExport("pdf")} disabled={!!exporting} className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-60">📄 {exporting === "pdf" ? "…" : "PDF"}</button>
+          {account.isLoggedIn && (
+            <button type="button" onClick={saveReceipt} disabled={saveState === "saving"} className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-60">
+              {saveState === "saving" ? "Saving…" : saveState === "saved" ? "✓ Saved" : "💾 Save"}
+            </button>
+          )}
           <button type="button" onClick={reset} className="rounded-lg px-3 py-1.5 text-sm font-medium text-slate-500 hover:text-slate-700">↺ Reset</button>
         </div>
+      </div>
+
+      {/* AI generator */}
+      <div className="mt-4 rounded-2xl border border-indigo-100 bg-gradient-to-br from-indigo-50 to-violet-50 p-4">
+        <div className="flex items-center gap-2">
+          <span aria-hidden="true">✨</span>
+          <span className="text-sm font-semibold text-slate-900">Generate with AI</span>
+          {!account.isPro && (
+            <span className="rounded-full bg-white px-2 py-0.5 text-[11px] font-medium text-indigo-600">
+              {account.isLoggedIn ? "Free: limited per day" : "Free to try"}
+            </span>
+          )}
+        </div>
+        <div className="mt-3 flex flex-col gap-2 sm:flex-row">
+          <input
+            value={aiPrompt}
+            onChange={(e) => setAiPrompt(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && generateAi()}
+            placeholder="e.g. Starbucks receipt, 2 lattes and a muffin, this morning"
+            className="flex-1 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm focus:border-indigo-400 focus:outline-none"
+          />
+          <button
+            type="button"
+            onClick={generateAi}
+            disabled={aiLoading || !aiPrompt.trim()}
+            className="rounded-lg bg-indigo-600 px-5 py-2 text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60"
+          >
+            {aiLoading ? "Generating…" : "Generate"}
+          </button>
+        </div>
+        {aiError && (
+          <p className="mt-2 text-xs text-red-600">
+            {aiError}{" "}
+            {aiError.includes("Upgrade") || aiError.includes("upgrade") ? (
+              <Link href="/pricing" className="font-semibold underline">
+                See plans
+              </Link>
+            ) : null}
+          </p>
+        )}
       </div>
 
       {/* Start-from-scratch presets */}
@@ -491,7 +635,18 @@ export default function SectionBuilder() {
                 <button type="button" onClick={() => handleExport("pdf")} disabled={!!exporting} className="flex-1 rounded-full bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 disabled:opacity-60">{exporting === "pdf" ? "Preparing PDF…" : "Download PDF"}</button>
                 <button type="button" onClick={() => handleExport("png")} disabled={!!exporting} className="flex-1 rounded-full border border-indigo-200 bg-indigo-50 px-5 py-3 text-sm font-semibold text-indigo-700 hover:bg-indigo-100 disabled:opacity-60">{exporting === "png" ? "Preparing PNG…" : "Download PNG"}</button>
               </div>
-              <p className="mt-3 text-center text-[11px] leading-relaxed text-slate-400">Free download · No watermark · No sign-up</p>
+              {watermark ? (
+                <p className="mt-3 text-center text-[11px] leading-relaxed text-slate-500">
+                  Free download · includes a small watermark ·{" "}
+                  <Link href="/pricing" className="font-semibold text-indigo-600 hover:text-indigo-700">
+                    Upgrade to remove
+                  </Link>
+                </p>
+              ) : (
+                <p className="mt-3 text-center text-[11px] leading-relaxed text-emerald-600">
+                  ✓ Pro · watermark-free HD downloads
+                </p>
+              )}
             </div>
           </div>
         </div>
