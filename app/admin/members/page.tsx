@@ -1,5 +1,6 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 import { isProStatus } from "@/lib/plans";
+import { grantPro, revokePro } from "./actions";
 
 export const dynamic = "force-dynamic";
 
@@ -44,6 +45,7 @@ export default async function AdminMembers() {
               <th className="px-4 py-3">Name</th>
               <th className="px-4 py-3">Plan</th>
               <th className="px-4 py-3">Joined</th>
+              <th className="px-4 py-3">Membership</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
@@ -71,6 +73,33 @@ export default async function AdminMembers() {
                   </td>
                   <td className="px-4 py-3 text-slate-400">
                     {new Date(m.created_at).toLocaleDateString()}
+                  </td>
+                  <td className="px-4 py-3">
+                    {pro ? (
+                      <form action={revokePro}>
+                        <input type="hidden" name="userId" value={m.id} />
+                        <button className="rounded-md border border-red-200 px-2 py-1 text-xs font-medium text-red-600 hover:bg-red-50">
+                          Revoke
+                        </button>
+                      </form>
+                    ) : (
+                      <div className="flex gap-1.5">
+                        <form action={grantPro}>
+                          <input type="hidden" name="userId" value={m.id} />
+                          <input type="hidden" name="months" value="1" />
+                          <button className="rounded-md border border-emerald-200 px-2 py-1 text-xs font-medium text-emerald-700 hover:bg-emerald-50">
+                            Grant 1mo
+                          </button>
+                        </form>
+                        <form action={grantPro}>
+                          <input type="hidden" name="userId" value={m.id} />
+                          <input type="hidden" name="months" value="12" />
+                          <button className="rounded-md border border-emerald-200 px-2 py-1 text-xs font-medium text-emerald-700 hover:bg-emerald-50">
+                            Grant 1yr
+                          </button>
+                        </form>
+                      </div>
+                    )}
                   </td>
                 </tr>
               );

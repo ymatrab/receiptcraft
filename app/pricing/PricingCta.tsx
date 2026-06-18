@@ -39,7 +39,12 @@ export default function PricingCta({ planId, paymentLink, label, className }: Pr
     }
 
     const url = new URL(paymentLink);
-    url.searchParams.set("client_reference_id", account.userId!);
+    // Stripe links use client_reference_id to map the payment to the user via
+    // webhook. Other providers (e.g. Shopify) are reconciled manually by email,
+    // so we only add the param for Stripe to keep their URLs clean.
+    if (url.hostname.includes("stripe.com")) {
+      url.searchParams.set("client_reference_id", account.userId!);
+    }
     window.location.href = url.toString();
   }
 

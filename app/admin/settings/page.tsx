@@ -52,11 +52,13 @@ export default async function AdminSettings() {
         </form>
       </section>
 
-      {/* Stripe payment links */}
+      {/* Checkout links */}
       <section className="mt-6 rounded-2xl border border-slate-200 bg-white p-6">
-        <h2 className="text-lg font-semibold text-slate-900">Stripe payment links</h2>
+        <h2 className="text-lg font-semibold text-slate-900">Checkout links</h2>
         <p className="mt-1 text-sm text-slate-500">
-          Paste the Payment Link URLs from your Stripe dashboard. The pricing page uses these.
+          Paste your checkout URLs (Stripe Payment Links or a Shopify product/checkout link).
+          The pricing page sends buyers here. With Shopify, grant the buyer Pro from the
+          Members tab after their order — it won&apos;t sync automatically.
         </p>
         <form action={saveLinksAction} className="mt-4 space-y-4">
           <div>
