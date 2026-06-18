@@ -14,6 +14,7 @@ export async function getCurrentUser() {
 
 export interface AccountStatus {
   userId: string | null;
+  email: string | null;
   isLoggedIn: boolean;
   isPro: boolean;
   isAdmin: boolean;
@@ -27,6 +28,7 @@ export interface AccountStatus {
  */
 const ANON: AccountStatus = {
   userId: null,
+  email: null,
   isLoggedIn: false,
   isPro: false,
   isAdmin: false,
@@ -55,6 +57,7 @@ export async function getAccountStatus(): Promise<AccountStatus> {
 
   return {
     userId: user.id,
+    email: user.email ?? null,
     isLoggedIn: true,
     isPro: isProStatus(sub?.status),
     isAdmin: Boolean(profile?.is_admin),

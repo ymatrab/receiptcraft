@@ -44,6 +44,14 @@ export default function PricingCta({ planId, paymentLink, label, className }: Pr
     // so we only add the param for Stripe to keep their URLs clean.
     if (url.hostname.includes("stripe.com")) {
       url.searchParams.set("client_reference_id", account.userId!);
+    } else {
+      // Manual flow: the buyer must pay with the same email they signed in with
+      // so we can match the order to their account and activate Pro.
+      const ok = window.confirm(
+        `Please use the same email you're signed in with at checkout` +
+          `${account.email ? ` — ${account.email}` : ""} — so we can activate your Pro account.\n\nContinue to checkout?`
+      );
+      if (!ok) return;
     }
     window.location.href = url.toString();
   }

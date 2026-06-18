@@ -119,6 +119,11 @@ export default async function PricingPage() {
         </div>
       </div>
 
+      <p className="mx-auto mt-8 max-w-xl rounded-xl bg-amber-50 px-4 py-3 text-center text-sm text-amber-800">
+        💡 Please check out using the <strong>same email you sign in with</strong> — that&apos;s how
+        we match your payment and activate Pro on your account.
+      </p>
+
       <section className="mx-auto mt-20 max-w-3xl">
         <h2 className="text-center text-2xl font-bold text-slate-900">Pricing FAQ</h2>
         <dl className="mt-8 space-y-6">

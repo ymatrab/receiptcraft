@@ -5,6 +5,7 @@ import type { AccountStatus } from "@/lib/auth";
 
 const ANON: AccountStatus = {
   userId: null,
+  email: null,
   isLoggedIn: false,
   isPro: false,
   isAdmin: false,
