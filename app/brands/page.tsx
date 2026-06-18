@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { BRAND_TEMPLATES } from "@/lib/brands";
-import { previewFromTemplate } from "@/lib/receipt";
-import { docFromReceiptData } from "@/lib/sections";
-import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
+import { BRAND_LIST } from "@/lib/brands";
+import BrandExplorer from "@/components/BrandExplorer";
 
 const BRAND_FAQS = [
   {
@@ -59,9 +57,9 @@ const faqJsonLd = {
 };
 
 export const metadata: Metadata = {
-  title: "Brand Receipt Templates — Free Inspiration & Mockups",
+  title: "Brand Receipt Templates — 300+ Stores, Restaurants & More",
   description:
-    "Browse free brand receipt templates including Walmart, Uber, Starbucks and more. Get inspired and download customized PDF or PNG receipts.",
+    "Browse 300+ free brand receipt templates — Walmart, Starbucks, Uber, McDonald's and more. Search by name or filter by category, then customize and download as PDF or PNG.",
   alternates: { canonical: "/brands" },
 };
 
@@ -77,68 +75,13 @@ export default function BrandsPage() {
           Brand Receipt Templates
         </h1>
         <p className="mt-4 text-lg leading-relaxed text-slate-600">
-          Explore our collection of receipt templates inspired by popular brands. Use these as a starting point to create highly realistic receipts for your specific needs — customize the items, dates, and prices, then download for free.
+          {BRAND_LIST.length}+ receipt templates inspired by popular brands across restaurants,
+          grocery, retail, travel, gas and more. Search for a brand or filter by category, then
+          customize the items, dates and prices and download for free.
         </p>
       </div>
 
-      <ul className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-        {BRAND_TEMPLATES.map((t) => {
-          const preview = previewFromTemplate(t);
-          return (
-            <li key={t.slug}>
-              <Link
-                href={`/brands/${t.slug}`}
-                className="group flex h-full flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white transition-all hover:-translate-y-1 hover:border-indigo-300 hover:shadow-xl hover:shadow-indigo-100/50"
-              >
-                {/* Visual Preview */}
-                <div className="relative flex h-72 items-start justify-center overflow-hidden bg-slate-50/80 pt-6">
-                  {/* Subtle fade out at bottom */}
-                  <div className="absolute inset-x-0 bottom-0 z-10 h-24 bg-gradient-to-t from-white to-transparent" />
-                  
-                  <div className="origin-top scale-[0.6] transition-transform duration-300 ease-out group-hover:scale-[0.63]">
-                    <div className="receipt-shadow rounded bg-white">
-                      <ReceiptDocPaper doc={docFromReceiptData(preview)} />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Content */}
-                <div className="relative z-20 flex flex-1 flex-col bg-white p-6 pt-5">
-                  <div>
-                    {t.defaults.logoDataUrl ? (
-                      <span className="flex h-9 items-center">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={t.defaults.logoDataUrl}
-                          alt={`${t.shortName} logo`}
-                          loading="lazy"
-                          className="h-full w-auto max-w-[150px] object-contain"
-                        />
-                      </span>
-                    ) : (
-                      <span className="text-2xl" aria-hidden="true">
-                        {t.icon}
-                      </span>
-                    )}
-                    <h2 className="mt-3 text-xl font-bold text-slate-900 transition-colors group-hover:text-indigo-600">
-                      {t.name}
-                    </h2>
-                  </div>
-                  <p className="mt-3 flex-1 text-sm leading-relaxed text-slate-600">
-                    {t.intro.split(".")[0]}.
-                  </p>
-                  <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-indigo-600">
-                    Use this template
-                    <svg className="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h12" />
-                    </svg>
-                  </span>
-                </div>
-              </Link>
-            </li>
-          );
-        })}
-      </ul>
+      <BrandExplorer brands={BRAND_LIST} />
 
       <section id="faq" className="mt-20" aria-labelledby="brand-faq-heading">
         <div className="mx-auto max-w-3xl">

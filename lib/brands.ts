@@ -1,5 +1,12 @@
-import type { ReceiptTemplate } from "./types";
+import type { LineItem, ReceiptTemplate } from "./types";
 import { WIKIMEDIA_LOGOS } from "./brand-logos";
+import type { BrandCategory } from "./brand-categories";
+import {
+  CATEGORY_DEFAULT_ITEMS,
+  CATEGORY_ICON,
+  CATEGORY_NOUN,
+  EXISTING_BRAND_CATEGORY,
+} from "./brand-categories";
 
 /**
  * Brand logo URL for a company domain. Prefers the official Wikimedia logo
@@ -13,7 +20,7 @@ export const brandLogo = (domain: string) =>
 let n = 0;
 const id = () => `brand-${++n}`;
 
-export const BRAND_TEMPLATES: ReceiptTemplate[] = [
+const HAND_BRANDS: ReceiptTemplate[] = [
   {
     slug: "walmart",
     name: "Walmart Receipt",
@@ -5248,3 +5255,352 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [
     },
   },
 ];
+
+// ---------------------------------------------------------------------------
+// Generated brands. Compact seeds are expanded into full ReceiptTemplate pages
+// so we can scale brand coverage without hand-writing every field. Each page
+// still renders a real logo, the brand name throughout, and (where given) the
+// brand's own items. Omit `items` to use sensible category defaults.
+// ---------------------------------------------------------------------------
+
+type Paper = "thermal" | "modern" | "minimal";
+
+interface BrandSeed {
+  slug: string;
+  name: string;
+  domain: string;
+  category: BrandCategory;
+  city?: string;
+  address1?: string;
+  taxRate?: number;
+  paper?: Paper;
+  icon?: string;
+  items?: Omit<LineItem, "id">[];
+}
+
+function makeBrand(s: BrandSeed): ReceiptTemplate {
+  const items: LineItem[] = (s.items ?? CATEGORY_DEFAULT_ITEMS[s.category]).map((it) => ({
+    id: id(),
+    ...it,
+  }));
+  return {
+    slug: s.slug,
+    name: `${s.name} Receipt`,
+    shortName: s.name,
+    icon: s.icon ?? CATEGORY_ICON[s.category],
+    seoTitle: `Free ${s.name} Receipt Generator — Make a ${s.name} Receipt`,
+    seoDescription: `Create a realistic ${s.name} receipt online in seconds. Add ${CATEGORY_NOUN[s.category]}, then download as a PDF or PNG. Free, no sign-up.`,
+    heading: `${s.name} Receipt Generator`,
+    intro: `Create a realistic ${s.name} receipt with ${CATEGORY_NOUN[s.category]}. Perfect for replacing a lost ${s.name} receipt, expense reports, bookkeeping records or design mockups.`,
+    useCases: [
+      `Replace a lost ${s.name} receipt`,
+      "Expense reports and reimbursement",
+      "Personal bookkeeping and records",
+      "Props and design mockups",
+    ],
+    faqs: [
+      {
+        question: `How do I make a ${s.name} receipt?`,
+        answer: `Open the ${s.name} template, edit the store details, add your items and prices, set the tax rate, then download as a PDF or PNG. It takes under a minute and needs no account.`,
+      },
+      {
+        question: `Is the ${s.name} receipt generator free?`,
+        answer: `Yes. You can create and download a ${s.name} receipt for free. Free downloads include a small watermark; upgrade to Pro to remove it and unlock unlimited AI generation.`,
+      },
+    ],
+    defaults: {
+      logoDataUrl: brandLogo(s.domain),
+      businessName: s.name,
+      addressLine1: s.address1 ?? "",
+      addressLine2: s.city ?? "",
+      phone: "",
+      taxLabel: "Sales Tax",
+      taxRate: s.taxRate ?? 0,
+      footerMessage: `Thank you — see you again at ${s.name}!`,
+      paperStyle: s.paper ?? "thermal",
+      items,
+    },
+  };
+}
+
+const NEW_BRAND_SEEDS: BrandSeed[] = [
+  // ── Restaurants ──
+  { slug: "raising-canes", name: "Raising Cane's", domain: "raisingcanes.com", category: "Restaurants", city: "Baton Rouge, LA", items: [{ name: "The Box Combo", quantity: 1, price: 10.99 }, { name: "Extra Cane's Sauce", quantity: 2, price: 0.5 }, { name: "Lemonade", quantity: 1, price: 2.79 }] },
+  { slug: "whataburger", name: "Whataburger", domain: "whataburger.com", category: "Restaurants", city: "San Antonio, TX", items: [{ name: "Whataburger Meal", quantity: 1, price: 9.39 }, { name: "Honey BBQ Chicken Strip Sandwich", quantity: 1, price: 6.79 }] },
+  { slug: "wingstop", name: "Wingstop", domain: "wingstop.com", category: "Restaurants", city: "Addison, TX", items: [{ name: "20pc Boneless Combo", quantity: 1, price: 18.99 }, { name: "Cajun Fried Corn", quantity: 2, price: 2.49 }] },
+  { slug: "jersey-mike-s", name: "Jersey Mike's", domain: "jerseymikes.com", category: "Restaurants", city: "Manasquan, NJ", items: [{ name: "Giant #13 Mike's Way", quantity: 1, price: 16.45 }, { name: "Chips", quantity: 2, price: 1.79 }] },
+  { slug: "jimmy-john-s", name: "Jimmy John's", domain: "jimmyjohns.com", category: "Restaurants", city: "Champaign, IL", items: [{ name: "#9 Italian Night Club", quantity: 1, price: 8.99 }, { name: "Jumbo Kosher Dill", quantity: 1, price: 1.75 }] },
+  { slug: "carl-s-jr", name: "Carl's Jr.", domain: "carlsjr.com", category: "Restaurants", city: "Franklin, TN" },
+  { slug: "hardees", name: "Hardee's", domain: "hardees.com", category: "Restaurants", city: "Franklin, TN" },
+  { slug: "del-taco", name: "Del Taco", domain: "deltaco.com", category: "Restaurants", city: "Lake Forest, CA" },
+  { slug: "qdoba", name: "Qdoba", domain: "qdoba.com", category: "Restaurants", city: "San Diego, CA", items: [{ name: "Chicken Burrito", quantity: 1, price: 9.5 }, { name: "Chips & Queso", quantity: 1, price: 3.95 }] },
+  { slug: "moe-s-southwest-grill", name: "Moe's Southwest Grill", domain: "moes.com", category: "Restaurants", city: "Atlanta, GA" },
+  { slug: "el-pollo-loco", name: "El Pollo Loco", domain: "elpolloloco.com", category: "Restaurants", city: "Costa Mesa, CA" },
+  { slug: "culvers", name: "Culver's", domain: "culvers.com", category: "Restaurants", city: "Prairie du Sac, WI", items: [{ name: "ButterBurger Deluxe", quantity: 1, price: 6.49 }, { name: "Cheese Curds", quantity: 1, price: 4.99 }, { name: "Custard Concrete", quantity: 1, price: 4.49 }] },
+  { slug: "white-castle", name: "White Castle", domain: "whitecastle.com", category: "Restaurants", city: "Columbus, OH" },
+  { slug: "checkers", name: "Checkers", domain: "checkers.com", category: "Restaurants", city: "Tampa, FL" },
+  { slug: "bojangles", name: "Bojangles", domain: "bojangles.com", category: "Restaurants", city: "Charlotte, NC" },
+  { slug: "zaxbys", name: "Zaxby's", domain: "zaxbys.com", category: "Restaurants", city: "Athens, GA" },
+  { slug: "church-s-chicken", name: "Church's Chicken", domain: "churchs.com", category: "Restaurants", city: "Atlanta, GA" },
+  { slug: "little-caesars", name: "Little Caesars", domain: "littlecaesars.com", category: "Restaurants", city: "Detroit, MI", items: [{ name: "Hot-N-Ready Pepperoni", quantity: 1, price: 6.99 }, { name: "Crazy Bread", quantity: 1, price: 4.49 }] },
+  { slug: "marco-s-pizza", name: "Marco's Pizza", domain: "marcos.com", category: "Restaurants", city: "Toledo, OH" },
+  { slug: "blaze-pizza", name: "Blaze Pizza", domain: "blazepizza.com", category: "Restaurants", city: "Pasadena, CA" },
+  { slug: "mod-pizza", name: "MOD Pizza", domain: "modpizza.com", category: "Restaurants", city: "Bellevue, WA" },
+  { slug: "applebees", name: "Applebee's", domain: "applebees.com", category: "Restaurants", city: "Glendale, CA", items: [{ name: "Bourbon St. Chicken & Shrimp", quantity: 1, price: 16.99 }, { name: "Mozzarella Sticks", quantity: 1, price: 9.29 }] },
+  { slug: "chili-s", name: "Chili's", domain: "chilis.com", category: "Restaurants", city: "Dallas, TX", items: [{ name: "Triple Dipper", quantity: 1, price: 14.99 }, { name: "Old Timer Burger", quantity: 1, price: 11.99 }] },
+  { slug: "tgi-fridays", name: "TGI Fridays", domain: "tgifridays.com", category: "Restaurants", city: "Dallas, TX" },
+  { slug: "buffalo-wild-wings", name: "Buffalo Wild Wings", domain: "buffalowildwings.com", category: "Restaurants", city: "Minneapolis, MN", items: [{ name: "20 Boneless Wings", quantity: 1, price: 19.99 }, { name: "Mozzarella Sticks", quantity: 1, price: 8.49 }] },
+  { slug: "outback-steakhouse", name: "Outback Steakhouse", domain: "outback.com", category: "Restaurants", city: "Tampa, FL", items: [{ name: "Outback Special 12oz", quantity: 1, price: 24.99 }, { name: "Bloomin' Onion", quantity: 1, price: 11.49 }] },
+  { slug: "texas-roadhouse", name: "Texas Roadhouse", domain: "texasroadhouse.com", category: "Restaurants", city: "Louisville, KY", items: [{ name: "16oz Ribeye", quantity: 1, price: 27.99 }, { name: "Loaded Sweet Potato", quantity: 1, price: 4.99 }] },
+  { slug: "longhorn-steakhouse", name: "LongHorn Steakhouse", domain: "longhornsteakhouse.com", category: "Restaurants", city: "Orlando, FL" },
+  { slug: "red-lobster", name: "Red Lobster", domain: "redlobster.com", category: "Restaurants", city: "Orlando, FL", items: [{ name: "Ultimate Feast", quantity: 1, price: 32.99 }, { name: "Cheddar Bay Biscuits", quantity: 1, price: 0.0 }] },
+  { slug: "red-robin", name: "Red Robin", domain: "redrobin.com", category: "Restaurants", city: "Greenwood Village, CO" },
+  { slug: "cheesecake-factory", name: "The Cheesecake Factory", domain: "thecheesecakefactory.com", category: "Restaurants", city: "Calabasas, CA", items: [{ name: "Chicken Madeira", quantity: 1, price: 24.95 }, { name: "Original Cheesecake Slice", quantity: 2, price: 9.95 }] },
+  { slug: "ihop", name: "IHOP", domain: "ihop.com", category: "Restaurants", city: "Glendale, CA", items: [{ name: "Original Buttermilk Pancakes", quantity: 1, price: 8.99 }, { name: "Big Steak Omelette", quantity: 1, price: 13.49 }] },
+  { slug: "denny-s", name: "Denny's", domain: "dennys.com", category: "Restaurants", city: "Spartanburg, SC", items: [{ name: "Grand Slam", quantity: 2, price: 9.99 }, { name: "Hash Browns", quantity: 1, price: 3.49 }] },
+  { slug: "waffle-house", name: "Waffle House", domain: "wafflehouse.com", category: "Restaurants", city: "Norcross, GA", items: [{ name: "All-Star Special", quantity: 1, price: 11.5 }, { name: "Pecan Waffle", quantity: 1, price: 5.25 }] },
+  { slug: "cracker-barrel", name: "Cracker Barrel", domain: "crackerbarrel.com", category: "Restaurants", city: "Lebanon, TN" },
+  { slug: "olive-garden", name: "Olive Garden", domain: "olivegarden.com", category: "Restaurants", city: "Orlando, FL", items: [{ name: "Chicken Alfredo", quantity: 1, price: 17.49 }, { name: "Breadsticks", quantity: 1, price: 0.0 }] },
+  { slug: "golden-corral", name: "Golden Corral", domain: "goldencorral.com", category: "Restaurants", city: "Raleigh, NC" },
+  { slug: "steak-n-shake", name: "Steak 'n Shake", domain: "steaknshake.com", category: "Restaurants", city: "Indianapolis, IN" },
+  { slug: "portillos", name: "Portillo's", domain: "portillos.com", category: "Restaurants", city: "Oak Brook, IL" },
+  { slug: "sweetgreen", name: "Sweetgreen", domain: "sweetgreen.com", category: "Restaurants", city: "Los Angeles, CA", items: [{ name: "Harvest Bowl", quantity: 1, price: 13.95 }, { name: "Sparkling Water", quantity: 1, price: 2.75 }] },
+  { slug: "firehouse-subs", name: "Firehouse Subs", domain: "firehousesubs.com", category: "Restaurants", city: "Jacksonville, FL" },
+  { slug: "potbelly", name: "Potbelly", domain: "potbelly.com", category: "Restaurants", city: "Chicago, IL" },
+  { slug: "noodles-company", name: "Noodles & Company", domain: "noodles.com", category: "Restaurants", city: "Broomfield, CO" },
+
+  // ── Coffee & Cafés ──
+  { slug: "blue-bottle-coffee", name: "Blue Bottle Coffee", domain: "bluebottlecoffee.com", category: "Coffee & Cafés", city: "Oakland, CA", items: [{ name: "Single Origin Pour Over", quantity: 1, price: 5.5 }, { name: "Liège Waffle", quantity: 1, price: 4.75 }] },
+  { slug: "philz-coffee", name: "Philz Coffee", domain: "philzcoffee.com", category: "Coffee & Cafés", city: "San Francisco, CA" },
+  { slug: "the-coffee-bean", name: "The Coffee Bean & Tea Leaf", domain: "coffeebean.com", category: "Coffee & Cafés", city: "Los Angeles, CA" },
+  { slug: "scooter-s-coffee", name: "Scooter's Coffee", domain: "scooterscoffee.com", category: "Coffee & Cafés", city: "Omaha, NE" },
+  { slug: "biggby-coffee", name: "Biggby Coffee", domain: "biggby.com", category: "Coffee & Cafés", city: "East Lansing, MI" },
+  { slug: "costa-coffee", name: "Costa Coffee", domain: "costa.co.uk", category: "Coffee & Cafés", city: "London, UK", items: [{ name: "Flat White", quantity: 1, price: 3.4 }, { name: "Almond Croissant", quantity: 1, price: 2.6 }] },
+  { slug: "pret-a-manger", name: "Pret A Manger", domain: "pret.com", category: "Coffee & Cafés", city: "London, UK", items: [{ name: "Flat White", quantity: 1, price: 3.15 }, { name: "Chicken Caesar Baguette", quantity: 1, price: 4.99 }] },
+  { slug: "greggs", name: "Greggs", domain: "greggs.co.uk", category: "Coffee & Cafés", city: "Newcastle, UK", items: [{ name: "Sausage Roll", quantity: 2, price: 1.3 }, { name: "Latte", quantity: 1, price: 2.35 }] },
+  { slug: "caffe-nero", name: "Caffè Nero", domain: "caffenero.com", category: "Coffee & Cafés", city: "Manchester, UK" },
+  { slug: "einstein-bros-bagels", name: "Einstein Bros. Bagels", domain: "einsteinbros.com", category: "Coffee & Cafés", city: "Lakewood, CO" },
+
+  // ── Grocery ──
+  { slug: "meijer", name: "Meijer", domain: "meijer.com", category: "Grocery", city: "Grand Rapids, MI", taxRate: 6, items: [{ name: "Meijer Milk 1Gal", quantity: 1, price: 2.99 }, { name: "Frozen Pizza", quantity: 2, price: 4.49 }, { name: "Bananas (lb)", quantity: 3, price: 0.49 }] },
+  { slug: "h-e-b", name: "H-E-B", domain: "heb.com", category: "Grocery", city: "San Antonio, TX", taxRate: 8.25, items: [{ name: "H-E-B Tortillas 20ct", quantity: 1, price: 2.18 }, { name: "Fajita Beef (lb)", quantity: 1.5, price: 7.98 }] },
+  { slug: "wegmans", name: "Wegmans", domain: "wegmans.com", category: "Grocery", city: "Rochester, NY", taxRate: 8, items: [{ name: "Organic Spring Mix", quantity: 1, price: 4.49 }, { name: "Baguette", quantity: 1, price: 2.49 }] },
+  { slug: "food-lion", name: "Food Lion", domain: "foodlion.com", category: "Grocery", city: "Salisbury, NC", taxRate: 7 },
+  { slug: "giant-food", name: "Giant Food", domain: "giantfood.com", category: "Grocery", city: "Landover, MD", taxRate: 6 },
+  { slug: "stop-shop", name: "Stop & Shop", domain: "stopandshop.com", category: "Grocery", city: "Quincy, MA", taxRate: 6.25 },
+  { slug: "sprouts", name: "Sprouts Farmers Market", domain: "sprouts.com", category: "Grocery", city: "Phoenix, AZ", taxRate: 8.6, items: [{ name: "Organic Kale", quantity: 1, price: 1.99 }, { name: "Grass-Fed Ground Beef (lb)", quantity: 1, price: 6.99 }] },
+  { slug: "vons", name: "Vons", domain: "vons.com", category: "Grocery", city: "Fullerton, CA", taxRate: 7.75 },
+  { slug: "ralphs", name: "Ralphs", domain: "ralphs.com", category: "Grocery", city: "Los Angeles, CA", taxRate: 9.5 },
+  { slug: "albertsons", name: "Albertsons", domain: "albertsons.com", category: "Grocery", city: "Boise, ID", taxRate: 6 },
+  { slug: "winco-foods", name: "WinCo Foods", domain: "wincofoods.com", category: "Grocery", city: "Boise, ID" },
+  { slug: "hy-vee", name: "Hy-Vee", domain: "hy-vee.com", category: "Grocery", city: "West Des Moines, IA", taxRate: 7 },
+  { slug: "harris-teeter", name: "Harris Teeter", domain: "harristeeter.com", category: "Grocery", city: "Matthews, NC", taxRate: 7 },
+  { slug: "giant-eagle", name: "Giant Eagle", domain: "gianteagle.com", category: "Grocery", city: "Pittsburgh, PA", taxRate: 7 },
+  { slug: "shoprite", name: "ShopRite", domain: "shoprite.com", category: "Grocery", city: "Keasbey, NJ", taxRate: 6.625 },
+  { slug: "fred-meyer", name: "Fred Meyer", domain: "fredmeyer.com", category: "Grocery", city: "Portland, OR" },
+  { slug: "tesco", name: "Tesco", domain: "tesco.com", category: "Grocery", city: "Welwyn Garden City, UK", items: [{ name: "Tesco Semi-Skimmed Milk", quantity: 1, price: 1.45 }, { name: "Hovis Bread", quantity: 1, price: 1.1 }] },
+  { slug: "sainsburys", name: "Sainsbury's", domain: "sainsburys.co.uk", category: "Grocery", city: "London, UK", items: [{ name: "British Semi-Skimmed Milk", quantity: 1, price: 1.45 }, { name: "Free Range Eggs 12", quantity: 1, price: 2.95 }] },
+  { slug: "asda", name: "ASDA", domain: "asda.com", category: "Grocery", city: "Leeds, UK" },
+  { slug: "morrisons", name: "Morrisons", domain: "morrisons.com", category: "Grocery", city: "Bradford, UK" },
+  { slug: "waitrose", name: "Waitrose", domain: "waitrose.com", category: "Grocery", city: "Bracknell, UK" },
+  { slug: "carrefour", name: "Carrefour", domain: "carrefour.com", category: "Grocery", city: "Paris, France", items: [{ name: "Baguette Tradition", quantity: 2, price: 1.1 }, { name: "Lait Demi-Écrémé 1L", quantity: 1, price: 0.95 }] },
+  { slug: "mercadona", name: "Mercadona", domain: "mercadona.es", category: "Grocery", city: "Valencia, Spain" },
+  { slug: "edeka", name: "EDEKA", domain: "edeka.de", category: "Grocery", city: "Hamburg, Germany" },
+  { slug: "rewe", name: "REWE", domain: "rewe.de", category: "Grocery", city: "Cologne, Germany" },
+  { slug: "albert-heijn", name: "Albert Heijn", domain: "ah.nl", category: "Grocery", city: "Zaandam, Netherlands" },
+  { slug: "loblaws", name: "Loblaws", domain: "loblaws.ca", category: "Grocery", city: "Toronto, ON", items: [{ name: "PC Milk 4L", quantity: 1, price: 5.49 }, { name: "Wonder Bread", quantity: 1, price: 3.29 }] },
+  { slug: "sobeys", name: "Sobeys", domain: "sobeys.com", category: "Grocery", city: "Stellarton, NS" },
+  { slug: "coles", name: "Coles", domain: "coles.com.au", category: "Grocery", city: "Melbourne, Australia" },
+  { slug: "woolworths-au", name: "Woolworths", domain: "woolworths.com.au", category: "Grocery", city: "Sydney, Australia" },
+
+  // ── Retail ──
+  { slug: "kohls", name: "Kohl's", domain: "kohls.com", category: "Retail", city: "Menomonee Falls, WI", taxRate: 5.5, items: [{ name: "Sonoma Flannel Shirt", quantity: 2, price: 22.0 }, { name: "Bath Towels 2pk", quantity: 1, price: 17.99 }] },
+  { slug: "jcpenney", name: "JCPenney", domain: "jcpenney.com", category: "Retail", city: "Plano, TX", taxRate: 8.25 },
+  { slug: "bed-bath-beyond", name: "Bed Bath & Beyond", domain: "bedbathandbeyond.com", category: "Retail", city: "Union, NJ", taxRate: 6.625 },
+  { slug: "big-lots", name: "Big Lots", domain: "biglots.com", category: "Retail", city: "Columbus, OH" },
+  { slug: "dollar-general", name: "Dollar General", domain: "dollargeneral.com", category: "Retail", city: "Goodlettsville, TN", items: [{ name: "Cleaning Supplies", quantity: 2, price: 1.25 }, { name: "Snacks", quantity: 3, price: 1.0 }] },
+  { slug: "family-dollar", name: "Family Dollar", domain: "familydollar.com", category: "Retail", city: "Chesapeake, VA" },
+  { slug: "five-below", name: "Five Below", domain: "fivebelow.com", category: "Retail", city: "Philadelphia, PA", items: [{ name: "Phone Accessory", quantity: 1, price: 5.0 }, { name: "Snacks", quantity: 2, price: 3.0 }] },
+  { slug: "ross-dress-for-less", name: "Ross Dress for Less", domain: "rossstores.com", category: "Retail", city: "Dublin, CA", items: [{ name: "Men's Polo", quantity: 2, price: 12.99 }, { name: "Bath Towel Set", quantity: 1, price: 19.99 }] },
+  { slug: "burlington", name: "Burlington", domain: "burlington.com", category: "Retail", city: "Burlington, NJ" },
+  { slug: "old-navy", name: "Old Navy", domain: "oldnavy.com", category: "Retail", city: "San Francisco, CA", items: [{ name: "Graphic Tee", quantity: 3, price: 10.0 }, { name: "Men's Chinos", quantity: 1, price: 29.99 }] },
+  { slug: "gap", name: "Gap", domain: "gap.com", category: "Retail", city: "San Francisco, CA" },
+  { slug: "banana-republic", name: "Banana Republic", domain: "bananarepublic.com", category: "Retail", city: "San Francisco, CA" },
+  { slug: "j-crew", name: "J.Crew", domain: "jcrew.com", category: "Retail", city: "New York, NY" },
+  { slug: "uniqlo", name: "Uniqlo", domain: "uniqlo.com", category: "Retail", city: "New York, NY", items: [{ name: "Ultra Light Down Jacket", quantity: 1, price: 69.9 }, { name: "Supima Cotton Tee", quantity: 2, price: 14.9 }] },
+  { slug: "forever-21", name: "Forever 21", domain: "forever21.com", category: "Retail", city: "Los Angeles, CA" },
+  { slug: "urban-outfitters", name: "Urban Outfitters", domain: "urbanoutfitters.com", category: "Retail", city: "Philadelphia, PA" },
+  { slug: "american-eagle", name: "American Eagle", domain: "ae.com", category: "Retail", city: "Pittsburgh, PA" },
+  { slug: "hollister", name: "Hollister", domain: "hollisterco.com", category: "Retail", city: "Columbus, OH" },
+  { slug: "victorias-secret", name: "Victoria's Secret", domain: "victoriassecret.com", category: "Retail", city: "Columbus, OH" },
+  { slug: "bath-body-works", name: "Bath & Body Works", domain: "bathandbodyworks.com", category: "Retail", city: "Columbus, OH", items: [{ name: "3-Wick Candle", quantity: 2, price: 16.95 }, { name: "Body Lotion", quantity: 1, price: 14.5 }] },
+  { slug: "lululemon", name: "lululemon", domain: "lululemon.com", category: "Retail", city: "Vancouver, BC", items: [{ name: "Align High-Rise Pant", quantity: 1, price: 98.0 }, { name: "Swiftly Tech Tee", quantity: 1, price: 68.0 }] },
+  { slug: "nike", name: "Nike", domain: "nike.com", category: "Retail", city: "Beaverton, OR", items: [{ name: "Air Force 1 '07", quantity: 1, price: 115.0 }, { name: "Dri-FIT Socks 3pk", quantity: 1, price: 22.0 }] },
+  { slug: "adidas", name: "adidas", domain: "adidas.com", category: "Retail", city: "Portland, OR", items: [{ name: "Ultraboost Light", quantity: 1, price: 190.0 }, { name: "Trefoil Hoodie", quantity: 1, price: 65.0 }] },
+  { slug: "foot-locker", name: "Foot Locker", domain: "footlocker.com", category: "Retail", city: "New York, NY", items: [{ name: "Jordan Retro 4", quantity: 1, price: 215.0 }, { name: "Nike Crew Socks", quantity: 2, price: 16.0 }] },
+  { slug: "dsw", name: "DSW", domain: "dsw.com", category: "Retail", city: "Columbus, OH" },
+  { slug: "ace-hardware", name: "Ace Hardware", domain: "acehardware.com", category: "Retail", city: "Oak Brook, IL", items: [{ name: "Paint Gallon", quantity: 1, price: 32.99 }, { name: "Assorted Screws", quantity: 1, price: 6.49 }] },
+  { slug: "harbor-freight", name: "Harbor Freight Tools", domain: "harborfreight.com", category: "Retail", city: "Calabasas, CA", items: [{ name: "Pittsburgh Tool Set", quantity: 1, price: 49.99 }, { name: "Work Gloves 3pk", quantity: 1, price: 8.99 }] },
+  { slug: "menards", name: "Menards", domain: "menards.com", category: "Retail", city: "Eau Claire, WI" },
+  { slug: "tractor-supply", name: "Tractor Supply Co.", domain: "tractorsupply.com", category: "Retail", city: "Brentwood, TN" },
+  { slug: "staples", name: "Staples", domain: "staples.com", category: "Retail", city: "Framingham, MA", items: [{ name: "Printer Paper 5-Ream", quantity: 1, price: 42.99 }, { name: "Ink Cartridge", quantity: 1, price: 34.99 }] },
+  { slug: "office-depot", name: "Office Depot", domain: "officedepot.com", category: "Retail", city: "Boca Raton, FL" },
+  { slug: "micro-center", name: "Micro Center", domain: "microcenter.com", category: "Retail", city: "Hilliard, OH", items: [{ name: "NVMe SSD 1TB", quantity: 1, price: 79.99 }, { name: "Mechanical Keyboard", quantity: 1, price: 59.99 }] },
+  { slug: "newegg", name: "Newegg", domain: "newegg.com", category: "Retail", city: "City of Industry, CA" },
+  { slug: "crate-barrel", name: "Crate & Barrel", domain: "crateandbarrel.com", category: "Retail", city: "Northbrook, IL" },
+  { slug: "williams-sonoma", name: "Williams Sonoma", domain: "williams-sonoma.com", category: "Retail", city: "San Francisco, CA" },
+  { slug: "pottery-barn", name: "Pottery Barn", domain: "potterybarn.com", category: "Retail", city: "San Francisco, CA" },
+  { slug: "world-market", name: "World Market", domain: "worldmarket.com", category: "Retail", city: "Alameda, CA" },
+  { slug: "hobby-lobby", name: "Hobby Lobby", domain: "hobbylobby.com", category: "Retail", city: "Oklahoma City, OK" },
+  { slug: "party-city", name: "Party City", domain: "partycity.com", category: "Retail", city: "Woodcliff Lake, NJ" },
+  { slug: "guitar-center", name: "Guitar Center", domain: "guitarcenter.com", category: "Retail", city: "Westlake Village, CA" },
+  { slug: "rei", name: "REI", domain: "rei.com", category: "Retail", city: "Kent, WA", items: [{ name: "Trail Running Shoes", quantity: 1, price: 139.95 }, { name: "Hydration Pack", quantity: 1, price: 49.0 }] },
+  { slug: "cabelas", name: "Cabela's", domain: "cabelas.com", category: "Retail", city: "Sidney, NE" },
+  { slug: "bass-pro-shops", name: "Bass Pro Shops", domain: "basspro.com", category: "Retail", city: "Springfield, MO" },
+  { slug: "academy-sports", name: "Academy Sports + Outdoors", domain: "academy.com", category: "Retail", city: "Katy, TX" },
+  { slug: "total-wine", name: "Total Wine & More", domain: "totalwine.com", category: "Retail", city: "Bethesda, MD" },
+  { slug: "advance-auto-parts", name: "Advance Auto Parts", domain: "advanceautoparts.com", category: "Retail", city: "Raleigh, NC", items: [{ name: "Car Battery", quantity: 1, price: 139.99 }, { name: "Motor Oil 5qt", quantity: 1, price: 27.99 }] },
+  { slug: "pep-boys", name: "Pep Boys", domain: "pepboys.com", category: "Retail", city: "Philadelphia, PA" },
+  { slug: "napa-auto-parts", name: "NAPA Auto Parts", domain: "napaonline.com", category: "Retail", city: "Atlanta, GA" },
+  { slug: "tiffany-co", name: "Tiffany & Co.", domain: "tiffany.com", category: "Retail", city: "New York, NY", paper: "minimal", items: [{ name: "Sterling Silver Necklace", quantity: 1, price: 350.0 }] },
+  { slug: "pandora", name: "Pandora", domain: "pandora.net", category: "Retail", city: "Copenhagen, Denmark", items: [{ name: "Charm Bracelet", quantity: 1, price: 75.0 }, { name: "Charm", quantity: 2, price: 45.0 }] },
+  { slug: "kay-jewelers", name: "Kay Jewelers", domain: "kay.com", category: "Retail", city: "Akron, OH" },
+  { slug: "zales", name: "Zales", domain: "zales.com", category: "Retail", city: "Dallas, TX" },
+  { slug: "coach", name: "Coach", domain: "coach.com", category: "Retail", city: "New York, NY", paper: "minimal", items: [{ name: "Leather Tote Bag", quantity: 1, price: 395.0 }] },
+  { slug: "michael-kors", name: "Michael Kors", domain: "michaelkors.com", category: "Retail", city: "New York, NY" },
+  { slug: "kate-spade", name: "Kate Spade", domain: "katespade.com", category: "Retail", city: "New York, NY" },
+  { slug: "burberry", name: "Burberry", domain: "burberry.com", category: "Retail", city: "London, UK", paper: "minimal", items: [{ name: "Cashmere Scarf", quantity: 1, price: 470.0 }] },
+  { slug: "prada", name: "Prada", domain: "prada.com", category: "Retail", city: "Milan, Italy", paper: "minimal", items: [{ name: "Leather Wallet", quantity: 1, price: 590.0 }] },
+  { slug: "chanel", name: "Chanel", domain: "chanel.com", category: "Retail", city: "Paris, France", paper: "minimal", items: [{ name: "Chanel No. 5 EDP 100ml", quantity: 1, price: 168.0 }] },
+  { slug: "hermes", name: "Hermès", domain: "hermes.com", category: "Retail", city: "Paris, France", paper: "minimal", items: [{ name: "Silk Twilly Scarf", quantity: 1, price: 230.0 }] },
+  { slug: "dior", name: "Dior", domain: "dior.com", category: "Retail", city: "Paris, France", paper: "minimal", items: [{ name: "Sauvage EDT 100ml", quantity: 1, price: 125.0 }] },
+  { slug: "versace", name: "Versace", domain: "versace.com", category: "Retail", city: "Milan, Italy", paper: "minimal" },
+  { slug: "balenciaga", name: "Balenciaga", domain: "balenciaga.com", category: "Retail", city: "Paris, France", paper: "minimal" },
+  { slug: "cartier", name: "Cartier", domain: "cartier.com", category: "Retail", city: "Paris, France", paper: "minimal", items: [{ name: "Love Bracelet", quantity: 1, price: 7350.0 }] },
+
+  // ── Gas & Convenience ──
+  { slug: "arco", name: "ARCO", domain: "arco.com", category: "Gas & Convenience", city: "La Palma, CA", items: [{ name: "Regular Unleaded (gal)", quantity: 11.5, price: 3.49 }] },
+  { slug: "marathon-gas", name: "Marathon", domain: "marathonbrand.com", category: "Gas & Convenience", city: "Findlay, OH", items: [{ name: "Regular Unleaded (gal)", quantity: 12.0, price: 3.35 }] },
+  { slug: "texaco", name: "Texaco", domain: "texaco.com", category: "Gas & Convenience", city: "Houston, TX" },
+  { slug: "citgo", name: "CITGO", domain: "citgo.com", category: "Gas & Convenience", city: "Houston, TX" },
+  { slug: "sunoco", name: "Sunoco", domain: "sunoco.com", category: "Gas & Convenience", city: "Dallas, TX" },
+  { slug: "valero", name: "Valero", domain: "valero.com", category: "Gas & Convenience", city: "San Antonio, TX" },
+  { slug: "phillips-66", name: "Phillips 66", domain: "phillips66.com", category: "Gas & Convenience", city: "Houston, TX" },
+  { slug: "conoco", name: "Conoco", domain: "conoco.com", category: "Gas & Convenience", city: "Houston, TX" },
+  { slug: "circle-k", name: "Circle K", domain: "circlek.com", category: "Gas & Convenience", city: "Tempe, AZ", items: [{ name: "Regular Unleaded (gal)", quantity: 11.5, price: 3.35 }, { name: "Polar Pop (L)", quantity: 1, price: 0.99 }] },
+  { slug: "casey-s", name: "Casey's", domain: "caseys.com", category: "Gas & Convenience", city: "Ankeny, IA" },
+  { slug: "kwik-trip", name: "Kwik Trip", domain: "kwiktrip.com", category: "Gas & Convenience", city: "La Crosse, WI" },
+  { slug: "racetrac", name: "RaceTrac", domain: "racetrac.com", category: "Gas & Convenience", city: "Atlanta, GA" },
+
+  // ── Travel ──
+  { slug: "jetblue", name: "JetBlue", domain: "jetblue.com", category: "Travel", city: "Long Island City, NY", items: [{ name: "Base Fare (JFK-FLL)", quantity: 1, price: 119.0 }, { name: "Even More Space Seat", quantity: 1, price: 45.0 }, { name: "Checked Bag", quantity: 1, price: 35.0 }] },
+  { slug: "alaska-airlines", name: "Alaska Airlines", domain: "alaskaair.com", category: "Travel", city: "Seattle, WA" },
+  { slug: "spirit-airlines", name: "Spirit Airlines", domain: "spirit.com", category: "Travel", city: "Miramar, FL", items: [{ name: "Base Fare", quantity: 1, price: 49.0 }, { name: "Carry-On Bag", quantity: 1, price: 55.0 }, { name: "Seat Assignment", quantity: 1, price: 18.0 }] },
+  { slug: "frontier-airlines", name: "Frontier Airlines", domain: "flyfrontier.com", category: "Travel", city: "Denver, CO" },
+  { slug: "british-airways", name: "British Airways", domain: "britishairways.com", category: "Travel", city: "London, UK" },
+  { slug: "emirates", name: "Emirates", domain: "emirates.com", category: "Travel", city: "Dubai, UAE" },
+  { slug: "air-canada", name: "Air Canada", domain: "aircanada.com", category: "Travel", city: "Montreal, QC" },
+  { slug: "holiday-inn", name: "Holiday Inn", domain: "ihg.com", category: "Travel", city: "Atlanta, GA", items: [{ name: "Queen Room — 1 Night", quantity: 1, price: 139.0 }, { name: "Taxes & Fees", quantity: 1, price: 22.0 }] },
+  { slug: "best-western", name: "Best Western", domain: "bestwestern.com", category: "Travel", city: "Phoenix, AZ", items: [{ name: "Double Queen — 2 Nights", quantity: 2, price: 118.0 }] },
+  { slug: "motel-6", name: "Motel 6", domain: "motel6.com", category: "Travel", city: "Dallas, TX", items: [{ name: "Standard Room — 1 Night", quantity: 1, price: 64.99 }] },
+  { slug: "days-inn", name: "Days Inn", domain: "wyndhamhotels.com", category: "Travel", city: "Parsippany, NJ" },
+  { slug: "la-quinta", name: "La Quinta", domain: "wyndhamhotels.com", category: "Travel", city: "Irving, TX" },
+  { slug: "comfort-inn", name: "Comfort Inn", domain: "choicehotels.com", category: "Travel", city: "Rockville, MD" },
+  { slug: "hampton-inn", name: "Hampton Inn", domain: "hilton.com", category: "Travel", city: "Memphis, TN" },
+  { slug: "sheraton", name: "Sheraton", domain: "marriott.com", category: "Travel", city: "Bethesda, MD" },
+  { slug: "westin", name: "Westin", domain: "marriott.com", category: "Travel", city: "Stamford, CT" },
+  { slug: "four-seasons", name: "Four Seasons", domain: "fourseasons.com", category: "Travel", city: "Toronto, ON", paper: "minimal", items: [{ name: "Deluxe Room — 2 Nights", quantity: 2, price: 695.0 }, { name: "Resort Fee", quantity: 2, price: 55.0 }] },
+  { slug: "ritz-carlton", name: "The Ritz-Carlton", domain: "ritzcarlton.com", category: "Travel", city: "Chevy Chase, MD", paper: "minimal" },
+  { slug: "radisson", name: "Radisson", domain: "radissonhotels.com", category: "Travel", city: "Minneapolis, MN" },
+  { slug: "budget-car-rental", name: "Budget", domain: "budget.com", category: "Travel", city: "Parsippany, NJ", items: [{ name: "Economy Car — Daily Rate", quantity: 3, price: 44.0 }, { name: "Taxes & Fees", quantity: 1, price: 38.0 }] },
+  { slug: "national-car-rental", name: "National Car Rental", domain: "nationalcar.com", category: "Travel", city: "St. Louis, MO" },
+  { slug: "alamo", name: "Alamo", domain: "alamo.com", category: "Travel", city: "St. Louis, MO" },
+  { slug: "sixt", name: "SIXT", domain: "sixt.com", category: "Travel", city: "Fort Lauderdale, FL" },
+  { slug: "vrbo", name: "Vrbo", domain: "vrbo.com", category: "Travel", city: "Austin, TX", items: [{ name: "3 Nights", quantity: 3, price: 165.0 }, { name: "Cleaning Fee", quantity: 1, price: 90.0 }, { name: "Service Fee", quantity: 1, price: 72.0 }] },
+  { slug: "priceline", name: "Priceline", domain: "priceline.com", category: "Travel", city: "Norwalk, CT" },
+
+  // ── Rideshare & Delivery ──
+  { slug: "bolt", name: "Bolt", domain: "bolt.eu", category: "Rideshare & Delivery", city: "Tallinn, Estonia", items: [{ name: "Bolt Trip (6.1 mi)", quantity: 1, price: 14.2 }, { name: "Booking Fee", quantity: 1, price: 1.5 }] },
+  { slug: "grab", name: "Grab", domain: "grab.com", category: "Rideshare & Delivery", city: "Singapore", items: [{ name: "GrabCar (8.2 km)", quantity: 1, price: 12.8 }, { name: "Platform Fee", quantity: 1, price: 0.7 }] },
+  { slug: "ola", name: "Ola", domain: "olacabs.com", category: "Rideshare & Delivery", city: "Bengaluru, India" },
+  { slug: "didi", name: "DiDi", domain: "didiglobal.com", category: "Rideshare & Delivery", city: "Mexico City, MX" },
+  { slug: "careem", name: "Careem", domain: "careem.com", category: "Rideshare & Delivery", city: "Dubai, UAE" },
+  { slug: "deliveroo", name: "Deliveroo", domain: "deliveroo.com", category: "Rideshare & Delivery", city: "London, UK", items: [{ name: "Order Subtotal", quantity: 1, price: 24.5 }, { name: "Delivery Fee", quantity: 1, price: 2.99 }, { name: "Service Fee", quantity: 1, price: 1.8 }] },
+  { slug: "just-eat", name: "Just Eat", domain: "just-eat.com", category: "Rideshare & Delivery", city: "London, UK" },
+  { slug: "gopuff", name: "Gopuff", domain: "gopuff.com", category: "Rideshare & Delivery", city: "Philadelphia, PA" },
+  { slug: "shipt", name: "Shipt", domain: "shipt.com", category: "Rideshare & Delivery", city: "Birmingham, AL" },
+  { slug: "caviar", name: "Caviar", domain: "trycaviar.com", category: "Rideshare & Delivery", city: "San Francisco, CA" },
+
+  // ── Digital & Subscriptions ──
+  { slug: "hbo-max", name: "Max", domain: "max.com", category: "Digital & Subscriptions", items: [{ name: "Max Ad-Free — Monthly", quantity: 1, price: 16.99 }] },
+  { slug: "paramount-plus", name: "Paramount+", domain: "paramountplus.com", category: "Digital & Subscriptions", items: [{ name: "Paramount+ with Showtime — Monthly", quantity: 1, price: 12.99 }] },
+  { slug: "peacock", name: "Peacock", domain: "peacocktv.com", category: "Digital & Subscriptions", items: [{ name: "Peacock Premium — Monthly", quantity: 1, price: 7.99 }] },
+  { slug: "apple-tv-plus", name: "Apple TV+", domain: "tv.apple.com", category: "Digital & Subscriptions", items: [{ name: "Apple TV+ — Monthly", quantity: 1, price: 9.99 }] },
+  { slug: "youtube-premium", name: "YouTube Premium", domain: "youtube.com", category: "Digital & Subscriptions", items: [{ name: "YouTube Premium — Monthly", quantity: 1, price: 13.99 }] },
+  { slug: "youtube-tv", name: "YouTube TV", domain: "tv.youtube.com", category: "Digital & Subscriptions", items: [{ name: "YouTube TV — Monthly", quantity: 1, price: 72.99 }] },
+  { slug: "amazon-prime", name: "Amazon Prime", domain: "amazon.com", category: "Digital & Subscriptions", items: [{ name: "Prime Membership — Annual", quantity: 1, price: 139.0 }] },
+  { slug: "audible", name: "Audible", domain: "audible.com", category: "Digital & Subscriptions", items: [{ name: "Audible Premium Plus — Monthly", quantity: 1, price: 14.95 }] },
+  { slug: "dropbox", name: "Dropbox", domain: "dropbox.com", category: "Digital & Subscriptions", items: [{ name: "Dropbox Plus — Monthly", quantity: 1, price: 11.99 }] },
+  { slug: "microsoft-365", name: "Microsoft 365", domain: "microsoft.com", category: "Digital & Subscriptions", items: [{ name: "Microsoft 365 Family — Annual", quantity: 1, price: 99.99 }] },
+  { slug: "slack", name: "Slack", domain: "slack.com", category: "Digital & Subscriptions", items: [{ name: "Slack Pro (per user/mo)", quantity: 5, price: 7.25 }] },
+  { slug: "notion", name: "Notion", domain: "notion.so", category: "Digital & Subscriptions", items: [{ name: "Notion Plus (per user/mo)", quantity: 3, price: 10.0 }] },
+  { slug: "canva", name: "Canva", domain: "canva.com", category: "Digital & Subscriptions", items: [{ name: "Canva Pro — Annual", quantity: 1, price: 119.99 }] },
+  { slug: "grammarly", name: "Grammarly", domain: "grammarly.com", category: "Digital & Subscriptions", items: [{ name: "Grammarly Premium — Monthly", quantity: 1, price: 30.0 }] },
+  { slug: "nintendo-eshop", name: "Nintendo eShop", domain: "nintendo.com", category: "Digital & Subscriptions", items: [{ name: "Game Download", quantity: 1, price: 59.99 }, { name: "Switch Online — Annual", quantity: 1, price: 19.99 }] },
+  { slug: "epic-games", name: "Epic Games", domain: "epicgames.com", category: "Digital & Subscriptions", items: [{ name: "Game Purchase", quantity: 1, price: 39.99 }, { name: "V-Bucks 2800", quantity: 1, price: 19.99 }] },
+  { slug: "roblox", name: "Roblox", domain: "roblox.com", category: "Digital & Subscriptions", items: [{ name: "800 Robux", quantity: 1, price: 9.99 }, { name: "Premium — Monthly", quantity: 1, price: 9.99 }] },
+  { slug: "twitch", name: "Twitch", domain: "twitch.tv", category: "Digital & Subscriptions", items: [{ name: "Channel Sub (Tier 1)", quantity: 2, price: 5.99 }] },
+  { slug: "patreon", name: "Patreon", domain: "patreon.com", category: "Digital & Subscriptions", items: [{ name: "Membership Pledge", quantity: 1, price: 10.0 }] },
+  { slug: "godaddy", name: "GoDaddy", domain: "godaddy.com", category: "Digital & Subscriptions", items: [{ name: "Domain Registration (1yr)", quantity: 1, price: 19.99 }, { name: "Web Hosting (12mo)", quantity: 1, price: 95.88 }] },
+
+  // ── Health & Pharmacy ──
+  { slug: "rite-aid", name: "Rite Aid", domain: "riteaid.com", category: "Health & Pharmacy", city: "Camp Hill, PA", items: [{ name: "Prescription Co-Pay", quantity: 1, price: 12.0 }, { name: "Cold & Flu Relief", quantity: 1, price: 9.99 }] },
+  { slug: "duane-reade", name: "Duane Reade", domain: "duanereade.com", category: "Health & Pharmacy", city: "New York, NY" },
+  { slug: "boots-pharmacy", name: "Boots", domain: "boots.com", category: "Health & Pharmacy", city: "Nottingham, UK", items: [{ name: "Prescription Charge", quantity: 1, price: 9.9 }, { name: "Vitamin C 1000mg", quantity: 1, price: 4.5 }] },
+  { slug: "gnc", name: "GNC", domain: "gnc.com", category: "Health & Pharmacy", city: "Pittsburgh, PA", items: [{ name: "Whey Protein 5lb", quantity: 1, price: 59.99 }, { name: "Multivitamin", quantity: 1, price: 24.99 }] },
+  { slug: "vitamin-shoppe", name: "The Vitamin Shoppe", domain: "vitaminshoppe.com", category: "Health & Pharmacy", city: "Secaucus, NJ" },
+  { slug: "quest-diagnostics", name: "Quest Diagnostics", domain: "questdiagnostics.com", category: "Health & Pharmacy", city: "Secaucus, NJ", items: [{ name: "Lab Panel", quantity: 1, price: 95.0 }, { name: "Insurance Adjustment", quantity: 1, price: -60.0 }] },
+
+  // ── Services & Other ──
+  { slug: "ups", name: "UPS", domain: "ups.com", category: "Services & Other", city: "Atlanta, GA", items: [{ name: "Ground Shipping", quantity: 1, price: 12.85 }, { name: "Packaging", quantity: 1, price: 3.99 }] },
+  { slug: "the-ups-store", name: "The UPS Store", domain: "theupsstore.com", category: "Services & Other", city: "San Diego, CA", items: [{ name: "Printing (50 pages)", quantity: 50, price: 0.19 }, { name: "Notary Service", quantity: 1, price: 15.0 }] },
+  { slug: "dhl", name: "DHL", domain: "dhl.com", category: "Services & Other", city: "Bonn, Germany" },
+  { slug: "usps", name: "USPS", domain: "usps.com", category: "Services & Other", city: "Washington, DC", items: [{ name: "Priority Mail", quantity: 1, price: 9.65 }, { name: "Tracking", quantity: 1, price: 0.0 }] },
+  { slug: "la-fitness", name: "LA Fitness", domain: "lafitness.com", category: "Services & Other", city: "Irvine, CA", items: [{ name: "Monthly Membership", quantity: 1, price: 39.99 }, { name: "Annual Fee", quantity: 1, price: 49.0 }] },
+  { slug: "equinox", name: "Equinox", domain: "equinox.com", category: "Services & Other", city: "New York, NY", paper: "minimal", items: [{ name: "Monthly Membership", quantity: 1, price: 285.0 }] },
+  { slug: "orangetheory", name: "Orangetheory Fitness", domain: "orangetheory.com", category: "Services & Other", city: "Boca Raton, FL", items: [{ name: "Elite Membership — Monthly", quantity: 1, price: 159.0 }] },
+  { slug: "crunch-fitness", name: "Crunch Fitness", domain: "crunch.com", category: "Services & Other", city: "New York, NY" },
+  { slug: "anytime-fitness", name: "Anytime Fitness", domain: "anytimefitness.com", category: "Services & Other", city: "Woodbury, MN" },
+  { slug: "regal-cinemas", name: "Regal Cinemas", domain: "regmovies.com", category: "Services & Other", city: "Knoxville, TN", items: [{ name: "Adult Ticket", quantity: 2, price: 14.5 }, { name: "Large Popcorn", quantity: 1, price: 9.5 }, { name: "Soft Drink (L)", quantity: 2, price: 6.0 }] },
+  { slug: "cinemark", name: "Cinemark", domain: "cinemark.com", category: "Services & Other", city: "Plano, TX" },
+  { slug: "h-r-block", name: "H&R Block", domain: "hrblock.com", category: "Services & Other", city: "Kansas City, MO", items: [{ name: "Tax Prep — Federal", quantity: 1, price: 89.0 }, { name: "State Return", quantity: 1, price: 49.0 }] },
+];
+
+const GENERATED_BRANDS = NEW_BRAND_SEEDS.map(makeBrand);
+
+export const BRAND_TEMPLATES: ReceiptTemplate[] = [...HAND_BRANDS, ...GENERATED_BRANDS];
+
+const NEW_BRAND_CATEGORY: Record<string, BrandCategory> = {};
+for (const s of NEW_BRAND_SEEDS) NEW_BRAND_CATEGORY[s.slug] = s.category;
+
+/** Resolve a brand's user-facing category (generated → existing → fallback). */
+export function brandCategoryFor(slug: string): BrandCategory {
+  return NEW_BRAND_CATEGORY[slug] ?? EXISTING_BRAND_CATEGORY[slug] ?? "Retail";
+}
+
+export interface BrandListItem {
+  slug: string;
+  name: string;
+  logo: string;
+  icon: string;
+  category: BrandCategory;
+}
+
+/** Lightweight list for the /brands explorer (no heavy template fields). */
+export const BRAND_LIST: BrandListItem[] = BRAND_TEMPLATES.map((t) => ({
+  slug: t.slug,
+  name: t.shortName,
+  logo: t.defaults.logoDataUrl ?? "",
+  icon: t.icon,
+  category: brandCategoryFor(t.slug),
+}));
