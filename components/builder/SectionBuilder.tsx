@@ -23,6 +23,7 @@ import {
 import { getTemplate, TEMPLATES } from "@/lib/templates";
 import { receiptFromTemplate } from "@/lib/receipt";
 import { CURRENCIES, formatMoney, uid } from "@/lib/format";
+import { SITE } from "@/lib/site";
 import type { ReceiptData } from "@/lib/types";
 import type { AiReceiptResult } from "@/lib/ai-receipt";
 import { downloadPng, downloadPdf, exportFilename } from "@/lib/download";
@@ -85,7 +86,8 @@ export default function SectionBuilder() {
   const [aiLoading, setAiLoading] = useState(false);
   const [aiError, setAiError] = useState<string | null>(null);
   const [saveState, setSaveState] = useState<"idle" | "saving" | "saved">("idle");
-  const [exportFormat, setExportFormat] = useState<"pdf" | "png">("pdf");
+  // When a free user hits download, we confirm the watermark first.
+  const [pendingExport, setPendingExport] = useState<"png" | "pdf" | null>(null);
 
   useEffect(() => {
     // A receipt generated from the homepage AI box, handed off via sessionStorage.
@@ -262,6 +264,13 @@ export default function SectionBuilder() {
     } finally {
       setExporting(null);
     }
+  };
+
+  // Free users see a watermark-confirmation box first; Pro downloads directly.
+  const requestExport = (kind: "png" | "pdf") => {
+    if (exporting) return;
+    if (watermark) setPendingExport(kind);
+    else handleExport(kind);
   };
 
   const grandTotal = doc.sections.reduce(
@@ -473,54 +482,7 @@ export default function SectionBuilder() {
   }
 
   return (
-    <div className="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">
-      {/* Top bar */}
-      <div className="sticky top-16 z-30 -mx-4 mb-1 flex items-center justify-end gap-2 border-b border-slate-200 bg-slate-50/80 px-4 py-3 backdrop-blur sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
-        {/* Format toggle */}
-        <div className="inline-flex overflow-hidden rounded-lg border border-slate-300 bg-white text-xs font-medium">
-          {(["pdf", "png"] as const).map((f) => (
-            <button
-              key={f}
-              type="button"
-              onClick={() => setExportFormat(f)}
-              className={`px-3 py-1.5 uppercase ${exportFormat === f ? "bg-slate-900 text-white" : "text-slate-500 hover:text-slate-700"}`}
-            >
-              {f}
-            </button>
-          ))}
-        </div>
-
-        {/* Primary download */}
-        <button
-          type="button"
-          onClick={() => handleExport(exportFormat)}
-          disabled={!!exporting}
-          className="inline-flex items-center gap-1.5 rounded-lg bg-indigo-600 px-4 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 disabled:opacity-60"
-        >
-          {exporting ? "Preparing…" : `⬇ Download`}
-        </button>
-
-        {account.isLoggedIn && (
-          <button
-            type="button"
-            onClick={saveReceipt}
-            disabled={saveState === "saving"}
-            title="Save to your account"
-            className="rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-sm text-slate-600 hover:bg-slate-50 disabled:opacity-60"
-          >
-            {saveState === "saving" ? "…" : saveState === "saved" ? "✓" : "💾"}
-          </button>
-        )}
-        <button
-          type="button"
-          onClick={reset}
-          title="Reset"
-          className="rounded-lg px-2.5 py-1.5 text-sm text-slate-400 hover:text-slate-700"
-        >
-          ↺
-        </button>
-      </div>
-
+    <div className="mx-auto max-w-7xl px-4 pb-20 pt-4 sm:px-6 lg:px-8">
       {/* AI generator */}
       <div className="mt-4 rounded-2xl border border-indigo-100 bg-gradient-to-br from-indigo-50 to-violet-50 p-4">
         <div className="flex items-center gap-2">
@@ -678,8 +640,16 @@ export default function SectionBuilder() {
                 </div>
               </div>
               <div className="mt-6 flex gap-3">
-                <button type="button" onClick={() => handleExport("pdf")} disabled={!!exporting} className="flex-1 rounded-full bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 disabled:opacity-60">{exporting === "pdf" ? "Preparing PDF…" : "Download PDF"}</button>
-                <button type="button" onClick={() => handleExport("png")} disabled={!!exporting} className="flex-1 rounded-full border border-indigo-200 bg-indigo-50 px-5 py-3 text-sm font-semibold text-indigo-700 hover:bg-indigo-100 disabled:opacity-60">{exporting === "png" ? "Preparing PNG…" : "Download PNG"}</button>
+                <button type="button" onClick={() => requestExport("pdf")} disabled={!!exporting} className="flex-1 rounded-full bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 disabled:opacity-60">{exporting === "pdf" ? "Preparing PDF…" : "Download PDF"}</button>
+                <button type="button" onClick={() => requestExport("png")} disabled={!!exporting} className="flex-1 rounded-full border border-indigo-200 bg-indigo-50 px-5 py-3 text-sm font-semibold text-indigo-700 hover:bg-indigo-100 disabled:opacity-60">{exporting === "png" ? "Preparing PNG…" : "Download PNG"}</button>
+              </div>
+              <div className="mt-3 flex items-center justify-center gap-4 text-xs font-medium text-slate-500">
+                {account.isLoggedIn && (
+                  <button type="button" onClick={saveReceipt} disabled={saveState === "saving"} className="hover:text-slate-700 disabled:opacity-60">
+                    {saveState === "saving" ? "Saving…" : saveState === "saved" ? "✓ Saved" : "💾 Save"}
+                  </button>
+                )}
+                <button type="button" onClick={reset} className="hover:text-slate-700">↺ Reset</button>
               </div>
               {watermark ? (
                 <p className="mt-3 text-center text-[11px] leading-relaxed text-slate-500">
@@ -699,6 +669,52 @@ export default function SectionBuilder() {
       </div>
 
       {showAdd && <AddSectionModal onPick={addSection} onClose={() => setShowAdd(false)} />}
+
+      {/* Watermark confirmation (free users) */}
+      {pendingExport && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 p-4"
+          onClick={() => setPendingExport(null)}
+        >
+          <div
+            className="w-full max-w-md rounded-3xl bg-white p-7 shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="text-3xl">🏷️</div>
+            <h3 className="mt-3 text-xl font-bold text-slate-900">Your download will include a watermark</h3>
+            <p className="mt-2 text-sm leading-relaxed text-slate-600">
+              Free downloads carry a small <strong>{SITE.name}</strong> watermark. Go Pro for clean,
+              watermark-free HD receipts, unlimited AI generation and saved history.
+            </p>
+            <div className="mt-6 flex flex-col gap-2">
+              <Link
+                href="/pricing"
+                className="rounded-full bg-indigo-600 px-5 py-3 text-center text-sm font-semibold text-white hover:bg-indigo-700"
+              >
+                Upgrade to remove watermark
+              </Link>
+              <button
+                type="button"
+                onClick={() => {
+                  const kind = pendingExport;
+                  setPendingExport(null);
+                  if (kind) handleExport(kind);
+                }}
+                className="rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+              >
+                Download with watermark ({pendingExport.toUpperCase()})
+              </button>
+              <button
+                type="button"
+                onClick={() => setPendingExport(null)}
+                className="px-5 py-2 text-xs font-medium text-slate-400 hover:text-slate-600"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
