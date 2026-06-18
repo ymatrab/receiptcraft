@@ -9,6 +9,7 @@ import Wordmark from "./Wordmark";
 const NAV_LINKS = [
   { href: "/templates", label: "Templates" },
   { href: "/brands", label: "Brands" },
+  { href: "/examples", label: "Examples" },
   { href: "/pricing", label: "Pricing" },
   { href: "/blog", label: "Blog" },
   { href: "/#faq", label: "FAQ" },
