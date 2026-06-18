@@ -538,15 +538,18 @@ export default function SectionBuilder() {
         ))}
       </div>
 
-      {/* Template quick-switch */}
+      {/* Template quick-switch (core set; full list lives on /templates) */}
       <div className="-mx-4 overflow-x-auto px-4 pb-4 pt-3 sm:mx-0 sm:px-0">
         <div className="flex gap-2">
-          {TEMPLATES.map((t) => (
+          {TEMPLATES.slice(0, 14).map((t) => (
             <button key={t.slug} type="button" onClick={() => applyTemplate(t.slug)} className={`flex shrink-0 items-center gap-1.5 rounded-full border px-4 py-2 text-sm font-medium transition-colors ${activeTemplate === t.slug ? "border-indigo-600 bg-indigo-600 text-white" : "border-slate-200 bg-white text-slate-600 hover:border-indigo-300"}`}>
               <span aria-hidden="true">{t.icon}</span>
               {t.shortName}
             </button>
           ))}
+          <Link href="/templates" className="flex shrink-0 items-center gap-1.5 rounded-full border border-dashed border-slate-300 px-4 py-2 text-sm font-medium text-slate-500 hover:border-indigo-300 hover:text-indigo-600">
+            All templates →
+          </Link>
         </div>
       </div>
 
