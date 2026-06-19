@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { SITE } from "@/lib/site";
 import { TEMPLATES } from "@/lib/templates";
 import { BRAND_TEMPLATES } from "@/lib/brands";
-import { EXAMPLES } from "@/lib/examples";
+import { EXAMPLES, EXAMPLES_TOTAL_PAGES } from "@/lib/examples";
 import { INTENT_PAGES } from "@/lib/intent-pages";
 import { getAllPosts } from "@/lib/sanity/queries";
 
@@ -58,6 +58,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }));
 
+  // Paginated /examples index pages (page 1 is /examples, already listed above).
+  const exampleListPages: MetadataRoute.Sitemap = Array.from(
+    { length: Math.max(0, EXAMPLES_TOTAL_PAGES - 1) },
+    (_, i) => ({
+      url: `${SITE.url}/examples/page/${i + 2}`,
+      lastModified,
+      changeFrequency: "weekly" as const,
+      priority: 0.5,
+    })
+  );
+
   const intentPages: MetadataRoute.Sitemap = INTENT_PAGES.map((p) => ({
     url: `${SITE.url}/receipt-help/${p.slug}`,
     lastModified,
@@ -70,6 +81,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...templatePages,
     ...brandPages,
     ...examplePages,
+    ...exampleListPages,
     ...intentPages,
     ...blogPages,
   ];

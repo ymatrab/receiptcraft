@@ -460,3 +460,12 @@ export const EXAMPLE_SLUGS = EXAMPLES.map((e) => e.slug);
 export function getExample(slug: string): Example | undefined {
   return EXAMPLES.find((e) => e.slug === slug);
 }
+
+/** Pagination for the /examples index (page 1 = /examples, page N = /examples/page/N). */
+export const EXAMPLES_PER_PAGE = 50;
+export const EXAMPLES_TOTAL_PAGES = Math.max(1, Math.ceil(EXAMPLES.length / EXAMPLES_PER_PAGE));
+
+export function examplesForPage(page: number): Example[] {
+  const start = (page - 1) * EXAMPLES_PER_PAGE;
+  return EXAMPLES.slice(start, start + EXAMPLES_PER_PAGE);
+}
