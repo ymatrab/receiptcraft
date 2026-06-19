@@ -6,8 +6,10 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: "*",
-        allow: "/",
-        // Keep private + non-content routes out of the index.
+        // Allow the brand-logo proxy that brand/example pages embed — longest
+        // match wins, so /api/logo stays crawlable while the rest of /api/ and
+        // the private routes stay out of the index.
+        allow: ["/", "/api/logo"],
         disallow: ["/admin", "/account", "/login", "/api/"],
       },
     ],

@@ -6,8 +6,14 @@ import { EXAMPLES, EXAMPLES_TOTAL_PAGES } from "@/lib/examples";
 import { INTENT_PAGES } from "@/lib/intent-pages";
 import { getAllPosts } from "@/lib/sanity/queries";
 
+// Stable content date. Bump when the programmatic page data (templates, brands,
+// examples, intent pages, static copy) materially changes. Using `new Date()`
+// here would stamp every page as "just modified" on each deploy and train
+// crawlers to ignore <lastmod>. Blog entries override this with publishedAt.
+const CONTENT_UPDATED = new Date("2026-06-19");
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const lastModified = new Date();
+  const lastModified = CONTENT_UPDATED;
 
   const staticPages: MetadataRoute.Sitemap = [
     { url: SITE.url, lastModified, changeFrequency: "weekly", priority: 1 },
