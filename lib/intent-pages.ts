@@ -7,7 +7,7 @@ import type { BrandCategory } from "./brand-categories";
  * receipt. Each (brand × topic) is a distinct real search query.
  */
 
-export type IntentKind = "lost-receipt" | "receipt-copy" | "return-policy";
+export type IntentKind = "lost-receipt" | "receipt-copy" | "return-policy" | "refund-policy";
 
 interface IntentBrand {
   slug: string; // must match a brand slug in BRAND_TEMPLATES
@@ -59,13 +59,49 @@ const BRANDS: IntentBrand[] = [
   { slug: "airbnb", name: "Airbnb", category: "Travel" },
   { slug: "delta-airlines", name: "Delta Airlines", category: "Travel" },
   { slug: "southwest-airlines", name: "Southwest Airlines", category: "Travel" },
+  { slug: "burger-king", name: "Burger King", category: "Restaurants" },
+  { slug: "subway", name: "Subway", category: "Restaurants" },
+  { slug: "taco-bell", name: "Taco Bell", category: "Restaurants" },
+  { slug: "kfc", name: "KFC", category: "Restaurants" },
+  { slug: "wendy-s", name: "Wendy's", category: "Restaurants" },
+  { slug: "popeyes", name: "Popeyes", category: "Restaurants" },
+  { slug: "domino-s-pizza", name: "Domino's Pizza", category: "Restaurants" },
+  { slug: "pizza-hut", name: "Pizza Hut", category: "Restaurants" },
+  { slug: "panda-express", name: "Panda Express", category: "Restaurants" },
+  { slug: "panera-bread", name: "Panera Bread", category: "Restaurants" },
+  { slug: "tim-hortons", name: "Tim Hortons", category: "Coffee & Cafés" },
+  { slug: "peet-s-coffee", name: "Peet's Coffee", category: "Coffee & Cafés" },
+  { slug: "petco", name: "Petco", category: "Retail" },
+  { slug: "autozone", name: "AutoZone", category: "Retail" },
+  { slug: "barnes-noble", name: "Barnes & Noble", category: "Retail" },
+  { slug: "zara", name: "Zara", category: "Retail" },
+  { slug: "h-m", name: "H&M", category: "Retail" },
+  { slug: "gucci", name: "Gucci", category: "Retail" },
+  { slug: "ebay", name: "eBay", category: "Retail" },
+  { slug: "exxon", name: "Exxon", category: "Gas & Convenience" },
+  { slug: "bp", name: "BP", category: "Gas & Convenience" },
+  { slug: "wawa", name: "Wawa", category: "Gas & Convenience" },
+  { slug: "united-airlines", name: "United Airlines", category: "Travel" },
+  { slug: "american-airlines", name: "American Airlines", category: "Travel" },
+  { slug: "hyatt", name: "Hyatt", category: "Travel" },
+  { slug: "hertz", name: "Hertz", category: "Travel" },
+  { slug: "expedia", name: "Expedia", category: "Travel" },
+  { slug: "grubhub", name: "Grubhub", category: "Rideshare & Delivery" },
+  { slug: "netflix", name: "Netflix", category: "Digital & Subscriptions" },
+  { slug: "spotify", name: "Spotify", category: "Digital & Subscriptions" },
 ];
 
 const SUFFIX: Record<IntentKind, string> = {
   "lost-receipt": "lost-receipt",
   "receipt-copy": "receipt-copy",
   "return-policy": "return-policy",
+  "refund-policy": "refund-policy",
 };
+
+// Product brands talk about "returns"; service/digital brands about "refunds".
+const RETURN_CATEGORIES = new Set<BrandCategory>(["Retail", "Grocery", "Health & Pharmacy"]);
+const thirdKind = (category: BrandCategory): IntentKind =>
+  RETURN_CATEGORIES.has(category) ? "return-policy" : "refund-policy";
 
 export interface IntentPage {
   slug: string;
@@ -75,15 +111,16 @@ export interface IntentPage {
   kind: IntentKind;
 }
 
-export const INTENT_PAGES: IntentPage[] = BRANDS.flatMap((b) =>
-  (Object.keys(SUFFIX) as IntentKind[]).map((kind) => ({
+export const INTENT_PAGES: IntentPage[] = BRANDS.flatMap((b) => {
+  const kinds: IntentKind[] = ["lost-receipt", "receipt-copy", thirdKind(b.category)];
+  return kinds.map((kind) => ({
     slug: `${b.slug}-${SUFFIX[kind]}`,
     brandSlug: b.slug,
     brandName: b.name,
     category: b.category,
     kind,
-  }))
-);
+  }));
+});
 
 export const INTENT_SLUGS = INTENT_PAGES.map((p) => p.slug);
 
@@ -186,6 +223,38 @@ export function intentContent(p: IntentPage): IntentContent {
       ctaHeading: `Make a copy of your ${n} receipt`,
     };
   }
+  if (p.kind === "refund-policy") {
+    return {
+      title: `${n} Refunds: Do You Need a Receipt?`,
+      description: `Getting a refund from ${n}? Learn whether you need a receipt or order confirmation, where to find it, and what to do if you've lost your ${n} receipt.`,
+      h1: `${n} Refunds & Receipts`,
+      lead: `Requesting a refund or cancellation from ${n}? Here's how your receipt or order confirmation fits in — and what to do if you can't find it.`,
+      sections: [
+        {
+          heading: `Do you need a receipt for a ${n} refund?`,
+          body: `For most refunds and cancellations, ${n} ties the request to your order — so a receipt, order confirmation or account record makes it much faster. Refund eligibility and timeframes vary and change over time, so check ${n}'s current refund or cancellation policy before requesting one.`,
+        },
+        {
+          heading: `Where to find your ${n} order details`,
+          steps: [
+            lookupStep(n, p.category),
+            `Search your email for the ${n} order or booking confirmation.`,
+            `Check your bank or card statement to confirm the date and amount of the charge.`,
+          ],
+        },
+        {
+          heading: `Lost the ${n} receipt for your records?`,
+          body: `If your refund is processed but you no longer have the original receipt, you can recreate a ${n} receipt that reflects the real transaction to keep with your expense records. Use a recreated receipt only honestly — never to misrepresent a charge.`,
+        },
+      ],
+      faqs: [
+        { question: `How do I get a refund from ${n}?`, answer: `Start from your ${n} order or account, find the transaction, and follow the refund or cancellation steps. Having the receipt or confirmation handy speeds it up. Exact steps and eligibility depend on ${n}'s current policy.` },
+        { question: `Can I get a receipt for a ${n} refund?`, answer: `Yes — ${n} typically issues a refund confirmation by email or in your account. Keep it with the original receipt for your records.` },
+      ],
+      ctaHeading: `Recreate your ${n} receipt`,
+    };
+  }
+
   // return-policy
   return {
     title: `${n} Returns: Do You Need a Receipt?`,
