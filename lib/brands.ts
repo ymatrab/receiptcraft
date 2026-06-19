@@ -5278,36 +5278,264 @@ interface BrandSeed {
   items?: Omit<LineItem, "id">[];
 }
 
+// ---------------------------------------------------------------------------
+// Per-brand variety. A stable hash of the slug selects which intro / FAQ /
+// use-case / title / footer variant each generated brand gets, so no two pages
+// share the same body text even though they are machine-built. Deterministic:
+// output depends only on the slug, so pages don't churn between builds.
+// ---------------------------------------------------------------------------
+
+function hashSlug(slug: string): number {
+  let h = 2166136261;
+  for (let i = 0; i < slug.length; i++) {
+    h ^= slug.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return h >>> 0;
+}
+
+function pick<T>(arr: T[], seed: number): T {
+  // Math.abs guards against signed-shift seeds going negative (arr[-n] is undefined).
+  return arr[Math.abs(seed) % arr.length];
+}
+
+/** Pick `n` distinct entries from `arr`, chosen deterministically from `seed`. */
+function pickDistinct<T>(arr: T[], n: number, seed: number): T[] {
+  const out: T[] = [];
+  const used = new Set<number>();
+  let s = seed || 1;
+  while (out.length < Math.min(n, arr.length)) {
+    s = (Math.imul(s, 1103515245) + 12345) >>> 0;
+    const i = s % arr.length;
+    if (!used.has(i)) {
+      used.add(i);
+      out.push(arr[i]);
+    }
+  }
+  return out;
+}
+
+const INTRO_VARIANTS: ((n: string, noun: string) => string)[] = [
+  (n, noun) => `Create a realistic ${n} receipt with ${noun}. Perfect for replacing a lost ${n} receipt, expense reports, bookkeeping records or design mockups.`,
+  (n, noun) => `Need a ${n} receipt fast? Build one with ${noun}, then download a clean PDF or PNG in under a minute — no sign-up required.`,
+  (n, noun) => `Recreate a ${n} receipt that matches the real thing, complete with ${noun}. Adjust the totals and export it for expenses, reimbursements or your own records.`,
+  (n, noun) => `Make a ${n} receipt online in seconds. Lay it out with ${noun} — subtotal, tax and total included — ready to print or save.`,
+];
+
+const SEO_DESC_VARIANTS: ((n: string, noun: string) => string)[] = [
+  (n, noun) => `Create a realistic ${n} receipt online in seconds. Add ${noun}, then download as a PDF or PNG. Free, no sign-up.`,
+  (n, noun) => `Make a ${n} receipt with ${noun} and download a print-ready PDF or PNG. Free ${n} receipt generator — no account needed.`,
+  (n, noun) => `Generate a ${n} receipt online, complete with ${noun}. Set the totals and export instantly — free, private, no sign-up.`,
+];
+
+const TITLE_VARIANTS: ((n: string) => string)[] = [
+  (n) => `Free ${n} Receipt Generator — Make a ${n} Receipt`,
+  (n) => `${n} Receipt Generator — Create a Realistic ${n} Receipt`,
+  (n) => `Make a ${n} Receipt — Free ${n} Receipt Generator`,
+];
+
+const USECASE_VARIANTS: ((n: string) => string[])[] = [
+  (n) => [`Replace a lost ${n} receipt`, "Expense reports and reimbursement", "Personal bookkeeping and records", "Props and design mockups"],
+  (n) => [`Recover a misplaced ${n} receipt`, "Business travel expense claims", "Budgeting and spend tracking", "Mockups for design or film"],
+  (n) => [`Reprint a ${n} receipt you lost`, "Submit for reimbursement at work", "Records for taxes and bookkeeping", "Sample receipts for testing or demos"],
+];
+
+const FOOTER_VARIANTS: ((n: string) => string)[] = [
+  (n) => `Thank you — see you again at ${n}!`,
+  () => `Thank you for your purchase!`,
+  () => `Thanks for shopping with us today.`,
+  (n) => `${n} appreciates your business.`,
+];
+
+type FaqVariant = (n: string) => { question: string; answer: string };
+
+// "How do I make…" is the primary search intent, so it always leads; two more
+// are rotated in from the pool below for variety.
+const FAQ_ANCHOR: FaqVariant = (n) => ({
+  question: `How do I make a ${n} receipt?`,
+  answer: `Open the ${n} template, edit the store details, add your items and prices, set the tax rate, then download as a PDF or PNG. It takes under a minute and needs no account.`,
+});
+
+const FAQ_POOL: FaqVariant[] = [
+  (n) => ({ question: `Is the ${n} receipt generator free?`, answer: `Yes. You can create and download a ${n} receipt for free. Free downloads include a small watermark; upgrade to Pro to remove it and unlock unlimited AI generation.` }),
+  (n) => ({ question: `Can I edit the items and prices on a ${n} receipt?`, answer: `Every line, quantity, price and the tax rate is fully editable, so your ${n} receipt matches exactly what you need.` }),
+  (n) => ({ question: `Can I download a ${n} receipt as a PDF?`, answer: `Yes — export your ${n} receipt as a high-resolution PDF or PNG, ready to print or attach to an expense report.` }),
+  (n) => ({ question: `Does it look like a real ${n} receipt?`, answer: `The layout mirrors a genuine ${n} receipt — logo, itemized lines, subtotal, tax and total — so it reads as authentic at a glance.` }),
+  (n) => ({ question: `Do I need an account to make a ${n} receipt?`, answer: `No. Creating and downloading a ${n} receipt needs no sign-up. An account only adds saved receipts and Pro perks like watermark-free exports.` }),
+  (n) => ({ question: `Can I change the date and store details on a ${n} receipt?`, answer: `Yes. Set the date, store address, register or order number and cashier so your ${n} receipt reflects the right visit.` }),
+  (n) => ({ question: `What can I use a ${n} receipt for?`, answer: `People recreate ${n} receipts to replace a lost original, document purchases for expense and reimbursement claims, keep bookkeeping records, or use them as props and mockups.` }),
+];
+
+// Real, brand-appropriate items for seeds that would otherwise fall back to
+// generic category defaults. Gives each of these pages a distinct receipt body.
+const BRAND_ITEMS: Record<string, Omit<LineItem, "id">[]> = {
+  // ── Restaurants ──
+  "carl-s-jr": [{ name: "Famous Star w/ Cheese Combo", quantity: 1, price: 8.79 }, { name: "CrissCut Fries", quantity: 1, price: 3.49 }, { name: "Chocolate Shake", quantity: 1, price: 3.99 }],
+  "hardees": [{ name: "1/3 lb Thickburger Combo", quantity: 1, price: 9.29 }, { name: "Hand-Breaded Chicken Tenders 3pc", quantity: 1, price: 5.49 }],
+  "del-taco": [{ name: "Epic Cali Burrito", quantity: 1, price: 7.49 }, { name: "Crinkle Cut Fries", quantity: 1, price: 2.49 }, { name: "Del Taco", quantity: 2, price: 1.69 }],
+  "moe-s-southwest-grill": [{ name: "Homewrecker Burrito", quantity: 1, price: 10.49 }, { name: "Chips & Queso", quantity: 1, price: 4.29 }],
+  "el-pollo-loco": [{ name: "2pc Chicken Combo", quantity: 1, price: 9.99 }, { name: "Chicken Tortilla Soup", quantity: 1, price: 4.49 }],
+  "white-castle": [{ name: "Original Slider", quantity: 6, price: 0.99 }, { name: "Cheese Slider", quantity: 2, price: 1.29 }, { name: "Small Fries", quantity: 1, price: 2.19 }],
+  "checkers": [{ name: "Big Buford", quantity: 1, price: 6.49 }, { name: "Famous Seasoned Fries (Lg)", quantity: 1, price: 3.29 }, { name: "Strawberry Milkshake", quantity: 1, price: 3.99 }],
+  "bojangles": [{ name: "8pc Tailgate Special", quantity: 1, price: 22.99 }, { name: "Bo-Berry Biscuits 3pc", quantity: 1, price: 3.99 }],
+  "zaxbys": [{ name: "Chicken Finger Plate", quantity: 1, price: 9.99 }, { name: "Texas Toast", quantity: 1, price: 0.0 }, { name: "Extra Zax Sauce", quantity: 2, price: 0.5 }],
+  "church-s-chicken": [{ name: "2pc Chicken Combo", quantity: 1, price: 7.79 }, { name: "Honey-Butter Biscuit", quantity: 2, price: 1.29 }],
+  "marco-s-pizza": [{ name: "Large Pepperoni Magnifico", quantity: 1, price: 14.99 }, { name: "CheezyBread", quantity: 1, price: 6.49 }],
+  "blaze-pizza": [{ name: "Build Your Own 11\" Pizza", quantity: 2, price: 9.45 }, { name: "Blood Orange Lemonade", quantity: 1, price: 3.25 }],
+  "mod-pizza": [{ name: "MOD-Size Custom Pizza", quantity: 1, price: 9.87 }, { name: "Caesar Salad", quantity: 1, price: 7.27 }],
+  "tgi-fridays": [{ name: "Loaded Potato Skins", quantity: 1, price: 10.49 }, { name: "Jack Daniel's Burger", quantity: 1, price: 16.99 }],
+  "longhorn-steakhouse": [{ name: "Outlaw Ribeye 18oz", quantity: 1, price: 28.99 }, { name: "Wild West Shrimp", quantity: 1, price: 10.49 }],
+  "red-robin": [{ name: "Royal Red Robin Burger", quantity: 1, price: 15.49 }, { name: "Bottomless Steak Fries", quantity: 1, price: 0.0 }, { name: "Freckled Lemonade", quantity: 1, price: 3.99 }],
+  "cracker-barrel": [{ name: "Country Fried Steak", quantity: 1, price: 12.99 }, { name: "Hashbrown Casserole", quantity: 1, price: 3.49 }, { name: "Buttermilk Biscuits", quantity: 1, price: 0.0 }],
+  "golden-corral": [{ name: "Adult Buffet", quantity: 2, price: 16.99 }, { name: "Beverage", quantity: 2, price: 2.99 }],
+  "steak-n-shake": [{ name: "Steakburger 'n Fries Combo", quantity: 1, price: 7.99 }, { name: "Chili Mac", quantity: 1, price: 5.49 }, { name: "Hand-Dipped Shake", quantity: 1, price: 4.29 }],
+  "portillos": [{ name: "Italian Beef Combo", quantity: 1, price: 9.79 }, { name: "Chicago-Style Hot Dog", quantity: 1, price: 4.49 }, { name: "Chocolate Cake Shake", quantity: 1, price: 6.49 }],
+  "firehouse-subs": [{ name: "Hook & Ladder Sub (Lg)", quantity: 1, price: 10.99 }, { name: "Chips", quantity: 1, price: 1.79 }, { name: "Drink", quantity: 1, price: 2.49 }],
+  "potbelly": [{ name: "Original Italian Sandwich", quantity: 1, price: 7.49 }, { name: "Chips", quantity: 1, price: 1.99 }, { name: "Oatmeal Chocolate Chip Cookie", quantity: 1, price: 2.29 }],
+  "noodles-company": [{ name: "Wisconsin Mac & Cheese", quantity: 1, price: 8.95 }, { name: "Pad Thai", quantity: 1, price: 9.95 }],
+
+  // ── Coffee & Cafés ──
+  "philz-coffee": [{ name: "Mint Mojito Iced Coffee", quantity: 1, price: 5.95 }, { name: "Tesora Pour Over", quantity: 1, price: 4.5 }],
+  "the-coffee-bean": [{ name: "Ice Blended Mocha", quantity: 1, price: 5.95 }, { name: "Almond Croissant", quantity: 1, price: 3.95 }],
+  "scooter-s-coffee": [{ name: "Caramelicious", quantity: 1, price: 5.25 }, { name: "Cinnamon Roll", quantity: 1, price: 3.45 }],
+  "biggby-coffee": [{ name: "Teddy Bear Latte", quantity: 1, price: 4.99 }, { name: "Bagel w/ Cream Cheese", quantity: 1, price: 2.99 }],
+  "caffe-nero": [{ name: "Cappuccino", quantity: 1, price: 3.25 }, { name: "Ham & Cheese Panini", quantity: 1, price: 5.45 }],
+  "einstein-bros-bagels": [{ name: "Bacon Egg & Cheese Bagel", quantity: 1, price: 5.49 }, { name: "Plain Bagel w/ Shmear", quantity: 1, price: 2.99 }, { name: "Coffee (Lg)", quantity: 1, price: 2.49 }],
+
+  // ── Grocery ──
+  "food-lion": [{ name: "Food Lion 2% Milk 1Gal", quantity: 1, price: 3.29 }, { name: "Large White Eggs 12ct", quantity: 1, price: 2.49 }, { name: "White Bread", quantity: 1, price: 1.49 }, { name: "Bananas (lb)", quantity: 2, price: 0.55 }],
+  "giant-food": [{ name: "Giant 2% Milk 1Gal", quantity: 1, price: 3.49 }, { name: "Boar's Head Turkey (lb)", quantity: 1, price: 9.99 }, { name: "Wheat Bread", quantity: 1, price: 2.29 }],
+  "stop-shop": [{ name: "Nature's Promise Eggs 12ct", quantity: 1, price: 3.29 }, { name: "Whole Milk 1Gal", quantity: 1, price: 3.59 }, { name: "Pasta 16oz", quantity: 2, price: 1.29 }],
+  "vons": [{ name: "Signature Select Milk 1Gal", quantity: 1, price: 3.79 }, { name: "Rotisserie Chicken", quantity: 1, price: 7.99 }, { name: "Salad Mix", quantity: 1, price: 3.49 }],
+  "ralphs": [{ name: "Ralphs Milk 1Gal", quantity: 1, price: 3.49 }, { name: "Ground Beef 80/20 (lb)", quantity: 1, price: 5.99 }, { name: "Flour Tortillas", quantity: 1, price: 2.49 }],
+  "albertsons": [{ name: "Lucerne Milk 1Gal", quantity: 1, price: 3.49 }, { name: "Large Eggs 18ct", quantity: 1, price: 4.29 }, { name: "Sourdough Loaf", quantity: 1, price: 3.99 }],
+  "winco-foods": [{ name: "Bulk Long Grain Rice (lb)", quantity: 3, price: 0.79 }, { name: "Eggs 12ct", quantity: 1, price: 2.19 }, { name: "Milk 1Gal", quantity: 1, price: 2.99 }],
+  "hy-vee": [{ name: "Hy-Vee Milk 1Gal", quantity: 1, price: 3.29 }, { name: "Bakery Donuts 6ct", quantity: 1, price: 3.99 }, { name: "Bananas (lb)", quantity: 2, price: 0.55 }],
+  "harris-teeter": [{ name: "HT Traders Milk 1Gal", quantity: 1, price: 3.59 }, { name: "Chicken Breast (lb)", quantity: 1, price: 4.99 }, { name: "Baguette", quantity: 1, price: 2.29 }],
+  "giant-eagle": [{ name: "Giant Eagle Milk 1Gal", quantity: 1, price: 3.49 }, { name: "Large Eggs 12ct", quantity: 1, price: 2.79 }, { name: "Ground Coffee 12oz", quantity: 1, price: 7.99 }],
+  "shoprite": [{ name: "Bowl & Basket Milk 1Gal", quantity: 1, price: 3.29 }, { name: "Eggs 12ct", quantity: 1, price: 2.49 }, { name: "Cereal", quantity: 1, price: 3.99 }],
+  "fred-meyer": [{ name: "Kroger Milk 1Gal", quantity: 1, price: 3.39 }, { name: "Gala Apples (lb)", quantity: 2, price: 1.49 }, { name: "Sandwich Bread", quantity: 1, price: 1.99 }],
+  "asda": [{ name: "ASDA Semi-Skimmed Milk 2pt", quantity: 1, price: 1.3 }, { name: "Hovis Wholemeal Bread", quantity: 1, price: 1.1 }, { name: "Free Range Eggs 6", quantity: 1, price: 1.45 }],
+  "morrisons": [{ name: "Morrisons Milk 4pt", quantity: 1, price: 1.45 }, { name: "Wholemeal Bread", quantity: 1, price: 0.89 }, { name: "Mature Cheddar 350g", quantity: 1, price: 2.5 }],
+  "waitrose": [{ name: "Essential Whole Milk 2pt", quantity: 1, price: 1.4 }, { name: "Free Range Eggs 6", quantity: 1, price: 2.1 }, { name: "Sourdough Loaf", quantity: 1, price: 1.85 }],
+  "mercadona": [{ name: "Leche Entera 1L", quantity: 2, price: 0.85 }, { name: "Pan de Molde", quantity: 1, price: 1.1 }, { name: "Huevos 12", quantity: 1, price: 1.95 }],
+  "edeka": [{ name: "Vollmilch 1L", quantity: 2, price: 0.99 }, { name: "Brötchen 6", quantity: 1, price: 1.2 }, { name: "Eier 10", quantity: 1, price: 2.49 }],
+  "rewe": [{ name: "REWE Bio Milch 1L", quantity: 1, price: 1.19 }, { name: "Roggenbrot", quantity: 1, price: 1.49 }, { name: "Butter 250g", quantity: 1, price: 1.99 }],
+  "albert-heijn": [{ name: "AH Halfvolle Melk 1L", quantity: 1, price: 1.05 }, { name: "Volkorenbrood", quantity: 1, price: 1.39 }, { name: "Eieren 10", quantity: 1, price: 2.29 }],
+  "sobeys": [{ name: "Compliments Milk 4L", quantity: 1, price: 5.49 }, { name: "White Bread", quantity: 1, price: 2.99 }, { name: "Large Eggs 12", quantity: 1, price: 3.79 }],
+  "coles": [{ name: "Coles Full Cream Milk 2L", quantity: 1, price: 3.1 }, { name: "White Bread", quantity: 1, price: 1.5 }, { name: "Free Range Eggs 12", quantity: 1, price: 4.5 }],
+  "woolworths-au": [{ name: "Woolworths Milk 2L", quantity: 1, price: 3.1 }, { name: "Wholemeal Bread", quantity: 1, price: 1.6 }, { name: "Cavendish Bananas (kg)", quantity: 1, price: 3.9 }],
+
+  // ── Retail ──
+  "jcpenney": [{ name: "Stafford Dress Shirt", quantity: 2, price: 29.99 }, { name: "Home Expressions Sheet Set", quantity: 1, price: 39.99 }],
+  "bed-bath-beyond": [{ name: "Wamsutta Comforter Set", quantity: 1, price: 89.99 }, { name: "Cuisinart Knife Set", quantity: 1, price: 49.99 }],
+  "big-lots": [{ name: "Stonehurst Patio Chair", quantity: 1, price: 79.99 }, { name: "Storage Bins", quantity: 3, price: 9.99 }],
+  "family-dollar": [{ name: "Cleaning Supplies", quantity: 3, price: 1.5 }, { name: "Paper Towels 6pk", quantity: 1, price: 5.99 }, { name: "Snacks", quantity: 4, price: 1.25 }],
+  "burlington": [{ name: "Winter Jacket", quantity: 1, price: 49.99 }, { name: "Kids' Sneakers", quantity: 1, price: 24.99 }],
+  "gap": [{ name: "Logo Fleece Hoodie", quantity: 1, price: 49.95 }, { name: "1969 Slim Jeans", quantity: 1, price: 69.95 }],
+  "banana-republic": [{ name: "Untucked Dress Shirt", quantity: 1, price: 79.5 }, { name: "Aiden Slim Chinos", quantity: 1, price: 89.5 }],
+  "j-crew": [{ name: "Secret Wash Oxford Shirt", quantity: 1, price: 79.5 }, { name: "484 Slim Chino", quantity: 1, price: 98.0 }],
+  "forever-21": [{ name: "Graphic Tee", quantity: 2, price: 12.99 }, { name: "Denim Skirt", quantity: 1, price: 24.99 }],
+  "urban-outfitters": [{ name: "UO Graphic Tee", quantity: 1, price: 39.0 }, { name: "Vinyl Record", quantity: 1, price: 28.0 }],
+  "american-eagle": [{ name: "AE AirFlex Jeans", quantity: 1, price: 49.95 }, { name: "Graphic Tee", quantity: 1, price: 24.95 }],
+  "hollister": [{ name: "Skinny Jeans", quantity: 1, price: 59.95 }, { name: "Logo Hoodie", quantity: 1, price: 44.95 }],
+  "victorias-secret": [{ name: "Body by Victoria Bra", quantity: 1, price: 54.95 }, { name: "PINK Leggings", quantity: 1, price: 49.95 }],
+  "dsw": [{ name: "Nike Running Shoes", quantity: 1, price: 89.99 }, { name: "Dress Shoes", quantity: 1, price: 69.99 }],
+  "menards": [{ name: "2x4x8 Stud", quantity: 12, price: 3.49 }, { name: "Interior Paint Gallon", quantity: 1, price: 28.99 }, { name: "Wood Screws 1lb", quantity: 1, price: 7.49 }],
+  "tractor-supply": [{ name: "4health Dog Food 40lb", quantity: 1, price: 44.99 }, { name: "Work Boots", quantity: 1, price: 89.99 }],
+  "office-depot": [{ name: "Multipurpose Paper 10-Ream", quantity: 1, price: 49.99 }, { name: "HP Ink Cartridge", quantity: 1, price: 32.99 }],
+  "newegg": [{ name: "GeForce RTX GPU", quantity: 1, price: 399.99 }, { name: "NVMe SSD 1TB", quantity: 1, price: 79.99 }],
+  "crate-barrel": [{ name: "Aspen Dinnerware Set", quantity: 1, price: 99.95 }, { name: "Lumbar Throw Pillow", quantity: 1, price: 39.95 }],
+  "williams-sonoma": [{ name: "Le Creuset Dutch Oven", quantity: 1, price: 369.95 }, { name: "Chef's Knife", quantity: 1, price: 79.95 }],
+  "pottery-barn": [{ name: "Faux Fur Throw", quantity: 1, price: 79.5 }, { name: "Table Lamp", quantity: 1, price: 129.0 }],
+  "world-market": [{ name: "Cabernet Sauvignon", quantity: 2, price: 12.99 }, { name: "Outdoor Cushion", quantity: 1, price: 29.99 }],
+  "hobby-lobby": [{ name: "Stretched Canvas 3pk", quantity: 1, price: 12.99 }, { name: "Acrylic Paint Set", quantity: 1, price: 19.99 }, { name: "Yarn", quantity: 3, price: 3.49 }],
+  "party-city": [{ name: "Latex Balloons 24pk", quantity: 1, price: 6.99 }, { name: "Tableware Set", quantity: 1, price: 14.99 }, { name: "Helium Tank", quantity: 1, price: 39.99 }],
+  "guitar-center": [{ name: "Ernie Ball Strings", quantity: 3, price: 5.99 }, { name: "Instrument Cable", quantity: 1, price: 19.99 }],
+  "cabelas": [{ name: "Hiking Boots", quantity: 1, price: 129.99 }, { name: "Spinning Reel", quantity: 1, price: 59.99 }],
+  "bass-pro-shops": [{ name: "Rod & Reel Combo", quantity: 1, price: 79.99 }, { name: "Tackle Box", quantity: 1, price: 24.99 }],
+  "academy-sports": [{ name: "Brooks Running Shoes", quantity: 1, price: 109.99 }, { name: "Adjustable Dumbbell", quantity: 1, price: 49.99 }],
+  "total-wine": [{ name: "Cabernet Sauvignon 750ml", quantity: 1, price: 15.99 }, { name: "Craft IPA 6pk", quantity: 1, price: 11.99 }, { name: "Tequila 750ml", quantity: 1, price: 29.99 }],
+  "pep-boys": [{ name: "Synthetic Oil Change", quantity: 1, price: 49.99 }, { name: "Wiper Blades", quantity: 2, price: 14.99 }],
+  "napa-auto-parts": [{ name: "NAPA Air Filter", quantity: 1, price: 18.99 }, { name: "Brake Pads (Front)", quantity: 1, price: 44.99 }],
+  "kay-jewelers": [{ name: "Diamond Pendant Necklace", quantity: 1, price: 399.0 }],
+  "zales": [{ name: "10K Gold Hoop Earrings", quantity: 1, price: 199.0 }],
+  "michael-kors": [{ name: "Jet Set Crossbody Bag", quantity: 1, price: 298.0 }],
+  "kate-spade": [{ name: "Spencer Slim Wallet", quantity: 1, price: 178.0 }],
+  "versace": [{ name: "Greca Sunglasses", quantity: 1, price: 320.0 }],
+  "balenciaga": [{ name: "Logo T-Shirt", quantity: 1, price: 450.0 }],
+
+  // ── Gas & Convenience ──
+  "texaco": [{ name: "Regular Unleaded (gal)", quantity: 11.2, price: 3.45 }, { name: "Bottled Water", quantity: 1, price: 1.99 }],
+  "citgo": [{ name: "Regular Unleaded (gal)", quantity: 12.0, price: 3.39 }],
+  "sunoco": [{ name: "Sunoco 87 Unleaded (gal)", quantity: 10.8, price: 3.49 }, { name: "Energy Drink", quantity: 1, price: 2.99 }],
+  "valero": [{ name: "Regular Unleaded (gal)", quantity: 12.5, price: 3.29 }],
+  "phillips-66": [{ name: "Regular Unleaded (gal)", quantity: 11.0, price: 3.42 }, { name: "Coffee (M)", quantity: 1, price: 1.79 }],
+  "conoco": [{ name: "Regular Unleaded (gal)", quantity: 10.5, price: 3.55 }],
+  "casey-s": [{ name: "Regular Unleaded (gal)", quantity: 11.8, price: 3.25 }, { name: "Casey's Pizza Slice", quantity: 2, price: 2.99 }],
+  "kwik-trip": [{ name: "Regular Unleaded (gal)", quantity: 12.2, price: 3.19 }, { name: "Glazer Donut", quantity: 1, price: 1.29 }],
+  "racetrac": [{ name: "Regular Unleaded (gal)", quantity: 11.6, price: 3.29 }, { name: "Crazy Cooler (L)", quantity: 1, price: 0.99 }],
+
+  // ── Travel ──
+  "alaska-airlines": [{ name: "Base Fare (SEA-LAX)", quantity: 1, price: 148.0 }, { name: "Seat Selection", quantity: 1, price: 25.0 }, { name: "Checked Bag", quantity: 1, price: 35.0 }],
+  "frontier-airlines": [{ name: "Base Fare", quantity: 1, price: 59.0 }, { name: "Carry-On Bag", quantity: 1, price: 49.0 }, { name: "Seat Assignment", quantity: 1, price: 22.0 }],
+  "british-airways": [{ name: "Base Fare (LHR-JFK)", quantity: 1, price: 412.0 }, { name: "Taxes & Carrier Charges", quantity: 1, price: 196.0 }],
+  "emirates": [{ name: "Base Fare (DXB-LHR)", quantity: 1, price: 545.0 }, { name: "Taxes & Fees", quantity: 1, price: 142.0 }],
+  "air-canada": [{ name: "Base Fare (YYZ-YVR)", quantity: 1, price: 218.0 }, { name: "Seat Selection", quantity: 1, price: 28.0 }, { name: "Checked Bag", quantity: 1, price: 30.0 }],
+  "days-inn": [{ name: "Standard Room — 1 Night", quantity: 1, price: 84.99 }, { name: "Taxes & Fees", quantity: 1, price: 13.6 }],
+  "la-quinta": [{ name: "King Room — 1 Night", quantity: 1, price: 94.0 }, { name: "Taxes & Fees", quantity: 1, price: 15.04 }],
+  "comfort-inn": [{ name: "Queen Room — 1 Night", quantity: 1, price: 109.0 }, { name: "Taxes & Fees", quantity: 1, price: 17.44 }],
+  "hampton-inn": [{ name: "King Room — 1 Night", quantity: 1, price: 139.0 }, { name: "Taxes & Fees", quantity: 1, price: 22.24 }],
+  "sheraton": [{ name: "Club Room — 1 Night", quantity: 1, price: 189.0 }, { name: "Taxes & Fees", quantity: 1, price: 30.24 }],
+  "westin": [{ name: "Deluxe Room — 1 Night", quantity: 1, price: 219.0 }, { name: "Resort Fee", quantity: 1, price: 35.0 }],
+  "ritz-carlton": [{ name: "Deluxe King — 2 Nights", quantity: 2, price: 525.0 }, { name: "Resort Fee", quantity: 2, price: 50.0 }],
+  "radisson": [{ name: "Standard Room — 1 Night", quantity: 1, price: 129.0 }, { name: "Taxes & Fees", quantity: 1, price: 20.64 }],
+  "national-car-rental": [{ name: "Midsize — Daily Rate", quantity: 3, price: 52.0 }, { name: "Taxes & Fees", quantity: 1, price: 41.0 }],
+  "alamo": [{ name: "Economy — Daily Rate", quantity: 3, price: 46.0 }, { name: "Taxes & Fees", quantity: 1, price: 38.0 }],
+  "sixt": [{ name: "Premium — Daily Rate", quantity: 2, price: 78.0 }, { name: "Taxes & Fees", quantity: 1, price: 44.0 }],
+  "priceline": [{ name: "Hotel Booking — 2 Nights", quantity: 2, price: 118.0 }, { name: "Taxes & Fees", quantity: 1, price: 38.0 }],
+
+  // ── Rideshare & Delivery ──
+  "ola": [{ name: "Ola Ride (8.4 km)", quantity: 1, price: 12.5 }, { name: "Booking Fee", quantity: 1, price: 1.2 }],
+  "didi": [{ name: "DiDi Express (9.0 km)", quantity: 1, price: 9.8 }, { name: "Service Fee", quantity: 1, price: 0.9 }],
+  "careem": [{ name: "Careem Ride (7.6 km)", quantity: 1, price: 14.3 }, { name: "Booking Fee", quantity: 1, price: 1.5 }],
+  "just-eat": [{ name: "Order Subtotal", quantity: 1, price: 22.4 }, { name: "Delivery Fee", quantity: 1, price: 2.49 }, { name: "Service Fee", quantity: 1, price: 1.6 }],
+  "gopuff": [{ name: "Order Subtotal", quantity: 1, price: 18.75 }, { name: "Delivery Fee", quantity: 1, price: 1.95 }],
+  "shipt": [{ name: "Grocery Order Subtotal", quantity: 1, price: 86.4 }, { name: "Service Fee", quantity: 1, price: 7.0 }],
+  "caviar": [{ name: "Order Subtotal", quantity: 1, price: 31.5 }, { name: "Delivery Fee", quantity: 1, price: 3.99 }, { name: "Service Fee", quantity: 1, price: 2.8 }],
+
+  // ── Health & Pharmacy ──
+  "duane-reade": [{ name: "Prescription Co-Pay", quantity: 1, price: 12.0 }, { name: "Pain Reliever", quantity: 1, price: 8.99 }, { name: "Vitamins", quantity: 1, price: 11.49 }],
+  "vitamin-shoppe": [{ name: "Whey Protein 5lb", quantity: 1, price: 54.99 }, { name: "BCAA Powder", quantity: 1, price: 24.99 }],
+
+  // ── Services & Other ──
+  "dhl": [{ name: "Express Worldwide Shipping", quantity: 1, price: 38.5 }, { name: "Packaging", quantity: 1, price: 4.99 }],
+  "crunch-fitness": [{ name: "Monthly Membership", quantity: 1, price: 24.99 }, { name: "Annual Fee", quantity: 1, price: 49.0 }],
+  "anytime-fitness": [{ name: "Monthly Membership", quantity: 1, price: 41.99 }, { name: "Enrollment Fee", quantity: 1, price: 49.0 }],
+  "cinemark": [{ name: "Adult Ticket", quantity: 2, price: 13.5 }, { name: "Large Popcorn", quantity: 1, price: 9.25 }, { name: "Soft Drink (L)", quantity: 2, price: 5.75 }],
+};
+
 function makeBrand(s: BrandSeed): ReceiptTemplate {
-  const items: LineItem[] = (s.items ?? CATEGORY_DEFAULT_ITEMS[s.category]).map((it) => ({
-    id: id(),
-    ...it,
-  }));
+  const seed = hashSlug(s.slug);
+  const noun = CATEGORY_NOUN[s.category];
+  const items: LineItem[] = (
+    s.items ?? BRAND_ITEMS[s.slug] ?? CATEGORY_DEFAULT_ITEMS[s.category]
+  ).map((it) => ({ id: id(), ...it }));
+  const faqs = [
+    FAQ_ANCHOR(s.name),
+    ...pickDistinct(FAQ_POOL, 2, seed).map((f) => f(s.name)),
+  ];
   return {
     slug: s.slug,
     name: `${s.name} Receipt`,
     shortName: s.name,
     icon: s.icon ?? CATEGORY_ICON[s.category],
-    seoTitle: `Free ${s.name} Receipt Generator — Make a ${s.name} Receipt`,
-    seoDescription: `Create a realistic ${s.name} receipt online in seconds. Add ${CATEGORY_NOUN[s.category]}, then download as a PDF or PNG. Free, no sign-up.`,
+    seoTitle: pick(TITLE_VARIANTS, seed)(s.name),
+    seoDescription: pick(SEO_DESC_VARIANTS, seed >>> 2)(s.name, noun),
     heading: `${s.name} Receipt Generator`,
-    intro: `Create a realistic ${s.name} receipt with ${CATEGORY_NOUN[s.category]}. Perfect for replacing a lost ${s.name} receipt, expense reports, bookkeeping records or design mockups.`,
-    useCases: [
-      `Replace a lost ${s.name} receipt`,
-      "Expense reports and reimbursement",
-      "Personal bookkeeping and records",
-      "Props and design mockups",
-    ],
-    faqs: [
-      {
-        question: `How do I make a ${s.name} receipt?`,
-        answer: `Open the ${s.name} template, edit the store details, add your items and prices, set the tax rate, then download as a PDF or PNG. It takes under a minute and needs no account.`,
-      },
-      {
-        question: `Is the ${s.name} receipt generator free?`,
-        answer: `Yes. You can create and download a ${s.name} receipt for free. Free downloads include a small watermark; upgrade to Pro to remove it and unlock unlimited AI generation.`,
-      },
-    ],
+    intro: pick(INTRO_VARIANTS, seed >>> 4)(s.name, noun),
+    useCases: pick(USECASE_VARIANTS, seed >>> 6)(s.name),
+    faqs,
     defaults: {
       logoDataUrl: brandLogo(s.domain),
       businessName: s.name,
@@ -5316,8 +5544,8 @@ function makeBrand(s: BrandSeed): ReceiptTemplate {
       phone: "",
       taxLabel: "Sales Tax",
       taxRate: s.taxRate ?? 0,
-      footerMessage: `Thank you — see you again at ${s.name}!`,
-      paperStyle: s.paper ?? "thermal",
+      footerMessage: pick(FOOTER_VARIANTS, seed >>> 8)(s.name),
+      paperStyle: s.paper ?? (s.category === "Digital & Subscriptions" ? "modern" : "thermal"),
       items,
     },
   };
