@@ -3,6 +3,7 @@ import { SITE } from "@/lib/site";
 import { TEMPLATES } from "@/lib/templates";
 import { BRAND_TEMPLATES } from "@/lib/brands";
 import { EXAMPLES } from "@/lib/examples";
+import { INTENT_PAGES } from "@/lib/intent-pages";
 import { getAllPosts } from "@/lib/sanity/queries";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -13,6 +14,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE.url}/create`, lastModified, changeFrequency: "weekly", priority: 0.9 },
     { url: `${SITE.url}/templates`, lastModified, changeFrequency: "weekly", priority: 0.8 },
     { url: `${SITE.url}/examples`, lastModified, changeFrequency: "weekly", priority: 0.7 },
+    { url: `${SITE.url}/receipt-help`, lastModified, changeFrequency: "weekly", priority: 0.6 },
     { url: `${SITE.url}/pricing`, lastModified, changeFrequency: "monthly", priority: 0.6 },
     { url: `${SITE.url}/blog`, lastModified, changeFrequency: "daily", priority: 0.7 },
     { url: `${SITE.url}/about`, lastModified, changeFrequency: "monthly", priority: 0.4 },
@@ -56,5 +58,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }));
 
-  return [...staticPages, ...templatePages, ...brandPages, ...examplePages, ...blogPages];
+  const intentPages: MetadataRoute.Sitemap = INTENT_PAGES.map((p) => ({
+    url: `${SITE.url}/receipt-help/${p.slug}`,
+    lastModified,
+    changeFrequency: "monthly",
+    priority: 0.6,
+  }));
+
+  return [
+    ...staticPages,
+    ...templatePages,
+    ...brandPages,
+    ...examplePages,
+    ...intentPages,
+    ...blogPages,
+  ];
 }

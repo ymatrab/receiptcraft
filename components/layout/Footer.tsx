@@ -56,6 +56,16 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/examples" className="text-sm text-slate-500 transition-colors hover:text-indigo-600">
+                  Receipt Examples
+                </Link>
+              </li>
+              <li>
+                <Link href="/receipt-help" className="text-sm text-slate-500 transition-colors hover:text-indigo-600">
+                  Receipt Help
+                </Link>
+              </li>
+              <li>
                 <Link href="/#how-it-works" className="text-sm text-slate-500 transition-colors hover:text-indigo-600">
                   How It Works
                 </Link>
