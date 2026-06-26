@@ -3,7 +3,7 @@ export const SITE = {
   tagline: "Free Receipt Maker — Create & Download Receipts in Seconds",
   description:
     "Create professional receipts online for free. 100+ receipt templates for restaurants, gas stations, taxis, hotels and more. Live preview, instant PDF & PNG download. No sign-up to start — go Pro to remove the watermark.",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://makecepeit.com",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.makecepeit.com",
   twitter: "@makecepeit",
   email: "hello@makecepeit.com",
 } as const;
