@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { analytics } from "@/lib/analytics";
 
 /** Key used to hand the generated receipt to the builder on /create. */
 export const AI_HANDOFF_KEY = "rc_ai_receipt";
@@ -22,6 +23,7 @@ export default function HomeAiGenerator() {
     if (!prompt.trim() || loading) return;
     setLoading(true);
     setError(null);
+    analytics.aiGenerate("start");
     try {
       const res = await fetch("/api/ai/generate", {
         method: "POST",
@@ -30,12 +32,15 @@ export default function HomeAiGenerator() {
       });
       const data = await res.json();
       if (!res.ok) {
+        analytics.aiGenerate("error");
         setError(data.error ?? "Generation failed.");
         return;
       }
+      analytics.aiGenerate("success");
       sessionStorage.setItem(AI_HANDOFF_KEY, JSON.stringify(data.receipt));
       router.push("/create");
     } catch {
+      analytics.aiGenerate("error");
       setError("Generation failed. Please try again.");
     } finally {
       setLoading(false);

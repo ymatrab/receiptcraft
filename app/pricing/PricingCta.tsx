@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useAccount } from "@/lib/useAccount";
+import { analytics } from "@/lib/analytics";
 
 interface Props {
   planId: "pro_monthly" | "pro_yearly";
@@ -53,6 +54,7 @@ export default function PricingCta({ planId, paymentLink, label, className }: Pr
       );
       if (!ok) return;
     }
+    analytics.beginCheckout(planId === "pro_yearly" ? "yearly" : "monthly", "pricing");
     window.location.href = url.toString();
   }
 

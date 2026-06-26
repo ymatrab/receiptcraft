@@ -27,6 +27,7 @@ import { SITE } from "@/lib/site";
 import type { ReceiptData } from "@/lib/types";
 import type { AiReceiptResult } from "@/lib/ai-receipt";
 import { downloadPng, downloadPdf, exportFilename } from "@/lib/download";
+import { analytics } from "@/lib/analytics";
 import { useAccount } from "@/lib/useAccount";
 import { createClient } from "@/lib/supabase/client";
 import { supabaseConfigured } from "@/lib/supabase/config";
@@ -212,6 +213,7 @@ export default function SectionBuilder() {
     if (!aiPrompt.trim() || aiLoading) return;
     setAiLoading(true);
     setAiError(null);
+    analytics.aiGenerate("start", activeTemplate || undefined);
     try {
       const res = await fetch("/api/ai/generate", {
         method: "POST",
@@ -220,12 +222,15 @@ export default function SectionBuilder() {
       });
       const data = await res.json();
       if (!res.ok) {
+        analytics.aiGenerate("error", activeTemplate || undefined);
         setAiError(data.error ?? "Generation failed.");
         return;
       }
+      analytics.aiGenerate("success", activeTemplate || undefined);
       applyAi(data.receipt as AiReceiptResult);
       setAiPrompt("");
     } catch {
+      analytics.aiGenerate("error", activeTemplate || undefined);
       setAiError("Generation failed. Please try again.");
     } finally {
       setAiLoading(false);
@@ -259,6 +264,7 @@ export default function SectionBuilder() {
       );
       if (kind === "png") await downloadPng(receiptRef.current, filename);
       else await downloadPdf(receiptRef.current, filename);
+      analytics.receiptDownloaded(kind, activeTemplate || undefined, account.isPro);
     } catch {
       alert("Sorry, the export failed. Please try again.");
     } finally {
@@ -692,6 +698,7 @@ export default function SectionBuilder() {
             <div className="mt-6 flex flex-col gap-2">
               <Link
                 href="/pricing"
+                onClick={() => analytics.upgradeClick("watermark_modal")}
                 className="rounded-full bg-indigo-600 px-5 py-3 text-center text-sm font-semibold text-white hover:bg-indigo-700"
               >
                 Upgrade to remove watermark

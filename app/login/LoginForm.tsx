@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { supabaseConfigured } from "@/lib/supabase/config";
+import { analytics } from "@/lib/analytics";
 
 type Provider = "google" | "apple";
 
@@ -31,12 +32,14 @@ export default function LoginForm() {
       alert(`Couldn't send link: ${error.message}`);
       return;
     }
+    analytics.signIn("email");
     setEmailSent(true);
   }
 
   async function signIn(provider: Provider) {
     if (busy) return;
     setBusy(provider);
+    analytics.signIn(provider);
     const supabase = createClient();
     const redirectTo = `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}`;
     const { error } = await supabase.auth.signInWithOAuth({

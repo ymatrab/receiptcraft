@@ -7,6 +7,7 @@ export const SITE = {
   twitter: "@makecepeit",
   email: "hello@makecepeit.com",
   gaId: process.env.NEXT_PUBLIC_GA_ID ?? "G-LD43YK0L5B",
+  clarityId: process.env.NEXT_PUBLIC_CLARITY_ID ?? "xd2t5uav4n",
 } as const;
 
 export function absoluteUrl(path: string): string {
