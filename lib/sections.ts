@@ -1,13 +1,18 @@
 import type {
   FontFamily,
+  FontScale,
   ItemColumns,
   ItemStyle,
   LayoutVariant,
+  LetterSpacingPreset,
   LineItem,
+  LineSpacing,
+  PaperFinish,
   ReceiptData,
   ReceiptProfile,
   ReceiptRow,
   RuleStyle,
+  TextWeight,
 } from "./types";
 import { todayISO, nowHHMM, randomReceiptNumber, uid } from "./format";
 
@@ -133,7 +138,22 @@ export interface DocSettings {
   accent: string;
   currency: string;
   style?: "paper" | "card"; // card = rounded chrome + accent bar (digital brands)
+  // Typography & layout controls (all optional → existing docs fall back to the
+  // sensible defaults applied in ReceiptDocPaper).
+  fontScale?: FontScale; // small / normal / large
+  lineSpacing?: LineSpacing; // compact / normal / airy
+  letterSpacing?: LetterSpacingPreset; // tight / normal / wide
+  weight?: TextWeight; // base text weight
+  paper?: PaperFinish; // thermal / clean / invoice / email
 }
+
+/** Named paper-width presets surfaced as quick buttons in the builder. */
+export const WIDTH_PRESETS: { id: string; label: string; px: number }[] = [
+  { id: "58mm", label: "58mm", px: 219 },
+  { id: "80mm", label: "80mm", px: 302 },
+  { id: "email", label: "Email", px: 420 },
+  { id: "a4", label: "A4", px: 794 },
+];
 
 export interface ReceiptDoc {
   settings: DocSettings;
@@ -249,9 +269,15 @@ export function blankDoc(): ReceiptDoc {
 
 export const PRESETS = [
   { id: "blank", label: "Blank" },
-  { id: "simple", label: "Simple receipt" },
-  { id: "service", label: "Service invoice" },
-  { id: "donation", label: "Donation" },
+  { id: "retail", label: "🛍️ Retail" },
+  { id: "restaurant", label: "🍽️ Restaurant" },
+  { id: "gas", label: "⛽ Gas" },
+  { id: "hotel", label: "🏨 Hotel" },
+  { id: "taxi", label: "🚕 Taxi / rideshare" },
+  { id: "rent", label: "🏠 Rent" },
+  { id: "donation", label: "❤️ Donation" },
+  { id: "service", label: "🔧 Service" },
+  { id: "invoice", label: "🧾 Paid invoice" },
 ] as const;
 export type PresetId = (typeof PRESETS)[number]["id"];
 
@@ -267,30 +293,6 @@ export function presetDoc(id: PresetId): ReceiptDoc {
   const dash: RuleStyle = "dashed";
 
   if (id === "blank") return blankDoc();
-
-  if (id === "simple") {
-    return {
-      settings: base,
-      sections: [
-        { id: uid(), type: "header", align: "center", divider: dash, storeName: "Your Store", address: "", phone: "" },
-        { id: uid(), type: "datetime", align: "left", divider: dash, date: todayISO(), time: nowHHMM(), receiptNumber: randomReceiptNumber() },
-        {
-          id: uid(),
-          type: "items",
-          divider: dash,
-          items: [{ id: uid(), name: "Item", quantity: 1, price: 0 }],
-          itemStyle: "lined",
-          taxLabel: "Sales Tax",
-          taxRate: 0,
-          discount: 0,
-          discountPercent: true,
-          tip: 0,
-          totalsDivider: "none",
-        },
-        { id: uid(), type: "message", align: "center", text: "Thank you!" },
-      ],
-    };
-  }
 
   if (id === "service") {
     return {
@@ -322,7 +324,210 @@ export function presetDoc(id: PresetId): ReceiptDoc {
     };
   }
 
-  // donation
+  if (id === "retail") {
+    return {
+      settings: base,
+      sections: [
+        { id: uid(), type: "header", align: "center", divider: dash, storeName: "Your Store", address: "123 Market St\nCity, ST 00000", phone: "(555) 123-4567" },
+        { id: uid(), type: "datetime", align: "left", divider: dash, date: todayISO(), time: nowHHMM(), receiptNumber: randomReceiptNumber() },
+        { id: uid(), type: "twocol", divider: "none", flow: true, rows: [{ label: "Store #", value: "1042" }, { label: "Reg", value: "3" }, { label: "Cashier", value: "Alex" }] },
+        {
+          id: uid(),
+          type: "items",
+          divider: dash,
+          items: [
+            { id: uid(), name: "Item A", quantity: 1, price: 12.99 },
+            { id: uid(), name: "Item B", quantity: 2, price: 4.5 },
+          ],
+          itemStyle: "table",
+          taxLabel: "Sales Tax",
+          taxRate: 8.25,
+          discount: 0,
+          discountPercent: true,
+          tip: 0,
+          totalsDivider: dash,
+        },
+        { id: uid(), type: "payment", divider: dash, method: "Card", cardType: "Credit", cardLastFour: "4821", showCardAuth: true },
+        { id: uid(), type: "message", align: "center", divider: "none", text: "Thank you for shopping with us!" },
+        { id: uid(), type: "barcode", align: "center", divider: "none", value: randomReceiptNumber(), showText: true },
+      ],
+    };
+  }
+
+  if (id === "restaurant") {
+    return {
+      settings: base,
+      sections: [
+        { id: uid(), type: "header", align: "center", divider: dash, storeName: "The Bistro", address: "88 Dining Ave\nCity, ST 00000", phone: "(555) 222-7788" },
+        { id: uid(), type: "datetime", align: "left", divider: dash, date: todayISO(), time: nowHHMM(), receiptNumber: randomReceiptNumber() },
+        { id: uid(), type: "twocol", divider: dash, flow: true, rows: [{ label: "Table", value: "12" }, { label: "Server", value: "Jamie" }, { label: "Guests", value: "2" }] },
+        {
+          id: uid(),
+          type: "items",
+          divider: dash,
+          items: [
+            { id: uid(), name: "Grilled Salmon", quantity: 1, price: 24.0 },
+            { id: uid(), name: "Pasta Primavera", quantity: 1, price: 18.5 },
+            { id: uid(), name: "Service Fee (18%)", quantity: 1, price: 7.65 },
+          ],
+          itemStyle: "stacked",
+          taxLabel: "Sales Tax",
+          taxRate: 7,
+          discount: 0,
+          tip: 8,
+          grandTotalLabel: "TOTAL",
+          totalsDivider: dash,
+        },
+        { id: uid(), type: "payment", divider: dash, method: "Card", cardType: "Credit", cardLastFour: "1199" },
+        { id: uid(), type: "message", align: "center", divider: "none", text: "Thanks for dining with us!" },
+      ],
+    };
+  }
+
+  if (id === "gas") {
+    return {
+      settings: base,
+      sections: [
+        { id: uid(), type: "header", align: "center", divider: dash, title: "FUEL RECEIPT", storeName: "Fuel Station", address: "500 Highway Rd\nCity, ST 00000", phone: "" },
+        { id: uid(), type: "datetime", align: "left", divider: dash, date: todayISO(), time: nowHHMM(), receiptNumber: randomReceiptNumber() },
+        { id: uid(), type: "twocol", divider: dash, rows: [{ label: "Pump", value: "04" }, { label: "Grade", value: "Unleaded" }, { label: "Price/gal", value: "$3.499" }] },
+        {
+          id: uid(),
+          type: "items",
+          divider: dash,
+          items: [{ id: uid(), name: "Unleaded (gal)", quantity: 10.2, price: 3.499 }],
+          itemStyle: "lined",
+          itemHeader: { left: "Fuel", right: "Amount" },
+          taxLabel: "Tax",
+          taxRate: 0,
+          discount: 0,
+          tip: 0,
+          grandTotalLabel: "TOTAL",
+          totalsDivider: dash,
+        },
+        { id: uid(), type: "payment", divider: dash, method: "Card", cardType: "Credit", cardLastFour: "7745" },
+        { id: uid(), type: "message", align: "center", divider: "none", text: "Thank you — drive safely!" },
+      ],
+    };
+  }
+
+  if (id === "hotel") {
+    return {
+      settings: base,
+      sections: [
+        { id: uid(), type: "header", align: "left", divider: "solid", title: "GUEST FOLIO", storeName: "Grand Hotel", address: "1 Park Plaza\nCity, ST 00000", phone: "(555) 900-1000" },
+        { id: uid(), type: "twocol", divider: "solid", rows: [{ label: "Guest", value: "J. Doe" }, { label: "Room", value: "412" }, { label: "Check-in", value: todayISO() }, { label: "Check-out", value: todayISO() }, { label: "Nights", value: "2" }] },
+        {
+          id: uid(),
+          type: "items",
+          divider: "solid",
+          items: [
+            { id: uid(), name: "Room charge (per night)", quantity: 2, price: 149.0 },
+            { id: uid(), name: "Resort fee", quantity: 2, price: 25.0 },
+          ],
+          itemStyle: "table",
+          columns: { item: "Description", qty: "Qty", price: "Rate", total: "Amount" },
+          taxLabel: "Occupancy Tax",
+          taxRate: 12,
+          discount: 0,
+          tip: 0,
+          grandTotalLabel: "Balance due",
+          totalsDivider: "solid",
+        },
+        { id: uid(), type: "twocol", divider: "solid", rows: [{ label: "Deposit on file", value: "$100.00" }] },
+        { id: uid(), type: "payment", divider: "solid", method: "Card", cardType: "Credit", cardLastFour: "3321" },
+        { id: uid(), type: "message", align: "center", divider: "none", text: "Thank you for staying with us." },
+      ],
+    };
+  }
+
+  if (id === "taxi") {
+    return {
+      settings: { ...base, style: "card", accent: "#111827" },
+      sections: [
+        { id: uid(), type: "header", align: "center", divider: "solid", title: "TRIP RECEIPT", storeName: "City Rides", address: "", phone: "" },
+        { id: uid(), type: "datetime", align: "left", divider: "solid", date: todayISO(), time: nowHHMM(), receiptNumber: randomReceiptNumber() },
+        { id: uid(), type: "twocol", divider: "solid", rows: [{ label: "Distance", value: "6.4 mi" }, { label: "Duration", value: "18 min" }, { label: "Driver", value: "Sam" }] },
+        {
+          id: uid(),
+          type: "items",
+          divider: "solid",
+          items: [
+            { id: uid(), name: "Base fare", quantity: 1, price: 2.5 },
+            { id: uid(), name: "Distance charge", quantity: 1, price: 8.96 },
+            { id: uid(), name: "Time charge", quantity: 1, price: 3.6 },
+          ],
+          itemStyle: "lined",
+          taxLabel: "Tax",
+          taxRate: 0,
+          discount: 0,
+          tip: 3,
+          grandTotalLabel: "Total charged",
+          totalsDivider: "solid",
+        },
+        { id: uid(), type: "payment", divider: "solid", method: "Card", cardType: "Credit", cardLastFour: "0042", inline: true },
+        { id: uid(), type: "message", align: "center", divider: "none", text: "Thanks for riding with City Rides!" },
+      ],
+    };
+  }
+
+  if (id === "rent") {
+    return {
+      settings: { ...base, font: "sans" },
+      sections: [
+        { id: uid(), type: "header", align: "left", divider: "solid", title: "RENT RECEIPT", storeName: "Property Management", address: "", phone: "" },
+        { id: uid(), type: "datetime", align: "left", divider: "solid", date: todayISO(), time: nowHHMM(), receiptNumber: randomReceiptNumber() },
+        { id: uid(), type: "twocol", divider: "solid", rows: [{ label: "Tenant", value: "Tenant name" }, { label: "Property", value: "123 Rental St, Unit 4" }, { label: "Rental period", value: "Jun 1 – Jun 30" }, { label: "Paid by", value: "Bank transfer" }] },
+        {
+          id: uid(),
+          type: "items",
+          divider: "solid",
+          items: [{ id: uid(), name: "Monthly rent", quantity: 1, price: 1450.0 }],
+          itemStyle: "lined",
+          taxLabel: "Tax",
+          taxRate: 0,
+          discount: 0,
+          tip: 0,
+          grandTotalLabel: "Amount paid",
+          totalsDivider: "solid",
+        },
+        { id: uid(), type: "signature", align: "left", divider: "none", label: "Received by" },
+        { id: uid(), type: "message", align: "left", divider: "none", text: "Rent received with thanks. Keep this receipt for your records." },
+      ],
+    };
+  }
+
+  if (id === "invoice") {
+    return {
+      settings: { ...base, font: "sans", style: "card" },
+      sections: [
+        { id: uid(), type: "header", align: "left", divider: "solid", title: "INVOICE · PAID", storeName: "Your Business", address: "123 Main St\nCity, ST 00000", phone: "(555) 000-0000", website: "you@business.com" },
+        { id: uid(), type: "twocol", divider: "solid", rows: [{ label: "Bill to", value: "Client name" }, { label: "Invoice #", value: randomReceiptNumber() }, { label: "Date", value: todayISO() }, { label: "Status", value: "PAID" }] },
+        {
+          id: uid(),
+          type: "items",
+          divider: "solid",
+          items: [
+            { id: uid(), name: "Professional services", quantity: 10, price: 85 },
+            { id: uid(), name: "Materials", quantity: 1, price: 120 },
+          ],
+          itemStyle: "table",
+          columns: { item: "Description", qty: "Qty", price: "Rate", total: "Amount" },
+          taxLabel: "Tax",
+          taxRate: 0,
+          discount: 0,
+          discountPercent: true,
+          tip: 0,
+          grandTotalLabel: "Amount paid",
+          totalsDivider: "solid",
+        },
+        { id: uid(), type: "payment", divider: "solid", method: "Card", cardType: "Credit", cardLastFour: "" },
+        { id: uid(), type: "message", align: "center", divider: "none", text: "Paid in full — thank you for your business!" },
+      ],
+    };
+  }
+
+  // donation (also the fallback for any unhandled id)
   return {
     settings: { ...base, font: "serif" },
     sections: [

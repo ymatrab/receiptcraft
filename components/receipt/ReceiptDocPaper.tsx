@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import type { FontFamily } from "@/lib/types";
 import type { ReceiptDoc, Section, SectionAlign } from "@/lib/sections";
 import { itemsTotals } from "@/lib/sections";
@@ -6,14 +7,47 @@ import Barcode from "./Barcode";
 import Qr from "./Qr";
 import { CardAuth, Items, KeyValueRows, LogoImg, Rule } from "./parts";
 
+const MONO_FB = ", ui-monospace, monospace";
+const SANS_FB = ", ui-sans-serif, system-ui, sans-serif";
+
 const FONT_STACK: Record<FontFamily, string> = {
-  mono: "var(--font-geist-mono), ui-monospace, monospace",
-  sans: "var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif",
+  // Original set
+  mono: "var(--font-geist-mono)" + MONO_FB,
+  sans: "var(--font-geist-sans)" + SANS_FB,
   serif: "ui-serif, Georgia, serif",
-  courier: "var(--font-courier), ui-monospace, monospace",
-  oswald: "var(--font-oswald), ui-sans-serif, sans-serif",
+  courier: "var(--font-courier)" + MONO_FB,
+  oswald: "var(--font-oswald)" + SANS_FB,
   playfair: "var(--font-playfair), ui-serif, Georgia, serif",
+  // Monospace receipt fonts
+  "roboto-mono": "var(--font-roboto-mono)" + MONO_FB,
+  "ibm-plex-mono": "var(--font-ibm-plex-mono)" + MONO_FB,
+  "space-mono": "var(--font-space-mono)" + MONO_FB,
+  inconsolata: "var(--font-inconsolata)" + MONO_FB,
+  "source-code-pro": "var(--font-source-code-pro)" + MONO_FB,
+  "noto-sans-mono": "var(--font-noto-sans-mono)" + MONO_FB,
+  "anonymous-pro": "var(--font-anonymous-pro)" + MONO_FB,
+  "cutive-mono": "var(--font-cutive-mono)" + MONO_FB,
+  "fira-mono": "var(--font-fira-mono)" + MONO_FB,
+  "ubuntu-mono": "var(--font-ubuntu-mono)" + MONO_FB,
+  "dm-mono": "var(--font-dm-mono)" + MONO_FB,
+  "oxygen-mono": "var(--font-oxygen-mono)" + MONO_FB,
+  "share-tech-mono": "var(--font-share-tech-mono)" + MONO_FB,
+  vt323: "var(--font-vt323)" + MONO_FB,
+  // Sans / display fonts
+  inter: "var(--font-inter)" + SANS_FB,
+  roboto: "var(--font-roboto)" + SANS_FB,
+  "open-sans": "var(--font-open-sans)" + SANS_FB,
+  lato: "var(--font-lato)" + SANS_FB,
+  "noto-sans": "var(--font-noto-sans)" + SANS_FB,
+  "work-sans": "var(--font-work-sans)" + SANS_FB,
+  montserrat: "var(--font-montserrat)" + SANS_FB,
+  mulish: "var(--font-mulish)" + SANS_FB,
 };
+
+const FONT_SCALE_PX = { small: 12, normal: 13, large: 15 } as const;
+const LINE_HEIGHT = { compact: 1.3, normal: 1.55, airy: 1.85 } as const;
+const LETTER_SPACING = { tight: "-0.01em", normal: "0", wide: "0.05em" } as const;
+const TEXT_WEIGHT = { normal: 400, medium: 500, bold: 700 } as const;
 
 function alignClass(a?: SectionAlign): string {
   return a === "left" ? "text-left" : a === "right" ? "text-right" : "text-center";
@@ -231,24 +265,44 @@ export default function ReceiptDocPaper({ doc }: Props) {
     </div>
   );
 
-  const fontStack = FONT_STACK[doc.settings.font] ?? FONT_STACK.mono;
+  const { settings } = doc;
+  const fontStack = FONT_STACK[settings.font] ?? FONT_STACK.mono;
+  const wrapperStyle: CSSProperties = {
+    width: settings.widthPx,
+    fontFamily: fontStack,
+    fontSize: FONT_SCALE_PX[settings.fontScale ?? "normal"],
+    lineHeight: LINE_HEIGHT[settings.lineSpacing ?? "normal"],
+    letterSpacing: LETTER_SPACING[settings.letterSpacing ?? "normal"],
+    fontWeight: TEXT_WEIGHT[settings.weight ?? "normal"],
+  };
 
-  if (card) {
+  // The finish controls the paper chrome. Digital "card" receipts default to a
+  // clean white card with an accent bar; everything else defaults to thermal.
+  const finish = settings.paper ?? (card ? "email" : "thermal");
+
+  if (finish === "thermal") {
     return (
-      <div className="max-w-full" style={{ width: doc.settings.widthPx, fontFamily: fontStack }}>
-        <div className="overflow-hidden rounded-xl border border-slate-200 bg-paper text-[13px] leading-relaxed text-slate-800 shadow-sm">
-          <div className="h-2" style={{ backgroundColor: accent }} />
-          {body}
-        </div>
+      <div className="max-w-full" style={wrapperStyle}>
+        <div className="receipt-tear-top" />
+        <div className="overflow-hidden bg-paper text-slate-800">{body}</div>
+        <div className="receipt-tear-bottom" />
       </div>
     );
   }
 
+  const finishClass =
+    finish === "clean"
+      ? "rounded-xl border border-slate-200 bg-white"
+      : finish === "invoice"
+        ? "border border-slate-300 bg-white"
+        : "rounded-2xl border border-slate-200 bg-white shadow-sm"; // email
+
   return (
-    <div className="max-w-full" style={{ width: doc.settings.widthPx, fontFamily: fontStack }}>
-      <div className="receipt-tear-top" />
-      <div className="overflow-hidden bg-paper text-[13px] leading-relaxed text-slate-800">{body}</div>
-      <div className="receipt-tear-bottom" />
+    <div className="max-w-full" style={wrapperStyle}>
+      <div className={`overflow-hidden text-slate-800 ${finishClass}`}>
+        {card && <div className="h-2" style={{ backgroundColor: accent }} />}
+        {body}
+      </div>
     </div>
   );
 }

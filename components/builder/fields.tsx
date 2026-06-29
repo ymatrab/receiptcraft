@@ -124,20 +124,29 @@ export function TextAreaField({
   );
 }
 
-export function Toggle({ checked, onChange }: { checked: boolean; onChange: (v: boolean) => void }) {
+export function Toggle({
+  checked,
+  onChange,
+  label,
+}: {
+  checked: boolean;
+  onChange: (v: boolean) => void;
+  label?: string;
+}) {
   return (
     <button
       type="button"
       role="switch"
       aria-checked={checked}
+      aria-label={label}
       onClick={() => onChange(!checked)}
-      className={`relative h-6 w-11 shrink-0 rounded-full transition-colors ${
-        checked ? "bg-indigo-600" : "bg-slate-300"
+      className={`relative inline-flex h-6 w-11 shrink-0 items-center rounded-full p-0.5 transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/40 focus-visible:ring-offset-1 ${
+        checked ? "bg-indigo-600" : "bg-slate-200"
       }`}
     >
       <span
-        className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform ${
-          checked ? "translate-x-5" : "translate-x-0.5"
+        className={`inline-block h-5 w-5 transform rounded-full bg-white shadow-[0_1px_2px_rgba(15,23,42,0.25)] ring-1 ring-black/5 transition-transform duration-200 ease-in-out ${
+          checked ? "translate-x-5" : "translate-x-0"
         }`}
       />
     </button>

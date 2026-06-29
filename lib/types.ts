@@ -68,7 +68,49 @@ export type ItemStyle =
   | "lined" // header row + "name .......... total"
   | "qtycol"; // small qty column + name + line total
 
-export type FontFamily = "mono" | "sans" | "serif" | "courier" | "oswald" | "playfair";
+export type FontFamily =
+  // Original set
+  | "mono"
+  | "sans"
+  | "serif"
+  | "courier"
+  | "oswald"
+  | "playfair"
+  // Monospace receipt fonts
+  | "roboto-mono"
+  | "ibm-plex-mono"
+  | "space-mono"
+  | "inconsolata"
+  | "source-code-pro"
+  | "noto-sans-mono"
+  | "anonymous-pro"
+  | "cutive-mono"
+  | "fira-mono"
+  | "ubuntu-mono"
+  | "dm-mono"
+  | "oxygen-mono"
+  | "share-tech-mono"
+  | "vt323"
+  // Sans / display fonts
+  | "inter"
+  | "roboto"
+  | "open-sans"
+  | "lato"
+  | "noto-sans"
+  | "work-sans"
+  | "montserrat"
+  | "mulish";
+
+/** Base text size for the rendered receipt. */
+export type FontScale = "small" | "normal" | "large";
+/** Vertical rhythm of the rendered receipt. */
+export type LineSpacing = "compact" | "normal" | "airy";
+/** Horizontal letter spacing of the rendered receipt. */
+export type LetterSpacingPreset = "tight" | "normal" | "wide";
+/** Base text weight of the rendered receipt. */
+export type TextWeight = "normal" | "medium" | "bold";
+/** Paper presentation of the rendered receipt. */
+export type PaperFinish = "thermal" | "clean" | "invoice" | "email";
 
 /** Column header labels for the table item layout. */
 export interface ItemColumns {

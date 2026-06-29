@@ -1,7 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import type { FontFamily } from "@/lib/types";
+import type {
+  FontFamily,
+  FontScale,
+  LetterSpacingPreset,
+  LineSpacing,
+  PaperFinish,
+  TextWeight,
+} from "@/lib/types";
 import type {
   HeaderSection,
   ItemsSection,
@@ -19,9 +26,18 @@ import {
   presetDoc,
   PRESETS,
   SECTION_LABEL,
+  WIDTH_PRESETS,
 } from "@/lib/sections";
 import { getTemplate, TEMPLATES } from "@/lib/templates";
 import { receiptFromTemplate } from "@/lib/receipt";
+import {
+  deleteTemplate,
+  listTemplates,
+  loadAutosave,
+  saveAutosave,
+  saveTemplate,
+  type SavedTemplate,
+} from "@/lib/local-templates";
 import { CURRENCIES, formatMoney, uid } from "@/lib/format";
 import { SITE } from "@/lib/site";
 import type { ReceiptData } from "@/lib/types";
@@ -47,12 +63,63 @@ import {
 } from "./fields";
 
 const FONTS: { value: FontFamily; label: string }[] = [
+  // System / classic
   { value: "mono", label: "Monospace (thermal)" },
   { value: "sans", label: "Sans-serif (modern)" },
   { value: "serif", label: "Serif (elegant)" },
-  { value: "courier", label: "Courier (classic receipt)" },
+  { value: "courier", label: "Courier Prime (classic receipt)" },
   { value: "oswald", label: "Oswald (bold condensed)" },
   { value: "playfair", label: "Playfair (luxury serif)" },
+  // Monospace — thermal / POS look
+  { value: "roboto-mono", label: "Roboto Mono (clean modern)" },
+  { value: "ibm-plex-mono", label: "IBM Plex Mono (professional)" },
+  { value: "space-mono", label: "Space Mono (stylish)" },
+  { value: "inconsolata", label: "Inconsolata (compact thermal)" },
+  { value: "source-code-pro", label: "Source Code Pro (clean columns)" },
+  { value: "noto-sans-mono", label: "Noto Sans Mono (multilingual)" },
+  { value: "anonymous-pro", label: "Anonymous Pro (classic POS)" },
+  { value: "cutive-mono", label: "Cutive Mono (vintage)" },
+  { value: "fira-mono", label: "Fira Mono (modern technical)" },
+  { value: "ubuntu-mono", label: "Ubuntu Mono (rounded)" },
+  { value: "dm-mono", label: "DM Mono (minimal digital)" },
+  { value: "oxygen-mono", label: "Oxygen Mono (simple thermal)" },
+  { value: "share-tech-mono", label: "Share Tech Mono (terminal/POS)" },
+  { value: "vt323", label: "VT323 (retro dot-matrix)" },
+  // Sans / email & invoice look
+  { value: "inter", label: "Inter (modern SaaS/email)" },
+  { value: "roboto", label: "Roboto (simple digital)" },
+  { value: "open-sans", label: "Open Sans (readable, neutral)" },
+  { value: "lato", label: "Lato (friendly small business)" },
+  { value: "noto-sans", label: "Noto Sans (international)" },
+  { value: "work-sans", label: "Work Sans (receipt/invoice)" },
+  { value: "montserrat", label: "Montserrat (premium brand)" },
+  { value: "mulish", label: "Mulish (clean mobile)" },
+];
+const FONT_SCALES = [
+  { value: "small", label: "Small" },
+  { value: "normal", label: "Normal" },
+  { value: "large", label: "Large" },
+];
+const LINE_SPACINGS = [
+  { value: "compact", label: "Compact" },
+  { value: "normal", label: "Normal" },
+  { value: "airy", label: "Airy" },
+];
+const LETTER_SPACINGS = [
+  { value: "tight", label: "Compressed" },
+  { value: "normal", label: "Normal" },
+  { value: "wide", label: "Expanded" },
+];
+const TEXT_WEIGHTS = [
+  { value: "normal", label: "Normal" },
+  { value: "medium", label: "Medium" },
+  { value: "bold", label: "Bold" },
+];
+const PAPER_FINISHES = [
+  { value: "thermal", label: "Thermal (torn paper)" },
+  { value: "clean", label: "Clean white" },
+  { value: "invoice", label: "Invoice" },
+  { value: "email", label: "Digital / email" },
 ];
 const ITEM_STYLES = [
   { value: "table", label: "Table (Item / Qty / Price / Total)" },
@@ -89,8 +156,13 @@ export default function SectionBuilder() {
   const [saveState, setSaveState] = useState<"idle" | "saving" | "saved">("idle");
   // When a free user hits download, we confirm the watermark first.
   const [pendingExport, setPendingExport] = useState<"png" | "pdf" | null>(null);
+  // Local (no-account) named templates + autosave.
+  const [myTemplates, setMyTemplates] = useState<SavedTemplate[]>([]);
+  const [autosaveOn, setAutosaveOn] = useState(true);
+  const hydrated = useRef(false);
 
   useEffect(() => {
+    setMyTemplates(listTemplates());
     // A receipt generated from the homepage AI box, handed off via sessionStorage.
     const handoff = sessionStorage.getItem("rc_ai_receipt");
     if (handoff) {
@@ -109,8 +181,26 @@ export default function SectionBuilder() {
       return;
     }
     const slug = getQueryTemplate();
-    if (slug) applyTemplate(slug);
+    if (slug) {
+      applyTemplate(slug);
+      return;
+    }
+    // Nothing requested explicitly — restore the last autosaved draft, if any.
+    const saved = loadAutosave();
+    if (saved) setDoc(saved);
   }, []);
+
+  // Debounced autosave of the working draft to localStorage. The first run
+  // (initial blank/mount state) is skipped so we don't clobber a restore.
+  useEffect(() => {
+    if (!hydrated.current) {
+      hydrated.current = true;
+      return;
+    }
+    if (!autosaveOn) return;
+    const t = setTimeout(() => saveAutosave(doc), 600);
+    return () => clearTimeout(t);
+  }, [doc, autosaveOn]);
 
   const loadReceipt = async (id: string) => {
     const supabase = createClient();
@@ -176,6 +266,20 @@ export default function SectionBuilder() {
     setDoc(blankDoc());
     setActiveTemplate("");
   };
+
+  // ---- local "save as template" -----------------------------------------
+  const saveAsTemplate = () => {
+    const header = doc.sections.find((s) => s.type === "header") as HeaderSection | undefined;
+    const name = window.prompt("Save this layout as a template. Name it:", header?.storeName || "My template");
+    if (!name?.trim()) return;
+    setMyTemplates(saveTemplate(name.trim(), doc));
+  };
+  const loadMyTemplate = (t: SavedTemplate) => {
+    setDoc(t.doc);
+    setActiveTemplate("");
+    setCollapsed({});
+  };
+  const removeMyTemplate = (id: string) => setMyTemplates(deleteTemplate(id));
 
   // Convert the AI result into a full ReceiptData and load it into the builder.
   const applyAi = (r: AiReceiptResult) => {
@@ -531,7 +635,7 @@ export default function SectionBuilder() {
 
       {/* Start-from-scratch presets */}
       <div className="flex flex-wrap items-center gap-2 pt-4">
-        <span className="text-xs font-medium text-slate-500">Start from scratch:</span>
+        <span className="text-xs font-medium text-slate-500">Receipt type:</span>
         {PRESETS.map((p) => (
           <button
             key={p.id}
@@ -543,6 +647,31 @@ export default function SectionBuilder() {
           </button>
         ))}
       </div>
+
+      {/* My saved templates (browser-local, no account needed) */}
+      {myTemplates.length > 0 && (
+        <div className="flex flex-wrap items-center gap-2 pt-2">
+          <span className="text-xs font-medium text-slate-500">★ My templates:</span>
+          {myTemplates.map((t) => (
+            <span
+              key={t.id}
+              className="group inline-flex items-center gap-1 rounded-full border border-amber-200 bg-amber-50 py-1 pl-3 pr-1.5 text-xs font-medium text-amber-800"
+            >
+              <button type="button" onClick={() => loadMyTemplate(t)} className="hover:underline" title="Load this template">
+                {t.name}
+              </button>
+              <button
+                type="button"
+                onClick={() => removeMyTemplate(t.id)}
+                aria-label={`Delete template ${t.name}`}
+                className="rounded-full px-1 text-amber-400 hover:bg-amber-100 hover:text-amber-700"
+              >
+                ✕
+              </button>
+            </span>
+          ))}
+        </div>
+      )}
 
       {/* Template quick-switch (core set; full list lives on /templates) */}
       <div className="-mx-4 overflow-x-auto px-4 pb-4 pt-3 sm:mx-0 sm:px-0">
@@ -576,17 +705,40 @@ export default function SectionBuilder() {
               <span>{settingsOpen ? "▴" : "▾"}</span>
             </button>
             {settingsOpen && (
-              <div className="grid gap-3 border-t border-slate-100 p-4 sm:grid-cols-2">
-                <SelectField label="Font" defaultValue={doc.settings.font} onChange={(v) => patchSettings({ font: v as FontFamily })} options={FONTS} />
-                <SelectField label="Currency" defaultValue={doc.settings.currency} onChange={(v) => patchSettings({ currency: v })} options={CURRENCIES.map((c) => ({ value: c.code, label: c.label }))} />
-                <label className="block text-xs font-medium text-slate-600">
-                  Paper width: {doc.settings.widthPx}px
-                  <input type="range" min={300} max={460} defaultValue={doc.settings.widthPx} onChange={(e) => patchSettings({ widthPx: parseInt(e.target.value) })} className="mt-1 w-full" />
-                </label>
-                <label className="block text-xs font-medium text-slate-600">
-                  Accent color
-                  <input type="color" defaultValue={doc.settings.accent} onChange={(e) => patchSettings({ accent: e.target.value })} className="mt-1 block h-9 w-full rounded-lg border border-slate-300" />
-                </label>
+              <div className="space-y-4 border-t border-slate-100 p-4">
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <SelectField label="Font family" defaultValue={doc.settings.font} onChange={(v) => patchSettings({ font: v as FontFamily })} options={FONTS} />
+                  <SelectField label="Currency" defaultValue={doc.settings.currency} onChange={(v) => patchSettings({ currency: v })} options={CURRENCIES.map((c) => ({ value: c.code, label: c.label }))} />
+                  <SelectField label="Font size" defaultValue={doc.settings.fontScale ?? "normal"} onChange={(v) => patchSettings({ fontScale: v as FontScale })} options={FONT_SCALES} />
+                  <SelectField label="Line height" defaultValue={doc.settings.lineSpacing ?? "normal"} onChange={(v) => patchSettings({ lineSpacing: v as LineSpacing })} options={LINE_SPACINGS} />
+                  <SelectField label="Letter spacing" defaultValue={doc.settings.letterSpacing ?? "normal"} onChange={(v) => patchSettings({ letterSpacing: v as LetterSpacingPreset })} options={LETTER_SPACINGS} />
+                  <SelectField label="Text weight" defaultValue={doc.settings.weight ?? "normal"} onChange={(v) => patchSettings({ weight: v as TextWeight })} options={TEXT_WEIGHTS} />
+                  <SelectField label="Paper style" defaultValue={doc.settings.paper ?? "thermal"} onChange={(v) => patchSettings({ paper: v as PaperFinish })} options={PAPER_FINISHES} />
+                  <label className="block text-xs font-medium text-slate-600">
+                    Accent color
+                    <input type="color" defaultValue={doc.settings.accent} onChange={(e) => patchSettings({ accent: e.target.value })} className="mt-1 block h-9 w-full rounded-lg border border-slate-300" />
+                  </label>
+                </div>
+                <div>
+                  <span className="mb-1.5 block text-xs font-medium text-slate-600">Receipt width: {doc.settings.widthPx}px</span>
+                  <div className="mb-2 flex flex-wrap gap-1.5">
+                    {WIDTH_PRESETS.map((w) => (
+                      <button
+                        key={w.id}
+                        type="button"
+                        onClick={() => patchSettings({ widthPx: w.px })}
+                        className={`rounded-full border px-3 py-1 text-xs font-medium transition-colors ${
+                          doc.settings.widthPx === w.px
+                            ? "border-indigo-300 bg-indigo-50 text-indigo-700"
+                            : "border-slate-200 text-slate-500 hover:bg-slate-50"
+                        }`}
+                      >
+                        {w.label}
+                      </button>
+                    ))}
+                  </div>
+                  <input type="range" min={200} max={820} value={doc.settings.widthPx} onChange={(e) => patchSettings({ widthPx: parseInt(e.target.value) })} className="w-full" />
+                </div>
               </div>
             )}
           </div>
@@ -652,13 +804,22 @@ export default function SectionBuilder() {
                 <button type="button" onClick={() => requestExport("pdf")} disabled={!!exporting} className="flex-1 rounded-full bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 disabled:opacity-60">{exporting === "pdf" ? "Preparing PDF…" : "Download PDF"}</button>
                 <button type="button" onClick={() => requestExport("png")} disabled={!!exporting} className="flex-1 rounded-full border border-indigo-200 bg-indigo-50 px-5 py-3 text-sm font-semibold text-indigo-700 hover:bg-indigo-100 disabled:opacity-60">{exporting === "png" ? "Preparing PNG…" : "Download PNG"}</button>
               </div>
-              <div className="mt-3 flex items-center justify-center gap-4 text-xs font-medium text-slate-500">
+              <div className="mt-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs font-medium text-slate-500">
                 {account.isLoggedIn && (
                   <button type="button" onClick={saveReceipt} disabled={saveState === "saving"} className="hover:text-slate-700 disabled:opacity-60">
-                    {saveState === "saving" ? "Saving…" : saveState === "saved" ? "✓ Saved" : "💾 Save"}
+                    {saveState === "saving" ? "Saving…" : saveState === "saved" ? "✓ Saved to account" : "💾 Save to account"}
                   </button>
                 )}
+                <button type="button" onClick={saveAsTemplate} className="hover:text-slate-700">★ Save as template</button>
                 <button type="button" onClick={reset} className="hover:text-slate-700">↺ Reset</button>
+                <button
+                  type="button"
+                  onClick={() => setAutosaveOn((v) => !v)}
+                  className="hover:text-slate-700"
+                  title="Autosave keeps your draft in this browser"
+                >
+                  {autosaveOn ? "🟢 Autosave on" : "⚪ Autosave off"}
+                </button>
               </div>
               {watermark ? (
                 <p className="mt-3 text-center text-[11px] leading-relaxed text-slate-500">
