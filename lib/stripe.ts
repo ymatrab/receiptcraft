@@ -24,6 +24,7 @@ export function getStripe(): Stripe {
 /** Map a Stripe price id back to our internal plan id. */
 export function planFromPriceId(priceId: string | null | undefined): string | null {
   if (!priceId) return null;
+  if (priceId === process.env.STRIPE_PRICE_PRO_WEEKLY) return "pro_weekly";
   if (priceId === process.env.STRIPE_PRICE_PRO_MONTHLY) return "pro_monthly";
   if (priceId === process.env.STRIPE_PRICE_PRO_YEARLY) return "pro_yearly";
   return null;

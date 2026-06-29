@@ -30,6 +30,7 @@ const FAQ = [
 export const dynamic = "force-dynamic";
 
 export default async function PricingPage() {
+  const weekly = PLANS.pro_weekly;
   const monthly = PLANS.pro_monthly;
   const yearly = PLANS.pro_yearly;
   // Payment links come from the admin panel (DB), falling back to env.
@@ -46,7 +47,7 @@ export default async function PricingPage() {
         </p>
       </div>
 
-      <div className="mt-12 grid gap-6 lg:grid-cols-3">
+      <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {/* Free */}
         <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
           <h2 className="text-lg font-semibold text-slate-900">Free</h2>
@@ -67,6 +68,30 @@ export default async function PricingPage() {
           >
             Start free
           </Link>
+        </div>
+
+        {/* Pro Weekly */}
+        <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+          <h2 className="text-lg font-semibold text-slate-900">{weekly.name}</h2>
+          <p className="mt-2 text-4xl font-bold text-slate-900">
+            ${weekly.price}
+            <span className="text-base font-medium text-slate-500">/wk</span>
+          </p>
+          <p className="mt-1 text-xs font-medium text-slate-400">7-day full Pro pass</p>
+          <ul className="mt-6 space-y-3 text-sm text-slate-600">
+            {weekly.features.map((f) => (
+              <li key={f} className="flex gap-2">
+                <span className="text-indigo-500">✓</span>
+                {f}
+              </li>
+            ))}
+          </ul>
+          <PricingCta
+            planId="pro_weekly"
+            paymentLink={links.weekly}
+            className="mt-8 block rounded-full border border-indigo-200 bg-indigo-50 px-5 py-3 text-center text-sm font-semibold text-indigo-700 hover:bg-indigo-100"
+            label="Get 7-day Pro"
+          />
         </div>
 
         {/* Pro Monthly */}

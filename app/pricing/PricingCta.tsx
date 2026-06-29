@@ -5,7 +5,7 @@ import { useAccount } from "@/lib/useAccount";
 import { analytics } from "@/lib/analytics";
 
 interface Props {
-  planId: "pro_monthly" | "pro_yearly";
+  planId: "pro_weekly" | "pro_monthly" | "pro_yearly";
   paymentLink: string | null;
   label: string;
   className?: string;
@@ -54,7 +54,8 @@ export default function PricingCta({ planId, paymentLink, label, className }: Pr
       );
       if (!ok) return;
     }
-    analytics.beginCheckout(planId === "pro_yearly" ? "yearly" : "monthly", "pricing");
+    const planLabel = planId === "pro_yearly" ? "yearly" : planId === "pro_weekly" ? "weekly" : "monthly";
+    analytics.beginCheckout(planLabel, "pricing");
     window.location.href = url.toString();
   }
 

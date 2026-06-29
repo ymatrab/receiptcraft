@@ -86,6 +86,13 @@ export default async function AdminMembers() {
                       <div className="flex gap-1.5">
                         <form action={grantPro}>
                           <input type="hidden" name="userId" value={m.id} />
+                          <input type="hidden" name="days" value="7" />
+                          <button className="rounded-md border border-emerald-200 px-2 py-1 text-xs font-medium text-emerald-700 hover:bg-emerald-50">
+                            Grant 7d
+                          </button>
+                        </form>
+                        <form action={grantPro}>
+                          <input type="hidden" name="userId" value={m.id} />
                           <input type="hidden" name="months" value="1" />
                           <button className="rounded-md border border-emerald-200 px-2 py-1 text-xs font-medium text-emerald-700 hover:bg-emerald-50">
                             Grant 1mo

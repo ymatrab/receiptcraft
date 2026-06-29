@@ -16,11 +16,13 @@ export interface AiConfig {
 }
 
 export interface PaymentLinks {
+  weekly: string | null;
   monthly: string | null;
   yearly: string | null;
 }
 
 const KEY_AI = "ai";
+const KEY_LINK_WEEKLY = "stripe_link_weekly";
 const KEY_LINK_MONTHLY = "stripe_link_monthly";
 const KEY_LINK_YEARLY = "stripe_link_yearly";
 
@@ -88,11 +90,13 @@ export async function saveAiConfig(input: {
 
 /** Stripe payment links, falling back to env. */
 export async function getPaymentLinks(): Promise<PaymentLinks> {
-  const [m, y] = await Promise.all([
+  const [w, m, y] = await Promise.all([
+    getSetting<string>(KEY_LINK_WEEKLY),
     getSetting<string>(KEY_LINK_MONTHLY),
     getSetting<string>(KEY_LINK_YEARLY),
   ]);
   return {
+    weekly: w ?? process.env.NEXT_PUBLIC_STRIPE_LINK_WEEKLY ?? null,
     monthly: m ?? process.env.NEXT_PUBLIC_STRIPE_LINK_MONTHLY ?? null,
     yearly: y ?? process.env.NEXT_PUBLIC_STRIPE_LINK_YEARLY ?? null,
   };
@@ -100,6 +104,7 @@ export async function getPaymentLinks(): Promise<PaymentLinks> {
 
 export async function savePaymentLinks(links: PaymentLinks): Promise<void> {
   await Promise.all([
+    setSetting(KEY_LINK_WEEKLY, links.weekly ?? ""),
     setSetting(KEY_LINK_MONTHLY, links.monthly ?? ""),
     setSetting(KEY_LINK_YEARLY, links.yearly ?? ""),
   ]);

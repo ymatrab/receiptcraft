@@ -5,6 +5,7 @@ export const dynamic = "force-dynamic";
 
 /** Monthly-normalized revenue per plan, for an MRR estimate. */
 const MRR_PER_PLAN: Record<string, number> = {
+  pro_weekly: PLANS.pro_weekly.price * (52 / 12),
   pro_monthly: PLANS.pro_monthly.price,
   pro_yearly: PLANS.pro_yearly.price / 12,
 };

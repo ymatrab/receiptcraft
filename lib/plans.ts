@@ -6,14 +6,14 @@
  * Stripe price IDs are injected via env so the same code works in test and live.
  */
 
-export type PlanId = "free" | "pro_monthly" | "pro_yearly";
+export type PlanId = "free" | "pro_weekly" | "pro_monthly" | "pro_yearly";
 
 export interface Plan {
   id: PlanId;
   name: string;
   /** Display price, USD. */
   price: number;
-  interval: "month" | "year" | null;
+  interval: "week" | "month" | "year" | null;
   /** Stripe Price ID — null for the free plan. */
   stripePriceId: string | null;
   /** Stripe Payment Link URL (dashboard-created). Used until API checkout lands. */
@@ -35,6 +35,21 @@ export const PLANS: Record<PlanId, Plan> = {
       "Live preview",
       "PDF & PNG download (with watermark)",
       "3 AI receipt generations per day",
+    ],
+  },
+  pro_weekly: {
+    id: "pro_weekly",
+    name: "Pro Weekly",
+    price: 3,
+    interval: "week",
+    stripePriceId: process.env.STRIPE_PRICE_PRO_WEEKLY ?? null,
+    paymentLink: process.env.NEXT_PUBLIC_STRIPE_LINK_WEEKLY ?? null,
+    features: [
+      "No watermark",
+      "HD exports",
+      "Unlimited AI receipt generation",
+      "Saved receipt history",
+      "7 days of full Pro access",
     ],
   },
   pro_monthly: {

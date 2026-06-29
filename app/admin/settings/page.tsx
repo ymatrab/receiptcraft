@@ -62,6 +62,10 @@ export default async function AdminSettings() {
         </p>
         <form action={saveLinksAction} className="mt-4 space-y-4">
           <div>
+            <label className={label} htmlFor="weekly">Weekly link</label>
+            <input id="weekly" name="weekly" defaultValue={links.weekly ?? ""} className={field} placeholder="https://buy.stripe.com/..." />
+          </div>
+          <div>
             <label className={label} htmlFor="monthly">Monthly link</label>
             <input id="monthly" name="monthly" defaultValue={links.monthly ?? ""} className={field} placeholder="https://buy.stripe.com/..." />
           </div>

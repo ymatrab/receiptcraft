@@ -13,11 +13,16 @@ import { createAdminClient } from "@/lib/supabase/admin";
 export async function grantPro(formData: FormData) {
   await requireAdmin();
   const userId = String(formData.get("userId"));
-  const months = Number(formData.get("months") || 1);
+  // Either a month-based grant (months) or a short weekly pass (days).
+  const days = Number(formData.get("days") || 0);
+  const months = Number(formData.get("months") || (days ? 0 : 1));
   if (!userId) return;
 
   const end = new Date();
-  end.setMonth(end.getMonth() + months);
+  if (days) end.setDate(end.getDate() + days);
+  else end.setMonth(end.getMonth() + months);
+
+  const plan = days ? "pro_weekly" : months >= 12 ? "pro_yearly" : "pro_monthly";
 
   await createAdminClient().from("subscriptions").upsert(
     {
@@ -25,7 +30,7 @@ export async function grantPro(formData: FormData) {
       user_id: userId,
       stripe_customer_id: "manual",
       status: "active",
-      plan: months >= 12 ? "pro_yearly" : "pro_monthly",
+      plan,
       current_period_end: end.toISOString(),
       cancel_at_period_end: false,
     },

@@ -18,17 +18,32 @@ export async function GET(request: Request) {
   const type = searchParams.get("type") as EmailOtpType | null;
   const next = searchParams.get("next") ?? "/account";
 
+  // The OAuth provider (or Supabase) can bounce back with an explicit error —
+  // surface its description on the login page instead of a generic message.
+  const providerError = searchParams.get("error_description") || searchParams.get("error");
+
+  const fail = (detail?: string | null) => {
+    const url = new URL(`${origin}/login`);
+    url.searchParams.set("error", "auth");
+    if (detail) url.searchParams.set("error_description", detail);
+    return NextResponse.redirect(url);
+  };
+
+  if (providerError) return fail(providerError);
+
   if (supabaseConfigured) {
     const supabase = await createClient();
 
     if (code) {
       const { error } = await supabase.auth.exchangeCodeForSession(code);
       if (!error) return NextResponse.redirect(`${origin}${next}`);
+      return fail(error.message);
     } else if (tokenHash && type) {
       const { error } = await supabase.auth.verifyOtp({ token_hash: tokenHash, type });
       if (!error) return NextResponse.redirect(`${origin}${next}`);
+      return fail(error.message);
     }
   }
 
-  return NextResponse.redirect(`${origin}/login?error=auth`);
+  return fail();
 }

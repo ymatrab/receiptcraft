@@ -44,7 +44,7 @@ export const analytics = {
     track("ai_generate", { status, template }),
   receiptDownloaded: (format: "pdf" | "png", template?: string, pro?: boolean) =>
     track("download_receipt", { format, template, pro }),
-  beginCheckout: (plan: "monthly" | "yearly", location?: string) =>
+  beginCheckout: (plan: "weekly" | "monthly" | "yearly", location?: string) =>
     track("begin_checkout", { plan, location }),
   upgradeClick: (location: string) => track("upgrade_click", { location }),
   signIn: (method: string) => track("login", { method }),
