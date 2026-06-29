@@ -5,7 +5,7 @@ import { SITE } from "./site";
  * search engines can verify we own the host. IndexNow notifies Bing, Yandex,
  * Seznam and Naver (NOT Google — Google indexes via the sitemap/crawl).
  */
-export const INDEXNOW_KEY = "d67e6871c8e348e1a542bbe2f7e2a43c";
+export const INDEXNOW_KEY = "01a54c886440475eb6df09e644afe429";
 
 export interface IndexNowResult {
   submitted: number;
