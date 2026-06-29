@@ -43,6 +43,33 @@ export function Rule({ rule }: { rule: RuleStyle }) {
   return <div className={`my-2 ${cls}`} />;
 }
 
+/** Net line total = qty × price − per-item discount (never below 0). */
+function lineNet(i: LineItem): number {
+  const gross = (i.quantity || 0) * (i.price || 0);
+  return gross - Math.min(Math.max(i.discount || 0, 0), Math.max(gross, 0));
+}
+
+/** Small secondary line under an item name: SKU / unit / category / modifiers /
+ *  per-item discount. Renders nothing when the item has no extra detail. */
+function ItemMeta({ item, money }: { item: LineItem; money: (n: number) => string }) {
+  const bits: string[] = [];
+  if (item.sku) bits.push(`SKU ${item.sku}`);
+  if (item.unit) bits.push(item.unit);
+  if (item.category) bits.push(item.category);
+  const mods = item.modifiers?.filter(Boolean) ?? [];
+  const hasDiscount = !!item.discount && item.discount > 0;
+  if (!bits.length && !mods.length && !hasDiscount) return null;
+  return (
+    <div className="text-[10px] leading-snug text-slate-500">
+      {bits.length > 0 && <div>{bits.join(" · ")}</div>}
+      {mods.map((m, i) => (
+        <div key={i}>+ {m}</div>
+      ))}
+      {hasDiscount && <div className="text-emerald-700">− {money(item.discount!)} item discount</div>}
+    </div>
+  );
+}
+
 export function Items({
   items,
   style,
@@ -62,8 +89,11 @@ export function Items({
         {items.map((item) => (
           <div key={item.id} className="flex items-baseline gap-2">
             <span className="w-4 shrink-0 text-[11px] text-slate-500">{item.quantity}</span>
-            <span className="flex-1 break-words">{item.name || "—"}</span>
-            <span className="tabular-nums">{money(item.quantity * item.price)}</span>
+            <span className="flex-1 break-words">
+              {item.name || "—"}
+              <ItemMeta item={item} money={money} />
+            </span>
+            <span className="tabular-nums">{money(lineNet(item))}</span>
           </div>
         ))}
       </div>
@@ -85,8 +115,9 @@ export function Items({
               <span className="break-words pr-2">
                 {item.quantity !== 1 ? `${item.quantity} ` : ""}
                 {item.name || "—"}
+                <ItemMeta item={item} money={money} />
               </span>
-              <span className="tabular-nums">{money(item.quantity * item.price)}</span>
+              <span className="tabular-nums">{money(lineNet(item))}</span>
             </div>
           ))}
         </div>
@@ -101,8 +132,9 @@ export function Items({
           <div key={item.id} className="flex justify-between gap-2">
             <span className="break-words pr-2">
               {item.quantity} {item.name || "—"}
+              <ItemMeta item={item} money={money} />
             </span>
-            <span className="tabular-nums">= {money(item.quantity * item.price)}</span>
+            <span className="tabular-nums">= {money(lineNet(item))}</span>
           </div>
         ))}
       </div>
@@ -116,13 +148,14 @@ export function Items({
           <div key={item.id}>
             <div className="flex justify-between gap-2">
               <span className="break-words pr-2">{item.name || "—"}</span>
-              <span className="font-medium tabular-nums">{money(item.quantity * item.price)}</span>
+              <span className="font-medium tabular-nums">{money(lineNet(item))}</span>
             </div>
             {item.quantity !== 1 && (
               <div className="text-[11px] text-slate-500">
                 {item.quantity} @ {money(item.price)}
               </div>
             )}
+            <ItemMeta item={item} money={money} />
           </div>
         ))}
       </div>
@@ -143,10 +176,16 @@ export function Items({
       <tbody>
         {items.map((item) => (
           <tr key={item.id} className="align-top">
-            <td className="max-w-40 break-words py-0.5 pr-2">{item.name || "—"}</td>
-            <td className="py-0.5 text-center text-slate-600">{item.quantity}</td>
+            <td className="max-w-40 break-words py-0.5 pr-2">
+              {item.name || "—"}
+              <ItemMeta item={item} money={money} />
+            </td>
+            <td className="py-0.5 text-center text-slate-600">
+              {item.quantity}
+              {item.unit ? ` ${item.unit}` : ""}
+            </td>
             <td className="py-0.5 text-right text-slate-600">{money(item.price)}</td>
-            <td className="py-0.5 text-right font-medium">{money(item.quantity * item.price)}</td>
+            <td className="py-0.5 text-right font-medium">{money(lineNet(item))}</td>
           </tr>
         ))}
       </tbody>
@@ -158,10 +197,12 @@ export function CardAuth({
   last4,
   cardType,
   refCode,
+  entry,
 }: {
   last4?: string;
   cardType?: string;
   refCode?: string;
+  entry?: string;
 }) {
   return (
     <div className="mt-3 space-y-0.5 text-xs text-slate-600">
@@ -175,7 +216,7 @@ export function CardAuth({
       </div>
       <div className="flex justify-between">
         <span>Card entry</span>
-        <span>Chip</span>
+        <span>{entry || "Chip"}</span>
       </div>
       {refCode && (
         <div className="flex justify-between">

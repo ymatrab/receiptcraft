@@ -3,6 +3,19 @@ export interface LineItem {
   name: string;
   quantity: number;
   price: number;
+  // Optional richer item fields (all backward-compatible).
+  sku?: string;
+  category?: string;
+  unit?: string; // e.g. "kg", "hr", "ea"
+  modifiers?: string[]; // e.g. ["No onions", "Extra shot"]
+  discount?: number; // flat per-item discount amount
+  taxCategory?: string; // informational label, e.g. "Standard", "Zero-rated"
+}
+
+/** One tax line in a totals block (supports multiple tax rates). */
+export interface TaxLine {
+  label: string;
+  rate: number; // percent
 }
 
 export type PaperStyle = "thermal" | "modern" | "minimal";

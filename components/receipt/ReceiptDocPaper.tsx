@@ -100,15 +100,50 @@ export default function ReceiptDocPaper({ doc }: Props) {
               ))}
             {s.phone && <p className="text-slate-600">{s.phone}</p>}
             {s.website && <p className="text-slate-600">{s.website}</p>}
+            {(s.taxId || s.branch || s.cashier || s.registerId) && (
+              <div className="mt-1 text-[11px] text-slate-500">
+                {s.taxId && <p>Tax ID: {s.taxId}</p>}
+                {(s.branch || s.registerId || s.cashier) && (
+                  <p>
+                    {[
+                      s.branch ? `Branch ${s.branch}` : "",
+                      s.registerId ? `Reg ${s.registerId}` : "",
+                      s.cashier ? `Cashier: ${s.cashier}` : "",
+                    ]
+                      .filter(Boolean)
+                      .join(" · ")}
+                  </p>
+                )}
+              </div>
+            )}
           </>
         );
-      case "datetime":
+      case "datetime": {
+        const ids: { label: string; value?: string }[] = [
+          { label: "Order", value: s.orderId },
+          { label: "Txn", value: s.transactionId },
+          { label: "Invoice", value: s.invoiceId },
+          { label: "Customer", value: s.customerId },
+        ].filter((x) => x.value);
         return (
-          <p className="text-xs text-slate-600">
-            {formatDisplayDate(s.date)} {s.time}
-            {s.receiptNumber ? ` · Receipt #${s.receiptNumber}` : ""}
-          </p>
+          <div className="text-xs text-slate-600">
+            <p>
+              {formatDisplayDate(s.date)} {s.time}
+              {s.timezone ? ` ${s.timezone}` : ""}
+              {s.receiptNumber ? ` · Receipt #${s.receiptNumber}` : ""}
+            </p>
+            {ids.length > 0 && (
+              <div className="mt-0.5 flex flex-wrap gap-x-4 gap-y-0.5 text-[11px] text-slate-500">
+                {ids.map((x) => (
+                  <span key={x.label}>
+                    {x.label}: {x.value}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
         );
+      }
       case "twocol":
         return (
           <div className="text-xs text-slate-600">
@@ -142,18 +177,36 @@ export default function ReceiptDocPaper({ doc }: Props) {
                 <span>Subtotal</span>
                 <span>{money(t.subtotal)}</span>
               </div>
+              {t.itemDiscount > 0 && (
+                <div className="flex justify-between text-emerald-700">
+                  <span>Item discounts</span>
+                  <span>-{money(t.itemDiscount)}</span>
+                </div>
+              )}
               {t.discount > 0 && (
                 <div className="flex justify-between text-emerald-700">
                   <span>Discount{s.discountPercent ? ` (${s.discount}%)` : ""}</span>
                   <span>-{money(t.discount)}</span>
                 </div>
               )}
-              {s.taxRate > 0 && (
-                <div className="flex justify-between">
+              {t.taxLines.map((l, i) => (
+                <div key={i} className="flex justify-between">
                   <span>
-                    {s.taxLabel || "Tax"} ({s.taxRate}%)
+                    {l.label} ({l.rate}%)
                   </span>
-                  <span>{money(t.tax)}</span>
+                  <span>{money(l.amount)}</span>
+                </div>
+              ))}
+              {t.serviceFee > 0 && (
+                <div className="flex justify-between">
+                  <span>Service fee{s.serviceFeePercent ? ` (${s.serviceFee}%)` : ""}</span>
+                  <span>{money(t.serviceFee)}</span>
+                </div>
+              )}
+              {t.deliveryFee > 0 && (
+                <div className="flex justify-between">
+                  <span>Delivery fee</span>
+                  <span>{money(t.deliveryFee)}</span>
                 </div>
               )}
               {t.tip > 0 && (
@@ -162,10 +215,31 @@ export default function ReceiptDocPaper({ doc }: Props) {
                   <span>{money(t.tip)}</span>
                 </div>
               )}
+              {t.rounding !== 0 && (
+                <div className="flex justify-between">
+                  <span>Rounding</span>
+                  <span>
+                    {t.rounding > 0 ? "+" : "-"}
+                    {money(Math.abs(t.rounding))}
+                  </span>
+                </div>
+              )}
               <div className="flex justify-between border-t border-slate-400 pt-1 text-base font-bold">
                 <span>{s.grandTotalLabel ?? "TOTAL"}</span>
                 <span style={{ color: accent }}>{money(t.total)}</span>
               </div>
+              {t.amountPaid > 0 && (
+                <>
+                  <div className="flex justify-between">
+                    <span>Amount paid</span>
+                    <span>{money(t.amountPaid)}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Change</span>
+                    <span>{money(t.change)}</span>
+                  </div>
+                </>
+              )}
             </div>
           </>
         );
@@ -194,30 +268,68 @@ export default function ReceiptDocPaper({ doc }: Props) {
             </div>
           );
         }
+        const methodLabel = s.method === "Card" ? s.cardType || "Card" : s.method;
+        const showLast4 = (s.method === "Card" || s.method === "Gift Card") && s.cardLastFour;
+        const splits = s.splits?.filter((p) => p.method || p.amount) ?? [];
         return (
           <div className="space-y-1 text-xs text-slate-600">
             {s.inline ? (
               <p className="text-slate-700">
-                Payment Method: {s.cardType || "Card"}
-                {s.cardLastFour ? ` •••• ${s.cardLastFour}` : ""}
+                Payment Method: {methodLabel}
+                {showLast4 ? ` •••• ${s.cardLastFour}` : ""}
               </p>
             ) : (
               <div className="flex justify-between">
                 <span>Payment Method</span>
                 <span className="font-medium text-slate-800">
-                  {s.cardType || "Card"}
-                  {s.cardLastFour ? ` •••• ${s.cardLastFour}` : ""}
+                  {methodLabel}
+                  {showLast4 ? ` •••• ${s.cardLastFour}` : ""}
                 </span>
               </div>
             )}
+            {s.method === "Card" && s.entryMode && !s.showCardAuth && (
+              <div className="flex justify-between">
+                <span>Card entry</span>
+                <span>{s.entryMode}</span>
+              </div>
+            )}
+            {splits.length > 0 && (
+              <div className="mt-1 border-t border-dashed border-slate-300 pt-1">
+                <p className="text-[11px] uppercase tracking-wide text-slate-500">Split payment</p>
+                {splits.map((p, i) => (
+                  <div key={i} className="flex justify-between">
+                    <span>{p.method || "Payment"}</span>
+                    <span>{money(p.amount || 0)}</span>
+                  </div>
+                ))}
+              </div>
+            )}
             {s.showCardAuth && (
-              <CardAuth last4={s.cardLastFour} cardType={s.cardType} refCode={s.authCode} />
+              <CardAuth
+                last4={s.cardLastFour}
+                cardType={s.cardType}
+                refCode={s.authCode}
+                entry={s.entryMode}
+              />
             )}
           </div>
         );
       }
       case "message":
         return <p className="whitespace-pre-line text-xs leading-relaxed text-slate-600">{s.text}</p>;
+      case "footer":
+        return (
+          <div className="space-y-1.5 text-[11px] leading-relaxed text-slate-500">
+            {s.loyaltyPoints && <p className="font-medium text-slate-600">★ {s.loyaltyPoints}</p>}
+            {s.returnPolicy && <p className="whitespace-pre-line">{s.returnPolicy}</p>}
+            {s.warranty && <p className="whitespace-pre-line">{s.warranty}</p>}
+            {s.surveyUrl && (
+              <p>
+                We value your feedback: <span className="text-slate-700">{s.surveyUrl}</span>
+              </p>
+            )}
+          </div>
+        );
       case "barcode":
         return (
           <div className="flex flex-col items-center">

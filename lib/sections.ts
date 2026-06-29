@@ -12,6 +12,7 @@ import type {
   ReceiptProfile,
   ReceiptRow,
   RuleStyle,
+  TaxLine,
   TextWeight,
 } from "./types";
 import { todayISO, nowHHMM, randomReceiptNumber, uid } from "./format";
@@ -32,6 +33,7 @@ export type SectionType =
   | "items"
   | "payment"
   | "message"
+  | "footer"
   | "barcode"
   | "qr"
   | "image"
@@ -54,12 +56,23 @@ export interface HeaderSection extends BaseSection {
   address: string; // newline-separated
   phone?: string;
   website?: string;
+  // Business identifiers (all optional).
+  taxId?: string; // Tax ID / VAT / GST number
+  branch?: string; // branch / store number
+  cashier?: string;
+  registerId?: string;
 }
 export interface DateTimeSection extends BaseSection {
   type: "datetime";
   date: string;
   time: string;
   receiptNumber?: string;
+  // Optional reference identifiers.
+  timezone?: string; // e.g. "EST", "UTC+1"
+  orderId?: string;
+  transactionId?: string;
+  invoiceId?: string;
+  customerId?: string;
 }
 export interface TwoColSection extends BaseSection {
   type: "twocol";
@@ -75,26 +88,46 @@ export interface ItemsSection extends BaseSection {
   columns?: ItemColumns; // custom table column names
   taxLabel: string;
   taxRate: number;
+  taxLines?: TaxLine[]; // multiple tax lines; overrides taxLabel/taxRate when present
   discount: number;
   discountPercent?: boolean; // treat `discount` as a % of subtotal
+  serviceFee?: number;
+  serviceFeePercent?: boolean; // treat `serviceFee` as a % of the taxable amount
+  deliveryFee?: number;
   tip: number;
+  rounding?: number; // signed cash-rounding adjustment (e.g. -0.02)
+  amountPaid?: number; // amount paid → drives the "Change" line
   grandTotalLabel?: string;
   totalsDivider?: RuleStyle;
   showItemsSold?: boolean; // "Items sold: N" line (grocery / warehouse)
 }
+export type PaymentMethodKind = "Cash" | "Card" | "Mobile" | "Gift Card";
+export interface PaymentSplit {
+  method: string;
+  amount: number;
+}
 export interface PaymentSection extends BaseSection {
   type: "payment";
-  method: "Cash" | "Card";
+  method: PaymentMethodKind;
   cardType?: string; // Credit / Debit / Mobile …
   cardLastFour?: string;
   authCode?: string;
+  entryMode?: "Chip" | "Tap" | "Swipe" | "Manual"; // card entry method
   amountTendered?: number;
   showCardAuth?: boolean;
   inline?: boolean;
+  splits?: PaymentSplit[]; // split payment across methods
 }
 export interface MessageSection extends BaseSection {
   type: "message";
   text: string;
+}
+export interface FooterSection extends BaseSection {
+  type: "footer";
+  returnPolicy?: string;
+  warranty?: string;
+  loyaltyPoints?: string; // e.g. "You earned 120 points · Balance: 2,430"
+  surveyUrl?: string; // survey / feedback link
 }
 export interface BarcodeSection extends BaseSection {
   type: "barcode";
@@ -126,6 +159,7 @@ export type Section =
   | ItemsSection
   | PaymentSection
   | MessageSection
+  | FooterSection
   | BarcodeSection
   | QrSection
   | ImageSection
@@ -167,6 +201,7 @@ export const SECTION_LABEL: Record<SectionType, string> = {
   items: "Items list",
   payment: "Payment & totals",
   message: "Custom message",
+  footer: "Footer & policies",
   barcode: "Barcode",
   qr: "QR code",
   image: "Image",
@@ -730,19 +765,64 @@ export function docFromReceiptData(data: ReceiptData): ReceiptDoc {
   };
 }
 
-/** Totals for an items section. `discount` is a flat amount, or a percent of
- *  the subtotal when `discountPercent` is set. Returns the computed money values. */
+/** Totals for an items section. Handles per-item discounts, a section discount
+ *  (flat or %), one or more tax lines, service/delivery fees, tip, cash rounding
+ *  and an "amount paid → change" line. All extras are optional and default to 0
+ *  so older docs keep their previous totals. `total` stays the canonical key. */
 export function itemsTotals(s: ItemsSection) {
-  const subtotal = s.items.reduce((sum, i) => sum + (i.quantity || 0) * (i.price || 0), 0);
+  let subtotal = 0; // gross, before per-item discounts
+  let itemDiscount = 0;
+  for (const i of s.items) {
+    const gross = (i.quantity || 0) * (i.price || 0);
+    subtotal += gross;
+    itemDiscount += Math.min(Math.max(i.discount || 0, 0), Math.max(gross, 0));
+  }
+  const afterItemDisc = subtotal - itemDiscount;
+
   const rawDiscount = s.discountPercent
-    ? subtotal * (Math.max(s.discount || 0, 0) / 100)
+    ? afterItemDisc * (Math.max(s.discount || 0, 0) / 100)
     : Math.max(s.discount || 0, 0);
-  const discount = Math.min(rawDiscount, subtotal);
-  const taxable = subtotal - discount;
-  const tax = taxable * ((s.taxRate || 0) / 100);
+  const discount = Math.min(rawDiscount, afterItemDisc);
+  const taxable = afterItemDisc - discount;
+
+  // One or more tax lines. Multiple lines override the single taxLabel/taxRate.
+  const lines = s.taxLines && s.taxLines.length > 0
+    ? s.taxLines
+    : s.taxRate > 0
+      ? [{ label: s.taxLabel || "Tax", rate: s.taxRate }]
+      : [];
+  const taxLines = lines.map((l) => ({
+    label: l.label || "Tax",
+    rate: l.rate,
+    amount: taxable * ((l.rate || 0) / 100),
+  }));
+  const tax = taxLines.reduce((sum, l) => sum + l.amount, 0);
+
+  const serviceFee = s.serviceFeePercent
+    ? taxable * (Math.max(s.serviceFee || 0, 0) / 100)
+    : Math.max(s.serviceFee || 0, 0);
+  const deliveryFee = Math.max(s.deliveryFee || 0, 0);
   const tip = Math.max(s.tip || 0, 0);
-  const total = taxable + tax + tip;
-  return { subtotal, discount, tax, tip, total };
+  const rounding = s.rounding || 0;
+
+  const total = taxable + tax + serviceFee + deliveryFee + tip + rounding;
+  const amountPaid = Math.max(s.amountPaid || 0, 0);
+  const change = amountPaid > total ? amountPaid - total : 0;
+
+  return {
+    subtotal,
+    itemDiscount,
+    discount,
+    taxLines,
+    tax,
+    serviceFee,
+    deliveryFee,
+    tip,
+    rounding,
+    total,
+    amountPaid,
+    change,
+  };
 }
 
 /** A new section of the given type, with sensible defaults. */
@@ -773,6 +853,17 @@ export function newSection(type: SectionType, currency = "USD"): Section {
       return { ...base, type, method: "Card", cardType: "Credit", cardLastFour: "", showCardAuth: true };
     case "message":
       return { ...base, type, align: "center", divider: "none", text: "Thank you!" };
+    case "footer":
+      return {
+        ...base,
+        type,
+        align: "center",
+        divider: "none",
+        returnPolicy: "Returns accepted within 30 days with receipt.",
+        warranty: "",
+        loyaltyPoints: "",
+        surveyUrl: "",
+      };
     case "barcode":
       return { ...base, type, align: "center", divider: "none", value: randomReceiptNumber(), showText: true };
     case "qr":

@@ -42,7 +42,7 @@ import { CURRENCIES, formatMoney, uid } from "@/lib/format";
 import { SITE } from "@/lib/site";
 import type { ReceiptData } from "@/lib/types";
 import type { AiReceiptResult } from "@/lib/ai-receipt";
-import { downloadPng, downloadPdf, exportFilename } from "@/lib/download";
+import { downloadPng, downloadJpg, downloadPdf, exportFilename } from "@/lib/download";
 import { analytics } from "@/lib/analytics";
 import { useAccount } from "@/lib/useAccount";
 import { createClient } from "@/lib/supabase/client";
@@ -129,8 +129,16 @@ const ITEM_STYLES = [
   { value: "equals", label: "Qty name = total" },
 ];
 const CARD_TYPES = ["Credit", "Debit", "Mobile Payment", "Gift Card"];
+const PAYMENT_METHODS = ["Cash", "Card", "Mobile", "Gift Card"] as const;
+const ENTRY_MODES = [
+  { value: "Chip", label: "Chip" },
+  { value: "Tap", label: "Tap / contactless" },
+  { value: "Swipe", label: "Swipe" },
+  { value: "Manual", label: "Manual / keyed" },
+];
 const DEFAULT_COLS = { item: "Item", qty: "Qty", price: "Price", total: "Total" };
 const COLS = ["item", "qty", "price", "total"] as const;
+type ExportKind = "png" | "jpg" | "pdf" | "pdf-print";
 
 function getQueryTemplate(): string {
   if (typeof window === "undefined") return "";
@@ -140,9 +148,10 @@ function getQueryTemplate(): string {
 export default function SectionBuilder() {
   const [doc, setDoc] = useState<ReceiptDoc>(blankDoc);
   const [collapsed, setCollapsed] = useState<Record<string, boolean>>({});
+  const [itemDetails, setItemDetails] = useState<Record<string, boolean>>({});
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [showAdd, setShowAdd] = useState(false);
-  const [exporting, setExporting] = useState<"png" | "pdf" | null>(null);
+  const [exporting, setExporting] = useState<ExportKind | null>(null);
   const [mobileTab, setMobileTab] = useState<"edit" | "preview">("edit");
   const [activeTemplate, setActiveTemplate] = useState("");
   const dragIndex = useRef<number | null>(null);
@@ -155,7 +164,7 @@ export default function SectionBuilder() {
   const [aiError, setAiError] = useState<string | null>(null);
   const [saveState, setSaveState] = useState<"idle" | "saving" | "saved">("idle");
   // When a free user hits download, we confirm the watermark first.
-  const [pendingExport, setPendingExport] = useState<"png" | "pdf" | null>(null);
+  const [pendingExport, setPendingExport] = useState<ExportKind | null>(null);
   // Local (no-account) named templates + autosave.
   const [myTemplates, setMyTemplates] = useState<SavedTemplate[]>([]);
   const [autosaveOn, setAutosaveOn] = useState(true);
@@ -356,7 +365,7 @@ export default function SectionBuilder() {
     reader.readAsDataURL(file);
   };
 
-  const handleExport = async (kind: "png" | "pdf") => {
+  const handleExport = async (kind: ExportKind) => {
     if (!receiptRef.current || exporting) return;
     setExporting(kind);
     try {
@@ -367,8 +376,10 @@ export default function SectionBuilder() {
         (dt && "receiptNumber" in dt && dt.receiptNumber) || "0000"
       );
       if (kind === "png") await downloadPng(receiptRef.current, filename);
+      else if (kind === "jpg") await downloadJpg(receiptRef.current, filename);
+      else if (kind === "pdf-print") await downloadPdf(receiptRef.current, filename, { printReady: true });
       else await downloadPdf(receiptRef.current, filename);
-      analytics.receiptDownloaded(kind, activeTemplate || undefined, account.isPro);
+      analytics.receiptDownloaded(kind === "pdf-print" ? "pdf" : kind, activeTemplate || undefined, account.isPro);
     } catch {
       alert("Sorry, the export failed. Please try again.");
     } finally {
@@ -377,7 +388,7 @@ export default function SectionBuilder() {
   };
 
   // Free users see a watermark-confirmation box first; Pro downloads directly.
-  const requestExport = (kind: "png" | "pdf") => {
+  const requestExport = (kind: ExportKind) => {
     if (exporting) return;
     if (watermark) setPendingExport(kind);
     else handleExport(kind);
@@ -421,6 +432,12 @@ export default function SectionBuilder() {
               <TextField label="Phone" defaultValue={s.phone ?? ""} onChange={(v) => patchSection(s.id, { phone: v })} />
               <TextField label="Website / Email" defaultValue={s.website ?? ""} onChange={(v) => patchSection(s.id, { website: v })} />
             </div>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <TextField label="Tax ID / VAT / GST" defaultValue={s.taxId ?? ""} onChange={(v) => patchSection(s.id, { taxId: v || undefined })} placeholder="e.g. VAT GB123456789" />
+              <TextField label="Branch / store #" defaultValue={s.branch ?? ""} onChange={(v) => patchSection(s.id, { branch: v || undefined })} />
+              <TextField label="Cashier" defaultValue={s.cashier ?? ""} onChange={(v) => patchSection(s.id, { cashier: v || undefined })} />
+              <TextField label="Register ID" defaultValue={s.registerId ?? ""} onChange={(v) => patchSection(s.id, { registerId: v || undefined })} />
+            </div>
           </div>
         );
       case "datetime":
@@ -434,7 +451,14 @@ export default function SectionBuilder() {
               <TextField label="Date" type="date" defaultValue={s.date} onChange={(v) => patchSection(s.id, { date: v })} />
               <TextField label="Time" type="time" defaultValue={s.time} onChange={(v) => patchSection(s.id, { time: v })} />
             </div>
-            <TextField label="Receipt number" defaultValue={s.receiptNumber ?? ""} onChange={(v) => patchSection(s.id, { receiptNumber: v })} />
+            <div className="grid gap-3 sm:grid-cols-2">
+              <TextField label="Receipt number" defaultValue={s.receiptNumber ?? ""} onChange={(v) => patchSection(s.id, { receiptNumber: v })} />
+              <TextField label="Timezone" defaultValue={s.timezone ?? ""} onChange={(v) => patchSection(s.id, { timezone: v || undefined })} placeholder="e.g. EST" />
+              <TextField label="Order ID" defaultValue={s.orderId ?? ""} onChange={(v) => patchSection(s.id, { orderId: v || undefined })} />
+              <TextField label="Transaction ID" defaultValue={s.transactionId ?? ""} onChange={(v) => patchSection(s.id, { transactionId: v || undefined })} />
+              <TextField label="Invoice ID" defaultValue={s.invoiceId ?? ""} onChange={(v) => patchSection(s.id, { invoiceId: v || undefined })} />
+              <TextField label="Customer ID" defaultValue={s.customerId ?? ""} onChange={(v) => patchSection(s.id, { customerId: v || undefined })} />
+            </div>
           </div>
         );
       case "twocol":
@@ -458,11 +482,26 @@ export default function SectionBuilder() {
               <button type="button" onClick={() => patchSection(s.id, { items: [...s.items, { id: uid(), name: "", quantity: 1, price: 0 }] })} className="text-sm font-semibold text-indigo-600">+ Add item</button>
             </div>
             {s.items.map((it) => (
-              <div key={it.id} className="grid grid-cols-[52px_1fr_80px_28px] items-center gap-2">
-                <input className={inputClass} type="number" defaultValue={it.quantity} onChange={(e) => updateItem(s, it.id, { quantity: parseFloat(e.target.value) || 0 })} aria-label="Qty" />
-                <input className={inputClass} defaultValue={it.name} placeholder="Item name" onChange={(e) => updateItem(s, it.id, { name: e.target.value })} aria-label="Name" />
-                <input className={inputClass} type="number" step="0.01" defaultValue={it.price} onChange={(e) => updateItem(s, it.id, { price: parseFloat(e.target.value) || 0 })} aria-label="Price" />
-                <button type="button" aria-label="Remove item" onClick={() => patchSection(s.id, { items: s.items.filter((x) => x.id !== it.id) })} className="text-red-500 hover:text-red-600">✕</button>
+              <div key={it.id} className="rounded-lg border border-slate-100 bg-slate-50/50 p-2">
+                <div className="grid grid-cols-[52px_1fr_80px_28px] items-center gap-2">
+                  <input className={inputClass} type="number" defaultValue={it.quantity} onChange={(e) => updateItem(s, it.id, { quantity: parseFloat(e.target.value) || 0 })} aria-label="Qty" />
+                  <input className={inputClass} defaultValue={it.name} placeholder="Item name" onChange={(e) => updateItem(s, it.id, { name: e.target.value })} aria-label="Name" />
+                  <input className={inputClass} type="number" step="0.01" defaultValue={it.price} onChange={(e) => updateItem(s, it.id, { price: parseFloat(e.target.value) || 0 })} aria-label="Price" />
+                  <button type="button" aria-label="Remove item" onClick={() => patchSection(s.id, { items: s.items.filter((x) => x.id !== it.id) })} className="text-red-500 hover:text-red-600">✕</button>
+                </div>
+                {itemDetails[it.id] && (
+                  <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-3">
+                    <input className={inputClass} defaultValue={it.sku ?? ""} placeholder="SKU" onChange={(e) => updateItem(s, it.id, { sku: e.target.value || undefined })} aria-label="SKU" />
+                    <input className={inputClass} defaultValue={it.unit ?? ""} placeholder="Unit (kg, hr…)" onChange={(e) => updateItem(s, it.id, { unit: e.target.value || undefined })} aria-label="Unit" />
+                    <input className={inputClass} type="number" step="0.01" defaultValue={it.discount ?? ""} placeholder="− Disc $" onChange={(e) => updateItem(s, it.id, { discount: parseFloat(e.target.value) || undefined })} aria-label="Item discount" />
+                    <input className={inputClass} defaultValue={it.category ?? ""} placeholder="Category" onChange={(e) => updateItem(s, it.id, { category: e.target.value || undefined })} aria-label="Category" />
+                    <input className={inputClass} defaultValue={it.taxCategory ?? ""} placeholder="Tax category" onChange={(e) => updateItem(s, it.id, { taxCategory: e.target.value || undefined })} aria-label="Tax category" />
+                    <input className={`${inputClass} col-span-2 sm:col-span-1`} defaultValue={(it.modifiers ?? []).join(", ")} placeholder="Modifiers (comma-sep)" onChange={(e) => updateItem(s, it.id, { modifiers: e.target.value.split(",").map((m) => m.trim()).filter(Boolean) })} aria-label="Modifiers" />
+                  </div>
+                )}
+                <button type="button" onClick={() => setItemDetails((m) => ({ ...m, [it.id]: !m[it.id] }))} className="mt-1.5 text-[11px] font-medium text-indigo-500 hover:text-indigo-700">
+                  {itemDetails[it.id] ? "− Hide details" : "+ SKU, unit, modifiers, discount"}
+                </button>
               </div>
             ))}
             <SelectField label="Item layout" defaultValue={s.itemStyle ?? "table"} onChange={(v) => patchSection(s.id, { itemStyle: v })} options={ITEM_STYLES} />
@@ -506,39 +545,106 @@ export default function SectionBuilder() {
               </div>
               <NumberField label="Tip" defaultValue={s.tip} onChange={(v) => patchSection(s.id, { tip: v })} />
             </div>
+
+            {/* Extra tax lines (override the single rate above when present) */}
+            {s.taxLines && s.taxLines.length > 0 && (
+              <div className="space-y-2 rounded-lg bg-slate-50 p-2">
+                <p className="text-[11px] font-medium text-slate-500">Tax lines (replace the single rate above)</p>
+                {s.taxLines.map((tl, i) => (
+                  <div key={i} className="flex items-center gap-2">
+                    <input className={inputClass} defaultValue={tl.label} placeholder="Label (e.g. GST)" onChange={(e) => patchSection(s.id, { taxLines: s.taxLines!.map((x, j) => (j === i ? { ...x, label: e.target.value } : x)) })} aria-label="Tax label" />
+                    <input className={`${inputClass} w-24`} type="number" step="0.01" defaultValue={tl.rate} placeholder="%" onChange={(e) => patchSection(s.id, { taxLines: s.taxLines!.map((x, j) => (j === i ? { ...x, rate: parseFloat(e.target.value) || 0 } : x)) })} aria-label="Tax rate" />
+                    <button type="button" aria-label="Remove tax line" onClick={() => patchSection(s.id, { taxLines: s.taxLines!.filter((_, j) => j !== i) })} className="text-red-500 hover:text-red-600">✕</button>
+                  </div>
+                ))}
+              </div>
+            )}
+            <button
+              type="button"
+              onClick={() => patchSection(s.id, { taxLines: [...(s.taxLines ?? (s.taxRate > 0 ? [{ label: s.taxLabel || "Tax", rate: s.taxRate }] : [])), { label: "Tax", rate: 0 }] })}
+              className="text-xs font-semibold text-indigo-600"
+            >
+              + Add tax line
+            </button>
+
+            <div className="grid items-start gap-3 sm:grid-cols-3">
+              <div>
+                <div className="mb-1.5 flex items-center justify-between gap-2">
+                  <span className="text-xs font-medium text-slate-600">Service fee {s.serviceFeePercent ? "(%)" : "($)"}</span>
+                  <div className="inline-flex overflow-hidden rounded-md border border-slate-200 text-xs">
+                    <button type="button" onClick={() => patchSection(s.id, { serviceFeePercent: false })} className={`px-2 py-0.5 ${!s.serviceFeePercent ? "bg-indigo-50 text-indigo-700" : "text-slate-500"}`}>$</button>
+                    <button type="button" onClick={() => patchSection(s.id, { serviceFeePercent: true })} className={`px-2 py-0.5 ${s.serviceFeePercent ? "bg-indigo-50 text-indigo-700" : "text-slate-500"}`}>%</button>
+                  </div>
+                </div>
+                <input type="number" step="0.01" className={inputClass} defaultValue={s.serviceFee || ""} placeholder="0" onChange={(e) => patchSection(s.id, { serviceFee: parseFloat(e.target.value) || 0 })} aria-label="Service fee" />
+              </div>
+              <NumberField label="Delivery fee" defaultValue={s.deliveryFee ?? 0} onChange={(v) => patchSection(s.id, { deliveryFee: v })} />
+              <label className="block">
+                <span className="mb-1.5 block text-xs font-medium text-slate-600">Rounding (+/−)</span>
+                <input type="number" step="0.01" className={inputClass} defaultValue={s.rounding || ""} placeholder="0.00" onChange={(e) => patchSection(s.id, { rounding: parseFloat(e.target.value) || 0 })} aria-label="Rounding" />
+              </label>
+            </div>
+            <NumberField label="Amount paid (shows change)" defaultValue={s.amountPaid ?? 0} onChange={(v) => patchSection(s.id, { amountPaid: v })} />
+
             <TextField label="Total label" defaultValue={s.grandTotalLabel ?? ""} onChange={(v) => patchSection(s.id, { grandTotalLabel: v || undefined })} placeholder="TOTAL" />
             <DividerRow label="Divider after totals" value={s.totalsDivider ?? "none"} onChange={(v) => patchSection(s.id, { totalsDivider: v })} />
           </div>
         );
-      case "payment":
+      case "payment": {
+        const splits = s.splits ?? [];
         return (
           <div className="space-y-3">
-            <div className="grid grid-cols-2 gap-1 rounded-lg bg-slate-100 p-1">
-              {(["Cash", "Card"] as const).map((m) => (
-                <button key={m} type="button" onClick={() => patchSection(s.id, { method: m })} className={`rounded-md py-2 text-sm font-medium ${s.method === m ? "bg-white text-slate-900 shadow-sm" : "text-slate-500"}`}>{m}</button>
+            <div className="grid grid-cols-4 gap-1 rounded-lg bg-slate-100 p-1">
+              {PAYMENT_METHODS.map((m) => (
+                <button key={m} type="button" onClick={() => patchSection(s.id, { method: m })} className={`rounded-md py-2 text-xs font-medium ${s.method === m ? "bg-white text-slate-900 shadow-sm" : "text-slate-500"}`}>{m}</button>
               ))}
             </div>
-            {s.method === "Card" ? (
+            {s.method === "Card" && (
               <>
                 <SelectField label="Card type" defaultValue={s.cardType ?? "Credit"} onChange={(v) => patchSection(s.id, { cardType: v })} options={CARD_TYPES.map((c) => ({ value: c, label: c }))} />
                 <div className="grid gap-3 sm:grid-cols-2">
                   <TextField label="Card last 4" defaultValue={s.cardLastFour ?? ""} onChange={(v) => patchSection(s.id, { cardLastFour: v.replace(/\D/g, "").slice(0, 4) })} placeholder="1234" />
                   <TextField label="Auth code" defaultValue={s.authCode ?? ""} onChange={(v) => patchSection(s.id, { authCode: v })} placeholder="123456" />
                 </div>
+                <SelectField label="Card entry" defaultValue={s.entryMode ?? "Chip"} onChange={(v) => patchSection(s.id, { entryMode: v as "Chip" | "Tap" | "Swipe" | "Manual" })} options={ENTRY_MODES} />
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-slate-700">Show card authorisation block</span>
                   <Toggle checked={!!s.showCardAuth} onChange={(c) => patchSection(s.id, { showCardAuth: c })} />
                 </div>
               </>
-            ) : (
+            )}
+            {s.method === "Gift Card" && (
+              <TextField label="Gift card last 4" defaultValue={s.cardLastFour ?? ""} onChange={(v) => patchSection(s.id, { cardLastFour: v.replace(/\D/g, "").slice(0, 4) })} placeholder="1234" />
+            )}
+            {s.method === "Cash" && (
               <NumberField label="Amount tendered (for change)" defaultValue={s.amountTendered ?? 0} onChange={(v) => patchSection(s.id, { amountTendered: v })} />
             )}
+            {s.method === "Mobile" && (
+              <p className="text-xs text-slate-500">Shows “Mobile Payment” on the receipt (e.g. Apple Pay, Google Pay).</p>
+            )}
+
+            {/* Split payment */}
+            <div className="rounded-lg bg-slate-50 p-2">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-medium text-slate-600">Split payment</span>
+                <button type="button" onClick={() => patchSection(s.id, { splits: [...splits, { method: "Cash", amount: 0 }] })} className="text-xs font-semibold text-indigo-600">+ Add split</button>
+              </div>
+              {splits.map((p, i) => (
+                <div key={i} className="mt-2 flex items-center gap-2">
+                  <input className={inputClass} defaultValue={p.method} placeholder="Method" onChange={(e) => patchSection(s.id, { splits: splits.map((x, j) => (j === i ? { ...x, method: e.target.value } : x)) })} aria-label="Split method" />
+                  <input className={`${inputClass} w-28`} type="number" step="0.01" defaultValue={p.amount || ""} placeholder="Amount" onChange={(e) => patchSection(s.id, { splits: splits.map((x, j) => (j === i ? { ...x, amount: parseFloat(e.target.value) || 0 } : x)) })} aria-label="Split amount" />
+                  <button type="button" aria-label="Remove split" onClick={() => patchSection(s.id, { splits: splits.filter((_, j) => j !== i) })} className="text-red-500 hover:text-red-600">✕</button>
+                </div>
+              ))}
+            </div>
+
             <div className="flex items-center justify-between">
               <span className="text-sm text-slate-700">Inline payment line</span>
               <Toggle checked={!!s.inline} onChange={(c) => patchSection(s.id, { inline: c })} />
             </div>
           </div>
         );
+      }
       case "message":
         return (
           <div className="space-y-3">
@@ -547,6 +653,19 @@ export default function SectionBuilder() {
               <AlignToggle value={s.align ?? "center"} onChange={(v) => patchSection(s.id, { align: v })} />
             </div>
             <TextAreaField label="Message" defaultValue={s.text} onChange={(v) => patchSection(s.id, { text: v })} />
+          </div>
+        );
+      case "footer":
+        return (
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-medium text-slate-600">Alignment</span>
+              <AlignToggle value={s.align ?? "center"} onChange={(v) => patchSection(s.id, { align: v })} />
+            </div>
+            <TextAreaField label="Return policy" defaultValue={s.returnPolicy ?? ""} onChange={(v) => patchSection(s.id, { returnPolicy: v || undefined })} placeholder="Returns accepted within 30 days with receipt." />
+            <TextAreaField label="Warranty text" defaultValue={s.warranty ?? ""} onChange={(v) => patchSection(s.id, { warranty: v || undefined })} placeholder="1-year limited warranty on all products." />
+            <TextField label="Loyalty points" defaultValue={s.loyaltyPoints ?? ""} onChange={(v) => patchSection(s.id, { loyaltyPoints: v || undefined })} placeholder="You earned 120 points · Balance 2,430" />
+            <TextField label="Survey / feedback link" defaultValue={s.surveyUrl ?? ""} onChange={(v) => patchSection(s.id, { surveyUrl: v || undefined })} placeholder="survey.mystore.com/abc" />
           </div>
         );
       case "barcode":
@@ -803,6 +922,10 @@ export default function SectionBuilder() {
               <div className="mt-6 flex gap-3">
                 <button type="button" onClick={() => requestExport("pdf")} disabled={!!exporting} className="flex-1 rounded-full bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 disabled:opacity-60">{exporting === "pdf" ? "Preparing PDF…" : "Download PDF"}</button>
                 <button type="button" onClick={() => requestExport("png")} disabled={!!exporting} className="flex-1 rounded-full border border-indigo-200 bg-indigo-50 px-5 py-3 text-sm font-semibold text-indigo-700 hover:bg-indigo-100 disabled:opacity-60">{exporting === "png" ? "Preparing PNG…" : "Download PNG"}</button>
+              </div>
+              <div className="mt-2 grid grid-cols-2 gap-3">
+                <button type="button" onClick={() => requestExport("jpg")} disabled={!!exporting} className="rounded-full border border-slate-200 bg-white px-4 py-2.5 text-xs font-semibold text-slate-600 hover:bg-slate-50 disabled:opacity-60">{exporting === "jpg" ? "Preparing JPG…" : "Download JPG"}</button>
+                <button type="button" onClick={() => requestExport("pdf-print")} disabled={!!exporting} className="rounded-full border border-slate-200 bg-white px-4 py-2.5 text-xs font-semibold text-slate-600 hover:bg-slate-50 disabled:opacity-60" title="A4 page, centered — prints cleanly on an office printer">{exporting === "pdf-print" ? "Preparing…" : "Print-ready PDF (A4)"}</button>
               </div>
               <div className="mt-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs font-medium text-slate-500">
                 {account.isLoggedIn && (

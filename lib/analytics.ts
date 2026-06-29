@@ -42,7 +42,7 @@ export const analytics = {
     track("receipt_generated", { method, template }),
   aiGenerate: (status: "start" | "success" | "error", template?: string) =>
     track("ai_generate", { status, template }),
-  receiptDownloaded: (format: "pdf" | "png", template?: string, pro?: boolean) =>
+  receiptDownloaded: (format: "pdf" | "png" | "jpg", template?: string, pro?: boolean) =>
     track("download_receipt", { format, template, pro }),
   beginCheckout: (plan: "weekly" | "monthly" | "yearly", location?: string) =>
     track("begin_checkout", { plan, location }),
