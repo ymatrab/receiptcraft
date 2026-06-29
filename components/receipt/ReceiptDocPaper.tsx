@@ -1,7 +1,7 @@
 import type { CSSProperties } from "react";
 import type { FontFamily } from "@/lib/types";
 import type { ReceiptDoc, Section, SectionAlign } from "@/lib/sections";
-import { itemsTotals } from "@/lib/sections";
+import { itemsTotals, SPACING_DEFAULTS } from "@/lib/sections";
 import { formatMoney, formatDisplayDate } from "@/lib/format";
 import Barcode from "./Barcode";
 import Qr from "./Qr";
@@ -165,6 +165,7 @@ export default function ReceiptDocPaper({ doc }: Props) {
               money={money}
               header={s.itemHeader}
               columns={s.columns}
+              gap={doc.settings.itemGap}
             />
             {s.showItemsSold && (
               <p className="mt-2 text-[11px] uppercase tracking-wide text-slate-500">
@@ -366,8 +367,20 @@ export default function ReceiptDocPaper({ doc }: Props) {
     }
   }
 
+  const cp = doc.settings.contentPadding ?? SPACING_DEFAULTS.contentPadding;
+  const sectionGap = doc.settings.sectionGap ?? SPACING_DEFAULTS.sectionGap;
   const body = (
-    <div className="px-6 py-5">
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        rowGap: sectionGap,
+        paddingLeft: cp,
+        paddingRight: cp,
+        paddingTop: Math.round(cp * 0.8),
+        paddingBottom: Math.round(cp * 0.8),
+      }}
+    >
       {doc.sections.map((s) => (
         <div key={s.id}>
           <div className={alignClass(s.align)}>{renderSection(s)}</div>

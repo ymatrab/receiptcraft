@@ -26,6 +26,7 @@ import {
   presetDoc,
   PRESETS,
   SECTION_LABEL,
+  SPACING_DEFAULTS,
   WIDTH_PRESETS,
 } from "@/lib/sections";
 import { getTemplate, TEMPLATES } from "@/lib/templates";
@@ -857,6 +858,20 @@ export default function SectionBuilder() {
                     ))}
                   </div>
                   <input type="range" min={200} max={820} value={doc.settings.widthPx} onChange={(e) => patchSettings({ widthPx: parseInt(e.target.value) })} className="w-full" />
+                </div>
+                <div className="grid gap-4 sm:grid-cols-3">
+                  <label className="block text-xs font-medium text-slate-600">
+                    Section padding: {doc.settings.contentPadding ?? SPACING_DEFAULTS.contentPadding}px
+                    <input type="range" min={8} max={48} value={doc.settings.contentPadding ?? SPACING_DEFAULTS.contentPadding} onChange={(e) => patchSettings({ contentPadding: parseInt(e.target.value) })} className="mt-1 w-full" />
+                  </label>
+                  <label className="block text-xs font-medium text-slate-600">
+                    Section spacing: {doc.settings.sectionGap ?? SPACING_DEFAULTS.sectionGap}px
+                    <input type="range" min={0} max={40} value={doc.settings.sectionGap ?? SPACING_DEFAULTS.sectionGap} onChange={(e) => patchSettings({ sectionGap: parseInt(e.target.value) })} className="mt-1 w-full" />
+                  </label>
+                  <label className="block text-xs font-medium text-slate-600">
+                    Item spacing: {doc.settings.itemGap ?? SPACING_DEFAULTS.itemGap}px
+                    <input type="range" min={0} max={20} value={doc.settings.itemGap ?? SPACING_DEFAULTS.itemGap} onChange={(e) => patchSettings({ itemGap: parseInt(e.target.value) })} className="mt-1 w-full" />
+                  </label>
                 </div>
               </div>
             )}

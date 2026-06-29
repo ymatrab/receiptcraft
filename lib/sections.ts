@@ -179,7 +179,14 @@ export interface DocSettings {
   letterSpacing?: LetterSpacingPreset; // tight / normal / wide
   weight?: TextWeight; // base text weight
   paper?: PaperFinish; // thermal / clean / invoice / email
+  // Spacing controls (px). Optional → sensible defaults applied in the renderer.
+  contentPadding?: number; // inner padding of the receipt (default 24)
+  sectionGap?: number; // extra vertical gap between sections (default 0)
+  itemGap?: number; // vertical gap between line items (default 4)
 }
+
+/** Spacing defaults, in px — single source of truth for renderer + builder. */
+export const SPACING_DEFAULTS = { contentPadding: 24, sectionGap: 0, itemGap: 4 } as const;
 
 /** Named paper-width presets surfaced as quick buttons in the builder. */
 export const WIDTH_PRESETS: { id: string; label: string; px: number }[] = [

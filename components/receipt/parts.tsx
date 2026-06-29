@@ -76,16 +76,18 @@ export function Items({
   money,
   header,
   columns,
+  gap,
 }: {
   items: LineItem[];
   style: ItemStyle;
   money: (n: number) => string;
   header?: { left: string; right: string };
   columns?: ItemColumns;
+  gap?: number; // px vertical spacing between items (per-style default when omitted)
 }) {
   if (style === "qtycol") {
     return (
-      <div className="space-y-1">
+      <div className="flex flex-col" style={{ rowGap: gap ?? 4 }}>
         {items.map((item) => (
           <div key={item.id} className="flex items-baseline gap-2">
             <span className="w-4 shrink-0 text-[11px] text-slate-500">{item.quantity}</span>
@@ -109,7 +111,7 @@ export function Items({
             <span>{header.right}</span>
           </div>
         )}
-        <div className="mt-1 space-y-0.5">
+        <div className="mt-1 flex flex-col" style={{ rowGap: gap ?? 2 }}>
           {items.map((item) => (
             <div key={item.id} className="flex justify-between gap-2">
               <span className="break-words pr-2">
@@ -127,7 +129,7 @@ export function Items({
 
   if (style === "equals") {
     return (
-      <div className="space-y-0.5">
+      <div className="flex flex-col" style={{ rowGap: gap ?? 2 }}>
         {items.map((item) => (
           <div key={item.id} className="flex justify-between gap-2">
             <span className="break-words pr-2">
@@ -143,7 +145,7 @@ export function Items({
 
   if (style === "stacked") {
     return (
-      <div className="space-y-1.5">
+      <div className="flex flex-col" style={{ rowGap: gap ?? 6 }}>
         {items.map((item) => (
           <div key={item.id}>
             <div className="flex justify-between gap-2">
@@ -174,20 +176,23 @@ export function Items({
         </tr>
       </thead>
       <tbody>
-        {items.map((item) => (
-          <tr key={item.id} className="align-top">
-            <td className="max-w-40 break-words py-0.5 pr-2">
-              {item.name || "—"}
-              <ItemMeta item={item} money={money} />
-            </td>
-            <td className="py-0.5 text-center text-slate-600">
-              {item.quantity}
-              {item.unit ? ` ${item.unit}` : ""}
-            </td>
-            <td className="py-0.5 text-right text-slate-600">{money(item.price)}</td>
-            <td className="py-0.5 text-right font-medium">{money(lineNet(item))}</td>
-          </tr>
-        ))}
+        {items.map((item) => {
+          const pad = { paddingTop: (gap ?? 4) / 2, paddingBottom: (gap ?? 4) / 2 };
+          return (
+            <tr key={item.id} className="align-top">
+              <td className="max-w-40 break-words pr-2" style={pad}>
+                {item.name || "—"}
+                <ItemMeta item={item} money={money} />
+              </td>
+              <td className="text-center text-slate-600" style={pad}>
+                {item.quantity}
+                {item.unit ? ` ${item.unit}` : ""}
+              </td>
+              <td className="text-right text-slate-600" style={pad}>{money(item.price)}</td>
+              <td className="text-right font-medium" style={pad}>{money(lineNet(item))}</td>
+            </tr>
+          );
+        })}
       </tbody>
     </table>
   );
