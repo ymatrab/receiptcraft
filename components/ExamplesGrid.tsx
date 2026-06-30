@@ -15,7 +15,7 @@ export function examplesPageHref(page: number): string {
   return page <= 1 ? "/examples" : `/examples/page/${page}`;
 }
 
-/** Renders one page (50) of the example grid with visual receipt previews. */
+/** Renders one page (EXAMPLES_PER_PAGE) of the example grid with receipt previews. */
 export default function ExamplesGrid({ page }: { page: number }) {
   const items = examplesForPage(page);
   const total = EXAMPLES_TOTAL_PAGES;
