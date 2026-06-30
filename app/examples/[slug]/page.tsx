@@ -7,10 +7,11 @@ import {
   exampleTotal,
   exampleSummary,
   EXAMPLE_SLUGS,
+  EXAMPLES,
 } from "@/lib/examples";
 import { docFromReceiptData } from "@/lib/sections";
-import { formatMoney } from "@/lib/format";
-import { SITE } from "@/lib/site";
+import { formatMoney, formatDisplayDate } from "@/lib/format";
+import { SITE, absoluteUrl } from "@/lib/site";
 import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
 
 export function generateStaticParams() {
@@ -46,17 +47,33 @@ export default async function ExamplePage({
   const data = receiptFromExample(ex);
   const total = exampleTotal(ex);
   const totalStr = formatMoney(total, data.currency);
+  const location = data.addressLine2 || data.addressLine1;
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "ItemList",
-    name: `${ex.brand} receipt example items`,
-    itemListElement: ex.items.map((it, i) => ({
-      "@type": "ListItem",
-      position: i + 1,
-      name: it.name,
-    })),
-  };
+  // Related examples: prefer the same base category, fall back to any others.
+  const sameBase = EXAMPLES.filter((e) => e.slug !== ex.slug && e.base === ex.base);
+  const related = (sameBase.length ? sameBase : EXAMPLES.filter((e) => e.slug !== ex.slug)).slice(0, 6);
+
+  const jsonLd = [
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      name: `${ex.brand} receipt example items`,
+      itemListElement: ex.items.map((it, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        name: it.name,
+      })),
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl("/") },
+        { "@type": "ListItem", position: 2, name: "Receipt Examples", item: absoluteUrl("/examples") },
+        { "@type": "ListItem", position: 3, name: `${ex.brand} Receipt Example`, item: absoluteUrl(`/examples/${ex.slug}`) },
+      ],
+    },
+  ];
 
   return (
     <main className="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
@@ -107,6 +124,14 @@ export default async function ExamplePage({
             </tbody>
           </table>
 
+          <p className="mt-4 text-sm leading-relaxed text-slate-500">
+            This {ex.brand} example reflects a {data.paymentMethod.toLowerCase()} purchase
+            {location ? ` in ${location}` : ""} on {formatDisplayDate(data.date)},
+            with {data.taxLabel.toLowerCase()} at {data.taxRate}%
+            {total ? ` and a ${totalStr} total` : ""}. Yours can use any items,
+            currency, tax rate, date and payment method you like.
+          </p>
+
           <h2 className="mt-10 text-xl font-bold text-slate-900">Make your own in under a minute</h2>
           <p className="mt-2 leading-relaxed text-slate-600">
             {SITE.name} lets you customize every field — business name, address, items, quantities,
@@ -124,6 +149,26 @@ export default async function ExamplePage({
           </div>
         </div>
       </div>
+
+      {related.length > 0 && (
+        <section className="mt-16" aria-labelledby="related-examples-heading">
+          <h2 id="related-examples-heading" className="text-xl font-bold text-slate-900">
+            More receipt examples
+          </h2>
+          <ul className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3">
+            {related.map((e) => (
+              <li key={e.slug}>
+                <Link
+                  href={`/examples/${e.slug}`}
+                  className="block rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-700 transition-colors hover:border-indigo-300 hover:text-indigo-700"
+                >
+                  {e.brand} receipt
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
     </main>
   );
 }
