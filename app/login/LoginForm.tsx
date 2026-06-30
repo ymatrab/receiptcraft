@@ -6,7 +6,7 @@ import { createClient } from "@/lib/supabase/client";
 import { supabaseConfigured } from "@/lib/supabase/config";
 import { analytics } from "@/lib/analytics";
 
-type Mode = "login" | "signup";
+type Mode = "login" | "signup" | "forgot";
 const MIN_PASSWORD = 8;
 
 export default function LoginForm() {
@@ -37,13 +37,27 @@ export default function LoginForm() {
 
     const cleanEmail = email.trim();
     if (!cleanEmail) return;
+
+    const supabase = createClient();
+
+    // Forgot password — email only, no password field involved.
+    if (mode === "forgot") {
+      setBusy(true);
+      const { error } = await supabase.auth.resetPasswordForEmail(cleanEmail, {
+        redirectTo: `${window.location.origin}/auth/callback?next=/auth/reset`,
+      });
+      setBusy(false);
+      if (error) setError(error.message);
+      else setNotice(`If an account exists for ${cleanEmail}, a reset link is on its way.`);
+      return;
+    }
+
     if (password.length < MIN_PASSWORD) {
       setError(`Password must be at least ${MIN_PASSWORD} characters.`);
       return;
     }
 
     setBusy(true);
-    const supabase = createClient();
 
     if (mode === "signup") {
       const { data, error } = await supabase.auth.signUp({
@@ -99,22 +113,6 @@ export default function LoginForm() {
     });
     if (error) setError(error.message);
     else setNotice("Verification email resent.");
-  }
-
-  async function forgotPassword() {
-    setError(null);
-    setNotice(null);
-    const cleanEmail = email.trim();
-    if (!cleanEmail) {
-      setError("Enter your email above first, then tap “Forgot password?”.");
-      return;
-    }
-    const supabase = createClient();
-    const { error } = await supabase.auth.resetPasswordForEmail(cleanEmail, {
-      redirectTo: `${window.location.origin}/auth/callback?next=/auth/reset`,
-    });
-    if (error) setError(error.message);
-    else setNotice(`If an account exists for ${cleanEmail}, a reset link is on its way.`);
   }
 
   async function signInWithGoogle() {
@@ -206,25 +204,31 @@ export default function LoginForm() {
           placeholder="you@example.com"
           className="w-full rounded-full border border-slate-300 px-4 py-3 text-sm focus:border-indigo-400 focus:outline-none"
         />
-        <div className="relative">
-          <input
-            type={showPassword ? "text" : "password"}
-            required
-            minLength={MIN_PASSWORD}
-            autoComplete={mode === "signup" ? "new-password" : "current-password"}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder={mode === "signup" ? `Create a password (${MIN_PASSWORD}+ characters)` : "Password"}
-            className="w-full rounded-full border border-slate-300 px-4 py-3 pr-16 text-sm focus:border-indigo-400 focus:outline-none"
-          />
-          <button
-            type="button"
-            onClick={() => setShowPassword((s) => !s)}
-            className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-medium text-slate-400 hover:text-slate-600"
-          >
-            {showPassword ? "Hide" : "Show"}
-          </button>
-        </div>
+        {mode === "forgot" ? (
+          <p className="px-1 text-xs text-slate-500">
+            Enter your account email and we&apos;ll send you a link to set a new password.
+          </p>
+        ) : (
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              required
+              minLength={MIN_PASSWORD}
+              autoComplete={mode === "signup" ? "new-password" : "current-password"}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder={mode === "signup" ? `Create a password (${MIN_PASSWORD}+ characters)` : "Password"}
+              className="w-full rounded-full border border-slate-300 px-4 py-3 pr-16 text-sm focus:border-indigo-400 focus:outline-none"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword((s) => !s)}
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-medium text-slate-400 hover:text-slate-600"
+            >
+              {showPassword ? "Hide" : "Show"}
+            </button>
+          </div>
+        )}
 
         {error && (
           <p className="rounded-xl bg-red-50 px-4 py-2.5 text-sm text-red-700">{error}</p>
@@ -241,56 +245,82 @@ export default function LoginForm() {
           {busy
             ? mode === "signup"
               ? "Creating account…"
-              : "Logging in…"
+              : mode === "forgot"
+                ? "Sending…"
+                : "Logging in…"
             : mode === "signup"
               ? "Create account"
-              : "Log in"}
+              : mode === "forgot"
+                ? "Send reset link"
+                : "Log in"}
         </button>
       </form>
 
-      <div className="flex items-center justify-between pt-0.5 text-sm">
+      {mode === "forgot" ? (
         <button
           type="button"
           onClick={() => {
-            setMode((m) => (m === "login" ? "signup" : "login"));
+            setMode("login");
             setError(null);
             setNotice(null);
           }}
-          className="font-medium text-indigo-600 hover:underline"
+          className="block w-full pt-0.5 text-center text-sm font-medium text-indigo-600 hover:underline"
         >
-          {mode === "login" ? "New here? Create an account" : "Have an account? Log in"}
+          ← Back to log in
         </button>
-        {mode === "login" && (
+      ) : (
+        <div className="flex items-center justify-between pt-0.5 text-sm">
           <button
             type="button"
-            onClick={forgotPassword}
-            className="text-slate-400 hover:text-slate-600"
+            onClick={() => {
+              setMode((m) => (m === "login" ? "signup" : "login"));
+              setError(null);
+              setNotice(null);
+            }}
+            className="font-medium text-indigo-600 hover:underline"
           >
-            Forgot password?
+            {mode === "login" ? "New here? Create an account" : "Have an account? Log in"}
           </button>
-        )}
-      </div>
+          {mode === "login" && (
+            <button
+              type="button"
+              onClick={() => {
+                setMode("forgot");
+                setError(null);
+                setNotice(null);
+              }}
+              className="text-slate-400 hover:text-slate-600"
+            >
+              Forgot password?
+            </button>
+          )}
+        </div>
+      )}
 
-      <div className="flex items-center gap-3 py-1">
-        <span className="h-px flex-1 bg-slate-200" />
-        <span className="text-[11px] uppercase tracking-wide text-slate-400">or</span>
-        <span className="h-px flex-1 bg-slate-200" />
-      </div>
+      {mode !== "forgot" && (
+        <>
+          <div className="flex items-center gap-3 py-1">
+            <span className="h-px flex-1 bg-slate-200" />
+            <span className="text-[11px] uppercase tracking-wide text-slate-400">or</span>
+            <span className="h-px flex-1 bg-slate-200" />
+          </div>
 
-      <button
-        type="button"
-        onClick={signInWithGoogle}
-        disabled={googleBusy}
-        className="flex w-full items-center justify-center gap-3 rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50 disabled:opacity-60"
-      >
-        <GoogleIcon />
-        {googleBusy ? "Redirecting…" : "Continue with Google"}
-      </button>
-      <p className="pt-2 text-center text-[11px] leading-relaxed text-slate-400">
-        By continuing you agree to our{" "}
-        <a href="/terms" className="underline">Terms</a> and{" "}
-        <a href="/privacy" className="underline">Privacy Policy</a>.
-      </p>
+          <button
+            type="button"
+            onClick={signInWithGoogle}
+            disabled={googleBusy}
+            className="flex w-full items-center justify-center gap-3 rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50 disabled:opacity-60"
+          >
+            <GoogleIcon />
+            {googleBusy ? "Redirecting…" : "Continue with Google"}
+          </button>
+          <p className="pt-2 text-center text-[11px] leading-relaxed text-slate-400">
+            By continuing you agree to our{" "}
+            <a href="/terms" className="underline">Terms</a> and{" "}
+            <a href="/privacy" className="underline">Privacy Policy</a>.
+          </p>
+        </>
+      )}
     </div>
   );
 }
