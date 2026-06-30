@@ -26,6 +26,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       url: absoluteUrl(`/brands/${template.slug}`),
       siteName: SITE.name,
       type: "website",
+      // Setting openGraph explicitly drops the default opengraph-image, so
+      // re-add it — otherwise social previews render with no image.
+      images: [absoluteUrl("/opengraph-image")],
     },
   };
 }

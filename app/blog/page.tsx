@@ -2,13 +2,22 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getAllPosts } from "@/lib/sanity/queries";
 import { urlForImage } from "@/lib/sanity/client";
-import { SITE } from "@/lib/site";
+import { SITE, absoluteUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Receipt & Bookkeeping Guides — Blog",
   description:
     "Practical guides on receipts, expense tracking, bookkeeping and small-business records. Learn how to make, store and use receipts the right way.",
   alternates: { canonical: "/blog" },
+};
+
+const breadcrumbLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl("/") },
+    { "@type": "ListItem", position: 2, name: "Blog", item: absoluteUrl("/blog") },
+  ],
 };
 
 // Rebuild the list hourly so scheduled posts appear without a redeploy.
@@ -19,6 +28,10 @@ export default async function BlogIndex() {
 
   return (
     <main className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+      />
       <header className="text-center">
         <h1 className="text-4xl font-bold tracking-tight text-slate-900">The {SITE.name} Blog</h1>
         <p className="mx-auto mt-4 max-w-2xl text-lg text-slate-600">

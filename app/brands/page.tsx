@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { BRAND_LIST } from "@/lib/brands";
 import BrandExplorer from "@/components/BrandExplorer";
+import { absoluteUrl } from "@/lib/site";
 
 const BRAND_FAQS = [
   {
@@ -56,8 +57,17 @@ const faqJsonLd = {
   })),
 };
 
+const breadcrumbLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl("/") },
+    { "@type": "ListItem", position: 2, name: "Brand Receipt Templates", item: absoluteUrl("/brands") },
+  ],
+};
+
 export const metadata: Metadata = {
-  title: "Brand Receipt Templates — 300+ Stores, Restaurants & More",
+  title: "Brand Receipt Templates — 300+ Stores",
   description:
     "Browse 300+ free brand receipt templates — Walmart, Starbucks, Uber, McDonald's and more. Search by name or filter by category, then customize and download as PDF or PNG.",
   alternates: { canonical: "/brands" },
@@ -68,7 +78,7 @@ export default function BrandsPage() {
     <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify([faqJsonLd, breadcrumbLd]) }}
       />
       <div className="max-w-2xl">
         <h1 className="text-4xl font-bold tracking-tight text-slate-900">

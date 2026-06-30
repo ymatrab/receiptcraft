@@ -27,7 +27,9 @@ export async function generateMetadata({
   if (!ex) return { title: "Example not found" };
   const data = receiptFromExample(ex);
   const total = formatMoney(exampleTotal(ex), data.currency);
-  const title = `${ex.brand} Receipt Example — ${exampleSummary(ex)} (${total})`;
+  // Keep the title short enough to avoid SERP truncation (~60 chars incl. the
+  // " | Makecepeit" suffix); the verbose item summary stays in the description.
+  const title = `${ex.brand} Receipt Example (${total})`;
   const description = `See a realistic ${ex.brand} receipt example: ${exampleSummary(ex)}, totalling ${total}. Make your own editable ${ex.brand} receipt and download it as PDF or PNG.`;
   return { title, description, alternates: { canonical: `/examples/${ex.slug}` } };
 }

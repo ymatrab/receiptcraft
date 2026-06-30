@@ -1,17 +1,44 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { TEMPLATES } from "@/lib/templates";
+import { absoluteUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Receipt Templates — 12+ Free Styles for Every Business",
+  title: "Receipt Templates — 12+ Free Business Styles",
   description:
     "Browse free receipt templates: grocery store, restaurant, gas station, taxi, hotel, pharmacy and more. Each pre-filled with realistic items — customize and download as PDF or PNG.",
   alternates: { canonical: "/templates" },
 };
 
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl("/") },
+      { "@type": "ListItem", position: 2, name: "Receipt Templates", item: absoluteUrl("/templates") },
+    ],
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Receipt templates",
+    itemListElement: TEMPLATES.map((t, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: t.name,
+      url: absoluteUrl(`/templates/${t.slug}`),
+    })),
+  },
+];
+
 export default function TemplatesPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <div className="max-w-2xl">
         <h1 className="text-4xl font-bold tracking-tight text-slate-900">
           Receipt Templates

@@ -1,12 +1,22 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { INTENT_PAGES, intentContent } from "@/lib/intent-pages";
+import { absoluteUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Receipt Help — Find, Copy & Replace Lost Brand Receipts",
+  title: "Receipt Help — Find & Replace Lost Receipts",
   description:
     "Lost a receipt or need a copy? Step-by-step guides for finding, reprinting and replacing receipts from Walmart, Amazon, Uber, McDonald's and more.",
   alternates: { canonical: "/receipt-help" },
+};
+
+const breadcrumbLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl("/") },
+    { "@type": "ListItem", position: 2, name: "Receipt Help", item: absoluteUrl("/receipt-help") },
+  ],
 };
 
 export default function ReceiptHelpHub() {
@@ -20,6 +30,10 @@ export default function ReceiptHelpHub() {
 
   return (
     <main className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+      />
       <header className="max-w-2xl">
         <h1 className="text-4xl font-bold tracking-tight text-slate-900">Receipt help</h1>
         <p className="mt-4 text-lg leading-relaxed text-slate-600">
