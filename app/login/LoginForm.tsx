@@ -77,7 +77,7 @@ export default function LoginForm() {
         setMode("login");
         return;
       }
-      analytics.signIn("password");
+      analytics.signUp("password");
       setVerifyEmail(cleanEmail);
       return;
     }

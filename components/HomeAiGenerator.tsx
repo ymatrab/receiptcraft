@@ -72,7 +72,13 @@ export default function HomeAiGenerator() {
         <p className="mt-2 text-xs text-red-600">
           {error}{" "}
           {/upgrade|limit/i.test(error) && (
-            <Link href="/pricing" className="font-semibold underline">See plans</Link>
+            <Link
+              href="/pricing"
+              onClick={() => analytics.upgradeClick("home_ai_limit")}
+              className="font-semibold underline"
+            >
+              See plans
+            </Link>
           )}
         </p>
       ) : (

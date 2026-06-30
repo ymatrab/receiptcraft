@@ -48,5 +48,19 @@ export const analytics = {
     track("begin_checkout", { plan, location }),
   upgradeClick: (location: string) => track("upgrade_click", { location }),
   signIn: (method: string) => track("login", { method }),
+  signUp: (method: string) => track("sign_up", { method }),
   scrollDepth: (percent: number) => track("scroll_depth", { percent }),
+
+  // ---- builder funnel: where users engage vs. drop off ----
+  // How the builder was entered (blank, a chosen template, AI handoff, a
+  // restored draft, or a saved/shared receipt link).
+  builderOpened: (source: "blank" | "template" | "ai" | "draft" | "receipt") =>
+    track("builder_opened", { source }),
+  // First real edit the user makes — the key "did they actually try?" signal.
+  editStarted: (template?: string) => track("edit_started", { template }),
+  selectTemplate: (template: string) => track("select_template", { template }),
+  saveReceipt: (target: "account" | "template") =>
+    track("save_receipt", { target }),
+  // A free user hit the watermark wall on download — the upgrade decision point.
+  watermarkPrompt: (format: string) => track("watermark_prompt", { format }),
 };

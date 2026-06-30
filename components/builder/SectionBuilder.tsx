@@ -170,6 +170,13 @@ export default function SectionBuilder() {
   const [myTemplates, setMyTemplates] = useState<SavedTemplate[]>([]);
   const [autosaveOn, setAutosaveOn] = useState(true);
   const hydrated = useRef(false);
+  // Fires `edit_started` once, on the user's first real edit (not template/AI loads).
+  const editTracked = useRef(false);
+  const markEdited = () => {
+    if (editTracked.current) return;
+    editTracked.current = true;
+    analytics.editStarted(activeTemplate || undefined);
+  };
 
   useEffect(() => {
     setMyTemplates(listTemplates());
@@ -179,6 +186,7 @@ export default function SectionBuilder() {
       sessionStorage.removeItem("rc_ai_receipt");
       try {
         applyAi(JSON.parse(handoff) as AiReceiptResult);
+        analytics.builderOpened("ai");
         return;
       } catch {
         /* fall through to template/receipt handling */
@@ -188,16 +196,23 @@ export default function SectionBuilder() {
     const receiptId = params.get("receipt");
     if (receiptId && supabaseConfigured) {
       loadReceipt(receiptId);
+      analytics.builderOpened("receipt");
       return;
     }
     const slug = getQueryTemplate();
     if (slug) {
       applyTemplate(slug);
+      analytics.builderOpened("template");
       return;
     }
     // Nothing requested explicitly — restore the last autosaved draft, if any.
     const saved = loadAutosave();
-    if (saved) setDoc(saved);
+    if (saved) {
+      setDoc(saved);
+      analytics.builderOpened("draft");
+    } else {
+      analytics.builderOpened("blank");
+    }
   }, []);
 
   // Debounced autosave of the working draft to localStorage. The first run
@@ -234,28 +249,37 @@ export default function SectionBuilder() {
       return;
     }
     setSaveState("saved");
+    analytics.saveReceipt("account");
     setTimeout(() => setSaveState("idle"), 2000);
   };
 
-  // ---- mutations ----
-  const patchSettings = (p: Partial<ReceiptDoc["settings"]>) =>
+  // ---- mutations ---- (each marks the first edit for the funnel)
+  const patchSettings = (p: Partial<ReceiptDoc["settings"]>) => {
+    markEdited();
     setDoc((d) => ({ ...d, settings: { ...d.settings, ...p } }));
+  };
 
-  const patchSection = (id: string, patch: Record<string, unknown>) =>
+  const patchSection = (id: string, patch: Record<string, unknown>) => {
+    markEdited();
     setDoc((d) => ({
       ...d,
       sections: d.sections.map((s) => (s.id === id ? ({ ...s, ...patch } as Section) : s)),
     }));
+  };
 
-  const removeSection = (id: string) =>
+  const removeSection = (id: string) => {
+    markEdited();
     setDoc((d) => ({ ...d, sections: d.sections.filter((s) => s.id !== id) }));
+  };
 
   const addSection = (type: SectionType) => {
+    markEdited();
     setDoc((d) => ({ ...d, sections: [...d.sections, newSection(type, d.settings.currency)] }));
     setShowAdd(false);
   };
 
-  const reorder = (from: number, to: number) =>
+  const reorder = (from: number, to: number) => {
+    markEdited();
     setDoc((d) => {
       if (from === to || from < 0 || to < 0) return d;
       const next = [...d.sections];
@@ -263,6 +287,7 @@ export default function SectionBuilder() {
       next.splice(to, 0, moved);
       return { ...d, sections: next };
     });
+  };
 
   const applyTemplate = (slug: string) => {
     const t = getTemplate(slug);
@@ -270,6 +295,7 @@ export default function SectionBuilder() {
     setDoc(docFromReceiptData(receiptFromTemplate(t)));
     setActiveTemplate(slug);
     setCollapsed({});
+    analytics.selectTemplate(slug);
   };
 
   const reset = () => {
@@ -283,6 +309,7 @@ export default function SectionBuilder() {
     const name = window.prompt("Save this layout as a template. Name it:", header?.storeName || "My template");
     if (!name?.trim()) return;
     setMyTemplates(saveTemplate(name.trim(), doc));
+    analytics.saveReceipt("template");
   };
   const loadMyTemplate = (t: SavedTemplate) => {
     setDoc(t.doc);
@@ -391,8 +418,10 @@ export default function SectionBuilder() {
   // Free users see a watermark-confirmation box first; Pro downloads directly.
   const requestExport = (kind: ExportKind) => {
     if (exporting) return;
-    if (watermark) setPendingExport(kind);
-    else handleExport(kind);
+    if (watermark) {
+      analytics.watermarkPrompt(kind === "pdf-print" ? "pdf" : kind);
+      setPendingExport(kind);
+    } else handleExport(kind);
   };
 
   const grandTotal = doc.sections.reduce(
@@ -745,7 +774,11 @@ export default function SectionBuilder() {
           <p className="mt-2 text-xs text-red-600">
             {aiError}{" "}
             {aiError.includes("Upgrade") || aiError.includes("upgrade") ? (
-              <Link href="/pricing" className="font-semibold underline">
+              <Link
+                href="/pricing"
+                onClick={() => analytics.upgradeClick("builder_ai_limit")}
+                className="font-semibold underline"
+              >
                 See plans
               </Link>
             ) : null}
@@ -962,7 +995,11 @@ export default function SectionBuilder() {
               {watermark ? (
                 <p className="mt-3 text-center text-[11px] leading-relaxed text-slate-500">
                   Free download · includes a small watermark ·{" "}
-                  <Link href="/pricing" className="font-semibold text-indigo-600 hover:text-indigo-700">
+                  <Link
+                    href="/pricing"
+                    onClick={() => analytics.upgradeClick("builder_download_note")}
+                    className="font-semibold text-indigo-600 hover:text-indigo-700"
+                  >
                     Upgrade to remove
                   </Link>
                 </p>
