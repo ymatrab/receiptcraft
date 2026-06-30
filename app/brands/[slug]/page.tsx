@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { BRAND_TEMPLATES } from "@/lib/brands";
+import { BRAND_TEMPLATES, brandCategoryFor } from "@/lib/brands";
+import { CATEGORY_NOUN } from "@/lib/brand-categories";
 import { previewFromTemplate } from "@/lib/receipt";
 import { docFromReceiptData } from "@/lib/sections";
+import { calcTotals, formatMoney } from "@/lib/format";
 import { SITE, absoluteUrl } from "@/lib/site";
 import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
 
@@ -40,6 +42,14 @@ export default async function BrandTemplatePage({ params }: Props) {
 
   const preview = previewFromTemplate(template);
   const related = BRAND_TEMPLATES.filter((t) => t.slug !== template.slug).slice(0, 4);
+
+  // Per-brand content derived from the template's own data — unique per page
+  // (items, address, tax and totals all differ), not boilerplate.
+  const totals = calcTotals(preview);
+  const category = brandCategoryFor(template.slug);
+  const d = template.defaults;
+  const money = (n: number) => formatMoney(n, preview.currency);
+  const addr = [d.addressLine1, d.addressLine2].filter(Boolean).join(", ");
 
   const faqJsonLd = {
     "@context": "https://schema.org",
@@ -154,6 +164,64 @@ export default async function BrandTemplatePage({ params }: Props) {
             </div>
           </div>
         </div>
+
+        {/* What's on this receipt — data-driven, unique per brand */}
+        <section className="mt-20" aria-labelledby="whats-on-heading">
+          <h2 id="whats-on-heading" className="text-2xl font-bold text-slate-900">
+            What&apos;s on a {template.shortName} receipt
+          </h2>
+          <p className="mt-4 max-w-3xl leading-relaxed text-slate-600">
+            This {template.name.toLowerCase()} template opens pre-filled with{" "}
+            {d.businessName ?? template.shortName}
+            {addr ? ` (${addr})` : ""} and {preview.items.length}{" "}
+            sample {preview.items.length === 1 ? "item" : "items"} totalling{" "}
+            {money(totals.total)}. It shows {CATEGORY_NOUN[category]}, with{" "}
+            {d.taxLabel ?? "tax"} set to {d.taxRate ?? 0}% on a{" "}
+            {d.paperStyle ?? "thermal"}-style layout. Every field is editable —
+            change the business details, items, prices, tax rate and currency,
+            upload your own logo, then download as a PDF or PNG.
+          </p>
+
+          <div className="mt-6 max-w-md rounded-2xl border border-slate-200 bg-white p-6">
+            <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-500">
+              Sample items
+            </h3>
+            <ul className="mt-3 divide-y divide-slate-100">
+              {preview.items.map((it) => (
+                <li key={it.id} className="flex justify-between gap-4 py-2 text-sm text-slate-700">
+                  <span>
+                    {it.name}
+                    {it.quantity && it.quantity !== 1 ? ` × ${it.quantity}` : ""}
+                  </span>
+                  <span className="tabular-nums">{money((it.price ?? 0) * (it.quantity ?? 1))}</span>
+                </li>
+              ))}
+            </ul>
+            <dl className="mt-3 space-y-1 border-t border-slate-200 pt-3 text-sm">
+              <div className="flex justify-between text-slate-600">
+                <dt>Subtotal</dt>
+                <dd className="tabular-nums">{money(totals.subtotal)}</dd>
+              </div>
+              <div className="flex justify-between text-slate-600">
+                <dt>{d.taxLabel ?? "Tax"} ({d.taxRate ?? 0}%)</dt>
+                <dd className="tabular-nums">{money(totals.tax)}</dd>
+              </div>
+              <div className="flex justify-between font-semibold text-slate-900">
+                <dt>Total</dt>
+                <dd className="tabular-nums">{money(totals.total)}</dd>
+              </div>
+            </dl>
+          </div>
+
+          <h3 className="mt-10 text-lg font-bold text-slate-900">
+            How to make a {template.shortName} receipt
+          </h3>
+          <ol className="mt-4 max-w-3xl list-decimal space-y-2 pl-5 text-slate-600">
+            <li>Open the {template.shortName} template — it loads with realistic items and {d.taxLabel ?? "tax"} already filled in.</li>
+            <li>Edit the business details, line items, prices, date and payment method to match what you need.</li>
+            <li>Download instantly as a print-ready PDF or high-resolution PNG — no sign-up required.</li>
+          </ol>
+        </section>
 
         {/* FAQ */}
         {template.faqs.length > 0 && (
