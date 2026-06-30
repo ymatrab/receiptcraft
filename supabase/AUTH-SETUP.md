@@ -1,10 +1,44 @@
-# Supabase auth setup — Google, long sessions, email template
+# Supabase auth setup — email/password, Google, SMTP, sessions
 
-The code in this repo is wired and correct. The three items below are **dashboard
-configuration** in Supabase / Google Cloud — they can't be done from code. Do them
-once and they stick.
+The code in this repo is wired and correct. The items below are **dashboard
+configuration** in Supabase / Google Cloud / Resend — they can't be done from code.
+Do them once and they stick.
 
 Project: **Makecepeit** · canonical domain: `https://www.makecepeit.com`
+
+> **Login model:** the site now uses **email + password** (with a one-time email
+> verification at signup) plus **Continue with Google**. Magic-link sign-in was
+> removed — it emailed a link on *every* login, which tripped the email rate limit
+> and added friction. Verification + password-reset emails are the only auth emails
+> we send now, so they're rare.
+
+---
+
+## 0. Turn on email/password + verification  ← do this first
+
+Dashboard → **Authentication → Providers → Email**:
+- **Enable Email provider:** ON.
+- **Confirm email:** **ON** — this is what sends the one verification link at signup
+  and blocks login until the user clicks it. (With it OFF, accounts work instantly
+  and no verification email is sent.)
+- **Secure email change:** ON (recommended).
+
+Dashboard → **Authentication → Providers → Email → Password settings** (or
+**Authentication → Policies**):
+- **Minimum password length:** `8` (the UI also enforces 8 — keep them in sync).
+- **Leaked password protection:** **ON** — rejects passwords found in the
+  HaveIBeenPwned breach corpus. Free, one toggle, big security win.
+
+Dashboard → **Authentication → URL Configuration**:
+- **Site URL:** `https://www.makecepeit.com`
+- **Redirect URLs** must include (these power verification, Google, and reset):
+  - `https://www.makecepeit.com/auth/callback`
+  - `https://www.makecepeit.com/auth/reset`
+  - `http://localhost:3000/auth/callback` (dev, optional)
+
+The reset-password page lives at `/auth/reset` and the callback at `/auth/callback`
+— both already handle the `?code=` and `?token_hash=` link formats, so the default
+Supabase email templates work as-is.
 
 ---
 
@@ -79,24 +113,57 @@ line in `magic-link.html` if you change this.
 
 ---
 
-## 3. Install the branded email template
+## 3. Install the branded email templates
 
-File: [`email-templates/magic-link.html`](email-templates/magic-link.html)
+File: [`email-templates/magic-link.html`](email-templates/magic-link.html) — the same
+HTML works for every auth email because they all expose `{{ .ConfirmationURL }}`.
 
-Dashboard → **Authentication → Emails**:
-1. Open the **Magic Link** template.
-2. Switch the editor to **HTML / source** view.
-3. Paste the entire contents of `magic-link.html` and **Save**.
-4. (Optional) Repeat for the **Confirm signup** template — it exposes the same
-   `{{ .ConfirmationURL }}` variable, so the same HTML works.
+Dashboard → **Authentication → Emails**, for **each** of these templates switch the
+editor to **HTML / source** view, paste the file contents, and **Save**:
+1. **Confirm signup** — the verification email new users get. (Now the main one.)
+2. **Reset password** — sent by the “Forgot password?” link.
+3. **Magic Link** / **Change email** — optional, harmless to leave on the default.
 
 The template includes the one-click button, the full fallback link beneath it (for
 when the button doesn't render), a short FAQ, and links to the site.
 
-> Tip: for best deliverability set up a **custom SMTP** sender
-> (Dashboard → Authentication → Emails → SMTP Settings) using a domain address like
-> `hello@makecepeit.com`. Supabase's built-in email is rate-limited and more likely
-> to land in spam.
+---
+
+## 3b. Custom SMTP via Resend — fixes the rate limit (do this for launch)
+
+Supabase's built-in email sender is throttled to a handful per hour and is
+"testing only" — it's what threw **"email rate limit exceeded."** Point Supabase at
+your own sender and the limit goes away. **Resend** is the fastest; its free tier
+(3,000 emails/mo) is far more than verification + reset email ever needs, and custom
+SMTP works on Supabase's **free** plan.
+
+**1. Create the Resend account + verify the domain**
+- Sign up at <https://resend.com> → **Domains → Add domain** → `makecepeit.com`.
+- Resend shows DNS records to add at your domain registrar / DNS host:
+  - an **SPF** TXT record (e.g. `send.makecepeit.com` → `v=spf1 include:amazonses.com ~all`)
+  - a **DKIM** TXT record (`resend._domainkey…`)
+  - (optional) a **DMARC** TXT record (`_dmarc` → `v=DMARC1; p=none;`)
+- Wait until Resend marks the domain **Verified** (usually minutes).
+
+**2. Create an API key** — Resend → **API Keys → Create** → copy it (starts `re_…`).
+
+**3. Paste SMTP creds into Supabase** — Dashboard → **Authentication → Emails → SMTP
+Settings → Enable custom SMTP**:
+| Field | Value |
+|---|---|
+| Host | `smtp.resend.com` |
+| Port | `465` (SSL) or `587` (STARTTLS) |
+| Username | `resend` |
+| Password | your Resend API key (`re_…`) |
+| Sender email | `hello@makecepeit.com` |
+| Sender name | `Makecepeit` |
+
+**4. Raise the rate limit** — Dashboard → **Authentication → Rate Limits → "Emails
+sent per hour"** → bump to e.g. `100`. (The shared-SMTP cap no longer applies once
+custom SMTP is on.)
+
+Send yourself a test signup afterwards to confirm the verification email lands (check
+spam the first time; SPF/DKIM verification fixes that).
 
 ---
 

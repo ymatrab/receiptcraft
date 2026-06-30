@@ -6,45 +6,125 @@ import { createClient } from "@/lib/supabase/client";
 import { supabaseConfigured } from "@/lib/supabase/config";
 import { analytics } from "@/lib/analytics";
 
-type Provider = "google";
+type Mode = "login" | "signup";
+const MIN_PASSWORD = 8;
 
 export default function LoginForm() {
   const params = useSearchParams();
   const next = params.get("next") ?? "/account";
   const hadError = params.get("error");
   const errorDetail = params.get("error_description");
-  const [busy, setBusy] = useState<Provider | null>(null);
-  const [email, setEmail] = useState("");
-  const [emailBusy, setEmailBusy] = useState(false);
-  const [emailSent, setEmailSent] = useState(false);
 
-  async function sendMagicLink(e: React.FormEvent) {
+  const [mode, setMode] = useState<Mode>("login");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
+  const [googleBusy, setGoogleBusy] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [notice, setNotice] = useState<string | null>(null);
+  // Set once a verification email is sent — replaces the form with a prompt.
+  const [verifyEmail, setVerifyEmail] = useState<string | null>(null);
+
+  const redirectTo = `${typeof window !== "undefined" ? window.location.origin : ""}/auth/callback?next=${encodeURIComponent(next)}`;
+
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (emailBusy || !email.trim()) return;
-    setEmailBusy(true);
-    const supabase = createClient();
-    const emailRedirectTo = `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}`;
-    const { error } = await supabase.auth.signInWithOtp({
-      email: email.trim(),
-      options: { emailRedirectTo },
-    });
-    setEmailBusy(false);
-    if (error) {
-      alert(`Couldn't send link: ${error.message}`);
+    if (busy) return;
+    setError(null);
+    setNotice(null);
+
+    const cleanEmail = email.trim();
+    if (!cleanEmail) return;
+    if (password.length < MIN_PASSWORD) {
+      setError(`Password must be at least ${MIN_PASSWORD} characters.`);
       return;
     }
-    analytics.signIn("email");
-    setEmailSent(true);
+
+    setBusy(true);
+    const supabase = createClient();
+
+    if (mode === "signup") {
+      const { data, error } = await supabase.auth.signUp({
+        email: cleanEmail,
+        password,
+        options: { emailRedirectTo: redirectTo },
+      });
+      setBusy(false);
+      if (error) {
+        setError(error.message);
+        return;
+      }
+      // When email confirmation is on, Supabase returns a user with an empty
+      // identities array if the email is already registered.
+      if (data.user && data.user.identities?.length === 0) {
+        setError("That email is already registered. Try logging in instead.");
+        setMode("login");
+        return;
+      }
+      analytics.signIn("password");
+      setVerifyEmail(cleanEmail);
+      return;
+    }
+
+    // Login
+    const { error } = await supabase.auth.signInWithPassword({
+      email: cleanEmail,
+      password,
+    });
+    setBusy(false);
+    if (error) {
+      if (/email not confirmed/i.test(error.message)) {
+        setError("Please verify your email first — check your inbox for the link.");
+      } else {
+        setError("Wrong email or password.");
+      }
+      return;
+    }
+    analytics.signIn("password");
+    // Hard navigation so the server picks up the freshly-set session cookies.
+    window.location.assign(next);
   }
 
-  async function signIn(provider: Provider) {
-    if (busy) return;
-    setBusy(provider);
-    analytics.signIn(provider);
+  async function resendVerification() {
+    if (!verifyEmail) return;
+    setError(null);
+    setNotice(null);
     const supabase = createClient();
-    const redirectTo = `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}`;
+    const { error } = await supabase.auth.resend({
+      type: "signup",
+      email: verifyEmail,
+      options: { emailRedirectTo: redirectTo },
+    });
+    if (error) setError(error.message);
+    else setNotice("Verification email resent.");
+  }
+
+  async function forgotPassword() {
+    setError(null);
+    setNotice(null);
+    const cleanEmail = email.trim();
+    if (!cleanEmail) {
+      setError("Enter your email above first, then tap “Forgot password?”.");
+      return;
+    }
+    const supabase = createClient();
+    const { error } = await supabase.auth.resetPasswordForEmail(cleanEmail, {
+      redirectTo: `${window.location.origin}/auth/callback?next=/auth/reset`,
+    });
+    if (error) setError(error.message);
+    else setNotice(`If an account exists for ${cleanEmail}, a reset link is on its way.`);
+  }
+
+  async function signInWithGoogle() {
+    if (googleBusy) return;
+    setGoogleBusy(true);
+    setError(null);
+    analytics.signIn("google");
+    const supabase = createClient();
     const { error } = await supabase.auth.signInWithOAuth({
-      provider,
+      provider: "google",
       options: {
         redirectTo,
         // Always show the Google account chooser so a wrong cached account
@@ -53,8 +133,8 @@ export default function LoginForm() {
       },
     });
     if (error) {
-      setBusy(null);
-      alert(`Sign-in failed: ${error.message}`);
+      setGoogleBusy(false);
+      setError(`Sign-in failed: ${error.message}`);
     }
     // On success the browser is redirected to the provider.
   }
@@ -64,6 +144,43 @@ export default function LoginForm() {
       <p className="mt-8 rounded-xl bg-amber-50 px-4 py-3 text-sm text-amber-800">
         Login isn&apos;t enabled yet — the backend keys haven&apos;t been added.
       </p>
+    );
+  }
+
+  // Post-signup: ask the user to confirm their email.
+  if (verifyEmail) {
+    return (
+      <div className="mt-8 space-y-3">
+        <div className="rounded-xl bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
+          Almost there — we sent a verification link to <strong>{verifyEmail}</strong>.
+          Click it to activate your account, then come back and log in.
+        </div>
+        {notice && (
+          <p className="rounded-xl bg-slate-50 px-4 py-3 text-sm text-slate-600">{notice}</p>
+        )}
+        {error && (
+          <p className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>
+        )}
+        <button
+          type="button"
+          onClick={resendVerification}
+          className="w-full rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+        >
+          Resend verification email
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            setVerifyEmail(null);
+            setMode("login");
+            setNotice(null);
+            setError(null);
+          }}
+          className="w-full text-center text-sm font-medium text-indigo-600 hover:underline"
+        >
+          Back to log in
+        </button>
+      </div>
     );
   }
 
@@ -78,30 +195,81 @@ export default function LoginForm() {
         </p>
       )}
 
-      {/* Email magic link — works without any OAuth provider setup */}
-      {emailSent ? (
-        <p className="rounded-xl bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
-          Check your inbox — we emailed a sign-in link to <strong>{email}</strong>.
-        </p>
-      ) : (
-        <form onSubmit={sendMagicLink} className="space-y-2">
+      {/* Email + password */}
+      <form onSubmit={handleSubmit} className="space-y-2">
+        <input
+          type="email"
+          required
+          autoComplete="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="you@example.com"
+          className="w-full rounded-full border border-slate-300 px-4 py-3 text-sm focus:border-indigo-400 focus:outline-none"
+        />
+        <div className="relative">
           <input
-            type="email"
+            type={showPassword ? "text" : "password"}
             required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="you@example.com"
-            className="w-full rounded-full border border-slate-300 px-4 py-3 text-sm focus:border-indigo-400 focus:outline-none"
+            minLength={MIN_PASSWORD}
+            autoComplete={mode === "signup" ? "new-password" : "current-password"}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder={mode === "signup" ? `Create a password (${MIN_PASSWORD}+ characters)` : "Password"}
+            className="w-full rounded-full border border-slate-300 px-4 py-3 pr-16 text-sm focus:border-indigo-400 focus:outline-none"
           />
           <button
-            type="submit"
-            disabled={emailBusy || !email.trim()}
-            className="w-full rounded-full bg-indigo-600 px-5 py-3 text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60"
+            type="button"
+            onClick={() => setShowPassword((s) => !s)}
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-medium text-slate-400 hover:text-slate-600"
           >
-            {emailBusy ? "Sending…" : "Email me a sign-in link"}
+            {showPassword ? "Hide" : "Show"}
           </button>
-        </form>
-      )}
+        </div>
+
+        {error && (
+          <p className="rounded-xl bg-red-50 px-4 py-2.5 text-sm text-red-700">{error}</p>
+        )}
+        {notice && (
+          <p className="rounded-xl bg-emerald-50 px-4 py-2.5 text-sm text-emerald-800">{notice}</p>
+        )}
+
+        <button
+          type="submit"
+          disabled={busy}
+          className="w-full rounded-full bg-indigo-600 px-5 py-3 text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60"
+        >
+          {busy
+            ? mode === "signup"
+              ? "Creating account…"
+              : "Logging in…"
+            : mode === "signup"
+              ? "Create account"
+              : "Log in"}
+        </button>
+      </form>
+
+      <div className="flex items-center justify-between pt-0.5 text-sm">
+        <button
+          type="button"
+          onClick={() => {
+            setMode((m) => (m === "login" ? "signup" : "login"));
+            setError(null);
+            setNotice(null);
+          }}
+          className="font-medium text-indigo-600 hover:underline"
+        >
+          {mode === "login" ? "New here? Create an account" : "Have an account? Log in"}
+        </button>
+        {mode === "login" && (
+          <button
+            type="button"
+            onClick={forgotPassword}
+            className="text-slate-400 hover:text-slate-600"
+          >
+            Forgot password?
+          </button>
+        )}
+      </div>
 
       <div className="flex items-center gap-3 py-1">
         <span className="h-px flex-1 bg-slate-200" />
@@ -111,12 +279,12 @@ export default function LoginForm() {
 
       <button
         type="button"
-        onClick={() => signIn("google")}
-        disabled={!!busy}
+        onClick={signInWithGoogle}
+        disabled={googleBusy}
         className="flex w-full items-center justify-center gap-3 rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50 disabled:opacity-60"
       >
         <GoogleIcon />
-        {busy === "google" ? "Redirecting…" : "Continue with Google"}
+        {googleBusy ? "Redirecting…" : "Continue with Google"}
       </button>
       <p className="pt-2 text-center text-[11px] leading-relaxed text-slate-400">
         By continuing you agree to our{" "}
