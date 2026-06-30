@@ -9,6 +9,11 @@ import { analytics } from "@/lib/analytics";
 type Mode = "login" | "signup" | "forgot";
 const MIN_PASSWORD = 8;
 
+// Show "Continue with Google" only once the provider is actually configured in
+// Supabase. Flip NEXT_PUBLIC_GOOGLE_AUTH_ENABLED="true" in Vercel to enable it —
+// no code change needed. Hidden by default so we never show a dead button.
+const googleEnabled = process.env.NEXT_PUBLIC_GOOGLE_AUTH_ENABLED === "true";
+
 export default function LoginForm() {
   const params = useSearchParams();
   const next = params.get("next") ?? "/account";
@@ -299,21 +304,25 @@ export default function LoginForm() {
 
       {mode !== "forgot" && (
         <>
-          <div className="flex items-center gap-3 py-1">
-            <span className="h-px flex-1 bg-slate-200" />
-            <span className="text-[11px] uppercase tracking-wide text-slate-400">or</span>
-            <span className="h-px flex-1 bg-slate-200" />
-          </div>
+          {googleEnabled && (
+            <>
+              <div className="flex items-center gap-3 py-1">
+                <span className="h-px flex-1 bg-slate-200" />
+                <span className="text-[11px] uppercase tracking-wide text-slate-400">or</span>
+                <span className="h-px flex-1 bg-slate-200" />
+              </div>
 
-          <button
-            type="button"
-            onClick={signInWithGoogle}
-            disabled={googleBusy}
-            className="flex w-full items-center justify-center gap-3 rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50 disabled:opacity-60"
-          >
-            <GoogleIcon />
-            {googleBusy ? "Redirecting…" : "Continue with Google"}
-          </button>
+              <button
+                type="button"
+                onClick={signInWithGoogle}
+                disabled={googleBusy}
+                className="flex w-full items-center justify-center gap-3 rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50 disabled:opacity-60"
+              >
+                <GoogleIcon />
+                {googleBusy ? "Redirecting…" : "Continue with Google"}
+              </button>
+            </>
+          )}
           <p className="pt-2 text-center text-[11px] leading-relaxed text-slate-400">
             By continuing you agree to our{" "}
             <a href="/terms" className="underline">Terms</a> and{" "}
