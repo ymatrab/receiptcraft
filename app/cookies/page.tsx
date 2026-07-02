@@ -83,7 +83,7 @@ export default function CookiesPage() {
         <p>
           This page lists every cookie and browser-storage item {SITE.name} uses, what it does,
           and how long it lives. We use no advertising cookies and no cross-site tracking —
-          only what's needed to run the product, plus optional anonymous analytics that load
+          only what&apos;s needed to run the product, plus optional anonymous analytics that load
           only if you accept them in the cookie banner.
         </p>
 
