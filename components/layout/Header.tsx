@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { SITE } from "@/lib/site";
 import { useAccount } from "@/lib/useAccount";
 import Wordmark from "./Wordmark";
@@ -17,9 +18,14 @@ const NAV_LINKS = [
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
   const { account } = useAccount();
   const accountHref = account.isLoggedIn ? "/account" : "/login";
   const accountLabel = account.isLoggedIn ? "Account" : "Log in";
+
+  // A nav link is active on its page and its children (/templates/taxi → Templates).
+  const isActive = (href: string) =>
+    !href.includes("#") && (pathname === href || pathname.startsWith(`${href}/`));
 
   return (
     <header className="sticky top-0 z-50 border-b border-slate-200/70 bg-white/80 backdrop-blur-lg">
@@ -36,7 +42,10 @@ export default function Header() {
             <Link
               key={link.href}
               href={link.href}
-              className="text-sm font-medium text-slate-600 transition-colors hover:text-slate-900"
+              aria-current={isActive(link.href) ? "page" : undefined}
+              className={`text-sm font-medium transition-colors hover:text-slate-900 ${
+                isActive(link.href) ? "text-indigo-600" : "text-slate-600"
+              }`}
             >
               {link.label}
             </Link>
@@ -79,7 +88,10 @@ export default function Header() {
               key={link.href}
               href={link.href}
               onClick={() => setOpen(false)}
-              className="block rounded-lg px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50"
+              aria-current={isActive(link.href) ? "page" : undefined}
+              className={`block rounded-lg px-3 py-2.5 text-sm font-medium hover:bg-slate-50 ${
+                isActive(link.href) ? "bg-indigo-50 text-indigo-700" : "text-slate-700"
+              }`}
             >
               {link.label}
             </Link>
