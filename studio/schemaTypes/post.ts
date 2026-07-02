@@ -43,6 +43,21 @@ export const post = defineType({
     }),
     defineField({ name: "seoTitle", title: "SEO title", type: "string" }),
     defineField({ name: "seoDescription", title: "SEO description", type: "text", rows: 2 }),
+    defineField({
+      name: "faqs",
+      title: "FAQ (rendered with FAQPage schema for AI/rich results)",
+      type: "array",
+      of: [
+        {
+          type: "object",
+          fields: [
+            defineField({ name: "question", title: "Question", type: "string", validation: (r) => r.required() }),
+            defineField({ name: "answer", title: "Answer", type: "text", rows: 3, validation: (r) => r.required() }),
+          ],
+          preview: { select: { title: "question" } },
+        },
+      ],
+    }),
   ],
   preview: {
     select: { title: "title", subtitle: "publishedAt", media: "mainImage" },

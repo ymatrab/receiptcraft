@@ -53,11 +53,26 @@ export default async function BlogPostPage({
     headline: post.title,
     description: post.seoDescription ?? post.excerpt,
     datePublished: post.publishedAt,
+    dateModified: post._updatedAt ?? post.publishedAt,
     author: { "@type": post.authorName ? "Person" : "Organization", name: post.authorName ?? SITE.name },
     publisher: { "@type": "Organization", name: SITE.name },
     mainEntityOfPage: absoluteUrl(`/blog/${post.slug}`),
     image: post.mainImage ? urlForImage(post.mainImage).width(1200).url() : undefined,
   };
+
+  const faqs = post.faqs ?? [];
+  const faqJsonLd =
+    faqs.length > 0
+      ? {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: faqs.map((f) => ({
+            "@type": "Question",
+            name: f.question,
+            acceptedAnswer: { "@type": "Answer", text: f.answer },
+          })),
+        }
+      : null;
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
@@ -65,6 +80,12 @@ export default async function BlogPostPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
       />
+      {faqJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        />
+      )}
       <Link href="/blog" className="text-sm font-medium text-indigo-600 hover:text-indigo-700">
         ← All articles
       </Link>
@@ -80,8 +101,20 @@ export default async function BlogPostPage({
           {post.authorName && <span>{post.authorName}</span>}
           {post.authorName && post.publishedAt && <span>·</span>}
           {post.publishedAt && (
-            <time>{new Date(post.publishedAt).toLocaleDateString()}</time>
+            <time dateTime={post.publishedAt}>
+              {new Date(post.publishedAt).toLocaleDateString()}
+            </time>
           )}
+          {/* Freshness signal: show "Updated" when revised at least a day after publishing. */}
+          {post._updatedAt &&
+            post.publishedAt &&
+            new Date(post._updatedAt).getTime() - new Date(post.publishedAt).getTime() >
+              24 * 60 * 60 * 1000 && (
+              <>
+                <span>·</span>
+                <span>Updated {new Date(post._updatedAt).toLocaleDateString()}</span>
+              </>
+            )}
         </div>
 
         {post.mainImage && (
@@ -100,6 +133,22 @@ export default async function BlogPostPage({
             <p className="text-slate-500">This article has no content yet.</p>
           )}
         </div>
+
+        {faqs.length > 0 && (
+          <section className="mt-12" aria-labelledby="post-faq-heading">
+            <h2 id="post-faq-heading" className="text-2xl font-bold text-slate-900">
+              Frequently asked questions
+            </h2>
+            <dl className="mt-6 space-y-4">
+              {faqs.map((f) => (
+                <div key={f.question} className="rounded-2xl border border-slate-200 bg-white p-5">
+                  <dt className="font-semibold text-slate-900">{f.question}</dt>
+                  <dd className="mt-2 text-sm leading-relaxed text-slate-600">{f.answer}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        )}
       </article>
 
       <div className="mt-16 rounded-3xl bg-gradient-to-br from-indigo-600 to-violet-700 px-6 py-10 text-center">
