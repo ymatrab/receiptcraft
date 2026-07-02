@@ -12,7 +12,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "🛒",
     seoTitle: "Free Grocery Store Receipt Generator — Create & Download PDF",
     seoDescription:
-      "Make a realistic grocery store receipt online in seconds. Add items, prices, tax and store details, then download as PDF or PNG. Free, no sign-up, no watermark.",
+      "Make a realistic grocery store receipt online in seconds. Add items, prices, tax and store details, then download as PDF or PNG. Free, no sign-up needed.",
     heading: "Grocery Store Receipt Generator",
     intro:
       "Create a realistic supermarket or grocery store receipt with itemized products, quantities, sales tax and payment details. Perfect for replacing lost receipts, expense reports, bookkeeping records or design mockups.",
@@ -59,7 +59,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "🍽️",
     seoTitle: "Free Restaurant Receipt Generator — Itemized Bill with Tip",
     seoDescription:
-      "Generate an itemized restaurant receipt with food items, tax and tip. Download instantly as PDF or PNG. Free restaurant bill maker, no watermark.",
+      "Generate an itemized restaurant receipt with food items, tax and tip. Download instantly as PDF or PNG. Free restaurant bill maker, no sign-up needed.",
     heading: "Restaurant Receipt Generator",
     intro:
       "Build an itemized restaurant bill with dishes, drinks, sales tax, tip and payment method. Ideal for business meal expense claims, per-diem documentation and replacing lost dinner receipts.",
@@ -236,7 +236,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "🏨",
     seoTitle: "Free Hotel Receipt Generator — Lodging Invoice Maker",
     seoDescription:
-      "Create a hotel stay receipt with room rate, nights, taxes and fees. Free hotel folio maker — download as PDF or PNG instantly, no watermark.",
+      "Create a hotel stay receipt with room rate, nights, taxes and fees. Free hotel folio maker — download as PDF or PNG instantly. No sign-up needed.",
     heading: "Hotel Receipt Generator",
     intro:
       "Build a hotel folio-style receipt with nightly room rate, occupancy taxes, resort fees and incidentals. Useful for travel reimbursements and lodging records when the front desk copy went missing.",
@@ -398,7 +398,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "💇",
     seoTitle: "Free Salon Receipt Generator — Spa & Beauty Receipt Maker",
     seoDescription:
-      "Make a salon, spa or barbershop receipt for services and products. Free receipt generator with instant PDF & PNG download, no watermark.",
+      "Make a salon, spa or barbershop receipt for services and products. Free receipt generator with instant PDF & PNG download. No sign-up needed.",
     heading: "Salon & Spa Receipt Generator",
     intro:
       "Create a receipt for haircuts, styling, spa treatments and beauty products. Ideal for independent stylists who need to give clients a professional receipt, and for clients tracking personal care expenses.",
@@ -566,7 +566,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "💵",
     seoTitle: "Free Cash Receipt Generator — Cash Payment Receipt Maker",
     seoDescription:
-      "Make a cash payment receipt with amount, payer and purpose. Free cash receipt template — download as PDF or PNG instantly, no watermark.",
+      "Make a cash payment receipt with amount, payer and purpose. Free cash receipt template — download as PDF or PNG instantly. No sign-up needed.",
     heading: "Cash Receipt Generator",
     intro:
       "Create a simple cash receipt that records a payment made in cash: the amount, who paid, what it was for and the date. Ideal for any transaction where cash changed hands and both sides want a record.",
@@ -927,7 +927,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "📚",
     seoTitle: "Free Tutoring Receipt Generator — Tutor Payment Receipt Maker",
     seoDescription:
-      "Create a tutoring receipt with sessions, hours and rate. Free receipt maker for tutors and parents — download as PDF or PNG, no watermark.",
+      "Create a tutoring receipt with sessions, hours and rate. Free receipt maker for tutors and parents — download as PDF or PNG. No sign-up needed.",
     heading: "Tutoring Receipt Generator",
     intro:
       "Create a tutoring receipt showing sessions, hours and rate for academic or test-prep tutoring. Independent tutors use it to bill families professionally; parents use it for education expense records.",

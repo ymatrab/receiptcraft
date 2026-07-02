@@ -201,11 +201,39 @@ function hashSlug(slug: string): number {
   return [...slug].reduce((acc, char) => acc + char.charCodeAt(0), 0);
 }
 
+// Generic (non-brand) template slugs → profile, by keyword. Gives each
+// category its native receipt structure (grocery items-sold counter, fuel pump
+// block, folio title, ...) instead of the one-size-fits-all retail look.
+const PROFILE_KEYWORDS: [RegExp, ReceiptProfile][] = [
+  [/grocery/, "grocery"],
+  [/coffee|cafe/, "coffee"],
+  [/restaurant|fast-food|pizza|catering|^bar$/, "restaurant"],
+  [/gas-station|fuel/, "fuel"],
+  [/^hotel$/, "hotel"],
+  [/pharmacy/, "pharmacy"],
+  [/car-rental/, "rental"],
+  [/airline/, "airline"],
+  [/electronics/, "electronics"],
+  [/clothing/, "fashion"],
+  [/pet-store/, "pet"],
+  [/hardware/, "home"],
+  [/auto-repair|towing/, "auto"],
+  [/salon|spa-|^spa$|barber/, "beauty"],
+];
+
 function inferProfile(template: ReceiptTemplate): ReceiptProfile {
   if (PROFILE_BY_SLUG[template.slug]) return PROFILE_BY_SLUG[template.slug];
   if (COFFEE_SLUGS.has(template.slug)) return "coffee";
   if (RESTAURANT_SLUGS.has(template.slug)) return "restaurant";
+  for (const [re, profile] of PROFILE_KEYWORDS) {
+    if (re.test(template.slug)) return profile;
+  }
   return "retail";
+}
+
+/** Public profile lookup, used by the examples engine for style variety. */
+export function profileForTemplate(template: ReceiptTemplate): ReceiptProfile {
+  return inferProfile(template);
 }
 
 // Spread layout templates across brands so two stores in the same category
@@ -264,7 +292,10 @@ function brandMetadata(template: ReceiptTemplate) {
     brandAccent: BRAND_ACCENTS[template.slug] ?? "#4f46e5",
     logoScale: LOGO_SCALE[template.slug] ?? 1,
     layoutSeed: hashSlug(template.slug),
-    layoutVariant: VARIANT_BY_SLUG[template.slug] ?? "classic",
+    // Brands use the per-profile round-robin; generic templates spread across
+    // the variants by slug hash so no two category pages render identically.
+    layoutVariant:
+      VARIANT_BY_SLUG[template.slug] ?? VARIANT_ORDER[hashSlug(template.slug) % VARIANT_ORDER.length],
   };
 }
 

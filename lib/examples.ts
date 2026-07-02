@@ -1,5 +1,6 @@
-import type { ReceiptData, PaymentMethod } from "./types";
+import type { LayoutVariant, PaymentMethod, ReceiptData, ReceiptProfile } from "./types";
 import { getTemplate } from "./templates";
+import { profileForTemplate } from "./receipt";
 
 /**
  * Programmatic "example receipt" pages (/examples/[slug]). Each example renders a
@@ -28,11 +29,34 @@ export interface Example {
   footer?: string;
 }
 
-/** Deterministic 6-digit receipt number from the slug (stable across builds). */
-function stableNumber(s: string): string {
+/** Deterministic hash of the slug — drives receipt number + style variety. */
+function slugHash(s: string): number {
   let h = 0;
   for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0;
-  return String(100000 + (h % 900000));
+  return h;
+}
+
+function stableNumber(s: string): string {
+  return String(100000 + (slugHash(s) % 900000));
+}
+
+// Layout variants that stay plausible per category — an elegant serif receipt
+// from a gas station would break believability, so the pools are curated.
+const THERMAL_VARIANTS: LayoutVariant[] = ["classic", "pos", "euro", "compact"];
+const BOUTIQUE_VARIANTS: LayoutVariant[] = ["classic", "elegant", "modern", "euro"];
+const RETAIL_VARIANTS: LayoutVariant[] = ["classic", "modern", "pos", "compact"];
+const THERMAL_PROFILES: ReceiptProfile[] = [
+  "coffee", "restaurant", "fuel", "grocery", "warehouse", "pharmacy",
+];
+
+function variantForExample(profile: ReceiptProfile | undefined, hash: number): LayoutVariant {
+  const pool =
+    profile === "fashion" || profile === "beauty"
+      ? BOUTIQUE_VARIANTS
+      : profile && THERMAL_PROFILES.includes(profile)
+        ? THERMAL_VARIANTS
+        : RETAIL_VARIANTS;
+  return pool[hash % pool.length];
 }
 
 export function receiptFromExample(ex: Example): ReceiptData {
@@ -48,6 +72,9 @@ export function receiptFromExample(ex: Example): ReceiptData {
     paperStyle?: ReceiptData["paperStyle"];
     receiptProfile?: ReceiptData["receiptProfile"];
   };
+  const tpl = getTemplate(ex.base);
+  const profile = def.receiptProfile ?? (tpl ? profileForTemplate(tpl) : undefined);
+  const hash = slugHash(ex.slug);
   return {
     businessName: ex.brand,
     logoDataUrl: "",
@@ -72,7 +99,12 @@ export function receiptFromExample(ex: Example): ReceiptData {
     footerMessage: ex.footer ?? def.footerMessage ?? "",
     showBarcode: true,
     paperStyle: def.paperStyle ?? "thermal",
-    receiptProfile: def.receiptProfile,
+    receiptProfile: profile,
+    // Deterministic per-example style: each page gets its own layout variant,
+    // font, width and typography (resolved in docFromReceiptData) so the 100+
+    // example receipts don't all render identically.
+    layoutSeed: hash,
+    layoutVariant: variantForExample(profile, hash),
   };
 }
 
@@ -453,6 +485,24 @@ export const EXAMPLES: Example[] = [
   { slug: "la-fitness-receipt-membership", brand: "LA Fitness", base: "gym-membership-receipt", city: "Irvine, CA 92614", payment: "Credit Card", items: [{ name: "Monthly Dues", quantity: 1, price: 39.99 }, { name: "Initiation Fee", quantity: 1, price: 99.0 }] },
   { slug: "regal-receipt-movie-night", brand: "Regal Cinemas", base: "sales-receipt", city: "Knoxville, TN 37902", payment: "Credit Card", items: [{ name: "Adult Ticket", quantity: 2, price: 14.5 }, { name: "Large Popcorn", quantity: 1, price: 9.5 }, { name: "Soft Drink (L)", quantity: 2, price: 6.0 }] },
   { slug: "ups-store-receipt-shipping", brand: "The UPS Store", base: "sales-receipt", city: "San Diego, CA 92101", payment: "Credit Card", items: [{ name: "Ground Shipping", quantity: 1, price: 14.85 }, { name: "Packaging", quantity: 1, price: 4.99 }, { name: "Printing (25 pages)", quantity: 25, price: 0.19 }] },
+
+  // ── Batch 5: local services & specialty shops ──
+  { slug: "florist-receipt-anniversary-bouquet", brand: "Bloom & Stem Florist", base: "florist-receipt", city: "Portland, OR 97209", items: [{ name: "Two Dozen Red Roses", quantity: 1, price: 89.0 }, { name: "Glass Vase", quantity: 1, price: 18.0 }, { name: "Same-Day Delivery", quantity: 1, price: 12.95 }] },
+  { slug: "dry-cleaning-receipt-suits", brand: "Crystal Clean Cleaners", base: "dry-cleaning-receipt", city: "Chicago, IL 60611", items: [{ name: "2-Piece Suit", quantity: 2, price: 14.5 }, { name: "Dress Shirt (Pressed)", quantity: 5, price: 3.25 }, { name: "Silk Tie", quantity: 2, price: 6.0 }] },
+  { slug: "liquor-store-receipt-party", brand: "Northside Wine & Spirits", base: "liquor-store-receipt", city: "Nashville, TN 37203", items: [{ name: "Cabernet Sauvignon 750ml", quantity: 2, price: 16.99 }, { name: "Craft IPA 6-pack", quantity: 2, price: 12.49 }, { name: "Bourbon 750ml", quantity: 1, price: 34.99 }] },
+  { slug: "towing-receipt-flatbed", brand: "Rapid Response Towing", base: "towing-receipt", city: "Phoenix, AZ 85009", payment: "Credit Card", items: [{ name: "Flatbed Tow (base)", quantity: 1, price: 95.0 }, { name: "Mileage (12 mi)", quantity: 12, price: 4.5 }, { name: "After-Hours Fee", quantity: 1, price: 35.0 }] },
+  { slug: "catering-receipt-office-lunch", brand: "Garden Gate Catering", base: "catering-receipt", city: "Minneapolis, MN 55401", items: [{ name: "Sandwich Platter (serves 10)", quantity: 2, price: 64.0 }, { name: "Garden Salad Bowl", quantity: 1, price: 32.0 }, { name: "Beverage Service", quantity: 20, price: 2.25 }, { name: "Delivery & Setup", quantity: 1, price: 25.0 }] },
+  { slug: "spa-receipt-massage-day", brand: "Serenity Day Spa", base: "spa-receipt", city: "Scottsdale, AZ 85251", items: [{ name: "Deep Tissue Massage 60min", quantity: 1, price: 115.0 }, { name: "Aromatherapy Add-On", quantity: 1, price: 20.0 }, { name: "Signature Facial", quantity: 1, price: 95.0 }] },
+  { slug: "barber-receipt-fade-beard", brand: "Kings Cut Barbershop", base: "barber-receipt", city: "Brooklyn, NY 11216", payment: "Cash", items: [{ name: "Skin Fade", quantity: 1, price: 35.0 }, { name: "Beard Trim & Line-Up", quantity: 1, price: 20.0 }, { name: "Hot Towel Shave", quantity: 1, price: 25.0 }] },
+  { slug: "parking-receipt-airport-week", brand: "SkyPark Airport Parking", base: "parking", city: "Orlando, FL 32827", payment: "Credit Card", items: [{ name: "Covered Parking (7 days)", quantity: 7, price: 12.0 }, { name: "Shuttle Service", quantity: 1, price: 0.0 }] },
+  { slug: "veterinary-receipt-annual-checkup", brand: "Lakeside Animal Hospital", base: "veterinary-receipt", city: "Madison, WI 53703", items: [{ name: "Wellness Exam", quantity: 1, price: 65.0 }, { name: "Rabies Vaccine", quantity: 1, price: 28.0 }, { name: "Heartworm Test", quantity: 1, price: 45.0 }, { name: "Flea Prevention 3mo", quantity: 1, price: 54.99 }] },
+  { slug: "childcare-receipt-monthly", brand: "Little Sprouts Daycare", base: "childcare-receipt", city: "Columbus, OH 43215", payment: "Cash", items: [{ name: "Full-Time Care — June", quantity: 1, price: 1150.0 }, { name: "Late Pickup (2x)", quantity: 2, price: 15.0 }] },
+  { slug: "handyman-receipt-fence-repair", brand: "FixRight Handyman Services", base: "handyman-receipt", city: "Raleigh, NC 27601", items: [{ name: "Fence Panel Replacement", quantity: 3, price: 85.0 }, { name: "Gate Hinge Repair", quantity: 1, price: 45.0 }, { name: "Materials", quantity: 1, price: 112.4 }] },
+  { slug: "bakery-receipt-birthday-cake", brand: "Golden Crust Bakery", base: "coffee-shop", city: "Savannah, GA 31401", items: [{ name: "Custom Birthday Cake 10\"", quantity: 1, price: 58.0 }, { name: "Cupcakes (dozen)", quantity: 1, price: 32.0 }, { name: "Sourdough Loaf", quantity: 2, price: 7.5 }] },
+  { slug: "food-truck-receipt-tacos", brand: "El Fuego Taco Truck", base: "fast-food-receipt", city: "Austin, TX 78701", payment: "Cash", items: [{ name: "Al Pastor Tacos", quantity: 3, price: 3.5 }, { name: "Carne Asada Quesadilla", quantity: 1, price: 9.0 }, { name: "Horchata (L)", quantity: 2, price: 3.0 }] },
+  { slug: "bookstore-receipt-summer-reads", brand: "Chapter One Books", base: "retail-store", city: "Ann Arbor, MI 48104", items: [{ name: "Hardcover Bestseller", quantity: 1, price: 28.99 }, { name: "Paperback Fiction", quantity: 2, price: 16.99 }, { name: "Bookmark", quantity: 1, price: 3.5 }] },
+  { slug: "tutoring-receipt-sat-prep", brand: "Peak Learning Tutors", base: "tutoring-receipt", city: "Bellevue, WA 98004", items: [{ name: "SAT Prep Session 90min", quantity: 4, price: 85.0 }, { name: "Practice Test & Review", quantity: 1, price: 60.0 }] },
+  { slug: "cleaning-receipt-move-out", brand: "Sparkle Home Cleaning", base: "cleaning-service-receipt", city: "Denver, CO 80202", items: [{ name: "Move-Out Deep Clean (3bd)", quantity: 1, price: 285.0 }, { name: "Carpet Shampoo (2 rooms)", quantity: 2, price: 45.0 }, { name: "Inside Oven & Fridge", quantity: 1, price: 50.0 }] },
 ];
 
 export const EXAMPLE_SLUGS = EXAMPLES.map((e) => e.slug);

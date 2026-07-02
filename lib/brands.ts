@@ -216,7 +216,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "☕",
     seoTitle: "Free Starbucks Receipt Generator — Coffee Receipt Maker",
     seoDescription:
-      "Create a Starbucks coffee receipt in seconds. Free PDF & PNG download, no watermark, completely private.",
+      "Create a Starbucks coffee receipt in seconds. Free PDF & PNG download, no sign-up needed.",
     heading: "Starbucks Receipt Generator",
     intro:
       "Make a coffee shop receipt for Starbucks. Add your lattes, cold brews, and pastries for petty cash and expense reports.",

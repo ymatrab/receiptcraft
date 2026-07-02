@@ -216,16 +216,8 @@ export const SECTION_LABEL: Record<SectionType, string> = {
   spacer: "Spacer",
 };
 
-// Effective font / divider per layout variant, mirrored from VARIANT_STYLES in
+// Effective divider per layout variant, mirrored from VARIANT_STYLES in
 // ReceiptPaper so a converted template keeps its intended look.
-const VARIANT_FONT: Record<LayoutVariant, FontFamily> = {
-  classic: "mono",
-  modern: "sans",
-  pos: "mono",
-  euro: "mono",
-  compact: "mono",
-  elegant: "serif",
-};
 const VARIANT_RULE: Record<LayoutVariant, RuleStyle> = {
   classic: "dashed",
   modern: "solid",
@@ -233,6 +225,50 @@ const VARIANT_RULE: Record<LayoutVariant, RuleStyle> = {
   euro: "double",
   compact: "dotted",
   elegant: "none",
+};
+
+// Seed-picked font pools per variant, staying in-family (mono variants keep a
+// thermal look, modern stays sans, elegant stays serif). Index 0 of each pool
+// is the variant's historical font, so docs without a layoutSeed (blank/AI
+// builder flows, seed 0) render exactly as before.
+const VARIANT_FONT_POOL: Record<LayoutVariant, FontFamily[]> = {
+  classic: ["mono", "courier", "roboto-mono", "inconsolata", "anonymous-pro", "cutive-mono", "space-mono"],
+  modern: ["sans", "inter", "roboto", "work-sans", "lato", "mulish", "open-sans"],
+  pos: ["mono", "share-tech-mono", "fira-mono", "ubuntu-mono", "dm-mono", "oxygen-mono", "vt323"],
+  euro: ["mono", "ibm-plex-mono", "space-mono", "noto-sans-mono", "source-code-pro", "courier", "roboto-mono"],
+  compact: ["mono", "inconsolata", "source-code-pro", "dm-mono", "noto-sans-mono", "oxygen-mono", "fira-mono"],
+  elegant: ["serif", "playfair", "montserrat", "playfair", "serif", "montserrat", "playfair"],
+};
+// Service (card-style) receipts read like app/email receipts → sans family.
+const SERVICE_FONT_POOL: FontFamily[] = [
+  "sans", "inter", "roboto", "open-sans", "lato", "montserrat", "work-sans", "noto-sans",
+];
+
+// Paper width per profile (px), seed-picked. Narrow thermal for coffee/fuel,
+// mid for grocery/retail, wide email/invoice widths for service receipts.
+// `retail` index 0 stays 380 so seedless docs keep the historical width.
+const WIDTH_POOL: Partial<Record<ReceiptProfile, number[]>> = {
+  coffee: [302, 280, 219, 302],
+  restaurant: [302, 280, 302, 219],
+  fuel: [280, 302, 260, 280],
+  grocery: [340, 302, 320, 360],
+  warehouse: [360, 340, 380, 340],
+  pharmacy: [320, 302, 340, 302],
+  retail: [380, 340, 302, 360],
+  electronics: [340, 380, 302, 360],
+  fashion: [340, 302, 380, 320],
+  beauty: [320, 302, 340, 280],
+  home: [340, 360, 302, 380],
+  pet: [320, 340, 302, 360],
+  auto: [340, 320, 360, 302],
+  sporting: [340, 360, 320, 380],
+  ride: [400, 380, 420, 400],
+  delivery: [400, 420, 380, 400],
+  digital: [420, 400, 440, 420],
+  travel: [420, 440, 400, 420],
+  airline: [440, 420, 460, 440],
+  hotel: [420, 440, 400, 460],
+  rental: [420, 400, 440, 420],
 };
 
 const RECEIPT_TITLE: Record<ReceiptProfile, string> = {
@@ -600,7 +636,6 @@ export function presetDoc(id: PresetId): ReceiptDoc {
  */
 export function docFromReceiptData(data: ReceiptData): ReceiptDoc {
   const variant: LayoutVariant = data.layoutVariant ?? "classic";
-  const font: FontFamily = data.fontFamily ?? VARIANT_FONT[variant];
   const rule: RuleStyle = data.ruleStyle ?? VARIANT_RULE[variant];
   const profile: ReceiptProfile = data.receiptProfile ?? "retail";
   const isService = SERVICE_PROFILES.includes(profile);
@@ -760,13 +795,54 @@ export function docFromReceiptData(data: ReceiptData): ReceiptDoc {
     );
   }
 
+  // Derive the visual settings from the layout seed so every template, brand
+  // and example gets its own font / width / typography combination while
+  // staying plausible for its category. Seed 0 (blank/AI docs) reproduces the
+  // historical defaults exactly.
+  const font: FontFamily =
+    data.fontFamily ??
+    (isService
+      ? SERVICE_FONT_POOL[seed % SERVICE_FONT_POOL.length]
+      : VARIANT_FONT_POOL[variant][seed % VARIANT_FONT_POOL[variant].length]);
+  const widthPx = WIDTH_POOL[profile]?.[seed % 4] ?? 380;
+  const fontScale: FontScale | undefined =
+    variant === "compact" || profile === "grocery" || profile === "warehouse" ? "small" : undefined;
+  const lineSpacing: LineSpacing | undefined =
+    variant === "compact" || variant === "pos"
+      ? "compact"
+      : variant === "elegant"
+        ? "airy"
+        : seed % 5 === 3
+          ? "compact"
+          : undefined;
+  const letterSpacing: LetterSpacingPreset | undefined =
+    variant === "elegant" || profile === "fashion"
+      ? "wide"
+      : variant === "compact"
+        ? "tight"
+        : undefined;
+  const weight: TextWeight | undefined =
+    !isService && variant === "pos" && seed % 3 === 1 ? "medium" : undefined;
+  const paper: PaperFinish | undefined = isService
+    ? undefined
+    : variant === "elegant"
+      ? "clean"
+      : variant === "modern" && seed % 2 === 1
+        ? "clean"
+        : undefined;
+
   return {
     settings: {
-      font: isService ? "sans" : font,
-      widthPx: 380,
+      font,
+      widthPx,
       accent: data.brandAccent ?? "#4f46e5",
       currency: data.currency,
       style: isService ? "card" : "paper",
+      ...(fontScale && { fontScale }),
+      ...(lineSpacing && { lineSpacing }),
+      ...(letterSpacing && { letterSpacing }),
+      ...(weight && { weight }),
+      ...(paper && { paper }),
     },
     sections,
   };
