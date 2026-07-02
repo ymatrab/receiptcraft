@@ -49,6 +49,7 @@ export const analytics = {
   upgradeClick: (location: string) => track("upgrade_click", { location }),
   signIn: (method: string) => track("login", { method }),
   signUp: (method: string) => track("sign_up", { method }),
+  newsletterSignup: (source: string) => track("newsletter_signup", { source }),
   scrollDepth: (percent: number) => track("scroll_depth", { percent }),
 
   // ---- builder funnel: where users engage vs. drop off ----

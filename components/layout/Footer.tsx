@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { SITE } from "@/lib/site";
 import { TEMPLATES } from "@/lib/templates";
+import NewsletterSignup from "@/components/NewsletterSignup";
 import Wordmark from "./Wordmark";
 
 export default function Footer() {
@@ -16,8 +17,8 @@ export default function Footer() {
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-slate-500">
               The fastest free receipt maker online. Create, customize and
-              download professional receipts as PDF or PNG — no sign-up, no
-              watermark.
+              download professional receipts as PDF or PNG — free, no sign-up
+              needed.
             </p>
           </div>
 
@@ -100,7 +101,14 @@ export default function Footer() {
           </nav>
         </div>
 
-        <div className="mt-12 border-t border-slate-200 pt-8">
+        <div className="mt-12 border-t border-slate-200 pt-10">
+          <div className="max-w-md">
+            <h3 className="text-sm font-semibold text-slate-900">Stay in the loop</h3>
+            <NewsletterSignup source="footer" className="mt-3" />
+          </div>
+        </div>
+
+        <div className="mt-10 border-t border-slate-200 pt-8">
           <p className="text-xs leading-relaxed text-slate-400">
             © {new Date().getFullYear()} {SITE.name}. All rights reserved.
             Receipts created with this tool are intended for legitimate
