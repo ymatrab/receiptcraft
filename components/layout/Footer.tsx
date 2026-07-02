@@ -97,6 +97,11 @@ export default function Footer() {
                   Terms of Use
                 </Link>
               </li>
+              <li>
+                <Link href="/cookies" className="text-sm text-slate-500 transition-colors hover:text-indigo-600">
+                  Cookie Policy
+                </Link>
+              </li>
             </ul>
           </nav>
         </div>

@@ -15,7 +15,7 @@ export default function TermsPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
       <h1 className="text-4xl font-bold tracking-tight text-slate-900">Terms of Use</h1>
-      <p className="mt-3 text-sm text-slate-500">Last updated: June 18, 2026</p>
+      <p className="mt-3 text-sm text-slate-500">Last updated: July 2, 2026</p>
 
       <div className="mt-8 space-y-5 leading-relaxed text-slate-600">
         <H2>1. The service</H2>
@@ -86,27 +86,45 @@ export default function TermsPage() {
           terminate accounts that violate these terms.
         </p>
 
-        <H2>8. No warranty</H2>
+        <H2>8. Brand templates &amp; trademarks</H2>
+        <p>
+          Some templates and example pages reproduce the general visual style of receipts from
+          well-known brands. These are <strong>design templates and illustrative examples
+          only</strong>. Brand names and logos shown are trademarks of their respective owners;{" "}
+          {SITE.name} is not affiliated with, sponsored by, or endorsed by any of those brands.
+          A document you create from a brand-styled template is not a genuine receipt issued by
+          that brand and must never be presented as one.
+        </p>
+        <p>
+          {SITE.name} is a document-design tool. You alone decide what you create with it and how
+          you use the result. To the maximum extent permitted by law, we are not responsible for
+          documents users create — including fake or fraudulent receipts, misuse of brand-styled
+          templates, or any harm caused by presenting a generated document as a record of a
+          transaction that did not occur. Such use is prohibited under section 7, and we cooperate
+          with lawful requests from authorities investigating fraud.
+        </p>
+
+        <H2>9. No warranty</H2>
         <p>
           The service is provided &ldquo;as is&rdquo;, without warranties of any kind. We do not guarantee
           uninterrupted availability, the accuracy of AI output, or that generated documents
           satisfy the requirements of any particular institution.
         </p>
 
-        <H2>9. Limitation of liability</H2>
+        <H2>10. Limitation of liability</H2>
         <p>
           To the maximum extent permitted by law, {SITE.name} and its operators are not liable for
           any indirect, incidental or consequential damages, and our total liability for any claim
           relating to the service will not exceed the amount you paid us in the 12 months before the claim.
         </p>
 
-        <H2>10. Changes</H2>
+        <H2>11. Changes</H2>
         <p>
           We may update the service or these terms from time to time. Material changes will be
           reflected by the &ldquo;last updated&rdquo; date above; continued use after changes means you accept them.
         </p>
 
-        <H2>11. Contact</H2>
+        <H2>12. Contact</H2>
         <p>
           Questions about these terms? Contact{" "}
           <a href={`mailto:${SITE.email}`} className="text-indigo-600 underline">{SITE.email}</a>.

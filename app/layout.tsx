@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import Script from "next/script";
+import { Analytics } from "@vercel/analytics/next";
 import { fontVariables } from "./fonts";
 import "./globals.css";
 import { SITE } from "@/lib/site";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import ChatWidget from "@/components/chat/ChatWidget";
+import ConsentGate from "@/components/analytics/ConsentGate";
 import ScrollDepthTracker from "@/components/analytics/ScrollDepthTracker";
 
 export const metadata: Metadata = {
@@ -90,29 +91,10 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteJsonLd) }}
         />
-        {SITE.gaId ? (
-          <>
-            <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${SITE.gaId}`}
-              strategy="afterInteractive"
-            />
-            <Script id="ga-init" strategy="afterInteractive">
-              {`window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', '${SITE.gaId}');`}
-            </Script>
-          </>
-        ) : null}
-        {SITE.clarityId ? (
-          <Script id="clarity-init" strategy="afterInteractive">
-            {`(function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "${SITE.clarityId}");`}
-          </Script>
-        ) : null}
+        {/* GA4 + Clarity set cookies, so they load behind the consent banner.
+            Vercel Analytics is cookieless and can always run. */}
+        <ConsentGate />
+        <Analytics />
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />

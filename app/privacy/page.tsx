@@ -15,7 +15,7 @@ export default function PrivacyPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
       <h1 className="text-4xl font-bold tracking-tight text-slate-900">Privacy Policy</h1>
-      <p className="mt-3 text-sm text-slate-500">Last updated: June 18, 2026</p>
+      <p className="mt-3 text-sm text-slate-500">Last updated: July 2, 2026</p>
 
       <div className="mt-8 space-y-5 leading-relaxed text-slate-600">
         <H2>The short version</H2>
@@ -63,15 +63,21 @@ export default function PrivacyPage() {
 
         <H2>Cookies &amp; local storage</H2>
         <p>
-          We use strictly functional cookies and storage — to keep you signed in, to enforce free
-          AI-generation limits, and to remember interface preferences. We do not use advertising or
-          cross-site tracking cookies.
+          Essential cookies and storage — keeping you signed in, enforcing free AI-generation
+          limits, and autosaving drafts in your own browser — are always on. Analytics cookies
+          (Google Analytics, Microsoft Clarity) load <strong>only if you accept them</strong> in
+          the cookie banner. We do not use advertising or cross-site tracking cookies. The full
+          list is on our{" "}
+          <a href="/cookies" className="text-indigo-600 underline">Cookie Policy</a> page.
         </p>
 
         <H2>Analytics</H2>
         <p>
-          We may use privacy-respecting, aggregate analytics to understand which features are popular
-          and improve the product. This is not linked to your receipt contents.
+          With your consent, we use Google Analytics and Microsoft Clarity to understand which
+          features are popular and where the interface can improve. We also use Vercel Analytics,
+          which is cookieless and only counts page views in aggregate. None of this is linked to
+          your receipt contents. If you subscribe to our newsletter, we store your email address
+          to send you product updates; every email includes an unsubscribe option.
         </p>
 
         <H2>Service providers</H2>
