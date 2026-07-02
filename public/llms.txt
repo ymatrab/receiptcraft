@@ -1,15 +1,18 @@
 # Makecepeit
 
-> Makecepeit is a free online receipt maker. Users create professional receipts with a live preview and download them as PDF or PNG — free to use with no sign-up. An optional Pro plan removes the watermark and unlocks unlimited AI generation and saved history. All receipt data is processed entirely in the browser and never stored on a server.
+> Makecepeit is a free online receipt maker. Users create professional receipts with a live preview and download them as PDF or PNG — free to use with no sign-up. An optional Pro plan removes the watermark and unlocks unlimited AI generation and saved history. Manual receipt building is processed entirely in the browser; only the optional AI generator and account saving send data to a server.
 
-Makecepeit offers 100+ receipt templates and brand-style layouts pre-filled with realistic items and tax rates: grocery store, restaurant, coffee shop, gas station, taxi & rideshare, hotel, retail store, pharmacy, bar & pub, salon & spa, auto repair, and parking. An AI receipt generator turns a plain-English description into a complete receipt. Each receipt supports custom business details, unlimited line items, tax (any label and rate, e.g. Sales Tax, VAT, GST), discounts, tips, six payment methods, 10 currencies (USD, EUR, GBP, CAD, AUD, INR, JPY, AED, SAR, MAD), three visual styles (thermal, modern, minimal), and an optional barcode.
+Makecepeit offers 40+ receipt templates and 350+ brand-style layouts pre-filled with realistic items and tax rates: grocery store, restaurant, coffee shop, gas station, taxi & rideshare, hotel, retail store, pharmacy, bar & pub, salon & spa, auto repair, and parking. An AI receipt generator turns a plain-English description into a complete receipt. Each receipt supports custom business details, unlimited line items, tax (any label and rate, e.g. Sales Tax, VAT, GST), discounts, tips, split payments, 10 currencies (USD, EUR, GBP, CAD, AUD, INR, JPY, AED, SAR, MAD), four paper styles (thermal, clean white, invoice, digital email), and optional barcode and QR sections.
 
 Typical legitimate uses: replacing lost or faded receipts for real purchases, expense report documentation, small-business receipt issuing, bookkeeping records, and design or film props. Creating receipts to defraud is illegal and against the terms of use.
 
 ## Main pages
 
 - [Receipt Builder](/create): Interactive receipt editor with live preview and PDF/PNG download
-- [All Templates](/templates): Browse all 12+ receipt template categories
+- [All Templates](/templates): Browse all 40+ receipt template categories
+- [Brand Receipts](/brands): 350+ brand-style receipt layouts
+- [Receipt Examples](/examples): Real-world receipt examples by industry
+- [Receipt Help](/receipt-help): Guides for common receipt situations
 - [Grocery Store Receipt Generator](/templates/grocery-store): Itemized supermarket receipts
 - [Restaurant Receipt Generator](/templates/restaurant): Itemized bills with tax and tip
 - [Gas Station Receipt Generator](/templates/gas-station): Fuel receipts with gallons and price per gallon
@@ -18,8 +21,8 @@ Typical legitimate uses: replacing lost or faded receipts for real purchases, ex
 
 ## Key facts
 
-- Price: free to use (downloads include a small watermark); Pro plan removes the watermark with monthly and yearly options
+- Price: free to use (downloads include a small watermark); Pro plan removes the watermark with weekly, monthly and yearly options
 - Account: none required for the free builder; an account is only needed to go Pro and save receipts
-- Privacy: receipt data is processed client-side in the browser and never uploaded
+- Privacy: manual receipt building is client-side in the browser; only the optional AI generator and account saving send data
 - Output: PDF document or 3x-resolution PNG image
 - Time to create a receipt: under one minute using a template

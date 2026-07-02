@@ -12,7 +12,7 @@ export const HOMEPAGE_FAQS: Faq[] = [
   {
     question: "Do I need to create an account to make a receipt?",
     answer:
-      "No. You can create and download receipts instantly without signing up, entering an email address or providing any personal information. Your receipt data is processed entirely in your browser and never uploaded to our servers.",
+      "No. You can create and download receipts instantly without signing up, entering an email address or providing any personal information. An account is only needed if you upgrade to Pro or want to save receipts for later.",
   },
   {
     question: "What file formats can I download my receipt in?",
@@ -42,6 +42,6 @@ export const HOMEPAGE_FAQS: Faq[] = [
   {
     question: "Is my data stored anywhere?",
     answer:
-      "No. The receipt builder runs entirely in your browser. The details you type — business names, items, prices — are never sent to or stored on our servers, and they disappear when you close the page.",
+      "Not unless you ask for it. The receipt builder runs in your browser, so the details you type — business names, items, prices — stay on your device. Data only reaches our servers if you use the optional AI generator (your short description) or choose to save a receipt to your account.",
   },
 ];

@@ -20,7 +20,8 @@ export default function AboutPage() {
           it should be <strong className="text-slate-900">fast</strong> (a finished receipt in under a
           minute), <strong className="text-slate-900">honest</strong> (free to use with no sign-up; an
           optional Pro plan removes the watermark — no trial walls or surprise paywalls), and{" "}
-          <strong className="text-slate-900">private</strong> (your receipt data never leaves your browser).
+          <strong className="text-slate-900">private</strong> (the builder runs in your browser, so
+          your receipt data stays on your device).
         </p>
         <p>
           Receipts go missing. Thermal paper fades in months. Pump printers run
@@ -32,11 +33,13 @@ export default function AboutPage() {
         </p>
         <h2 className="pt-4 text-2xl font-bold text-slate-900">How it works</h2>
         <p>
-          The entire receipt builder runs in your browser. When you type a
-          business name, add items or set a tax rate, nothing is transmitted to
-          a server — the live preview and the PDF/PNG export are generated
-          locally on your device. We could not read your receipts even if we
-          wanted to.
+          The receipt builder runs in your browser. When you type a business
+          name, add items or set a tax rate, nothing is transmitted to a
+          server — the live preview and the PDF/PNG export are generated
+          locally on your device. The only exceptions are features you opt
+          into: the AI generator sends your short description to produce a
+          receipt, and saving a receipt to your account stores it so you can
+          reopen it later.
         </p>
         <h2 className="pt-4 text-2xl font-bold text-slate-900">Responsible use</h2>
         <p>
@@ -46,6 +49,18 @@ export default function AboutPage() {
           to claim reimbursements for purchases that never happened, to evade
           taxes, or to deceive anyone is fraud and is illegal. You are
           responsible for how you use the documents you create.
+        </p>
+        <h2 className="pt-4 text-2xl font-bold text-slate-900">Who&apos;s behind {SITE.name}</h2>
+        <p>
+          {SITE.name} is built and maintained by a small independent team that
+          got tired of receipt tools hiding basic features behind sign-up walls.
+          We ship improvements weekly, answer support ourselves via the in-app
+          chat, and you can always reach us at{" "}
+          <a href={`mailto:${SITE.email}`} className="font-medium text-indigo-600 hover:underline">
+            {SITE.email}
+          </a>
+          . If something looks wrong or a template is missing, tell us — most
+          template requests ship within days.
         </p>
       </div>
 

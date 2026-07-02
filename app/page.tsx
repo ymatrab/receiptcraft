@@ -52,15 +52,15 @@ const FEATURES = [
   },
   {
     icon: "🎨",
-    title: "3 receipt styles",
+    title: "4 paper styles",
     description:
-      "Classic thermal paper, clean modern, or minimal — switch styles with one click to match any business.",
+      "Thermal paper, clean white, invoice or digital email look — switch styles with one click to match any business.",
   },
   {
     icon: "🔒",
-    title: "100% private",
+    title: "Private by design",
     description:
-      "Everything runs in your browser. Your receipt data never touches our servers and is never stored.",
+      "The builder runs in your browser, so what you type stays on your device. Only the optional AI generator and account saving send data.",
   },
   {
     icon: "🌍",
@@ -80,7 +80,7 @@ const STEPS = [
   {
     title: "Pick a template",
     description:
-      "Choose from 12+ receipt templates — grocery, restaurant, gas station, taxi, hotel and more — each pre-filled with realistic details.",
+      "Choose from 40+ receipt templates — grocery, restaurant, gas station, taxi, hotel and more — each pre-filled with realistic details.",
   },
   {
     title: "Customize everything",
@@ -114,7 +114,7 @@ const appJsonLd = {
   description: SITE.description,
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   featureList: [
-    "12+ receipt templates",
+    "40+ receipt templates and 350+ brand-style layouts",
     "Live receipt preview",
     "PDF and PNG download",
     "Custom tax, discount and tip",
