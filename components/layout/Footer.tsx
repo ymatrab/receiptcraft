@@ -4,13 +4,25 @@ import { TEMPLATES } from "@/lib/templates";
 import NewsletterSignup from "@/components/NewsletterSignup";
 import Wordmark from "./Wordmark";
 
+// Sitewide links to the most-searched brand pages — pushes internal link
+// equity into the /brands cluster, which GSC shows queued as "Discovered –
+// currently not indexed".
+const POPULAR_BRANDS = [
+  { slug: "walmart", name: "Walmart Receipt" },
+  { slug: "starbucks", name: "Starbucks Receipt" },
+  { slug: "mcdonalds", name: "McDonald's Receipt" },
+  { slug: "uber", name: "Uber Receipt" },
+  { slug: "amazon", name: "Amazon Receipt" },
+  { slug: "target", name: "Target Receipt" },
+];
+
 export default function Footer() {
   const popularTemplates = TEMPLATES.slice(0, 6);
 
   return (
     <footer className="border-t border-slate-200 bg-slate-50">
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 gap-10 md:grid-cols-4">
+        <div className="grid grid-cols-2 gap-10 md:grid-cols-5">
           <div className="col-span-2 md:col-span-1">
             <Link href="/">
               <Wordmark />
@@ -32,6 +44,22 @@ export default function Footer() {
                     className="text-sm text-slate-500 transition-colors hover:text-indigo-600"
                   >
                     {t.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <nav aria-label="Popular brand receipts">
+            <h3 className="text-sm font-semibold text-slate-900">Brand Receipts</h3>
+            <ul className="mt-4 space-y-2.5">
+              {POPULAR_BRANDS.map((b) => (
+                <li key={b.slug}>
+                  <Link
+                    href={`/brands/${b.slug}`}
+                    className="text-sm text-slate-500 transition-colors hover:text-indigo-600"
+                  >
+                    {b.name}
                   </Link>
                 </li>
               ))}
