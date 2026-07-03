@@ -37,7 +37,7 @@ if (!token) {
 
 const category = (id, title, description) => ({
   createIfNotExists: {
-    _id: `category.${id}`,
+    _id: `category-${id}`,
     _type: "category",
     title,
     slug: { _type: "slug", current: id },
@@ -48,7 +48,7 @@ const category = (id, title, description) => ({
 const mutations = [
   {
     createIfNotExists: {
-      _id: "author.sara-artheta",
+      _id: "author-sara-artheta",
       _type: "author",
       name: "Sara Artheta",
       bio: "Founder & Editor of Makecepeit. Background in small-business bookkeeping and expense reporting; writes the receipt guides and reviews every template for realism.",
