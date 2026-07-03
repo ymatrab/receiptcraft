@@ -63,7 +63,7 @@ export default function HomeAiGenerator() {
           type="button"
           onClick={generate}
           disabled={loading || !prompt.trim()}
-          className="rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60"
+          className="shrink-0 rounded-xl bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60"
         >
           {loading ? "Generating…" : "Generate"}
         </button>
