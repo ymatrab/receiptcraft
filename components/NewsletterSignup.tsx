@@ -66,7 +66,7 @@ export default function NewsletterSignup({ source = "footer", className = "" }: 
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="you@example.com"
-          className="w-full min-w-0 flex-1 rounded-full border border-slate-300 bg-white px-4 py-2.5 text-sm focus:border-indigo-400 focus:outline-none"
+          className="w-full min-w-0 flex-1 rounded-full border border-slate-300 bg-white px-4 py-2.5 text-base focus:border-indigo-400 focus:outline-none sm:text-sm"
         />
         {/* Honeypot — hidden from real users, tempting for bots. */}
         <input

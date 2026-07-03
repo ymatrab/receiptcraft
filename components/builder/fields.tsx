@@ -3,8 +3,10 @@
 import type { RuleStyle } from "@/lib/types";
 import type { SectionAlign } from "@/lib/sections";
 
+// text-base on mobile (16px) prevents iOS Safari's auto-zoom on focus;
+// sm:text-sm restores the compact desktop density.
 export const inputClass =
-  "w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 transition-colors focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20";
+  "w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-base text-slate-900 placeholder:text-slate-400 transition-colors focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 sm:py-2 sm:text-sm";
 
 interface TextFieldProps {
   label: string;

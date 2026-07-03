@@ -158,7 +158,7 @@ export default function HomePage() {
       {/* ===== HERO ===== */}
       <section className="bg-grid relative overflow-hidden">
         <div className="pointer-events-none absolute -top-32 left-1/2 h-96 w-150 -translate-x-1/2 rounded-full bg-gradient-to-r from-indigo-200/40 to-violet-200/40 blur-3xl" />
-        <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-4 pb-20 pt-16 sm:px-6 lg:grid-cols-2 lg:gap-8 lg:px-8 lg:pb-28 lg:pt-24">
+        <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-4 pb-14 pt-10 sm:px-6 sm:pb-20 sm:pt-16 lg:grid-cols-2 lg:gap-8 lg:px-8 lg:pb-28 lg:pt-24">
           <div>
             <p className="inline-flex items-center gap-1.5 rounded-full border border-indigo-200 bg-indigo-50 px-3 py-1 text-xs font-medium text-indigo-700">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
@@ -181,13 +181,13 @@ export default function HomePage() {
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
                 href="/create"
-                className="rounded-full bg-indigo-600 px-7 py-3.5 text-base font-semibold text-white shadow-lg shadow-indigo-600/25 transition-all hover:bg-indigo-700 hover:shadow-xl hover:shadow-indigo-600/30"
+                className="w-full rounded-full bg-indigo-600 px-7 py-3.5 text-center text-base font-semibold text-white shadow-lg shadow-indigo-600/25 transition-all hover:bg-indigo-700 hover:shadow-xl hover:shadow-indigo-600/30 sm:w-auto"
               >
                 Create Your Receipt — Free
               </Link>
               <Link
                 href="/templates"
-                className="rounded-full border border-slate-300 bg-white px-7 py-3.5 text-base font-semibold text-slate-700 transition-colors hover:border-slate-400 hover:bg-slate-50"
+                className="w-full rounded-full border border-slate-300 bg-white px-7 py-3.5 text-center text-base font-semibold text-slate-700 transition-colors hover:border-slate-400 hover:bg-slate-50 sm:w-auto"
               >
                 Browse Templates
               </Link>
@@ -209,7 +209,7 @@ export default function HomePage() {
           </div>
 
           <div className="flex justify-center lg:justify-end">
-            <div className="receipt-shadow rotate-2 transition-transform duration-300 hover:rotate-0">
+            <div className="receipt-shadow origin-top scale-90 rotate-2 transition-transform duration-300 hover:rotate-0 sm:scale-100">
               <ReceiptDocPaper doc={docFromReceiptData(DEMO_RECEIPT)} />
             </div>
           </div>
@@ -217,7 +217,7 @@ export default function HomePage() {
       </section>
 
       {/* ===== TEMPLATES ===== */}
-      <section className="border-t border-slate-100 bg-slate-50/60 py-20" aria-labelledby="templates-heading">
+      <section className="border-t border-slate-100 bg-slate-50/60 py-14 sm:py-20" aria-labelledby="templates-heading">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl">
             <h2 id="templates-heading" className="text-3xl font-bold tracking-tight text-slate-900">
@@ -252,7 +252,7 @@ export default function HomePage() {
       </section>
 
       {/* ===== HOW IT WORKS ===== */}
-      <section id="how-it-works" className="py-20" aria-labelledby="how-heading">
+      <section id="how-it-works" className="py-14 sm:py-20" aria-labelledby="how-heading">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-2xl text-center">
             <h2 id="how-heading" className="text-3xl font-bold tracking-tight text-slate-900">
@@ -285,7 +285,7 @@ export default function HomePage() {
       </section>
 
       {/* ===== FEATURES ===== */}
-      <section className="border-t border-slate-100 bg-slate-50/60 py-20" aria-labelledby="features-heading">
+      <section className="border-t border-slate-100 bg-slate-50/60 py-14 sm:py-20" aria-labelledby="features-heading">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl">
             <h2 id="features-heading" className="text-3xl font-bold tracking-tight text-slate-900">
@@ -310,7 +310,7 @@ export default function HomePage() {
       </section>
 
       {/* ===== FAQ ===== */}
-      <section id="faq" className="py-20" aria-labelledby="faq-heading">
+      <section id="faq" className="py-14 sm:py-20" aria-labelledby="faq-heading">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
           <h2 id="faq-heading" className="text-center text-3xl font-bold tracking-tight text-slate-900">
             Frequently asked questions
@@ -338,7 +338,7 @@ export default function HomePage() {
       </section>
 
       {/* ===== FINAL CTA ===== */}
-      <section className="px-4 pb-20 sm:px-6 lg:px-8">
+      <section className="px-4 pb-14 sm:px-6 sm:pb-20 lg:px-8">
         <div className="relative mx-auto max-w-7xl overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-600 to-violet-700 px-6 py-16 text-center sm:py-20">
           <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
             Your receipt is 60 seconds away

@@ -499,7 +499,7 @@ export default function SectionBuilder() {
               <div key={i} className="flex items-center gap-2">
                 <input className={inputClass} defaultValue={r.label ?? ""} placeholder="Label" onChange={(e) => updateRow(s, i, { label: e.target.value })} />
                 <input className={inputClass} defaultValue={r.value} placeholder="Value" onChange={(e) => updateRow(s, i, { value: e.target.value })} />
-                <button type="button" aria-label="Remove line" onClick={() => patchSection(s.id, { rows: s.rows.filter((_, j) => j !== i) })} className="text-red-500 hover:text-red-600">✕</button>
+                <button type="button" aria-label="Remove line" onClick={() => patchSection(s.id, { rows: s.rows.filter((_, j) => j !== i) })} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-red-500 hover:bg-red-50 hover:text-red-600">✕</button>
               </div>
             ))}
             <button type="button" onClick={() => patchSection(s.id, { rows: [...s.rows, { label: "", value: "" }] })} className="w-full rounded-lg border border-dashed border-slate-300 py-2 text-sm font-medium text-slate-500 hover:border-indigo-400 hover:text-indigo-600">+ Add line</button>
@@ -513,11 +513,11 @@ export default function SectionBuilder() {
             </div>
             {s.items.map((it) => (
               <div key={it.id} className="rounded-lg border border-slate-100 bg-slate-50/50 p-2">
-                <div className="grid grid-cols-[52px_1fr_80px_28px] items-center gap-2">
+                <div className="grid grid-cols-[48px_1fr_72px_40px] items-center gap-2">
                   <input className={inputClass} type="number" defaultValue={it.quantity} onChange={(e) => updateItem(s, it.id, { quantity: parseFloat(e.target.value) || 0 })} aria-label="Qty" />
                   <input className={inputClass} defaultValue={it.name} placeholder="Item name" onChange={(e) => updateItem(s, it.id, { name: e.target.value })} aria-label="Name" />
                   <input className={inputClass} type="number" step="0.01" defaultValue={it.price} onChange={(e) => updateItem(s, it.id, { price: parseFloat(e.target.value) || 0 })} aria-label="Price" />
-                  <button type="button" aria-label="Remove item" onClick={() => patchSection(s.id, { items: s.items.filter((x) => x.id !== it.id) })} className="text-red-500 hover:text-red-600">✕</button>
+                  <button type="button" aria-label="Remove item" onClick={() => patchSection(s.id, { items: s.items.filter((x) => x.id !== it.id) })} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-red-500 hover:bg-red-50 hover:text-red-600">✕</button>
                 </div>
                 {itemDetails[it.id] && (
                   <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-3">
@@ -584,7 +584,7 @@ export default function SectionBuilder() {
                   <div key={i} className="flex items-center gap-2">
                     <input className={inputClass} defaultValue={tl.label} placeholder="Label (e.g. GST)" onChange={(e) => patchSection(s.id, { taxLines: s.taxLines!.map((x, j) => (j === i ? { ...x, label: e.target.value } : x)) })} aria-label="Tax label" />
                     <input className={`${inputClass} w-24`} type="number" step="0.01" defaultValue={tl.rate} placeholder="%" onChange={(e) => patchSection(s.id, { taxLines: s.taxLines!.map((x, j) => (j === i ? { ...x, rate: parseFloat(e.target.value) || 0 } : x)) })} aria-label="Tax rate" />
-                    <button type="button" aria-label="Remove tax line" onClick={() => patchSection(s.id, { taxLines: s.taxLines!.filter((_, j) => j !== i) })} className="text-red-500 hover:text-red-600">✕</button>
+                    <button type="button" aria-label="Remove tax line" onClick={() => patchSection(s.id, { taxLines: s.taxLines!.filter((_, j) => j !== i) })} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-red-500 hover:bg-red-50 hover:text-red-600">✕</button>
                   </div>
                 ))}
               </div>
@@ -663,7 +663,7 @@ export default function SectionBuilder() {
                 <div key={i} className="mt-2 flex items-center gap-2">
                   <input className={inputClass} defaultValue={p.method} placeholder="Method" onChange={(e) => patchSection(s.id, { splits: splits.map((x, j) => (j === i ? { ...x, method: e.target.value } : x)) })} aria-label="Split method" />
                   <input className={`${inputClass} w-28`} type="number" step="0.01" defaultValue={p.amount || ""} placeholder="Amount" onChange={(e) => patchSection(s.id, { splits: splits.map((x, j) => (j === i ? { ...x, amount: parseFloat(e.target.value) || 0 } : x)) })} aria-label="Split amount" />
-                  <button type="button" aria-label="Remove split" onClick={() => patchSection(s.id, { splits: splits.filter((_, j) => j !== i) })} className="text-red-500 hover:text-red-600">✕</button>
+                  <button type="button" aria-label="Remove split" onClick={() => patchSection(s.id, { splits: splits.filter((_, j) => j !== i) })} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-red-500 hover:bg-red-50 hover:text-red-600">✕</button>
                 </div>
               ))}
             </div>
@@ -741,7 +741,7 @@ export default function SectionBuilder() {
   }
 
   return (
-    <div className="mx-auto max-w-7xl px-4 pb-20 pt-4 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-7xl px-4 pb-32 pt-4 sm:px-6 lg:px-8 lg:pb-20">
       {/* AI generator */}
       <div className="mt-4 rounded-2xl border border-indigo-100 bg-gradient-to-br from-indigo-50 to-violet-50 p-4">
         <div className="flex items-center gap-2">
@@ -759,13 +759,13 @@ export default function SectionBuilder() {
             onChange={(e) => setAiPrompt(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && generateAi()}
             placeholder="e.g. Starbucks receipt, 2 lattes and a muffin, this morning"
-            className="flex-1 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm focus:border-indigo-400 focus:outline-none"
+            className="min-w-0 flex-1 rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-base focus:border-indigo-400 focus:outline-none sm:py-2 sm:text-sm"
           />
           <button
             type="button"
             onClick={generateAi}
             disabled={aiLoading || !aiPrompt.trim()}
-            className="rounded-lg bg-indigo-600 px-5 py-2 text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60"
+            className="rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60"
           >
             {aiLoading ? "Generating…" : "Generate"}
           </button>
@@ -830,22 +830,15 @@ export default function SectionBuilder() {
       <div className="-mx-4 overflow-x-auto px-4 pb-4 pt-3 sm:mx-0 sm:px-0">
         <div className="flex gap-2">
           {TEMPLATES.slice(0, 14).map((t) => (
-            <button key={t.slug} type="button" onClick={() => applyTemplate(t.slug)} className={`flex shrink-0 items-center gap-1.5 rounded-full border px-4 py-2 text-sm font-medium transition-colors ${activeTemplate === t.slug ? "border-indigo-600 bg-indigo-600 text-white" : "border-slate-200 bg-white text-slate-600 hover:border-indigo-300"}`}>
+            <button key={t.slug} type="button" onClick={() => applyTemplate(t.slug)} className={`flex shrink-0 items-center gap-1.5 rounded-full border px-4 py-2.5 text-sm font-medium transition-colors ${activeTemplate === t.slug ? "border-indigo-600 bg-indigo-600 text-white" : "border-slate-200 bg-white text-slate-600 hover:border-indigo-300"}`}>
               <span aria-hidden="true">{t.icon}</span>
               {t.shortName}
             </button>
           ))}
-          <Link href="/templates" className="flex shrink-0 items-center gap-1.5 rounded-full border border-dashed border-slate-300 px-4 py-2 text-sm font-medium text-slate-500 hover:border-indigo-300 hover:text-indigo-600">
+          <Link href="/templates" className="flex shrink-0 items-center gap-1.5 rounded-full border border-dashed border-slate-300 px-4 py-2.5 text-sm font-medium text-slate-500 hover:border-indigo-300 hover:text-indigo-600">
             All templates →
           </Link>
         </div>
-      </div>
-
-      {/* Mobile tabs */}
-      <div className="mb-4 grid grid-cols-2 gap-1 rounded-full bg-slate-100 p-1 lg:hidden">
-        {(["edit", "preview"] as const).map((tab) => (
-          <button key={tab} type="button" onClick={() => setMobileTab(tab)} className={`rounded-full py-2 text-sm font-semibold capitalize ${mobileTab === tab ? "bg-white text-slate-900 shadow-sm" : "text-slate-500"}`}>{tab === "edit" ? "✏️ Edit" : "🧾 Preview"}</button>
-        ))}
       </div>
 
       <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_440px]">
@@ -921,20 +914,22 @@ export default function SectionBuilder() {
                 dragIndex.current = null;
               }}
             >
-              <div className="flex items-center gap-2 border-b border-slate-100 p-4">
+              <div className="flex items-center gap-0.5 border-b border-slate-100 py-2 pl-4 pr-2 sm:gap-1 sm:p-3">
+                {/* HTML5 drag doesn't fire on touch — hide the handle on mobile,
+                    where the ↑/↓ buttons are the reorder mechanism. */}
                 <span
                   draggable
                   onDragStart={() => (dragIndex.current = i)}
-                  className="cursor-grab select-none text-slate-300"
+                  className="hidden cursor-grab select-none px-1 text-slate-300 sm:inline"
                   aria-label="Drag to reorder"
                 >
                   ⠿
                 </span>
-                <span className="flex-1 text-sm font-semibold text-slate-900">{SECTION_LABEL[s.type]}</span>
-                <button type="button" onClick={() => reorder(i, i - 1)} disabled={i === 0} className="text-slate-400 hover:text-slate-600 disabled:opacity-30" aria-label="Move up">↑</button>
-                <button type="button" onClick={() => reorder(i, i + 1)} disabled={i === doc.sections.length - 1} className="text-slate-400 hover:text-slate-600 disabled:opacity-30" aria-label="Move down">↓</button>
-                <button type="button" onClick={() => setCollapsed((c) => ({ ...c, [s.id]: !c[s.id] }))} className="text-slate-400 hover:text-slate-600" aria-label="Collapse">{collapsed[s.id] ? "▾" : "▴"}</button>
-                <button type="button" onClick={() => removeSection(s.id)} className="text-red-400 hover:text-red-600" aria-label="Remove section">✕</button>
+                <span className="min-w-0 flex-1 truncate text-sm font-semibold text-slate-900">{SECTION_LABEL[s.type]}</span>
+                <button type="button" onClick={() => reorder(i, i - 1)} disabled={i === 0} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-50 hover:text-slate-600 disabled:opacity-30" aria-label="Move up">↑</button>
+                <button type="button" onClick={() => reorder(i, i + 1)} disabled={i === doc.sections.length - 1} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-50 hover:text-slate-600 disabled:opacity-30" aria-label="Move down">↓</button>
+                <button type="button" onClick={() => setCollapsed((c) => ({ ...c, [s.id]: !c[s.id] }))} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-50 hover:text-slate-600" aria-label={collapsed[s.id] ? "Expand section" : "Collapse section"}>{collapsed[s.id] ? "▾" : "▴"}</button>
+                <button type="button" onClick={() => removeSection(s.id)} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-red-400 hover:bg-red-50 hover:text-red-600" aria-label="Remove section">✕</button>
               </div>
               {!collapsed[s.id] && (
                 <div className="space-y-4 p-4">
@@ -975,18 +970,18 @@ export default function SectionBuilder() {
                 <button type="button" onClick={() => requestExport("jpg")} disabled={!!exporting} className="rounded-full border border-slate-200 bg-white px-4 py-2.5 text-xs font-semibold text-slate-600 hover:bg-slate-50 disabled:opacity-60">{exporting === "jpg" ? "Preparing JPG…" : "Download JPG"}</button>
                 <button type="button" onClick={() => requestExport("pdf-print")} disabled={!!exporting} className="rounded-full border border-slate-200 bg-white px-4 py-2.5 text-xs font-semibold text-slate-600 hover:bg-slate-50 disabled:opacity-60" title="A4 page, centered — prints cleanly on an office printer">{exporting === "pdf-print" ? "Preparing…" : "Print-ready PDF (A4)"}</button>
               </div>
-              <div className="mt-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs font-medium text-slate-500">
+              <div className="mt-2 flex flex-wrap items-center justify-center gap-x-2 gap-y-0 text-xs font-medium text-slate-500">
                 {account.isLoggedIn && (
-                  <button type="button" onClick={saveReceipt} disabled={saveState === "saving"} className="hover:text-slate-700 disabled:opacity-60">
+                  <button type="button" onClick={saveReceipt} disabled={saveState === "saving"} className="rounded-lg px-2 py-2.5 hover:text-slate-700 disabled:opacity-60">
                     {saveState === "saving" ? "Saving…" : saveState === "saved" ? "✓ Saved to account" : "💾 Save to account"}
                   </button>
                 )}
-                <button type="button" onClick={saveAsTemplate} className="hover:text-slate-700">★ Save as template</button>
-                <button type="button" onClick={reset} className="hover:text-slate-700">↺ Reset</button>
+                <button type="button" onClick={saveAsTemplate} className="rounded-lg px-2 py-2.5 hover:text-slate-700">★ Save as template</button>
+                <button type="button" onClick={reset} className="rounded-lg px-2 py-2.5 hover:text-slate-700">↺ Reset</button>
                 <button
                   type="button"
                   onClick={() => setAutosaveOn((v) => !v)}
-                  className="hover:text-slate-700"
+                  className="rounded-lg px-2 py-2.5 hover:text-slate-700"
                   title="Autosave keeps your draft in this browser"
                 >
                   {autosaveOn ? "🟢 Autosave on" : "⚪ Autosave off"}
@@ -1010,6 +1005,36 @@ export default function SectionBuilder() {
               )}
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Mobile bottom bar: Edit/Preview switch kept in thumb reach, with the
+          live total visible while editing. Desktop uses the two-column layout. */}
+      <div
+        className="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/95 px-4 pt-2 backdrop-blur-lg lg:hidden"
+        style={{ paddingBottom: "max(0.5rem, env(safe-area-inset-bottom))" }}
+      >
+        <div className="mx-auto grid max-w-md grid-cols-2 gap-1 rounded-full bg-slate-100 p-1">
+          <button
+            type="button"
+            onClick={() => {
+              setMobileTab("edit");
+              window.scrollTo({ top: 0 });
+            }}
+            className={`rounded-full py-2.5 text-sm font-semibold ${mobileTab === "edit" ? "bg-white text-slate-900 shadow-sm" : "text-slate-500"}`}
+          >
+            Edit
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setMobileTab("preview");
+              window.scrollTo({ top: 0 });
+            }}
+            className={`rounded-full py-2.5 text-sm font-semibold ${mobileTab === "preview" ? "bg-white text-slate-900 shadow-sm" : "text-slate-500"}`}
+          >
+            Preview · {formatMoney(grandTotal, doc.settings.currency)}
+          </button>
         </div>
       </div>
 

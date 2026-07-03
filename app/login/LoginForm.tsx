@@ -207,7 +207,7 @@ export default function LoginForm() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="you@example.com"
-          className="w-full rounded-full border border-slate-300 px-4 py-3 text-sm focus:border-indigo-400 focus:outline-none"
+          className="w-full rounded-full border border-slate-300 px-4 py-3 text-base focus:border-indigo-400 focus:outline-none sm:text-sm"
         />
         {mode === "forgot" ? (
           <p className="px-1 text-xs text-slate-500">
@@ -223,7 +223,7 @@ export default function LoginForm() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder={mode === "signup" ? `Create a password (${MIN_PASSWORD}+ characters)` : "Password"}
-              className="w-full rounded-full border border-slate-300 px-4 py-3 pr-16 text-sm focus:border-indigo-400 focus:outline-none"
+              className="w-full rounded-full border border-slate-300 px-4 py-3 pr-16 text-base focus:border-indigo-400 focus:outline-none sm:text-sm"
             />
             <button
               type="button"

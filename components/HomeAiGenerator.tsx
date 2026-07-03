@@ -56,7 +56,7 @@ export default function HomeAiGenerator() {
           onChange={(e) => setPrompt(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && generate()}
           placeholder="Describe a receipt — e.g. 'Uber ride downtown, $18.40'"
-          className="flex-1 bg-transparent px-1 py-2 text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none"
+          className="min-w-0 flex-1 bg-transparent px-1 py-2 text-base text-slate-800 placeholder:text-slate-400 focus:outline-none sm:text-sm"
           aria-label="Describe your receipt"
         />
         <button

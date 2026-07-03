@@ -21,6 +21,31 @@
 
 html {
   scroll-behavior: smooth;
+  /* No gray flash on tap (iOS); tap feedback comes from our own styles. */
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Remove the 300ms double-tap delay and stop accidental zoom on fast taps. */
+button,
+a,
+input,
+select,
+textarea,
+[role="button"] {
+  touch-action: manipulation;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 body {
