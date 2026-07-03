@@ -1,5 +1,7 @@
 # Makecepeit
 
+Full reference with all templates, pricing, FAQs and guides: /llms-full.txt
+
 > Makecepeit is a free online receipt maker. Users create professional receipts with a live preview and download them as PDF or PNG — free to use with no sign-up. An optional Pro plan removes the watermark and unlocks unlimited AI generation and saved history. Manual receipt building is processed entirely in the browser; only the optional AI generator and account saving send data to a server.
 
 Makecepeit offers 40+ receipt templates and 350+ brand-style layouts pre-filled with realistic items and tax rates: grocery store, restaurant, coffee shop, gas station, taxi & rideshare, hotel, retail store, pharmacy, bar & pub, salon & spa, auto repair, and parking. An AI receipt generator turns a plain-English description into a complete receipt. Each receipt supports custom business details, unlimited line items, tax (any label and rate, e.g. Sales Tax, VAT, GST), discounts, tips, split payments, 10 currencies (USD, EUR, GBP, CAD, AUD, INR, JPY, AED, SAR, MAD), four paper styles (thermal, clean white, invoice, digital email), and optional barcode and QR sections.

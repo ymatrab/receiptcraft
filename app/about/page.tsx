@@ -9,9 +9,24 @@ export const metadata: Metadata = {
   alternates: { canonical: "/about" },
 };
 
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Sara Artheta",
+  jobTitle: "Founder & Editor",
+  worksFor: { "@type": "Organization", name: SITE.name, url: SITE.url },
+  url: `${SITE.url}/about`,
+  description:
+    "Founder of Makecepeit. Background in small-business bookkeeping and expense reporting; writes the receipt guides and reviews every template.",
+};
+
 export default function AboutPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+      />
       <h1 className="text-4xl font-bold tracking-tight text-slate-900">About {SITE.name}</h1>
 
       <div className="mt-8 space-y-6 leading-relaxed text-slate-600">
@@ -51,11 +66,30 @@ export default function AboutPage() {
           responsible for how you use the documents you create.
         </p>
         <h2 className="pt-4 text-2xl font-bold text-slate-900">Who&apos;s behind {SITE.name}</h2>
+        <div className="flex items-start gap-4 rounded-2xl border border-slate-200 bg-slate-50/60 p-5">
+          <span
+            aria-hidden="true"
+            className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 text-lg font-bold text-white"
+          >
+            SA
+          </span>
+          <div>
+            <p className="font-semibold text-slate-900">Sara Artheta</p>
+            <p className="text-sm text-slate-500">Founder &amp; Editor</p>
+            <p className="mt-2 text-sm leading-relaxed">
+              Sara spent years doing bookkeeping and expense reporting for small
+              businesses before building {SITE.name} — born out of one too many
+              faded thermal receipts at tax time. She writes the guides on our{" "}
+              <Link href="/blog" className="font-medium text-indigo-600 hover:underline">
+                blog
+              </Link>
+              , reviews every template for realism, and answers support herself
+              through the in-app chat.
+            </p>
+          </div>
+        </div>
         <p>
-          {SITE.name} is built and maintained by a small independent team that
-          got tired of receipt tools hiding basic features behind sign-up walls.
-          We ship improvements weekly, answer support ourselves via the in-app
-          chat, and you can always reach us at{" "}
+          We ship improvements weekly, and you can always reach us at{" "}
           <a href={`mailto:${SITE.email}`} className="font-medium text-indigo-600 hover:underline">
             {SITE.email}
           </a>

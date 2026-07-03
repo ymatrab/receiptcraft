@@ -6,11 +6,15 @@ import { EXAMPLES, EXAMPLES_TOTAL_PAGES } from "@/lib/examples";
 import { INTENT_PAGES } from "@/lib/intent-pages";
 import { getAllPosts } from "@/lib/sanity/queries";
 
+// Regenerate hourly so scheduled blog posts (publishedAt <= now()) enter the
+// sitemap automatically as they go live — no redeploy needed.
+export const revalidate = 3600;
+
 // Stable content date. Bump when the programmatic page data (templates, brands,
 // examples, intent pages, static copy) materially changes. Using `new Date()`
 // here would stamp every page as "just modified" on each deploy and train
 // crawlers to ignore <lastmod>. Blog entries override this with publishedAt.
-const CONTENT_UPDATED = new Date("2026-06-19");
+const CONTENT_UPDATED = new Date("2026-07-03");
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const lastModified = CONTENT_UPDATED;

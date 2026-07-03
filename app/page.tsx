@@ -221,7 +221,7 @@ export default function HomePage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl">
             <h2 id="templates-heading" className="text-3xl font-bold tracking-tight text-slate-900">
-              A template for every kind of receipt
+              Which receipt template do you need?
             </h2>
             <p className="mt-3 text-lg text-slate-600">
               Every template comes pre-filled with realistic items and tax rates
@@ -289,7 +289,7 @@ export default function HomePage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl">
             <h2 id="features-heading" className="text-3xl font-bold tracking-tight text-slate-900">
-              Everything you need, nothing you don&apos;t
+              What do you get with {SITE.name}?
             </h2>
             <p className="mt-3 text-lg text-slate-600">
               Built to be the fastest, cleanest way to create a professional receipt online.

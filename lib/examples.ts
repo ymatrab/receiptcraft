@@ -516,7 +516,7 @@ export function getExample(slug: string): Example | undefined {
  * Each card renders a full receipt preview (~23 KB of DOM), so we cap the page
  * size to keep the HTML payload and DOM size reasonable for Core Web Vitals.
  */
-export const EXAMPLES_PER_PAGE = 24;
+export const EXAMPLES_PER_PAGE = 12;
 export const EXAMPLES_TOTAL_PAGES = Math.max(1, Math.ceil(EXAMPLES.length / EXAMPLES_PER_PAGE));
 
 export function examplesForPage(page: number): Example[] {
