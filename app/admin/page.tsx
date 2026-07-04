@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { PLANS } from "@/lib/plans";
 
@@ -14,7 +15,7 @@ async function getStats() {
   const admin = createAdminClient();
   const thirtyDaysAgo = new Date(Date.now() - 30 * 864e5).toISOString();
 
-  const [members, newMembers, activeSubs, openChats] = await Promise.all([
+  const [members, newMembers, activeSubs, openChats, subscribers] = await Promise.all([
     admin.from("profiles").select("*", { count: "exact", head: true }),
     admin
       .from("profiles")
@@ -25,6 +26,10 @@ async function getStats() {
       .from("conversations")
       .select("*", { count: "exact", head: true })
       .eq("status", "open"),
+    admin
+      .from("newsletter_subscribers")
+      .select("*", { count: "exact", head: true })
+      .is("unsubscribed_at", null),
   ]);
 
   const subs = activeSubs.data ?? [];
@@ -36,6 +41,7 @@ async function getStats() {
     activeSubs: subs.length,
     mrr,
     openChats: openChats.count ?? 0,
+    subscribers: subscribers.count ?? 0,
   };
 }
 
@@ -71,6 +77,12 @@ export default async function AdminOverview() {
         <Stat label="Active subscriptions" value={stats.activeSubs.toLocaleString()} />
         <Stat label="Est. MRR" value={`$${stats.mrr.toFixed(0)}`} hint="Monthly recurring revenue" />
         <Stat label="Open chats" value={stats.openChats.toLocaleString()} />
+      </div>
+
+      <div className="mt-4">
+        <Link href="/admin/subscribers" className="block sm:max-w-xs">
+          <Stat label="Email subscribers" value={stats.subscribers.toLocaleString()} hint="Newsletter list · click to export" />
+        </Link>
       </div>
 
       <h2 className="mt-10 text-lg font-semibold text-slate-900">Recent activity</h2>
