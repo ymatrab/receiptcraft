@@ -65,8 +65,9 @@ export default function PrivacyPage() {
         <p>
           Essential cookies and storage — keeping you signed in, enforcing free AI-generation
           limits, and autosaving drafts in your own browser — are always on. Analytics cookies
-          (Google Analytics, Microsoft Clarity) load <strong>only if you accept them</strong> in
-          the cookie banner. We do not use advertising or cross-site tracking cookies. The full
+          are set <strong>only if you accept them</strong> in the cookie banner: until then
+          Google Analytics runs in cookieless consent mode and Microsoft Clarity does not load.
+          We do not use advertising or cross-site tracking cookies. The full
           list is on our{" "}
           <a href="/cookies" className="text-indigo-600 underline">Cookie Policy</a> page.
         </p>

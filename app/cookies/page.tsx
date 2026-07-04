@@ -96,11 +96,14 @@ export default function CookiesPage() {
 
         <H2>Analytics cookies (only with your consent)</H2>
         <p>
-          When you click <strong>Accept</strong> in the cookie banner, we load Google Analytics
-          and Microsoft Clarity to understand which features are used and where the interface
-          can improve. If you decline, these never load and no analytics cookies are set. We
-          also use Vercel Analytics, which is <strong>cookieless</strong> — it counts page views
-          in aggregate without storing anything on your device or identifying you.
+          Google Analytics runs in <strong>consent mode</strong>: until you click Accept it
+          sends only cookieless, anonymous pings — no cookies are set and you are not
+          identified. When you click <strong>Accept</strong> in the cookie banner, Google
+          Analytics switches to full measurement (setting the cookies below) and Microsoft
+          Clarity loads to collect anonymous session insights. If you decline, no analytics
+          cookies are ever set and Clarity never loads. We also use Vercel Analytics, which is{" "}
+          <strong>cookieless</strong> — it counts page views in aggregate without storing
+          anything on your device or identifying you.
         </p>
         <CookieTable rows={ANALYTICS} />
 

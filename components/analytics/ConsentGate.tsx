@@ -9,10 +9,16 @@ type Consent = "granted" | "denied" | "unset";
 const CONSENT_KEY = "rc_cookie_consent";
 
 /**
- * Cookie consent banner + analytics loader. GA4 and Microsoft Clarity set
- * cookies, so they only load after the visitor accepts; declining (or not
- * answering yet) keeps the page completely free of analytics cookies.
- * Vercel Analytics is cookieless and lives in the layout, outside this gate.
+ * Cookie consent banner + analytics loader, using Google Consent Mode v2.
+ *
+ * GA4 always loads but starts with consent DENIED: it sends cookieless,
+ * anonymous pings (no cookies are set, no user is identified), which keeps
+ * traffic visible in GA without requiring an Accept click. When the visitor
+ * accepts, consent upgrades to granted and full measurement (with cookies)
+ * begins — including retroactively on later visits via localStorage.
+ *
+ * Microsoft Clarity records sessions, so it loads only after explicit accept.
+ * Vercel Analytics is cookieless by design and lives in the layout.
  */
 export default function ConsentGate() {
   // null until we've read localStorage, so SSR/first paint renders nothing
@@ -27,37 +33,50 @@ export default function ConsentGate() {
   const decide = (value: "granted" | "denied") => {
     localStorage.setItem(CONSENT_KEY, value);
     setConsent(value);
+    if (value === "granted") {
+      window.gtag?.("consent", "update", { analytics_storage: "granted" });
+    }
   };
 
   return (
     <>
-      {consent === "granted" && (
+      {SITE.gaId ? (
         <>
-          {SITE.gaId ? (
-            <>
-              <Script
-                src={`https://www.googletagmanager.com/gtag/js?id=${SITE.gaId}`}
-                strategy="afterInteractive"
-              />
-              <Script id="ga-init" strategy="afterInteractive">
-                {`window.dataLayer = window.dataLayer || [];
+          {/* Consent default MUST be queued before config — gtag.js replays the
+              dataLayer in order, so this inline script defines the queue first. */}
+          <Script id="ga-init" strategy="afterInteractive">
+            {`window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
+gtag('consent', 'default', {
+  ad_storage: 'denied',
+  ad_user_data: 'denied',
+  ad_personalization: 'denied',
+  analytics_storage: 'denied'
+});
+try {
+  if (localStorage.getItem('${CONSENT_KEY}') === 'granted') {
+    gtag('consent', 'update', { analytics_storage: 'granted' });
+  }
+} catch (e) {}
 gtag('js', new Date());
 gtag('config', '${SITE.gaId}');`}
-              </Script>
-            </>
-          ) : null}
-          {SITE.clarityId ? (
-            <Script id="clarity-init" strategy="afterInteractive">
-              {`(function(c,l,a,r,i,t,y){
+          </Script>
+          <Script
+            src={`https://www.googletagmanager.com/gtag/js?id=${SITE.gaId}`}
+            strategy="afterInteractive"
+          />
+        </>
+      ) : null}
+
+      {consent === "granted" && SITE.clarityId ? (
+        <Script id="clarity-init" strategy="afterInteractive">
+          {`(function(c,l,a,r,i,t,y){
         c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
         t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
     })(window, document, "clarity", "script", "${SITE.clarityId}");`}
-            </Script>
-          ) : null}
-        </>
-      )}
+        </Script>
+      ) : null}
 
       {consent === "unset" && (
         <div
