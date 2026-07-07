@@ -94,6 +94,30 @@ const STEPS = [
   },
 ];
 
+// Directory listings that carry a badge on our homepage. Add a new object here
+// to display its badge — `width` is optional (omit for auto-width badges).
+const DIRECTORIES: {
+  name: string;
+  href: string;
+  badge: string;
+  width?: number;
+  height: number;
+}[] = [
+  {
+    name: "Findly.tools",
+    href: "https://findly.tools/makecepeit?utm_source=makecepeit",
+    badge: "https://findly.tools/badges/findly-tools-badge-light.svg",
+    width: 175,
+    height: 55,
+  },
+  {
+    name: "Turbo0",
+    href: "https://turbo0.com/item/makecepeit",
+    badge: "https://img.turbo0.com/badge-listed-light.svg",
+    height: 54,
+  },
+];
+
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -308,6 +332,48 @@ export default function HomePage() {
           </ul>
         </div>
       </section>
+
+      {/* ===== FEATURED ON / DIRECTORIES ===== */}
+      {DIRECTORIES.length > 0 && (
+        <section
+          className="border-t border-slate-100 py-14 sm:py-16"
+          aria-labelledby="directories-heading"
+        >
+          <div className="mx-auto max-w-5xl px-4 text-center sm:px-6 lg:px-8">
+            <h2
+              id="directories-heading"
+              className="text-sm font-semibold uppercase tracking-wide text-slate-500"
+            >
+              Featured on
+            </h2>
+            <ul className="mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-6">
+              {DIRECTORIES.map((d) => (
+                <li key={d.name}>
+                  <a
+                    href={d.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title={`${SITE.name} on ${d.name}`}
+                    className="inline-block opacity-90 transition-opacity hover:opacity-100"
+                  >
+                    {/* Third-party badges from many domains — plain img avoids
+                        whitelisting every directory in next.config. */}
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={d.badge}
+                      alt={`${SITE.name} featured on ${d.name}`}
+                      width={d.width}
+                      height={d.height}
+                      loading="lazy"
+                      style={{ height: d.height, width: d.width ?? "auto" }}
+                    />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
 
       {/* ===== FAQ ===== */}
       <section id="faq" className="py-14 sm:py-20" aria-labelledby="faq-heading">
