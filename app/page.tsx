@@ -116,6 +116,34 @@ const DIRECTORIES: {
     badge: "https://img.turbo0.com/badge-listed-light.svg",
     height: 54,
   },
+  {
+    name: "Startup Fame",
+    href: "https://startupfa.me/s/makecepeit?utm_source=www.makecepeit.com",
+    badge: "https://startupfa.me/images/logo-dark.webp",
+    width: 208,
+    height: 36,
+  },
+  {
+    name: "FrogDR",
+    href: "https://frogdr.com/makecepeit.com?utm_source=makecepeit.com",
+    badge: "https://frogdr.com/makecepeit.com/badge-white.svg",
+    width: 250,
+    height: 54,
+  },
+  {
+    name: "Twelve Tools",
+    href: "https://twelve.tools",
+    badge: "https://twelve.tools/badge2-light.svg",
+    width: 200,
+    height: 54,
+  },
+  {
+    name: "Wired Business",
+    href: "https://wired.business",
+    badge: "https://wired.business/badge2-light.svg",
+    width: 200,
+    height: 54,
+  },
 ];
 
 const faqJsonLd = {
