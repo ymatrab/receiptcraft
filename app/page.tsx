@@ -367,37 +367,46 @@ export default function HomePage() {
           className="border-t border-slate-100 py-14 sm:py-16"
           aria-labelledby="directories-heading"
         >
-          <div className="mx-auto max-w-5xl px-4 text-center sm:px-6 lg:px-8">
-            <h2
-              id="directories-heading"
-              className="text-sm font-semibold uppercase tracking-wide text-slate-500"
-            >
-              Featured on
-            </h2>
-            <ul className="mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-6">
-              {DIRECTORIES.map((d) => (
-                <li key={d.name}>
-                  <a
-                    href={d.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    title={`${SITE.name} on ${d.name}`}
-                    className="inline-block opacity-90 transition-opacity hover:opacity-100"
-                  >
-                    {/* Third-party badges from many domains — plain img avoids
-                        whitelisting every directory in next.config. */}
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={d.badge}
-                      alt={`${SITE.name} featured on ${d.name}`}
-                      width={d.width}
-                      height={d.height}
-                      loading="lazy"
-                      style={{ height: d.height, width: d.width ?? "auto" }}
-                    />
-                  </a>
-                </li>
-              ))}
+          <h2
+            id="directories-heading"
+            className="text-center text-sm font-semibold uppercase tracking-wide text-slate-500"
+          >
+            Featured on
+          </h2>
+          {/* Single auto-scrolling row. The list is rendered twice so the
+              animation can loop seamlessly; the second copy is decorative
+              (hidden from assistive tech). Pauses on hover; wraps statically
+              under prefers-reduced-motion. */}
+          <div className="marquee mt-8">
+            <ul className="marquee-track">
+              {[...DIRECTORIES, ...DIRECTORIES].map((d, i) => {
+                const dup = i >= DIRECTORIES.length;
+                return (
+                  <li key={`${d.name}-${i}`} className={`marquee-item ${dup ? "marquee-dup" : ""}`}>
+                    <a
+                      href={d.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      title={`${SITE.name} on ${d.name}`}
+                      aria-hidden={dup || undefined}
+                      tabIndex={dup ? -1 : undefined}
+                      className="inline-block opacity-90 transition-opacity hover:opacity-100"
+                    >
+                      {/* Third-party badges from many domains — plain img avoids
+                          whitelisting every directory in next.config. */}
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={d.badge}
+                        alt={`${SITE.name} featured on ${d.name}`}
+                        width={d.width}
+                        height={d.height}
+                        loading="lazy"
+                        style={{ height: d.height, width: d.width ?? "auto", maxWidth: "none" }}
+                      />
+                    </a>
+                  </li>
+                );
+              })}
             </ul>
           </div>
         </section>

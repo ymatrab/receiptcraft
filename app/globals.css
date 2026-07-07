@@ -48,6 +48,54 @@ textarea,
   }
 }
 
+/* ---- Directory badge marquee (single auto-scrolling row) ---- */
+.marquee {
+  overflow: hidden;
+  /* Fade badges in/out at the left/right edges. */
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  align-items: center;
+  /* The track holds two identical copies; shifting by 50% loops seamlessly.
+     Each item owns its trailing gap via margin so both halves are equal width. */
+  animation: marquee-scroll 34s linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+.marquee-item {
+  flex: none;
+  margin-right: 3rem;
+}
+@keyframes marquee-scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+/* Reduced motion: don't scroll — wrap all badges and drop the duplicate set. */
+@media (prefers-reduced-motion: reduce) {
+  .marquee {
+    overflow: visible;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .marquee-track {
+    flex-wrap: wrap;
+    justify-content: center;
+    width: auto;
+    gap: 1.5rem 2rem;
+  }
+  .marquee-item {
+    margin-right: 0;
+  }
+  .marquee-dup {
+    display: none;
+  }
+}
+
 body {
   @apply bg-white text-slate-900 antialiased;
 }
