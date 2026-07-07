@@ -80,9 +80,13 @@ Invoice Simple · Receipt Maker apps · Expensify receipt tools · InvoiceMaker 
 
 ## Assets
 
-- **Logo:** https://www.makecepeit.com/icon.svg (SVG). Many directories require
-  PNG — export the SVG to a 512×512 PNG before uploading. *(Ask me to generate a
-  PNG logo if you need one.)*
+- **Logo PNG (512×512, transparent):** https://www.makecepeit.com/logo.png ·
+  local: `public/logo.png`
+- **Logo PNG (1024×1024, transparent, high-res):** https://www.makecepeit.com/logo-1024.png ·
+  local: `public/logo-1024.png`
+- **Logo PNG (512×512, white background):** https://www.makecepeit.com/logo-white.png —
+  use where transparency isn't supported.
+- **Logo SVG (vector):** https://www.makecepeit.com/icon.svg
 - **Social / preview image (1200×630):** https://www.makecepeit.com/opengraph-image
 - **Screenshot:** capture the homepage or the /create builder.
 
