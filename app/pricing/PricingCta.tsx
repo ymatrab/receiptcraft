@@ -46,8 +46,12 @@ export default function PricingCta({ planId, paymentLink, label, className }: Pr
     if (url.hostname.includes("stripe.com")) {
       url.searchParams.set("client_reference_id", account.userId!);
     } else {
-      // Manual flow: the buyer must pay with the same email they signed in with
-      // so we can match the order to their account and activate Pro.
+      // Manual flow: orders are matched to accounts by email, so prefill the
+      // buyer's account email at checkout (Shopify cart permalinks support
+      // checkout[email]) and remind them not to change it.
+      if (account.email) {
+        url.searchParams.set("checkout[email]", account.email);
+      }
       const ok = window.confirm(
         `Please use the same email you're signed in with at checkout` +
           `${account.email ? ` — ${account.email}` : ""} — so we can activate your Pro account.\n\nContinue to checkout?`
