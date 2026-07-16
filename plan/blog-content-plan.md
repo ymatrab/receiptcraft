@@ -1,4 +1,11 @@
-# Blog Content Plan — 120 Articles, Question/How-To First
+# Blog Content Plan — 140 Articles, Question/How-To First
+
+> **July 2026 revision (2026-07-09):** plan expanded from 120 → 140 posts and the whole
+> calendar compressed into July. 8 hubs live (Jul 3). Remaining 132 all scheduled Jul 10–31:
+> **82 spokes** (Jul 10–23, ~6/day — 10 low-value spokes cut: A10, A12, B11, C12, D14, E11,
+> G8, G9, G11, H9), **30 Reddit-target answer posts** (new Cluster R below — "reddit" in
+> title, slug and body to capture "<topic> reddit" searches; 1/day Jul 10–23, 2/day Jul
+> 24–31), **20 quick answers** (2–3/day Jul 24–31). Spoke dates: original Day N → July (N+8).
 
 **Optimized for AI citation (AEO/GEO):** every title is a question or a how-to — the two
 formats ChatGPT, Perplexity and Google AI Overviews cite most, because they map 1:1 onto
@@ -188,6 +195,46 @@ Anti-fraud/awareness angle — protects the domain's E-E-A-T in a sensitive nich
 | H9 | 13 | Why Do Cashiers Ask If You Want Your Receipt? | why-stores-ask-receipt |
 | H10 | 14 | Is BPA in Receipt Paper Dangerous? What the Research Says | bpa-receipt-paper |
 | H11 | 15 | Can Stores Legally Check Your Receipt at the Exit? | store-receipt-checks-rights |
+
+## Cluster R — Reddit-Target Answers (30 posts, Jul 10–31)
+
+People append "reddit" to searches to get honest answers; almost no receipt site targets
+those queries. Each post reads the top Reddit threads on the topic, states the consensus,
+then verifies or corrects it against official sources (IRS, store policy, law). "Reddit"
+appears in the H1, slug, and naturally throughout the body. 800–1,100 words, 3–4 FAQs.
+
+| # | Date | Title | Slug | Category |
+|---|---|---|---|---|
+| R1 | Jul 10 | What's the Best Receipt Maker? Reddit's Recommendations, Reviewed | best-receipt-maker-reddit | how-to |
+| R2 | Jul 11 | What's the Best Receipt Scanning App According to Reddit? | best-receipt-scanning-app-reddit | digital |
+| R3 | Jul 12 | How Long Should You Keep Receipts? Reddit vs. Accountants | how-long-to-keep-receipts-reddit | taxes |
+| R4 | Jul 13 | Lost a Receipt? The Best Advice From Reddit, Verified | lost-receipt-advice-reddit | lost-receipts |
+| R5 | Jul 14 | Can You Return Something Without a Receipt? What Reddit Says Works | return-without-receipt-reddit | lost-receipts |
+| R6 | Jul 15 | How Do People on Reddit Organize Receipts? 7 Popular Systems | organize-receipts-reddit | expenses |
+| R7 | Jul 16 | Are Receipt Generators Legal? Reddit's Debate, Answered | receipt-generator-legal-reddit | legal |
+| R8 | Jul 17 | How Do Freelancers on Reddit Handle Receipts? | freelancer-receipts-reddit | small-business |
+| R9 | Jul 18 | Does the IRS Accept Photos of Receipts? Reddit's Debate, Settled | irs-receipt-photos-reddit | taxes |
+| R10 | Jul 19 | Reddit's Best Expense Report Tips (From People Who Approve Them) | expense-report-tips-reddit | expenses |
+| R11 | Jul 20 | Walmart Receipt Lookup: What Reddit Says Actually Works | walmart-receipt-lookup-reddit | lost-receipts |
+| R12 | Jul 21 | Rent Receipts: What Landlords on Reddit Actually Do | rent-receipt-reddit | small-business |
+| R13 | Jul 22 | What's the Best Receipt Printer? Reddit's Picks | best-receipt-printer-reddit | digital |
+| R14 | Jul 23 | Should You Keep Every Receipt? Reddit vs. the IRS Rules | keep-every-receipt-reddit | taxes |
+| R15 | Jul 24 | What Reddit Says About Fake Receipts (and Why It's Not Worth It) | fake-receipt-reddit | legal |
+| R16 | Jul 24 | Are Receipt Rewards Apps Worth It? Reddit's Verdict | receipt-rewards-apps-reddit | digital |
+| R17 | Jul 25 | Getting a Costco Receipt Copy: Reddit's Shortcuts That Work | costco-receipt-copy-reddit | lost-receipts |
+| R18 | Jul 25 | How Do People on Reddit Track Mileage for Taxes? | mileage-tracking-reddit | taxes |
+| R19 | Jul 26 | Audited Without Receipts? What r/tax and the Cohan Rule Say | audit-no-receipts-reddit | taxes |
+| R20 | Jul 26 | Expensify vs. Ramp vs. Concur: What Reddit Users Actually Say | expensify-vs-ramp-reddit | expenses |
+| R21 | Jul 27 | Reddit's Favorite Ways to Digitize a Shoebox of Receipts | digitize-old-receipts-reddit | digital |
+| R22 | Jul 27 | How Do You Prove a Cash Payment? Reddit's Answers, Checked | cash-payment-proof-reddit | small-business |
+| R23 | Jul 28 | Donation Receipts: What r/tax Says You Need for a Deduction | donation-receipts-reddit | taxes |
+| R24 | Jul 28 | Do You Have to Show Your Receipt at the Door? Reddit vs. the Law | receipt-checks-at-door-reddit | legal |
+| R25 | Jul 29 | How Do Small Businesses on Reddit Issue Receipts Without a POS? | small-business-receipts-reddit | small-business |
+| R26 | Jul 29 | The Best Free Receipt Templates, According to Reddit | receipt-templates-reddit | how-to |
+| R27 | Jul 30 | Do eBay and Etsy Sellers Need to Send Receipts? Reddit's Answer | ebay-etsy-receipts-reddit | small-business |
+| R28 | Jul 30 | Why Do Receipts Fade? Reddit's Fixes for Faded Receipts | faded-receipt-fix-reddit | lost-receipts |
+| R29 | Jul 31 | Are Paper Receipts Toxic? What Reddit Says About BPA | bpa-receipts-reddit | digital |
+| R30 | Jul 31 | Uber & Lyft Receipts: Reddit's Fixes for Missing Trip Receipts | uber-lyft-receipts-reddit | lost-receipts |
 
 ## Cluster Q — Quick Answers (20 posts, Days 16–30, 1–2/day)
 

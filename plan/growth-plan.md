@@ -1,40 +1,41 @@
 # Growth Plan — ReceiptCraft / Makecepeit
 
-Living tracker for SEO/AEO content growth. Full article blueprint (120 titles,
-slugs, keywords, day-by-day calendar) lives in [blog-content-plan.md](./blog-content-plan.md).
+Living tracker for SEO/AEO content growth. Full article blueprint (140 titles,
+slugs, keywords, calendar) lives in [blog-content-plan.md](./blog-content-plan.md).
 
-## Blog rollout status
+## Blog rollout status — ✅ COMPLETE (2026-07-11)
 
 | Batch | Articles | Status |
 |---|---|---|
-| Day-1 hubs (8 clusters) | 8 | ✅ **Live** (published 2026-07-03) |
-| Spokes (Days 2–15) | 92 | ⏳ designed, not written |
-| Quick answers (Days 16–30) | 20 | ⏳ designed, not written |
-| **Total** | **120** | **8 / 120 done (7%)** |
+| Day-1 hubs (8 clusters) | 8 | ✅ Live (published 2026-07-03) |
+| Spokes (Clusters A–H) | 82 | ✅ Written + scheduled (Jul 12–23) |
+| Reddit-target answers (Cluster R) | 30 | ✅ Written + scheduled (Jul 10–31) |
+| Quick answers (Cluster Q) | 20 | ✅ Written + scheduled (Jul 24–31) |
+| **Total** | **140** | **140 / 140 done (100%)** |
 
-Nothing is currently scheduled in Sanity — only the 8 hubs exist. The pipeline
-is proven and automated: writing a batch + loading it into Sanity with future
-`publishedAt` dates makes posts drip out and enter the sitemap automatically.
+All 140 posts are live in Sanity as of 2026-07-11; the 132 non-hub posts carry
+future `publishedAt` dates (Jul 12–31) so they auto-drip into the site and
+sitemap (~6–8/day). Sanity verified: 140 posts, 132 future-dated. Plan expanded
+from 120 → 140: added **Cluster R (30 Reddit-target posts** — "reddit" in title,
+slug, body to capture "<topic> reddit" searches), and cut 10 low-value spokes
+(A10, A12, B11, C12, D14, E11, G8, G9, G11, H9).
 
-## ▶ NEXT ACTION — week of 2026-07-13
+## ▶ NEXT ACTION — monitoring (after 2026-07-31)
 
-**Write and schedule the remaining 112 blog articles**, starting the week of
-July 13, 2026. Batches, in priority order:
+Writing is done. Now:
+1. **Internal-link QA** once all posts are live; resubmit sitemap in GSC.
+2. **Watch GSC Coverage** — if "Crawled – not indexed" grows on blog URLs, the
+   drip was too fast; otherwise request indexing on the 8 hubs + Cluster F.
+3. **Add 8 hub URLs to `llms.txt`** under a "Guides" section.
+4. **Refresh hubs every 60–90 days** (stats/facts; `_updatedAt` drives schema).
 
-1. **Cluster F — "How to Make X Receipt" (14 spokes)** first — highest
-   commercial intent, each deep-links a `/templates/*` page and `/create`.
-2. Then the remaining spokes (Clusters A–E, G, H) per the plan calendar.
-3. Then the 20 quick-answer posts (Cluster Q).
-
-### How to execute (pipeline is ready)
-- Author + 8 categories already seeded in Sanity.
-- Write articles as source files in `scripts/posts/` (follow the
-  `day1-hubs-*.mjs` shape + the AI-citation formula in blog-content-plan.md:
-  answer-first opening, question H2s, numbered how-to steps, 4 FAQs each,
-  cross-links).
-- `node scripts/publish-posts.mjs --dry` to validate, then without `--dry` to
-  publish. Stagger `publishedAt` dates (~7/day) so it looks editorial, not bulk.
-- Requires `SANITY_API_WRITE_TOKEN` in `.env.local` (already set locally).
+### Pipeline (for future batches / edits)
+- `scripts/publish-posts.mjs` now auto-globs every `scripts/posts/*.mjs`,
+  dedupes slugs, validates fields, chunks mutations by 20. Files:
+  `spokes-{a..h}{1..5}.mjs`, `reddit-{1..10}.mjs`, `quick-{1..4}.mjs`.
+- `node scripts/publish-posts.mjs --dry` validates; without `--dry` publishes
+  (createOrReplace, stable `post-<slug>` ids, idempotent).
+- Requires `SANITY_API_WRITE_TOKEN` in `.env.local` (set).
 
 ## Other growth backlog (not scheduled)
 
