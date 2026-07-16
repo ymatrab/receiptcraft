@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 import type {
   FontFamily,
   FontScale,
@@ -22,6 +23,7 @@ import {
   blankDoc,
   docFromReceiptData,
   itemsTotals,
+  newDocId,
   newSection,
   presetDoc,
   PRESETS,
@@ -46,6 +48,7 @@ import type { AiReceiptResult } from "@/lib/ai-receipt";
 import { downloadPng, downloadJpg, downloadPdf, exportFilename } from "@/lib/download";
 import { analytics } from "@/lib/analytics";
 import { useAccount } from "@/lib/useAccount";
+import { FREE_LIMITS } from "@/lib/plans";
 import { createClient } from "@/lib/supabase/client";
 import { supabaseConfigured } from "@/lib/supabase/config";
 import Link from "next/link";
@@ -158,14 +161,29 @@ export default function SectionBuilder() {
   const dragIndex = useRef<number | null>(null);
   const receiptRef = useRef<HTMLDivElement>(null);
   const { account } = useAccount();
-  // Free / anonymous users export with a watermark; Pro removes it.
-  const watermark = !account.isPro;
+  // Download-quota state (from /api/downloads). A logged-in free account gets
+  // FREE_LIMITS.freeReceiptDownloads clean receipts, then downloads are
+  // watermarked. Pro is always clean; anonymous users must log in to download.
+  const [dl, setDl] = useState<{ loggedIn: boolean; willWatermark: boolean; remaining: number | null }>({
+    loggedIn: false,
+    willWatermark: false,
+    remaining: FREE_LIMITS.freeReceiptDownloads,
+  });
+  // Pins the watermark during a capture so the exported image matches the
+  // claim result exactly; null means "follow the preview".
+  const [captureWatermark, setCaptureWatermark] = useState<boolean | null>(null);
+  // The preview shows the watermark only when THIS receipt would export
+  // watermarked (logged-in free user who is out of, or hasn't claimed, credits).
+  const previewWatermark = !account.isPro && account.isLoggedIn && dl.willWatermark;
+  const renderWatermark = captureWatermark ?? previewWatermark;
   const [aiPrompt, setAiPrompt] = useState("");
   const [aiLoading, setAiLoading] = useState(false);
   const [aiError, setAiError] = useState<string | null>(null);
   const [saveState, setSaveState] = useState<"idle" | "saving" | "saved">("idle");
-  // When a free user hits download, we confirm the watermark first.
+  // Shown when an out-of-credits free user downloads (watermark fallback).
   const [pendingExport, setPendingExport] = useState<ExportKind | null>(null);
+  // Shown when an anonymous user tries to download (login is required).
+  const [loginPrompt, setLoginPrompt] = useState(false);
   // Local (no-account) named templates + autosave.
   const [myTemplates, setMyTemplates] = useState<SavedTemplate[]>([]);
   const [autosaveOn, setAutosaveOn] = useState(true);
@@ -227,10 +245,40 @@ export default function SectionBuilder() {
     return () => clearTimeout(t);
   }, [doc, autosaveOn]);
 
+  // Every working receipt needs a stable id for download-quota accounting.
+  // New docs (blank, preset, template, AI) arrive without one; assign lazily.
+  useEffect(() => {
+    if (!doc.id) setDoc((d) => ({ ...d, id: newDocId() }));
+  }, [doc.id]);
+
+  // Fetch this receipt's download status (clean vs. watermarked + remaining
+  // credits) for the current logged-in free user, refetching when the receipt
+  // identity or account changes.
+  useEffect(() => {
+    if (account.isPro || !account.isLoggedIn || !doc.id) return;
+    let active = true;
+    fetch(`/api/downloads?receiptKey=${encodeURIComponent(doc.id)}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => {
+        if (active && s) {
+          setDl({ loggedIn: Boolean(s.loggedIn), willWatermark: Boolean(s.willWatermark), remaining: s.remaining ?? null });
+        }
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, [doc.id, account.isLoggedIn, account.isPro]);
+
   const loadReceipt = async (id: string) => {
     const supabase = createClient();
     const { data } = await supabase.from("receipts").select("data").eq("id", id).maybeSingle();
-    if (data?.data) setDoc(data.data as ReceiptDoc);
+    if (data?.data) {
+      const loaded = data.data as ReceiptDoc;
+      // Reuse the saved receipt's own id, or fall back to its DB id, so
+      // re-downloading a saved receipt reuses the same download credit.
+      setDoc({ ...loaded, id: loaded.id ?? id });
+    }
   };
 
   const saveReceipt = async () => {
@@ -393,8 +441,11 @@ export default function SectionBuilder() {
     reader.readAsDataURL(file);
   };
 
-  const handleExport = async (kind: ExportKind) => {
+  const handleExport = async (kind: ExportKind, useWatermark: boolean) => {
     if (!receiptRef.current || exporting) return;
+    // Pin the watermark to the intended state and flush so the captured DOM
+    // matches exactly (clean for free credits / Pro, watermarked otherwise).
+    flushSync(() => setCaptureWatermark(useWatermark));
     setExporting(kind);
     try {
       const header = doc.sections.find((s) => s.type === "header") as HeaderSection | undefined;
@@ -412,16 +463,58 @@ export default function SectionBuilder() {
       alert("Sorry, the export failed. Please try again.");
     } finally {
       setExporting(null);
+      setCaptureWatermark(null);
     }
   };
 
-  // Free users see a watermark-confirmation box first; Pro downloads directly.
-  const requestExport = (kind: ExportKind) => {
+  // Download flow: Pro exports clean; anonymous users are prompted to log in;
+  // logged-in free users claim a free receipt (clean while credits remain, then
+  // watermarked — counted per unique receipt so re-downloads stay free).
+  const requestExport = async (kind: ExportKind) => {
     if (exporting) return;
-    if (watermark) {
+
+    if (account.isPro) return handleExport(kind, false);
+
+    if (!account.isLoggedIn) {
+      setLoginPrompt(true);
+      return;
+    }
+
+    // Ensure the receipt has a stable id before claiming a credit against it.
+    let key = doc.id;
+    if (!key) {
+      key = newDocId();
+      setDoc((d) => ({ ...d, id: key! }));
+    }
+
+    let clean = false;
+    let remaining: number | null = dl.remaining;
+    try {
+      const res = await fetch("/api/downloads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ receiptKey: key }),
+      });
+      if (res.status === 401) {
+        setLoginPrompt(true);
+        return;
+      }
+      const data = await res.json().catch(() => ({}));
+      clean = Boolean(data.clean);
+      remaining = data.remaining ?? null;
+    } catch {
+      // Network/API failure → fail safe to watermarked (don't give away clean).
+      clean = false;
+    }
+
+    setDl((d) => ({ ...d, loggedIn: true, remaining, willWatermark: !clean }));
+
+    if (clean) {
+      handleExport(kind, false);
+    } else {
       analytics.watermarkPrompt(kind === "pdf-print" ? "pdf" : kind);
       setPendingExport(kind);
-    } else handleExport(kind);
+    }
   };
 
   const grandTotal = doc.sections.reduce(
@@ -959,7 +1052,7 @@ export default function SectionBuilder() {
               <div className="flex justify-center">
                 <div ref={receiptRef} className="relative">
                   <ReceiptDocPaper doc={doc} />
-                  {watermark && <Watermark />}
+                  {renderWatermark && <Watermark />}
                 </div>
               </div>
               <div className="mt-6 flex gap-3">
@@ -987,9 +1080,24 @@ export default function SectionBuilder() {
                   {autosaveOn ? "🟢 Autosave on" : "⚪ Autosave off"}
                 </button>
               </div>
-              {watermark ? (
+              {account.isPro ? (
+                <p className="mt-3 text-center text-[11px] leading-relaxed text-emerald-600">
+                  ✓ Pro · watermark-free HD downloads
+                </p>
+              ) : !account.isLoggedIn ? (
                 <p className="mt-3 text-center text-[11px] leading-relaxed text-slate-500">
-                  Free download · includes a small watermark ·{" "}
+                  Log in to download ·{" "}
+                  <span className="font-semibold text-slate-600">
+                    {FREE_LIMITS.freeReceiptDownloads} free HD receipts per account
+                  </span>
+                </p>
+              ) : (dl.remaining ?? 0) > 0 ? (
+                <p className="mt-3 text-center text-[11px] leading-relaxed text-emerald-600">
+                  ✓ {dl.remaining} of {FREE_LIMITS.freeReceiptDownloads} free HD receipts left
+                </p>
+              ) : (
+                <p className="mt-3 text-center text-[11px] leading-relaxed text-slate-500">
+                  Free receipts used · downloads now include a watermark ·{" "}
                   <Link
                     href="/pricing"
                     onClick={() => analytics.upgradeClick("builder_download_note")}
@@ -997,10 +1105,6 @@ export default function SectionBuilder() {
                   >
                     Upgrade to remove
                   </Link>
-                </p>
-              ) : (
-                <p className="mt-3 text-center text-[11px] leading-relaxed text-emerald-600">
-                  ✓ Pro · watermark-free HD downloads
                 </p>
               )}
             </div>
@@ -1040,7 +1144,7 @@ export default function SectionBuilder() {
 
       {showAdd && <AddSectionModal onPick={addSection} onClose={() => setShowAdd(false)} />}
 
-      {/* Watermark confirmation (free users) */}
+      {/* Watermark fallback (logged-in free user who is out of free receipts) */}
       {pendingExport && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 p-4"
@@ -1051,10 +1155,12 @@ export default function SectionBuilder() {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="text-3xl">🏷️</div>
-            <h3 className="mt-3 text-xl font-bold text-slate-900">Your download will include a watermark</h3>
+            <h3 className="mt-3 text-xl font-bold text-slate-900">
+              You&apos;ve used your {FREE_LIMITS.freeReceiptDownloads} free receipts
+            </h3>
             <p className="mt-2 text-sm leading-relaxed text-slate-600">
-              Free downloads carry a small <strong>{SITE.name}</strong> watermark. Go Pro for clean,
-              watermark-free HD receipts, unlimited AI generation and saved history.
+              This download will include a small <strong>{SITE.name}</strong> watermark. Go Pro for
+              clean, watermark-free HD receipts, unlimited AI generation and saved history.
             </p>
             <div className="mt-6 flex flex-col gap-2">
               <Link
@@ -1069,7 +1175,7 @@ export default function SectionBuilder() {
                 onClick={() => {
                   const kind = pendingExport;
                   setPendingExport(null);
-                  if (kind) handleExport(kind);
+                  if (kind) handleExport(kind, true);
                 }}
                 className="rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50"
               >
@@ -1078,6 +1184,43 @@ export default function SectionBuilder() {
               <button
                 type="button"
                 onClick={() => setPendingExport(null)}
+                className="px-5 py-2 text-xs font-medium text-slate-400 hover:text-slate-600"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Login required to download (anonymous users) */}
+      {loginPrompt && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 p-4"
+          onClick={() => setLoginPrompt(false)}
+        >
+          <div
+            className="w-full max-w-md rounded-3xl bg-white p-7 shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="text-3xl">🔐</div>
+            <h3 className="mt-3 text-xl font-bold text-slate-900">Log in to download</h3>
+            <p className="mt-2 text-sm leading-relaxed text-slate-600">
+              Create a free account to download your receipt. Every free account includes{" "}
+              <strong>{FREE_LIMITS.freeReceiptDownloads} watermark-free HD receipts</strong> — no
+              payment required. Your current draft is saved in this browser.
+            </p>
+            <div className="mt-6 flex flex-col gap-2">
+              <Link
+                href="/login?next=/create"
+                onClick={() => analytics.upgradeClick("login_to_download")}
+                className="rounded-full bg-indigo-600 px-5 py-3 text-center text-sm font-semibold text-white hover:bg-indigo-700"
+              >
+                Log in / Sign up free
+              </Link>
+              <button
+                type="button"
+                onClick={() => setLoginPrompt(false)}
                 className="px-5 py-2 text-xs font-medium text-slate-400 hover:text-slate-600"
               >
                 Cancel

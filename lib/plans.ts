@@ -33,7 +33,7 @@ export const PLANS: Record<PlanId, Plan> = {
     features: [
       "All receipt templates & brands",
       "Live preview",
-      "PDF & PNG download (with watermark)",
+      "3 free HD receipt downloads, then watermarked",
       "3 AI receipt generations per day",
     ],
   },
@@ -86,6 +86,12 @@ export const PLANS: Record<PlanId, Plan> = {
 /** Free-tier limits. Adjust here as the only place these numbers live. */
 export const FREE_LIMITS = {
   aiGenerationsPerDay: 3,
+  /**
+   * Watermark-free receipt downloads a logged-in free account gets before
+   * downloads fall back to watermarked. Counted per unique receipt (re-downloads
+   * and multiple formats of the same receipt don't consume extra credits).
+   */
+  freeReceiptDownloads: 3,
 } as const;
 
 /** A user is "Pro" when they hold any active, non-free subscription. */

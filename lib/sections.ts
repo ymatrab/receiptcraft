@@ -197,8 +197,21 @@ export const WIDTH_PRESETS: { id: string; label: string; px: number }[] = [
 ];
 
 export interface ReceiptDoc {
+  /**
+   * Stable identifier for this working receipt, used for download-quota
+   * accounting (free accounts get a fixed number of watermark-free receipts,
+   * counted per unique id). Assigned lazily by the builder; persisted through
+   * autosave and saved-receipt data so re-downloads reuse the same credit.
+   */
+  id?: string;
   settings: DocSettings;
   sections: Section[];
+}
+
+/** Generate a stable receipt id (used for download-quota accounting). */
+export function newDocId(): string {
+  if (typeof crypto !== "undefined" && "randomUUID" in crypto) return crypto.randomUUID();
+  return `r_${Date.now().toString(36)}${Math.random().toString(36).slice(2, 10)}`;
 }
 
 export const SECTION_LABEL: Record<SectionType, string> = {
