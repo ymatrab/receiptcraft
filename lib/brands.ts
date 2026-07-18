@@ -5806,7 +5806,51 @@ const NEW_BRAND_SEEDS: BrandSeed[] = [
 
 const GENERATED_BRANDS = NEW_BRAND_SEEDS.map(makeBrand);
 
-export const BRAND_TEMPLATES: ReceiptTemplate[] = [...HAND_BRANDS, ...GENERATED_BRANDS];
+// Bing Webmaster flags meta descriptions outside the ~150–160 char sweet spot.
+// Raw seoDescriptions (hand-written and generated) run from ~70 to ~200 chars,
+// so every brand passes through fitSeoDescription at assembly: short ones get
+// the follow-on sentence that lands closest to the target, and overlong
+// generated ones are rebuilt without the category noun phrase that overflows.
+const SEO_DESC_PADS: string[] = [
+  "Every line is editable.",
+  "Every item and total is editable.",
+  "Adjust items, tax and totals to match.",
+  "Edit store details, items, prices and totals.",
+  "Every item, price, date, tax and total is editable.",
+  "Customize items, prices, tax and totals in a few clicks.",
+  "Great for expense reports, records and replacing lost receipts.",
+  "Perfect for expense reports, bookkeeping and replacing lost receipts.",
+  "Every detail is editable — items, prices, date, tax, totals and store info.",
+  "Handy for expense reports, reimbursements, bookkeeping and replacing lost receipts.",
+  "Every detail is editable — store info, items, prices, date, tax and totals — in a few clicks.",
+];
+
+const DESC_MIN = 150;
+const DESC_MAX = 160;
+const DESC_TARGET = 155;
+
+function fitSeoDescription(desc: string, name: string): string {
+  if (desc.length > DESC_MAX) {
+    const article = /^[aeiou]/i.test(name) ? "an" : "a";
+    desc = `Make ${article} ${name} receipt online in seconds with editable items, prices, tax and totals. Download a print-ready PDF or PNG — free, no sign-up.`;
+  }
+  if (desc.length >= DESC_MIN) return desc;
+  let best = desc;
+  for (const pad of SEO_DESC_PADS) {
+    const padded = `${desc} ${pad}`;
+    if (
+      padded.length <= DESC_MAX &&
+      Math.abs(padded.length - DESC_TARGET) < Math.abs(best.length - DESC_TARGET)
+    ) {
+      best = padded;
+    }
+  }
+  return best;
+}
+
+export const BRAND_TEMPLATES: ReceiptTemplate[] = [...HAND_BRANDS, ...GENERATED_BRANDS].map(
+  (t) => ({ ...t, seoDescription: fitSeoDescription(t.seoDescription, t.shortName) })
+);
 
 const NEW_BRAND_CATEGORY: Record<string, BrandCategory> = {};
 for (const s of NEW_BRAND_SEEDS) NEW_BRAND_CATEGORY[s.slug] = s.category;

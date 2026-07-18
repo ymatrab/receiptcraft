@@ -5,10 +5,12 @@ import LoginForm from "./LoginForm";
 import { SITE } from "@/lib/site";
 import { getCurrentUser } from "@/lib/auth";
 
+// Indexable on purpose: downloads require an account now, so "makecepeit
+// login" is a real branded query and Bing flags the page as important.
 export const metadata: Metadata = {
   title: "Log in",
-  description: `Log in to ${SITE.name} to manage your Pro subscription, saved receipts and support.`,
-  robots: { index: false, follow: false },
+  description: `Log in to ${SITE.name} to download your receipts, manage your Pro subscription and saved templates, and get support. New here? An account takes seconds to create.`,
+  alternates: { canonical: "/login" },
 };
 
 export default async function LoginPage({
