@@ -30,9 +30,11 @@ async function getMembers() {
     if (!subByUser.has(s.user_id)) subByUser.set(s.user_id, { plan: s.plan, status: s.status });
   }
 
-  // How each user signed up (google vs email) lives in auth.users, not profiles.
-  // One page of 200 matches the profiles limit above; paginate if we ever grow.
+  // Signup method (google vs email) and email-confirmation status both live in
+  // auth.users, not profiles. One page of 200 matches the profiles limit above;
+  // paginate if we ever grow past that.
   const providerByUser = new Map<string, string>();
+  const confirmedByUser = new Map<string, boolean>();
   const { data: authList } = await admin.auth.admin.listUsers({ page: 1, perPage: 200 });
   for (const u of authList?.users ?? []) {
     const provider =
@@ -40,6 +42,9 @@ async function getMembers() {
       u.identities?.[0]?.provider ??
       "email";
     providerByUser.set(u.id, provider);
+    // email_confirmed_at is set once the verification link is clicked (and is
+    // pre-set for Google sign-ups, since Google vouches for the address).
+    confirmedByUser.set(u.id, Boolean(u.email_confirmed_at));
   }
 
   // Per-user download counts from first-party events (recorded on every
@@ -59,6 +64,7 @@ async function getMembers() {
     ...p,
     sub: subByUser.get(p.id) ?? null,
     provider: providerByUser.get(p.id) ?? null,
+    confirmed: confirmedByUser.get(p.id) ?? false,
     downloads: downloadsByUser.get(p.id) ?? 0,
   }));
 }
@@ -76,6 +82,7 @@ export default async function AdminMembers() {
           <thead className="bg-slate-50 text-left text-xs uppercase tracking-wide text-slate-500">
             <tr>
               <th className="px-4 py-3">Email</th>
+              <th className="px-4 py-3">Email status</th>
               <th className="px-4 py-3">Name</th>
               <th className="px-4 py-3">Signup</th>
               <th className="px-4 py-3">Plan</th>
@@ -96,6 +103,17 @@ export default async function AdminMembers() {
                         ADMIN
                       </span>
                     )}
+                  </td>
+                  <td className="px-4 py-3">
+                    <span
+                      className={`rounded-full px-2 py-0.5 text-xs font-medium ${
+                        m.confirmed
+                          ? "bg-emerald-100 text-emerald-700"
+                          : "bg-amber-100 text-amber-700"
+                      }`}
+                    >
+                      {m.confirmed ? "Activated" : "Pending"}
+                    </span>
                   </td>
                   <td className="px-4 py-3 text-slate-500">{m.full_name ?? "—"}</td>
                   <td className="px-4 py-3">
