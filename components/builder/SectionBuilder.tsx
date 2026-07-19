@@ -459,6 +459,19 @@ export default function SectionBuilder() {
       else if (kind === "pdf-print") await downloadPdf(receiptRef.current, filename, { printReady: true });
       else await downloadPdf(receiptRef.current, filename);
       analytics.receiptDownloaded(kind === "pdf-print" ? "pdf" : kind, activeTemplate || undefined, account.isPro);
+      // Record the download server-side for the admin per-member count. Only
+      // logged-in downloads can be attributed; fire-and-forget so it never
+      // blocks or fails the export.
+      if (account.isLoggedIn) {
+        void fetch("/api/downloads/track", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            format: kind === "pdf-print" ? "pdf" : kind,
+            watermark: useWatermark,
+          }),
+        }).catch(() => {});
+      }
     } catch {
       alert("Sorry, the export failed. Please try again.");
     } finally {

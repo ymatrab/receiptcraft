@@ -4,6 +4,13 @@ import { grantPro, revokePro } from "./actions";
 
 export const dynamic = "force-dynamic";
 
+/** Map a raw auth provider to a short human label. */
+function providerLabel(provider: string): string {
+  if (provider === "google") return "Google";
+  if (provider === "email") return "Password";
+  return provider.charAt(0).toUpperCase() + provider.slice(1);
+}
+
 async function getMembers() {
   const admin = createAdminClient();
   // Pull recent profiles and their latest subscription in two queries, then join
@@ -23,9 +30,36 @@ async function getMembers() {
     if (!subByUser.has(s.user_id)) subByUser.set(s.user_id, { plan: s.plan, status: s.status });
   }
 
+  // How each user signed up (google vs email) lives in auth.users, not profiles.
+  // One page of 200 matches the profiles limit above; paginate if we ever grow.
+  const providerByUser = new Map<string, string>();
+  const { data: authList } = await admin.auth.admin.listUsers({ page: 1, perPage: 200 });
+  for (const u of authList?.users ?? []) {
+    const provider =
+      (u.app_metadata?.provider as string | undefined) ??
+      u.identities?.[0]?.provider ??
+      "email";
+    providerByUser.set(u.id, provider);
+  }
+
+  // Per-user download counts from first-party events (recorded on every
+  // completed download by a logged-in user).
+  const downloadsByUser = new Map<string, number>();
+  const { data: dlEvents } = await admin
+    .from("events")
+    .select("user_id")
+    .eq("name", "receipt_downloaded")
+    .not("user_id", "is", null)
+    .limit(10000);
+  for (const e of dlEvents ?? []) {
+    if (e.user_id) downloadsByUser.set(e.user_id, (downloadsByUser.get(e.user_id) ?? 0) + 1);
+  }
+
   return (profiles ?? []).map((p) => ({
     ...p,
     sub: subByUser.get(p.id) ?? null,
+    provider: providerByUser.get(p.id) ?? null,
+    downloads: downloadsByUser.get(p.id) ?? 0,
   }));
 }
 
@@ -43,7 +77,9 @@ export default async function AdminMembers() {
             <tr>
               <th className="px-4 py-3">Email</th>
               <th className="px-4 py-3">Name</th>
+              <th className="px-4 py-3">Signup</th>
               <th className="px-4 py-3">Plan</th>
+              <th className="px-4 py-3">Downloads</th>
               <th className="px-4 py-3">Joined</th>
               <th className="px-4 py-3">Membership</th>
             </tr>
@@ -63,6 +99,21 @@ export default async function AdminMembers() {
                   </td>
                   <td className="px-4 py-3 text-slate-500">{m.full_name ?? "—"}</td>
                   <td className="px-4 py-3">
+                    {m.provider ? (
+                      <span
+                        className={`rounded-full px-2 py-0.5 text-xs font-medium ${
+                          m.provider === "google"
+                            ? "bg-blue-100 text-blue-700"
+                            : "bg-slate-100 text-slate-600"
+                        }`}
+                      >
+                        {providerLabel(m.provider)}
+                      </span>
+                    ) : (
+                      <span className="text-slate-400">—</span>
+                    )}
+                  </td>
+                  <td className="px-4 py-3">
                     <span
                       className={`rounded-full px-2 py-0.5 text-xs font-medium ${
                         pro ? "bg-emerald-100 text-emerald-700" : "bg-slate-100 text-slate-600"
@@ -70,6 +121,9 @@ export default async function AdminMembers() {
                     >
                       {pro ? m.sub?.plan ?? "pro" : "free"}
                     </span>
+                  </td>
+                  <td className="px-4 py-3 font-medium text-slate-600 tabular-nums">
+                    {m.downloads}
                   </td>
                   <td className="px-4 py-3 text-slate-400">
                     {new Date(m.created_at).toLocaleDateString()}
