@@ -11,6 +11,11 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
+// Prerender all template pages at build time (ISR) so they serve from the edge
+// cache instead of rendering dynamically on every request.
+export function generateStaticParams() {
+  return TEMPLATES.map((t) => ({ slug: t.slug }));
+}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
@@ -28,6 +33,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: "website",
       // Setting openGraph explicitly drops the default opengraph-image, so
       // re-add it — otherwise social previews render with no image.
+      images: [absoluteUrl("/opengraph-image")],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: template.seoTitle,
+      description: template.seoDescription,
       images: [absoluteUrl("/opengraph-image")],
     },
   };

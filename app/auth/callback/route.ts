@@ -16,7 +16,7 @@ export async function GET(request: Request) {
   const code = searchParams.get("code");
   const tokenHash = searchParams.get("token_hash");
   const type = searchParams.get("type") as EmailOtpType | null;
-  const next = searchParams.get("next") ?? "/account";
+  const next = searchParams.get("next") ?? "/create";
 
   // The OAuth provider (or Supabase) can bounce back with an explicit error —
   // surface its description on the login page instead of a generic message.

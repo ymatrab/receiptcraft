@@ -7,12 +7,12 @@ export const HOMEPAGE_FAQS: Faq[] = [
   {
     question: "Is Makecepeit free?",
     answer:
-      "Yes, Makecepeit is free to use. You get all 40+ receipt templates and 350+ brand-style layouts, unlimited line items, the live preview, the AI generator (3 generations per day) and PDF, PNG and JPG downloads without creating an account or entering an email address. Free downloads include a small Makecepeit watermark in the background of the receipt. The optional Pro plan — available weekly ($3), monthly ($7.99) or yearly ($39) — removes the watermark completely and unlocks HD exports, unlimited AI receipt generation and saved receipt history in your account. There is no trial period that expires and no feature that stops working after a number of uses: the free tier stays free, and Pro exists only for people who need clean, watermark-free documents.",
+      "Yes, Makecepeit is free to use. All 40+ receipt templates and 350+ brand-style layouts, unlimited line items, the live preview and the AI generator (3 generations per day) work with no account and no email address. Downloading a receipt uses a free account: your first 3 downloads are watermark-free HD (PDF, PNG or JPG), and after that free downloads include a small Makecepeit watermark in the background. The optional Pro plan — weekly ($3), monthly ($7.99) or yearly ($39) — removes the watermark completely and unlocks unlimited watermark-free HD exports, unlimited AI receipt generation and saved receipt history. There is no trial period that expires: the free tier stays free, and Pro exists only for people who need unlimited clean, watermark-free documents.",
   },
   {
     question: "Do I need to create an account to make a receipt?",
     answer:
-      "No. You can create and download receipts instantly without signing up, entering an email address or providing any personal information. An account is only needed if you upgrade to Pro or want to save receipts for later.",
+      "You can build and preview a receipt instantly with no sign-up. Downloading uses a free account: your first 3 receipts export watermark-free in HD, and after that free downloads include a small watermark unless you upgrade to Pro. An account also lets you save receipts to reopen later.",
   },
   {
     question: "What file formats can I download my receipt in?",
@@ -37,7 +37,7 @@ export const HOMEPAGE_FAQS: Faq[] = [
   {
     question: "Will my receipt have a watermark?",
     answer:
-      "Free downloads include a small Makecepeit watermark. Upgrading to Pro removes it completely, so your PDF and PNG receipts are clean with no branding anywhere on the document.",
+      "Your first 3 downloads on a free account are watermark-free HD. After that, free downloads include a small Makecepeit watermark. Upgrading to Pro removes it completely and makes every download unlimited and clean, with no branding anywhere on the document.",
   },
   {
     question: "Is my data stored anywhere?",

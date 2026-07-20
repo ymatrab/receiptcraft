@@ -63,7 +63,7 @@ const orgJsonLd = {
   "@type": "Organization",
   name: SITE.name,
   url: SITE.url,
-  logo: `${SITE.url}/icon.svg`,
+  logo: `${SITE.url}/logo-1024.png`,
   email: SITE.email,
   founder: { "@type": "Person", name: "Sara Artheta", url: `${SITE.url}/about` },
   sameAs: [`https://x.com/${SITE.twitter.replace("@", "")}`],

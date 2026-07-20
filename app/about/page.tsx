@@ -33,8 +33,9 @@ export default function AboutPage() {
         <p>
           {SITE.name} is a free online receipt maker built around three ideas:
           it should be <strong className="text-slate-900">fast</strong> (a finished receipt in under a
-          minute), <strong className="text-slate-900">honest</strong> (free to use with no sign-up; an
-          optional Pro plan removes the watermark — no trial walls or surprise paywalls), and{" "}
+          minute), <strong className="text-slate-900">honest</strong> (build with no sign-up, and a
+          free account lets you download — your first 3 receipts are watermark-free, with an optional
+          Pro plan for unlimited watermark-free exports; no trial walls or hidden fees), and{" "}
           <strong className="text-slate-900">private</strong> (the builder runs in your browser, so
           your receipt data stays on your device).
         </p>
@@ -43,8 +44,8 @@ export default function AboutPage() {
           out of paper. Small businesses without point-of-sale systems still
           need to hand customers something professional. {SITE.name} exists for
           exactly these moments: recreating a record of a real transaction or
-          issuing one for a real sale, without installing software or creating
-          an account.
+          issuing one for a real sale, without installing software — build and
+          preview with no account, and sign in free when you&apos;re ready to download.
         </p>
         <h2 className="pt-4 text-2xl font-bold text-slate-900">How it works</h2>
         <p>

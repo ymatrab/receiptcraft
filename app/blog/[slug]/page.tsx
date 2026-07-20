@@ -35,6 +35,14 @@ export async function generateMetadata({
         ? [urlForImage(post.mainImage).width(1200).height(630).url()]
         : undefined,
     },
+    twitter: {
+      card: "summary_large_image",
+      title: post.seoTitle ?? post.title,
+      description,
+      images: post.mainImage
+        ? [urlForImage(post.mainImage).width(1200).height(630).url()]
+        : undefined,
+    },
   };
 }
 
@@ -47,17 +55,52 @@ export default async function BlogPostPage({
   const post = await getPost(slug);
   if (!post) notFound();
 
+  // dateModified must never precede datePublished. Bulk-authored posts carry an
+  // _updatedAt from before their scheduled publish date, so only trust it when
+  // it is genuinely later than publication.
+  const dateModified =
+    post._updatedAt &&
+    post.publishedAt &&
+    new Date(post._updatedAt).getTime() > new Date(post.publishedAt).getTime()
+      ? post._updatedAt
+      : post.publishedAt;
+
   const articleJsonLd = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     headline: post.title,
     description: post.seoDescription ?? post.excerpt,
     datePublished: post.publishedAt,
-    dateModified: post._updatedAt ?? post.publishedAt,
-    author: { "@type": post.authorName ? "Person" : "Organization", name: post.authorName ?? SITE.name },
-    publisher: { "@type": "Organization", name: SITE.name },
+    dateModified,
+    author: {
+      "@type": post.authorName ? "Person" : "Organization",
+      name: post.authorName ?? SITE.name,
+      url: post.authorName ? absoluteUrl("/about") : SITE.url,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: SITE.name,
+      logo: {
+        "@type": "ImageObject",
+        url: `${SITE.url}/logo-1024.png`,
+        width: 1024,
+        height: 1024,
+      },
+    },
     mainEntityOfPage: absoluteUrl(`/blog/${post.slug}`),
-    image: post.mainImage ? urlForImage(post.mainImage).width(1200).url() : undefined,
+    image: post.mainImage
+      ? [urlForImage(post.mainImage).width(1200).height(675).url()]
+      : [absoluteUrl("/opengraph-image")],
+  };
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE.url },
+      { "@type": "ListItem", position: 2, name: "Blog", item: absoluteUrl("/blog") },
+      { "@type": "ListItem", position: 3, name: post.title, item: absoluteUrl(`/blog/${post.slug}`) },
+    ],
   };
 
   const faqs = post.faqs ?? [];
@@ -79,6 +122,10 @@ export default async function BlogPostPage({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
       {faqJsonLd && (
         <script

@@ -28,7 +28,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🛒",
     seoTitle: "Free Walmart Receipt Generator — Itemized Walmart Receipt Maker",
     seoDescription:
-      "Generate a realistic Walmart receipt online in seconds. Add your items, prices, and tax. Free PDF download, no sign-up.",
+      "Generate a realistic Walmart receipt online in seconds. Add your items, prices, and tax. Free to use, no sign-up to start.",
     heading: "Walmart Receipt Generator",
     intro:
       "Create a realistic Walmart receipt with itemized products, quantities, tax and payment details. Perfect for replacing lost receipts or keeping track of expenses.",
@@ -216,7 +216,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "☕",
     seoTitle: "Free Starbucks Receipt Generator — Coffee Receipt Maker",
     seoDescription:
-      "Create a Starbucks coffee receipt in seconds. Free PDF & PNG download, no sign-up needed.",
+      "Create a Starbucks coffee receipt in seconds. Free to use, no sign-up to start.",
     heading: "Starbucks Receipt Generator",
     intro:
       "Make a coffee shop receipt for Starbucks. Add your lattes, cold brews, and pastries for petty cash and expense reports.",
@@ -263,7 +263,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     seoTitle:
       "Free Burger King Receipt Generator — Burger King Receipt Maker",
     seoDescription:
-      "Create a Burger King receipt online in seconds. Add your items, prices, and tax. Free PDF download, no sign-up.",
+      "Create a Burger King receipt online in seconds. Add your items, prices, and tax. Free to use, no sign-up to start.",
     heading: "Burger King Receipt Generator",
     intro:
       "Generate a realistic Burger King receipt for your flame-grilled meal. Perfect for per-diem travel meals and reimbursable expenses.",
@@ -304,7 +304,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🍔",
     seoTitle: "Free Wendy's Receipt Generator — Wendy's Receipt Maker",
     seoDescription:
-      "Create a Wendy's receipt online in seconds. Add your items, prices, and tax. Free PDF download, no sign-up.",
+      "Create a Wendy's receipt online in seconds. Add your items, prices, and tax. Free to use, no sign-up to start.",
     heading: "Wendy's Receipt Generator",
     intro:
       "Generate a fresh, never-frozen Wendy's receipt. Ideal for meal expense tracking and reimbursement.",
@@ -5317,21 +5317,26 @@ function pickDistinct<T>(arr: T[], n: number, seed: number): T[] {
 
 const INTRO_VARIANTS: ((n: string, noun: string) => string)[] = [
   (n, noun) => `Create a realistic ${n} receipt with ${noun}. Perfect for replacing a lost ${n} receipt, expense reports, bookkeeping records or design mockups.`,
-  (n, noun) => `Need a ${n} receipt fast? Build one with ${noun}, then download a clean PDF or PNG in under a minute — no sign-up required.`,
+  (n, noun) => `Need a ${n} receipt fast? Build one with ${noun}, then sign in free to download a clean PDF or PNG. Your first 3 downloads are watermark-free.`,
   (n, noun) => `Recreate a ${n} receipt that matches the real thing, complete with ${noun}. Adjust the totals and export it for expenses, reimbursements or your own records.`,
   (n, noun) => `Make a ${n} receipt online in seconds. Lay it out with ${noun} — subtotal, tax and total included — ready to print or save.`,
 ];
 
 const SEO_DESC_VARIANTS: ((n: string, noun: string) => string)[] = [
-  (n, noun) => `Create a realistic ${n} receipt online in seconds. Add ${noun}, then download as a PDF or PNG. Free, no sign-up.`,
-  (n, noun) => `Make a ${n} receipt with ${noun} and download a print-ready PDF or PNG. Free ${n} receipt generator — no account needed.`,
-  (n, noun) => `Generate a ${n} receipt online, complete with ${noun}. Set the totals and export instantly — free, private, no sign-up.`,
+  (n, noun) => `Create a realistic ${n} receipt online in seconds. Add ${noun}, then download as a PDF or PNG. Free to use, no sign-up to start.`,
+  (n, noun) => `Make a ${n} receipt with ${noun} and download a print-ready PDF or PNG. Free ${n} receipt generator — no sign-up to start.`,
+  (n, noun) => `Generate a ${n} receipt online, complete with ${noun}. Set the totals and export — free, private, no sign-up to start.`,
+  (n, noun) => `Build a ${n} receipt online with ${noun}, editable totals and tax. Free live preview — sign in to download as a PDF or PNG.`,
+  (n, noun) => `Free ${n} receipt maker: add ${noun}, set the date and totals, then export a clean PDF or PNG. No sign-up to start.`,
 ];
 
 const TITLE_VARIANTS: ((n: string) => string)[] = [
   (n) => `Free ${n} Receipt Generator — Make a ${n} Receipt`,
   (n) => `${n} Receipt Generator — Create a Realistic ${n} Receipt`,
   (n) => `Make a ${n} Receipt — Free ${n} Receipt Generator`,
+  (n) => `${n} Receipt Maker — Free Online ${n} Receipt`,
+  (n) => `Create a ${n} Receipt Online — Free ${n} Receipt Generator`,
+  (n) => `Free ${n} Receipt Maker — Editable PDF & PNG`,
 ];
 
 const USECASE_VARIANTS: ((n: string) => string[])[] = [
@@ -5353,15 +5358,15 @@ type FaqVariant = (n: string) => { question: string; answer: string };
 // are rotated in from the pool below for variety.
 const FAQ_ANCHOR: FaqVariant = (n) => ({
   question: `How do I make a ${n} receipt?`,
-  answer: `Open the ${n} template, edit the store details, add your items and prices, set the tax rate, then download as a PDF or PNG. It takes under a minute and needs no account.`,
+  answer: `Open the ${n} template, edit the store details, add your items and prices, set the tax rate, then sign in free to download as a PDF or PNG. It takes about a minute.`,
 });
 
 const FAQ_POOL: FaqVariant[] = [
-  (n) => ({ question: `Is the ${n} receipt generator free?`, answer: `Yes. You can create and download a ${n} receipt for free. Free downloads include a small watermark; upgrade to Pro to remove it and unlock unlimited AI generation.` }),
+  (n) => ({ question: `Is the ${n} receipt generator free?`, answer: `Yes. Building a ${n} receipt is free. Downloading uses a free account — your first 3 are watermark-free, then a small watermark applies unless you upgrade to Pro, which also unlocks unlimited AI generation.` }),
   (n) => ({ question: `Can I edit the items and prices on a ${n} receipt?`, answer: `Every line, quantity, price and the tax rate is fully editable, so your ${n} receipt matches exactly what you need.` }),
   (n) => ({ question: `Can I download a ${n} receipt as a PDF?`, answer: `Yes — export your ${n} receipt as a high-resolution PDF or PNG, ready to print or attach to an expense report.` }),
   (n) => ({ question: `Does it look like a real ${n} receipt?`, answer: `The layout mirrors a genuine ${n} receipt — logo, itemized lines, subtotal, tax and total — so it reads as authentic at a glance.` }),
-  (n) => ({ question: `Do I need an account to make a ${n} receipt?`, answer: `No. Creating and downloading a ${n} receipt needs no sign-up. An account only adds saved receipts and Pro perks like watermark-free exports.` }),
+  (n) => ({ question: `Do I need an account to make a ${n} receipt?`, answer: `You can build and preview with no sign-up. Downloading uses a free account — your first 3 ${n} receipts are watermark-free, then a small watermark applies unless you go Pro.` }),
   (n) => ({ question: `Can I change the date and store details on a ${n} receipt?`, answer: `Yes. Set the date, store address, register or order number and cashier so your ${n} receipt reflects the right visit.` }),
   (n) => ({ question: `What can I use a ${n} receipt for?`, answer: `People recreate ${n} receipts to replace a lost original, document purchases for expense and reimbursement claims, keep bookkeeping records, or use them as props and mockups.` }),
 ];
@@ -5832,7 +5837,7 @@ const DESC_TARGET = 155;
 function fitSeoDescription(desc: string, name: string): string {
   if (desc.length > DESC_MAX) {
     const article = /^[aeiou]/i.test(name) ? "an" : "a";
-    desc = `Make ${article} ${name} receipt online in seconds with editable items, prices, tax and totals. Download a print-ready PDF or PNG — free, no sign-up.`;
+    desc = `Make ${article} ${name} receipt online in seconds with editable items, prices, tax and totals. Download a print-ready PDF or PNG — free to use, no sign-up to start.`;
   }
   if (desc.length >= DESC_MIN) return desc;
   let best = desc;

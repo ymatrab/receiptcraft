@@ -1,4 +1,13 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+
+// A 404 response is noindex by default in Next; declare it explicitly so the
+// root layout's `index, follow` and canonical are not inherited onto this page.
+export const metadata: Metadata = {
+  title: "Page not found",
+  robots: { index: false, follow: false },
+  alternates: {},
+};
 
 export default function NotFound() {
   return (

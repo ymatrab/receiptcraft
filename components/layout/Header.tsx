@@ -20,7 +20,14 @@ export default function Header() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const { account } = useAccount();
-  const accountHref = account.isLoggedIn ? "/account" : "/login";
+  // Carry the current page as `next` so logging in returns the user right back
+  // here — on /create that means their autosaved draft is restored — instead of
+  // dropping them on the profile page and losing their in-progress receipt.
+  const loginNext =
+    pathname && pathname.startsWith("/") && pathname !== "/login" ? pathname : "/create";
+  const accountHref = account.isLoggedIn
+    ? "/account"
+    : `/login?next=${encodeURIComponent(loginNext)}`;
   const accountLabel = account.isLoggedIn ? "Account" : "Log in";
 
   // A nav link is active on its page and its children (/templates/taxi → Templates).
@@ -69,7 +76,7 @@ export default function Header() {
           onClick={() => setOpen(!open)}
           aria-expanded={open}
           aria-label="Toggle menu"
-          className="rounded-lg p-2 text-slate-600 hover:bg-slate-100 md:hidden"
+          className="-mr-1 flex h-11 w-11 items-center justify-center rounded-lg text-slate-600 hover:bg-slate-100 md:hidden"
         >
           <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             {open ? (

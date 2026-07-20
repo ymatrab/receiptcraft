@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BRAND_TEMPLATES, brandCategoryFor } from "@/lib/brands";
 import { CATEGORY_NOUN } from "@/lib/brand-categories";
+import { INTENT_PAGES, intentContent } from "@/lib/intent-pages";
 import { previewFromTemplate } from "@/lib/receipt";
 import { docFromReceiptData } from "@/lib/sections";
 import { calcTotals, formatMoney } from "@/lib/format";
@@ -13,6 +14,11 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
+// Prerender all brand pages at build time (ISR) so they are served from the
+// edge cache like /examples and /receipt-help — not rendered on every request.
+export function generateStaticParams() {
+  return BRAND_TEMPLATES.map((t) => ({ slug: t.slug }));
+}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
@@ -32,6 +38,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       // re-add it — otherwise social previews render with no image.
       images: [absoluteUrl("/opengraph-image")],
     },
+    // Mirror OG onto the Twitter card; without this it falls back to the
+    // sitewide homepage title/description.
+    twitter: {
+      card: "summary_large_image",
+      title: template.seoTitle,
+      description: template.seoDescription,
+      images: [absoluteUrl("/opengraph-image")],
+    },
   };
 }
 
@@ -42,6 +56,9 @@ export default async function BrandTemplatePage({ params }: Props) {
 
   const preview = previewFromTemplate(template);
   const related = BRAND_TEMPLATES.filter((t) => t.slug !== template.slug).slice(0, 4);
+  // Same-brand "receipt help" guides (lost receipt, get a copy, returns) — a
+  // real intra-entity link so the brand/help pages read as one cluster.
+  const helpPages = INTENT_PAGES.filter((p) => p.brandSlug === template.slug);
 
   // Per-brand content derived from the template's own data — unique per page
   // (items, address, tax and totals all differ), not boilerplate.
@@ -78,10 +95,12 @@ export default async function BrandTemplatePage({ params }: Props) {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-      />
+      {template.faqs.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        />
+      )}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
@@ -219,7 +238,7 @@ export default async function BrandTemplatePage({ params }: Props) {
           <ol className="mt-4 max-w-3xl list-decimal space-y-2 pl-5 text-slate-600">
             <li>Open the {template.shortName} template — it loads with realistic items and {d.taxLabel ?? "tax"} already filled in.</li>
             <li>Edit the business details, line items, prices, date and payment method to match what you need.</li>
-            <li>Download instantly as a print-ready PDF or high-resolution PNG — no sign-up required.</li>
+            <li>Sign in with a free account to download a print-ready PDF or high-resolution PNG — your first 3 receipts are watermark-free.</li>
           </ol>
         </section>
 
@@ -237,6 +256,32 @@ export default async function BrandTemplatePage({ params }: Props) {
                 </div>
               ))}
             </div>
+          </section>
+        )}
+
+        {/* Same-brand receipt help — intra-entity cross-links */}
+        {helpPages.length > 0 && (
+          <section className="mt-20" aria-labelledby="brand-help-heading">
+            <h2 id="brand-help-heading" className="text-2xl font-bold text-slate-900">
+              {template.shortName} receipt help
+            </h2>
+            <p className="mt-3 max-w-3xl text-slate-600">
+              Lost your {template.shortName} receipt or need a copy? These guides
+              show how to find, reprint or replace it — and recreate one for your
+              records.
+            </p>
+            <ul className="mt-5 flex flex-wrap gap-2">
+              {helpPages.map((p) => (
+                <li key={p.slug}>
+                  <Link
+                    href={`/receipt-help/${p.slug}`}
+                    className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-600 transition-colors hover:border-indigo-300 hover:text-indigo-600"
+                  >
+                    {intentContent(p).h1}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </section>
         )}
 

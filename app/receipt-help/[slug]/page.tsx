@@ -8,7 +8,7 @@ import {
   INTENT_SLUGS,
 } from "@/lib/intent-pages";
 import { getTemplate } from "@/lib/templates";
-import { absoluteUrl } from "@/lib/site";
+import { absoluteUrl, SITE } from "@/lib/site";
 
 export function generateStaticParams() {
   return INTENT_SLUGS.map((slug) => ({ slug }));
@@ -50,9 +50,20 @@ export default async function IntentPage({
     url: absoluteUrl(`/receipt-help/${slug}`),
   };
 
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE.url },
+      { "@type": "ListItem", position: 2, name: "Receipt Help", item: absoluteUrl("/receipt-help") },
+      { "@type": "ListItem", position: 3, name: c.h1, item: absoluteUrl(`/receipt-help/${slug}`) },
+    ],
+  };
+
   return (
     <main className="mx-auto max-w-3xl px-4 py-14 sm:px-6 lg:px-8">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
 
       <nav className="text-sm text-slate-500">
         <Link href="/receipt-help" className="hover:text-slate-700">Receipt Help</Link>

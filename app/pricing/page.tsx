@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 const FAQ = [
   {
     q: "What's the difference between Free and Pro?",
-    a: "Free gives you every template and unlimited preview, with a small watermark on downloads and 3 AI generations per day. Pro removes the watermark, unlocks HD exports, unlimited AI generation and saved receipt history.",
+    a: "Free gives you every template and unlimited preview. On a free account your first 3 downloads are watermark-free HD; after that downloads carry a small watermark, and you get 3 AI generations per day. Pro removes the watermark on every download, unlocks unlimited HD exports, unlimited AI generation and saved receipt history.",
   },
   {
     q: "Can I cancel anytime?",
@@ -23,7 +23,7 @@ const FAQ = [
   },
   {
     q: "Do I need an account to use the free tier?",
-    a: "No. The free, watermarked builder works with no sign-up. You only create an account when you upgrade to Pro.",
+    a: "You can build and preview with no sign-up. Downloading uses a free account: your first 3 receipts are watermark-free, then downloads are watermarked until you upgrade to Pro.",
   },
 ];
 
@@ -36,8 +36,37 @@ export default async function PricingPage() {
   // Payment links come from the admin panel (DB), falling back to env.
   const links = await getPaymentLinks();
 
+  const isoDuration: Record<string, string> = { week: "P7D", month: "P1M", year: "P1Y" };
+  const softwareAppJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: SITE.name,
+    url: absoluteUrl("/pricing"),
+    applicationCategory: "BusinessApplication",
+    operatingSystem: "Any",
+    description:
+      "Makecepeit Pro removes the watermark and unlocks unlimited HD exports, unlimited AI receipt generation and saved receipt history.",
+    offers: [weekly, monthly, yearly].map((p) => ({
+      "@type": "Offer",
+      name: p.name,
+      price: p.price.toFixed(2),
+      priceCurrency: "USD",
+      url: absoluteUrl("/pricing"),
+      priceSpecification: {
+        "@type": "UnitPriceSpecification",
+        price: p.price.toFixed(2),
+        priceCurrency: "USD",
+        ...(p.interval ? { billingDuration: isoDuration[p.interval] } : {}),
+      },
+    })),
+  };
+
   return (
     <main className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppJsonLd) }}
+      />
       <div className="text-center">
         <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
           Simple, honest pricing

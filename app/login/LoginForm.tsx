@@ -16,7 +16,9 @@ const googleEnabled = process.env.NEXT_PUBLIC_GOOGLE_AUTH_ENABLED === "true";
 
 export default function LoginForm() {
   const params = useSearchParams();
-  const next = params.get("next") ?? "/account";
+  // Default back to the builder (not the profile page) so a user who logged in
+  // mid-build lands on /create, where their autosaved draft is restored.
+  const next = params.get("next") ?? "/create";
   const hadError = params.get("error");
   const errorDetail = params.get("error_description");
 

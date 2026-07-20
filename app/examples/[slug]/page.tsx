@@ -53,31 +53,21 @@ export default async function ExamplePage({
   const sameBase = EXAMPLES.filter((e) => e.slug !== ex.slug && e.base === ex.base);
   const related = (sameBase.length ? sameBase : EXAMPLES.filter((e) => e.slug !== ex.slug)).slice(0, 6);
 
-  const jsonLd = [
-    {
-      "@context": "https://schema.org",
-      "@type": "ItemList",
-      name: `${ex.brand} receipt example items`,
-      itemListElement: ex.items.map((it, i) => ({
-        "@type": "ListItem",
-        position: i + 1,
-        name: it.name,
-      })),
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl("/") },
-        { "@type": "ListItem", position: 2, name: "Receipt Examples", item: absoluteUrl("/examples") },
-        { "@type": "ListItem", position: 3, name: `${ex.brand} Receipt Example`, item: absoluteUrl(`/examples/${ex.slug}`) },
-      ],
-    },
-  ];
+  // BreadcrumbList only. The former ItemList of receipt line items had no per-item
+  // URLs, so it was ineligible for any Google rich result — dropped as noise.
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE.url },
+      { "@type": "ListItem", position: 2, name: "Receipt Examples", item: absoluteUrl("/examples") },
+      { "@type": "ListItem", position: 3, name: `${ex.brand} Receipt Example`, item: absoluteUrl(`/examples/${ex.slug}`) },
+    ],
+  };
 
   return (
     <main className="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <nav className="text-sm text-slate-500">
         <Link href="/examples" className="hover:text-slate-700">Examples</Link>
         <span className="px-1">/</span>

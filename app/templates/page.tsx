@@ -4,7 +4,7 @@ import { TEMPLATES } from "@/lib/templates";
 import { absoluteUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Receipt Templates — 12+ Free Business Styles",
+  title: "Receipt Templates — 40+ Free Business Styles",
   description:
     "Browse free receipt templates: grocery store, restaurant, gas station, taxi, hotel, pharmacy and more. Each pre-filled with realistic items — customize and download as PDF or PNG.",
   alternates: { canonical: "/templates" },
@@ -46,7 +46,7 @@ export default function TemplatesPage() {
         <p className="mt-4 text-lg leading-relaxed text-slate-600">
           Every template is pre-filled with realistic items, prices and tax
           rates for its business type. Pick one, customize what you need, and
-          download your receipt in seconds — free, no sign-up.
+          download your receipt in seconds — free to use, no sign-up to start.
         </p>
       </div>
 

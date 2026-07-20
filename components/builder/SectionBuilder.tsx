@@ -182,8 +182,12 @@ export default function SectionBuilder() {
   const [saveState, setSaveState] = useState<"idle" | "saving" | "saved">("idle");
   // Shown when an out-of-credits free user downloads (watermark fallback).
   const [pendingExport, setPendingExport] = useState<ExportKind | null>(null);
-  // Shown when an anonymous user tries to download (login is required).
-  const [loginPrompt, setLoginPrompt] = useState(false);
+  // Shown when an anonymous user tries to download (login is required). Holds
+  // the export they wanted so we can resume it after they come back logged in.
+  const [loginPrompt, setLoginPrompt] = useState<ExportKind | null>(null);
+  // After returning from login with a pending export, offer to finish it in one
+  // tap (a real click keeps the browser download reliable).
+  const [resumeExport, setResumeExport] = useState<ExportKind | null>(null);
   // Local (no-account) named templates + autosave.
   const [myTemplates, setMyTemplates] = useState<SavedTemplate[]>([]);
   const [autosaveOn, setAutosaveOn] = useState(true);
@@ -250,6 +254,21 @@ export default function SectionBuilder() {
   useEffect(() => {
     if (!doc.id) setDoc((d) => ({ ...d, id: newDocId() }));
   }, [doc.id]);
+
+  // Coming back from the login gate: the user left mid-download. Their draft is
+  // already restored from localStorage above; surface a one-tap prompt to finish
+  // the export they wanted so they don't lose momentum.
+  useEffect(() => {
+    if (!account.isLoggedIn) return;
+    let pending: string | null = null;
+    try {
+      pending = localStorage.getItem("rc_pending_export");
+      if (pending) localStorage.removeItem("rc_pending_export");
+    } catch {
+      /* localStorage unavailable — nothing to resume */
+    }
+    if (pending) setResumeExport(pending as ExportKind);
+  }, [account.isLoggedIn]);
 
   // Fetch this receipt's download status (clean vs. watermarked + remaining
   // credits) for the current logged-in free user, refetching when the receipt
@@ -498,7 +517,7 @@ export default function SectionBuilder() {
     if (account.isPro) return handleExport(kind, false);
 
     if (!account.isLoggedIn) {
-      setLoginPrompt(true);
+      setLoginPrompt(kind);
       return;
     }
 
@@ -518,7 +537,7 @@ export default function SectionBuilder() {
         body: JSON.stringify({ receiptKey: key }),
       });
       if (res.status === 401) {
-        setLoginPrompt(true);
+        setLoginPrompt(kind);
         return;
       }
       const data = await res.json().catch(() => ({}));
@@ -1219,7 +1238,7 @@ export default function SectionBuilder() {
       {loginPrompt && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 p-4"
-          onClick={() => setLoginPrompt(false)}
+          onClick={() => setLoginPrompt(null)}
         >
           <div
             className="w-full max-w-md rounded-3xl bg-white p-7 shadow-2xl"
@@ -1230,24 +1249,65 @@ export default function SectionBuilder() {
             <p className="mt-2 text-sm leading-relaxed text-slate-600">
               Create a free account to download your receipt. Every free account includes{" "}
               <strong>{FREE_LIMITS.freeReceiptDownloads} watermark-free HD receipts</strong> — no
-              payment required. Your current draft is saved in this browser.
+              payment required. Your receipt is saved — we&apos;ll bring you right back here to
+              finish the download.
             </p>
             <div className="mt-6 flex flex-col gap-2">
               <Link
                 href="/login?next=/create"
-                onClick={() => analytics.upgradeClick("login_to_download")}
+                onClick={() => {
+                  // Flush the latest draft synchronously (the autosave is
+                  // debounced) and remember the export so we can resume it.
+                  saveAutosave(doc);
+                  try {
+                    if (loginPrompt) localStorage.setItem("rc_pending_export", loginPrompt);
+                  } catch {
+                    /* localStorage unavailable — draft autosave still applies */
+                  }
+                  analytics.upgradeClick("login_to_download");
+                }}
                 className="rounded-full bg-indigo-600 px-5 py-3 text-center text-sm font-semibold text-white hover:bg-indigo-700"
               >
                 Log in / Sign up free
               </Link>
               <button
                 type="button"
-                onClick={() => setLoginPrompt(false)}
+                onClick={() => setLoginPrompt(null)}
                 className="px-5 py-2 text-xs font-medium text-slate-400 hover:text-slate-600"
               >
                 Cancel
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Resume banner: back from login with a pending download — one tap to finish. */}
+      {resumeExport && (
+        <div className="fixed inset-x-0 bottom-4 z-50 flex justify-center px-4">
+          <div className="flex items-center gap-3 rounded-full border border-indigo-200 bg-white px-5 py-3 shadow-2xl">
+            <span className="text-sm font-medium text-slate-700">
+              You&apos;re logged in — your receipt is right here. Finish your download:
+            </span>
+            <button
+              type="button"
+              onClick={() => {
+                const kind = resumeExport;
+                setResumeExport(null);
+                if (kind) void requestExport(kind);
+              }}
+              className="rounded-full bg-indigo-600 px-4 py-1.5 text-sm font-semibold text-white hover:bg-indigo-700"
+            >
+              Download
+            </button>
+            <button
+              type="button"
+              onClick={() => setResumeExport(null)}
+              aria-label="Dismiss"
+              className="text-slate-400 hover:text-slate-600"
+            >
+              ✕
+            </button>
           </div>
         </div>
       )}

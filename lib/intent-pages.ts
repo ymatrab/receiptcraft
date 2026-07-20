@@ -539,7 +539,7 @@ export function intentContent(p: IntentPage): IntentContent {
         ...quirkSection(p.brandSlug, n),
         {
           heading: `Or recreate a ${n} receipt`,
-          body: `If a reprint isn't available, you can rebuild a ${n} receipt with the same items, prices, date and store details, then download it as a PDF or PNG. It takes under a minute and needs no account.`,
+          body: `If a reprint isn't available, you can rebuild a ${n} receipt with the same items, prices, date and store details, then sign in free to download it as a PDF or PNG. It takes about a minute.`,
         },
       ],
       faqs: [

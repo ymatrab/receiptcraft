@@ -12,7 +12,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "🛒",
     seoTitle: "Free Grocery Store Receipt Generator — Create & Download PDF",
     seoDescription:
-      "Make a realistic grocery store receipt online in seconds. Add items, prices, tax and store details, then download as PDF or PNG. Free, no sign-up needed.",
+      "Make a realistic grocery store receipt online in seconds. Add items, prices, tax and store details, then download as PDF or PNG. Free, no sign-up to start.",
     heading: "Grocery Store Receipt Generator",
     intro:
       "Create a realistic supermarket or grocery store receipt with itemized products, quantities, sales tax and payment details. Perfect for replacing lost receipts, expense reports, bookkeeping records or design mockups.",
@@ -26,7 +26,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
       {
         question: "How do I make a grocery store receipt?",
         answer:
-          "Choose the grocery template, enter your store name and address, add each product with its quantity and price, set your local sales tax rate, then download the receipt as a PDF or PNG image. The whole process takes under a minute and requires no account.",
+          "Choose the grocery template, enter your store name and address, add each product with its quantity and price, set your local sales tax rate, then download the receipt as a PDF or PNG image. Building takes under a minute; sign in free to download.",
       },
       {
         question: "Can I add as many grocery items as I want?",
@@ -59,7 +59,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "🍽️",
     seoTitle: "Free Restaurant Receipt Generator — Itemized Bill with Tip",
     seoDescription:
-      "Generate an itemized restaurant receipt with food items, tax and tip. Download instantly as PDF or PNG. Free restaurant bill maker, no sign-up needed.",
+      "Generate an itemized restaurant receipt with food items, tax and tip. Download instantly as PDF or PNG. Free restaurant bill maker, no sign-up to start.",
     heading: "Restaurant Receipt Generator",
     intro:
       "Build an itemized restaurant bill with dishes, drinks, sales tax, tip and payment method. Ideal for business meal expense claims, per-diem documentation and replacing lost dinner receipts.",
@@ -108,7 +108,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "☕",
     seoTitle: "Free Coffee Shop Receipt Generator — Cafe Receipt Maker",
     seoDescription:
-      "Create a cafe or coffee shop receipt online for free. Lattes, pastries, tax — live preview and instant PDF/PNG download with no sign-up.",
+      "Create a cafe or coffee shop receipt online for free. Lattes, pastries, tax — live preview and instant PDF/PNG download with no sign-up to start.",
     heading: "Coffee Shop Receipt Generator",
     intro:
       "Make a coffee shop receipt with drinks, pastries and snacks in seconds. Great for small daily expense claims, petty cash records and coffee-run reimbursements.",
@@ -193,7 +193,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "🚕",
     seoTitle: "Free Taxi Receipt Generator — Cab & Rideshare Receipt Maker",
     seoDescription:
-      "Make a taxi or rideshare trip receipt with fare, distance and tip. Free cab receipt maker with instant PDF & PNG download. No sign-up needed.",
+      "Make a taxi or rideshare trip receipt with fare, distance and tip. Free cab receipt maker with instant PDF & PNG download. No sign-up to start.",
     heading: "Taxi & Rideshare Receipt Generator",
     intro:
       "Generate a taxi or private ride receipt with base fare, distance charges, wait time and tip. Perfect for travel expense reports when a driver couldn't provide a printed receipt.",
@@ -236,7 +236,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "🏨",
     seoTitle: "Free Hotel Receipt Generator — Lodging Invoice Maker",
     seoDescription:
-      "Create a hotel stay receipt with room rate, nights, taxes and fees. Free hotel folio maker — download as PDF or PNG instantly. No sign-up needed.",
+      "Create a hotel stay receipt with room rate, nights, taxes and fees. Free hotel folio maker — download as PDF or PNG instantly. No sign-up to start.",
     heading: "Hotel Receipt Generator",
     intro:
       "Build a hotel folio-style receipt with nightly room rate, occupancy taxes, resort fees and incidentals. Useful for travel reimbursements and lodging records when the front desk copy went missing.",
@@ -356,7 +356,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "🍺",
     seoTitle: "Free Bar Receipt Generator — Pub Tab Receipt Maker",
     seoDescription:
-      "Create a bar tab receipt with drinks, tax and tip. Free bar receipt maker with live preview — download as PDF or PNG, no sign-up.",
+      "Create a bar tab receipt with drinks, tax and tip. Free bar receipt maker with live preview — download as PDF or PNG, no sign-up to start.",
     heading: "Bar & Pub Receipt Generator",
     intro:
       "Recreate a bar tab with drinks, appetizers, tax and gratuity. Useful for client entertainment expense claims and team outing reimbursements.",
@@ -398,7 +398,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "💇",
     seoTitle: "Free Salon Receipt Generator — Spa & Beauty Receipt Maker",
     seoDescription:
-      "Make a salon, spa or barbershop receipt for services and products. Free receipt generator with instant PDF & PNG download. No sign-up needed.",
+      "Make a salon, spa or barbershop receipt for services and products. Free receipt generator with instant PDF & PNG download. No sign-up to start.",
     heading: "Salon & Spa Receipt Generator",
     intro:
       "Create a receipt for haircuts, styling, spa treatments and beauty products. Ideal for independent stylists who need to give clients a professional receipt, and for clients tracking personal care expenses.",
@@ -440,7 +440,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "🔧",
     seoTitle: "Free Auto Repair Receipt Generator — Mechanic Invoice Maker",
     seoDescription:
-      "Create an auto repair shop receipt with parts, labor and tax. Free mechanic receipt maker — download as PDF or PNG, no sign-up required.",
+      "Create an auto repair shop receipt with parts, labor and tax. Free mechanic receipt maker — download as PDF or PNG, no sign-up to start.",
     heading: "Auto Repair Receipt Generator",
     intro:
       "Build a mechanic shop receipt with parts, labor hours and shop fees. Useful for vehicle maintenance records, warranty documentation and resale history.",
@@ -521,7 +521,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "🏠",
     seoTitle: "Free Rent Receipt Generator — Landlord Rent Receipt Maker",
     seoDescription:
-      "Create a rent receipt for tenants and landlords. Show rent paid, period, property and payment method. Free PDF & PNG download, no sign-up.",
+      "Create a rent receipt for tenants and landlords. Show rent paid, period, property and payment method. Free PDF & PNG download, no sign-up to start.",
     heading: "Rent Receipt Generator",
     intro:
       "Create a rent receipt that documents a rent payment with the amount, rental period, property address and payment method. Landlords use it to give tenants proof of payment; tenants use it for records and reimbursement.",
@@ -566,7 +566,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "💵",
     seoTitle: "Free Cash Receipt Generator — Cash Payment Receipt Maker",
     seoDescription:
-      "Make a cash payment receipt with amount, payer and purpose. Free cash receipt template — download as PDF or PNG instantly. No sign-up needed.",
+      "Make a cash payment receipt with amount, payer and purpose. Free cash receipt template — download as PDF or PNG instantly. No sign-up to start.",
     heading: "Cash Receipt Generator",
     intro:
       "Create a simple cash receipt that records a payment made in cash: the amount, who paid, what it was for and the date. Ideal for any transaction where cash changed hands and both sides want a record.",
@@ -607,7 +607,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "🎗️",
     seoTitle: "Free Donation Receipt Generator — Charity Receipt Maker",
     seoDescription:
-      "Create a donation receipt for nonprofits and charities. Show donor, amount and date for tax records. Free PDF & PNG download, no sign-up.",
+      "Create a donation receipt for nonprofits and charities. Show donor, amount and date for tax records. Free PDF & PNG download, no sign-up to start.",
     heading: "Donation Receipt Generator",
     intro:
       "Create a charitable donation receipt that records a gift to a nonprofit, including the donor, amount, date and organization details. Useful for charities acknowledging donations and for donors keeping tax records.",
@@ -769,7 +769,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "🩺",
     seoTitle: "Free Medical Receipt Generator — Doctor & Clinic Receipt Maker",
     seoDescription:
-      "Create a medical or clinic receipt for services and copays. Free receipt maker for HSA/FSA and insurance records — PDF & PNG, no sign-up.",
+      "Create a medical or clinic receipt for services and copays. Free receipt maker for HSA/FSA and insurance records — PDF & PNG, no sign-up to start.",
     heading: "Medical Receipt Generator",
     intro:
       "Create a receipt for medical services, copays or treatments, with provider details and itemized charges. Useful for HSA/FSA reimbursement, insurance submissions and personal medical expense records.",
@@ -887,7 +887,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "🔨",
     seoTitle: "Free Handyman Receipt Generator — Contractor Receipt Maker",
     seoDescription:
-      "Create a handyman or contractor receipt with labor, materials and tax. Free receipt maker for home services — download as PDF or PNG, no sign-up.",
+      "Create a handyman or contractor receipt with labor, materials and tax. Free receipt maker for home services — download as PDF or PNG, no sign-up to start.",
     heading: "Handyman & Contractor Receipt Generator",
     intro:
       "Create a handyman or contractor receipt that separates labor, materials and tax. Ideal for independent tradespeople giving customers a professional record and for homeowners tracking home-improvement costs.",
@@ -927,7 +927,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "📚",
     seoTitle: "Free Tutoring Receipt Generator — Tutor Payment Receipt Maker",
     seoDescription:
-      "Create a tutoring receipt with sessions, hours and rate. Free receipt maker for tutors and parents — download as PDF or PNG. No sign-up needed.",
+      "Create a tutoring receipt with sessions, hours and rate. Free receipt maker for tutors and parents — download as PDF or PNG. No sign-up to start.",
     heading: "Tutoring Receipt Generator",
     intro:
       "Create a tutoring receipt showing sessions, hours and rate for academic or test-prep tutoring. Independent tutors use it to bill families professionally; parents use it for education expense records.",
@@ -968,7 +968,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "🧹",
     seoTitle: "Free Cleaning Service Receipt Generator — House Cleaning Receipt",
     seoDescription:
-      "Create a cleaning service receipt with services, hours and tax. Free receipt maker for house cleaners and clients — PDF & PNG download, no sign-up.",
+      "Create a cleaning service receipt with services, hours and tax. Free receipt maker for house cleaners and clients — PDF & PNG download, no sign-up to start.",
     heading: "Cleaning Service Receipt Generator",
     intro:
       "Create a house-cleaning or commercial-cleaning receipt with itemized services, hours and tax. Independent cleaners use it to give clients a professional record; clients use it for expense and reimbursement tracking.",
@@ -1008,7 +1008,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "🍔",
     seoTitle: "Free Fast Food Receipt Generator — Burger & Combo Receipts",
     seoDescription:
-      "Make a realistic fast food receipt online: burgers, combos, fries and drinks with tax. Download as PDF or PNG in seconds. Free, no sign-up.",
+      "Make a realistic fast food receipt online: burgers, combos, fries and drinks with tax. Download as PDF or PNG in seconds. Free, no sign-up to start.",
     heading: "Fast Food Receipt Generator",
     intro:
       "Create a realistic fast food or drive-thru receipt with combo meals, add-ons, fountain drinks and sales tax. Great for replacing a lost meal receipt, expense reports or design mockups.",
@@ -1046,7 +1046,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "🍕",
     seoTitle: "Free Pizza Receipt Generator — Pizzeria & Delivery Receipts",
     seoDescription:
-      "Create a realistic pizza receipt with pies, toppings, sides and delivery fees. Download as PDF or PNG instantly. Free pizza receipt maker, no sign-up.",
+      "Create a realistic pizza receipt with pies, toppings, sides and delivery fees. Download as PDF or PNG instantly. Free pizza receipt maker, no sign-up to start.",
     heading: "Pizza Receipt Generator",
     intro:
       "Make a realistic pizzeria or pizza delivery receipt with custom pies, toppings, sides, drinks, delivery fees and tip. Perfect for reimbursements, records or props.",
@@ -1084,7 +1084,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "👕",
     seoTitle: "Free Clothing Store Receipt Generator — Apparel Receipts",
     seoDescription:
-      "Make a realistic clothing or apparel store receipt with items, sizes, sales tax and payment details. Download as PDF or PNG. Free, no sign-up.",
+      "Make a realistic clothing or apparel store receipt with items, sizes, sales tax and payment details. Download as PDF or PNG. Free, no sign-up to start.",
     heading: "Clothing Store Receipt Generator",
     intro:
       "Create a realistic clothing or fashion retail receipt with apparel items, quantities, discounts and sales tax. Useful for returns documentation, expense reports, bookkeeping or props.",
@@ -1121,7 +1121,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "📱",
     seoTitle: "Free Electronics Store Receipt Generator — Tech Receipts",
     seoDescription:
-      "Create a realistic electronics store receipt with devices, accessories, warranties and sales tax. Download as PDF or PNG instantly. Free, no sign-up.",
+      "Create a realistic electronics store receipt with devices, accessories, warranties and sales tax. Download as PDF or PNG instantly. Free, no sign-up to start.",
     heading: "Electronics Store Receipt Generator",
     intro:
       "Make a realistic electronics or tech store receipt with devices, accessories, protection plans and sales tax. Ideal for warranty claims, insurance documentation, expense reports or props.",
@@ -1158,7 +1158,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "🔨",
     seoTitle: "Free Hardware Store Receipt Generator — Tools & Supplies",
     seoDescription:
-      "Make a realistic hardware store receipt with tools, lumber, paint and supplies plus tax. Download as PDF or PNG. Free hardware receipt maker, no sign-up.",
+      "Make a realistic hardware store receipt with tools, lumber, paint and supplies plus tax. Download as PDF or PNG. Free hardware receipt maker, no sign-up to start.",
     heading: "Hardware Store Receipt Generator",
     intro:
       "Create a realistic hardware or home-improvement store receipt with tools, building materials, paint and supplies. Great for contractor expense tracking, reimbursements, job costing or props.",
@@ -1196,7 +1196,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "🐾",
     seoTitle: "Free Pet Store Receipt Generator — Pet Supplies Receipts",
     seoDescription:
-      "Create a realistic pet store receipt with food, supplies and grooming plus tax. Download as PDF or PNG instantly. Free pet store receipt maker, no sign-up.",
+      "Create a realistic pet store receipt with food, supplies and grooming plus tax. Download as PDF or PNG instantly. Free pet store receipt maker, no sign-up to start.",
     heading: "Pet Store Receipt Generator",
     intro:
       "Make a realistic pet store receipt with pet food, toys, supplies and grooming services. Useful for expense records, reimbursement, bookkeeping or props.",
@@ -1234,7 +1234,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "🍾",
     seoTitle: "Free Liquor Store Receipt Generator — Wine & Spirits Receipts",
     seoDescription:
-      "Make a realistic liquor store receipt with wine, beer and spirits plus tax. Download as PDF or PNG. Free liquor store receipt maker, no sign-up.",
+      "Make a realistic liquor store receipt with wine, beer and spirits plus tax. Download as PDF or PNG. Free liquor store receipt maker, no sign-up to start.",
     heading: "Liquor Store Receipt Generator",
     intro:
       "Create a realistic liquor, wine or spirits store receipt with bottles, cases and applicable taxes. Useful for event expense records, bookkeeping or props.",
@@ -1271,7 +1271,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "🚗",
     seoTitle: "Free Car Rental Receipt Generator — Rental Car Receipts",
     seoDescription:
-      "Create a realistic car rental receipt with daily rate, insurance, fuel and taxes. Download as PDF or PNG. Free rental car receipt maker, no sign-up.",
+      "Create a realistic car rental receipt with daily rate, insurance, fuel and taxes. Download as PDF or PNG. Free rental car receipt maker, no sign-up to start.",
     heading: "Car Rental Receipt Generator",
     intro:
       "Make a realistic rental car receipt with daily rates, insurance, fuel charges, fees and taxes. Ideal for travel expense reports, reimbursement or records.",
@@ -1308,7 +1308,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "✈️",
     seoTitle: "Free Airline Receipt Generator — Flight Ticket Receipts",
     seoDescription:
-      "Make a realistic airline ticket receipt with fare, taxes, baggage and seat fees. Download as PDF or PNG. Free flight receipt maker, no sign-up.",
+      "Make a realistic airline ticket receipt with fare, taxes, baggage and seat fees. Download as PDF or PNG. Free flight receipt maker, no sign-up to start.",
     heading: "Airline Ticket Receipt Generator",
     intro:
       "Create a realistic airline or flight ticket receipt with base fare, taxes, baggage, seat selection and booking fees. Perfect for travel expense reports and reimbursement.",
@@ -1346,7 +1346,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "👔",
     seoTitle: "Free Dry Cleaning Receipt Generator — Laundry Receipts",
     seoDescription:
-      "Create a realistic dry cleaning or laundry receipt with garments, services and tax. Download as PDF or PNG. Free dry cleaning receipt maker, no sign-up.",
+      "Create a realistic dry cleaning or laundry receipt with garments, services and tax. Download as PDF or PNG. Free dry cleaning receipt maker, no sign-up to start.",
     heading: "Dry Cleaning Receipt Generator",
     intro:
       "Make a realistic dry cleaning or laundry service receipt with garments, pressing, alterations and pickup details. Useful for expense reports, reimbursement or records.",
@@ -1383,7 +1383,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "🏋️",
     seoTitle: "Free Gym Membership Receipt Generator — Fitness Receipts",
     seoDescription:
-      "Make a realistic gym or fitness membership receipt with dues, classes and fees. Download as PDF or PNG. Free gym receipt maker, no sign-up.",
+      "Make a realistic gym or fitness membership receipt with dues, classes and fees. Download as PDF or PNG. Free gym receipt maker, no sign-up to start.",
     heading: "Gym Membership Receipt Generator",
     intro:
       "Create a realistic gym or fitness studio membership receipt with monthly dues, class packs, personal training and initiation fees. Useful for HR wellness reimbursement or records.",
@@ -1421,7 +1421,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "🦷",
     seoTitle: "Free Dental Receipt Generator — Dentist Invoice & Receipt",
     seoDescription:
-      "Create a realistic dental receipt with procedures, codes and insurance adjustments. Download as PDF or PNG. Free dental receipt maker, no sign-up.",
+      "Create a realistic dental receipt with procedures, codes and insurance adjustments. Download as PDF or PNG. Free dental receipt maker, no sign-up to start.",
     heading: "Dental Receipt Generator",
     intro:
       "Make a realistic dental office receipt with cleanings, exams, x-rays, procedures and insurance adjustments. Useful for FSA/HSA reimbursement, tax records or bookkeeping.",
@@ -1460,7 +1460,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "🐶",
     seoTitle: "Free Veterinary Receipt Generator — Vet Bill & Invoice",
     seoDescription:
-      "Make a realistic veterinary receipt with exams, vaccines and treatments. Download as PDF or PNG. Free vet receipt maker, no sign-up.",
+      "Make a realistic veterinary receipt with exams, vaccines and treatments. Download as PDF or PNG. Free vet receipt maker, no sign-up to start.",
     heading: "Veterinary Receipt Generator",
     intro:
       "Create a realistic veterinary clinic receipt with wellness exams, vaccines, medications and procedures. Useful for pet insurance claims, reimbursement or records.",
@@ -1498,7 +1498,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "💆",
     seoTitle: "Free Spa Receipt Generator — Massage & Spa Receipts",
     seoDescription:
-      "Create a realistic spa or massage receipt with treatments, add-ons and gratuity. Download as PDF or PNG. Free spa receipt maker, no sign-up.",
+      "Create a realistic spa or massage receipt with treatments, add-ons and gratuity. Download as PDF or PNG. Free spa receipt maker, no sign-up to start.",
     heading: "Spa Receipt Generator",
     intro:
       "Make a realistic spa, massage or wellness receipt with treatments, add-ons, packages and gratuity. Useful for gift documentation, reimbursement or records.",
@@ -1536,7 +1536,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "💈",
     seoTitle: "Free Barbershop Receipt Generator — Haircut Receipts",
     seoDescription:
-      "Make a realistic barbershop or haircut receipt with services, products and tip. Download as PDF or PNG. Free barber receipt maker, no sign-up.",
+      "Make a realistic barbershop or haircut receipt with services, products and tip. Download as PDF or PNG. Free barber receipt maker, no sign-up to start.",
     heading: "Barbershop Receipt Generator",
     intro:
       "Create a realistic barbershop receipt with haircuts, beard trims, shaves, products and gratuity. Useful for expense records, bookkeeping or props.",
@@ -1574,7 +1574,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "🚙",
     seoTitle: "Free Towing Receipt Generator — Tow Truck Service Receipts",
     seoDescription:
-      "Create a realistic towing receipt with hook-up, mileage and storage fees. Download as PDF or PNG. Free tow truck receipt maker, no sign-up.",
+      "Create a realistic towing receipt with hook-up, mileage and storage fees. Download as PDF or PNG. Free tow truck receipt maker, no sign-up to start.",
     heading: "Towing Receipt Generator",
     intro:
       "Make a realistic towing or roadside-assistance receipt with hook-up fees, mileage, storage and labor. Useful for insurance claims, reimbursement or records.",
@@ -1612,7 +1612,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "🍽️",
     seoTitle: "Free Catering Receipt Generator — Event Catering Receipts",
     seoDescription:
-      "Make a realistic catering receipt with per-person pricing, staffing and gratuity. Download as PDF or PNG. Free catering receipt maker, no sign-up.",
+      "Make a realistic catering receipt with per-person pricing, staffing and gratuity. Download as PDF or PNG. Free catering receipt maker, no sign-up to start.",
     heading: "Catering Receipt Generator",
     intro:
       "Create a realistic catering or event food receipt with per-person packages, staffing, rentals and gratuity. Useful for event expense reports, reimbursement or records.",
@@ -1649,7 +1649,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "💐",
     seoTitle: "Free Florist Receipt Generator — Flower Shop Receipts",
     seoDescription:
-      "Create a realistic florist or flower shop receipt with arrangements, delivery and tax. Download as PDF or PNG. Free florist receipt maker, no sign-up.",
+      "Create a realistic florist or flower shop receipt with arrangements, delivery and tax. Download as PDF or PNG. Free florist receipt maker, no sign-up to start.",
     heading: "Florist Receipt Generator",
     intro:
       "Make a realistic florist or flower shop receipt with arrangements, bouquets, vases and delivery. Useful for gift and event records, reimbursement or bookkeeping.",
