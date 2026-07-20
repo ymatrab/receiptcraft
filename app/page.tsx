@@ -72,7 +72,7 @@ const FEATURES = [
     icon: "🆓",
     title: "Free to start, no sign-up",
     description:
-      "Create and download receipts free with no account. Go Pro to remove the watermark and unlock HD exports.",
+      "Build and preview receipts with no account. Create a free account to download — your first 3 are watermark-free — then go Pro for unlimited HD, watermark-free exports.",
   },
 ];
 
@@ -88,9 +88,9 @@ const STEPS = [
       "Edit the business info, items, prices, tax, tip and payment method. The live preview updates with every keystroke.",
   },
   {
-    title: "Download instantly",
+    title: "Sign in & download",
     description:
-      "Export your receipt as a PDF or high-resolution PNG with one click — free, no sign-up. Upgrade to Pro for watermark-free HD downloads.",
+      "Create a free account and export your receipt as a PDF or high-resolution PNG. Your first 3 downloads are watermark-free HD — upgrade to Pro for unlimited watermark-free exports.",
   },
 ];
 
@@ -103,6 +103,14 @@ const DIRECTORIES: {
   width?: number;
   height: number;
 }[] = [
+  {
+    name: "Fazier",
+    href: "https://fazier.com/launches/www.makecepeit.com",
+    badge:
+      "https://fazier.com/api/v1//public/badges/launch_badges.svg?badge_type=launched&theme=neutral",
+    width: 120,
+    height: 51,
+  },
   {
     name: "Findly.tools",
     href: "https://findly.tools/makecepeit?utm_source=makecepeit",
@@ -171,24 +179,9 @@ const appJsonLd = {
     "PDF and PNG download",
     "Custom tax, discount and tip",
     "10 currencies",
-    "No sign-up required",
+    "No sign-up to start building",
     "AI receipt generator",
   ],
-};
-
-const howToJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "HowTo",
-  name: "How to make a receipt online for free",
-  description:
-    "Create a professional receipt in under a minute with Makecepeit's free online receipt maker.",
-  totalTime: "PT1M",
-  step: STEPS.map((step, i) => ({
-    "@type": "HowToStep",
-    position: i + 1,
-    name: step.title,
-    text: step.description,
-  })),
 };
 
 export default function HomePage() {
@@ -202,10 +195,6 @@ export default function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(appJsonLd) }}
       />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }}
-      />
 
       {/* ===== HERO ===== */}
       <section className="bg-grid relative overflow-hidden">
@@ -214,7 +203,7 @@ export default function HomePage() {
           <div>
             <p className="inline-flex items-center gap-1.5 rounded-full border border-indigo-200 bg-indigo-50 px-3 py-1 text-xs font-medium text-indigo-700">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-              Free to use · No sign-up · 100+ templates
+              Free to use · No sign-up to start · 100+ templates
             </p>
             <h1 className="mt-5 text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
               Make a receipt in{" "}
