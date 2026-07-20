@@ -337,17 +337,26 @@ export default function SectionBuilder() {
     });
   };
 
+  // Reshaping the CURRENT working receipt — picking a template, regenerating
+  // with AI, or applying a preset — keeps the same receipt id, so a free user
+  // refining one receipt only ever spends one download credit against it. A new
+  // credit is spent only when they explicitly start over (reset) or open a
+  // different saved receipt. `keepId` carries the working id onto the new doc.
+  const keepId = (next: ReceiptDoc) => (d: ReceiptDoc) => ({ ...next, id: d.id });
+
   const applyTemplate = (slug: string) => {
     const t = getTemplate(slug);
     if (!t) return;
-    setDoc(docFromReceiptData(receiptFromTemplate(t)));
+    setDoc(keepId(docFromReceiptData(receiptFromTemplate(t))));
     setActiveTemplate(slug);
     setCollapsed({});
     analytics.selectTemplate(slug);
   };
 
   const reset = () => {
-    setDoc(blankDoc());
+    // Explicit "start over" — a genuinely new receipt gets a fresh id (and thus
+    // its own download credit).
+    setDoc({ ...blankDoc(), id: newDocId() });
     setActiveTemplate("");
   };
 
@@ -360,7 +369,7 @@ export default function SectionBuilder() {
     analytics.saveReceipt("template");
   };
   const loadMyTemplate = (t: SavedTemplate) => {
-    setDoc(t.doc);
+    setDoc(keepId(t.doc));
     setActiveTemplate("");
     setCollapsed({});
   };
@@ -393,7 +402,7 @@ export default function SectionBuilder() {
       showBarcode: true,
       paperStyle: "thermal",
     };
-    setDoc(docFromReceiptData(data));
+    setDoc(keepId(docFromReceiptData(data)));
     setActiveTemplate("");
     setCollapsed({});
   };
@@ -427,7 +436,7 @@ export default function SectionBuilder() {
   };
 
   const applyPreset = (id: PresetId) => {
-    setDoc(presetDoc(id));
+    setDoc(keepId(presetDoc(id)));
     setActiveTemplate("");
     setCollapsed({});
   };
