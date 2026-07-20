@@ -25,6 +25,7 @@ const KEY_AI = "ai";
 const KEY_LINK_WEEKLY = "stripe_link_weekly";
 const KEY_LINK_MONTHLY = "stripe_link_monthly";
 const KEY_LINK_YEARLY = "stripe_link_yearly";
+const KEY_INDEXNOW_LAST_RUN = "indexnow_last_run";
 
 /** Sensible default model per provider. */
 export const DEFAULT_MODELS: Record<AiProvider, string> = {
@@ -108,4 +109,17 @@ export async function savePaymentLinks(links: PaymentLinks): Promise<void> {
     setSetting(KEY_LINK_MONTHLY, links.monthly ?? ""),
     setSetting(KEY_LINK_YEARLY, links.yearly ?? ""),
   ]);
+}
+
+/**
+ * Watermark for the automated IndexNow cron: the ISO timestamp of the last
+ * successful run. The cron submits only sitemap URLs modified since this, so
+ * unchanged pages are never re-spammed. Null until the first run.
+ */
+export async function getIndexNowLastRun(): Promise<string | null> {
+  return getSetting<string>(KEY_INDEXNOW_LAST_RUN);
+}
+
+export async function setIndexNowLastRun(iso: string): Promise<void> {
+  await setSetting(KEY_INDEXNOW_LAST_RUN, iso);
 }

@@ -122,6 +122,7 @@ const DIRECTORIES: {
     name: "Turbo0",
     href: "https://turbo0.com/item/makecepeit",
     badge: "https://img.turbo0.com/badge-listed-light.svg",
+    width: 162,
     height: 54,
   },
   {

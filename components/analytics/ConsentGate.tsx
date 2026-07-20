@@ -61,15 +61,19 @@ try {
 gtag('js', new Date());
 gtag('config', '${SITE.gaId}');`}
           </Script>
+          {/* Load the ~160 KB gtag.js off the critical path (after window load)
+              so it doesn't compete with LCP on slow mobile. The inline script
+              above already queues consent + config in the dataLayer, which
+              gtag.js replays in order once it loads. */}
           <Script
             src={`https://www.googletagmanager.com/gtag/js?id=${SITE.gaId}`}
-            strategy="afterInteractive"
+            strategy="lazyOnload"
           />
         </>
       ) : null}
 
       {consent === "granted" && SITE.clarityId ? (
-        <Script id="clarity-init" strategy="afterInteractive">
+        <Script id="clarity-init" strategy="lazyOnload">
           {`(function(c,l,a,r,i,t,y){
         c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
         t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
