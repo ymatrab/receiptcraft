@@ -3,7 +3,7 @@ import { SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Terms of Use",
-  description: `Terms of use for ${SITE.name}: accounts, subscriptions and billing, permitted purposes, prohibited uses, AI features, and disclaimers.`,
+  description: `Terms of use for ${SITE.name}: your account, subscriptions and billing, permitted purposes, prohibited uses, AI features, warranties and liability disclaimers.`,
   alternates: { canonical: "/terms" },
 };
 

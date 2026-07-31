@@ -5,7 +5,7 @@ import SectionBuilder from "@/components/builder/SectionBuilder";
 export const metadata: Metadata = {
   title: "Receipt Builder — Create a Custom Receipt Online",
   description:
-    "Build your receipt section by section: add, remove and reorder header, items, payment, barcode and more. Free live preview with no sign-up — create a free account to download as PDF or PNG.",
+    "Build a receipt section by section: add, remove and reorder header, items, payment and barcode blocks. Free live preview with no sign-up — sign in to download.",
   alternates: { canonical: "/create" },
 };
 

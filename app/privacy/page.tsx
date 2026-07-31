@@ -3,7 +3,7 @@ import { SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description: `How ${SITE.name} handles your data: receipt contents stay in your browser; account, payment and AI data explained.`,
+  description: `How ${SITE.name} handles your data: receipt contents stay in your browser, and your account, payment and AI generator data are each explained here in plain terms.`,
   alternates: { canonical: "/privacy" },
 };
 

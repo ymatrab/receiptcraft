@@ -4,7 +4,7 @@ export const SITE = {
   // Kept under ~160 chars so it doesn't truncate in SERPs. Used as the default
   // meta description + OpenGraph/Twitter/WebSite-schema description site-wide.
   description:
-    "Create professional receipts online for free using 100+ templates — live preview, instant PDF & PNG download, and no sign-up to start.",
+    "Create professional receipts online for free with 100+ brand templates — live preview, instant PDF & PNG download, editable fields, and no sign-up to start.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.makecepeit.com",
   twitter: "@makecepeit",
   email: "hello@makecepeit.com",

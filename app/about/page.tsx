@@ -5,7 +5,7 @@ import { SITE } from "@/lib/site";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Makecepeit is a free, privacy-first online receipt maker. Learn why we built it, how it works, and what it can be used for.",
+    "Makecepeit is a free, privacy-first online receipt maker. Learn why we built it, how the builder works, and the everyday tasks people use it for every day.",
   alternates: { canonical: "/about" },
 };
 

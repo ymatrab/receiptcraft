@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { TEMPLATES, getTemplate } from "@/lib/templates";
 import { previewFromTemplate } from "@/lib/receipt";
 import { docFromReceiptData } from "@/lib/sections";
+import { fitSeoDescription } from "@/lib/seo-description";
 import { SITE, absoluteUrl } from "@/lib/site";
 import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
 
@@ -21,13 +22,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const template = getTemplate(slug);
   if (!template) return {};
+  const description = fitSeoDescription(template.seoDescription);
   return {
     title: { absolute: template.seoTitle },
-    description: template.seoDescription,
+    description,
     alternates: { canonical: `/templates/${template.slug}` },
     openGraph: {
       title: template.seoTitle,
-      description: template.seoDescription,
+      description,
       url: absoluteUrl(`/templates/${template.slug}`),
       siteName: SITE.name,
       type: "website",
@@ -38,7 +40,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     twitter: {
       card: "summary_large_image",
       title: template.seoTitle,
-      description: template.seoDescription,
+      description,
       images: [absoluteUrl("/opengraph-image")],
     },
   };

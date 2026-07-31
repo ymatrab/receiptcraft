@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { PortableText } from "@portabletext/react";
 import { getPost, getPostSlugs } from "@/lib/sanity/queries";
 import { urlForImage } from "@/lib/sanity/client";
+import { fitSeoDescription } from "@/lib/seo-description";
 import { absoluteUrl, SITE } from "@/lib/site";
 
 // Kept well below the sitemap's hourly revalidate so a scheduled post's page can
@@ -26,7 +27,7 @@ export async function generateMetadata({
   const { slug } = await params;
   const post = await getPost(slug);
   if (!post) return { title: "Post not found" };
-  const description = post.seoDescription ?? post.excerpt;
+  const description = fitSeoDescription(post.seoDescription ?? post.excerpt, { neutral: true });
   return {
     title: post.seoTitle ?? post.title,
     description,

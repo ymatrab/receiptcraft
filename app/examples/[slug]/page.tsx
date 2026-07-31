@@ -10,6 +10,7 @@ import {
   EXAMPLES,
 } from "@/lib/examples";
 import { docFromReceiptData } from "@/lib/sections";
+import { fitSeoDescription } from "@/lib/seo-description";
 import { formatMoney, formatDisplayDate } from "@/lib/format";
 import { SITE, absoluteUrl } from "@/lib/site";
 import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
@@ -34,10 +35,11 @@ export async function generateMetadata({
   const full = `See a realistic ${ex.brand} receipt example: ${exampleSummary(ex)}, totalling ${total}. Make your own editable ${ex.brand} receipt and download it as PDF or PNG.`;
   // Long item summaries (or long brand names) can push the rich description past
   // the ~160-char SERP truncation limit — fall back to a concise variant then.
-  const description =
+  const description = fitSeoDescription(
     full.length <= 160
       ? full
-      : `${ex.brand} receipt example totalling ${total}. Make your own editable version and download it free as PDF or PNG.`;
+      : `${ex.brand} receipt example totalling ${total}. Make your own editable version and download it free as PDF or PNG.`,
+  );
   return { title, description, alternates: { canonical: `/examples/${ex.slug}` } };
 }
 

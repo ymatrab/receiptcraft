@@ -4,7 +4,7 @@ import { SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Cookie Policy",
-  description: `Which cookies ${SITE.name} uses and why: essential cookies for login and free-plan limits, and optional analytics cookies you can accept or decline.`,
+  description: `Which cookies ${SITE.name} uses and why: essential cookies for login and free-plan limits, plus optional analytics cookies you can accept or decline anytime.`,
   alternates: { canonical: "/cookies" },
 };
 

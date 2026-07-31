@@ -8,6 +8,7 @@ import {
   INTENT_SLUGS,
 } from "@/lib/intent-pages";
 import { getTemplate } from "@/lib/templates";
+import { fitSeoDescription } from "@/lib/seo-description";
 import { absoluteUrl, SITE } from "@/lib/site";
 
 export function generateStaticParams() {
@@ -23,7 +24,11 @@ export async function generateMetadata({
   const page = getIntentPage(slug);
   if (!page) return { title: "Not found" };
   const c = intentContent(page);
-  return { title: c.title, description: c.description, alternates: { canonical: `/receipt-help/${slug}` } };
+  return {
+    title: c.title,
+    description: fitSeoDescription(c.description),
+    alternates: { canonical: `/receipt-help/${slug}` },
+  };
 }
 
 export default async function IntentPage({
