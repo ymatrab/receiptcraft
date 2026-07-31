@@ -32,6 +32,20 @@ export default function Footer() {
               professional receipts with no sign-up, then download as PDF or
               PNG with a free account.
             </p>
+            <a
+              href="https://launchzone.co/p/makecepeit"
+              target="_blank"
+              rel="noopener"
+              className="mt-6 inline-block"
+            >
+              <img
+                src="https://launchzone.co/badge.svg"
+                alt="Find us on LaunchZone"
+                width={154}
+                height={54}
+                loading="lazy"
+              />
+            </a>
           </div>
 
           <nav aria-label="Popular templates">
