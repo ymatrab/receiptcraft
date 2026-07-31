@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import ExamplesGrid from "@/components/ExamplesGrid";
 import { EXAMPLES_TOTAL_PAGES } from "@/lib/examples";
+import { fitSeoDescription } from "@/lib/seo-description";
 
 export function generateStaticParams() {
   // Page 1 lives at /examples; generate /examples/page/2 … /examples/page/N.
@@ -19,7 +20,9 @@ export async function generateMetadata({
   const n = Number(page);
   return {
     title: `Receipt Examples — Page ${n}`,
-    description: `More realistic receipt examples by brand (page ${n} of ${EXAMPLES_TOTAL_PAGES}). See what each receipt looks like, then make your own.`,
+    description: fitSeoDescription(
+      `More realistic receipt examples by brand (page ${n} of ${EXAMPLES_TOTAL_PAGES}). See what each receipt looks like, then make your own.`,
+    ),
     alternates: { canonical: `/examples/page/${n}` },
   };
 }

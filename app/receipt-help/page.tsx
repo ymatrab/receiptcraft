@@ -6,7 +6,7 @@ import { absoluteUrl } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Receipt Help — Find & Replace Lost Receipts",
   description:
-    "Lost a receipt or need a copy? Step-by-step guides for finding, reprinting and replacing receipts from Walmart, Amazon, Uber, McDonald's and more.",
+    "Lost a receipt or need a copy? Step-by-step guides to find, reprint and replace receipts from Walmart, Amazon, Uber, McDonald's, airlines, hotels and more.",
   alternates: { canonical: "/receipt-help" },
 };
 

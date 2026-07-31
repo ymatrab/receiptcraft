@@ -69,7 +69,7 @@ const breadcrumbLd = {
 export const metadata: Metadata = {
   title: "Brand Receipt Templates — 300+ Stores",
   description:
-    "Browse 300+ free brand receipt templates — Walmart, Starbucks, Uber, McDonald's and more. Search by name or filter by category, then customize and download as PDF or PNG.",
+    "Browse 300+ free brand receipt templates — Walmart, Starbucks, Uber, McDonald's and more. Search by name or filter by category, then customize and download.",
   alternates: { canonical: "/brands" },
 };
 

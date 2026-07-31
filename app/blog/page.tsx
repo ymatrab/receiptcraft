@@ -7,7 +7,7 @@ import { SITE, absoluteUrl } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Receipt & Bookkeeping Guides — Blog",
   description:
-    "Practical guides on receipts, expense tracking, bookkeeping and small-business records. Learn how to make, store and use receipts the right way.",
+    "Practical guides on receipts, expense tracking, bookkeeping and small-business records. Learn how to make, store, organize and use your receipts the right way.",
   alternates: { canonical: "/blog" },
 };
 
