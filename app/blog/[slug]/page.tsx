@@ -6,7 +6,12 @@ import { getPost, getPostSlugs } from "@/lib/sanity/queries";
 import { urlForImage } from "@/lib/sanity/client";
 import { absoluteUrl, SITE } from "@/lib/site";
 
-export const revalidate = 3600;
+// Kept well below the sitemap's hourly revalidate so a scheduled post's page can
+// never lag behind the sitemap advertising it. A not-yet-live slug is cached as
+// notFound() for at most this long, so once publishedAt passes, the stale 404
+// clears within minutes instead of up to an hour — and the /api/revalidate
+// webhook purges it immediately when Sanity actually publishes.
+export const revalidate = 300;
 
 export async function generateStaticParams() {
   const slugs = await getPostSlugs();

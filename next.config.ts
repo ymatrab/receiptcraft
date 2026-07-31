@@ -18,6 +18,14 @@ const nextConfig: NextConfig = {
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },
+  async redirects() {
+    return [
+      // We ship the icon as /icon.svg, but browsers, crawlers and social
+      // scrapers still probe the legacy /favicon.ico path — send them to the
+      // SVG instead of returning a 404.
+      { source: "/favicon.ico", destination: "/icon.svg", permanent: true },
+    ];
+  },
 };
 
 export default nextConfig;
