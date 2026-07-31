@@ -9,13 +9,18 @@ import {
 } from "./brand-categories";
 
 /**
- * Brand logo URL for a company domain. Prefers the official Wikimedia logo
- * (real wordmarks, CORS-enabled so they embed into exported receipts) resolved
- * by scripts/resolve-logos.mjs. Domains without a verified Wikimedia logo fall
- * back to the same-origin /api/logo favicon proxy (see app/api/logo).
+ * Brand logo URL for a company domain. Prefers the official Wikimedia wordmark
+ * resolved by scripts/resolve-logos.mjs; domains without one fall back to a
+ * favicon. Both are served through the same-origin /api/logo proxy (see
+ * app/api/logo) so logos are edge-cached, survive a Wikimedia hotlink block,
+ * and embed into exported PDF/PNG receipts without cross-origin canvas tainting.
  */
-export const brandLogo = (domain: string) =>
-  WIKIMEDIA_LOGOS[domain] ?? `/api/logo?domain=${domain}`;
+export const brandLogo = (domain: string) => {
+  const wordmark = WIKIMEDIA_LOGOS[domain];
+  return wordmark
+    ? `/api/logo?url=${encodeURIComponent(wordmark)}`
+    : `/api/logo?domain=${domain}`;
+};
 
 let n = 0;
 const id = () => `brand-${++n}`;

@@ -76,6 +76,7 @@ export default function BrandExplorer({ brands }: { brands: BrandListItem[] }) {
                       src={b.logo}
                       alt={`${b.name} logo`}
                       loading="lazy"
+                      decoding="async"
                       className="max-h-10 w-auto max-w-[120px] object-contain"
                     />
                   ) : (
