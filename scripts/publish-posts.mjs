@@ -60,25 +60,62 @@ for (const p of POSTS) {
   }
 }
 
-const docs = POSTS.map((p) => ({
-  _id: `post-${p.slug}`,
-  _type: "post",
-  title: p.title,
-  slug: { _type: "slug", current: p.slug },
-  excerpt: p.excerpt,
-  seoTitle: p.seoTitle,
-  seoDescription: p.seoDescription,
-  publishedAt: p.publishedAt,
-  author: { _type: "reference", _ref: "author-sara-artheta" },
-  category: { _type: "reference", _ref: `category-${p.category}` },
-  faqs: withKeys(p.faqs),
-  body: toPortableText(p.body),
-}));
+// Upload local images to Sanity's asset store, once per unique file. Sanity dedupes
+// by content hash, so re-running returns the same asset id. Skipped in --dry.
+// Each post can reference two: the hero (`image`) and inline body images written as
+// ![alt](assets/…) in the markdown-lite body.
+const MIME = { png: "image/png", jpg: "image/jpeg", jpeg: "image/jpeg", webp: "image/webp" };
+const BODY_IMG_RE = /!\[[^\]]*\]\((assets\/[^)]+)\)/g;
+const imagePaths = (p) => [p.image, ...[...(p.body?.matchAll(BODY_IMG_RE) ?? [])].map((m) => m[1])].filter(Boolean);
+const assetIds = new Map();
+if (!DRY) {
+  for (const p of POSTS) {
+    for (const path of imagePaths(p)) {
+      if (assetIds.has(path)) continue;
+      const filename = path.split("/").pop();
+      const ext = filename.split(".").pop().toLowerCase();
+      const bytes = readFileSync(new URL(`./posts/${path}`, import.meta.url));
+      const res = await fetch(
+        `https://${PROJECT_ID}.api.sanity.io/v${API_VERSION}/assets/images/${DATASET}?filename=${encodeURIComponent(filename)}`,
+        { method: "POST", headers: { "Content-Type": MIME[ext] ?? "application/octet-stream", Authorization: `Bearer ${token}` }, body: bytes }
+      );
+      const body = await res.json();
+      if (!res.ok) {
+        console.error(`Image upload failed for ${path}:`, JSON.stringify(body, null, 2));
+        process.exit(1);
+      }
+      assetIds.set(path, body.document._id);
+      console.log(`✓ Uploaded image ${path} -> ${body.document._id}`);
+    }
+  }
+}
+
+const docs = POSTS.map((p) => {
+  const doc = {
+    _id: `post-${p.slug}`,
+    _type: "post",
+    title: p.title,
+    slug: { _type: "slug", current: p.slug },
+    excerpt: p.excerpt,
+    seoTitle: p.seoTitle,
+    seoDescription: p.seoDescription,
+    publishedAt: p.publishedAt,
+    author: { _type: "reference", _ref: "author-sara-artheta" },
+    category: { _type: "reference", _ref: `category-${p.category}` },
+    faqs: withKeys(p.faqs),
+    body: toPortableText(p.body, (path) => assetIds.get(path)),
+  };
+  const assetId = assetIds.get(p.image);
+  if (assetId) doc.mainImage = { _type: "image", asset: { _type: "reference", _ref: assetId } };
+  return doc;
+});
 
 if (DRY) {
   let total = 0;
   for (const d of docs) {
-    const words = d.body
+    const textBlocks = d.body.filter((b) => b._type === "block");
+    const images = d.body.filter((b) => b._type === "image");
+    const words = textBlocks
       .map((b) => b.children.map((c) => c.text).join(""))
       .join(" ")
       .split(/\s+/).length;
@@ -87,7 +124,10 @@ if (DRY) {
       `${d._id}\n  title: ${d.title}\n  category: ${d.category._ref}  published: ${d.publishedAt}`
     );
     console.log(`  blocks: ${d.body.length}  words: ${words}  faqs: ${d.faqs.length}`);
-    const links = d.body.flatMap((b) => b.markDefs.map((md) => md.href));
+    if (d.mainImage || images.length) {
+      console.log(`  images: hero=${d.mainImage ? "yes" : "no"} inline=${images.length}${images.length ? " (" + images.map((b) => b._localPath ?? b.asset?._ref).join(", ") + ")" : ""}`);
+    }
+    const links = textBlocks.flatMap((b) => b.markDefs.map((md) => md.href));
     console.log(`  links (${links.length}):`, links.join(" "));
     console.log();
   }

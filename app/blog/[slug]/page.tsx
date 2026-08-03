@@ -1,11 +1,30 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { PortableText } from "@portabletext/react";
+import { PortableText, type PortableTextComponents } from "@portabletext/react";
 import { getPost, getPostSlugs } from "@/lib/sanity/queries";
 import { urlForImage } from "@/lib/sanity/client";
 import { fitSeoDescription } from "@/lib/seo-description";
 import { absoluteUrl, SITE } from "@/lib/site";
+
+// Inline body images (![alt](…) authored in the seeder) preserve their natural
+// aspect ratio — hero crops to 16:9, but in-content visuals can be any shape.
+const portableComponents: PortableTextComponents = {
+  types: {
+    image: ({ value }) => {
+      const img = value as { asset?: unknown; alt?: string } | undefined;
+      if (!img?.asset) return null;
+      return (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={urlForImage(img as Parameters<typeof urlForImage>[0]).width(1600).url()}
+          alt={img.alt ?? ""}
+          className="my-8 w-full rounded-2xl"
+        />
+      );
+    },
+  },
+};
 
 // Kept well below the sitemap's hourly revalidate so a scheduled post's page can
 // never lag behind the sitemap advertising it. A not-yet-live slug is cached as
@@ -181,7 +200,7 @@ export default async function BlogPostPage({
 
         <div className="prose prose-slate mt-8 max-w-none prose-headings:font-bold prose-a:text-indigo-600">
           {post.body ? (
-            <PortableText value={post.body as never} />
+            <PortableText value={post.body as never} components={portableComponents} />
           ) : (
             <p className="text-slate-500">This article has no content yet.</p>
           )}

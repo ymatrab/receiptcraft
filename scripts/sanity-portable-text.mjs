@@ -2,7 +2,8 @@
  * Minimal Markdown → Sanity Portable Text converter for the blog seeder.
  * Supports exactly the syntax our articles use:
  *   "## " h2, "### " h3, "- " bullets, "1. " numbered lists,
- *   [text](href) links, **bold**, blank-line-separated paragraphs.
+ *   [text](href) links, **bold**, blank-line-separated paragraphs,
+ *   and "![alt](path)" on its own line for an inline body image.
  */
 import { randomBytes } from "node:crypto";
 
@@ -47,8 +48,21 @@ function block(text, style, listItem) {
   return b;
 }
 
+/**
+ * Build a Portable Text image block. `resolveImage(path)` maps a local asset
+ * path to an uploaded Sanity asset id; when it can't (e.g. --dry, before upload)
+ * the block keeps `_localPath` so the caller can still inspect it.
+ */
+function imageBlock(path, alt, resolveImage) {
+  const b = { _type: "image", _key: key(), alt };
+  const ref = resolveImage?.(path);
+  if (ref) b.asset = { _type: "reference", _ref: ref };
+  else b._localPath = path;
+  return b;
+}
+
 /** Convert a markdown-lite string into an array of Portable Text blocks. */
-export function toPortableText(md) {
+export function toPortableText(md, resolveImage) {
   const blocks = [];
   // Paragraphs are separated by blank lines; list items are one per line.
   for (const rawChunk of md.split(/\n\s*\n/)) {
@@ -56,7 +70,9 @@ export function toPortableText(md) {
     if (!chunk) continue;
     const lines = chunk.split("\n").map((l) => l.trim()).filter(Boolean);
     for (const line of lines) {
-      if (line.startsWith("## ")) blocks.push(block(line.slice(3), "h2"));
+      const img = line.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
+      if (img) blocks.push(imageBlock(img[2], img[1], resolveImage));
+      else if (line.startsWith("## ")) blocks.push(block(line.slice(3), "h2"));
       else if (line.startsWith("### ")) blocks.push(block(line.slice(4), "h3"));
       else if (line.startsWith("- ")) blocks.push(block(line.slice(2), "normal", "bullet"));
       else if (/^\d+\.\s/.test(line)) blocks.push(block(line.replace(/^\d+\.\s/, ""), "normal", "number"));
