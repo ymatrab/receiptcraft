@@ -4,6 +4,7 @@ import { TEMPLATES } from "@/lib/templates";
 import { BRAND_TEMPLATES } from "@/lib/brands";
 import { EXAMPLES, EXAMPLES_TOTAL_PAGES } from "@/lib/examples";
 import { INTENT_PAGES } from "@/lib/intent-pages";
+import { COMPETITORS, LAST_UPDATED } from "@/lib/comparisons";
 import { getAllPosts } from "@/lib/sanity/queries";
 
 // Regenerate hourly so scheduled blog posts (publishedAt <= now()) enter the
@@ -20,6 +21,7 @@ const TEMPLATES_UPDATED = new Date("2026-07-20");
 const BRANDS_UPDATED = new Date("2026-07-20");
 const INTENT_UPDATED = new Date("2026-07-20");
 const EXAMPLES_UPDATED = new Date("2026-07-03");
+const COMPARISONS_UPDATED = new Date(LAST_UPDATED);
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages: MetadataRoute.Sitemap = [
@@ -28,6 +30,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE.url}/templates`, lastModified: TEMPLATES_UPDATED },
     { url: `${SITE.url}/examples`, lastModified: EXAMPLES_UPDATED },
     { url: `${SITE.url}/receipt-help`, lastModified: INTENT_UPDATED },
+    { url: `${SITE.url}/alternatives`, lastModified: COMPARISONS_UPDATED },
     { url: `${SITE.url}/pricing`, lastModified: STATIC_UPDATED },
     { url: `${SITE.url}/login`, lastModified: STATIC_UPDATED },
     { url: `${SITE.url}/blog`, lastModified: STATIC_UPDATED },
@@ -77,6 +80,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: INTENT_UPDATED,
   }));
 
+  const comparisonPages: MetadataRoute.Sitemap = COMPETITORS.map((c) => ({
+    url: `${SITE.url}/compare/${c.slug}`,
+    lastModified: COMPARISONS_UPDATED,
+  }));
+
   return [
     ...staticPages,
     ...templatePages,
@@ -84,6 +92,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...examplePages,
     ...exampleListPages,
     ...intentPages,
+    ...comparisonPages,
     ...blogPages,
   ];
 }

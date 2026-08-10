@@ -109,6 +109,11 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/alternatives" className="text-sm text-slate-500 transition-colors hover:text-indigo-600">
+                  Compare Receipt Makers
+                </Link>
+              </li>
+              <li>
                 <Link href="/#how-it-works" className="text-sm text-slate-500 transition-colors hover:text-indigo-600">
                   How It Works
                 </Link>
