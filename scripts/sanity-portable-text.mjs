@@ -1,7 +1,8 @@
 /**
  * Minimal Markdown → Sanity Portable Text converter for the blog seeder.
  * Supports exactly the syntax our articles use:
- *   "## " h2, "### " h3, "- " bullets, "1. " numbered lists,
+ *   "## " h2, "### " h3, "> " blockquote, "- " bullets, "1. " numbered lists,
+ *   GFM pipe tables (a "| a | b |" row followed by a "| --- | --- |" divider),
  *   [text](href) links, **bold**, blank-line-separated paragraphs,
  *   and "![alt](path)" on its own line for an inline body image.
  */
@@ -61,23 +62,63 @@ function imageBlock(path, alt, resolveImage) {
   return b;
 }
 
+/** Split a pipe-table row "| a | b |" into trimmed cell strings. */
+function splitRow(line) {
+  let s = line.trim();
+  if (s.startsWith("|")) s = s.slice(1);
+  if (s.endsWith("|")) s = s.slice(0, -1);
+  return s.split("|").map((c) => c.trim());
+}
+
+/** A "| --- | :--: |" divider row that separates a table header from its body. */
+const isTableDivider = (line) => /^\|?[\s:|-]+\|?$/.test(line.trim()) && line.includes("-") && line.includes("|");
+
+/**
+ * Portable Text table block. The first row is the header. Cells are plain
+ * strings; the blog renderer draws the first row as <thead> and the rest as
+ * body rows. Kept string-only because our table cells carry no inline marks.
+ */
+function tableBlock(rows) {
+  return {
+    _type: "table",
+    _key: key(),
+    rows: rows.map((cells) => ({ _key: key(), _type: "tableRow", cells })),
+  };
+}
+
 /** Convert a markdown-lite string into an array of Portable Text blocks. */
 export function toPortableText(md, resolveImage) {
   const blocks = [];
-  // Paragraphs are separated by blank lines; list items are one per line.
-  for (const rawChunk of md.split(/\n\s*\n/)) {
-    const chunk = rawChunk.trim();
-    if (!chunk) continue;
-    const lines = chunk.split("\n").map((l) => l.trim()).filter(Boolean);
-    for (const line of lines) {
-      const img = line.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
-      if (img) blocks.push(imageBlock(img[2], img[1], resolveImage));
-      else if (line.startsWith("## ")) blocks.push(block(line.slice(3), "h2"));
-      else if (line.startsWith("### ")) blocks.push(block(line.slice(4), "h3"));
-      else if (line.startsWith("- ")) blocks.push(block(line.slice(2), "normal", "bullet"));
-      else if (/^\d+\.\s/.test(line)) blocks.push(block(line.replace(/^\d+\.\s/, ""), "normal", "number"));
-      else blocks.push(block(line, "normal"));
+  // One block per non-empty line; blank lines just separate. A pipe table spans
+  // several adjacent lines, so it is consumed as a run with look-ahead.
+  const lines = md.split("\n");
+  let i = 0;
+  while (i < lines.length) {
+    const line = lines[i].trim();
+    if (!line) {
+      i++;
+      continue;
     }
+    // Pipe table: a "| … |" row immediately followed by a "| --- | --- |" divider.
+    if (line.startsWith("|") && i + 1 < lines.length && isTableDivider(lines[i + 1])) {
+      const rows = [splitRow(line)];
+      i += 2; // consume the header row and the divider
+      while (i < lines.length && lines[i].trim().startsWith("|")) {
+        rows.push(splitRow(lines[i].trim()));
+        i++;
+      }
+      blocks.push(tableBlock(rows));
+      continue;
+    }
+    const img = line.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
+    if (img) blocks.push(imageBlock(img[2], img[1], resolveImage));
+    else if (line.startsWith("## ")) blocks.push(block(line.slice(3), "h2"));
+    else if (line.startsWith("### ")) blocks.push(block(line.slice(4), "h3"));
+    else if (line.startsWith("> ")) blocks.push(block(line.slice(2), "blockquote"));
+    else if (line.startsWith("- ")) blocks.push(block(line.slice(2), "normal", "bullet"));
+    else if (/^\d+\.\s/.test(line)) blocks.push(block(line.replace(/^\d+\.\s/, ""), "normal", "number"));
+    else blocks.push(block(line, "normal"));
+    i++;
   }
   return blocks;
 }

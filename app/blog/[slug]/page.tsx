@@ -23,6 +23,53 @@ const portableComponents: PortableTextComponents = {
         />
       );
     },
+    // Comparison tables authored as pipe tables in the seeder. First row = header.
+    table: ({ value }) => {
+      const rows = (value as { rows?: { cells?: string[] }[] } | undefined)?.rows ?? [];
+      if (rows.length === 0) return null;
+      const [head, ...body] = rows;
+      return (
+        <div className="my-8 overflow-x-auto">
+          <table className="w-full border-collapse text-left text-sm">
+            {head?.cells && (
+              <thead>
+                <tr>
+                  {head.cells.map((cell, i) => (
+                    <th
+                      key={i}
+                      className="border border-slate-300 bg-slate-50 px-3 py-2 font-semibold text-slate-900"
+                    >
+                      {cell}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+            )}
+            <tbody>
+              {body.map((row, ri) => (
+                <tr key={ri}>
+                  {(row.cells ?? []).map((cell, ci) => (
+                    <td
+                      key={ci}
+                      className="border border-slate-300 px-3 py-2 align-top text-slate-700"
+                    >
+                      {cell}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      );
+    },
+  },
+  block: {
+    blockquote: ({ children }) => (
+      <blockquote className="my-6 border-l-4 border-indigo-300 bg-slate-50 py-2 pl-4 pr-3 italic text-slate-700">
+        {children}
+      </blockquote>
+    ),
   },
 };
 

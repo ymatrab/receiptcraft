@@ -39,7 +39,33 @@ export const post = defineType({
       name: "body",
       title: "Body",
       type: "array",
-      of: [{ type: "block" }, { type: "image", options: { hotspot: true } }],
+      of: [
+        { type: "block" },
+        { type: "image", options: { hotspot: true } },
+        {
+          type: "object",
+          name: "table",
+          title: "Table",
+          fields: [
+            defineField({
+              name: "rows",
+              title: "Rows",
+              type: "array",
+              of: [
+                {
+                  type: "object",
+                  name: "tableRow",
+                  fields: [
+                    defineField({ name: "cells", title: "Cells", type: "array", of: [{ type: "string" }] }),
+                  ],
+                  preview: { select: { cells: "cells" }, prepare: ({ cells }) => ({ title: (cells ?? []).join(" | ") }) },
+                },
+              ],
+            }),
+          ],
+          preview: { prepare: () => ({ title: "Table" }) },
+        },
+      ],
     }),
     defineField({ name: "seoTitle", title: "SEO title", type: "string" }),
     defineField({ name: "seoDescription", title: "SEO description", type: "text", rows: 2 }),
