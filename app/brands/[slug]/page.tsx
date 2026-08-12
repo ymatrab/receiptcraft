@@ -156,6 +156,16 @@ export default async function BrandTemplatePage({ params }: Props) {
               </Link>
             </div>
 
+            {/* Non-affiliation / provenance notice, shown next to the CTA where
+                the trademark/misuse risk is highest. Uses the site's standard
+                brand-safety wording — keep in sync with the brands hub + Terms. */}
+            <p className="mt-4 rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-xs leading-relaxed text-slate-500">
+              Independent, customizable template. {SITE.name} is not affiliated
+              with, endorsed by, or issued by {template.shortName}. Receipts you
+              create are for lawful records, personal mockups and authorized use
+              only — not a proof of purchase.
+            </p>
+
             <h2 className="mt-12 text-xl font-bold text-slate-900">
               Common uses for a {template.name.toLowerCase()}
             </h2>
