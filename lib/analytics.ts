@@ -64,4 +64,9 @@ export const analytics = {
     track("save_receipt", { target }),
   // A free user hit the watermark wall on download — the upgrade decision point.
   watermarkPrompt: (format: string) => track("watermark_prompt", { format }),
+  // Download intent — fired on every download-button click, before the login or
+  // watermark gate. `state` (pro/free/anon) lets us split the preview →
+  // download-attempt drop by which gate the user then hits.
+  downloadClick: (format: string, state: "pro" | "free" | "anon") =>
+    track("download_click", { format, state }),
 };

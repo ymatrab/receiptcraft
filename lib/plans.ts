@@ -78,7 +78,7 @@ export const PLANS: Record<PlanId, Plan> = {
     features: [
       "Everything in Pro Monthly",
       "Save ~60% vs monthly",
-      "2 months free",
+      "Just $3.25/mo, billed yearly",
     ],
   },
 };

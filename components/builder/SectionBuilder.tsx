@@ -21,6 +21,7 @@ import type {
 import type { PresetId } from "@/lib/sections";
 import {
   blankDoc,
+  blankDocSeed,
   docFromReceiptData,
   itemsTotals,
   newDocId,
@@ -150,7 +151,11 @@ function getQueryTemplate(): string {
 }
 
 export default function SectionBuilder() {
-  const [doc, setDoc] = useState<ReceiptDoc>(blankDoc);
+  // Seed with a deterministic blank doc so the server and client render
+  // identical HTML (no hydration mismatch / #418). The mount effect below swaps
+  // in a real blankDoc() — with today's date and a random receipt number — once
+  // we're on the client, unless a draft/template/AI/receipt takes over.
+  const [doc, setDoc] = useState<ReceiptDoc>(blankDocSeed);
   const [collapsed, setCollapsed] = useState<Record<string, boolean>>({});
   const [itemDetails, setItemDetails] = useState<Record<string, boolean>>({});
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -233,6 +238,10 @@ export default function SectionBuilder() {
       setDoc(saved);
       analytics.builderOpened("draft");
     } else {
+      // No draft/template/AI — replace the deterministic SSR seed with a real
+      // blank doc (fills today's date, time and a random receipt number
+      // client-side, after hydration).
+      setDoc(blankDoc());
       analytics.builderOpened("blank");
     }
   }, []);
@@ -513,6 +522,13 @@ export default function SectionBuilder() {
   // watermarked — counted per unique receipt so re-downloads stay free).
   const requestExport = async (kind: ExportKind) => {
     if (exporting) return;
+
+    // Download intent — fires once per click, before any gate, so the funnel
+    // captures preview → download-attempt and where it drops (login vs paywall).
+    analytics.downloadClick(
+      kind === "pdf-print" ? "pdf" : kind,
+      account.isPro ? "pro" : account.isLoggedIn ? "free" : "anon"
+    );
 
     if (account.isPro) return handleExport(kind, false);
 

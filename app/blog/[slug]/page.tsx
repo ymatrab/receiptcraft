@@ -205,9 +205,20 @@ export default async function BlogPostPage({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
         />
       )}
-      <Link href="/blog" className="text-sm font-medium text-indigo-600 hover:text-indigo-700">
-        ← All articles
-      </Link>
+      {/* Visible breadcrumb — matches breadcrumbJsonLd (Home / Blog / title). */}
+      <nav aria-label="Breadcrumb" className="text-sm text-slate-500">
+        <ol className="flex flex-wrap items-center gap-1.5">
+          <li>
+            <Link href="/" className="hover:text-indigo-600">Home</Link>
+          </li>
+          <li aria-hidden="true">/</li>
+          <li>
+            <Link href="/blog" className="hover:text-indigo-600">Blog</Link>
+          </li>
+          <li aria-hidden="true">/</li>
+          <li className="font-medium text-slate-900">{post.title}</li>
+        </ol>
+      </nav>
 
       <article className="mt-6">
         {post.category && (

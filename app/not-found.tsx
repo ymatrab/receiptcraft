@@ -3,9 +3,16 @@ import Link from "next/link";
 
 // A 404 response is noindex by default in Next; declare it explicitly so the
 // root layout's `index, follow` and canonical are not inherited onto this page.
+// googleBot is pinned to noindex too: the layout sets `googleBot: { index }`, and
+// if it leaks through metadata merge it would render a second, conflicting robots
+// directive — so we override it here to keep a single noindex on the 404.
 export const metadata: Metadata = {
   title: "Page not found",
-  robots: { index: false, follow: false },
+  robots: {
+    index: false,
+    follow: false,
+    googleBot: { index: false, follow: false },
+  },
   alternates: {},
 };
 

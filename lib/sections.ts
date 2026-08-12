@@ -320,6 +320,27 @@ const SERVICE_PROFILES: ReceiptProfile[] = [
 
 /** Build a fresh, generic receipt document for "start from scratch". */
 export function blankDoc(): ReceiptDoc {
+  return buildBlank(todayISO(), nowHHMM(), randomReceiptNumber(), randomReceiptNumber());
+}
+
+/**
+ * Deterministic seed for the builder's very first render (SSR + hydration).
+ * The date, time and random receipt numbers are the only non-deterministic
+ * parts of a blank doc, so they start empty here — that guarantees the server
+ * and client render identical HTML and avoids the React hydration mismatch
+ * (#418) the audit flagged. SectionBuilder swaps in a real blankDoc() on mount
+ * to fill these in on the client.
+ */
+export function blankDocSeed(): ReceiptDoc {
+  return buildBlank("", "", "", "");
+}
+
+function buildBlank(
+  date: string,
+  time: string,
+  receiptNumber: string,
+  barcodeValue: string
+): ReceiptDoc {
   const d: RuleStyle = "dashed";
   return {
     settings: { font: "mono", widthPx: 380, accent: "#4f46e5", currency: "USD" },
@@ -334,7 +355,7 @@ export function blankDoc(): ReceiptDoc {
         phone: "(555) 123-4567",
         website: "www.genericstore.com",
       },
-      { id: uid(), type: "datetime", align: "left", divider: d, date: todayISO(), time: nowHHMM(), receiptNumber: randomReceiptNumber() },
+      { id: uid(), type: "datetime", align: "left", divider: d, date, time, receiptNumber },
       {
         id: uid(),
         type: "items",
@@ -353,7 +374,7 @@ export function blankDoc(): ReceiptDoc {
       },
       { id: uid(), type: "payment", divider: d, method: "Card", cardType: "Credit", cardLastFour: "1234", showCardAuth: true },
       { id: uid(), type: "message", align: "center", text: "Thank you for your business!" },
-      { id: uid(), type: "barcode", align: "center", value: randomReceiptNumber(), showText: true },
+      { id: uid(), type: "barcode", align: "center", value: barcodeValue, showText: true },
     ],
   };
 }

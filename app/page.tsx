@@ -234,6 +234,10 @@ export default function HomePage() {
                 Browse Templates
               </Link>
             </div>
+            <p className="mt-3 text-sm text-slate-500">
+              Free to build &amp; preview — no sign-up. A free account is needed
+              only to download, and your first 3 downloads are watermark-free.
+            </p>
             <dl className="mt-10 grid max-w-md grid-cols-3 gap-6">
               <div>
                 <dt className="text-2xl font-bold text-slate-900">100+</dt>
