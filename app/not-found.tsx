@@ -1,13 +1,21 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-// This Next build auto-injects `<meta name="robots" content="noindex">` on every
-// 404 response (verified on the live 404), and the layout's `index, follow` is
-// NOT inherited here. So we must NOT also declare `robots` — doing so renders a
-// second, duplicate <meta name="robots"> tag. Keep `alternates` empty so the
-// layout's canonical "/" isn't inherited onto the 404.
+// This Next build does two conflicting things on a 404, verified against the live
+// page: (1) it auto-injects its own `<meta name="robots" content="noindex">`, and
+// (2) it STILL inherits the root layout's sitewide `index, follow` unless we
+// override it here. So we must declare noindex robots (incl. googleBot) to
+// suppress that inherited `index, follow`. The trade-off is two `<meta name=
+// "robots">` tags (the framework's + ours) — but BOTH are noindex, so it's
+// harmless. Do NOT remove this: without it, `index, follow` leaks onto the 404.
+// `alternates: {}` likewise stops the layout's canonical "/" being inherited.
 export const metadata: Metadata = {
   title: "Page not found",
+  robots: {
+    index: false,
+    follow: false,
+    googleBot: { index: false, follow: false },
+  },
   alternates: {},
 };
 
