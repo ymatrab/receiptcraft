@@ -225,6 +225,22 @@ export interface TemplateFaq {
   answer: string;
 }
 
+/** A field that appears on this receipt vertical — used by the
+ *  "What's on a [X] receipt" depth section. `description` is the
+ *  vertical-specific meaning (e.g. what "service charge" is on a bar tab). */
+export interface TemplateField {
+  name: string;
+  description: string;
+}
+
+/** A block of vertical-specific expert guidance — the tax/tip/fees/legal
+ *  nuance that turns a thin stub into the most complete page for the intent.
+ *  `body` may contain blank-line-separated paragraphs. */
+export interface TemplateGuidance {
+  heading: string;
+  body: string;
+}
+
 export interface ReceiptTemplate {
   slug: string;
   name: string;
@@ -237,4 +253,19 @@ export interface ReceiptTemplate {
   useCases: string[];
   faqs: TemplateFaq[];
   defaults: Partial<ReceiptData> & { items: LineItem[] };
+
+  // ── Optional depth fields (Content Depth Plan) ───────────────────────
+  // All optional + backward-compatible: a template without them renders
+  // exactly as before. Present them to deepen a money page to the blueprint.
+  /** 40–70 word extractable answer, rendered as a highlighted block near the
+   *  top for AEO ("A [X] receipt shows …"). */
+  leadAnswer?: string;
+  /** Vertical-specific fields for the "What's on a [X] receipt" section. Each
+   *  concept links to /guides/receipt-anatomy. */
+  fields?: TemplateField[];
+  /** Concrete "how to make one" steps ending at the builder CTA. */
+  howToSteps?: string[];
+  /** Vertical nuance sections (tax rules, tip vs. service charge, legal notes)
+   *  — the depth competitors lack. */
+  guidance?: TemplateGuidance[];
 }

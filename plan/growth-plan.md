@@ -3,6 +3,13 @@
 Living tracker for SEO/AEO content growth. Full article blueprint (140 titles,
 slugs, keywords, calendar) lives in [blog-content-plan.md](./blog-content-plan.md).
 
+> ⚠️ **2026-08-10 audit update:** blog drip is working (Semrush coverage 358 → **535** kw)
+> but positions are flat-to-down (top-10 6→5, top-3 1→0) and the `/compare/*` +
+> `/alternatives` pages are **404 in production** (built locally, never committed/deployed).
+> Current priorities live in [`seo-audit/ACTION-PLAN-2026-08-10.md`](../seo-audit/ACTION-PLAN-2026-08-10.md):
+> deploy the built comparison pages, drop the `fake receipt maker` keyword, then convert
+> the 56 striking-distance keywords (pos 11–30) and fix cannibalization.
+
 ## Blog rollout status — ✅ COMPLETE (2026-07-11)
 
 | Batch | Articles | Status |

@@ -114,6 +114,12 @@ export default async function TemplatePage({ params }: Props) {
             </h1>
             <p className="mt-4 text-lg leading-relaxed text-slate-600">{template.intro}</p>
 
+            {template.leadAnswer && (
+              <p className="mt-6 rounded-2xl border-l-4 border-indigo-500 bg-indigo-50/60 px-5 py-4 text-base leading-relaxed text-slate-700">
+                {template.leadAnswer}
+              </p>
+            )}
+
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
                 href={`/create?template=${template.slug}`}
@@ -156,6 +162,97 @@ export default async function TemplatePage({ params }: Props) {
             </div>
           </div>
         </div>
+
+        {/* What's on a [X] receipt — vertical-specific fields */}
+        {template.fields && template.fields.length > 0 && (
+          <section className="mt-20" aria-labelledby="fields-heading">
+            <h2 id="fields-heading" className="text-2xl font-bold text-slate-900">
+              What&apos;s on a {template.shortName.toLowerCase()} receipt
+            </h2>
+            <p className="mt-4 max-w-3xl leading-relaxed text-slate-600">
+              These are the fields a {template.shortName.toLowerCase()} receipt is
+              expected to show — the same ones filled in on the sample above. For a
+              plain-English definition of any receipt field, see the{" "}
+              <Link href="/guides/receipt-anatomy" className="font-medium text-indigo-600 hover:text-indigo-700">
+                Receipt Field Dictionary
+              </Link>
+              .
+            </p>
+            <dl className="mt-6 grid gap-x-8 gap-y-5 sm:grid-cols-2">
+              {template.fields.map((f) => (
+                <div key={f.name} className="border-l-2 border-slate-200 pl-4">
+                  <dt className="font-semibold text-slate-900">{f.name}</dt>
+                  <dd className="mt-1 text-sm leading-relaxed text-slate-600">{f.description}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        )}
+
+        {/* How to make one → builder CTA */}
+        {template.howToSteps && template.howToSteps.length > 0 && (
+          <section className="mt-20" aria-labelledby="how-to-heading">
+            <h2 id="how-to-heading" className="text-2xl font-bold text-slate-900">
+              How to make a {template.shortName.toLowerCase()} receipt
+            </h2>
+            <ol className="mt-6 max-w-3xl list-decimal space-y-3 pl-5 text-slate-600 marker:font-semibold marker:text-indigo-600">
+              {template.howToSteps.map((step) => (
+                <li key={step} className="leading-relaxed pl-1">{step}</li>
+              ))}
+            </ol>
+            <Link
+              href={`/create?template=${template.slug}`}
+              className="mt-8 inline-block rounded-full bg-indigo-600 px-7 py-3.5 text-base font-semibold text-white shadow-lg shadow-indigo-600/25 transition-all hover:bg-indigo-700"
+            >
+              Open the {template.shortName} template — Free
+            </Link>
+          </section>
+        )}
+
+        {/* Vertical-specific guidance — the depth competitors lack */}
+        {template.guidance && template.guidance.length > 0 && (
+          <section className="mt-20" aria-labelledby="guidance-heading">
+            <h2 id="guidance-heading" className="text-2xl font-bold text-slate-900">
+              {template.shortName} receipts: what to get right
+            </h2>
+            <div className="mt-6 max-w-3xl space-y-8">
+              {template.guidance.map((g) => (
+                <div key={g.heading}>
+                  <h3 className="text-lg font-bold text-slate-900">{g.heading}</h3>
+                  {g.body.split(/\n\n+/).map((para, i) => (
+                    <p key={i} className="mt-3 leading-relaxed text-slate-600">{para}</p>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Helpful tools & guides — internal links (depth pages only) */}
+        {template.guidance && template.guidance.length > 0 && (
+          <section className="mt-20" aria-labelledby="tools-heading">
+            <h2 id="tools-heading" className="text-2xl font-bold text-slate-900">
+              Helpful tools &amp; guides
+            </h2>
+            <ul className="mt-6 grid gap-4 sm:grid-cols-3">
+              {[
+                { href: "/tools/receipt-calculator", title: "Receipt totals calculator", desc: "Check subtotal, tax, tip, total and change." },
+                { href: "/tools/split-payment-checker", title: "Split-payment checker", desc: "Reconcile a bill paid across several tenders." },
+                { href: "/guides/receipt-anatomy", title: "Receipt Field Dictionary", desc: "Every receipt field, defined in plain English." },
+              ].map((l) => (
+                <li key={l.href}>
+                  <Link
+                    href={l.href}
+                    className="group flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-5 transition-all hover:border-indigo-300 hover:shadow-md"
+                  >
+                    <span className="text-sm font-semibold text-slate-900 group-hover:text-indigo-700">{l.title}</span>
+                    <span className="mt-1 text-sm text-slate-500">{l.desc}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
 
         {/* FAQ */}
         {template.faqs.length > 0 && (

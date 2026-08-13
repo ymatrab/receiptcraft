@@ -53,6 +53,12 @@ export async function GET(request: Request): Promise<Response> {
       // Same-origin already avoids canvas tainting; ACAO keeps the asset usable
       // in html-to-image even when loaded via crossOrigin="anonymous" <img>.
       "Access-Control-Allow-Origin": "*",
+      // These are third-party brand marks re-served through a proxy — useful
+      // embedded on brand/example pages, but not something we want in Google's
+      // image index. robots still allows /api/logo (so pages render), while this
+      // header keeps the endpoint out of the index and clears the ?domain=…
+      // variants out of GSC's "Crawled – currently not indexed" bucket.
+      "X-Robots-Tag": "noindex",
     },
   });
 }

@@ -59,6 +59,10 @@ export default function Header() {
           ))}
           <Link
             href={accountHref}
+            // The logged-out link is /login?next=<current-path>, so this link
+            // alone spawns a unique crawlable URL on every page. nofollow keeps
+            // Googlebot from crawling that endless set of login duplicates.
+            rel={account.isLoggedIn ? undefined : "nofollow"}
             className="text-sm font-medium text-slate-600 transition-colors hover:text-slate-900"
           >
             {accountLabel}
@@ -106,6 +110,7 @@ export default function Header() {
           <Link
             href={accountHref}
             onClick={() => setOpen(false)}
+            rel={account.isLoggedIn ? undefined : "nofollow"}
             className="block rounded-lg px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50"
           >
             {accountLabel}

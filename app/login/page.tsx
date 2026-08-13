@@ -5,13 +5,28 @@ import LoginForm from "./LoginForm";
 import { SITE } from "@/lib/site";
 import { getCurrentUser } from "@/lib/auth";
 
-// Indexable on purpose: downloads require an account now, so "makecepeit
-// login" is a real branded query and Bing flags the page as important.
-export const metadata: Metadata = {
-  title: "Log in",
-  description: `Log in to ${SITE.name} to download your receipts, manage your Pro subscription and saved templates, and get support. New here? An account takes seconds to create.`,
-  alternates: { canonical: "/login" },
-};
+// Bare /login is indexable on purpose: downloads require an account now, so
+// "makecepeit login" is a real branded query and Bing flags the page as
+// important. But the header appends ?next=<current-path> to the log-in link on
+// every page, so Googlebot discovers an endless supply of /login?next=… URLs
+// that are pure duplicates of /login with no standalone value — exactly what
+// Search Console flags as "Duplicate without user-selected canonical". We
+// noindex those variants (canonical still points at /login, so link equity
+// lands on the one page we want indexed) while keeping bare /login in the index.
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ next?: string }>;
+}): Promise<Metadata> {
+  const { next } = await searchParams;
+  const hasNext = typeof next === "string" && next.length > 0;
+  return {
+    title: "Log in",
+    description: `Log in to ${SITE.name} to download your receipts, manage your Pro subscription and saved templates, and get support. New here? An account takes seconds to create.`,
+    alternates: { canonical: "/login" },
+    ...(hasNext ? { robots: { index: false, follow: true } } : {}),
+  };
+}
 
 export default async function LoginPage({
   searchParams,

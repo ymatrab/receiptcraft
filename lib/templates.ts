@@ -63,11 +63,79 @@ export const TEMPLATES: ReceiptTemplate[] = [
     heading: "Restaurant Receipt Generator",
     intro:
       "Build an itemized restaurant bill with dishes, drinks, sales tax, tip and payment method. Ideal for business meal expense claims, per-diem documentation and replacing lost dinner receipts.",
+    leadAnswer:
+      "A restaurant receipt shows the restaurant's name and location, the server and table or check number, each dish and drink with its price, the food subtotal, sales tax, an optional tip or service charge, and the final total with the payment method. Large parties often see an automatic gratuity added as its own line.",
     useCases: [
       "Business meal expense reimbursement",
       "Replace a lost dinner or lunch receipt",
       "Per-diem and travel expense documentation",
       "Restaurant POS mockups and menu pricing tests",
+    ],
+    fields: [
+      {
+        name: "Server & table",
+        description:
+          "The server's name and the table or check number identify who took the order — printed at the top of most sit-down tickets.",
+      },
+      {
+        name: "Itemized food & drink",
+        description:
+          "Every dish and beverage on its own line with quantity and price, so the bill can be verified item by item.",
+      },
+      {
+        name: "Subtotal",
+        description:
+          "The total of all food and drink before tax and tip — the figure sales tax is calculated on.",
+      },
+      {
+        name: "Sales tax",
+        description:
+          "State and local tax on prepared food, often at a higher 'meals' rate than groceries. Charged on the subtotal, not on the tip.",
+      },
+      {
+        name: "Tip / gratuity",
+        description:
+          "A voluntary amount added after tax. On the merchant copy the tip and final total are usually left blank for the guest to write in.",
+      },
+      {
+        name: "Service charge",
+        description:
+          "A mandatory percentage the restaurant adds itself (commonly 18–20% for large parties), printed as its own line before the total.",
+      },
+      {
+        name: "Total & payment",
+        description:
+          "The grand total including tax and tip, plus how it was paid — cash, or a card with the last four digits.",
+      },
+    ],
+    howToSteps: [
+      "Open the Restaurant template — it loads with dishes, an 8% sales tax and a sample tip already filled in.",
+      "Set the restaurant name, address and phone; put the server's name in the cashier field and the table number in the register field.",
+      "Add each dish and drink as its own line with quantity and price — the subtotal updates as you type.",
+      "Set your local sales-tax rate, then enter the tip (or an auto-gratuity amount for a large party).",
+      "Sign in with a free account to download a print-ready PDF or high-resolution PNG — your first three receipts are watermark-free.",
+    ],
+    guidance: [
+      {
+        heading: "Tip vs. service charge — keep them separate",
+        body:
+          "A tip is voluntary and usually written in by the guest after tax, which is why the printed merchant copy leaves the 'Tip' and 'Total' lines blank while the customer copy shows suggested totals.\n\nA service charge (or 'auto-gratuity') is a mandatory percentage the restaurant adds itself — commonly 18–20% for parties of six or more — and prints as its own line before the total. The two are taxed and reported differently, so if the real receipt itemized a service charge, don't fold it into the tip field; add it as its own line labelled 'Service Charge (18%)'.",
+      },
+      {
+        heading: "How tax is applied to a restaurant bill",
+        body:
+          "Sales tax on prepared food is charged on the food-and-drink subtotal, before the tip — the math reads subtotal → tax → tip → total. Tax is never charged on the tip itself.\n\nMany states tax restaurant meals at a higher 'prepared food' rate than groceries, and some cities add a separate meals tax on top. If you're recreating a real bill, match the tax to the subtotal shown on your card statement rather than guessing a round number.",
+      },
+      {
+        heading: "Splitting the check",
+        body:
+          "When a table splits the bill, each guest's receipt shows only their share of the items plus a proportional share of tax and tip. To reconcile a bill paid across several cards or cash, the Split-payment checker adds every tender back to the grand total so nothing is double-counted.",
+      },
+      {
+        heading: "Alcohol and separate bar tabs",
+        body:
+          "Bars and many restaurants ring alcohol on a separate tab or under a different tax line, and expense policies often exclude alcohol from reimbursement. Itemize drinks as their own lines so an approver can see — and, if needed, subtract — them. A total-only receipt usually fails an itemization requirement.",
+      },
     ],
     faqs: [
       {
@@ -79,6 +147,21 @@ export const TEMPLATES: ReceiptTemplate[] = [
         question: "Does the restaurant receipt show a server name and table?",
         answer:
           "Yes. You can set a server name in the cashier field and use the register field for the table number, so the receipt mirrors a genuine restaurant ticket.",
+      },
+      {
+        question: "Is the tip calculated before or after tax?",
+        answer:
+          "Custom is to base the tip on the pre-tax subtotal, though many guests tip on the post-tax total — both are common. On the receipt itself the tip is added after tax, so the totals read subtotal → tax → tip → grand total. Our builder adds the tip amount after tax automatically.",
+      },
+      {
+        question: "What is an automatic gratuity or service charge?",
+        answer:
+          "It's a mandatory percentage the restaurant adds for large parties — often 18–20% for six or more guests — printed as its own line before the total. Enter it in the tip field, or add a separate line item labelled 'Service Charge (18%)' if the original receipt itemized it that way.",
+      },
+      {
+        question: "Can I use a recreated restaurant receipt for a business-meal expense claim?",
+        answer:
+          "Many expense systems accept a recreated itemized receipt alongside the card-statement line for the meal. Recreate the real restaurant, date, dishes and amounts, keep alcohol on its own line if your policy excludes it, and submit both documents together. Always follow your employer's reimbursement rules.",
       },
     ],
     defaults: {

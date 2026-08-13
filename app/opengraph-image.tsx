@@ -90,6 +90,13 @@ export default function OpenGraphImage() {
         </div>
       </div>
     ),
-    size
+    {
+      ...size,
+      // This image exists for social/link unfurls, not Google's image index.
+      // noindex clears /opengraph-image from GSC's "Crawled – currently not
+      // indexed" list. Social scrapers (facebookexternalhit, Twitterbot) ignore
+      // X-Robots-Tag, so link previews are unaffected.
+      headers: { "X-Robots-Tag": "noindex" },
+    }
   );
 }
