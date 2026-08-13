@@ -144,6 +144,13 @@ export default function ReceiptCalculatorPage() {
           >
             split-payment checker
           </Link>
+          . For what every other field on a receipt means, see the{" "}
+          <Link
+            href="/guides/receipt-anatomy"
+            className="font-semibold text-indigo-600 hover:text-indigo-700"
+          >
+            anatomy of a receipt
+          </Link>
           .
         </p>
       </section>

@@ -29,6 +29,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE.url}/create`, lastModified: STATIC_UPDATED },
     { url: `${SITE.url}/tools/receipt-calculator`, lastModified: STATIC_UPDATED },
     { url: `${SITE.url}/tools/split-payment-checker`, lastModified: STATIC_UPDATED },
+    { url: `${SITE.url}/guides/receipt-anatomy`, lastModified: STATIC_UPDATED },
     { url: `${SITE.url}/templates`, lastModified: TEMPLATES_UPDATED },
     { url: `${SITE.url}/examples`, lastModified: EXAMPLES_UPDATED },
     { url: `${SITE.url}/receipt-help`, lastModified: INTENT_UPDATED },
