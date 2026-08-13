@@ -56,14 +56,14 @@ export default function EditorialPolicyPage() {
       <div className="mt-8 space-y-5 leading-relaxed text-slate-600">
         <H2>Who writes and reviews</H2>
         <p>
-          Our content is led by{" "}
-          <Link href="/authors/sara-artheta" className="font-medium text-indigo-600 hover:underline">
-            Sara Artheta
+          Our guides and templates are written and reviewed by the{" "}
+          <Link href="/authors" className="font-medium text-indigo-600 hover:underline">
+            {SITE.name} team
           </Link>
-          , {SITE.name}&apos;s founder and editor, whose background is in
-          small-business bookkeeping and expense reporting. Guides are grounded
-          in how receipts actually work in practice, and every template is
-          reviewed for realistic fields and layout before it is published.
+          , drawing on hands-on experience with small-business receipts,
+          bookkeeping and expense reporting. Guides are grounded in how receipts
+          actually work in practice, and every template is reviewed for realistic
+          fields and layout before it is published.
         </p>
 
         <H2>Accuracy and sources</H2>

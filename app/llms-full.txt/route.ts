@@ -41,7 +41,7 @@ export async function GET() {
 
 > ${SITE.name} is a free online receipt maker at ${SITE.url}. Users build professional receipts with a live preview — free, with no sign-up. Downloading uses a free account: the first 3 receipts export watermark-free in HD (PDF, PNG or JPG), after which free downloads carry a small watermark unless the user upgrades to Pro. An optional Pro plan removes the watermark on every download and unlocks unlimited AI generation and saved history. Manual receipt building is processed entirely in the browser; only the optional AI generator and account features send data to a server.
 
-Founder & editor: Sara Artheta (${SITE.url}/about). Contact: ${SITE.email}.
+Written and reviewed by the ${SITE.name} team (${SITE.url}/authors); editorial standards at ${SITE.url}/editorial-policy. Contact: ${SITE.email}.
 
 ## Pricing
 

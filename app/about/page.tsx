@@ -9,15 +9,14 @@ export const metadata: Metadata = {
   alternates: { canonical: "/about" },
 };
 
-const personJsonLd = {
+const aboutJsonLd = {
   "@context": "https://schema.org",
-  "@type": "Person",
-  name: "Sara Artheta",
-  jobTitle: "Founder & Editor",
-  worksFor: { "@type": "Organization", name: SITE.name, url: SITE.url },
-  url: `${SITE.url}/authors/sara-artheta`,
+  "@type": "AboutPage",
+  name: `About ${SITE.name}`,
+  url: `${SITE.url}/about`,
   description:
-    "Founder of Makecepeit. Background in small-business bookkeeping and expense reporting; writes the receipt guides and reviews every template.",
+    "About Makecepeit — a free, privacy-first online receipt maker built by a small team with small-business bookkeeping and expense-reporting experience.",
+  publisher: { "@type": "Organization", name: SITE.name, url: SITE.url },
 };
 
 export default function AboutPage() {
@@ -25,7 +24,7 @@ export default function AboutPage() {
     <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutJsonLd) }}
       />
       <h1 className="text-4xl font-bold tracking-tight text-slate-900">About {SITE.name}</h1>
 
@@ -72,27 +71,27 @@ export default function AboutPage() {
             aria-hidden="true"
             className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 text-lg font-bold text-white"
           >
-            SA
+            M
           </span>
           <div>
-            <p className="font-semibold text-slate-900">Sara Artheta</p>
-            <p className="text-sm text-slate-500">Founder &amp; Editor</p>
+            <p className="font-semibold text-slate-900">The {SITE.name} team</p>
+            <p className="text-sm text-slate-500">Product &amp; editorial</p>
             <p className="mt-2 text-sm leading-relaxed">
-              Sara spent years doing bookkeeping and expense reporting for small
-              businesses before building {SITE.name} — born out of one too many
-              faded thermal receipts at tax time. She writes the guides on our{" "}
+              {SITE.name} is built and maintained by a small team with hands-on
+              experience in small-business bookkeeping and expense reporting —
+              born out of one too many faded thermal receipts at tax time. We
+              write the guides on our{" "}
               <Link href="/blog" className="font-medium text-indigo-600 hover:underline">
                 blog
               </Link>
-              , reviews every template for realism, and answers support herself
-              through the in-app chat.
+              , review every template for realism, and answer support ourselves.
             </p>
             <p className="mt-2 text-sm">
               <Link
-                href="/authors/sara-artheta"
+                href="/editorial-policy"
                 className="font-medium text-indigo-600 hover:underline"
               >
-                Read Sara&apos;s full profile →
+                Read our editorial standards →
               </Link>
             </p>
           </div>

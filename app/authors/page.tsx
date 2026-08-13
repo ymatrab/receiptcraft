@@ -3,28 +3,17 @@ import Link from "next/link";
 import { SITE, absoluteUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Authors & Editorial Team",
-  description: `The people who write and review ${SITE.name}'s receipt guides and templates, with their background and areas of focus.`,
+  title: "Editorial Team",
+  description: `Who writes and reviews ${SITE.name}'s receipt guides and templates, and the editorial standards we hold them to.`,
   alternates: { canonical: "/authors" },
 };
-
-const AUTHORS = [
-  {
-    slug: "sara-artheta",
-    name: "Sara Artheta",
-    role: "Founder & Editor",
-    initials: "SA",
-    blurb:
-      "Founder of Makecepeit with a background in small-business bookkeeping and expense reporting. Writes the receipt guides and reviews every template for realism.",
-  },
-];
 
 const breadcrumbJsonLd = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   itemListElement: [
     { "@type": "ListItem", position: 1, name: "Home", item: SITE.url },
-    { "@type": "ListItem", position: 2, name: "Authors", item: absoluteUrl("/authors") },
+    { "@type": "ListItem", position: 2, name: "Editorial Team", item: absoluteUrl("/authors") },
   ],
 };
 
@@ -44,44 +33,50 @@ export default function AuthorsPage() {
             </Link>
           </li>
           <li aria-hidden="true">/</li>
-          <li className="font-medium text-slate-900">Authors</li>
+          <li className="font-medium text-slate-900">Editorial Team</li>
         </ol>
       </nav>
 
-      <h1 className="mt-6 text-4xl font-bold tracking-tight text-slate-900">
-        Authors &amp; editorial team
-      </h1>
+      <h1 className="mt-6 text-4xl font-bold tracking-tight text-slate-900">Editorial team</h1>
       <p className="mt-3 max-w-2xl text-lg leading-relaxed text-slate-600">
-        The people who write and review {SITE.name}&apos;s receipt guides and
-        templates. Our{" "}
-        <Link href="/editorial-policy" className="font-medium text-indigo-600 hover:underline">
-          editorial policy
-        </Link>{" "}
-        explains how content is written, reviewed and kept up to date.
+        {SITE.name}&apos;s receipt guides and templates are written and reviewed
+        by the {SITE.name} team, drawing on hands-on experience with
+        small-business receipts, bookkeeping and expense reporting.
       </p>
 
-      <ul className="mt-10 space-y-4">
-        {AUTHORS.map((a) => (
-          <li key={a.slug}>
-            <Link
-              href={`/authors/${a.slug}`}
-              className="flex items-start gap-4 rounded-2xl border border-slate-200 bg-white p-5 transition-colors hover:border-indigo-300"
-            >
-              <span
-                aria-hidden="true"
-                className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 text-lg font-bold text-white"
-              >
-                {a.initials}
-              </span>
-              <div>
-                <p className="font-semibold text-slate-900">{a.name}</p>
-                <p className="text-sm text-slate-500">{a.role}</p>
-                <p className="mt-2 text-sm leading-relaxed text-slate-600">{a.blurb}</p>
-              </div>
-            </Link>
-          </li>
-        ))}
-      </ul>
+      <div className="mt-8 rounded-2xl border border-slate-200 bg-slate-50/60 p-6">
+        <h2 className="text-lg font-semibold text-slate-900">The {SITE.name} team</h2>
+        <p className="mt-2 text-sm leading-relaxed text-slate-600">
+          We build the receipt builder, write the guides on our{" "}
+          <Link href="/blog" className="font-medium text-indigo-600 hover:underline">
+            blog
+          </Link>
+          , review every template for realistic fields and layout, and answer
+          support ourselves. Our guides are grounded in how receipts actually
+          work — what each field means, how totals are calculated, and how to
+          keep records lawfully.
+        </p>
+        <p className="mt-3 text-sm leading-relaxed text-slate-600">
+          How we write, source and update content is described in our{" "}
+          <Link href="/editorial-policy" className="font-medium text-indigo-600 hover:underline">
+            editorial policy
+          </Link>
+          . Spot an error?{" "}
+          <Link href="/contact" className="font-medium text-indigo-600 hover:underline">
+            Tell us
+          </Link>{" "}
+          and we&apos;ll fix it.
+        </p>
+      </div>
+
+      <div className="mt-8">
+        <Link
+          href="/blog"
+          className="rounded-full bg-indigo-600 px-6 py-3 text-sm font-semibold text-white hover:bg-indigo-700"
+        >
+          Read our guides
+        </Link>
+      </div>
     </main>
   );
 }

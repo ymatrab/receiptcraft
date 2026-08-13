@@ -39,7 +39,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE.url}/about`, lastModified: STATIC_UPDATED },
     { url: `${SITE.url}/contact`, lastModified: STATIC_UPDATED },
     { url: `${SITE.url}/authors`, lastModified: STATIC_UPDATED },
-    { url: `${SITE.url}/authors/sara-artheta`, lastModified: STATIC_UPDATED },
     { url: `${SITE.url}/editorial-policy`, lastModified: STATIC_UPDATED },
     { url: `${SITE.url}/privacy`, lastModified: STATIC_UPDATED },
     { url: `${SITE.url}/terms`, lastModified: STATIC_UPDATED },

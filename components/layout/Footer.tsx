@@ -151,7 +151,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link href="/authors" className="text-sm text-slate-500 transition-colors hover:text-indigo-600">
-                  Authors
+                  Editorial Team
                 </Link>
               </li>
               <li>
