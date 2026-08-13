@@ -155,3 +155,68 @@ JSON-LD already exists on most routes — this is a **correctness / alignment** 
 7. Shared Breadcrumbs component + JSON-LD alignment pass.
 8. Featured-On assets + image dimensions/alt.
 9. Internal-link architecture + calculators/validators.
+
+---
+
+# Content Depth Plan (step by step)
+
+> **This is NOT code — it's the content-team playbook.** Added 2026-08-13. The audit's lowest-actionable on-site weakness is content depth: priority template/brand pages run ~200 words ("thin"). Google and AI engines rank/cite the **most complete** page for an intent, so depth is what turns a stub into the definitive, citable page. **Rule: deepen existing money pages before publishing any new URL.**
+
+**Goal per page:** be the single best, most complete answer on the web for that receipt type — **800–1,200 words of *unique, useful* content** (not padding).
+
+## A. The page-depth blueprint (every money page must hit these)
+Reuse this structure for each `/templates/*` and `/brands/*` page:
+
+1. **Lead answer (40–70 words)** — "A [X] receipt shows …". Direct, extractable (AEO), above the fold.
+2. **What's on a [X] receipt** — the *specific* fields for this vertical (restaurant: server, table, itemized food, tax, service charge, tip). Link concepts to `/guides/receipt-anatomy`.
+3. **Worked example** — one realistic filled receipt + a line explaining each notable field (annotate the sample preview the page already renders).
+4. **How to make one** — 3–5 concrete steps ending at the builder CTA.
+5. **Vertical-specific guidance** — the real nuances: tax rules, tip vs. service charge, fees, what's legally expected, edge cases. *This is the depth competitors lack.*
+6. **FAQ (3–5 real, visible questions)** — pulled from Google "People Also Ask" for that vertical; concise answers.
+7. **Lawful-use note** — for `/brands/*`: the non-affiliation / "not proof of purchase" line (already added) + when use is legitimate.
+8. **Internal links** — builder, `/tools/receipt-calculator`, `/guides/receipt-anatomy`, 2–3 sibling templates, a relevant `/receipt-help` guide.
+
+## B. Per-page checklist (tick before publishing)
+- [ ] Unique lead answer (not templated boilerplate)
+- [ ] Vertical-specific fields explained + linked to the anatomy guide
+- [ ] One worked example
+- [ ] Steps → builder CTA
+- [ ] Vertical nuance section (tax/tip/fees/legal) — genuinely specific
+- [ ] 3–5 visible FAQs (real questions)
+- [ ] (brands) lawful-use + non-affiliation present
+- [ ] 5+ internal links · 800–1,200 unique words
+- [ ] Gut check: "would this be the best result I'd want to land on?"
+- [ ] Logged in `docs/content-ledger.md`
+
+## C. Prioritized rollout (deepen in this order)
+**Batch 1 — the 5 highest-intent (audit P0/P1):**
+1. `/templates/restaurant` — tax, tip, service charge, itemization, split check
+2. `/templates/gas-station` — gallons, grade, price/gal, pump #, fuel tax
+3. `/templates/hotel` — stay dates, room rate, taxes, incidentals, folio vs. receipt
+4. `/templates/rent-receipt` — landlord/tenant, period, method, balance, state-law note
+5. `/brands/walmart` — realistic layout + strong lawful-use framing
+
+**Batch 2 — next tier (high commercial intent):**
+`/templates/retail-store` · `/templates/grocery-store` · `/templates/coffee-shop` · `/templates/pharmacy` (privacy angle) · `/templates/medical-receipt` (HIPAA-safe note) · top brands: `starbucks`, `mcdonalds`, `uber`, `amazon`, `target`
+
+**Batch 3 — remaining templates + brand tiers**, *only after* Batches 1–2 show movement in GSC.
+
+## D. The process per page (repeatable loop)
+1. **Pull intent** — the query the page targets + its "People Also Ask" (what questions to answer).
+2. **Draft** against the blueprint (unique, vertical-specific).
+3. **Review** — accuracy of tax/legal nuance, no fabricated claims, lawful-use for brands.
+4. **Publish + internal-link** from siblings and the anatomy guide.
+5. **Log** in `docs/content-ledger.md` (date, URL, target query).
+6. **Measure after ~3–4 weeks** in GSC (impressions / CTR / avg position); iterate pages that stalled.
+
+## E. Cadence & ownership
+- **3–5 pages/week**, one writer + one reviewer. Batch 1 first (~2 weeks).
+- Depth beats volume: **do not publish new thin pages while deepening these.** Stop the cadence-led publishing the audit flagged.
+
+## F. Measurement
+Per expanded page, 28 days after publish: impressions ↑, CTR ↑, position ↑ in GSC. If a page doesn't move, check **intent match + internal links** before rewriting.
+
+## G. What NOT to do
+- ❌ Padding / repeating boilerplate across pages (that's what got flagged as thin).
+- ❌ Publishing new URLs before deepening the priority set.
+- ❌ Fabricated stats, fake reviews, or tax/legal claims without a source.
