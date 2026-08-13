@@ -22,7 +22,6 @@ export const metadata: Metadata = {
     "receipt generator",
     "free receipt maker",
     "create receipt online",
-    "fake receipt maker",
     "receipt template",
     "pdf receipt generator",
     "custom receipt",

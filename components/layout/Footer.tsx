@@ -14,6 +14,12 @@ const POPULAR_BRANDS = [
   { slug: "uber", name: "Uber Receipt" },
   { slug: "amazon", name: "Amazon Receipt" },
   { slug: "target", name: "Target Receipt" },
+  { slug: "best-buy", name: "Best Buy Receipt" },
+  { slug: "cvs-pharmacy", name: "CVS Receipt" },
+  { slug: "doordash", name: "DoorDash Receipt" },
+  { slug: "burger-king", name: "Burger King Receipt" },
+  { slug: "chick-fil-a", name: "Chick-fil-A Receipt" },
+  { slug: "sephora", name: "Sephora Receipt" },
 ];
 
 export default function Footer() {
