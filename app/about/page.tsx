@@ -15,7 +15,7 @@ const personJsonLd = {
   name: "Sara Artheta",
   jobTitle: "Founder & Editor",
   worksFor: { "@type": "Organization", name: SITE.name, url: SITE.url },
-  url: `${SITE.url}/about`,
+  url: `${SITE.url}/authors/sara-artheta`,
   description:
     "Founder of Makecepeit. Background in small-business bookkeeping and expense reporting; writes the receipt guides and reviews every template.",
 };
@@ -86,6 +86,14 @@ export default function AboutPage() {
               </Link>
               , reviews every template for realism, and answers support herself
               through the in-app chat.
+            </p>
+            <p className="mt-2 text-sm">
+              <Link
+                href="/authors/sara-artheta"
+                className="font-medium text-indigo-600 hover:underline"
+              >
+                Read Sara&apos;s full profile →
+              </Link>
             </p>
           </div>
         </div>

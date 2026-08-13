@@ -150,6 +150,16 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/authors" className="text-sm text-slate-500 transition-colors hover:text-indigo-600">
+                  Authors
+                </Link>
+              </li>
+              <li>
+                <Link href="/editorial-policy" className="text-sm text-slate-500 transition-colors hover:text-indigo-600">
+                  Editorial Policy
+                </Link>
+              </li>
+              <li>
                 <Link href="/privacy" className="text-sm text-slate-500 transition-colors hover:text-indigo-600">
                   Privacy Policy
                 </Link>
