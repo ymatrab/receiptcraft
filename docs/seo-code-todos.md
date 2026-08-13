@@ -30,15 +30,17 @@ Ran a verify-first pass. **Key takeaway: the codebase was already much healthier
 
 Code-only phases. Content/authority work (backlinks, article depth, real bios) lives in the content plan, not here.
 
-### Phase 1 — Last worthwhile code (no blockers)
-- [ ] **Receipt totals calculator** — `/tools/receipt-calculator`. Interactive subtotal → tax → discount → tip → total (+ cash change), with definitions/formula so it also answers "what is a receipt subtotal and how is it calculated". Self-contained, deterministic client component; links to `/create`. *(P1 — SEO asset + AEO answer)*
-- [ ] **`/contact` page** — independent contact page (support email, company identity, response expectations). Closes the "no independent contact page" E-E-A-T gap. *(P1)*
+### Phase 1 — Last worthwhile code (no blockers) — ✅ SHIPPED (2026-08-13, all verified live)
+- [x] **Receipt totals calculator** — `/tools/receipt-calculator` (subtotal→tax→tip→total+change, "how totals are calculated" content, WebApplication schema).
+- [x] **Split-payment checker** — `/tools/split-payment-checker` (reconciles tenders; "how split payments appear on a receipt").
+- [x] **`/contact` page** — independent contact page with `ContactPage` schema; footer-linked.
+- [x] **Receipt Field Dictionary** — `/guides/receipt-anatomy` — ~35 field definitions with `DefinedTermSet` schema + concise extractable answers. **Top on-code GEO/AEO asset.** All tools cross-link it.
 
-### Phase 2 — E-E-A-T shells (I scaffold, you fill real content)
-- [ ] `/authors` + per-author `Person`/`ProfilePage` schema
-- [ ] `/editorial-policy`
-- [ ] `/methodology`
-> These need **your** real names, bios, credentials and standards. I build the structure + schema with clearly-marked placeholders; you replace the copy. I will not invent credentials.
+### Phase 2 — E-E-A-T — ✅ RESOLVED (2026-08-13)
+- [x] Built `/authors`, `/editorial-policy` and (initially) a per-author `ProfilePage`.
+- [x] **Author identity converted to an honest "Makecepeit Team" byline.** The "Sara Artheta" persona was retired sitewide (pages, Organization `founder` schema, `llms-full.txt`) because it was an unverifiable individual — fabricating credentials/`sameAs` would be fake E-E-A-T. `/authors` is now an Editorial Team page.
+> The real E-E-A-T lift from here is **off-code**: genuine credentials + real profile links (only if a real, named person will stand behind the content), and third-party corroboration.
+- [ ] ~~`/methodology`~~ — deferred; needs the real comparison process, and its value is content, not code.
 
 ### Phase 3 — Optional CRO (needs a product decision from you)
 - [ ] Mobile sticky download CTA
