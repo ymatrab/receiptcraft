@@ -109,6 +109,11 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/tools/receipt-calculator" className="text-sm text-slate-500 transition-colors hover:text-indigo-600">
+                  Receipt Calculator
+                </Link>
+              </li>
+              <li>
                 <Link href="/alternatives" className="text-sm text-slate-500 transition-colors hover:text-indigo-600">
                   Compare Receipt Makers
                 </Link>
@@ -132,6 +137,11 @@ export default function Footer() {
               <li>
                 <Link href="/about" className="text-sm text-slate-500 transition-colors hover:text-indigo-600">
                   About
+                </Link>
+              </li>
+              <li>
+                <Link href="/contact" className="text-sm text-slate-500 transition-colors hover:text-indigo-600">
+                  Contact
                 </Link>
               </li>
               <li>
