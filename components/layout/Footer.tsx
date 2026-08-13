@@ -114,6 +114,11 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/tools/split-payment-checker" className="text-sm text-slate-500 transition-colors hover:text-indigo-600">
+                  Split-Payment Checker
+                </Link>
+              </li>
+              <li>
                 <Link href="/alternatives" className="text-sm text-slate-500 transition-colors hover:text-indigo-600">
                   Compare Receipt Makers
                 </Link>

@@ -137,6 +137,13 @@ export default function ReceiptCalculatorPage() {
           <Link href="/templates" className="font-semibold text-indigo-600 hover:text-indigo-700">
             ready-made template
           </Link>
+          . Splitting the bill across cash and cards? Use the{" "}
+          <Link
+            href="/tools/split-payment-checker"
+            className="font-semibold text-indigo-600 hover:text-indigo-700"
+          >
+            split-payment checker
+          </Link>
           .
         </p>
       </section>
