@@ -2,6 +2,7 @@ import Link from "next/link";
 import { SITE } from "@/lib/site";
 import { TEMPLATES } from "@/lib/templates";
 import NewsletterSignup from "@/components/NewsletterSignup";
+import Perforation from "@/components/ui/Perforation";
 import Wordmark from "./Wordmark";
 
 // Sitewide links to the most-searched brand pages — pushes internal link
@@ -22,18 +23,48 @@ const POPULAR_BRANDS = [
   { slug: "sephora", name: "Sephora Receipt" },
 ];
 
+/** Column headings are set as receipt column labels: mono, uppercase, tracked. */
+const COL_HEADING =
+  "font-display text-[11px] font-bold uppercase tracking-[0.22em] text-ink";
+const COL_LINK = "text-sm text-ink-soft transition-colors hover:text-ledger";
+
+const PRODUCT_LINKS = [
+  { href: "/create", label: "Receipt Builder" },
+  { href: "/templates", label: "All Templates" },
+  { href: "/brands", label: "Brand Templates" },
+  { href: "/examples", label: "Receipt Examples" },
+  { href: "/receipt-help", label: "Receipt Help" },
+  { href: "/tools/receipt-calculator", label: "Receipt Calculator" },
+  { href: "/tools/split-payment-checker", label: "Split-Payment Checker" },
+  { href: "/guides/receipt-anatomy", label: "Anatomy of a Receipt" },
+  { href: "/alternatives", label: "Compare Receipt Makers" },
+  { href: "/#how-it-works", label: "How It Works" },
+  { href: "/#faq", label: "FAQ" },
+];
+
+const COMPANY_LINKS = [
+  { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
+  { href: "/authors", label: "Editorial Team" },
+  { href: "/editorial-policy", label: "Editorial Policy" },
+  { href: "/privacy", label: "Privacy Policy" },
+  { href: "/terms", label: "Terms of Use" },
+  { href: "/cookies", label: "Cookie Policy" },
+];
+
 export default function Footer() {
   const popularTemplates = TEMPLATES.slice(0, 6);
 
   return (
-    <footer className="border-t border-slate-200 bg-slate-50">
+    <footer className="bg-greenbar/45">
+      <Perforation />
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 gap-10 md:grid-cols-5">
           <div className="col-span-2 md:col-span-1">
             <Link href="/">
               <Wordmark />
             </Link>
-            <p className="mt-4 max-w-xs text-sm leading-relaxed text-slate-500">
+            <p className="mt-4 max-w-xs text-sm leading-relaxed text-ink-soft">
               The fastest free receipt maker online. Build and customize
               professional receipts with no sign-up, then download as PDF or
               PNG with a free account.
@@ -44,6 +75,7 @@ export default function Footer() {
               rel="noopener"
               className="mt-6 inline-block"
             >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="https://launchzone.co/badge.svg"
                 alt="Find us on LaunchZone"
@@ -55,14 +87,11 @@ export default function Footer() {
           </div>
 
           <nav aria-label="Popular templates">
-            <h3 className="text-sm font-semibold text-slate-900">Popular Templates</h3>
+            <h3 className={COL_HEADING}>Templates</h3>
             <ul className="mt-4 space-y-2.5">
               {popularTemplates.map((t) => (
                 <li key={t.slug}>
-                  <Link
-                    href={`/templates/${t.slug}`}
-                    className="text-sm text-slate-500 transition-colors hover:text-indigo-600"
-                  >
+                  <Link href={`/templates/${t.slug}`} className={COL_LINK}>
                     {t.name}
                   </Link>
                 </li>
@@ -71,14 +100,11 @@ export default function Footer() {
           </nav>
 
           <nav aria-label="Popular brand receipts">
-            <h3 className="text-sm font-semibold text-slate-900">Brand Receipts</h3>
+            <h3 className={COL_HEADING}>Brands</h3>
             <ul className="mt-4 space-y-2.5">
               {POPULAR_BRANDS.map((b) => (
                 <li key={b.slug}>
-                  <Link
-                    href={`/brands/${b.slug}`}
-                    className="text-sm text-slate-500 transition-colors hover:text-indigo-600"
-                  >
+                  <Link href={`/brands/${b.slug}`} className={COL_LINK}>
                     {b.name}
                   </Link>
                 </li>
@@ -87,117 +113,42 @@ export default function Footer() {
           </nav>
 
           <nav aria-label="Product">
-            <h3 className="text-sm font-semibold text-slate-900">Product</h3>
+            <h3 className={COL_HEADING}>Product</h3>
             <ul className="mt-4 space-y-2.5">
-              <li>
-                <Link href="/create" className="text-sm text-slate-500 transition-colors hover:text-indigo-600">
-                  Receipt Builder
-                </Link>
-              </li>
-              <li>
-                <Link href="/templates" className="text-sm text-slate-500 transition-colors hover:text-indigo-600">
-                  All Templates
-                </Link>
-              </li>
-              <li>
-                <Link href="/brands" className="text-sm text-slate-500 transition-colors hover:text-indigo-600">
-                  Brand Templates
-                </Link>
-              </li>
-              <li>
-                <Link href="/examples" className="text-sm text-slate-500 transition-colors hover:text-indigo-600">
-                  Receipt Examples
-                </Link>
-              </li>
-              <li>
-                <Link href="/receipt-help" className="text-sm text-slate-500 transition-colors hover:text-indigo-600">
-                  Receipt Help
-                </Link>
-              </li>
-              <li>
-                <Link href="/tools/receipt-calculator" className="text-sm text-slate-500 transition-colors hover:text-indigo-600">
-                  Receipt Calculator
-                </Link>
-              </li>
-              <li>
-                <Link href="/tools/split-payment-checker" className="text-sm text-slate-500 transition-colors hover:text-indigo-600">
-                  Split-Payment Checker
-                </Link>
-              </li>
-              <li>
-                <Link href="/guides/receipt-anatomy" className="text-sm text-slate-500 transition-colors hover:text-indigo-600">
-                  Anatomy of a Receipt
-                </Link>
-              </li>
-              <li>
-                <Link href="/alternatives" className="text-sm text-slate-500 transition-colors hover:text-indigo-600">
-                  Compare Receipt Makers
-                </Link>
-              </li>
-              <li>
-                <Link href="/#how-it-works" className="text-sm text-slate-500 transition-colors hover:text-indigo-600">
-                  How It Works
-                </Link>
-              </li>
-              <li>
-                <Link href="/#faq" className="text-sm text-slate-500 transition-colors hover:text-indigo-600">
-                  FAQ
-                </Link>
-              </li>
+              {PRODUCT_LINKS.map((l) => (
+                <li key={l.href}>
+                  <Link href={l.href} className={COL_LINK}>
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </nav>
 
           <nav aria-label="Company">
-            <h3 className="text-sm font-semibold text-slate-900">Company</h3>
+            <h3 className={COL_HEADING}>Company</h3>
             <ul className="mt-4 space-y-2.5">
-              <li>
-                <Link href="/about" className="text-sm text-slate-500 transition-colors hover:text-indigo-600">
-                  About
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className="text-sm text-slate-500 transition-colors hover:text-indigo-600">
-                  Contact
-                </Link>
-              </li>
-              <li>
-                <Link href="/authors" className="text-sm text-slate-500 transition-colors hover:text-indigo-600">
-                  Editorial Team
-                </Link>
-              </li>
-              <li>
-                <Link href="/editorial-policy" className="text-sm text-slate-500 transition-colors hover:text-indigo-600">
-                  Editorial Policy
-                </Link>
-              </li>
-              <li>
-                <Link href="/privacy" className="text-sm text-slate-500 transition-colors hover:text-indigo-600">
-                  Privacy Policy
-                </Link>
-              </li>
-              <li>
-                <Link href="/terms" className="text-sm text-slate-500 transition-colors hover:text-indigo-600">
-                  Terms of Use
-                </Link>
-              </li>
-              <li>
-                <Link href="/cookies" className="text-sm text-slate-500 transition-colors hover:text-indigo-600">
-                  Cookie Policy
-                </Link>
-              </li>
+              {COMPANY_LINKS.map((l) => (
+                <li key={l.href}>
+                  <Link href={l.href} className={COL_LINK}>
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </nav>
         </div>
 
-        <div className="mt-12 border-t border-slate-200 pt-10">
+        <div className="mt-12 border-t border-rule pt-10">
           <div className="max-w-md">
-            <h3 className="text-sm font-semibold text-slate-900">Stay in the loop</h3>
+            <h3 className={COL_HEADING}>Stay in the loop</h3>
             <NewsletterSignup source="footer" className="mt-3" />
           </div>
         </div>
 
-        <div className="mt-10 border-t border-slate-200 pt-8">
-          <p className="text-xs leading-relaxed text-slate-400">
+        {/* The closing note of a receipt: the terms printed under the total. */}
+        <div className="mt-10 border-t border-rule pt-8">
+          <p className="max-w-3xl font-data text-[11px] leading-relaxed text-ink-soft">
             © {new Date().getFullYear()} {SITE.name}. All rights reserved.
             Receipts created with this tool are intended for legitimate
             purposes such as record keeping, expense documentation and design
@@ -208,3 +159,4 @@ export default function Footer() {
     </footer>
   );
 }
+</content>

@@ -1,27 +1,24 @@
+/**
+ * The mark: a receipt with a torn bottom edge, printed lines knocked out.
+ *
+ * One `currentColor` path with `evenodd` fill — the three line rects are
+ * subpaths, so they punch through as real holes. No `<mask>`, therefore no
+ * element ids to collide when the mark renders twice (header + footer), and
+ * the lines show whatever surface sits behind them.
+ */
 export default function Logo({ className = "h-8 w-8" }: { className?: string }) {
   return (
     <svg viewBox="0 0 32 32" fill="none" aria-hidden="true" className={className}>
-      <rect width="32" height="32" rx="9" fill="url(#mc-bg)" />
-      {/* top sheen */}
-      <rect width="32" height="32" rx="9" fill="url(#mc-shine)" fillOpacity="0.35" />
-      {/* receipt with torn bottom edge */}
       <path
-        d="M9 7.5h14v15.6l-2-1.4-2 1.4-2-1.4-2 1.4-2-1.4-2 1.4V7.5z"
-        fill="white"
+        fillRule="evenodd"
+        clipRule="evenodd"
+        fill="currentColor"
+        d="M6 3h20v26l-2.5-1.8-2.5 1.8-2.5-1.8-2.5 1.8-2.5-1.8-2.5 1.8-2.5-1.8-2.5 1.8V3z
+           M9.5 8h13v2.2h-13z
+           M9.5 13h13v2.2h-13z
+           M9.5 18h7.5v2.2h-7.5z"
       />
-      <rect x="11.4" y="11" width="9.2" height="1.7" rx="0.85" fill="#4f46e5" />
-      <rect x="11.4" y="14.4" width="9.2" height="1.7" rx="0.85" fill="#a5b4fc" />
-      <rect x="11.4" y="17.8" width="6" height="1.7" rx="0.85" fill="#c7d2fe" />
-      <defs>
-        <linearGradient id="mc-bg" x1="0" y1="0" x2="32" y2="32">
-          <stop stopColor="#6366f1" />
-          <stop offset="1" stopColor="#7c3aed" />
-        </linearGradient>
-        <linearGradient id="mc-shine" x1="0" y1="0" x2="0" y2="20">
-          <stop stopColor="#ffffff" />
-          <stop offset="1" stopColor="#ffffff" stopOpacity="0" />
-        </linearGradient>
-      </defs>
     </svg>
   );
 }
+</content>

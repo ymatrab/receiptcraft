@@ -49,21 +49,26 @@ export default function HomeAiGenerator() {
 
   return (
     <div className="mt-8 max-w-xl">
-      <div className="flex items-center gap-2 rounded-2xl border border-indigo-200 bg-white/80 p-2 shadow-sm backdrop-blur">
-        <span className="pl-2 text-lg" aria-hidden="true">✨</span>
+      <div className="flex items-center gap-2 rounded-[3px] border border-rule bg-card p-2 shadow-sm focus-within:border-ledger/50">
+        <span
+          aria-hidden="true"
+          className="shrink-0 pl-2 font-display text-[10px] font-bold uppercase tracking-[0.2em] text-ink-soft"
+        >
+          AI
+        </span>
         <input
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && generate()}
           placeholder="Describe a receipt — e.g. 'Uber ride downtown, $18.40'"
-          className="min-w-0 flex-1 bg-transparent px-1 py-2 text-base text-slate-800 placeholder:text-slate-400 focus:outline-none sm:text-sm"
+          className="min-w-0 flex-1 bg-transparent px-1 py-2 text-base text-ink placeholder:text-ink-soft/70 focus:outline-none sm:text-sm"
           aria-label="Describe your receipt"
         />
         <button
           type="button"
           onClick={generate}
           disabled={loading || !prompt.trim()}
-          className="shrink-0 rounded-xl bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60"
+          className="shrink-0 rounded-[3px] bg-ledger px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-ledger-deep disabled:cursor-not-allowed disabled:opacity-50"
         >
           {loading ? "Generating…" : "Generate"}
         </button>
@@ -82,7 +87,9 @@ export default function HomeAiGenerator() {
           )}
         </p>
       ) : (
-        <p className="mt-2 text-xs text-slate-500">Generate with AI, then fine-tune everything in the editor.</p>
+        <p className="mt-2 font-data text-xs text-ink-soft">
+          Generate with AI, then fine-tune everything in the editor.
+        </p>
       )}
     </div>
   );
