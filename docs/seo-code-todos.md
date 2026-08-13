@@ -26,6 +26,36 @@ Ran a verify-first pass. **Key takeaway: the codebase was already much healthier
 
 ---
 
+## Implementation plan — 2026-08-13 (in progress)
+
+Code-only phases. Content/authority work (backlinks, article depth, real bios) lives in the content plan, not here.
+
+### Phase 1 — Last worthwhile code (no blockers)
+- [ ] **Receipt totals calculator** — `/tools/receipt-calculator`. Interactive subtotal → tax → discount → tip → total (+ cash change), with definitions/formula so it also answers "what is a receipt subtotal and how is it calculated". Self-contained, deterministic client component; links to `/create`. *(P1 — SEO asset + AEO answer)*
+- [ ] **`/contact` page** — independent contact page (support email, company identity, response expectations). Closes the "no independent contact page" E-E-A-T gap. *(P1)*
+
+### Phase 2 — E-E-A-T shells (I scaffold, you fill real content)
+- [ ] `/authors` + per-author `Person`/`ProfilePage` schema
+- [ ] `/editorial-policy`
+- [ ] `/methodology`
+> These need **your** real names, bios, credentials and standards. I build the structure + schema with clearly-marked placeholders; you replace the copy. I will not invent credentials.
+
+### Phase 3 — Optional CRO (needs a product decision from you)
+- [ ] Mobile sticky download CTA
+- [ ] SSO / magic-link sign-in + return-to-draft
+
+### Phase 4 — Data-gated (do NOT start blind)
+- [ ] Core Web Vitals optimization — after GSC/CrUX/RUM numbers
+- [ ] Blog cannibalization audit + consolidation — after GSC query/page export
+
+### Explicitly NOT doing
+hreflang · Local SEO/GBP/city pages · sitemap segmentation · chasing FAQ rich results · stamping "not proof of purchase" on the receipt output · "fixing" the 404 duplicate robots or Featured-On marquee · bulk/directory links · fake reviews/ratings schema.
+
+### Not code (your content/marketing plan — the real growth levers)
+Backlinks & digital PR (Authority 32/100) · content depth on money pages · E-E-A-T content · original data assets (OCR dataset, privacy benchmark) for GEO.
+
+---
+
 ## P0 — Critical (blockers, do first)
 
 - [ ] **Eliminate React hydration mismatch (#418)** — sitewide. Find non-deterministic server/client values (dates, random receipt numbers, locale/currency formatting, `Math.random`, `new Date()`, `toLocale*`, `Intl.*`) and make first render deterministic (seed on server, compute client values in `useEffect`, or `suppressHydrationWarning` only as last resort). Add a CI check that fails on console hydration errors. *Verify: no hydration errors in clean sessions at 360 / 768 / 1440 px; builder actions work.*
