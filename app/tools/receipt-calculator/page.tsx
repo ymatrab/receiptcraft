@@ -28,9 +28,10 @@ const breadcrumbJsonLd = {
   "@type": "BreadcrumbList",
   itemListElement: [
     { "@type": "ListItem", position: 1, name: "Home", item: SITE.url },
+    { "@type": "ListItem", position: 2, name: "Tools", item: absoluteUrl("/tools") },
     {
       "@type": "ListItem",
-      position: 2,
+      position: 3,
       name: "Receipt Total Calculator",
       item: absoluteUrl("/tools/receipt-calculator"),
     },

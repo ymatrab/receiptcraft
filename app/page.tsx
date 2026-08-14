@@ -988,7 +988,11 @@ export default function HomePage() {
             </h2>
             <p className="mt-3 text-lg text-slate-600">
               Two calculators for the maths that comes before the receipt — no
-              account, nothing to install.
+              account, nothing to install. The{" "}
+              <Link href="/tools" className="font-medium text-indigo-600 hover:underline">
+                tools hub
+              </Link>{" "}
+              also explains how a receipt total is calculated, step by step.
             </p>
           </div>
           <ul className="mt-10 grid gap-6 sm:grid-cols-2">

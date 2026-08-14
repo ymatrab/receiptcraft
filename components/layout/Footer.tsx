@@ -115,6 +115,11 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/tools" className="text-sm text-slate-500 transition-colors hover:text-indigo-600">
+                  Free Receipt Tools
+                </Link>
+              </li>
+              <li>
                 <Link href="/tools/receipt-calculator" className="text-sm text-slate-500 transition-colors hover:text-indigo-600">
                   Receipt Calculator
                 </Link>
