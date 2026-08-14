@@ -17,6 +17,13 @@ export const revalidate = 3600;
 // changefreq/priority are intentionally omitted: Google and Bing have ignored
 // them since 2023. Blog entries use their real publishedAt.
 const STATIC_UPDATED = new Date("2026-07-20");
+// Bump this to today whenever a page's visible content actually changes, and
+// move that page onto it. The IndexNow cron only submits URLs whose
+// lastModified is newer than its own last run, so a brand-new or rewritten
+// page that keeps an older date is silently never submitted to Bing/Yandex.
+// Only pages that genuinely changed belong here — restamping untouched pages
+// puts false dates in the sitemap and is what IndexNow treats as spam.
+const CONTENT_UPDATED = new Date("2026-08-14");
 const TEMPLATES_UPDATED = new Date("2026-07-20");
 const BRANDS_UPDATED = new Date("2026-07-20");
 const INTENT_UPDATED = new Date("2026-07-20");
@@ -25,17 +32,17 @@ const COMPARISONS_UPDATED = new Date(LAST_UPDATED);
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages: MetadataRoute.Sitemap = [
-    { url: SITE.url, lastModified: STATIC_UPDATED },
+    { url: SITE.url, lastModified: CONTENT_UPDATED },
     { url: `${SITE.url}/create`, lastModified: STATIC_UPDATED },
-    { url: `${SITE.url}/tools`, lastModified: STATIC_UPDATED },
-    { url: `${SITE.url}/tools/receipt-calculator`, lastModified: STATIC_UPDATED },
-    { url: `${SITE.url}/tools/split-payment-checker`, lastModified: STATIC_UPDATED },
+    { url: `${SITE.url}/tools`, lastModified: CONTENT_UPDATED },
+    { url: `${SITE.url}/tools/receipt-calculator`, lastModified: CONTENT_UPDATED },
+    { url: `${SITE.url}/tools/split-payment-checker`, lastModified: CONTENT_UPDATED },
     { url: `${SITE.url}/guides/receipt-anatomy`, lastModified: STATIC_UPDATED },
     { url: `${SITE.url}/templates`, lastModified: TEMPLATES_UPDATED },
     { url: `${SITE.url}/examples`, lastModified: EXAMPLES_UPDATED },
     { url: `${SITE.url}/receipt-help`, lastModified: INTENT_UPDATED },
     { url: `${SITE.url}/alternatives`, lastModified: COMPARISONS_UPDATED },
-    { url: `${SITE.url}/pricing`, lastModified: STATIC_UPDATED },
+    { url: `${SITE.url}/pricing`, lastModified: CONTENT_UPDATED },
     { url: `${SITE.url}/login`, lastModified: STATIC_UPDATED },
     { url: `${SITE.url}/blog`, lastModified: STATIC_UPDATED },
     { url: `${SITE.url}/about`, lastModified: STATIC_UPDATED },
