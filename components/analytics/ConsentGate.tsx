@@ -86,13 +86,13 @@ gtag('config', '${SITE.gaId}');`}
         <div
           role="dialog"
           aria-label="Cookie consent"
-          className="fixed inset-x-4 bottom-4 z-50 mx-auto max-w-xl rounded-2xl border border-slate-200 bg-white p-5 shadow-2xl"
+          className="fixed inset-x-4 bottom-4 z-50 mx-auto max-w-xl rounded-[3px] border border-rule bg-card p-5 shadow-2xl"
         >
-          <p className="text-sm leading-relaxed text-slate-600">
+          <p className="text-sm leading-relaxed text-ink-soft">
             🍪 We use anonymous analytics cookies (Google Analytics, Microsoft
             Clarity) to understand what to improve — no ads, no cross-site
             tracking. Essential cookies (login, free-plan limits) are always on.{" "}
-            <Link href="/cookies" className="font-medium text-indigo-600 underline">
+            <Link href="/cookies" className="font-medium text-ledger underline">
               Cookie policy
             </Link>
           </p>
@@ -100,14 +100,14 @@ gtag('config', '${SITE.gaId}');`}
             <button
               type="button"
               onClick={() => decide("granted")}
-              className="flex-1 rounded-full bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-indigo-700"
+              className="flex-1 rounded-full bg-ledger px-5 py-2.5 text-sm font-semibold text-white hover:bg-ledger-deep"
             >
               Accept
             </button>
             <button
               type="button"
               onClick={() => decide("denied")}
-              className="flex-1 rounded-full border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+              className="flex-1 rounded-full border border-rule bg-card px-5 py-2.5 text-sm font-semibold text-ink hover:bg-greenbar"
             >
               Decline
             </button>

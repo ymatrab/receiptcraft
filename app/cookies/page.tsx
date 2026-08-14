@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 function H2({ children }: { children: React.ReactNode }) {
-  return <h2 className="pt-4 text-2xl font-bold text-slate-900">{children}</h2>;
+  return <h2 className="pt-4 text-2xl font-bold text-ink">{children}</h2>;
 }
 
 const ESSENTIAL = [
@@ -50,19 +50,19 @@ const ANALYTICS = [
 
 function CookieTable({ rows }: { rows: typeof ESSENTIAL }) {
   return (
-    <div className="overflow-x-auto rounded-2xl border border-slate-200">
+    <div className="overflow-x-auto rounded-[3px] border border-rule">
       <table className="w-full min-w-[560px] text-left text-sm">
-        <thead className="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
+        <thead className="bg-greenbar text-xs uppercase tracking-wide text-ink-soft">
           <tr>
             <th className="px-4 py-3 font-semibold">Cookie</th>
             <th className="px-4 py-3 font-semibold">Purpose</th>
             <th className="px-4 py-3 font-semibold">Duration</th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-slate-100 text-slate-600">
+        <tbody className="divide-y divide-rule text-ink-soft">
           {rows.map((row) => (
             <tr key={row.name}>
-              <td className="px-4 py-3 font-medium text-slate-900">{row.name}</td>
+              <td className="px-4 py-3 font-medium text-ink">{row.name}</td>
               <td className="px-4 py-3">{row.purpose}</td>
               <td className="px-4 py-3">{row.duration}</td>
             </tr>
@@ -76,10 +76,10 @@ function CookieTable({ rows }: { rows: typeof ESSENTIAL }) {
 export default function CookiesPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
-      <h1 className="text-4xl font-bold tracking-tight text-slate-900">Cookie Policy</h1>
-      <p className="mt-3 text-sm text-slate-500">Last updated: July 2, 2026</p>
+      <h1 className="text-4xl font-bold tracking-tight text-ink">Cookie Policy</h1>
+      <p className="mt-3 text-sm text-ink-soft">Last updated: July 2, 2026</p>
 
-      <div className="mt-8 space-y-5 leading-relaxed text-slate-600">
+      <div className="mt-8 space-y-5 leading-relaxed text-ink-soft">
         <p>
           This page lists every cookie and browser-storage item {SITE.name} uses, what it does,
           and how long it lives. We use no advertising cookies and no cross-site tracking —
@@ -117,9 +117,9 @@ export default function CookiesPage() {
         <H2>More information</H2>
         <p>
           How we handle personal data more broadly is covered in our{" "}
-          <Link href="/privacy" className="text-indigo-600 underline">Privacy Policy</Link>.
+          <Link href="/privacy" className="text-ledger underline">Privacy Policy</Link>.
           Questions? Contact{" "}
-          <a href={`mailto:${SITE.email}`} className="text-indigo-600 underline">{SITE.email}</a>.
+          <a href={`mailto:${SITE.email}`} className="text-ledger underline">{SITE.email}</a>.
         </p>
       </div>
     </div>

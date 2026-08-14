@@ -108,17 +108,17 @@ export default async function BrandTemplatePage({ params }: Props) {
 
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         {/* Breadcrumb */}
-        <nav aria-label="Breadcrumb" className="text-sm text-slate-500">
+        <nav aria-label="Breadcrumb" className="text-sm text-ink-soft">
           <ol className="flex flex-wrap items-center gap-1.5">
             <li>
-              <Link href="/" className="hover:text-indigo-600">Home</Link>
+              <Link href="/" className="hover:text-ledger">Home</Link>
             </li>
             <li aria-hidden="true">/</li>
             <li>
-              <Link href="/brands" className="hover:text-indigo-600">Brands</Link>
+              <Link href="/brands" className="hover:text-ledger">Brands</Link>
             </li>
             <li aria-hidden="true">/</li>
-            <li className="font-medium text-slate-900">{template.name}</li>
+            <li className="font-medium text-ink">{template.name}</li>
           </ol>
         </nav>
 
@@ -136,21 +136,21 @@ export default async function BrandTemplatePage({ params }: Props) {
             ) : (
               <span className="text-4xl" aria-hidden="true">{template.icon}</span>
             )}
-            <h1 className="mt-4 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+            <h1 className="mt-4 text-3xl font-bold tracking-tight text-ink sm:text-4xl">
               {template.heading}
             </h1>
-            <p className="mt-4 text-lg leading-relaxed text-slate-600">{template.intro}</p>
+            <p className="mt-4 text-lg leading-relaxed text-ink-soft">{template.intro}</p>
 
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
                 href={`/create?template=${template.slug}`}
-                className="rounded-full bg-indigo-600 px-7 py-3.5 text-base font-semibold text-white shadow-lg shadow-indigo-600/25 transition-all hover:bg-indigo-700"
+                className="rounded-full bg-ledger px-7 py-3.5 text-base font-semibold text-white shadow-lg shadow-ledger/25 transition-all hover:bg-ledger-deep"
               >
                 Use This Template — Free
               </Link>
               <Link
                 href="/brands"
-                className="rounded-full border border-slate-300 bg-white px-7 py-3.5 text-base font-semibold text-slate-700 transition-colors hover:bg-slate-50"
+                className="rounded-full border border-rule bg-card px-7 py-3.5 text-base font-semibold text-ink transition-colors hover:bg-greenbar"
               >
                 All Brands
               </Link>
@@ -159,21 +159,21 @@ export default async function BrandTemplatePage({ params }: Props) {
             {/* Non-affiliation / provenance notice, shown next to the CTA where
                 the trademark/misuse risk is highest. Uses the site's standard
                 brand-safety wording — keep in sync with the brands hub + Terms. */}
-            <p className="mt-4 rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-xs leading-relaxed text-slate-500">
+            <p className="mt-4 rounded-[3px] border border-rule bg-greenbar px-4 py-3 text-xs leading-relaxed text-ink-soft">
               Independent, customizable template. {SITE.name} is not affiliated
               with, endorsed by, or issued by {template.shortName}. Receipts you
               create are for lawful records, personal mockups and authorized use
               only — not a proof of purchase.
             </p>
 
-            <h2 className="mt-12 text-xl font-bold text-slate-900">
+            <h2 className="mt-12 text-xl font-bold text-ink">
               Common uses for a {template.name.toLowerCase()}
             </h2>
             <ul className="mt-4 space-y-3">
               {template.useCases.map((useCase) => (
-                <li key={useCase} className="flex items-start gap-3 text-slate-600">
+                <li key={useCase} className="flex items-start gap-3 text-ink-soft">
                   <svg
-                    className="mt-0.5 h-5 w-5 shrink-0 text-emerald-500"
+                    className="mt-0.5 h-5 w-5 shrink-0 text-ledger"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -196,10 +196,10 @@ export default async function BrandTemplatePage({ params }: Props) {
 
         {/* What's on this receipt — data-driven, unique per brand */}
         <section className="mt-20" aria-labelledby="whats-on-heading">
-          <h2 id="whats-on-heading" className="text-2xl font-bold text-slate-900">
+          <h2 id="whats-on-heading" className="text-2xl font-bold text-ink">
             What&apos;s on a {template.shortName} receipt
           </h2>
-          <p className="mt-4 max-w-3xl leading-relaxed text-slate-600">
+          <p className="mt-4 max-w-3xl leading-relaxed text-ink-soft">
             This {template.name.toLowerCase()} template opens pre-filled with{" "}
             {d.businessName ?? template.shortName}
             {addr ? ` (${addr})` : ""} and {preview.items.length}{" "}
@@ -211,13 +211,13 @@ export default async function BrandTemplatePage({ params }: Props) {
             upload your own logo, then download as a PDF or PNG.
           </p>
 
-          <div className="mt-6 max-w-md rounded-2xl border border-slate-200 bg-white p-6">
-            <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-500">
+          <div className="mt-6 max-w-md rounded-[3px] border border-rule bg-card p-6">
+            <h3 className="text-sm font-semibold uppercase tracking-wide text-ink-soft">
               Sample items
             </h3>
-            <ul className="mt-3 divide-y divide-slate-100">
+            <ul className="mt-3 divide-y divide-rule">
               {preview.items.map((it) => (
-                <li key={it.id} className="flex justify-between gap-4 py-2 text-sm text-slate-700">
+                <li key={it.id} className="flex justify-between gap-4 py-2 text-sm text-ink">
                   <span>
                     {it.name}
                     {it.quantity && it.quantity !== 1 ? ` × ${it.quantity}` : ""}
@@ -226,26 +226,26 @@ export default async function BrandTemplatePage({ params }: Props) {
                 </li>
               ))}
             </ul>
-            <dl className="mt-3 space-y-1 border-t border-slate-200 pt-3 text-sm">
-              <div className="flex justify-between text-slate-600">
+            <dl className="mt-3 space-y-1 border-t border-rule pt-3 text-sm">
+              <div className="flex justify-between text-ink-soft">
                 <dt>Subtotal</dt>
                 <dd className="tabular-nums">{money(totals.subtotal)}</dd>
               </div>
-              <div className="flex justify-between text-slate-600">
+              <div className="flex justify-between text-ink-soft">
                 <dt>{d.taxLabel ?? "Tax"} ({d.taxRate ?? 0}%)</dt>
                 <dd className="tabular-nums">{money(totals.tax)}</dd>
               </div>
-              <div className="flex justify-between font-semibold text-slate-900">
+              <div className="flex justify-between font-semibold text-ink">
                 <dt>Total</dt>
                 <dd className="tabular-nums">{money(totals.total)}</dd>
               </div>
             </dl>
           </div>
 
-          <h3 className="mt-10 text-lg font-bold text-slate-900">
+          <h3 className="mt-10 text-lg font-bold text-ink">
             How to make a {template.shortName} receipt
           </h3>
-          <ol className="mt-4 max-w-3xl list-decimal space-y-2 pl-5 text-slate-600">
+          <ol className="mt-4 max-w-3xl list-decimal space-y-2 pl-5 text-ink-soft">
             <li>Open the {template.shortName} template — it loads with realistic items and {d.taxLabel ?? "tax"} already filled in.</li>
             <li>Edit the business details, line items, prices, date and payment method to match what you need.</li>
             <li>Sign in with a free account to download a print-ready PDF or high-resolution PNG — your first 3 receipts are watermark-free.</li>
@@ -255,14 +255,14 @@ export default async function BrandTemplatePage({ params }: Props) {
         {/* FAQ */}
         {template.faqs.length > 0 && (
           <section className="mt-20" aria-labelledby="template-faq-heading">
-            <h2 id="template-faq-heading" className="text-2xl font-bold text-slate-900">
+            <h2 id="template-faq-heading" className="text-2xl font-bold text-ink">
               {template.shortName} receipt FAQ
             </h2>
             <div className="mt-6 space-y-4">
               {template.faqs.map((faq) => (
-                <div key={faq.question} className="rounded-2xl border border-slate-200 bg-white p-6">
-                  <h3 className="font-semibold text-slate-900">{faq.question}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-slate-600">{faq.answer}</p>
+                <div key={faq.question} className="rounded-[3px] border border-rule bg-card p-6">
+                  <h3 className="font-semibold text-ink">{faq.question}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-ink-soft">{faq.answer}</p>
                 </div>
               ))}
             </div>
@@ -272,10 +272,10 @@ export default async function BrandTemplatePage({ params }: Props) {
         {/* Same-brand receipt help — intra-entity cross-links */}
         {helpPages.length > 0 && (
           <section className="mt-20" aria-labelledby="brand-help-heading">
-            <h2 id="brand-help-heading" className="text-2xl font-bold text-slate-900">
+            <h2 id="brand-help-heading" className="text-2xl font-bold text-ink">
               {template.shortName} receipt help
             </h2>
-            <p className="mt-3 max-w-3xl text-slate-600">
+            <p className="mt-3 max-w-3xl text-ink-soft">
               Lost your {template.shortName} receipt or need a copy? These guides
               show how to find, reprint or replace it — and recreate one for your
               records.
@@ -285,7 +285,7 @@ export default async function BrandTemplatePage({ params }: Props) {
                 <li key={p.slug}>
                   <Link
                     href={`/receipt-help/${p.slug}`}
-                    className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-600 transition-colors hover:border-indigo-300 hover:text-indigo-600"
+                    className="rounded-full border border-rule bg-card px-4 py-2 text-sm font-medium text-ink-soft transition-colors hover:border-ledger/45 hover:text-ledger"
                   >
                     {intentContent(p).h1}
                   </Link>
@@ -297,7 +297,7 @@ export default async function BrandTemplatePage({ params }: Props) {
 
         {/* Related templates */}
         <section className="mt-20" aria-labelledby="related-heading">
-          <h2 id="related-heading" className="text-2xl font-bold text-slate-900">
+          <h2 id="related-heading" className="text-2xl font-bold text-ink">
             Other brand templates
           </h2>
           <ul className="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
@@ -305,7 +305,7 @@ export default async function BrandTemplatePage({ params }: Props) {
               <li key={t.slug}>
                 <Link
                   href={`/brands/${t.slug}`}
-                  className="group flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-5 transition-all hover:border-indigo-300 hover:shadow-md"
+                  className="group flex h-full flex-col rounded-[3px] border border-rule bg-card p-5 transition-all hover:border-ledger/45 hover:shadow-md"
                 >
                   {t.defaults.logoDataUrl ? (
                     <span className="flex h-7 items-center">
@@ -320,7 +320,7 @@ export default async function BrandTemplatePage({ params }: Props) {
                   ) : (
                     <span className="text-2xl" aria-hidden="true">{t.icon}</span>
                   )}
-                  <span className="mt-2 text-sm font-semibold text-slate-900 group-hover:text-indigo-700">
+                  <span className="mt-2 text-sm font-semibold text-ink group-hover:text-ledger-deep">
                     {t.name}
                   </span>
                 </Link>

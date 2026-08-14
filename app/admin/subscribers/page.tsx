@@ -33,10 +33,10 @@ async function getSubscribers() {
 
 function Stat({ label, value, hint }: { label: string; value: string; hint?: string }) {
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-      <p className="text-sm text-slate-500">{label}</p>
-      <p className="mt-1 text-3xl font-bold text-slate-900">{value}</p>
-      {hint && <p className="mt-1 text-xs text-slate-400">{hint}</p>}
+    <div className="rounded-[3px] border border-rule bg-card p-5 shadow-sm">
+      <p className="text-sm text-ink-soft">{label}</p>
+      <p className="mt-1 text-3xl font-bold text-ink">{value}</p>
+      {hint && <p className="mt-1 text-xs text-ink-soft/70">{hint}</p>}
     </div>
   );
 }
@@ -47,11 +47,11 @@ export default async function AdminSubscribers() {
   return (
     <div>
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-2xl font-bold text-slate-900">Email subscribers</h1>
+        <h1 className="text-2xl font-bold text-ink">Email subscribers</h1>
         {rows.length > 0 && (
           <a
             href="/admin/subscribers/export"
-            className="rounded-full bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700"
+            className="rounded-full bg-ledger px-4 py-2 text-sm font-semibold text-white hover:bg-ledger-deep"
           >
             ⬇ Export CSV (Excel)
           </a>
@@ -73,7 +73,7 @@ export default async function AdminSubscribers() {
           {sources.map(([src, n]) => (
             <span
               key={src}
-              className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-medium text-slate-600"
+              className="rounded-full border border-rule bg-card px-3 py-1 text-xs font-medium text-ink-soft"
             >
               {src}: {n}
             </span>
@@ -81,18 +81,18 @@ export default async function AdminSubscribers() {
         </div>
       )}
 
-      <div className="mt-6 overflow-x-auto rounded-2xl border border-slate-200 bg-white">
+      <div className="mt-6 overflow-x-auto rounded-[3px] border border-rule bg-card">
         {rows.length === 0 ? (
-          <div className="p-8 text-center text-sm text-slate-500">
+          <div className="p-8 text-center text-sm text-ink-soft">
             No subscribers yet. The signup form lives in the site footer —{" "}
-            <Link href="/" className="font-medium text-indigo-600 hover:underline">
+            <Link href="/" className="font-medium text-ledger hover:underline">
               view it
             </Link>
             .
           </div>
         ) : (
           <table className="w-full text-sm">
-            <thead className="bg-slate-50 text-left text-xs uppercase tracking-wide text-slate-500">
+            <thead className="bg-greenbar text-left text-xs uppercase tracking-wide text-ink-soft">
               <tr>
                 <th className="px-4 py-3">Email</th>
                 <th className="px-4 py-3">Source</th>
@@ -100,14 +100,14 @@ export default async function AdminSubscribers() {
                 <th className="px-4 py-3 text-right">Signed up</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-rule">
               {rows.map((r) => (
                 <tr key={r.email}>
-                  <td className="px-4 py-3 font-medium text-slate-700">{r.email}</td>
-                  <td className="px-4 py-3 text-slate-500">{r.source}</td>
+                  <td className="px-4 py-3 font-medium text-ink">{r.email}</td>
+                  <td className="px-4 py-3 text-ink-soft">{r.source}</td>
                   <td className="px-4 py-3">
                     {r.unsubscribed_at ? (
-                      <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-500">
+                      <span className="rounded-full bg-rule/45 px-2 py-0.5 text-xs font-medium text-ink-soft">
                         unsubscribed
                       </span>
                     ) : (
@@ -116,7 +116,7 @@ export default async function AdminSubscribers() {
                       </span>
                     )}
                   </td>
-                  <td className="px-4 py-3 text-right text-slate-400">
+                  <td className="px-4 py-3 text-right text-ink-soft/70">
                     {new Date(r.created_at).toLocaleDateString()}
                   </td>
                 </tr>
@@ -125,7 +125,7 @@ export default async function AdminSubscribers() {
           </table>
         )}
       </div>
-      <p className="mt-3 text-xs text-slate-400">
+      <p className="mt-3 text-xs text-ink-soft/70">
         Showing up to 1,000 most recent. The CSV export includes every subscriber.
       </p>
     </div>

@@ -246,24 +246,24 @@ export default function ReceiptAnatomyPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
 
-      <nav aria-label="Breadcrumb" className="text-sm text-slate-500">
+      <nav aria-label="Breadcrumb" className="text-sm text-ink-soft">
         <ol className="flex flex-wrap items-center gap-1.5">
           <li>
-            <Link href="/" className="hover:text-indigo-600">
+            <Link href="/" className="hover:text-ledger">
               Home
             </Link>
           </li>
           <li aria-hidden="true">/</li>
-          <li className="font-medium text-slate-900">Anatomy of a Receipt</li>
+          <li className="font-medium text-ink">Anatomy of a Receipt</li>
         </ol>
       </nav>
 
-      <h1 className="mt-6 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+      <h1 className="mt-6 text-3xl font-bold tracking-tight text-ink sm:text-4xl">
         Anatomy of a receipt: every field explained
       </h1>
 
       {/* Concise, extractable summary answer (AEO) */}
-      <p className="mt-4 rounded-2xl border border-slate-200 bg-slate-50 p-5 leading-relaxed text-slate-700">
+      <p className="mt-4 rounded-[3px] border border-rule bg-greenbar p-5 leading-relaxed text-ink">
         A receipt records a single transaction. From top to bottom it typically
         shows the <strong>merchant and location</strong>, a{" "}
         <strong>date and time</strong>, <strong>transaction identifiers</strong>{" "}
@@ -281,7 +281,7 @@ export default function ReceiptAnatomyPage() {
             <li key={s.id}>
               <a
                 href={`#${s.id}`}
-                className="rounded-full border border-slate-200 bg-white px-3 py-1 text-slate-600 hover:border-indigo-300 hover:text-indigo-600"
+                className="rounded-full border border-rule bg-card px-3 py-1 text-ink-soft hover:border-ledger/45 hover:text-ledger"
               >
                 {s.title}
               </a>
@@ -292,19 +292,19 @@ export default function ReceiptAnatomyPage() {
 
       {SECTIONS.map((s) => (
         <section key={s.id} className="mt-12 scroll-mt-24" aria-labelledby={`${s.id}-heading`} id={s.id}>
-          <h2 id={`${s.id}-heading`} className="text-2xl font-bold text-slate-900">
+          <h2 id={`${s.id}-heading`} className="text-2xl font-bold text-ink">
             {s.title}
           </h2>
           <dl className="mt-5 space-y-5">
             {s.terms.map((t) => (
-              <div key={t.term} className="border-l-2 border-slate-100 pl-4">
-                <dt className="font-semibold text-slate-900">
+              <div key={t.term} className="border-l-2 border-rule pl-4">
+                <dt className="font-semibold text-ink">
                   {t.term}
                   {t.aka ? (
-                    <span className="ml-2 text-sm font-normal text-slate-400">({t.aka})</span>
+                    <span className="ml-2 text-sm font-normal text-ink-soft/70">({t.aka})</span>
                   ) : null}
                 </dt>
-                <dd className="mt-1 leading-relaxed text-slate-600">{t.def}</dd>
+                <dd className="mt-1 leading-relaxed text-ink-soft">{t.def}</dd>
               </div>
             ))}
           </dl>
@@ -312,11 +312,11 @@ export default function ReceiptAnatomyPage() {
       ))}
 
       {/* Internal links — put the fields to use */}
-      <section className="mt-14 rounded-2xl border border-indigo-100 bg-indigo-50/40 p-6">
-        <h2 className="text-xl font-bold text-slate-900">Put these fields to use</h2>
-        <ul className="mt-3 space-y-2 text-slate-600">
+      <section className="mt-14 rounded-[3px] border border-greenbar bg-greenbar/40 p-6">
+        <h2 className="text-xl font-bold text-ink">Put these fields to use</h2>
+        <ul className="mt-3 space-y-2 text-ink-soft">
           <li>
-            <Link href="/create" className="font-semibold text-indigo-600 hover:underline">
+            <Link href="/create" className="font-semibold text-ledger hover:underline">
               Build a receipt
             </Link>{" "}
             with any of these fields — header, items, tax, payment and barcode.
@@ -325,7 +325,7 @@ export default function ReceiptAnatomyPage() {
             Work out the{" "}
             <Link
               href="/tools/receipt-calculator"
-              className="font-semibold text-indigo-600 hover:underline"
+              className="font-semibold text-ledger hover:underline"
             >
               subtotal, tax and total
             </Link>{" "}
@@ -335,7 +335,7 @@ export default function ReceiptAnatomyPage() {
             Reconcile a{" "}
             <Link
               href="/tools/split-payment-checker"
-              className="font-semibold text-indigo-600 hover:underline"
+              className="font-semibold text-ledger hover:underline"
             >
               split payment
             </Link>{" "}
@@ -343,7 +343,7 @@ export default function ReceiptAnatomyPage() {
           </li>
           <li>
             Lost a receipt or need a copy? See{" "}
-            <Link href="/receipt-help" className="font-semibold text-indigo-600 hover:underline">
+            <Link href="/receipt-help" className="font-semibold text-ledger hover:underline">
               receipt help
             </Link>
             .

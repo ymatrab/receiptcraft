@@ -76,18 +76,18 @@ export default async function ExamplePage({
   return (
     <main className="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
-      <nav className="text-sm text-slate-500">
-        <Link href="/examples" className="hover:text-slate-700">Examples</Link>
+      <nav className="text-sm text-ink-soft">
+        <Link href="/examples" className="hover:text-ink">Examples</Link>
         <span className="px-1">/</span>
-        <span className="text-slate-700">{ex.brand}</span>
+        <span className="text-ink">{ex.brand}</span>
       </nav>
 
       <div className="mt-4 grid gap-10 lg:grid-cols-[minmax(0,1fr)_360px]">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+          <h1 className="text-3xl font-bold tracking-tight text-ink sm:text-4xl">
             {ex.brand} Receipt Example
           </h1>
-          <p className="mt-4 text-lg leading-relaxed text-slate-600">
+          <p className="mt-4 text-lg leading-relaxed text-ink-soft">
             This is a sample {ex.brand} receipt showing {exampleSummary(ex)}, with a total of{" "}
             <strong>{totalStr}</strong>. Use it as a reference for what a real {ex.brand} receipt
             looks like — then make your own with your items, prices, date and store details.
@@ -96,23 +96,23 @@ export default async function ExamplePage({
           <div className="mt-6">
             <Link
               href={`/create?template=${encodeURIComponent(ex.base)}`}
-              className="inline-block rounded-full bg-indigo-600 px-7 py-3.5 text-base font-semibold text-white shadow-lg shadow-indigo-600/25 hover:bg-indigo-700"
+              className="inline-block rounded-full bg-ledger px-7 py-3.5 text-base font-semibold text-white shadow-lg shadow-ledger/25 hover:bg-ledger-deep"
             >
               Make a {ex.brand} receipt
             </Link>
           </div>
 
-          <h2 className="mt-10 text-xl font-bold text-slate-900">What&apos;s on this receipt</h2>
+          <h2 className="mt-10 text-xl font-bold text-ink">What&apos;s on this receipt</h2>
           <table className="mt-3 w-full text-sm">
-            <thead className="text-left text-xs uppercase tracking-wide text-slate-400">
+            <thead className="text-left text-xs uppercase tracking-wide text-ink-soft/70">
               <tr><th className="py-2">Item</th><th className="py-2">Qty</th><th className="py-2 text-right">Price</th></tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-rule">
               {ex.items.map((it) => (
                 <tr key={it.name}>
-                  <td className="py-2 text-slate-700">{it.name}</td>
-                  <td className="py-2 text-slate-500">{it.quantity}</td>
-                  <td className="py-2 text-right text-slate-700">{formatMoney(it.price, data.currency)}</td>
+                  <td className="py-2 text-ink">{it.name}</td>
+                  <td className="py-2 text-ink-soft">{it.quantity}</td>
+                  <td className="py-2 text-right text-ink">{formatMoney(it.price, data.currency)}</td>
                 </tr>
               ))}
               <tr className="font-semibold">
@@ -122,7 +122,7 @@ export default async function ExamplePage({
             </tbody>
           </table>
 
-          <p className="mt-4 text-sm leading-relaxed text-slate-500">
+          <p className="mt-4 text-sm leading-relaxed text-ink-soft">
             This {ex.brand} example reflects a {data.paymentMethod.toLowerCase()} purchase
             {location ? ` in ${location}` : ""} on {formatDisplayDate(data.date)},
             with {data.taxLabel.toLowerCase()} at {data.taxRate}%
@@ -130,8 +130,8 @@ export default async function ExamplePage({
             currency, tax rate, date and payment method you like.
           </p>
 
-          <h2 className="mt-10 text-xl font-bold text-slate-900">Make your own in under a minute</h2>
-          <p className="mt-2 leading-relaxed text-slate-600">
+          <h2 className="mt-10 text-xl font-bold text-ink">Make your own in under a minute</h2>
+          <p className="mt-2 leading-relaxed text-ink-soft">
             {SITE.name} lets you customize every field — business name, address, items, quantities,
             prices, tax, payment method and date — with a live preview, then download as a PDF or
             high-resolution PNG. No design skills needed.
@@ -140,7 +140,7 @@ export default async function ExamplePage({
 
         {/* Rendered example receipt */}
         <div className="lg:sticky lg:top-20">
-          <div className="rounded-3xl bg-gradient-to-b from-slate-100 to-slate-200/60 p-6">
+          <div className="rounded-[3px] bg-gradient-to-b from-rule to-rule/60 p-6">
             <div className="flex justify-center">
               <ReceiptDocPaper doc={docFromReceiptData(data)} />
             </div>
@@ -150,7 +150,7 @@ export default async function ExamplePage({
 
       {related.length > 0 && (
         <section className="mt-16" aria-labelledby="related-examples-heading">
-          <h2 id="related-examples-heading" className="text-xl font-bold text-slate-900">
+          <h2 id="related-examples-heading" className="text-xl font-bold text-ink">
             More receipt examples
           </h2>
           <ul className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3">
@@ -158,7 +158,7 @@ export default async function ExamplePage({
               <li key={e.slug}>
                 <Link
                   href={`/examples/${e.slug}`}
-                  className="block rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-700 transition-colors hover:border-indigo-300 hover:text-indigo-700"
+                  className="block rounded-[3px] border border-rule bg-card px-4 py-3 text-sm font-medium text-ink transition-colors hover:border-ledger/45 hover:text-ledger-deep"
                 >
                   {e.brand} receipt
                 </Link>

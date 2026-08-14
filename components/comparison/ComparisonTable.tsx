@@ -8,13 +8,13 @@ export interface ComparisonColumn {
 }
 
 const ICON: Record<CellState, { glyph: string; className: string; label: string }> = {
-  yes: { glyph: "✓", className: "bg-emerald-100 text-emerald-700", label: "Yes" },
+  yes: { glyph: "✓", className: "bg-greenbar text-ledger-deep", label: "Yes" },
   partial: { glyph: "~", className: "bg-amber-100 text-amber-700", label: "Partial" },
-  no: { glyph: "✕", className: "bg-slate-100 text-slate-400", label: "No" },
+  no: { glyph: "✕", className: "bg-rule/45 text-ink-soft/70", label: "No" },
 };
 
 function CellView({ cell }: { cell?: Cells[string] }) {
-  if (!cell) return <span className="text-slate-300">—</span>;
+  if (!cell) return <span className="text-ink-soft/50">—</span>;
   const icon = ICON[cell.state];
   return (
     <div className="flex flex-col items-center gap-1">
@@ -25,7 +25,7 @@ function CellView({ cell }: { cell?: Cells[string] }) {
         {icon.glyph}
       </span>
       {cell.note && (
-        <span className="text-xs leading-tight text-slate-500">{cell.note}</span>
+        <span className="text-xs leading-tight text-ink-soft">{cell.note}</span>
       )}
     </div>
   );
@@ -44,12 +44,12 @@ export default function ComparisonTable({
   caption?: string;
 }) {
   return (
-    <div className="overflow-x-auto rounded-2xl border border-slate-200">
+    <div className="overflow-x-auto rounded-[3px] border border-rule">
       <table className="w-full min-w-[520px] border-collapse text-sm">
         {caption && <caption className="sr-only">{caption}</caption>}
         <thead>
-          <tr className="border-b border-slate-200 bg-slate-50">
-            <th scope="col" className="p-4 text-left font-semibold text-slate-900">
+          <tr className="border-b border-rule bg-greenbar">
+            <th scope="col" className="p-4 text-left font-semibold text-ink">
               Feature
             </th>
             {columns.map((col) => (
@@ -57,7 +57,7 @@ export default function ComparisonTable({
                 key={col.name}
                 scope="col"
                 className={`p-4 text-center font-semibold ${
-                  col.highlight ? "bg-indigo-50 text-indigo-700" : "text-slate-900"
+                  col.highlight ? "bg-greenbar text-ledger-deep" : "text-ink"
                 }`}
               >
                 {col.name}
@@ -67,10 +67,10 @@ export default function ComparisonTable({
         </thead>
         <tbody>
           {FEATURE_ROWS.map((row, i) => (
-            <tr key={row.id} className={i % 2 ? "bg-white" : "bg-slate-50/40"}>
+            <tr key={row.id} className={i % 2 ? "bg-card" : "bg-greenbar/40"}>
               <th
                 scope="row"
-                className="p-4 text-left font-medium text-slate-700"
+                className="p-4 text-left font-medium text-ink"
               >
                 {row.label}
               </th>
@@ -78,7 +78,7 @@ export default function ComparisonTable({
                 <td
                   key={col.name}
                   className={`p-4 text-center align-top ${
-                    col.highlight ? "bg-indigo-50/50" : ""
+                    col.highlight ? "bg-greenbar/50" : ""
                   }`}
                 >
                   <CellView cell={col.cells[row.id]} />

@@ -35,8 +35,8 @@ export default function ReceiptHelpHub() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
       <header className="max-w-2xl">
-        <h1 className="text-4xl font-bold tracking-tight text-slate-900">Receipt help</h1>
-        <p className="mt-4 text-lg leading-relaxed text-slate-600">
+        <h1 className="text-4xl font-bold tracking-tight text-ink">Receipt help</h1>
+        <p className="mt-4 text-lg leading-relaxed text-ink-soft">
           Lost a receipt, need a duplicate, or returning an item? These guides show how to find,
           reprint and replace receipts from popular brands — and how to recreate one for your records
           when the original is gone.
@@ -45,12 +45,12 @@ export default function ReceiptHelpHub() {
 
       <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {[...byBrand.entries()].map(([slug, { name, pages }]) => (
-          <div key={slug} className="rounded-2xl border border-slate-200 bg-white p-5">
-            <h2 className="font-bold text-slate-900">{name}</h2>
+          <div key={slug} className="rounded-[3px] border border-rule bg-card p-5">
+            <h2 className="font-bold text-ink">{name}</h2>
             <ul className="mt-2 space-y-1.5">
               {pages.map((p) => (
                 <li key={p.slug}>
-                  <Link href={`/receipt-help/${p.slug}`} className="text-sm text-indigo-600 hover:text-indigo-700">
+                  <Link href={`/receipt-help/${p.slug}`} className="text-sm text-ledger hover:text-ledger-deep">
                     {intentContent(p).h1}
                   </Link>
                 </li>

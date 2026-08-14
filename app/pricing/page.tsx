@@ -68,49 +68,49 @@ export default async function PricingPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppJsonLd) }}
       />
       <div className="text-center">
-        <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
+        <h1 className="text-4xl font-bold tracking-tight text-ink sm:text-5xl">
           Simple, honest pricing
         </h1>
-        <p className="mx-auto mt-4 max-w-2xl text-lg text-slate-600">
+        <p className="mx-auto mt-4 max-w-2xl text-lg text-ink-soft">
           Start free. Upgrade when you need watermark-free, professional receipts.
         </p>
       </div>
 
       <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {/* Free */}
-        <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
-          <h2 className="text-lg font-semibold text-slate-900">Free</h2>
-          <p className="mt-2 text-4xl font-bold text-slate-900">
-            $0<span className="text-base font-medium text-slate-500">/forever</span>
+        <div className="rounded-[3px] border border-rule bg-card p-8 shadow-sm">
+          <h2 className="text-lg font-semibold text-ink">Free</h2>
+          <p className="mt-2 text-4xl font-bold text-ink">
+            $0<span className="text-base font-medium text-ink-soft">/forever</span>
           </p>
-          <ul className="mt-6 space-y-3 text-sm text-slate-600">
+          <ul className="mt-6 space-y-3 text-sm text-ink-soft">
             {PLANS.free.features.map((f) => (
               <li key={f} className="flex gap-2">
-                <span className="text-slate-400">✓</span>
+                <span className="text-ink-soft/70">✓</span>
                 {f}
               </li>
             ))}
           </ul>
           <Link
             href="/create"
-            className="mt-8 block rounded-full border border-slate-300 bg-white px-5 py-3 text-center text-sm font-semibold text-slate-700 hover:bg-slate-50"
+            className="mt-8 block rounded-full border border-rule bg-card px-5 py-3 text-center text-sm font-semibold text-ink hover:bg-greenbar"
           >
             Start free
           </Link>
         </div>
 
         {/* Pro Weekly */}
-        <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
-          <h2 className="text-lg font-semibold text-slate-900">{weekly.name}</h2>
-          <p className="mt-2 text-4xl font-bold text-slate-900">
+        <div className="rounded-[3px] border border-rule bg-card p-8 shadow-sm">
+          <h2 className="text-lg font-semibold text-ink">{weekly.name}</h2>
+          <p className="mt-2 text-4xl font-bold text-ink">
             ${weekly.price}
-            <span className="text-base font-medium text-slate-500">/wk</span>
+            <span className="text-base font-medium text-ink-soft">/wk</span>
           </p>
-          <p className="mt-1 text-xs font-medium text-slate-400">7-day full Pro pass</p>
-          <ul className="mt-6 space-y-3 text-sm text-slate-600">
+          <p className="mt-1 text-xs font-medium text-ink-soft/70">7-day full Pro pass</p>
+          <ul className="mt-6 space-y-3 text-sm text-ink-soft">
             {weekly.features.map((f) => (
               <li key={f} className="flex gap-2">
-                <span className="text-indigo-500">✓</span>
+                <span className="text-ledger">✓</span>
                 {f}
               </li>
             ))}
@@ -118,22 +118,22 @@ export default async function PricingPage() {
           <PricingCta
             planId="pro_weekly"
             paymentLink={links.weekly}
-            className="mt-8 block rounded-full border border-indigo-200 bg-indigo-50 px-5 py-3 text-center text-sm font-semibold text-indigo-700 hover:bg-indigo-100"
+            className="mt-8 block rounded-full border border-rule bg-card px-5 py-3 text-center text-sm font-semibold text-ledger-deep transition-colors hover:border-ledger/45 hover:bg-greenbar"
             label="Get 7-day Pro"
           />
         </div>
 
         {/* Pro Monthly */}
-        <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
-          <h2 className="text-lg font-semibold text-slate-900">{monthly.name}</h2>
-          <p className="mt-2 text-4xl font-bold text-slate-900">
+        <div className="rounded-[3px] border border-rule bg-card p-8 shadow-sm">
+          <h2 className="text-lg font-semibold text-ink">{monthly.name}</h2>
+          <p className="mt-2 text-4xl font-bold text-ink">
             ${monthly.price}
-            <span className="text-base font-medium text-slate-500">/mo</span>
+            <span className="text-base font-medium text-ink-soft">/mo</span>
           </p>
-          <ul className="mt-6 space-y-3 text-sm text-slate-600">
+          <ul className="mt-6 space-y-3 text-sm text-ink-soft">
             {monthly.features.map((f) => (
               <li key={f} className="flex gap-2">
-                <span className="text-indigo-500">✓</span>
+                <span className="text-ledger">✓</span>
                 {f}
               </li>
             ))}
@@ -141,25 +141,25 @@ export default async function PricingPage() {
           <PricingCta
             planId="pro_monthly"
             paymentLink={links.monthly}
-            className="mt-8 block rounded-full border border-indigo-200 bg-indigo-50 px-5 py-3 text-center text-sm font-semibold text-indigo-700 hover:bg-indigo-100"
+            className="mt-8 block rounded-full border border-rule bg-card px-5 py-3 text-center text-sm font-semibold text-ledger-deep transition-colors hover:border-ledger/45 hover:bg-greenbar"
             label="Go Pro Monthly"
           />
         </div>
 
         {/* Pro Yearly (highlighted) */}
-        <div className="relative rounded-3xl border-2 border-indigo-600 bg-white p-8 shadow-lg">
-          <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-indigo-600 px-3 py-1 text-xs font-semibold text-white">
+        <div className="relative rounded-[3px] border-2 border-ledger bg-card p-8 shadow-lg">
+          <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-ledger px-3 py-1 text-xs font-semibold text-white">
             Best value · Save ~60%
           </span>
-          <h2 className="text-lg font-semibold text-slate-900">{yearly.name}</h2>
-          <p className="mt-2 text-4xl font-bold text-slate-900">
+          <h2 className="text-lg font-semibold text-ink">{yearly.name}</h2>
+          <p className="mt-2 text-4xl font-bold text-ink">
             ${yearly.price}
-            <span className="text-base font-medium text-slate-500">/yr</span>
+            <span className="text-base font-medium text-ink-soft">/yr</span>
           </p>
-          <ul className="mt-6 space-y-3 text-sm text-slate-600">
+          <ul className="mt-6 space-y-3 text-sm text-ink-soft">
             {yearly.features.map((f) => (
               <li key={f} className="flex gap-2">
-                <span className="text-indigo-500">✓</span>
+                <span className="text-ledger">✓</span>
                 {f}
               </li>
             ))}
@@ -167,24 +167,24 @@ export default async function PricingPage() {
           <PricingCta
             planId="pro_yearly"
             paymentLink={links.yearly}
-            className="mt-8 block rounded-full bg-indigo-600 px-5 py-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-700"
+            className="mt-8 block rounded-full bg-ledger px-5 py-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-ledger-deep"
             label="Go Pro Yearly"
           />
         </div>
       </div>
 
-      <p className="mx-auto mt-8 max-w-xl rounded-xl bg-amber-50 px-4 py-3 text-center text-sm text-amber-800">
+      <p className="mx-auto mt-8 max-w-xl rounded-[3px] bg-amber-50 px-4 py-3 text-center text-sm text-amber-800">
         💡 Please check out using the <strong>same email you sign in with</strong> — that&apos;s how
         we match your payment and activate Pro on your account.
       </p>
 
       <section className="mx-auto mt-20 max-w-3xl">
-        <h2 className="text-center text-2xl font-bold text-slate-900">Pricing FAQ</h2>
+        <h2 className="text-center text-2xl font-bold text-ink">Pricing FAQ</h2>
         <dl className="mt-8 space-y-6">
           {FAQ.map((item) => (
-            <div key={item.q} className="rounded-2xl border border-slate-200 bg-white p-6">
-              <dt className="font-semibold text-slate-900">{item.q}</dt>
-              <dd className="mt-2 text-sm leading-relaxed text-slate-600">{item.a}</dd>
+            <div key={item.q} className="rounded-[3px] border border-rule bg-card p-6">
+              <dt className="font-semibold text-ink">{item.q}</dt>
+              <dd className="mt-2 text-sm leading-relaxed text-ink-soft">{item.a}</dd>
             </div>
           ))}
         </dl>

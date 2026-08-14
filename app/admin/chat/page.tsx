@@ -18,12 +18,12 @@ export default async function AdminChatInbox() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-slate-900">Chat</h1>
-      <p className="mt-1 text-sm text-slate-500">{conversations.length} conversations</p>
+      <h1 className="text-2xl font-bold text-ink">Chat</h1>
+      <p className="mt-1 text-sm text-ink-soft">{conversations.length} conversations</p>
 
-      <div className="mt-6 divide-y divide-slate-100 overflow-hidden rounded-2xl border border-slate-200 bg-white">
+      <div className="mt-6 divide-y divide-rule overflow-hidden rounded-[3px] border border-rule bg-card">
         {conversations.length === 0 ? (
-          <p className="p-6 text-sm text-slate-500">No conversations yet.</p>
+          <p className="p-6 text-sm text-ink-soft">No conversations yet.</p>
         ) : (
           conversations.map((c) => {
             const email = Array.isArray(c.profiles)
@@ -33,11 +33,11 @@ export default async function AdminChatInbox() {
               <Link
                 key={c.id}
                 href={`/admin/chat/${c.id}`}
-                className="flex items-center justify-between px-5 py-4 hover:bg-slate-50"
+                className="flex items-center justify-between px-5 py-4 hover:bg-greenbar"
               >
                 <div>
-                  <p className="font-medium text-slate-800">{email ?? "Unknown user"}</p>
-                  <p className="text-xs text-slate-400">
+                  <p className="font-medium text-ink">{email ?? "Unknown user"}</p>
+                  <p className="text-xs text-ink-soft/70">
                     {new Date(c.last_message_at).toLocaleString()}
                   </p>
                 </div>
@@ -45,7 +45,7 @@ export default async function AdminChatInbox() {
                   className={`rounded-full px-2 py-0.5 text-xs font-medium ${
                     c.status === "open"
                       ? "bg-emerald-100 text-emerald-700"
-                      : "bg-slate-100 text-slate-500"
+                      : "bg-rule/45 text-ink-soft"
                   }`}
                 >
                   {c.status}

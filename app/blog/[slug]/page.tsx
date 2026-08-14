@@ -19,7 +19,7 @@ const portableComponents: PortableTextComponents = {
         <img
           src={urlForImage(img as Parameters<typeof urlForImage>[0]).width(1600).url()}
           alt={img.alt ?? ""}
-          className="my-8 w-full rounded-2xl"
+          className="my-8 w-full rounded-[3px]"
         />
       );
     },
@@ -37,7 +37,7 @@ const portableComponents: PortableTextComponents = {
                   {head.cells.map((cell, i) => (
                     <th
                       key={i}
-                      className="border border-slate-300 bg-slate-50 px-3 py-2 font-semibold text-slate-900"
+                      className="border border-rule bg-greenbar px-3 py-2 font-semibold text-ink"
                     >
                       {cell}
                     </th>
@@ -51,7 +51,7 @@ const portableComponents: PortableTextComponents = {
                   {(row.cells ?? []).map((cell, ci) => (
                     <td
                       key={ci}
-                      className="border border-slate-300 px-3 py-2 align-top text-slate-700"
+                      className="border border-rule px-3 py-2 align-top text-ink"
                     >
                       {cell}
                     </td>
@@ -66,7 +66,7 @@ const portableComponents: PortableTextComponents = {
   },
   block: {
     blockquote: ({ children }) => (
-      <blockquote className="my-6 border-l-4 border-indigo-300 bg-slate-50 py-2 pl-4 pr-3 italic text-slate-700">
+      <blockquote className="my-6 border-l-4 border-ledger/45 bg-greenbar py-2 pl-4 pr-3 italic text-ink">
         {children}
       </blockquote>
     ),
@@ -206,28 +206,28 @@ export default async function BlogPostPage({
         />
       )}
       {/* Visible breadcrumb — matches breadcrumbJsonLd (Home / Blog / title). */}
-      <nav aria-label="Breadcrumb" className="text-sm text-slate-500">
+      <nav aria-label="Breadcrumb" className="text-sm text-ink-soft">
         <ol className="flex flex-wrap items-center gap-1.5">
           <li>
-            <Link href="/" className="hover:text-indigo-600">Home</Link>
+            <Link href="/" className="hover:text-ledger">Home</Link>
           </li>
           <li aria-hidden="true">/</li>
           <li>
-            <Link href="/blog" className="hover:text-indigo-600">Blog</Link>
+            <Link href="/blog" className="hover:text-ledger">Blog</Link>
           </li>
           <li aria-hidden="true">/</li>
-          <li className="font-medium text-slate-900">{post.title}</li>
+          <li className="font-medium text-ink">{post.title}</li>
         </ol>
       </nav>
 
       <article className="mt-6">
         {post.category && (
-          <span className="text-sm font-semibold uppercase tracking-wide text-indigo-600">
+          <span className="text-sm font-semibold uppercase tracking-wide text-ledger">
             {post.category}
           </span>
         )}
-        <h1 className="mt-2 text-4xl font-bold tracking-tight text-slate-900">{post.title}</h1>
-        <div className="mt-3 flex items-center gap-2 text-sm text-slate-500">
+        <h1 className="mt-2 text-4xl font-bold tracking-tight text-ink">{post.title}</h1>
+        <div className="mt-3 flex items-center gap-2 text-sm text-ink-soft">
           {post.authorName && <span>{post.authorName}</span>}
           {post.authorName && post.publishedAt && <span>·</span>}
           {post.publishedAt && (
@@ -252,28 +252,28 @@ export default async function BlogPostPage({
           <img
             src={urlForImage(post.mainImage).width(1200).height(675).url()}
             alt={post.title}
-            className="mt-8 aspect-video w-full rounded-2xl object-cover"
+            className="mt-8 aspect-video w-full rounded-[3px] object-cover"
           />
         )}
 
-        <div className="prose prose-slate mt-8 max-w-none prose-headings:font-bold prose-a:text-indigo-600">
+        <div className="prose prose-slate mt-8 max-w-none prose-headings:font-bold prose-a:text-ledger">
           {post.body ? (
             <PortableText value={post.body as never} components={portableComponents} />
           ) : (
-            <p className="text-slate-500">This article has no content yet.</p>
+            <p className="text-ink-soft">This article has no content yet.</p>
           )}
         </div>
 
         {faqs.length > 0 && (
           <section className="mt-12" aria-labelledby="post-faq-heading">
-            <h2 id="post-faq-heading" className="text-2xl font-bold text-slate-900">
+            <h2 id="post-faq-heading" className="text-2xl font-bold text-ink">
               Frequently asked questions
             </h2>
             <dl className="mt-6 space-y-4">
               {faqs.map((f) => (
-                <div key={f.question} className="rounded-2xl border border-slate-200 bg-white p-5">
-                  <dt className="font-semibold text-slate-900">{f.question}</dt>
-                  <dd className="mt-2 text-sm leading-relaxed text-slate-600">{f.answer}</dd>
+                <div key={f.question} className="rounded-[3px] border border-rule bg-card p-5">
+                  <dt className="font-semibold text-ink">{f.question}</dt>
+                  <dd className="mt-2 text-sm leading-relaxed text-ink-soft">{f.answer}</dd>
                 </div>
               ))}
             </dl>
@@ -281,12 +281,12 @@ export default async function BlogPostPage({
         )}
       </article>
 
-      <div className="mt-16 rounded-3xl bg-gradient-to-br from-indigo-600 to-violet-700 px-6 py-10 text-center">
+      <div className="mt-16 rounded-[3px] bg-ledger px-6 py-10 text-center">
         <h2 className="text-2xl font-bold text-white">Need a receipt right now?</h2>
-        <p className="mt-2 text-indigo-100">Create one free in under a minute.</p>
+        <p className="mt-2 text-greenbar">Create one free in under a minute.</p>
         <Link
           href="/create"
-          className="mt-6 inline-block rounded-full bg-white px-6 py-3 text-sm font-semibold text-indigo-700"
+          className="mt-6 inline-block rounded-full bg-card px-6 py-3 text-sm font-semibold text-ledger-deep"
         >
           Open the receipt maker
         </Link>

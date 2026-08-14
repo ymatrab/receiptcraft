@@ -59,20 +59,20 @@ export default function ReceiptTotalsCalculator() {
     setRows((rs) => (rs.length > 1 ? rs.filter((r) => r.id !== id) : rs));
 
   const inputCls =
-    "w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500";
+    "w-full rounded-[3px] border border-rule px-3 py-2 text-sm text-ink focus:border-ledger focus:outline-none focus:ring-1 focus:ring-ledger";
 
   return (
     <div className="grid gap-6 lg:grid-cols-[1fr_20rem]">
       {/* Inputs */}
-      <div className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6">
+      <div className="rounded-[3px] border border-rule bg-card p-5 sm:p-6">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-slate-900">Line items</h2>
-          <label className="flex items-center gap-2 text-sm text-slate-600">
+          <h2 className="text-lg font-semibold text-ink">Line items</h2>
+          <label className="flex items-center gap-2 text-sm text-ink-soft">
             Currency
             <select
               value={currency}
               onChange={(e) => setCurrency(e.target.value)}
-              className="rounded-lg border border-slate-300 px-2 py-1.5 text-sm"
+              className="rounded-[3px] border border-rule px-2 py-1.5 text-sm"
             >
               {CURRENCIES.map((c) => (
                 <option key={c.code} value={c.code}>
@@ -101,7 +101,7 @@ export default function ReceiptTotalsCalculator() {
                 onChange={(e) => setRow(r.id, { qty: num(e.target.value) })}
                 className={`${inputCls} w-16`}
               />
-              <span className="text-slate-400">×</span>
+              <span className="text-ink-soft/70">×</span>
               <input
                 aria-label="Unit price"
                 type="number"
@@ -115,7 +115,7 @@ export default function ReceiptTotalsCalculator() {
                 type="button"
                 onClick={() => removeRow(r.id)}
                 aria-label="Remove item"
-                className="shrink-0 rounded-lg px-2 py-1 text-slate-400 hover:text-red-500"
+                className="shrink-0 rounded-[3px] px-2 py-1 text-ink-soft/70 hover:text-red-500"
               >
                 ✕
               </button>
@@ -125,13 +125,13 @@ export default function ReceiptTotalsCalculator() {
         <button
           type="button"
           onClick={addRow}
-          className="mt-3 rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+          className="mt-3 rounded-full border border-rule bg-card px-4 py-2 text-sm font-semibold text-ink hover:bg-greenbar"
         >
           + Add item
         </button>
 
         <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3">
-          <label className="text-sm text-slate-600">
+          <label className="text-sm text-ink-soft">
             Tax rate (%)
             <input
               type="number"
@@ -142,7 +142,7 @@ export default function ReceiptTotalsCalculator() {
               className={`${inputCls} mt-1`}
             />
           </label>
-          <label className="text-sm text-slate-600">
+          <label className="text-sm text-ink-soft">
             Discount ({currency})
             <input
               type="number"
@@ -153,7 +153,7 @@ export default function ReceiptTotalsCalculator() {
               className={`${inputCls} mt-1`}
             />
           </label>
-          <label className="text-sm text-slate-600">
+          <label className="text-sm text-ink-soft">
             Tip ({currency})
             <input
               type="number"
@@ -166,18 +166,18 @@ export default function ReceiptTotalsCalculator() {
           </label>
         </div>
 
-        <div className="mt-4 rounded-xl bg-slate-50 p-4">
-          <label className="flex items-center gap-2 text-sm font-medium text-slate-700">
+        <div className="mt-4 rounded-[3px] bg-greenbar p-4">
+          <label className="flex items-center gap-2 text-sm font-medium text-ink">
             <input
               type="checkbox"
               checked={isCash}
               onChange={(e) => setIsCash(e.target.checked)}
-              className="h-4 w-4 rounded border-slate-300"
+              className="h-4 w-4 rounded border-rule"
             />
             Paid in cash — calculate change
           </label>
           {isCash && (
-            <label className="mt-3 block text-sm text-slate-600">
+            <label className="mt-3 block text-sm text-ink-soft">
               Amount tendered ({currency})
               <input
                 type="number"
@@ -193,14 +193,14 @@ export default function ReceiptTotalsCalculator() {
       </div>
 
       {/* Results */}
-      <div className="lg:sticky lg:top-24 h-fit rounded-2xl border border-indigo-100 bg-indigo-50/40 p-5 sm:p-6">
-        <h2 className="text-lg font-semibold text-slate-900">Totals</h2>
+      <div className="lg:sticky lg:top-24 h-fit rounded-[3px] border border-greenbar bg-greenbar/40 p-5 sm:p-6">
+        <h2 className="text-lg font-semibold text-ink">Totals</h2>
         <dl className="mt-4 space-y-2 text-sm">
           <Line label="Subtotal" value={m(subtotal)} />
           {disc > 0 && <Line label="Discount" value={`− ${m(disc)}`} />}
           <Line label={`Tax (${taxRate || 0}%)`} value={m(tax)} />
           {tipAmt > 0 && <Line label="Tip" value={m(tipAmt)} />}
-          <div className="flex justify-between border-t border-indigo-200 pt-2 text-base font-bold text-slate-900">
+          <div className="flex justify-between border-t border-rule pt-2 text-base font-bold text-ink">
             <dt>Total</dt>
             <dd className="tabular-nums">{m(total)}</dd>
           </div>
@@ -214,11 +214,11 @@ export default function ReceiptTotalsCalculator() {
 
         <Link
           href="/create"
-          className="mt-6 block rounded-full bg-indigo-600 px-5 py-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-700"
+          className="mt-6 block rounded-full bg-ledger px-5 py-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-ledger-deep"
         >
           Turn this into a receipt — free
         </Link>
-        <p className="mt-2 text-center text-xs text-slate-400">
+        <p className="mt-2 text-center text-xs text-ink-soft/70">
           Build & preview free — account needed only to download.
         </p>
       </div>
@@ -228,7 +228,7 @@ export default function ReceiptTotalsCalculator() {
 
 function Line({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex justify-between text-slate-600">
+    <div className="flex justify-between text-ink-soft">
       <dt>{label}</dt>
       <dd className="tabular-nums">{value}</dd>
     </div>

@@ -48,19 +48,19 @@ export default function ResetForm() {
   }
 
   if (hasSession === null) {
-    return <div className="mt-8 h-12 animate-pulse rounded-full bg-slate-100" />;
+    return <div className="mt-8 h-12 animate-pulse rounded-full bg-rule/45" />;
   }
 
   if (!hasSession) {
     return (
       <div className="mt-8 space-y-3">
-        <p className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">
+        <p className="rounded-[3px] bg-red-50 px-4 py-3 text-sm text-red-700">
           This reset link is invalid or has expired. Request a new one from the
           login page.
         </p>
         <a
           href="/login"
-          className="block w-full rounded-full bg-indigo-600 px-5 py-3 text-center text-sm font-semibold text-white hover:bg-indigo-700"
+          className="block w-full rounded-full bg-ledger px-5 py-3 text-center text-sm font-semibold text-white hover:bg-ledger-deep"
         >
           Back to log in
         </a>
@@ -70,7 +70,7 @@ export default function ResetForm() {
 
   if (done) {
     return (
-      <p className="mt-8 rounded-xl bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
+      <p className="mt-8 rounded-[3px] bg-greenbar px-4 py-3 text-sm text-ledger-deep">
         Password updated — taking you to your account…
       </p>
     );
@@ -87,23 +87,23 @@ export default function ResetForm() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder={`New password (${MIN_PASSWORD}+ characters)`}
-          className="w-full rounded-full border border-slate-300 px-4 py-3 pr-16 text-sm focus:border-indigo-400 focus:outline-none"
+          className="w-full rounded-full border border-rule px-4 py-3 pr-16 text-sm focus:border-ledger/45 focus:outline-none"
         />
         <button
           type="button"
           onClick={() => setShowPassword((s) => !s)}
-          className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-medium text-slate-400 hover:text-slate-600"
+          className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-medium text-ink-soft/70 hover:text-ink-soft"
         >
           {showPassword ? "Hide" : "Show"}
         </button>
       </div>
       {error && (
-        <p className="rounded-xl bg-red-50 px-4 py-2.5 text-sm text-red-700">{error}</p>
+        <p className="rounded-[3px] bg-red-50 px-4 py-2.5 text-sm text-red-700">{error}</p>
       )}
       <button
         type="submit"
         disabled={busy}
-        className="w-full rounded-full bg-indigo-600 px-5 py-3 text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60"
+        className="w-full rounded-full bg-ledger px-5 py-3 text-sm font-semibold text-white hover:bg-ledger-deep disabled:opacity-60"
       >
         {busy ? "Saving…" : "Save new password"}
       </button>

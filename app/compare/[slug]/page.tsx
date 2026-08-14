@@ -57,7 +57,7 @@ const PREVIEW_BRAND =
 function Check() {
   return (
     <svg
-      className="mt-0.5 h-5 w-5 shrink-0 text-emerald-500"
+      className="mt-0.5 h-5 w-5 shrink-0 text-ledger"
       fill="none"
       viewBox="0 0 24 24"
       stroke="currentColor"
@@ -151,51 +151,51 @@ export default async function ComparePage({ params }: Props) {
 
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         {/* Breadcrumb */}
-        <nav aria-label="Breadcrumb" className="text-sm text-slate-500">
+        <nav aria-label="Breadcrumb" className="text-sm text-ink-soft">
           <ol className="flex flex-wrap items-center gap-1.5">
             <li>
-              <Link href="/" className="hover:text-indigo-600">
+              <Link href="/" className="hover:text-ledger">
                 Home
               </Link>
             </li>
             <li aria-hidden="true">/</li>
             <li>
-              <Link href="/alternatives" className="hover:text-indigo-600">
+              <Link href="/alternatives" className="hover:text-ledger">
                 Alternatives
               </Link>
             </li>
             <li aria-hidden="true">/</li>
-            <li className="font-medium text-slate-900">{c.h1}</li>
+            <li className="font-medium text-ink">{c.h1}</li>
           </ol>
         </nav>
 
         {/* Hero */}
         <div className="mt-8 grid items-start gap-12 lg:grid-cols-2">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-wide text-indigo-600">
+            <p className="text-sm font-semibold uppercase tracking-wide text-ledger">
               Receipt maker comparison
             </p>
-            <h1 className="mt-2 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+            <h1 className="mt-2 text-3xl font-bold tracking-tight text-ink sm:text-4xl">
               {c.h1}
             </h1>
-            <p className="mt-4 text-lg leading-relaxed text-slate-600">{c.intro}</p>
+            <p className="mt-4 text-lg leading-relaxed text-ink-soft">{c.intro}</p>
 
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
                 href="/create"
-                className="rounded-full bg-indigo-600 px-7 py-3.5 text-base font-semibold text-white shadow-lg shadow-indigo-600/25 transition-all hover:bg-indigo-700"
+                className="rounded-full bg-ledger px-7 py-3.5 text-base font-semibold text-white shadow-lg shadow-ledger/25 transition-all hover:bg-ledger-deep"
               >
                 Try {SITE.name} Free
               </Link>
               <Link
                 href="/pricing"
-                className="rounded-full border border-slate-300 bg-white px-7 py-3.5 text-base font-semibold text-slate-700 transition-colors hover:bg-slate-50"
+                className="rounded-full border border-rule bg-card px-7 py-3.5 text-base font-semibold text-ink transition-colors hover:bg-greenbar"
               >
                 See Pricing
               </Link>
             </div>
 
-            <p className="mt-6 text-xs text-slate-400">
+            <p className="mt-6 text-xs text-ink-soft/70">
               Last reviewed {reviewedLabel}. {SITE.name} is our own product;
               {" "}{c.name} data is from its public website (as of {PRICING_AS_OF}).
             </p>
@@ -210,10 +210,10 @@ export default async function ComparePage({ params }: Props) {
 
         {/* Feature matrix */}
         <section className="mt-20" aria-labelledby="matrix-heading">
-          <h2 id="matrix-heading" className="text-2xl font-bold text-slate-900">
+          <h2 id="matrix-heading" className="text-2xl font-bold text-ink">
             {SITE.name} vs {c.name}: feature comparison
           </h2>
-          <p className="mt-3 max-w-3xl text-slate-600">
+          <p className="mt-3 max-w-3xl text-ink-soft">
             A field-by-field look at how the two receipt makers stack up.
             {" "}✓ = yes, ~ = partial or limited, ✕ = not available.
           </p>
@@ -230,39 +230,39 @@ export default async function ComparePage({ params }: Props) {
 
         {/* Pricing */}
         <section className="mt-16" aria-labelledby="pricing-heading">
-          <h2 id="pricing-heading" className="text-2xl font-bold text-slate-900">
+          <h2 id="pricing-heading" className="text-2xl font-bold text-ink">
             Pricing compared
           </h2>
           <div className="mt-6 grid gap-6 sm:grid-cols-2">
-            <div className="rounded-2xl border-2 border-indigo-200 bg-indigo-50/50 p-6">
-              <h3 className="text-lg font-bold text-slate-900">{SITE.name}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-slate-600">
+            <div className="rounded-[3px] border-2 border-rule bg-greenbar/50 p-6">
+              <h3 className="text-lg font-bold text-ink">{SITE.name}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-ink-soft">
                 Free to build and preview with no signup. Your first 3 HD
                 downloads are free; after that, Pro removes the watermark and
                 unlocks unlimited HD exports, unlimited AI generation and saved
                 history.
               </p>
-              <p className="mt-4 text-2xl font-bold text-slate-900">
+              <p className="mt-4 text-2xl font-bold text-ink">
                 Free{" "}
-                <span className="text-base font-medium text-slate-500">
+                <span className="text-base font-medium text-ink-soft">
                   · Pro from $3/wk
                 </span>
               </p>
-              <p className="mt-1 text-sm text-slate-500">
+              <p className="mt-1 text-sm text-ink-soft">
                 $3/week · $7.99/month · $39/year
               </p>
             </div>
-            <div className="rounded-2xl border border-slate-200 bg-white p-6">
-              <h3 className="text-lg font-bold text-slate-900">{c.name}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-slate-600">
+            <div className="rounded-[3px] border border-rule bg-card p-6">
+              <h3 className="text-lg font-bold text-ink">{c.name}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-ink-soft">
                 {c.pricing.free}
               </p>
-              <p className="mt-2 text-sm leading-relaxed text-slate-600">
+              <p className="mt-2 text-sm leading-relaxed text-ink-soft">
                 {c.pricing.paid}
               </p>
             </div>
           </div>
-          <p className="mt-3 text-xs text-slate-400">
+          <p className="mt-3 text-xs text-ink-soft/70">
             {c.name} pricing as of {PRICING_AS_OF}, from its public website.
             Prices can change — check {c.name} directly before subscribing.
           </p>
@@ -271,16 +271,16 @@ export default async function ComparePage({ params }: Props) {
         {/* Fair overview of the competitor */}
         <section className="mt-16 grid gap-10 lg:grid-cols-2" aria-labelledby="overview-heading">
           <div>
-            <h2 id="overview-heading" className="text-2xl font-bold text-slate-900">
+            <h2 id="overview-heading" className="text-2xl font-bold text-ink">
               About {c.name}
             </h2>
-            <p className="mt-4 leading-relaxed text-slate-600">{c.overview}</p>
-            <h3 className="mt-6 text-base font-semibold text-slate-900">
+            <p className="mt-4 leading-relaxed text-ink-soft">{c.overview}</p>
+            <h3 className="mt-6 text-base font-semibold text-ink">
               What {c.name} does well
             </h3>
             <ul className="mt-3 space-y-2">
               {c.strengths.map((s) => (
-                <li key={s} className="flex items-start gap-2.5 text-slate-600">
+                <li key={s} className="flex items-start gap-2.5 text-ink-soft">
                   <Check />
                   {s}
                 </li>
@@ -288,12 +288,12 @@ export default async function ComparePage({ params }: Props) {
             </ul>
           </div>
           <div>
-            <h2 className="text-2xl font-bold text-slate-900">
+            <h2 className="text-2xl font-bold text-ink">
               Where {SITE.name} is stronger
             </h2>
             <ul className="mt-4 space-y-2">
               {c.gaps.map((g) => (
-                <li key={g} className="flex items-start gap-2.5 text-slate-600">
+                <li key={g} className="flex items-start gap-2.5 text-ink-soft">
                   <Check />
                   {g}
                 </li>
@@ -304,33 +304,33 @@ export default async function ComparePage({ params }: Props) {
 
         {/* Verdict */}
         <section className="mt-16" aria-labelledby="verdict-heading">
-          <h2 id="verdict-heading" className="text-2xl font-bold text-slate-900">
+          <h2 id="verdict-heading" className="text-2xl font-bold text-ink">
             The verdict
           </h2>
-          <p className="mt-4 max-w-3xl leading-relaxed text-slate-600">
+          <p className="mt-4 max-w-3xl leading-relaxed text-ink-soft">
             {c.verdict}
           </p>
           <div className="mt-6 grid gap-6 sm:grid-cols-2">
-            <div className="rounded-2xl border border-slate-200 bg-white p-6">
-              <h3 className="text-base font-semibold text-indigo-700">
+            <div className="rounded-[3px] border border-rule bg-card p-6">
+              <h3 className="text-base font-semibold text-ledger-deep">
                 Choose {SITE.name} if…
               </h3>
               <ul className="mt-3 space-y-2">
                 {c.chooseUs.map((x) => (
-                  <li key={x} className="flex items-start gap-2.5 text-slate-600">
+                  <li key={x} className="flex items-start gap-2.5 text-ink-soft">
                     <Check />
                     {x}
                   </li>
                 ))}
               </ul>
             </div>
-            <div className="rounded-2xl border border-slate-200 bg-white p-6">
-              <h3 className="text-base font-semibold text-slate-700">
+            <div className="rounded-[3px] border border-rule bg-card p-6">
+              <h3 className="text-base font-semibold text-ink">
                 Choose {c.name} if…
               </h3>
               <ul className="mt-3 space-y-2">
                 {c.chooseThem.map((x) => (
-                  <li key={x} className="flex items-start gap-2.5 text-slate-600">
+                  <li key={x} className="flex items-start gap-2.5 text-ink-soft">
                     <Check />
                     {x}
                   </li>
@@ -342,40 +342,40 @@ export default async function ComparePage({ params }: Props) {
 
         {/* FAQ */}
         <section className="mt-16" aria-labelledby="faq-heading">
-          <h2 id="faq-heading" className="text-2xl font-bold text-slate-900">
+          <h2 id="faq-heading" className="text-2xl font-bold text-ink">
             {SITE.name} vs {c.name}: FAQ
           </h2>
           <dl className="mt-6 max-w-3xl space-y-6">
             {c.faqs.map((f) => (
               <div key={f.question}>
-                <dt className="text-base font-semibold text-slate-900">
+                <dt className="text-base font-semibold text-ink">
                   {f.question}
                 </dt>
-                <dd className="mt-2 leading-relaxed text-slate-600">{f.answer}</dd>
+                <dd className="mt-2 leading-relaxed text-ink-soft">{f.answer}</dd>
               </div>
             ))}
           </dl>
         </section>
 
         {/* Final CTA */}
-        <section className="mt-16 rounded-3xl bg-slate-900 px-6 py-12 text-center sm:px-12">
+        <section className="mt-16 rounded-[3px] bg-ink px-6 py-12 text-center sm:px-12">
           <h2 className="text-2xl font-bold text-white sm:text-3xl">
             Make a receipt in seconds — free
           </h2>
-          <p className="mx-auto mt-3 max-w-xl text-slate-300">
+          <p className="mx-auto mt-3 max-w-xl text-ink-soft/50">
             350+ brand templates, AI generation and PDF &amp; PNG export. Start
             building with no signup and see the difference yourself.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Link
               href="/create"
-              className="rounded-full bg-indigo-500 px-7 py-3.5 text-base font-semibold text-white shadow-lg shadow-indigo-500/25 transition-all hover:bg-indigo-400"
+              className="rounded-full bg-ledger px-7 py-3.5 text-base font-semibold text-white shadow-lg shadow-ledger/25 transition-all hover:bg-ledger/45"
             >
               Try {SITE.name} Free
             </Link>
             <Link
               href="/alternatives"
-              className="rounded-full border border-slate-600 px-7 py-3.5 text-base font-semibold text-slate-100 transition-colors hover:bg-slate-800"
+              className="rounded-full border border-ink-soft px-7 py-3.5 text-base font-semibold text-rule transition-colors hover:bg-ink"
             >
               All Alternatives
             </Link>
@@ -384,7 +384,7 @@ export default async function ComparePage({ params }: Props) {
 
         {/* Related comparisons */}
         <section className="mt-16" aria-labelledby="related-heading">
-          <h2 id="related-heading" className="text-xl font-bold text-slate-900">
+          <h2 id="related-heading" className="text-xl font-bold text-ink">
             Related comparisons
           </h2>
           <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -392,24 +392,24 @@ export default async function ComparePage({ params }: Props) {
               <Link
                 key={o.slug}
                 href={`/compare/${o.slug}`}
-                className="rounded-2xl border border-slate-200 bg-white p-5 transition-colors hover:border-indigo-300"
+                className="rounded-[3px] border border-rule bg-card p-5 transition-colors hover:border-ledger/45"
               >
-                <span className="text-base font-semibold text-slate-900">
+                <span className="text-base font-semibold text-ink">
                   {SITE.name} vs {o.name}
                 </span>
-                <span className="mt-1 block text-sm text-slate-500">
+                <span className="mt-1 block text-sm text-ink-soft">
                   {o.tagline}
                 </span>
               </Link>
             ))}
             <Link
               href="/alternatives"
-              className="rounded-2xl border border-slate-200 bg-white p-5 transition-colors hover:border-indigo-300"
+              className="rounded-[3px] border border-rule bg-card p-5 transition-colors hover:border-ledger/45"
             >
-              <span className="text-base font-semibold text-slate-900">
+              <span className="text-base font-semibold text-ink">
                 Best receipt generators
               </span>
-              <span className="mt-1 block text-sm text-slate-500">
+              <span className="mt-1 block text-sm text-ink-soft">
                 All {SITE.name} alternatives, compared
               </span>
             </Link>

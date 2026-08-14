@@ -146,7 +146,7 @@ export default function LoginForm() {
 
   if (!supabaseConfigured) {
     return (
-      <p className="mt-8 rounded-xl bg-amber-50 px-4 py-3 text-sm text-amber-800">
+      <p className="mt-8 rounded-[3px] bg-amber-50 px-4 py-3 text-sm text-amber-800">
         Login isn&apos;t enabled yet — the backend keys haven&apos;t been added.
       </p>
     );
@@ -156,20 +156,20 @@ export default function LoginForm() {
   if (verifyEmail) {
     return (
       <div className="mt-8 space-y-3">
-        <div className="rounded-xl bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
+        <div className="rounded-[3px] bg-greenbar px-4 py-3 text-sm text-ledger-deep">
           Almost there — we sent a verification link to <strong>{verifyEmail}</strong>.
           Click it to activate your account, then come back and log in.
         </div>
         {notice && (
-          <p className="rounded-xl bg-slate-50 px-4 py-3 text-sm text-slate-600">{notice}</p>
+          <p className="rounded-[3px] bg-greenbar px-4 py-3 text-sm text-ink-soft">{notice}</p>
         )}
         {error && (
-          <p className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>
+          <p className="rounded-[3px] bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>
         )}
         <button
           type="button"
           onClick={resendVerification}
-          className="w-full rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+          className="w-full rounded-full border border-rule bg-card px-5 py-3 text-sm font-semibold text-ink hover:bg-greenbar"
         >
           Resend verification email
         </button>
@@ -181,7 +181,7 @@ export default function LoginForm() {
             setNotice(null);
             setError(null);
           }}
-          className="w-full text-center text-sm font-medium text-indigo-600 hover:underline"
+          className="w-full text-center text-sm font-medium text-ledger hover:underline"
         >
           Back to log in
         </button>
@@ -192,7 +192,7 @@ export default function LoginForm() {
   return (
     <div className="mt-8 space-y-3">
       {hadError && (
-        <p className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">
+        <p className="rounded-[3px] bg-red-50 px-4 py-3 text-sm text-red-700">
           Sign-in didn&apos;t complete. Please try again.
           {errorDetail && (
             <span className="mt-1 block text-xs text-red-500">{errorDetail}</span>
@@ -209,10 +209,10 @@ export default function LoginForm() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="you@example.com"
-          className="w-full rounded-full border border-slate-300 px-4 py-3 text-base focus:border-indigo-400 focus:outline-none sm:text-sm"
+          className="w-full rounded-full border border-rule px-4 py-3 text-base focus:border-ledger/45 focus:outline-none sm:text-sm"
         />
         {mode === "forgot" ? (
-          <p className="px-1 text-xs text-slate-500">
+          <p className="px-1 text-xs text-ink-soft">
             Enter your account email and we&apos;ll send you a link to set a new password.
           </p>
         ) : (
@@ -225,12 +225,12 @@ export default function LoginForm() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder={mode === "signup" ? `Create a password (${MIN_PASSWORD}+ characters)` : "Password"}
-              className="w-full rounded-full border border-slate-300 px-4 py-3 pr-16 text-base focus:border-indigo-400 focus:outline-none sm:text-sm"
+              className="w-full rounded-full border border-rule px-4 py-3 pr-16 text-base focus:border-ledger/45 focus:outline-none sm:text-sm"
             />
             <button
               type="button"
               onClick={() => setShowPassword((s) => !s)}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-medium text-slate-400 hover:text-slate-600"
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-medium text-ink-soft/70 hover:text-ink-soft"
             >
               {showPassword ? "Hide" : "Show"}
             </button>
@@ -238,16 +238,16 @@ export default function LoginForm() {
         )}
 
         {error && (
-          <p className="rounded-xl bg-red-50 px-4 py-2.5 text-sm text-red-700">{error}</p>
+          <p className="rounded-[3px] bg-red-50 px-4 py-2.5 text-sm text-red-700">{error}</p>
         )}
         {notice && (
-          <p className="rounded-xl bg-emerald-50 px-4 py-2.5 text-sm text-emerald-800">{notice}</p>
+          <p className="rounded-[3px] bg-greenbar px-4 py-2.5 text-sm text-ledger-deep">{notice}</p>
         )}
 
         <button
           type="submit"
           disabled={busy}
-          className="w-full rounded-full bg-indigo-600 px-5 py-3 text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60"
+          className="w-full rounded-full bg-ledger px-5 py-3 text-sm font-semibold text-white hover:bg-ledger-deep disabled:opacity-60"
         >
           {busy
             ? mode === "signup"
@@ -271,7 +271,7 @@ export default function LoginForm() {
             setError(null);
             setNotice(null);
           }}
-          className="block w-full pt-0.5 text-center text-sm font-medium text-indigo-600 hover:underline"
+          className="block w-full pt-0.5 text-center text-sm font-medium text-ledger hover:underline"
         >
           ← Back to log in
         </button>
@@ -284,7 +284,7 @@ export default function LoginForm() {
               setError(null);
               setNotice(null);
             }}
-            className="font-medium text-indigo-600 hover:underline"
+            className="font-medium text-ledger hover:underline"
           >
             {mode === "login" ? "New here? Create an account" : "Have an account? Log in"}
           </button>
@@ -296,7 +296,7 @@ export default function LoginForm() {
                 setError(null);
                 setNotice(null);
               }}
-              className="text-slate-400 hover:text-slate-600"
+              className="text-ink-soft/70 hover:text-ink-soft"
             >
               Forgot password?
             </button>
@@ -309,23 +309,23 @@ export default function LoginForm() {
           {googleEnabled && (
             <>
               <div className="flex items-center gap-3 py-1">
-                <span className="h-px flex-1 bg-slate-200" />
-                <span className="text-[11px] uppercase tracking-wide text-slate-400">or</span>
-                <span className="h-px flex-1 bg-slate-200" />
+                <span className="h-px flex-1 bg-rule" />
+                <span className="text-[11px] uppercase tracking-wide text-ink-soft/70">or</span>
+                <span className="h-px flex-1 bg-rule" />
               </div>
 
               <button
                 type="button"
                 onClick={signInWithGoogle}
                 disabled={googleBusy}
-                className="flex w-full items-center justify-center gap-3 rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50 disabled:opacity-60"
+                className="flex w-full items-center justify-center gap-3 rounded-full border border-rule bg-card px-5 py-3 text-sm font-semibold text-ink hover:bg-greenbar disabled:opacity-60"
               >
                 <GoogleIcon />
                 {googleBusy ? "Redirecting…" : "Continue with Google"}
               </button>
             </>
           )}
-          <p className="pt-2 text-center text-[11px] leading-relaxed text-slate-400">
+          <p className="pt-2 text-center text-[11px] leading-relaxed text-ink-soft/70">
             By continuing you agree to our{" "}
             <a href="/terms" className="underline">Terms</a> and{" "}
             <a href="/privacy" className="underline">Privacy Policy</a>.

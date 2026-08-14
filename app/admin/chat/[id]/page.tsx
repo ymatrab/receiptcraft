@@ -35,10 +35,10 @@ export default async function AdminConversation({
 
   return (
     <div>
-      <Link href="/admin/chat" className="text-sm text-slate-500 hover:text-slate-700">
+      <Link href="/admin/chat" className="text-sm text-ink-soft hover:text-ink">
         ← Back to inbox
       </Link>
-      <h1 className="mt-2 text-2xl font-bold text-slate-900">{email ?? "Conversation"}</h1>
+      <h1 className="mt-2 text-2xl font-bold text-ink">{email ?? "Conversation"}</h1>
 
       <AdminChatThread
         conversationId={id}
