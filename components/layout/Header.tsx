@@ -7,10 +7,14 @@ import { SITE } from "@/lib/site";
 import { useAccount } from "@/lib/useAccount";
 import Wordmark from "./Wordmark";
 
+// Tools sits with the other product surfaces, ahead of the commercial and
+// editorial links. `isActive` matches child routes, so it also highlights on
+// /tools/receipt-calculator and /tools/split-payment-checker.
 const NAV_LINKS = [
   { href: "/templates", label: "Templates" },
   { href: "/brands", label: "Brands" },
   { href: "/examples", label: "Examples" },
+  { href: "/tools", label: "Tools" },
   { href: "/pricing", label: "Pricing" },
   { href: "/blog", label: "Blog" },
   { href: "/#faq", label: "FAQ" },
@@ -44,7 +48,10 @@ export default function Header() {
           <Wordmark />
         </Link>
 
-        <div className="hidden items-center gap-8 md:flex">
+        {/* Nav opens at lg, not md: seven links plus the account link and the
+            CTA do not fit on one 768px row, and the row would overflow rather
+            than wrap. Tablets get the same menu button as phones. */}
+        <div className="hidden items-center gap-6 lg:flex">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
@@ -80,7 +87,7 @@ export default function Header() {
           onClick={() => setOpen(!open)}
           aria-expanded={open}
           aria-label="Toggle menu"
-          className="-mr-1 flex h-11 w-11 items-center justify-center rounded-lg text-slate-600 hover:bg-slate-100 md:hidden"
+          className="-mr-1 flex h-11 w-11 items-center justify-center rounded-lg text-slate-600 hover:bg-slate-100 lg:hidden"
         >
           <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             {open ? (
@@ -93,7 +100,7 @@ export default function Header() {
       </nav>
 
       {open && (
-        <div className="border-t border-slate-200 bg-white px-4 pb-4 pt-2 md:hidden">
+        <div className="border-t border-slate-200 bg-white px-4 pb-4 pt-2 lg:hidden">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
