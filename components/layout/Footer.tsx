@@ -159,4 +159,3 @@ export default function Footer() {
     </footer>
   );
 }
-</content>

@@ -17,4 +17,3 @@ export default function Wordmark({ className = "" }: { className?: string }) {
     </span>
   );
 }
-</content>

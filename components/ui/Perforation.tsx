@@ -6,4 +6,3 @@
 export default function Perforation({ className = "" }: { className?: string }) {
   return <div aria-hidden="true" className={`perf-rule ${className}`} />;
 }
-</content>

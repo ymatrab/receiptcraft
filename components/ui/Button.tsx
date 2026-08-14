@@ -41,4 +41,3 @@ export default function Button({
 }: ComponentProps<"button"> & { variant?: Variant; size?: Size }) {
   return <button className={btn({ variant, size, className })} {...props} />;
 }
-</content>

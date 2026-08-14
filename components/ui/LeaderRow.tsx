@@ -19,4 +19,3 @@ export default function LeaderRow({
     </div>
   );
 }
-</content>
