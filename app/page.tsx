@@ -1,12 +1,15 @@
 import Link from "next/link";
-import { SITE } from "@/lib/site";
+import { SITE, absoluteUrl } from "@/lib/site";
 import HomeAiGenerator from "@/components/HomeAiGenerator";
 import { TEMPLATES } from "@/lib/templates";
 import { BRAND_LIST } from "@/lib/brands";
 import { HOMEPAGE_FAQS } from "@/lib/faqs";
-import type { ReceiptData } from "@/lib/types";
+import type { PaperFinish, ReceiptData } from "@/lib/types";
 import { docFromReceiptData } from "@/lib/sections";
 import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
+import ReceiptAnatomy from "@/components/home/ReceiptAnatomy";
+import ComparisonTable from "@/components/comparison/ComparisonTable";
+import { MAKECEPEIT, COMPETITORS, PRICING_AS_OF } from "@/lib/comparisons";
 
 const DEMO_RECEIPT: ReceiptData = {
   businessName: "Daily Grind Coffee Co.",
@@ -38,39 +41,108 @@ const DEMO_RECEIPT: ReceiptData = {
   paperStyle: "thermal",
 };
 
+// The same receipt rendered on each stock, so the row shows the difference the
+// finish makes rather than the difference the content makes.
+const PAPER_STYLES: { finish: PaperFinish; name: string; blurb: string }[] = [
+  { finish: "thermal", name: "Thermal", blurb: "The classic till roll — narrow, monospaced, torn edges." },
+  { finish: "clean", name: "Clean", blurb: "Crisp white stock for a tidier modern counter receipt." },
+  { finish: "invoice", name: "Invoice", blurb: "A wider bordered sheet that reads as a business document." },
+  { finish: "email", name: "Digital", blurb: "The emailed order-confirmation look, with soft chrome." },
+];
+
+const PAPER_DEMOS = PAPER_STYLES.map((style) => {
+  const doc = docFromReceiptData(DEMO_RECEIPT);
+  return {
+    ...style,
+    doc: {
+      ...doc,
+      settings: {
+        ...doc.settings,
+        paper: style.finish,
+        widthPx: 250,
+        // The digital finish is the only one that carries the coloured accent
+        // bar, and that bar comes from the card chrome. Without it, "email"
+        // renders almost identically to "clean" and the row loses a column.
+        style: style.finish === "email" ? ("card" as const) : doc.settings.style,
+      },
+    },
+  };
+});
+
+// Definitional, self-contained answers — each one states what a zone is and why
+// it matters, so a passage still makes sense quoted on its own.
+const ANATOMY_ZONES = [
+  {
+    n: 1,
+    title: "Header",
+    body: "The merchant name, address and phone identify who issued the receipt and which branch handled the sale. This is what a returns desk or an expense reviewer looks at first.",
+  },
+  {
+    n: 2,
+    title: "Transaction identifiers",
+    body: "Receipt number, date, time, register and cashier. The receipt number is what you quote to look the sale up again, and the timestamp is what ties it to a line on a card statement.",
+  },
+  {
+    n: 3,
+    title: "Line items",
+    body: "Each product or service with its quantity and unit price. Itemization is the part expense policies care about, because it shows what was bought rather than only what was spent.",
+  },
+  {
+    n: 4,
+    title: "Totals",
+    body: "Subtotal first, then tax, discounts and tips, then the grand total. Tax has to appear on its own line for a receipt to support a sales-tax, VAT or GST claim.",
+  },
+  {
+    n: 5,
+    title: "Payment",
+    body: "The method used, the last four digits of the card, and any change given. This is what matches a receipt to one specific bank or card transaction.",
+  },
+  {
+    n: 6,
+    title: "Footer",
+    body: "Barcode, return policy and thank-you message. The barcode encodes the transaction so staff can scan it back up at the counter during a return.",
+  },
+];
+
 const FEATURES = [
   {
     icon: "⚡",
+    tint: "bg-indigo-50 ring-indigo-100",
     title: "Live preview as you type",
     description:
       "Every field updates the receipt instantly. What you see is exactly what you download — no surprises.",
   },
   {
     icon: "📄",
+    tint: "bg-violet-50 ring-violet-100",
     title: "PDF & PNG export",
     description:
       "Download print-ready PDFs or crisp 3x-resolution PNG images. Perfect for expense reports and records.",
   },
   {
     icon: "🎨",
+    tint: "bg-sky-50 ring-sky-100",
     title: "4 paper styles",
     description:
       "Thermal paper, clean white, invoice or digital email look — switch styles with one click to match any business.",
   },
   {
     icon: "🔒",
+    tint: "bg-emerald-50 ring-emerald-100",
     title: "Private by design",
     description:
       "The builder runs in your browser, so what you type stays on your device. Only the optional AI generator and account saving send data.",
   },
   {
     icon: "🌍",
+    tint: "bg-amber-50 ring-amber-100",
     title: "10 currencies & any tax",
     description:
       "USD, EUR, GBP, INR and more. Custom tax labels (VAT, GST), rates, discounts and tips — calculated automatically.",
   },
   {
     icon: "🆓",
+    tint: "bg-rose-50 ring-rose-100",
     title: "Free to start, no sign-up",
     description:
       "Build and preview receipts with no account. Create a free account to download — your first 3 are watermark-free — then go Pro for unlimited HD, watermark-free exports.",
@@ -122,8 +194,22 @@ const POPULAR_BRANDS = POPULAR_BRAND_SLUGS.flatMap((slug) => {
 
 // Mirrors the four legitimate uses named on /about, so the homepage and the
 // responsible-use policy describe the same product.
-const USE_CASES = [
+//
+// `image` is an optional path under /public. When one is set the card leads
+// with the photo; until then it falls back to the tinted icon tile, so the
+// section is complete either way and artwork can land one file at a time.
+const USE_CASES: {
+  icon: string;
+  tint: string;
+  title: string;
+  description: string;
+  href: string;
+  cta: string;
+  image?: string;
+}[] = [
   {
+    icon: "🔎",
+    tint: "bg-indigo-50 ring-indigo-100",
     title: "You lost the original",
     description:
       "Thermal paper fades within months and pump printers run out. Rebuild the record of a purchase you actually made.",
@@ -131,6 +217,8 @@ const USE_CASES = [
     cta: "Store receipt help",
   },
   {
+    icon: "🧾",
+    tint: "bg-violet-50 ring-violet-100",
     title: "You need it for an expense report",
     description:
       "Itemized totals, tax lines and payment method in a layout finance teams accept — exported as a clean PDF.",
@@ -138,6 +226,8 @@ const USE_CASES = [
     cta: "Browse templates",
   },
   {
+    icon: "🏪",
+    tint: "bg-emerald-50 ring-emerald-100",
     title: "You're issuing one to a customer",
     description:
       "No point-of-sale system? Hand over something professional with your own business details, logo and tax label.",
@@ -145,6 +235,8 @@ const USE_CASES = [
     cta: "Open the builder",
   },
   {
+    icon: "🎬",
+    tint: "bg-amber-50 ring-amber-100",
     title: "You need a prop or a mockup",
     description:
       "Design comps, film and stage props, and app screenshots that need a receipt which reads as the real thing.",
@@ -239,6 +331,39 @@ const faqJsonLd = {
   })),
 };
 
+// HowTo mirrors the visible "How to make a receipt" steps. Assistants quote
+// step lists directly, so the markup and the section must not drift apart.
+const howToJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  name: "How to make a receipt online",
+  description:
+    "Create a professional receipt in about a minute: pick a template, customize the business details and line items, then download it as a PDF or PNG.",
+  totalTime: "PT1M",
+  estimatedCost: { "@type": "MonetaryAmount", currency: "USD", value: "0" },
+  step: STEPS.map((step, i) => ({
+    "@type": "HowToStep",
+    position: i + 1,
+    name: step.title,
+    text: step.description,
+    url: absoluteUrl(`/#how-it-works`),
+  })),
+};
+
+// Each anatomy zone as a defined term — the section is written to be quotable,
+// and this states the same definitions in a form a machine can lift cleanly.
+const definedTermsJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  name: "Parts of a receipt",
+  url: absoluteUrl("/#anatomy"),
+  hasDefinedTerm: ANATOMY_ZONES.map((zone) => ({
+    "@type": "DefinedTerm",
+    name: zone.title,
+    description: zone.body,
+  })),
+};
+
 const appJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
@@ -260,6 +385,13 @@ const appJsonLd = {
   ],
 };
 
+/** Small label above a section heading. */
+function Eyebrow({ children }: { children: React.ReactNode }) {
+  return (
+    <p className="text-sm font-semibold uppercase tracking-wide text-indigo-600">{children}</p>
+  );
+}
+
 export default function HomePage() {
   return (
     <>
@@ -270,6 +402,14 @@ export default function HomePage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(appJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(definedTermsJsonLd) }}
       />
 
       {/* ===== HERO ===== */}
@@ -337,11 +477,237 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ===== BRAND RECEIPTS ===== */}
-      <section className="border-t border-slate-100 py-14 sm:py-20" aria-labelledby="brands-heading">
+      {/* ===== PAPER STYLES ===== */}
+      <section
+        className="border-t border-slate-100 bg-slate-50/60 py-14 sm:py-20"
+        aria-labelledby="styles-heading"
+      >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl">
-            <h2 id="brands-heading" className="text-3xl font-bold tracking-tight text-slate-900">
+            <Eyebrow>Paper styles</Eyebrow>
+            <h2
+              id="styles-heading"
+              className="mt-2 text-3xl font-bold tracking-tight text-slate-900"
+            >
+              One receipt, four kinds of paper
+            </h2>
+            <p className="mt-3 text-lg text-slate-600">
+              The same coffee-shop sale rendered on each stock. Switch between
+              them with one click — the layout, spacing and edges all change
+              with the finish.
+            </p>
+          </div>
+
+          <ul className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {PAPER_DEMOS.map((demo) => (
+              <li
+                key={demo.finish}
+                className="flex flex-col rounded-2xl border border-slate-200 bg-white p-5 transition-all hover:-translate-y-0.5 hover:border-indigo-300 hover:shadow-lg hover:shadow-indigo-100"
+              >
+                {/* Fixed height with a fade at the base: receipt height varies
+                    with the finish (invoice and digital add chrome), so the
+                    tray crops to a consistent size and the crop reads as the
+                    roll continuing rather than as a mistake. */}
+                <div className="relative flex h-[330px] items-start justify-center overflow-hidden rounded-xl bg-gradient-to-b from-slate-100 to-slate-50 p-4">
+                  <div className="origin-top scale-[0.75]">
+                    <ReceiptDocPaper doc={demo.doc} />
+                  </div>
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-slate-50 to-transparent"
+                  />
+                </div>
+                <h3 className="mt-4 font-semibold text-slate-900">{demo.name}</h3>
+                <p className="mt-1 text-sm leading-relaxed text-slate-600">{demo.blurb}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* ===== HOW IT WORKS ===== */}
+      <section id="how-it-works" className="py-14 sm:py-20" aria-labelledby="how-heading">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-2xl text-center">
+            <Eyebrow>How it works</Eyebrow>
+            <h2
+              id="how-heading"
+              className="mt-2 text-3xl font-bold tracking-tight text-slate-900"
+            >
+              How to make a receipt in 3 steps
+            </h2>
+            <p className="mt-3 text-lg text-slate-600">
+              From blank page to downloaded PDF in under a minute.
+            </p>
+          </div>
+
+          <ol className="mx-auto mt-12 grid max-w-5xl gap-8 md:grid-cols-3">
+            {STEPS.map((step, i) => (
+              <li
+                key={step.title}
+                className="relative flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white"
+              >
+                {/* Each step is illustrated with the interface it describes,
+                    drawn in markup so it stays sharp and needs no asset. */}
+                <div className="flex h-40 items-center justify-center border-b border-slate-100 bg-gradient-to-br from-indigo-50/70 to-violet-50/70 px-6">
+                  {i === 0 && (
+                    <div aria-hidden="true" className="flex flex-wrap justify-center gap-2">
+                      {TEMPLATES.slice(0, 6).map((t, j) => (
+                        <span
+                          key={t.slug}
+                          className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-medium shadow-sm ${
+                            j === 1
+                              ? "border-indigo-600 bg-indigo-600 text-white"
+                              : "border-slate-200 bg-white text-slate-600"
+                          }`}
+                        >
+                          <span>{t.icon}</span>
+                          {t.shortName}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                  {i === 1 && (
+                    <div aria-hidden="true" className="w-full max-w-[220px] space-y-2.5">
+                      {[
+                        { w: "w-1/3", bar: "w-full" },
+                        { w: "w-1/4", bar: "w-4/5" },
+                        { w: "w-2/5", bar: "w-2/3" },
+                      ].map((row, k) => (
+                        <div key={k}>
+                          <div className={`h-1.5 ${row.w} rounded-full bg-slate-300`} />
+                          <div
+                            className={`mt-1.5 h-7 ${row.bar} rounded-lg border bg-white ${
+                              k === 1 ? "border-indigo-400 ring-2 ring-indigo-100" : "border-slate-200"
+                            }`}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {i === 2 && (
+                    <div aria-hidden="true" className="flex items-center gap-3">
+                      {["PDF", "PNG", "JPG"].map((fmt, k) => (
+                        <span
+                          key={fmt}
+                          className={`flex h-16 w-[3.25rem] flex-col items-center justify-center rounded-lg border text-[10px] font-bold shadow-sm ${
+                            k === 0
+                              ? "border-indigo-600 bg-indigo-600 text-white"
+                              : "border-slate-200 bg-white text-slate-500"
+                          }`}
+                        >
+                          <svg
+                            className="mb-1 h-4 w-4"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth={2}
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M12 4v12m0 0l-4-4m4 4l4-4M4 20h16"
+                            />
+                          </svg>
+                          {fmt}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                <div className="flex flex-1 flex-col p-6">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-indigo-600 to-violet-600 text-sm font-bold text-white">
+                    {i + 1}
+                  </span>
+                  <h3 className="mt-4 text-lg font-semibold text-slate-900">{step.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-600">{step.description}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+
+          <div className="mt-12 text-center">
+            <Link
+              href="/create"
+              className="inline-block rounded-full bg-indigo-600 px-7 py-3.5 text-base font-semibold text-white shadow-lg shadow-indigo-600/25 transition-all hover:bg-indigo-700"
+            >
+              Start Building Now
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== ANATOMY ===== */}
+      <section
+        id="anatomy"
+        className="border-t border-slate-100 bg-slate-50/60 py-14 sm:py-20"
+        aria-labelledby="anatomy-heading"
+      >
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="max-w-2xl">
+            <Eyebrow>Anatomy</Eyebrow>
+            <h2
+              id="anatomy-heading"
+              className="mt-2 text-3xl font-bold tracking-tight text-slate-900"
+            >
+              What every receipt has to contain
+            </h2>
+            <p className="mt-3 text-lg text-slate-600">
+              A receipt is a record of one completed transaction, and it is built
+              from six zones. Miss one and the receipt stops being useful for
+              returns, expense claims or tax.
+            </p>
+          </div>
+
+          <div className="mt-12 grid items-start gap-12 lg:grid-cols-[minmax(0,340px)_minmax(0,1fr)] lg:gap-16">
+            <ReceiptAnatomy />
+
+            <dl className="grid gap-x-10 gap-y-7 sm:grid-cols-2">
+              {ANATOMY_ZONES.map((zone) => (
+                <div key={zone.n}>
+                  <dt className="flex items-center gap-2.5">
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-indigo-600 text-[11px] font-bold text-white">
+                      {zone.n}
+                    </span>
+                    <span className="font-semibold text-slate-900">{zone.title}</span>
+                  </dt>
+                  <dd className="mt-2 text-sm leading-relaxed text-slate-600">{zone.body}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+
+          <div className="mt-10">
+            <Link
+              href="/guides/receipt-anatomy"
+              className="group inline-flex items-center gap-1.5 text-sm font-semibold text-indigo-600 transition-colors hover:text-indigo-700"
+            >
+              Read the full field-by-field guide
+              <svg
+                aria-hidden="true"
+                className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h12" />
+              </svg>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== BRAND RECEIPTS ===== */}
+      <section className="py-14 sm:py-20" aria-labelledby="brands-heading">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="max-w-2xl">
+            <Eyebrow>Brand templates</Eyebrow>
+            <h2
+              id="brands-heading"
+              className="mt-2 text-3xl font-bold tracking-tight text-slate-900"
+            >
               Need a receipt from a specific store?
             </h2>
             <p className="mt-3 text-lg text-slate-600">
@@ -403,10 +769,17 @@ export default function HomePage() {
       </section>
 
       {/* ===== TEMPLATES ===== */}
-      <section className="border-t border-slate-100 bg-slate-50/60 py-14 sm:py-20" aria-labelledby="templates-heading">
+      <section
+        className="border-t border-slate-100 bg-slate-50/60 py-14 sm:py-20"
+        aria-labelledby="templates-heading"
+      >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl">
-            <h2 id="templates-heading" className="text-3xl font-bold tracking-tight text-slate-900">
+            <Eyebrow>By business type</Eyebrow>
+            <h2
+              id="templates-heading"
+              className="mt-2 text-3xl font-bold tracking-tight text-slate-900"
+            >
               Which receipt template do you need?
             </h2>
             <p className="mt-3 text-lg text-slate-600">
@@ -421,8 +794,8 @@ export default function HomePage() {
                   href={`/templates/${t.slug}`}
                   className="group flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-5 transition-all hover:-translate-y-0.5 hover:border-indigo-300 hover:shadow-lg hover:shadow-indigo-100"
                 >
-                  <span className="text-3xl" aria-hidden="true">
-                    {t.icon}
+                  <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-50 text-2xl ring-1 ring-indigo-100">
+                    <span aria-hidden="true">{t.icon}</span>
                   </span>
                   <span className="mt-3 font-semibold text-slate-900 group-hover:text-indigo-700">
                     {t.name}
@@ -437,69 +810,15 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ===== HOW IT WORKS ===== */}
-      <section id="how-it-works" className="py-14 sm:py-20" aria-labelledby="how-heading">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 id="how-heading" className="text-3xl font-bold tracking-tight text-slate-900">
-              How to make a receipt in 3 steps
-            </h2>
-            <p className="mt-3 text-lg text-slate-600">
-              From blank page to downloaded PDF in under a minute.
-            </p>
-          </div>
-          <ol className="mx-auto mt-12 grid max-w-5xl gap-8 md:grid-cols-3">
-            {STEPS.map((step, i) => (
-              <li key={step.title} className="relative rounded-2xl border border-slate-200 bg-white p-6">
-                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-indigo-600 to-violet-600 text-base font-bold text-white">
-                  {i + 1}
-                </span>
-                <h3 className="mt-4 text-lg font-semibold text-slate-900">{step.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-slate-600">{step.description}</p>
-              </li>
-            ))}
-          </ol>
-          <div className="mt-12 text-center">
-            <Link
-              href="/create"
-              className="inline-block rounded-full bg-indigo-600 px-7 py-3.5 text-base font-semibold text-white shadow-lg shadow-indigo-600/25 transition-all hover:bg-indigo-700"
-            >
-              Start Building Now
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* ===== FEATURES ===== */}
-      <section className="border-t border-slate-100 bg-slate-50/60 py-14 sm:py-20" aria-labelledby="features-heading">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="max-w-2xl">
-            <h2 id="features-heading" className="text-3xl font-bold tracking-tight text-slate-900">
-              What do you get with {SITE.name}?
-            </h2>
-            <p className="mt-3 text-lg text-slate-600">
-              Built to be the fastest, cleanest way to create a professional receipt online.
-            </p>
-          </div>
-          <ul className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {FEATURES.map((feature) => (
-              <li key={feature.title} className="rounded-2xl border border-slate-200 bg-white p-6">
-                <span className="text-2xl" aria-hidden="true">
-                  {feature.icon}
-                </span>
-                <h3 className="mt-3 font-semibold text-slate-900">{feature.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-slate-600">{feature.description}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
       {/* ===== USE CASES ===== */}
-      <section className="border-t border-slate-100 py-14 sm:py-20" aria-labelledby="use-cases-heading">
+      <section className="py-14 sm:py-20" aria-labelledby="use-cases-heading">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl">
-            <h2 id="use-cases-heading" className="text-3xl font-bold tracking-tight text-slate-900">
+            <Eyebrow>Use cases</Eyebrow>
+            <h2
+              id="use-cases-heading"
+              className="mt-2 text-3xl font-bold tracking-tight text-slate-900"
+            >
               What are you making a receipt for?
             </h2>
             <p className="mt-3 text-lg text-slate-600">
@@ -512,27 +831,51 @@ export default function HomePage() {
               <li key={useCase.title}>
                 <Link
                   href={useCase.href}
-                  className="group flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-6 transition-all hover:-translate-y-0.5 hover:border-indigo-300 hover:shadow-lg hover:shadow-indigo-100"
+                  className="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white transition-all hover:-translate-y-0.5 hover:border-indigo-300 hover:shadow-lg hover:shadow-indigo-100"
                 >
-                  <h3 className="font-semibold text-slate-900 group-hover:text-indigo-700">
-                    {useCase.title}
-                  </h3>
-                  <p className="mt-2 flex-1 text-sm leading-relaxed text-slate-600">
-                    {useCase.description}
-                  </p>
-                  <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-indigo-600">
-                    {useCase.cta}
-                    <svg
-                      aria-hidden="true"
-                      className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={2}
+                  {useCase.image && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={useCase.image}
+                      alt=""
+                      width={640}
+                      height={360}
+                      loading="lazy"
+                      className="h-44 w-full border-b border-slate-100 object-cover"
+                    />
+                  )}
+                  <div className="flex flex-1 flex-col p-6">
+                    {!useCase.image && (
+                      <span
+                        className={`flex h-11 w-11 items-center justify-center rounded-xl text-xl ring-1 ${useCase.tint}`}
+                      >
+                        <span aria-hidden="true">{useCase.icon}</span>
+                      </span>
+                    )}
+                    <h3
+                      className={`font-semibold text-slate-900 group-hover:text-indigo-700 ${
+                        useCase.image ? "" : "mt-4"
+                      }`}
                     >
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h12" />
-                    </svg>
-                  </span>
+                      {useCase.title}
+                    </h3>
+                    <p className="mt-2 flex-1 text-sm leading-relaxed text-slate-600">
+                      {useCase.description}
+                    </p>
+                    <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-indigo-600">
+                      {useCase.cta}
+                      <svg
+                        aria-hidden="true"
+                        className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h12" />
+                      </svg>
+                    </span>
+                  </div>
                 </Link>
               </li>
             ))}
@@ -540,11 +883,107 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ===== FREE TOOLS ===== */}
-      <section className="border-t border-slate-100 bg-slate-50/60 py-14 sm:py-20" aria-labelledby="tools-heading">
+      {/* ===== COMPARISON ===== */}
+      <section
+        className="border-t border-slate-100 bg-slate-50/60 py-14 sm:py-20"
+        aria-labelledby="compare-heading"
+      >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl">
-            <h2 id="tools-heading" className="text-3xl font-bold tracking-tight text-slate-900">
+            <Eyebrow>Compared</Eyebrow>
+            <h2
+              id="compare-heading"
+              className="mt-2 text-3xl font-bold tracking-tight text-slate-900"
+            >
+              How {SITE.name} compares to other receipt makers
+            </h2>
+            <p className="mt-3 text-lg text-slate-600">
+              The three most-searched alternatives, on the ten things people
+              actually choose between. ✓ = yes, ~ = partial, ✕ = no.
+            </p>
+          </div>
+
+          <div className="mt-10 rounded-2xl border border-slate-200 bg-white p-4 sm:p-6">
+            <ComparisonTable
+              columns={[
+                { name: `${MAKECEPEIT.name} (us)`, cells: MAKECEPEIT.cells, highlight: true },
+                ...COMPETITORS.slice(0, 3).map((c) => ({ name: c.name, cells: c.cells })),
+              ]}
+            />
+          </div>
+
+          <p className="mt-4 text-xs text-slate-500">
+            Feature and pricing details verified as of {PRICING_AS_OF}. Competitor
+            plans change — check their sites for current terms.
+          </p>
+
+          <div className="mt-8">
+            <Link
+              href="/alternatives"
+              className="group inline-flex items-center gap-1.5 text-sm font-semibold text-indigo-600 transition-colors hover:text-indigo-700"
+            >
+              See the full comparison of 7 receipt generators
+              <svg
+                aria-hidden="true"
+                className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h12" />
+              </svg>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== FEATURES ===== */}
+      <section className="py-14 sm:py-20" aria-labelledby="features-heading">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="max-w-2xl">
+            <Eyebrow>Features</Eyebrow>
+            <h2
+              id="features-heading"
+              className="mt-2 text-3xl font-bold tracking-tight text-slate-900"
+            >
+              What do you get with {SITE.name}?
+            </h2>
+            <p className="mt-3 text-lg text-slate-600">
+              Built to be the fastest, cleanest way to create a professional receipt online.
+            </p>
+          </div>
+          <ul className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {FEATURES.map((feature) => (
+              <li
+                key={feature.title}
+                className="rounded-2xl border border-slate-200 bg-white p-6 transition-all hover:-translate-y-0.5 hover:border-indigo-300 hover:shadow-lg hover:shadow-indigo-100"
+              >
+                <span
+                  className={`flex h-11 w-11 items-center justify-center rounded-xl text-xl ring-1 ${feature.tint}`}
+                >
+                  <span aria-hidden="true">{feature.icon}</span>
+                </span>
+                <h3 className="mt-4 font-semibold text-slate-900">{feature.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-slate-600">{feature.description}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* ===== FREE TOOLS ===== */}
+      <section
+        className="border-t border-slate-100 bg-slate-50/60 py-14 sm:py-20"
+        aria-labelledby="tools-heading"
+      >
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="max-w-2xl">
+            <Eyebrow>Free tools</Eyebrow>
+            <h2
+              id="tools-heading"
+              className="mt-2 text-3xl font-bold tracking-tight text-slate-900"
+            >
               Free receipt tools
             </h2>
             <p className="mt-3 text-lg text-slate-600">
@@ -639,7 +1078,10 @@ export default function HomePage() {
       {/* ===== FAQ ===== */}
       <section id="faq" className="py-14 sm:py-20" aria-labelledby="faq-heading">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-          <h2 id="faq-heading" className="text-center text-3xl font-bold tracking-tight text-slate-900">
+          <h2
+            id="faq-heading"
+            className="text-center text-3xl font-bold tracking-tight text-slate-900"
+          >
             Frequently asked questions
           </h2>
           <div className="mt-10 divide-y divide-slate-200 rounded-2xl border border-slate-200 bg-white px-6">
@@ -667,16 +1109,21 @@ export default function HomePage() {
       {/* ===== FINAL CTA ===== */}
       <section className="px-4 pb-14 sm:px-6 sm:pb-20 lg:px-8">
         <div className="relative mx-auto max-w-7xl overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-600 to-violet-700 px-6 py-16 text-center sm:py-20">
-          <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-white/10 blur-2xl"
+          />
+          <h2 className="relative text-3xl font-bold tracking-tight text-white sm:text-4xl">
             Your receipt is 60 seconds away
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-lg text-indigo-100">
-            No sign-up to start. 100+ templates. Just a clean, professional
-            receipt ready to download.
+          <p className="relative mx-auto mt-4 max-w-xl text-lg text-indigo-100">
+            No sign-up to start. {TEMPLATES.length} business templates and{" "}
+            {BRAND_LIST.length} brand layouts. Just a clean, professional receipt
+            ready to download.
           </p>
           <Link
             href="/create"
-            className="mt-8 inline-block rounded-full bg-white px-8 py-4 text-base font-semibold text-indigo-700 shadow-xl transition-transform hover:scale-105"
+            className="relative mt-8 inline-block rounded-full bg-white px-8 py-4 text-base font-semibold text-indigo-700 shadow-xl transition-transform hover:scale-105"
           >
             Create Your Free Receipt
           </Link>
