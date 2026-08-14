@@ -56,14 +56,14 @@ export default function SplitPaymentChecker() {
     setTenders((ts) => (ts.length > 1 ? ts.filter((t) => t.id !== id) : ts));
 
   const inputCls =
-    "rounded-[3px] border border-rule px-3 py-2 text-sm text-ink focus:border-ledger focus:outline-none focus:ring-1 focus:ring-ledger";
+    "rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500";
 
   return (
     <div className="grid gap-6 lg:grid-cols-[1fr_20rem]">
       {/* Inputs */}
-      <div className="rounded-[3px] border border-rule bg-card p-5 sm:p-6">
+      <div className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6">
         <div className="flex flex-wrap items-end justify-between gap-4">
-          <label className="text-sm font-medium text-ink">
+          <label className="text-sm font-medium text-slate-700">
             Receipt total
             <div className="mt-1 flex items-center gap-2">
               <select
@@ -91,7 +91,7 @@ export default function SplitPaymentChecker() {
           </label>
         </div>
 
-        <h2 className="mt-6 text-lg font-semibold text-ink">Payments</h2>
+        <h2 className="mt-6 text-lg font-semibold text-slate-900">Payments</h2>
         <div className="mt-3 space-y-2">
           {tenders.map((t) => (
             <div key={t.id} className="flex items-center gap-2">
@@ -120,7 +120,7 @@ export default function SplitPaymentChecker() {
                 type="button"
                 onClick={() => removeTender(t.id)}
                 aria-label="Remove payment"
-                className="shrink-0 rounded-[3px] px-2 py-1 text-ink-soft/70 hover:text-red-500"
+                className="shrink-0 rounded-lg px-2 py-1 text-slate-400 hover:text-red-500"
               >
                 ✕
               </button>
@@ -130,30 +130,30 @@ export default function SplitPaymentChecker() {
         <button
           type="button"
           onClick={addTender}
-          className="mt-3 rounded-full border border-rule bg-card px-4 py-2 text-sm font-semibold text-ink hover:bg-greenbar"
+          className="mt-3 rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50"
         >
           + Add payment
         </button>
       </div>
 
       {/* Result */}
-      <div className="lg:sticky lg:top-24 h-fit rounded-[3px] border border-rule bg-card p-5 sm:p-6">
-        <h2 className="text-lg font-semibold text-ink">Balance check</h2>
+      <div className="lg:sticky lg:top-24 h-fit rounded-2xl border border-slate-200 bg-white p-5 sm:p-6">
+        <h2 className="text-lg font-semibold text-slate-900">Balance check</h2>
         <dl className="mt-4 space-y-2 text-sm">
-          <div className="flex justify-between text-ink-soft">
+          <div className="flex justify-between text-slate-600">
             <dt>Receipt total</dt>
             <dd className="tabular-nums">{m(total)}</dd>
           </div>
-          <div className="flex justify-between text-ink-soft">
+          <div className="flex justify-between text-slate-600">
             <dt>Total paid ({tenders.length})</dt>
             <dd className="tabular-nums">{m(paid)}</dd>
           </div>
         </dl>
 
         <div
-          className={`mt-4 rounded-[3px] p-4 text-sm font-semibold ${
+          className={`mt-4 rounded-xl p-4 text-sm font-semibold ${
             balanced
-              ? "bg-greenbar text-ledger-deep"
+              ? "bg-emerald-50 text-emerald-700"
               : "bg-amber-50 text-amber-800"
           }`}
         >
@@ -168,11 +168,11 @@ export default function SplitPaymentChecker() {
 
         <Link
           href="/create"
-          className="mt-6 block rounded-full bg-ledger px-5 py-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-ledger-deep"
+          className="mt-6 block rounded-full bg-indigo-600 px-5 py-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-700"
         >
           Make a split-payment receipt — free
         </Link>
-        <p className="mt-2 text-center text-xs text-ink-soft/70">
+        <p className="mt-2 text-center text-xs text-slate-400">
           Show each method and amount on one receipt.
         </p>
       </div>

@@ -3,8 +3,6 @@ import Link from "next/link";
 import { PLANS } from "@/lib/plans";
 import { getPaymentLinks } from "@/lib/settings";
 import { absoluteUrl, SITE } from "@/lib/site";
-import { btn } from "@/components/ui/Button";
-import Eyebrow from "@/components/ui/Eyebrow";
 import PricingCta from "./PricingCta";
 
 export const metadata: Metadata = {
@@ -28,84 +26,6 @@ const FAQ = [
     a: "You can build and preview with no sign-up. Downloading uses a free account: your first 3 receipts are watermark-free, then downloads are watermarked until you upgrade to Pro.",
   },
 ];
-
-/**
- * One plan, set like a printed price card: a banded header for the plan name,
- * the price as the figure that matters, then a perforation before what you get.
- */
-function PlanCard({
-  name,
-  price,
-  unit,
-  note,
-  badge,
-  features,
-  featured = false,
-  children,
-}: {
-  name: string;
-  price: string;
-  unit: string;
-  note?: string;
-  badge?: string;
-  features: readonly string[];
-  featured?: boolean;
-  children: React.ReactNode;
-}) {
-  return (
-    <div
-      className={`flex flex-col rounded-[3px] border bg-card ${
-        featured ? "border-ledger shadow-md" : "border-rule shadow-sm"
-      }`}
-    >
-      <div
-        className={`flex items-center justify-between gap-2 px-6 py-3 ${
-          featured ? "bg-ledger" : "bg-greenbar/60"
-        }`}
-      >
-        <h2
-          className={`font-display text-[11px] font-bold uppercase tracking-[0.2em] ${
-            featured ? "text-white" : "text-ink-soft"
-          }`}
-        >
-          {name}
-        </h2>
-        {badge && (
-          <span
-            className={`font-data text-[10px] font-medium uppercase tracking-wider ${
-              featured ? "text-white/80" : "text-ink-soft"
-            }`}
-          >
-            {badge}
-          </span>
-        )}
-      </div>
-
-      <div className="flex flex-1 flex-col p-6">
-        <p className="font-display text-3xl font-bold tabular-nums text-ink">
-          {price}
-          <span className="font-sans text-sm font-medium text-ink-soft">{unit}</span>
-        </p>
-        {note && <p className="mt-1 font-data text-xs text-ink-soft">{note}</p>}
-
-        <div className="perf-rule my-5" />
-
-        <ul className="flex-1 space-y-2.5 text-sm text-ink-soft">
-          {features.map((f) => (
-            <li key={f} className="flex gap-2.5">
-              <span aria-hidden="true" className="font-data text-ledger">
-                ✓
-              </span>
-              <span>{f}</span>
-            </li>
-          ))}
-        </ul>
-
-        <div className="mt-6">{children}</div>
-      </div>
-    </div>
-  );
-}
 
 export const dynamic = "force-dynamic";
 
@@ -148,108 +68,123 @@ export default async function PricingPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppJsonLd) }}
       />
       <div className="text-center">
-        <Eyebrow className="justify-center">Pricing</Eyebrow>
-        <h1 className="mt-5 font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">
+        <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
           Simple, honest pricing
         </h1>
-        <p className="mx-auto mt-4 max-w-2xl text-lg text-ink-soft">
+        <p className="mx-auto mt-4 max-w-2xl text-lg text-slate-600">
           Start free. Upgrade when you need watermark-free, professional receipts.
         </p>
       </div>
 
-      {/* The free tier has four states, and stating them plainly here is what
-          lets the rest of the site stop explaining them. */}
-      <div className="mx-auto mt-10 max-w-xl rounded-[3px] border border-rule bg-card p-5">
-        <p className="font-display text-[11px] font-bold uppercase tracking-[0.22em] text-ink-soft">
-          How the free tier works
-        </p>
-        <ol className="mt-4 space-y-2.5 font-data text-sm text-ink-soft">
-          <li className="leader">
-            <span>Build and preview</span>
-            <span className="text-ledger">No account</span>
-          </li>
-          <li className="leader">
-            <span>First 3 downloads</span>
-            <span className="text-ledger">Watermark-free HD</span>
-          </li>
-          <li className="leader">
-            <span>Downloads after that</span>
-            <span>Watermarked</span>
-          </li>
-          <li className="leader">
-            <span>Pro</span>
-            <span className="text-ledger">Unlimited, watermark-free</span>
-          </li>
-        </ol>
-      </div>
-
-      <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <PlanCard name="Free" price="$0" unit="/forever" features={PLANS.free.features}>
-          <Link href="/create" className={btn({ variant: "secondary", className: "w-full" })}>
+      <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {/* Free */}
+        <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+          <h2 className="text-lg font-semibold text-slate-900">Free</h2>
+          <p className="mt-2 text-4xl font-bold text-slate-900">
+            $0<span className="text-base font-medium text-slate-500">/forever</span>
+          </p>
+          <ul className="mt-6 space-y-3 text-sm text-slate-600">
+            {PLANS.free.features.map((f) => (
+              <li key={f} className="flex gap-2">
+                <span className="text-slate-400">✓</span>
+                {f}
+              </li>
+            ))}
+          </ul>
+          <Link
+            href="/create"
+            className="mt-8 block rounded-full border border-slate-300 bg-white px-5 py-3 text-center text-sm font-semibold text-slate-700 hover:bg-slate-50"
+          >
             Start free
           </Link>
-        </PlanCard>
+        </div>
 
-        <PlanCard
-          name={weekly.name}
-          price={`$${weekly.price}`}
-          unit="/wk"
-          note="7-day full Pro pass"
-          features={weekly.features}
-        >
+        {/* Pro Weekly */}
+        <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+          <h2 className="text-lg font-semibold text-slate-900">{weekly.name}</h2>
+          <p className="mt-2 text-4xl font-bold text-slate-900">
+            ${weekly.price}
+            <span className="text-base font-medium text-slate-500">/wk</span>
+          </p>
+          <p className="mt-1 text-xs font-medium text-slate-400">7-day full Pro pass</p>
+          <ul className="mt-6 space-y-3 text-sm text-slate-600">
+            {weekly.features.map((f) => (
+              <li key={f} className="flex gap-2">
+                <span className="text-indigo-500">✓</span>
+                {f}
+              </li>
+            ))}
+          </ul>
           <PricingCta
             planId="pro_weekly"
             paymentLink={links.weekly}
-            className={btn({ variant: "secondary", className: "w-full" })}
+            className="mt-8 block rounded-full border border-indigo-200 bg-indigo-50 px-5 py-3 text-center text-sm font-semibold text-indigo-700 hover:bg-indigo-100"
             label="Get 7-day Pro"
           />
-        </PlanCard>
+        </div>
 
-        <PlanCard
-          name={monthly.name}
-          price={`$${monthly.price}`}
-          unit="/mo"
-          features={monthly.features}
-        >
+        {/* Pro Monthly */}
+        <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+          <h2 className="text-lg font-semibold text-slate-900">{monthly.name}</h2>
+          <p className="mt-2 text-4xl font-bold text-slate-900">
+            ${monthly.price}
+            <span className="text-base font-medium text-slate-500">/mo</span>
+          </p>
+          <ul className="mt-6 space-y-3 text-sm text-slate-600">
+            {monthly.features.map((f) => (
+              <li key={f} className="flex gap-2">
+                <span className="text-indigo-500">✓</span>
+                {f}
+              </li>
+            ))}
+          </ul>
           <PricingCta
             planId="pro_monthly"
             paymentLink={links.monthly}
-            className={btn({ variant: "secondary", className: "w-full" })}
+            className="mt-8 block rounded-full border border-indigo-200 bg-indigo-50 px-5 py-3 text-center text-sm font-semibold text-indigo-700 hover:bg-indigo-100"
             label="Go Pro Monthly"
           />
-        </PlanCard>
+        </div>
 
-        <PlanCard
-          name={yearly.name}
-          price={`$${yearly.price}`}
-          unit="/yr"
-          badge="Save ~60%"
-          features={yearly.features}
-          featured
-        >
+        {/* Pro Yearly (highlighted) */}
+        <div className="relative rounded-3xl border-2 border-indigo-600 bg-white p-8 shadow-lg">
+          <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-indigo-600 px-3 py-1 text-xs font-semibold text-white">
+            Best value · Save ~60%
+          </span>
+          <h2 className="text-lg font-semibold text-slate-900">{yearly.name}</h2>
+          <p className="mt-2 text-4xl font-bold text-slate-900">
+            ${yearly.price}
+            <span className="text-base font-medium text-slate-500">/yr</span>
+          </p>
+          <ul className="mt-6 space-y-3 text-sm text-slate-600">
+            {yearly.features.map((f) => (
+              <li key={f} className="flex gap-2">
+                <span className="text-indigo-500">✓</span>
+                {f}
+              </li>
+            ))}
+          </ul>
           <PricingCta
             planId="pro_yearly"
             paymentLink={links.yearly}
-            className={btn({ className: "w-full" })}
+            className="mt-8 block rounded-full bg-indigo-600 px-5 py-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-700"
             label="Go Pro Yearly"
           />
-        </PlanCard>
+        </div>
       </div>
 
-      {/* Operational, not decorative: paying under a different email is the one
-          way a checkout silently fails to activate Pro. */}
-      <p className="mx-auto mt-8 max-w-xl border-l-2 border-ledger bg-greenbar/50 px-4 py-3 font-data text-sm leading-relaxed text-ink">
-        Check out with the <strong className="font-bold">same email you sign in with</strong> — that
-        is how we match your payment and activate Pro on your account.
+      <p className="mx-auto mt-8 max-w-xl rounded-xl bg-amber-50 px-4 py-3 text-center text-sm text-amber-800">
+        💡 Please check out using the <strong>same email you sign in with</strong> — that&apos;s how
+        we match your payment and activate Pro on your account.
       </p>
 
       <section className="mx-auto mt-20 max-w-3xl">
-        <h2 className="font-display text-2xl font-bold tracking-tight text-ink">Pricing FAQ</h2>
-        <dl className="mt-8 divide-y divide-rule border-y border-rule">
+        <h2 className="text-center text-2xl font-bold text-slate-900">Pricing FAQ</h2>
+        <dl className="mt-8 space-y-6">
           {FAQ.map((item) => (
-            <div key={item.q} className="py-5">
-              <dt className="font-medium text-ink">{item.q}</dt>
-              <dd className="mt-2 text-sm leading-relaxed text-ink-soft">{item.a}</dd>
+            <div key={item.q} className="rounded-2xl border border-slate-200 bg-white p-6">
+              <dt className="font-semibold text-slate-900">{item.q}</dt>
+              <dd className="mt-2 text-sm leading-relaxed text-slate-600">{item.a}</dd>
             </div>
           ))}
         </dl>

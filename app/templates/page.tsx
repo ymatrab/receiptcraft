@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { TEMPLATES } from "@/lib/templates";
 import { absoluteUrl } from "@/lib/site";
-import { btn } from "@/components/ui/Button";
-import Eyebrow from "@/components/ui/Eyebrow";
 
 export const metadata: Metadata = {
   title: "Receipt Templates — 40+ Free Business Styles",
@@ -42,11 +40,10 @@ export default function TemplatesPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <div className="max-w-2xl">
-        <Eyebrow>{TEMPLATES.length} templates</Eyebrow>
-        <h1 className="mt-5 font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">
+        <h1 className="text-4xl font-bold tracking-tight text-slate-900">
           Receipt Templates
         </h1>
-        <p className="mt-4 text-lg leading-relaxed text-ink-soft">
+        <p className="mt-4 text-lg leading-relaxed text-slate-600">
           Every template is pre-filled with realistic items, prices and tax
           rates for its business type. Pick one, customize what you need, and
           download your receipt in seconds — free to use, no sign-up to start.
@@ -58,39 +55,41 @@ export default function TemplatesPage() {
           <li key={t.slug}>
             <Link
               href={`/templates/${t.slug}`}
-              className="group flex h-full flex-col rounded-[3px] border border-rule bg-card p-6 transition-colors hover:border-ledger/45 hover:bg-greenbar/30"
+              className="group flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-6 transition-all hover:-translate-y-0.5 hover:border-indigo-300 hover:shadow-lg hover:shadow-indigo-100"
             >
-              <span className="text-2xl" aria-hidden="true">
+              <span className="text-4xl" aria-hidden="true">
                 {t.icon}
               </span>
-              <h2 className="mt-3 font-display text-base font-bold text-ink group-hover:text-ledger-deep">
+              <h2 className="mt-4 text-lg font-semibold text-slate-900 group-hover:text-indigo-700">
                 {t.name}
               </h2>
-              <p className="mt-2 flex-1 text-sm leading-relaxed text-ink-soft">
+              <p className="mt-2 flex-1 text-sm leading-relaxed text-slate-600">
                 {t.intro.split(".")[0]}.
               </p>
-              {/* The card ends on a real fact about the template rather than a
-                  decorative "Use this template →" — the whole card is the link. */}
-              <div aria-hidden="true" className="perf-rule mt-5" />
-              <div className="leader mt-3 font-data text-xs text-ink-soft">
-                <span>Sample items</span>
-                <span className="tabular-nums">{t.defaults.items.length}</span>
-              </div>
+              <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-indigo-600">
+                Use this template
+                <svg className="h-4 w-4 transition-transform group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h12" />
+                </svg>
+              </span>
             </Link>
           </li>
         ))}
       </ul>
 
-      <div className="mx-auto mt-16 max-w-xl rounded-[3px] border border-rule bg-card p-8 text-center">
-        <h2 className="font-display text-2xl font-bold tracking-tight text-ink">
+      <div className="mt-16 rounded-3xl bg-slate-50 p-8 text-center sm:p-12">
+        <h2 className="text-2xl font-bold text-slate-900">
           Don&apos;t see your business type?
         </h2>
-        <p className="mx-auto mt-3 max-w-md text-ink-soft">
+        <p className="mx-auto mt-3 max-w-xl text-slate-600">
           Start from a blank receipt and customize every detail — business
           info, items, tax label, currency and style.
         </p>
-        <Link href="/create" className={btn({ size: "lg", className: "mt-7 w-full" })}>
-          Start from scratch
+        <Link
+          href="/create"
+          className="mt-6 inline-block rounded-full bg-indigo-600 px-7 py-3.5 text-base font-semibold text-white shadow-lg shadow-indigo-600/25 transition-all hover:bg-indigo-700"
+        >
+          Start From Scratch
         </Link>
       </div>
     </div>

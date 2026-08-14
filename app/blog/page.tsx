@@ -33,14 +33,14 @@ export default async function BlogIndex() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
       <header className="text-center">
-        <h1 className="text-4xl font-bold tracking-tight text-ink">The {SITE.name} Blog</h1>
-        <p className="mx-auto mt-4 max-w-2xl text-lg text-ink-soft">
+        <h1 className="text-4xl font-bold tracking-tight text-slate-900">The {SITE.name} Blog</h1>
+        <p className="mx-auto mt-4 max-w-2xl text-lg text-slate-600">
           Guides on receipts, expenses, bookkeeping and running a small business.
         </p>
       </header>
 
       {posts.length === 0 ? (
-        <p className="mt-16 text-center text-ink-soft">
+        <p className="mt-16 text-center text-slate-500">
           New articles are on the way — check back soon.
         </p>
       ) : (
@@ -49,7 +49,7 @@ export default async function BlogIndex() {
             <Link
               key={post._id}
               href={`/blog/${post.slug}`}
-              className="group flex flex-col overflow-hidden rounded-[3px] border border-rule bg-card shadow-sm transition-shadow hover:shadow-md"
+              className="group flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-shadow hover:shadow-md"
             >
               {post.mainImage && (
                 // eslint-disable-next-line @next/next/no-img-element
@@ -61,18 +61,18 @@ export default async function BlogIndex() {
               )}
               <div className="flex flex-1 flex-col p-5">
                 {post.category && (
-                  <span className="text-xs font-semibold uppercase tracking-wide text-ledger">
+                  <span className="text-xs font-semibold uppercase tracking-wide text-indigo-600">
                     {post.category}
                   </span>
                 )}
-                <h2 className="mt-1 text-lg font-bold text-ink group-hover:text-ledger-deep">
+                <h2 className="mt-1 text-lg font-bold text-slate-900 group-hover:text-indigo-700">
                   {post.title}
                 </h2>
                 {post.excerpt && (
-                  <p className="mt-2 line-clamp-3 text-sm text-ink-soft">{post.excerpt}</p>
+                  <p className="mt-2 line-clamp-3 text-sm text-slate-600">{post.excerpt}</p>
                 )}
                 {post.publishedAt && (
-                  <time className="mt-4 text-xs text-ink-soft/70">
+                  <time className="mt-4 text-xs text-slate-400">
                     {new Date(post.publishedAt).toLocaleDateString()}
                   </time>
                 )}

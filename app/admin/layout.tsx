@@ -24,7 +24,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   return (
     <div className="mx-auto flex max-w-7xl flex-col gap-8 px-4 py-10 sm:px-6 lg:flex-row lg:px-8">
       <aside className="lg:w-52 lg:shrink-0">
-        <h2 className="px-3 text-xs font-semibold uppercase tracking-wide text-ink-soft/70">
+        <h2 className="px-3 text-xs font-semibold uppercase tracking-wide text-slate-400">
           Admin
         </h2>
         <nav className="mt-3 flex gap-1 overflow-x-auto lg:flex-col">
@@ -32,7 +32,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             <Link
               key={item.href}
               href={item.href}
-              className="whitespace-nowrap rounded-[3px] px-3 py-2 text-sm font-medium text-ink-soft hover:bg-rule/45 hover:text-ink"
+              className="whitespace-nowrap rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900"
             >
               {item.label}
             </Link>

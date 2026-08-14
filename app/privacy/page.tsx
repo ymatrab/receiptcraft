@@ -8,16 +8,16 @@ export const metadata: Metadata = {
 };
 
 function H2({ children }: { children: React.ReactNode }) {
-  return <h2 className="pt-4 text-2xl font-bold text-ink">{children}</h2>;
+  return <h2 className="pt-4 text-2xl font-bold text-slate-900">{children}</h2>;
 }
 
 export default function PrivacyPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
-      <h1 className="text-4xl font-bold tracking-tight text-ink">Privacy Policy</h1>
-      <p className="mt-3 text-sm text-ink-soft">Last updated: July 2, 2026</p>
+      <h1 className="text-4xl font-bold tracking-tight text-slate-900">Privacy Policy</h1>
+      <p className="mt-3 text-sm text-slate-500">Last updated: July 2, 2026</p>
 
-      <div className="mt-8 space-y-5 leading-relaxed text-ink-soft">
+      <div className="mt-8 space-y-5 leading-relaxed text-slate-600">
         <H2>The short version</H2>
         <p>
           The receipt builder runs in your browser — the contents of your receipts stay on your
@@ -69,7 +69,7 @@ export default function PrivacyPage() {
           Google Analytics runs in cookieless consent mode and Microsoft Clarity does not load.
           We do not use advertising or cross-site tracking cookies. The full
           list is on our{" "}
-          <a href="/cookies" className="text-ledger underline">Cookie Policy</a> page.
+          <a href="/cookies" className="text-indigo-600 underline">Cookie Policy</a> page.
         </p>
 
         <H2>Analytics</H2>
@@ -98,7 +98,7 @@ export default function PrivacyPage() {
         <H2>Contact</H2>
         <p>
           Questions, or a data request? Contact us at{" "}
-          <a href={`mailto:${SITE.email}`} className="text-ledger underline">{SITE.email}</a>.
+          <a href={`mailto:${SITE.email}`} className="text-indigo-600 underline">{SITE.email}</a>.
         </p>
       </div>
     </div>

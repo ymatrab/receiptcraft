@@ -23,7 +23,7 @@ const breadcrumbJsonLd = {
 };
 
 function H2({ children }: { children: React.ReactNode }) {
-  return <h2 className="pt-4 text-2xl font-bold text-ink">{children}</h2>;
+  return <h2 className="pt-4 text-2xl font-bold text-slate-900">{children}</h2>;
 }
 
 export default function EditorialPolicyPage() {
@@ -34,30 +34,30 @@ export default function EditorialPolicyPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
 
-      <nav aria-label="Breadcrumb" className="text-sm text-ink-soft">
+      <nav aria-label="Breadcrumb" className="text-sm text-slate-500">
         <ol className="flex flex-wrap items-center gap-1.5">
           <li>
-            <Link href="/" className="hover:text-ledger">
+            <Link href="/" className="hover:text-indigo-600">
               Home
             </Link>
           </li>
           <li aria-hidden="true">/</li>
-          <li className="font-medium text-ink">Editorial Policy</li>
+          <li className="font-medium text-slate-900">Editorial Policy</li>
         </ol>
       </nav>
 
-      <h1 className="mt-6 text-4xl font-bold tracking-tight text-ink">Editorial policy</h1>
-      <p className="mt-3 max-w-2xl text-lg leading-relaxed text-ink-soft">
+      <h1 className="mt-6 text-4xl font-bold tracking-tight text-slate-900">Editorial policy</h1>
+      <p className="mt-3 max-w-2xl text-lg leading-relaxed text-slate-600">
         This page explains how {SITE.name}&apos;s guides and templates are
         written, reviewed and kept current — so you can judge how much to trust
         what you read here.
       </p>
 
-      <div className="mt-8 space-y-5 leading-relaxed text-ink-soft">
+      <div className="mt-8 space-y-5 leading-relaxed text-slate-600">
         <H2>Who writes and reviews</H2>
         <p>
           Our guides and templates are written and reviewed by the{" "}
-          <Link href="/authors" className="font-medium text-ledger hover:underline">
+          <Link href="/authors" className="font-medium text-indigo-600 hover:underline">
             {SITE.name} team
           </Link>
           , drawing on hands-on experience with small-business receipts,
@@ -86,11 +86,11 @@ export default function EditorialPolicyPage() {
         <H2>Corrections</H2>
         <p>
           If you spot an error, email{" "}
-          <a href={`mailto:${SITE.email}`} className="font-medium text-ledger hover:underline">
+          <a href={`mailto:${SITE.email}`} className="font-medium text-indigo-600 hover:underline">
             {SITE.email}
           </a>{" "}
           or use our{" "}
-          <Link href="/contact" className="font-medium text-ledger hover:underline">
+          <Link href="/contact" className="font-medium text-indigo-600 hover:underline">
             contact page
           </Link>
           . We correct confirmed mistakes and update the modified date.
@@ -111,7 +111,7 @@ export default function EditorialPolicyPage() {
           documentation, and design or mockup work. We do not present generated
           receipts as proof of purchase, and we say so on brand-inspired
           templates. Creating receipts to deceive anyone is fraud. See our{" "}
-          <Link href="/terms" className="font-medium text-ledger hover:underline">
+          <Link href="/terms" className="font-medium text-indigo-600 hover:underline">
             Terms of Use
           </Link>{" "}
           for the full policy.

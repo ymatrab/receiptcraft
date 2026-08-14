@@ -137,24 +137,24 @@ export default function ChatWidget() {
         type="button"
         onClick={() => setOpen((o) => !o)}
         aria-label="Support chat"
-        className="fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-ledger text-2xl text-white shadow-lg transition-transform hover:scale-105"
+        className="fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-indigo-600 text-2xl text-white shadow-lg transition-transform hover:scale-105"
       >
         {open ? "✕" : "💬"}
       </button>
 
       {open && (
-        <div className="fixed bottom-24 right-5 z-50 flex h-[28rem] w-[22rem] max-w-[calc(100vw-2.5rem)] flex-col overflow-hidden rounded-[3px] border border-rule bg-card shadow-2xl">
-          <div className="border-b border-rule bg-greenbar px-4 py-3">
-            <p className="text-sm font-semibold text-ink">Support</p>
-            <p className="text-xs text-ink-soft">We usually reply within a day.</p>
+        <div className="fixed bottom-24 right-5 z-50 flex h-[28rem] w-[22rem] max-w-[calc(100vw-2.5rem)] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
+          <div className="border-b border-slate-100 bg-slate-50 px-4 py-3">
+            <p className="text-sm font-semibold text-slate-900">Support</p>
+            <p className="text-xs text-slate-500">We usually reply within a day.</p>
           </div>
 
           {!account.isLoggedIn ? (
             <div className="flex flex-1 flex-col items-center justify-center gap-3 px-6 text-center">
-              <p className="text-sm text-ink-soft">Log in to start a conversation with us.</p>
+              <p className="text-sm text-slate-600">Log in to start a conversation with us.</p>
               <Link
                 href="/login?next=/"
-                className="rounded-full bg-ledger px-5 py-2.5 text-sm font-semibold text-white"
+                className="rounded-full bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white"
               >
                 Log in
               </Link>
@@ -163,17 +163,17 @@ export default function ChatWidget() {
             <>
               <div className="flex-1 space-y-2 overflow-y-auto p-3">
                 {messages.length === 0 && (
-                  <p className="px-2 pt-4 text-center text-xs text-ink-soft/70">
+                  <p className="px-2 pt-4 text-center text-xs text-slate-400">
                     Send us a message and we&apos;ll get back to you.
                   </p>
                 )}
                 {messages.map((m) => (
                   <div
                     key={m.id}
-                    className={`max-w-[80%] rounded-[3px] px-3 py-2 text-sm ${
+                    className={`max-w-[80%] rounded-2xl px-3 py-2 text-sm ${
                       m.sender_role === "user"
-                        ? "ml-auto bg-ledger text-white"
-                        : "bg-rule/45 text-ink"
+                        ? "ml-auto bg-indigo-600 text-white"
+                        : "bg-slate-100 text-slate-800"
                     }`}
                   >
                     {m.body}
@@ -181,19 +181,19 @@ export default function ChatWidget() {
                 ))}
                 <div ref={endRef} />
               </div>
-              <div className="flex items-center gap-2 border-t border-rule p-3">
+              <div className="flex items-center gap-2 border-t border-slate-100 p-3">
                 <input
                   value={draft}
                   onChange={(e) => setDraft(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && send()}
                   placeholder="Type a message…"
-                  className="flex-1 rounded-full border border-rule px-4 py-2 text-sm focus:border-ledger/45 focus:outline-none"
+                  className="flex-1 rounded-full border border-slate-300 px-4 py-2 text-sm focus:border-indigo-400 focus:outline-none"
                 />
                 <button
                   type="button"
                   onClick={send}
                   disabled={sending || !draft.trim()}
-                  className="rounded-full bg-ledger px-4 py-2 text-sm font-semibold text-white disabled:opacity-50"
+                  className="rounded-full bg-indigo-600 px-4 py-2 text-sm font-semibold text-white disabled:opacity-50"
                 >
                   Send
                 </button>

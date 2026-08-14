@@ -61,15 +61,15 @@ export default function AdminChatThread({ conversationId, adminId, initialMessag
   }
 
   return (
-    <div className="mt-6 flex h-[32rem] flex-col overflow-hidden rounded-[3px] border border-rule bg-card">
+    <div className="mt-6 flex h-[32rem] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white">
       <div className="flex-1 space-y-2 overflow-y-auto p-4">
         {messages.map((m) => (
           <div
             key={m.id}
-            className={`max-w-[70%] rounded-[3px] px-3 py-2 text-sm ${
+            className={`max-w-[70%] rounded-2xl px-3 py-2 text-sm ${
               m.sender_role === "admin"
-                ? "ml-auto bg-ledger text-white"
-                : "bg-rule/45 text-ink"
+                ? "ml-auto bg-indigo-600 text-white"
+                : "bg-slate-100 text-slate-800"
             }`}
           >
             {m.body}
@@ -77,19 +77,19 @@ export default function AdminChatThread({ conversationId, adminId, initialMessag
         ))}
         <div ref={endRef} />
       </div>
-      <div className="flex items-center gap-2 border-t border-rule p-3">
+      <div className="flex items-center gap-2 border-t border-slate-100 p-3">
         <input
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && send()}
           placeholder="Reply…"
-          className="flex-1 rounded-full border border-rule px-4 py-2 text-sm focus:border-ledger/45 focus:outline-none"
+          className="flex-1 rounded-full border border-slate-300 px-4 py-2 text-sm focus:border-indigo-400 focus:outline-none"
         />
         <button
           type="button"
           onClick={send}
           disabled={sending || !draft.trim()}
-          className="rounded-full bg-ledger px-5 py-2 text-sm font-semibold text-white disabled:opacity-50"
+          className="rounded-full bg-indigo-600 px-5 py-2 text-sm font-semibold text-white disabled:opacity-50"
         >
           Send
         </button>

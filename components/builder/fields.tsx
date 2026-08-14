@@ -6,7 +6,7 @@ import type { SectionAlign } from "@/lib/sections";
 // text-base on mobile (16px) prevents iOS Safari's auto-zoom on focus;
 // sm:text-sm restores the compact desktop density.
 export const inputClass =
-  "w-full rounded-[3px] border border-rule bg-card px-3 py-2.5 text-base text-ink placeholder:text-ink-soft/70 transition-colors focus:border-ledger focus:outline-none focus:ring-2 focus:ring-ledger/20 sm:py-2 sm:text-sm";
+  "w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-base text-slate-900 placeholder:text-slate-400 transition-colors focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 sm:py-2 sm:text-sm";
 
 interface TextFieldProps {
   label: string;
@@ -19,7 +19,7 @@ interface TextFieldProps {
 export function TextField({ label, defaultValue, onChange, placeholder, type = "text" }: TextFieldProps) {
   return (
     <label className="block">
-      <span className="mb-1.5 block text-xs font-medium text-ink-soft">{label}</span>
+      <span className="mb-1.5 block text-xs font-medium text-slate-600">{label}</span>
       <input
         type={type}
         defaultValue={defaultValue}
@@ -50,7 +50,7 @@ export function NumberField({
 }: NumberFieldProps) {
   return (
     <label className="block">
-      <span className="mb-1.5 block text-xs font-medium text-ink-soft">{label}</span>
+      <span className="mb-1.5 block text-xs font-medium text-slate-600">{label}</span>
       <input
         type="number"
         defaultValue={defaultValue || ""}
@@ -74,7 +74,7 @@ interface SelectFieldProps {
 export function SelectField({ label, defaultValue, onChange, options }: SelectFieldProps) {
   return (
     <label className="block">
-      <span className="mb-1.5 block text-xs font-medium text-ink-soft">{label}</span>
+      <span className="mb-1.5 block text-xs font-medium text-slate-600">{label}</span>
       <select
         defaultValue={defaultValue}
         onChange={(e) => onChange(e.target.value)}
@@ -92,8 +92,8 @@ export function SelectField({ label, defaultValue, onChange, options }: SelectFi
 
 export function FormSection({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <section className="rounded-[3px] border border-rule bg-card p-5 shadow-sm">
-      <h2 className="mb-4 text-sm font-semibold text-ink">{title}</h2>
+    <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+      <h2 className="mb-4 text-sm font-semibold text-slate-900">{title}</h2>
       {children}
     </section>
   );
@@ -114,7 +114,7 @@ export function TextAreaField({
 }) {
   return (
     <label className="block">
-      <span className="mb-1.5 block text-xs font-medium text-ink-soft">{label}</span>
+      <span className="mb-1.5 block text-xs font-medium text-slate-600">{label}</span>
       <textarea
         defaultValue={defaultValue}
         placeholder={placeholder}
@@ -142,12 +142,12 @@ export function Toggle({
       aria-checked={checked}
       aria-label={label}
       onClick={() => onChange(!checked)}
-      className={`relative inline-flex h-6 w-11 shrink-0 items-center rounded-full p-0.5 transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-ledger/40 focus-visible:ring-offset-1 ${
-        checked ? "bg-ledger" : "bg-rule"
+      className={`relative inline-flex h-6 w-11 shrink-0 items-center rounded-full p-0.5 transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/40 focus-visible:ring-offset-1 ${
+        checked ? "bg-indigo-600" : "bg-slate-200"
       }`}
     >
       <span
-        className={`inline-block h-5 w-5 transform rounded-full bg-card shadow-[0_1px_2px_rgba(15,23,42,0.25)] ring-1 ring-black/5 transition-transform duration-200 ease-in-out ${
+        className={`inline-block h-5 w-5 transform rounded-full bg-white shadow-[0_1px_2px_rgba(15,23,42,0.25)] ring-1 ring-black/5 transition-transform duration-200 ease-in-out ${
           checked ? "translate-x-5" : "translate-x-0"
         }`}
       />
@@ -169,15 +169,15 @@ export function AlignToggle({
   onChange: (v: SectionAlign) => void;
 }) {
   return (
-    <div className="inline-flex rounded-[3px] border border-rule p-0.5">
+    <div className="inline-flex rounded-lg border border-slate-200 p-0.5">
       {ALIGN_OPTS.map((opt) => (
         <button
           key={opt.value}
           type="button"
           aria-label={`Align ${opt.value}`}
           onClick={() => onChange(opt.value)}
-          className={`rounded-[3px] px-2.5 py-1.5 ${
-            value === opt.value ? "bg-greenbar text-ledger" : "text-ink-soft hover:text-ink"
+          className={`rounded-md px-2.5 py-1.5 ${
+            value === opt.value ? "bg-indigo-50 text-indigo-600" : "text-slate-500 hover:text-slate-700"
           }`}
         >
           <svg className="h-4 w-4" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth={1.8}>
@@ -212,10 +212,10 @@ export function DividerPicker({
           key={opt.value}
           type="button"
           onClick={() => onChange(opt.value)}
-          className={`rounded-[3px] border py-1.5 text-xs transition-colors ${
+          className={`rounded-md border py-1.5 text-xs transition-colors ${
             value === opt.value
-              ? "border-ledger/45 bg-greenbar text-ledger-deep"
-              : "border-rule text-ink-soft hover:bg-greenbar"
+              ? "border-indigo-300 bg-indigo-50 text-indigo-700"
+              : "border-slate-200 text-slate-500 hover:bg-slate-50"
           }`}
         >
           {opt.label}
@@ -238,7 +238,7 @@ export function DividerRow({
   return (
     <div className="space-y-2">
       <div className="flex items-center justify-between">
-        <span className="text-sm text-ink">{label}</span>
+        <span className="text-sm text-slate-700">{label}</span>
         <Toggle checked={on} onChange={(c) => onChange(c ? "dashed" : "none")} />
       </div>
       {on && <DividerPicker value={value} onChange={onChange} />}

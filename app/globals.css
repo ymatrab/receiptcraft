@@ -2,39 +2,9 @@
 @plugin "@tailwindcss/typography";
 
 @theme {
-  /* ---- Type roles -------------------------------------------------------
-     Display is a monospace on purpose: the receipt vernacular is thermal /
-     dot-matrix print, so a serif display face would be foreign to the subject.
-     Body stays a humanist sans because ~30 long-form SEO pages have to stay
-     readable at length. Data carries tabular figures for money columns. */
-  --font-display: var(--font-space-mono), ui-monospace, monospace;
-  --font-sans: var(--font-work-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-data: var(--font-ibm-plex-mono), ui-monospace, "SF Mono", monospace;
-  --font-mono: var(--font-ibm-plex-mono), ui-monospace, "SF Mono", monospace;
-
-  /* ---- Surface + ink ----------------------------------------------------
-     Thermal receipt stock is a COOL grey-white with a faint green cast — not
-     the warm cream of artisan letterpress. Thermal print never reaches true
-     black; it burns to a dense charcoal that fades as it ages. */
-  --color-ground: #f5f6f3;
-  --color-card: #fcfcfa;
-  --color-ink: #1b1e1b;
-  --color-ink-soft: #6c716b;
-  --color-rule: #d7d9d2;
-
-  /* ---- Accent -----------------------------------------------------------
-     Deep ledger green, from greenbar accounting paper. Reads as financial
-     record-keeping rather than generic SaaS, which is the trust argument the
-     Pro upgrade needs to make. --color-greenbar is its zebra-stripe tint. */
-  --color-ledger: #14563c;
-  --color-ledger-deep: #0e3f2c;
-  --color-greenbar: #e7efe7;
-
-  /* ---- Receipt render (DO NOT RETHEME) ----------------------------------
-     This is the stock colour of the receipt users actually download. Changing
-     it changes every exported PDF/PNG, so it stays independent of page theme. */
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", monospace;
   --color-paper: #fffefb;
-
   --animate-fade-up: fade-up 0.6s ease-out both;
 }
 
@@ -127,77 +97,18 @@ textarea,
 }
 
 body {
-  @apply bg-ground text-ink antialiased;
+  @apply bg-white text-slate-900 antialiased;
 }
 
 ::selection {
-  @apply bg-ledger text-white;
+  @apply bg-indigo-600 text-white;
 }
 
-/* ---- Perforation rule --------------------------------------------------
-   Section divider drawn as a tear line: punched holes over a hairline. Used
-   instead of a plain border so section breaks read as the same object the
-   product makes. Pure background paint — no extra DOM. */
-.perf-rule {
-  height: 1px;
-  background-image: radial-gradient(circle at center, var(--color-rule) 0 1.5px, transparent 1.6px);
-  background-size: 9px 1px;
-  background-repeat: repeat-x;
-}
-
-/* ---- Dot leader row ----------------------------------------------------
-   The label…………value alignment of a printed receipt line. The middle element
-   stretches, so the leader dots fill whatever gap remains. */
-.leader {
-  display: flex;
-  align-items: baseline;
-  gap: 0.5rem;
-}
-.leader::after {
-  content: "";
-  flex: 1 1 auto;
-  order: 1;
-  height: 0;
-  border-bottom: 1px dotted var(--color-rule);
-  transform: translateY(-0.25em);
-}
-.leader > :last-child {
-  order: 2;
-}
-
-/* ---- Paper feed --------------------------------------------------------
-   The hero receipt emerges from the printer slot the way thermal paper
-   actually feeds: revealed top-to-bottom, easing to a stop with a slight
-   settle. One orchestrated moment — nothing else on the page animates in. */
-@keyframes paper-feed {
-  from {
-    clip-path: inset(0 -25% 100% -25%);
-    transform: translateY(-10px);
-  }
-  to {
-    /* Negative side/bottom insets so the resting state never clips the paper's
-       own drop shadow — only the top edge (the slot) ever cuts. */
-    clip-path: inset(0 -25% -25% -25%);
-    transform: translateY(0);
-  }
-}
-.paper-feed {
-  animation: paper-feed 1.5s cubic-bezier(0.16, 0.84, 0.32, 1) both;
-}
-@media (prefers-reduced-motion: reduce) {
-  .paper-feed {
-    animation: none;
-    clip-path: none;
-    transform: none;
-  }
-}
-
-/* Thermal stock tooth — a barely-there speckle so large paper areas aren't
-   dead flat. Kept under 3% opacity; invisible as texture, felt as warmth. */
-.stock-tooth {
-  background-image: radial-gradient(circle at 20% 30%, rgb(27 30 27 / 0.025) 0.5px, transparent 0.6px),
-    radial-gradient(circle at 70% 80%, rgb(27 30 27 / 0.02) 0.5px, transparent 0.6px);
-  background-size: 7px 7px, 11px 11px;
+/* Subtle blueprint grid used in hero / CTA sections */
+.bg-grid {
+  background-image: linear-gradient(to right, rgb(99 102 241 / 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(99 102 241 / 0.06) 1px, transparent 1px);
+  background-size: 44px 44px;
 }
 
 /* Torn-paper zigzag edges for the receipt preview */
@@ -215,9 +126,9 @@ body {
 
 .receipt-shadow {
   box-shadow:
-    0 1px 2px rgb(27 30 27 / 0.05),
-    0 8px 24px -6px rgb(27 30 27 / 0.1),
-    0 24px 48px -16px rgb(20 86 60 / 0.14);
+    0 1px 2px rgb(15 23 42 / 0.06),
+    0 8px 24px -4px rgb(15 23 42 / 0.12),
+    0 24px 48px -12px rgb(79 70 229 / 0.1);
 }
 
 /* Hide number input spinners for cleaner form fields */

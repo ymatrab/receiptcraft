@@ -46,7 +46,7 @@ export default function NewsletterSignup({ source = "footer", className = "" }: 
 
   if (state === "done") {
     return (
-      <p className={`rounded-[3px] bg-greenbar px-4 py-3 text-sm text-ledger-deep ${className}`}>
+      <p className={`rounded-xl bg-emerald-50 px-4 py-3 text-sm text-emerald-800 ${className}`}>
         ✓ You&apos;re on the list — receipt tips and new templates, straight to your inbox.
       </p>
     );
@@ -66,7 +66,7 @@ export default function NewsletterSignup({ source = "footer", className = "" }: 
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="you@example.com"
-          className="w-full min-w-0 flex-1 rounded-full border border-rule bg-card px-4 py-2.5 text-base focus:border-ledger/45 focus:outline-none sm:text-sm"
+          className="w-full min-w-0 flex-1 rounded-full border border-slate-300 bg-white px-4 py-2.5 text-base focus:border-indigo-400 focus:outline-none sm:text-sm"
         />
         {/* Honeypot — hidden from real users, tempting for bots. */}
         <input
@@ -82,13 +82,13 @@ export default function NewsletterSignup({ source = "footer", className = "" }: 
         <button
           type="submit"
           disabled={state === "busy"}
-          className="shrink-0 rounded-full bg-ledger px-5 py-2.5 text-sm font-semibold text-white hover:bg-ledger-deep disabled:opacity-60"
+          className="shrink-0 rounded-full bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60"
         >
           {state === "busy" ? "Joining…" : "Subscribe"}
         </button>
       </div>
       {error && <p className="mt-2 text-xs text-red-600">{error}</p>}
-      <p className="mt-2 text-xs text-ink-soft/70">
+      <p className="mt-2 text-xs text-slate-400">
         Receipt tips, new templates and product updates. No spam, unsubscribe anytime.
       </p>
     </form>

@@ -8,16 +8,16 @@ export const metadata: Metadata = {
 };
 
 function H2({ children }: { children: React.ReactNode }) {
-  return <h2 className="pt-4 text-2xl font-bold text-ink">{children}</h2>;
+  return <h2 className="pt-4 text-2xl font-bold text-slate-900">{children}</h2>;
 }
 
 export default function TermsPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
-      <h1 className="text-4xl font-bold tracking-tight text-ink">Terms of Use</h1>
-      <p className="mt-3 text-sm text-ink-soft">Last updated: July 2, 2026</p>
+      <h1 className="text-4xl font-bold tracking-tight text-slate-900">Terms of Use</h1>
+      <p className="mt-3 text-sm text-slate-500">Last updated: July 2, 2026</p>
 
-      <div className="mt-8 space-y-5 leading-relaxed text-ink-soft">
+      <div className="mt-8 space-y-5 leading-relaxed text-slate-600">
         <H2>1. The service</H2>
         <p>
           {SITE.name} provides an online tool for creating receipt documents, including
@@ -54,7 +54,7 @@ export default function TermsPage() {
           current paid period and is not renewed thereafter. Except where required by law,
           payments are non-refundable, and cancelling does not entitle you to a refund for the
           current period. If you believe you were charged in error, contact us at{" "}
-          <a href={`mailto:${SITE.email}`} className="text-ledger underline">{SITE.email}</a>{" "}
+          <a href={`mailto:${SITE.email}`} className="text-indigo-600 underline">{SITE.email}</a>{" "}
           and we will review it in good faith.
         </p>
 
@@ -127,7 +127,7 @@ export default function TermsPage() {
         <H2>12. Contact</H2>
         <p>
           Questions about these terms? Contact{" "}
-          <a href={`mailto:${SITE.email}`} className="text-ledger underline">{SITE.email}</a>.
+          <a href={`mailto:${SITE.email}`} className="text-indigo-600 underline">{SITE.email}</a>.
         </p>
       </div>
     </div>

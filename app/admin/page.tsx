@@ -57,10 +57,10 @@ async function getRecentEvents() {
 
 function Stat({ label, value, hint }: { label: string; value: string; hint?: string }) {
   return (
-    <div className="rounded-[3px] border border-rule bg-card p-5 shadow-sm">
-      <p className="text-sm text-ink-soft">{label}</p>
-      <p className="mt-1 text-3xl font-bold text-ink">{value}</p>
-      {hint && <p className="mt-1 text-xs text-ink-soft/70">{hint}</p>}
+    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+      <p className="text-sm text-slate-500">{label}</p>
+      <p className="mt-1 text-3xl font-bold text-slate-900">{value}</p>
+      {hint && <p className="mt-1 text-xs text-slate-400">{hint}</p>}
     </div>
   );
 }
@@ -70,7 +70,7 @@ export default async function AdminOverview() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-ink">Overview</h1>
+      <h1 className="text-2xl font-bold text-slate-900">Overview</h1>
 
       <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Stat label="Members" value={stats.members.toLocaleString()} hint={`+${stats.newMembers} in 30 days`} />
@@ -85,20 +85,20 @@ export default async function AdminOverview() {
         </Link>
       </div>
 
-      <h2 className="mt-10 text-lg font-semibold text-ink">Recent activity</h2>
-      <div className="mt-4 overflow-hidden rounded-[3px] border border-rule bg-card">
+      <h2 className="mt-10 text-lg font-semibold text-slate-900">Recent activity</h2>
+      <div className="mt-4 overflow-hidden rounded-2xl border border-slate-200 bg-white">
         {events.length === 0 ? (
-          <p className="p-6 text-sm text-ink-soft">No events yet.</p>
+          <p className="p-6 text-sm text-slate-500">No events yet.</p>
         ) : (
           <table className="w-full text-sm">
-            <tbody className="divide-y divide-rule">
+            <tbody className="divide-y divide-slate-100">
               {events.map((e) => (
                 <tr key={e.id}>
-                  <td className="px-4 py-3 font-medium text-ink">{e.name}</td>
-                  <td className="px-4 py-3 text-ink-soft">
+                  <td className="px-4 py-3 font-medium text-slate-700">{e.name}</td>
+                  <td className="px-4 py-3 text-slate-500">
                     {e.props ? JSON.stringify(e.props) : "—"}
                   </td>
-                  <td className="px-4 py-3 text-right text-ink-soft/70">
+                  <td className="px-4 py-3 text-right text-slate-400">
                     {new Date(e.created_at).toLocaleString()}
                   </td>
                 </tr>

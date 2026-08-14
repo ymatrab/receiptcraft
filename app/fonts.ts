@@ -38,19 +38,13 @@ import {
 } from "next/font/google";
 
 // --- Base UI fonts -------------------------------------------------------
-// Work Sans (body) and Space Mono (display) are the only preloaded families —
-// they render above the fold on every page. Geist is no longer a UI font but
-// stays loaded because it backs the receipt's "mono"/"sans" font options, so
-// dropping it would change every previously saved receipt.
-export const workSans = Work_Sans({ subsets: ["latin"], display: "swap", variable: "--font-work-sans" });
-export const spaceMono = Space_Mono({ subsets: ["latin"], display: "swap", weight: ["400", "700"], variable: "--font-space-mono" });
-
-export const geistSans = Geist({ subsets: ["latin"], display: "swap", preload: false, variable: "--font-geist-sans" });
-export const geistMono = Geist_Mono({ subsets: ["latin"], display: "swap", preload: false, variable: "--font-geist-mono" });
+export const geistSans = Geist({ subsets: ["latin"], display: "swap", variable: "--font-geist-sans" });
+export const geistMono = Geist_Mono({ subsets: ["latin"], display: "swap", variable: "--font-geist-mono" });
 
 // --- Monospace receipt fonts --------------------------------------------
 export const robotoMono = Roboto_Mono({ subsets: ["latin"], display: "swap", preload: false, variable: "--font-roboto-mono" });
 export const ibmPlexMono = IBM_Plex_Mono({ subsets: ["latin"], display: "swap", preload: false, weight: ["400", "500", "700"], variable: "--font-ibm-plex-mono" });
+export const spaceMono = Space_Mono({ subsets: ["latin"], display: "swap", preload: false, weight: ["400", "700"], variable: "--font-space-mono" });
 export const inconsolata = Inconsolata({ subsets: ["latin"], display: "swap", preload: false, variable: "--font-inconsolata" });
 export const sourceCodePro = Source_Code_Pro({ subsets: ["latin"], display: "swap", preload: false, variable: "--font-source-code-pro" });
 export const notoSansMono = Noto_Sans_Mono({ subsets: ["latin"], display: "swap", preload: false, variable: "--font-noto-sans-mono" });
@@ -70,6 +64,7 @@ export const roboto = Roboto({ subsets: ["latin"], display: "swap", preload: fal
 export const openSans = Open_Sans({ subsets: ["latin"], display: "swap", preload: false, variable: "--font-open-sans" });
 export const lato = Lato({ subsets: ["latin"], display: "swap", preload: false, weight: ["400", "700"], variable: "--font-lato" });
 export const notoSans = Noto_Sans({ subsets: ["latin"], display: "swap", preload: false, variable: "--font-noto-sans" });
+export const workSans = Work_Sans({ subsets: ["latin"], display: "swap", preload: false, variable: "--font-work-sans" });
 export const montserrat = Montserrat({ subsets: ["latin"], display: "swap", preload: false, variable: "--font-montserrat" });
 export const mulish = Mulish({ subsets: ["latin"], display: "swap", preload: false, variable: "--font-mulish" });
 export const oswald = Oswald({ subsets: ["latin"], display: "swap", preload: false, variable: "--font-oswald" });

@@ -42,14 +42,14 @@ export default function AddSectionModal({
 }) {
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-ink/40 p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 p-4"
       onClick={onClose}
     >
       <div
-        className="max-h-[80vh] w-full max-w-md overflow-y-auto rounded-[3px] bg-card p-5 shadow-xl"
+        className="max-h-[80vh] w-full max-w-md overflow-y-auto rounded-2xl bg-white p-5 shadow-xl"
         onClick={(e) => e.stopPropagation()}
       >
-        <h3 className="mb-4 text-center text-lg font-bold text-ink">
+        <h3 className="mb-4 text-center text-lg font-bold text-slate-900">
           What section do you want to add?
         </h3>
         <div className="space-y-2">
@@ -58,7 +58,7 @@ export default function AddSectionModal({
               key={type}
               type="button"
               onClick={() => onPick(type)}
-              className="flex w-full items-center gap-3 rounded-[3px] border border-rule px-4 py-3 text-left text-sm font-medium text-ink transition-colors hover:border-ledger/45 hover:bg-greenbar/50"
+              className="flex w-full items-center gap-3 rounded-xl border border-slate-200 px-4 py-3 text-left text-sm font-medium text-slate-700 transition-colors hover:border-indigo-300 hover:bg-indigo-50/50"
             >
               <span className="w-6 text-center text-base" aria-hidden="true">
                 {ICON[type]}
@@ -71,7 +71,7 @@ export default function AddSectionModal({
           <button
             type="button"
             onClick={onClose}
-            className="rounded-[3px] px-4 py-2 text-sm font-medium text-ink-soft hover:text-ink"
+            className="rounded-lg px-4 py-2 text-sm font-medium text-slate-500 hover:text-slate-700"
           >
             Cancel
           </button>

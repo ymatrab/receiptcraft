@@ -55,7 +55,6 @@ import { supabaseConfigured } from "@/lib/supabase/config";
 import Link from "next/link";
 import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
 import Watermark from "@/components/receipt/Watermark";
-import { btn } from "@/components/ui/Button";
 import AddSectionModal from "./AddSectionModal";
 import {
   AlignToggle,
@@ -594,16 +593,16 @@ export default function SectionBuilder() {
         return (
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-medium text-ink-soft">Alignment</span>
+              <span className="text-xs font-medium text-slate-600">Alignment</span>
               <AlignToggle value={s.align ?? "center"} onChange={(v) => patchSection(s.id, { align: v })} />
             </div>
             <div>
-              <span className="mb-1.5 block text-xs font-medium text-ink-soft">Logo</span>
+              <span className="mb-1.5 block text-xs font-medium text-slate-600">Logo</span>
               <input
                 type="file"
                 accept="image/*"
                 onChange={(e) => handleFile(e.target.files?.[0], (u) => patchSection(s.id, { logoDataUrl: u }))}
-                className="text-sm text-ink-soft file:mr-3 file:rounded-[3px] file:border-0 file:bg-greenbar file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-ledger-deep"
+                className="text-sm text-slate-600 file:mr-3 file:rounded-lg file:border-0 file:bg-indigo-50 file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-indigo-700"
               />
             </div>
             <TextField label="Big logo text (optional)" defaultValue={s.logoText ?? ""} onChange={(v) => patchSection(s.id, { logoText: v || undefined })} placeholder="e.g. ACME" />
@@ -625,7 +624,7 @@ export default function SectionBuilder() {
         return (
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-medium text-ink-soft">Alignment</span>
+              <span className="text-xs font-medium text-slate-600">Alignment</span>
               <AlignToggle value={s.align ?? "left"} onChange={(v) => patchSection(s.id, { align: v })} />
             </div>
             <div className="grid gap-3 sm:grid-cols-2">
@@ -650,25 +649,25 @@ export default function SectionBuilder() {
               <div key={i} className="flex items-center gap-2">
                 <input className={inputClass} defaultValue={r.label ?? ""} placeholder="Label" onChange={(e) => updateRow(s, i, { label: e.target.value })} />
                 <input className={inputClass} defaultValue={r.value} placeholder="Value" onChange={(e) => updateRow(s, i, { value: e.target.value })} />
-                <button type="button" aria-label="Remove line" onClick={() => patchSection(s.id, { rows: s.rows.filter((_, j) => j !== i) })} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[3px] text-red-500 hover:bg-red-50 hover:text-red-600">✕</button>
+                <button type="button" aria-label="Remove line" onClick={() => patchSection(s.id, { rows: s.rows.filter((_, j) => j !== i) })} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-red-500 hover:bg-red-50 hover:text-red-600">✕</button>
               </div>
             ))}
-            <button type="button" onClick={() => patchSection(s.id, { rows: [...s.rows, { label: "", value: "" }] })} className="w-full rounded-[3px] border border-dashed border-rule py-2 text-sm font-medium text-ink-soft hover:border-ledger/45 hover:text-ledger">+ Add line</button>
+            <button type="button" onClick={() => patchSection(s.id, { rows: [...s.rows, { label: "", value: "" }] })} className="w-full rounded-lg border border-dashed border-slate-300 py-2 text-sm font-medium text-slate-500 hover:border-indigo-400 hover:text-indigo-600">+ Add line</button>
           </div>
         );
       case "items":
         return (
           <div className="space-y-3">
             <div className="flex justify-end">
-              <button type="button" onClick={() => patchSection(s.id, { items: [...s.items, { id: uid(), name: "", quantity: 1, price: 0 }] })} className="text-sm font-semibold text-ledger">+ Add item</button>
+              <button type="button" onClick={() => patchSection(s.id, { items: [...s.items, { id: uid(), name: "", quantity: 1, price: 0 }] })} className="text-sm font-semibold text-indigo-600">+ Add item</button>
             </div>
             {s.items.map((it) => (
-              <div key={it.id} className="rounded-[3px] border border-rule bg-greenbar/50 p-2">
+              <div key={it.id} className="rounded-lg border border-slate-100 bg-slate-50/50 p-2">
                 <div className="grid grid-cols-[48px_1fr_72px_40px] items-center gap-2">
                   <input className={inputClass} type="number" defaultValue={it.quantity} onChange={(e) => updateItem(s, it.id, { quantity: parseFloat(e.target.value) || 0 })} aria-label="Qty" />
                   <input className={inputClass} defaultValue={it.name} placeholder="Item name" onChange={(e) => updateItem(s, it.id, { name: e.target.value })} aria-label="Name" />
                   <input className={inputClass} type="number" step="0.01" defaultValue={it.price} onChange={(e) => updateItem(s, it.id, { price: parseFloat(e.target.value) || 0 })} aria-label="Price" />
-                  <button type="button" aria-label="Remove item" onClick={() => patchSection(s.id, { items: s.items.filter((x) => x.id !== it.id) })} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[3px] text-red-500 hover:bg-red-50 hover:text-red-600">✕</button>
+                  <button type="button" aria-label="Remove item" onClick={() => patchSection(s.id, { items: s.items.filter((x) => x.id !== it.id) })} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-red-500 hover:bg-red-50 hover:text-red-600">✕</button>
                 </div>
                 {itemDetails[it.id] && (
                   <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-3">
@@ -680,7 +679,7 @@ export default function SectionBuilder() {
                     <input className={`${inputClass} col-span-2 sm:col-span-1`} defaultValue={(it.modifiers ?? []).join(", ")} placeholder="Modifiers (comma-sep)" onChange={(e) => updateItem(s, it.id, { modifiers: e.target.value.split(",").map((m) => m.trim()).filter(Boolean) })} aria-label="Modifiers" />
                   </div>
                 )}
-                <button type="button" onClick={() => setItemDetails((m) => ({ ...m, [it.id]: !m[it.id] }))} className="mt-1.5 text-[11px] font-medium text-ledger hover:text-ledger-deep">
+                <button type="button" onClick={() => setItemDetails((m) => ({ ...m, [it.id]: !m[it.id] }))} className="mt-1.5 text-[11px] font-medium text-indigo-500 hover:text-indigo-700">
                   {itemDetails[it.id] ? "− Hide details" : "+ SKU, unit, modifiers, discount"}
                 </button>
               </div>
@@ -688,7 +687,7 @@ export default function SectionBuilder() {
             <SelectField label="Item layout" defaultValue={s.itemStyle ?? "table"} onChange={(v) => patchSection(s.id, { itemStyle: v })} options={ITEM_STYLES} />
             {(s.itemStyle ?? "table") === "table" && (
               <div>
-                <span className="mb-1.5 block text-xs font-medium text-ink-soft">Column names</span>
+                <span className="mb-1.5 block text-xs font-medium text-slate-600">Column names</span>
                 <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
                   {COLS.map((k) => (
                     <input
@@ -714,12 +713,12 @@ export default function SectionBuilder() {
               <NumberField label="Tax rate (%)" defaultValue={s.taxRate} onChange={(v) => patchSection(s.id, { taxRate: v })} />
               <div>
                 <div className="mb-1.5 flex items-center justify-between gap-2">
-                  <span className="text-xs font-medium text-ink-soft">
+                  <span className="text-xs font-medium text-slate-600">
                     Discount {s.discountPercent ? "(%)" : "($)"}
                   </span>
-                  <div className="inline-flex overflow-hidden rounded-[3px] border border-rule text-xs">
-                    <button type="button" onClick={() => patchSection(s.id, { discountPercent: false })} className={`px-2 py-0.5 ${!s.discountPercent ? "bg-greenbar text-ledger-deep" : "text-ink-soft"}`}>$</button>
-                    <button type="button" onClick={() => patchSection(s.id, { discountPercent: true })} className={`px-2 py-0.5 ${s.discountPercent ? "bg-greenbar text-ledger-deep" : "text-ink-soft"}`}>%</button>
+                  <div className="inline-flex overflow-hidden rounded-md border border-slate-200 text-xs">
+                    <button type="button" onClick={() => patchSection(s.id, { discountPercent: false })} className={`px-2 py-0.5 ${!s.discountPercent ? "bg-indigo-50 text-indigo-700" : "text-slate-500"}`}>$</button>
+                    <button type="button" onClick={() => patchSection(s.id, { discountPercent: true })} className={`px-2 py-0.5 ${s.discountPercent ? "bg-indigo-50 text-indigo-700" : "text-slate-500"}`}>%</button>
                   </div>
                 </div>
                 <input type="number" step="0.01" className={inputClass} defaultValue={s.discount || ""} placeholder="0" onChange={(e) => patchSection(s.id, { discount: parseFloat(e.target.value) || 0 })} aria-label="Discount" />
@@ -729,13 +728,13 @@ export default function SectionBuilder() {
 
             {/* Extra tax lines (override the single rate above when present) */}
             {s.taxLines && s.taxLines.length > 0 && (
-              <div className="space-y-2 rounded-[3px] bg-greenbar p-2">
-                <p className="text-[11px] font-medium text-ink-soft">Tax lines (replace the single rate above)</p>
+              <div className="space-y-2 rounded-lg bg-slate-50 p-2">
+                <p className="text-[11px] font-medium text-slate-500">Tax lines (replace the single rate above)</p>
                 {s.taxLines.map((tl, i) => (
                   <div key={i} className="flex items-center gap-2">
                     <input className={inputClass} defaultValue={tl.label} placeholder="Label (e.g. GST)" onChange={(e) => patchSection(s.id, { taxLines: s.taxLines!.map((x, j) => (j === i ? { ...x, label: e.target.value } : x)) })} aria-label="Tax label" />
                     <input className={`${inputClass} w-24`} type="number" step="0.01" defaultValue={tl.rate} placeholder="%" onChange={(e) => patchSection(s.id, { taxLines: s.taxLines!.map((x, j) => (j === i ? { ...x, rate: parseFloat(e.target.value) || 0 } : x)) })} aria-label="Tax rate" />
-                    <button type="button" aria-label="Remove tax line" onClick={() => patchSection(s.id, { taxLines: s.taxLines!.filter((_, j) => j !== i) })} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[3px] text-red-500 hover:bg-red-50 hover:text-red-600">✕</button>
+                    <button type="button" aria-label="Remove tax line" onClick={() => patchSection(s.id, { taxLines: s.taxLines!.filter((_, j) => j !== i) })} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-red-500 hover:bg-red-50 hover:text-red-600">✕</button>
                   </div>
                 ))}
               </div>
@@ -743,7 +742,7 @@ export default function SectionBuilder() {
             <button
               type="button"
               onClick={() => patchSection(s.id, { taxLines: [...(s.taxLines ?? (s.taxRate > 0 ? [{ label: s.taxLabel || "Tax", rate: s.taxRate }] : [])), { label: "Tax", rate: 0 }] })}
-              className="text-xs font-semibold text-ledger"
+              className="text-xs font-semibold text-indigo-600"
             >
               + Add tax line
             </button>
@@ -751,17 +750,17 @@ export default function SectionBuilder() {
             <div className="grid items-start gap-3 sm:grid-cols-3">
               <div>
                 <div className="mb-1.5 flex items-center justify-between gap-2">
-                  <span className="text-xs font-medium text-ink-soft">Service fee {s.serviceFeePercent ? "(%)" : "($)"}</span>
-                  <div className="inline-flex overflow-hidden rounded-[3px] border border-rule text-xs">
-                    <button type="button" onClick={() => patchSection(s.id, { serviceFeePercent: false })} className={`px-2 py-0.5 ${!s.serviceFeePercent ? "bg-greenbar text-ledger-deep" : "text-ink-soft"}`}>$</button>
-                    <button type="button" onClick={() => patchSection(s.id, { serviceFeePercent: true })} className={`px-2 py-0.5 ${s.serviceFeePercent ? "bg-greenbar text-ledger-deep" : "text-ink-soft"}`}>%</button>
+                  <span className="text-xs font-medium text-slate-600">Service fee {s.serviceFeePercent ? "(%)" : "($)"}</span>
+                  <div className="inline-flex overflow-hidden rounded-md border border-slate-200 text-xs">
+                    <button type="button" onClick={() => patchSection(s.id, { serviceFeePercent: false })} className={`px-2 py-0.5 ${!s.serviceFeePercent ? "bg-indigo-50 text-indigo-700" : "text-slate-500"}`}>$</button>
+                    <button type="button" onClick={() => patchSection(s.id, { serviceFeePercent: true })} className={`px-2 py-0.5 ${s.serviceFeePercent ? "bg-indigo-50 text-indigo-700" : "text-slate-500"}`}>%</button>
                   </div>
                 </div>
                 <input type="number" step="0.01" className={inputClass} defaultValue={s.serviceFee || ""} placeholder="0" onChange={(e) => patchSection(s.id, { serviceFee: parseFloat(e.target.value) || 0 })} aria-label="Service fee" />
               </div>
               <NumberField label="Delivery fee" defaultValue={s.deliveryFee ?? 0} onChange={(v) => patchSection(s.id, { deliveryFee: v })} />
               <label className="block">
-                <span className="mb-1.5 block text-xs font-medium text-ink-soft">Rounding (+/−)</span>
+                <span className="mb-1.5 block text-xs font-medium text-slate-600">Rounding (+/−)</span>
                 <input type="number" step="0.01" className={inputClass} defaultValue={s.rounding || ""} placeholder="0.00" onChange={(e) => patchSection(s.id, { rounding: parseFloat(e.target.value) || 0 })} aria-label="Rounding" />
               </label>
             </div>
@@ -775,9 +774,9 @@ export default function SectionBuilder() {
         const splits = s.splits ?? [];
         return (
           <div className="space-y-3">
-            <div className="grid grid-cols-4 gap-1 rounded-[3px] bg-rule/45 p-1">
+            <div className="grid grid-cols-4 gap-1 rounded-lg bg-slate-100 p-1">
               {PAYMENT_METHODS.map((m) => (
-                <button key={m} type="button" onClick={() => patchSection(s.id, { method: m })} className={`rounded-[3px] py-2 text-xs font-medium ${s.method === m ? "bg-card text-ink shadow-sm" : "text-ink-soft"}`}>{m}</button>
+                <button key={m} type="button" onClick={() => patchSection(s.id, { method: m })} className={`rounded-md py-2 text-xs font-medium ${s.method === m ? "bg-white text-slate-900 shadow-sm" : "text-slate-500"}`}>{m}</button>
               ))}
             </div>
             {s.method === "Card" && (
@@ -789,7 +788,7 @@ export default function SectionBuilder() {
                 </div>
                 <SelectField label="Card entry" defaultValue={s.entryMode ?? "Chip"} onChange={(v) => patchSection(s.id, { entryMode: v as "Chip" | "Tap" | "Swipe" | "Manual" })} options={ENTRY_MODES} />
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-ink">Show card authorisation block</span>
+                  <span className="text-sm text-slate-700">Show card authorisation block</span>
                   <Toggle checked={!!s.showCardAuth} onChange={(c) => patchSection(s.id, { showCardAuth: c })} />
                 </div>
               </>
@@ -801,26 +800,26 @@ export default function SectionBuilder() {
               <NumberField label="Amount tendered (for change)" defaultValue={s.amountTendered ?? 0} onChange={(v) => patchSection(s.id, { amountTendered: v })} />
             )}
             {s.method === "Mobile" && (
-              <p className="text-xs text-ink-soft">Shows “Mobile Payment” on the receipt (e.g. Apple Pay, Google Pay).</p>
+              <p className="text-xs text-slate-500">Shows “Mobile Payment” on the receipt (e.g. Apple Pay, Google Pay).</p>
             )}
 
             {/* Split payment */}
-            <div className="rounded-[3px] bg-greenbar p-2">
+            <div className="rounded-lg bg-slate-50 p-2">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-medium text-ink-soft">Split payment</span>
-                <button type="button" onClick={() => patchSection(s.id, { splits: [...splits, { method: "Cash", amount: 0 }] })} className="text-xs font-semibold text-ledger">+ Add split</button>
+                <span className="text-xs font-medium text-slate-600">Split payment</span>
+                <button type="button" onClick={() => patchSection(s.id, { splits: [...splits, { method: "Cash", amount: 0 }] })} className="text-xs font-semibold text-indigo-600">+ Add split</button>
               </div>
               {splits.map((p, i) => (
                 <div key={i} className="mt-2 flex items-center gap-2">
                   <input className={inputClass} defaultValue={p.method} placeholder="Method" onChange={(e) => patchSection(s.id, { splits: splits.map((x, j) => (j === i ? { ...x, method: e.target.value } : x)) })} aria-label="Split method" />
                   <input className={`${inputClass} w-28`} type="number" step="0.01" defaultValue={p.amount || ""} placeholder="Amount" onChange={(e) => patchSection(s.id, { splits: splits.map((x, j) => (j === i ? { ...x, amount: parseFloat(e.target.value) || 0 } : x)) })} aria-label="Split amount" />
-                  <button type="button" aria-label="Remove split" onClick={() => patchSection(s.id, { splits: splits.filter((_, j) => j !== i) })} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[3px] text-red-500 hover:bg-red-50 hover:text-red-600">✕</button>
+                  <button type="button" aria-label="Remove split" onClick={() => patchSection(s.id, { splits: splits.filter((_, j) => j !== i) })} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-red-500 hover:bg-red-50 hover:text-red-600">✕</button>
                 </div>
               ))}
             </div>
 
             <div className="flex items-center justify-between">
-              <span className="text-sm text-ink">Inline payment line</span>
+              <span className="text-sm text-slate-700">Inline payment line</span>
               <Toggle checked={!!s.inline} onChange={(c) => patchSection(s.id, { inline: c })} />
             </div>
           </div>
@@ -830,7 +829,7 @@ export default function SectionBuilder() {
         return (
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-medium text-ink-soft">Alignment</span>
+              <span className="text-xs font-medium text-slate-600">Alignment</span>
               <AlignToggle value={s.align ?? "center"} onChange={(v) => patchSection(s.id, { align: v })} />
             </div>
             <TextAreaField label="Message" defaultValue={s.text} onChange={(v) => patchSection(s.id, { text: v })} />
@@ -840,7 +839,7 @@ export default function SectionBuilder() {
         return (
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-medium text-ink-soft">Alignment</span>
+              <span className="text-xs font-medium text-slate-600">Alignment</span>
               <AlignToggle value={s.align ?? "center"} onChange={(v) => patchSection(s.id, { align: v })} />
             </div>
             <TextAreaField label="Return policy" defaultValue={s.returnPolicy ?? ""} onChange={(v) => patchSection(s.id, { returnPolicy: v || undefined })} placeholder="Returns accepted within 30 days with receipt." />
@@ -854,7 +853,7 @@ export default function SectionBuilder() {
           <div className="space-y-3">
             <TextField label="Value" defaultValue={s.value} onChange={(v) => patchSection(s.id, { value: v })} />
             <div className="flex items-center justify-between">
-              <span className="text-sm text-ink">Show value text</span>
+              <span className="text-sm text-slate-700">Show value text</span>
               <Toggle checked={s.showText ?? true} onChange={(c) => patchSection(s.id, { showText: c })} />
             </div>
           </div>
@@ -864,8 +863,8 @@ export default function SectionBuilder() {
       case "image":
         return (
           <div className="space-y-3">
-            <input type="file" accept="image/*" onChange={(e) => handleFile(e.target.files?.[0], (u) => patchSection(s.id, { src: u }))} className="text-sm text-ink-soft file:mr-3 file:rounded-[3px] file:border-0 file:bg-greenbar file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-ledger-deep" />
-            <label className="block text-xs font-medium text-ink-soft">
+            <input type="file" accept="image/*" onChange={(e) => handleFile(e.target.files?.[0], (u) => patchSection(s.id, { src: u }))} className="text-sm text-slate-600 file:mr-3 file:rounded-lg file:border-0 file:bg-indigo-50 file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-indigo-700" />
+            <label className="block text-xs font-medium text-slate-600">
               Width: {s.widthPct ?? 50}%
               <input type="range" min={20} max={100} defaultValue={s.widthPct ?? 50} onChange={(e) => patchSection(s.id, { widthPct: parseInt(e.target.value) })} className="mt-1 w-full" />
             </label>
@@ -875,7 +874,7 @@ export default function SectionBuilder() {
         return (
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-medium text-ink-soft">Alignment</span>
+              <span className="text-xs font-medium text-slate-600">Alignment</span>
               <AlignToggle value={s.align ?? "center"} onChange={(v) => patchSection(s.id, { align: v })} />
             </div>
             <TextField label="Label" defaultValue={s.label} onChange={(v) => patchSection(s.id, { label: v })} />
@@ -883,7 +882,7 @@ export default function SectionBuilder() {
         );
       case "spacer":
         return (
-          <label className="block text-xs font-medium text-ink-soft">
+          <label className="block text-xs font-medium text-slate-600">
             Height: {s.size ?? 24}px
             <input type="range" min={8} max={96} defaultValue={s.size ?? 24} onChange={(e) => patchSection(s.id, { size: parseInt(e.target.value) })} className="mt-1 w-full" />
           </label>
@@ -894,12 +893,12 @@ export default function SectionBuilder() {
   return (
     <div className="mx-auto max-w-7xl px-4 pb-32 pt-4 sm:px-6 lg:px-8 lg:pb-20">
       {/* AI generator */}
-      <div className="mt-4 rounded-[3px] border border-rule bg-greenbar/60 p-4">
+      <div className="mt-4 rounded-2xl border border-indigo-100 bg-gradient-to-br from-indigo-50 to-violet-50 p-4">
         <div className="flex items-center gap-2">
           <span aria-hidden="true">✨</span>
-          <span className="text-sm font-semibold text-ink">Generate with AI</span>
+          <span className="text-sm font-semibold text-slate-900">Generate with AI</span>
           {!account.isPro && (
-            <span className="rounded-full bg-card px-2 py-0.5 text-[11px] font-medium text-ledger">
+            <span className="rounded-full bg-white px-2 py-0.5 text-[11px] font-medium text-indigo-600">
               {account.isLoggedIn ? "Free: limited per day" : "Free to try"}
             </span>
           )}
@@ -910,13 +909,13 @@ export default function SectionBuilder() {
             onChange={(e) => setAiPrompt(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && generateAi()}
             placeholder="e.g. Starbucks receipt, 2 lattes and a muffin, this morning"
-            className="min-w-0 flex-1 rounded-[3px] border border-rule bg-card px-3 py-2.5 text-base focus:border-ledger/45 focus:outline-none sm:py-2 sm:text-sm"
+            className="min-w-0 flex-1 rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-base focus:border-indigo-400 focus:outline-none sm:py-2 sm:text-sm"
           />
           <button
             type="button"
             onClick={generateAi}
             disabled={aiLoading || !aiPrompt.trim()}
-            className="rounded-[3px] bg-ledger px-5 py-2.5 text-sm font-semibold text-white hover:bg-ledger-deep disabled:opacity-60"
+            className="rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60"
           >
             {aiLoading ? "Generating…" : "Generate"}
           </button>
@@ -939,13 +938,13 @@ export default function SectionBuilder() {
 
       {/* Start-from-scratch presets */}
       <div className="flex flex-wrap items-center gap-2 pt-4">
-        <span className="text-xs font-medium text-ink-soft">Receipt type:</span>
+        <span className="text-xs font-medium text-slate-500">Receipt type:</span>
         {PRESETS.map((p) => (
           <button
             key={p.id}
             type="button"
             onClick={() => applyPreset(p.id)}
-            className="rounded-full border border-rule bg-card px-3 py-1.5 text-xs font-medium text-ink-soft transition-colors hover:border-ledger/45 hover:text-ledger-deep"
+            className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:border-indigo-300 hover:text-indigo-700"
           >
             {p.label}
           </button>
@@ -955,7 +954,7 @@ export default function SectionBuilder() {
       {/* My saved templates (browser-local, no account needed) */}
       {myTemplates.length > 0 && (
         <div className="flex flex-wrap items-center gap-2 pt-2">
-          <span className="text-xs font-medium text-ink-soft">★ My templates:</span>
+          <span className="text-xs font-medium text-slate-500">★ My templates:</span>
           {myTemplates.map((t) => (
             <span
               key={t.id}
@@ -981,12 +980,12 @@ export default function SectionBuilder() {
       <div className="-mx-4 overflow-x-auto px-4 pb-4 pt-3 sm:mx-0 sm:px-0">
         <div className="flex gap-2">
           {TEMPLATES.slice(0, 14).map((t) => (
-            <button key={t.slug} type="button" onClick={() => applyTemplate(t.slug)} className={`flex shrink-0 items-center gap-1.5 rounded-[3px] border px-4 py-2.5 text-sm font-medium transition-colors ${activeTemplate === t.slug ? "border-ledger bg-ledger text-white" : "border-rule bg-card text-ink-soft hover:border-ledger/45"}`}>
+            <button key={t.slug} type="button" onClick={() => applyTemplate(t.slug)} className={`flex shrink-0 items-center gap-1.5 rounded-full border px-4 py-2.5 text-sm font-medium transition-colors ${activeTemplate === t.slug ? "border-indigo-600 bg-indigo-600 text-white" : "border-slate-200 bg-white text-slate-600 hover:border-indigo-300"}`}>
               <span aria-hidden="true">{t.icon}</span>
               {t.shortName}
             </button>
           ))}
-          <Link href="/templates" className="flex shrink-0 items-center gap-1.5 rounded-[3px] border border-dashed border-rule px-4 py-2.5 text-sm font-medium text-ink-soft hover:border-ledger/45 hover:text-ledger">
+          <Link href="/templates" className="flex shrink-0 items-center gap-1.5 rounded-full border border-dashed border-slate-300 px-4 py-2.5 text-sm font-medium text-slate-500 hover:border-indigo-300 hover:text-indigo-600">
             All templates →
           </Link>
         </div>
@@ -996,13 +995,13 @@ export default function SectionBuilder() {
         {/* EDITOR */}
         <div className={`space-y-4 ${mobileTab === "edit" ? "" : "hidden"} lg:block`}>
           {/* Settings */}
-          <div className="rounded-[3px] border border-rule bg-card shadow-sm">
-            <button type="button" onClick={() => setSettingsOpen((o) => !o)} className="flex w-full items-center justify-between p-4 text-sm font-semibold text-ink">
+          <div className="rounded-2xl border border-slate-200 bg-white shadow-sm">
+            <button type="button" onClick={() => setSettingsOpen((o) => !o)} className="flex w-full items-center justify-between p-4 text-sm font-semibold text-slate-900">
               <span>⚙️ Settings</span>
               <span>{settingsOpen ? "▴" : "▾"}</span>
             </button>
             {settingsOpen && (
-              <div className="space-y-4 border-t border-rule p-4">
+              <div className="space-y-4 border-t border-slate-100 p-4">
                 <div className="grid gap-3 sm:grid-cols-2">
                   <SelectField label="Font family" defaultValue={doc.settings.font} onChange={(v) => patchSettings({ font: v as FontFamily })} options={FONTS} />
                   <SelectField label="Currency" defaultValue={doc.settings.currency} onChange={(v) => patchSettings({ currency: v })} options={CURRENCIES.map((c) => ({ value: c.code, label: c.label }))} />
@@ -1011,13 +1010,13 @@ export default function SectionBuilder() {
                   <SelectField label="Letter spacing" defaultValue={doc.settings.letterSpacing ?? "normal"} onChange={(v) => patchSettings({ letterSpacing: v as LetterSpacingPreset })} options={LETTER_SPACINGS} />
                   <SelectField label="Text weight" defaultValue={doc.settings.weight ?? "normal"} onChange={(v) => patchSettings({ weight: v as TextWeight })} options={TEXT_WEIGHTS} />
                   <SelectField label="Paper style" defaultValue={doc.settings.paper ?? "thermal"} onChange={(v) => patchSettings({ paper: v as PaperFinish })} options={PAPER_FINISHES} />
-                  <label className="block text-xs font-medium text-ink-soft">
+                  <label className="block text-xs font-medium text-slate-600">
                     Accent color
-                    <input type="color" defaultValue={doc.settings.accent} onChange={(e) => patchSettings({ accent: e.target.value })} className="mt-1 block h-9 w-full rounded-[3px] border border-rule" />
+                    <input type="color" defaultValue={doc.settings.accent} onChange={(e) => patchSettings({ accent: e.target.value })} className="mt-1 block h-9 w-full rounded-lg border border-slate-300" />
                   </label>
                 </div>
                 <div>
-                  <span className="mb-1.5 block text-xs font-medium text-ink-soft">Receipt width: {doc.settings.widthPx}px</span>
+                  <span className="mb-1.5 block text-xs font-medium text-slate-600">Receipt width: {doc.settings.widthPx}px</span>
                   <div className="mb-2 flex flex-wrap gap-1.5">
                     {WIDTH_PRESETS.map((w) => (
                       <button
@@ -1026,8 +1025,8 @@ export default function SectionBuilder() {
                         onClick={() => patchSettings({ widthPx: w.px })}
                         className={`rounded-full border px-3 py-1 text-xs font-medium transition-colors ${
                           doc.settings.widthPx === w.px
-                            ? "border-ledger/45 bg-greenbar text-ledger-deep"
-                            : "border-rule text-ink-soft hover:bg-greenbar"
+                            ? "border-indigo-300 bg-indigo-50 text-indigo-700"
+                            : "border-slate-200 text-slate-500 hover:bg-slate-50"
                         }`}
                       >
                         {w.label}
@@ -1037,15 +1036,15 @@ export default function SectionBuilder() {
                   <input type="range" min={200} max={820} value={doc.settings.widthPx} onChange={(e) => patchSettings({ widthPx: parseInt(e.target.value) })} className="w-full" />
                 </div>
                 <div className="grid gap-4 sm:grid-cols-3">
-                  <label className="block text-xs font-medium text-ink-soft">
+                  <label className="block text-xs font-medium text-slate-600">
                     Section padding: {doc.settings.contentPadding ?? SPACING_DEFAULTS.contentPadding}px
                     <input type="range" min={8} max={48} value={doc.settings.contentPadding ?? SPACING_DEFAULTS.contentPadding} onChange={(e) => patchSettings({ contentPadding: parseInt(e.target.value) })} className="mt-1 w-full" />
                   </label>
-                  <label className="block text-xs font-medium text-ink-soft">
+                  <label className="block text-xs font-medium text-slate-600">
                     Section spacing: {doc.settings.sectionGap ?? SPACING_DEFAULTS.sectionGap}px
                     <input type="range" min={0} max={40} value={doc.settings.sectionGap ?? SPACING_DEFAULTS.sectionGap} onChange={(e) => patchSettings({ sectionGap: parseInt(e.target.value) })} className="mt-1 w-full" />
                   </label>
-                  <label className="block text-xs font-medium text-ink-soft">
+                  <label className="block text-xs font-medium text-slate-600">
                     Item spacing: {doc.settings.itemGap ?? SPACING_DEFAULTS.itemGap}px
                     <input type="range" min={0} max={20} value={doc.settings.itemGap ?? SPACING_DEFAULTS.itemGap} onChange={(e) => patchSettings({ itemGap: parseInt(e.target.value) })} className="mt-1 w-full" />
                   </label>
@@ -1058,29 +1057,29 @@ export default function SectionBuilder() {
           {doc.sections.map((s, i) => (
             <div
               key={s.id}
-              className="rounded-[3px] border border-rule bg-card shadow-sm"
+              className="rounded-2xl border border-slate-200 bg-white shadow-sm"
               onDragOver={(e) => e.preventDefault()}
               onDrop={() => {
                 if (dragIndex.current !== null) reorder(dragIndex.current, i);
                 dragIndex.current = null;
               }}
             >
-              <div className="flex items-center gap-0.5 border-b border-rule py-2 pl-4 pr-2 sm:gap-1 sm:p-3">
+              <div className="flex items-center gap-0.5 border-b border-slate-100 py-2 pl-4 pr-2 sm:gap-1 sm:p-3">
                 {/* HTML5 drag doesn't fire on touch — hide the handle on mobile,
                     where the ↑/↓ buttons are the reorder mechanism. */}
                 <span
                   draggable
                   onDragStart={() => (dragIndex.current = i)}
-                  className="hidden cursor-grab select-none px-1 text-ink-soft/50 sm:inline"
+                  className="hidden cursor-grab select-none px-1 text-slate-300 sm:inline"
                   aria-label="Drag to reorder"
                 >
                   ⠿
                 </span>
-                <span className="min-w-0 flex-1 truncate text-sm font-semibold text-ink">{SECTION_LABEL[s.type]}</span>
-                <button type="button" onClick={() => reorder(i, i - 1)} disabled={i === 0} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[3px] text-ink-soft/70 hover:bg-greenbar hover:text-ink-soft disabled:opacity-30" aria-label="Move up">↑</button>
-                <button type="button" onClick={() => reorder(i, i + 1)} disabled={i === doc.sections.length - 1} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[3px] text-ink-soft/70 hover:bg-greenbar hover:text-ink-soft disabled:opacity-30" aria-label="Move down">↓</button>
-                <button type="button" onClick={() => setCollapsed((c) => ({ ...c, [s.id]: !c[s.id] }))} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[3px] text-ink-soft/70 hover:bg-greenbar hover:text-ink-soft" aria-label={collapsed[s.id] ? "Expand section" : "Collapse section"}>{collapsed[s.id] ? "▾" : "▴"}</button>
-                <button type="button" onClick={() => removeSection(s.id)} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[3px] text-red-400 hover:bg-red-50 hover:text-red-600" aria-label="Remove section">✕</button>
+                <span className="min-w-0 flex-1 truncate text-sm font-semibold text-slate-900">{SECTION_LABEL[s.type]}</span>
+                <button type="button" onClick={() => reorder(i, i - 1)} disabled={i === 0} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-50 hover:text-slate-600 disabled:opacity-30" aria-label="Move up">↑</button>
+                <button type="button" onClick={() => reorder(i, i + 1)} disabled={i === doc.sections.length - 1} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-50 hover:text-slate-600 disabled:opacity-30" aria-label="Move down">↓</button>
+                <button type="button" onClick={() => setCollapsed((c) => ({ ...c, [s.id]: !c[s.id] }))} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-50 hover:text-slate-600" aria-label={collapsed[s.id] ? "Expand section" : "Collapse section"}>{collapsed[s.id] ? "▾" : "▴"}</button>
+                <button type="button" onClick={() => removeSection(s.id)} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-red-400 hover:bg-red-50 hover:text-red-600" aria-label="Remove section">✕</button>
               </div>
               {!collapsed[s.id] && (
                 <div className="space-y-4 p-4">
@@ -1096,26 +1095,16 @@ export default function SectionBuilder() {
             </div>
           ))}
 
-          <button type="button" onClick={() => setShowAdd(true)} className="w-full rounded-[3px] border border-dashed border-rule py-3.5 text-sm font-semibold text-ink-soft hover:border-ledger/45 hover:text-ledger">+ Add Section</button>
+          <button type="button" onClick={() => setShowAdd(true)} className="w-full rounded-2xl border border-dashed border-slate-300 py-3.5 text-sm font-semibold text-slate-500 hover:border-indigo-400 hover:text-indigo-600">+ Add Section</button>
         </div>
 
         {/* PREVIEW */}
         <div className={`${mobileTab === "preview" ? "" : "hidden"} lg:block`}>
           <div className="lg:sticky lg:top-20">
-            {/* A flat tray, not a gradient — the receipt is the only thing in
-                here that should attract the eye, and it separates itself with
-                its own shadow. */}
-            <div className="rounded-[3px] border border-rule bg-ink/5 p-6 sm:p-8">
-              <div className="mb-4 flex items-baseline justify-between gap-3">
-                <h2 className="font-display text-[11px] font-bold uppercase tracking-[0.22em] text-ink-soft">
-                  Live preview
-                </h2>
-                <span className="font-data text-sm">
-                  <span className="text-ink-soft">Total </span>
-                  <span className="font-medium tabular-nums text-ledger-deep">
-                    {formatMoney(grandTotal, doc.settings.currency)}
-                  </span>
-                </span>
+            <div className="rounded-3xl bg-gradient-to-b from-slate-100 to-slate-200/60 p-6 sm:p-8">
+              <div className="mb-4 flex items-center justify-between">
+                <h2 className="text-sm font-semibold text-slate-700">Live Preview</h2>
+                <span className="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-medium text-emerald-700">Total: {formatMoney(grandTotal, doc.settings.currency)}</span>
               </div>
               <div className="flex justify-center">
                 <div ref={receiptRef} className="relative">
@@ -1124,52 +1113,52 @@ export default function SectionBuilder() {
                 </div>
               </div>
               <div className="mt-6 flex gap-3">
-                <button type="button" onClick={() => requestExport("pdf")} disabled={!!exporting} className={btn({ className: "flex-1" })}>{exporting === "pdf" ? "Preparing PDF…" : "Download PDF"}</button>
-                <button type="button" onClick={() => requestExport("png")} disabled={!!exporting} className={btn({ variant: "secondary", className: "flex-1" })}>{exporting === "png" ? "Preparing PNG…" : "Download PNG"}</button>
+                <button type="button" onClick={() => requestExport("pdf")} disabled={!!exporting} className="flex-1 rounded-full bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 disabled:opacity-60">{exporting === "pdf" ? "Preparing PDF…" : "Download PDF"}</button>
+                <button type="button" onClick={() => requestExport("png")} disabled={!!exporting} className="flex-1 rounded-full border border-indigo-200 bg-indigo-50 px-5 py-3 text-sm font-semibold text-indigo-700 hover:bg-indigo-100 disabled:opacity-60">{exporting === "png" ? "Preparing PNG…" : "Download PNG"}</button>
               </div>
               <div className="mt-2 grid grid-cols-2 gap-3">
-                <button type="button" onClick={() => requestExport("jpg")} disabled={!!exporting} className="rounded-[3px] border border-rule bg-card px-4 py-2.5 text-xs font-medium text-ink-soft transition-colors hover:border-ledger/45 hover:bg-greenbar disabled:cursor-not-allowed disabled:opacity-50">{exporting === "jpg" ? "Preparing JPG…" : "Download JPG"}</button>
-                <button type="button" onClick={() => requestExport("pdf-print")} disabled={!!exporting} className="rounded-[3px] border border-rule bg-card px-4 py-2.5 text-xs font-medium text-ink-soft transition-colors hover:border-ledger/45 hover:bg-greenbar disabled:cursor-not-allowed disabled:opacity-50" title="A4 page, centered — prints cleanly on an office printer">{exporting === "pdf-print" ? "Preparing…" : "Print-ready PDF (A4)"}</button>
+                <button type="button" onClick={() => requestExport("jpg")} disabled={!!exporting} className="rounded-full border border-slate-200 bg-white px-4 py-2.5 text-xs font-semibold text-slate-600 hover:bg-slate-50 disabled:opacity-60">{exporting === "jpg" ? "Preparing JPG…" : "Download JPG"}</button>
+                <button type="button" onClick={() => requestExport("pdf-print")} disabled={!!exporting} className="rounded-full border border-slate-200 bg-white px-4 py-2.5 text-xs font-semibold text-slate-600 hover:bg-slate-50 disabled:opacity-60" title="A4 page, centered — prints cleanly on an office printer">{exporting === "pdf-print" ? "Preparing…" : "Print-ready PDF (A4)"}</button>
               </div>
-              <div className="mt-2 flex flex-wrap items-center justify-center gap-x-2 gap-y-0 text-xs font-medium text-ink-soft">
+              <div className="mt-2 flex flex-wrap items-center justify-center gap-x-2 gap-y-0 text-xs font-medium text-slate-500">
                 {account.isLoggedIn && (
-                  <button type="button" onClick={saveReceipt} disabled={saveState === "saving"} className="rounded-[3px] px-2 py-2.5 hover:text-ink disabled:opacity-60">
+                  <button type="button" onClick={saveReceipt} disabled={saveState === "saving"} className="rounded-lg px-2 py-2.5 hover:text-slate-700 disabled:opacity-60">
                     {saveState === "saving" ? "Saving…" : saveState === "saved" ? "✓ Saved to account" : "💾 Save to account"}
                   </button>
                 )}
-                <button type="button" onClick={saveAsTemplate} className="rounded-[3px] px-2 py-2.5 hover:text-ink">★ Save as template</button>
-                <button type="button" onClick={reset} className="rounded-[3px] px-2 py-2.5 hover:text-ink">↺ Reset</button>
+                <button type="button" onClick={saveAsTemplate} className="rounded-lg px-2 py-2.5 hover:text-slate-700">★ Save as template</button>
+                <button type="button" onClick={reset} className="rounded-lg px-2 py-2.5 hover:text-slate-700">↺ Reset</button>
                 <button
                   type="button"
                   onClick={() => setAutosaveOn((v) => !v)}
-                  className="rounded-[3px] px-2 py-2.5 hover:text-ink"
+                  className="rounded-lg px-2 py-2.5 hover:text-slate-700"
                   title="Autosave keeps your draft in this browser"
                 >
                   {autosaveOn ? "🟢 Autosave on" : "⚪ Autosave off"}
                 </button>
               </div>
               {account.isPro ? (
-                <p className="mt-3 text-center text-[11px] leading-relaxed text-ledger">
+                <p className="mt-3 text-center text-[11px] leading-relaxed text-emerald-600">
                   ✓ Pro · watermark-free HD downloads
                 </p>
               ) : !account.isLoggedIn ? (
-                <p className="mt-3 text-center text-[11px] leading-relaxed text-ink-soft">
+                <p className="mt-3 text-center text-[11px] leading-relaxed text-slate-500">
                   Log in to download ·{" "}
-                  <span className="font-semibold text-ink-soft">
+                  <span className="font-semibold text-slate-600">
                     {FREE_LIMITS.freeReceiptDownloads} free HD receipts per account
                   </span>
                 </p>
               ) : (dl.remaining ?? 0) > 0 ? (
-                <p className="mt-3 text-center text-[11px] leading-relaxed text-ledger">
+                <p className="mt-3 text-center text-[11px] leading-relaxed text-emerald-600">
                   ✓ {dl.remaining} of {FREE_LIMITS.freeReceiptDownloads} free HD receipts left
                 </p>
               ) : (
-                <p className="mt-3 text-center text-[11px] leading-relaxed text-ink-soft">
+                <p className="mt-3 text-center text-[11px] leading-relaxed text-slate-500">
                   Free receipts used · downloads now include a watermark ·{" "}
                   <Link
                     href="/pricing"
                     onClick={() => analytics.upgradeClick("builder_download_note")}
-                    className="font-semibold text-ledger hover:text-ledger-deep"
+                    className="font-semibold text-indigo-600 hover:text-indigo-700"
                   >
                     Upgrade to remove
                   </Link>
@@ -1183,17 +1172,17 @@ export default function SectionBuilder() {
       {/* Mobile bottom bar: Edit/Preview switch kept in thumb reach, with the
           live total visible while editing. Desktop uses the two-column layout. */}
       <div
-        className="fixed inset-x-0 bottom-0 z-40 border-t border-rule bg-card/95 px-4 pt-2 backdrop-blur-lg lg:hidden"
+        className="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/95 px-4 pt-2 backdrop-blur-lg lg:hidden"
         style={{ paddingBottom: "max(0.5rem, env(safe-area-inset-bottom))" }}
       >
-        <div className="mx-auto grid max-w-md grid-cols-2 gap-1 rounded-full bg-rule/45 p-1">
+        <div className="mx-auto grid max-w-md grid-cols-2 gap-1 rounded-full bg-slate-100 p-1">
           <button
             type="button"
             onClick={() => {
               setMobileTab("edit");
               window.scrollTo({ top: 0 });
             }}
-            className={`rounded-full py-2.5 text-sm font-semibold ${mobileTab === "edit" ? "bg-card text-ink shadow-sm" : "text-ink-soft"}`}
+            className={`rounded-full py-2.5 text-sm font-semibold ${mobileTab === "edit" ? "bg-white text-slate-900 shadow-sm" : "text-slate-500"}`}
           >
             Edit
           </button>
@@ -1203,7 +1192,7 @@ export default function SectionBuilder() {
               setMobileTab("preview");
               window.scrollTo({ top: 0 });
             }}
-            className={`rounded-full py-2.5 text-sm font-semibold ${mobileTab === "preview" ? "bg-card text-ink shadow-sm" : "text-ink-soft"}`}
+            className={`rounded-full py-2.5 text-sm font-semibold ${mobileTab === "preview" ? "bg-white text-slate-900 shadow-sm" : "text-slate-500"}`}
           >
             Preview · {formatMoney(grandTotal, doc.settings.currency)}
           </button>
@@ -1215,18 +1204,18 @@ export default function SectionBuilder() {
       {/* Watermark fallback (logged-in free user who is out of free receipts) */}
       {pendingExport && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-ink/50 p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 p-4"
           onClick={() => setPendingExport(null)}
         >
           <div
-            className="w-full max-w-md rounded-[3px] bg-card p-7 shadow-2xl"
+            className="w-full max-w-md rounded-3xl bg-white p-7 shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="text-3xl">🏷️</div>
-            <h3 className="mt-3 text-xl font-bold text-ink">
+            <h3 className="mt-3 text-xl font-bold text-slate-900">
               You&apos;ve used your {FREE_LIMITS.freeReceiptDownloads} free receipts
             </h3>
-            <p className="mt-2 text-sm leading-relaxed text-ink-soft">
+            <p className="mt-2 text-sm leading-relaxed text-slate-600">
               This download will include a small <strong>{SITE.name}</strong> watermark. Go Pro for
               clean, watermark-free HD receipts, unlimited AI generation and saved history.
             </p>
@@ -1234,7 +1223,7 @@ export default function SectionBuilder() {
               <Link
                 href="/pricing"
                 onClick={() => analytics.upgradeClick("watermark_modal")}
-                className="rounded-full bg-ledger px-5 py-3 text-center text-sm font-semibold text-white hover:bg-ledger-deep"
+                className="rounded-full bg-indigo-600 px-5 py-3 text-center text-sm font-semibold text-white hover:bg-indigo-700"
               >
                 Upgrade to remove watermark
               </Link>
@@ -1245,14 +1234,14 @@ export default function SectionBuilder() {
                   setPendingExport(null);
                   if (kind) handleExport(kind, true);
                 }}
-                className="rounded-full border border-rule bg-card px-5 py-3 text-sm font-semibold text-ink hover:bg-greenbar"
+                className="rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50"
               >
                 Download with watermark ({pendingExport.toUpperCase()})
               </button>
               <button
                 type="button"
                 onClick={() => setPendingExport(null)}
-                className="px-5 py-2 text-xs font-medium text-ink-soft/70 hover:text-ink-soft"
+                className="px-5 py-2 text-xs font-medium text-slate-400 hover:text-slate-600"
               >
                 Cancel
               </button>
@@ -1264,16 +1253,16 @@ export default function SectionBuilder() {
       {/* Login required to download (anonymous users) */}
       {loginPrompt && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-ink/50 p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 p-4"
           onClick={() => setLoginPrompt(null)}
         >
           <div
-            className="w-full max-w-md rounded-[3px] bg-card p-7 shadow-2xl"
+            className="w-full max-w-md rounded-3xl bg-white p-7 shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="text-3xl">🔐</div>
-            <h3 className="mt-3 text-xl font-bold text-ink">Log in to download</h3>
-            <p className="mt-2 text-sm leading-relaxed text-ink-soft">
+            <h3 className="mt-3 text-xl font-bold text-slate-900">Log in to download</h3>
+            <p className="mt-2 text-sm leading-relaxed text-slate-600">
               Create a free account to download your receipt. Every free account includes{" "}
               <strong>{FREE_LIMITS.freeReceiptDownloads} watermark-free HD receipts</strong> — no
               payment required. Your receipt is saved — we&apos;ll bring you right back here to
@@ -1293,14 +1282,14 @@ export default function SectionBuilder() {
                   }
                   analytics.upgradeClick("login_to_download");
                 }}
-                className="rounded-full bg-ledger px-5 py-3 text-center text-sm font-semibold text-white hover:bg-ledger-deep"
+                className="rounded-full bg-indigo-600 px-5 py-3 text-center text-sm font-semibold text-white hover:bg-indigo-700"
               >
                 Log in / Sign up free
               </Link>
               <button
                 type="button"
                 onClick={() => setLoginPrompt(null)}
-                className="px-5 py-2 text-xs font-medium text-ink-soft/70 hover:text-ink-soft"
+                className="px-5 py-2 text-xs font-medium text-slate-400 hover:text-slate-600"
               >
                 Cancel
               </button>
@@ -1312,8 +1301,8 @@ export default function SectionBuilder() {
       {/* Resume banner: back from login with a pending download — one tap to finish. */}
       {resumeExport && (
         <div className="fixed inset-x-0 bottom-4 z-50 flex justify-center px-4">
-          <div className="flex items-center gap-3 rounded-full border border-rule bg-card px-5 py-3 shadow-2xl">
-            <span className="text-sm font-medium text-ink">
+          <div className="flex items-center gap-3 rounded-full border border-indigo-200 bg-white px-5 py-3 shadow-2xl">
+            <span className="text-sm font-medium text-slate-700">
               You&apos;re logged in — your receipt is right here. Finish your download:
             </span>
             <button
@@ -1323,7 +1312,7 @@ export default function SectionBuilder() {
                 setResumeExport(null);
                 if (kind) void requestExport(kind);
               }}
-              className="rounded-full bg-ledger px-4 py-1.5 text-sm font-semibold text-white hover:bg-ledger-deep"
+              className="rounded-full bg-indigo-600 px-4 py-1.5 text-sm font-semibold text-white hover:bg-indigo-700"
             >
               Download
             </button>
@@ -1331,7 +1320,7 @@ export default function SectionBuilder() {
               type="button"
               onClick={() => setResumeExport(null)}
               aria-label="Dismiss"
-              className="text-ink-soft/70 hover:text-ink-soft"
+              className="text-slate-400 hover:text-slate-600"
             >
               ✕
             </button>
