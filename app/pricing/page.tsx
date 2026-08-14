@@ -76,6 +76,27 @@ export default async function PricingPage() {
         </p>
       </div>
 
+      {/* The free tier has four distinct states and they were previously only
+          explained in prose scattered across the hero, /create and the FAQ.
+          Stating them once, in order, is what lets those places stop. */}
+      <ol className="mx-auto mt-10 max-w-2xl divide-y divide-slate-200 rounded-2xl border border-slate-200 bg-white">
+        {[
+          { step: "Build and preview", detail: "No account needed", free: true },
+          { step: "Your first 3 downloads", detail: "Watermark-free HD", free: true },
+          { step: "Downloads after that", detail: "Include a small watermark", free: false },
+          { step: "Pro", detail: "Unlimited watermark-free HD exports", free: true },
+        ].map((row) => (
+          <li key={row.step} className="flex items-center justify-between gap-4 px-5 py-3.5">
+            <span className="text-sm font-medium text-slate-900">{row.step}</span>
+            <span
+              className={`text-sm ${row.free ? "font-medium text-indigo-600" : "text-slate-500"}`}
+            >
+              {row.detail}
+            </span>
+          </li>
+        ))}
+      </ol>
+
       <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {/* Free */}
         <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">

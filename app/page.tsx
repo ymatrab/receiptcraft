@@ -2,6 +2,7 @@ import Link from "next/link";
 import { SITE } from "@/lib/site";
 import HomeAiGenerator from "@/components/HomeAiGenerator";
 import { TEMPLATES } from "@/lib/templates";
+import { BRAND_LIST } from "@/lib/brands";
 import { HOMEPAGE_FAQS } from "@/lib/faqs";
 import type { ReceiptData } from "@/lib/types";
 import { docFromReceiptData } from "@/lib/sections";
@@ -94,6 +95,79 @@ const STEPS = [
   },
 ];
 
+// The brand pages carry the highest commercial intent ("walmart receipt") but
+// GSC has most of /brands sitting in "Discovered – currently not indexed", so
+// these also exist to push internal links at the cluster from the homepage.
+// Resolved against BRAND_LIST rather than hard-coded, so a renamed or removed
+// brand drops out of the row instead of shipping a dead link.
+const POPULAR_BRAND_SLUGS = [
+  "walmart",
+  "target",
+  "amazon",
+  "starbucks",
+  "mcdonalds",
+  "uber",
+  "costco",
+  "home-depot",
+  "best-buy",
+  "cvs-pharmacy",
+  "doordash",
+  "chick-fil-a",
+];
+
+const POPULAR_BRANDS = POPULAR_BRAND_SLUGS.flatMap((slug) => {
+  const brand = BRAND_LIST.find((b) => b.slug === slug);
+  return brand ? [brand] : [];
+});
+
+// Mirrors the four legitimate uses named on /about, so the homepage and the
+// responsible-use policy describe the same product.
+const USE_CASES = [
+  {
+    title: "You lost the original",
+    description:
+      "Thermal paper fades within months and pump printers run out. Rebuild the record of a purchase you actually made.",
+    href: "/receipt-help",
+    cta: "Store receipt help",
+  },
+  {
+    title: "You need it for an expense report",
+    description:
+      "Itemized totals, tax lines and payment method in a layout finance teams accept — exported as a clean PDF.",
+    href: "/templates",
+    cta: "Browse templates",
+  },
+  {
+    title: "You're issuing one to a customer",
+    description:
+      "No point-of-sale system? Hand over something professional with your own business details, logo and tax label.",
+    href: "/create",
+    cta: "Open the builder",
+  },
+  {
+    title: "You need a prop or a mockup",
+    description:
+      "Design comps, film and stage props, and app screenshots that need a receipt which reads as the real thing.",
+    href: "/examples",
+    cta: "See examples",
+  },
+];
+
+const TOOLS = [
+  {
+    title: "Receipt Total Calculator",
+    description:
+      "Work out subtotal, tax, tip and change before you build — useful when you only have the line items and the final total.",
+    href: "/tools/receipt-calculator",
+  },
+  {
+    title: "Split-Payment Checker",
+    description:
+      "Reconcile a bill paid across several cards or people and confirm every share adds back up to the total.",
+    href: "/tools/split-payment-checker",
+  },
+];
+
 // Directory listings that carry a badge on our homepage. Add a new object here
 // to display its badge — `width` is optional (omit for auto-width badges).
 const DIRECTORIES: {
@@ -175,7 +249,8 @@ const appJsonLd = {
   description: SITE.description,
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   featureList: [
-    "40+ receipt templates and 350+ brand-style layouts",
+    // Derived so the structured data can't drift from what the page shows.
+    `${TEMPLATES.length}+ receipt templates and ${BRAND_LIST.length} brand-style layouts`,
     "Live receipt preview",
     "PDF and PNG download",
     "Custom tax, discount and tip",
@@ -258,6 +333,71 @@ export default function HomePage() {
             <div className="receipt-shadow origin-top scale-90 rotate-2 transition-transform duration-300 hover:rotate-0 sm:scale-100">
               <ReceiptDocPaper doc={docFromReceiptData(DEMO_RECEIPT)} />
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== BRAND RECEIPTS ===== */}
+      <section className="border-t border-slate-100 py-14 sm:py-20" aria-labelledby="brands-heading">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="max-w-2xl">
+            <h2 id="brands-heading" className="text-3xl font-bold tracking-tight text-slate-900">
+              Need a receipt from a specific store?
+            </h2>
+            <p className="mt-3 text-lg text-slate-600">
+              {BRAND_LIST.length} brand layouts match the real thing — logo
+              placement, item formatting, tax lines and footer text. Pick a
+              store and change the details to yours.
+            </p>
+          </div>
+          <ul className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+            {POPULAR_BRANDS.map((brand) => (
+              <li key={brand.slug}>
+                <Link
+                  href={`/brands/${brand.slug}`}
+                  className="group flex h-full flex-col items-center justify-center gap-3 rounded-2xl border border-slate-200 bg-white p-5 text-center transition-all hover:-translate-y-0.5 hover:border-indigo-300 hover:shadow-lg hover:shadow-indigo-100"
+                >
+                  {brand.logo ? (
+                    // Decorative: the brand name is in the adjacent label, so
+                    // alt text here would just repeat it to a screen reader.
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={brand.logo}
+                      alt=""
+                      width={72}
+                      height={28}
+                      loading="lazy"
+                      className="h-7 w-auto max-w-[72px] object-contain"
+                    />
+                  ) : (
+                    <span className="text-2xl" aria-hidden="true">
+                      {brand.icon}
+                    </span>
+                  )}
+                  <span className="text-sm font-semibold text-slate-900 group-hover:text-indigo-700">
+                    {brand.name}
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <div className="mt-8">
+            <Link
+              href="/brands"
+              className="group inline-flex items-center gap-1.5 text-sm font-semibold text-indigo-600 transition-colors hover:text-indigo-700"
+            >
+              Browse all {BRAND_LIST.length} brand templates
+              <svg
+                aria-hidden="true"
+                className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h12" />
+              </svg>
+            </Link>
           </div>
         </div>
       </section>
@@ -349,6 +489,96 @@ export default function HomePage() {
                 </span>
                 <h3 className="mt-3 font-semibold text-slate-900">{feature.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-slate-600">{feature.description}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* ===== USE CASES ===== */}
+      <section className="border-t border-slate-100 py-14 sm:py-20" aria-labelledby="use-cases-heading">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="max-w-2xl">
+            <h2 id="use-cases-heading" className="text-3xl font-bold tracking-tight text-slate-900">
+              What are you making a receipt for?
+            </h2>
+            <p className="mt-3 text-lg text-slate-600">
+              Most people arrive with one of these four jobs. Each one starts in
+              a slightly different place.
+            </p>
+          </div>
+          <ul className="mt-10 grid gap-6 sm:grid-cols-2">
+            {USE_CASES.map((useCase) => (
+              <li key={useCase.title}>
+                <Link
+                  href={useCase.href}
+                  className="group flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-6 transition-all hover:-translate-y-0.5 hover:border-indigo-300 hover:shadow-lg hover:shadow-indigo-100"
+                >
+                  <h3 className="font-semibold text-slate-900 group-hover:text-indigo-700">
+                    {useCase.title}
+                  </h3>
+                  <p className="mt-2 flex-1 text-sm leading-relaxed text-slate-600">
+                    {useCase.description}
+                  </p>
+                  <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-indigo-600">
+                    {useCase.cta}
+                    <svg
+                      aria-hidden="true"
+                      className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h12" />
+                    </svg>
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* ===== FREE TOOLS ===== */}
+      <section className="border-t border-slate-100 bg-slate-50/60 py-14 sm:py-20" aria-labelledby="tools-heading">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="max-w-2xl">
+            <h2 id="tools-heading" className="text-3xl font-bold tracking-tight text-slate-900">
+              Free receipt tools
+            </h2>
+            <p className="mt-3 text-lg text-slate-600">
+              Two calculators for the maths that comes before the receipt — no
+              account, nothing to install.
+            </p>
+          </div>
+          <ul className="mt-10 grid gap-6 sm:grid-cols-2">
+            {TOOLS.map((tool) => (
+              <li key={tool.href}>
+                <Link
+                  href={tool.href}
+                  className="group flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-6 transition-all hover:-translate-y-0.5 hover:border-indigo-300 hover:shadow-lg hover:shadow-indigo-100"
+                >
+                  <h3 className="font-semibold text-slate-900 group-hover:text-indigo-700">
+                    {tool.title}
+                  </h3>
+                  <p className="mt-2 flex-1 text-sm leading-relaxed text-slate-600">
+                    {tool.description}
+                  </p>
+                  <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-indigo-600">
+                    Open the tool
+                    <svg
+                      aria-hidden="true"
+                      className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5-5 5M6 12h12" />
+                    </svg>
+                  </span>
+                </Link>
               </li>
             ))}
           </ul>
