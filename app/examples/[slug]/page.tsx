@@ -140,7 +140,7 @@ export default async function ExamplePage({
 
         {/* Rendered example receipt */}
         <div className="lg:sticky lg:top-20">
-          <div className="rounded-[3px] bg-gradient-to-b from-rule to-rule/60 p-6">
+          <div className="rounded-[3px] border border-rule bg-ink/5 p-6">
             <div className="flex justify-center">
               <ReceiptDocPaper doc={docFromReceiptData(data)} />
             </div>

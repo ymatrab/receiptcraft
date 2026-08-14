@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SITE, absoluteUrl } from "@/lib/site";
 import SectionBuilder from "@/components/builder/SectionBuilder";
+import Eyebrow from "@/components/ui/Eyebrow";
 
 export const metadata: Metadata = {
   title: "Receipt Builder — Create a Custom Receipt Online",
@@ -25,22 +26,25 @@ const appJsonLd = {
 // SectionBuilder is fully client-side and reads ?template= on mount.
 export default function CreatePage() {
   return (
-    <div className="bg-greenbar/50 min-h-screen">
+    <div className="min-h-screen bg-greenbar/35">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(appJsonLd) }}
       />
       {/* Real H1 for the flagship tool page. Visually compact so it doesn't
-          push the builder below the fold, but present in the SSR DOM. */}
+          push the builder below the fold, but present in the SSR DOM.
+          The free-tier ladder is deliberately NOT restated here — /pricing owns
+          that explanation, and the account gate surfaces at the download step
+          where it is actually relevant. */}
       <div className="mx-auto max-w-7xl px-4 pt-8 sm:px-6 lg:px-8">
-        <h1 className="text-2xl font-bold tracking-tight text-ink sm:text-3xl">
+        <Eyebrow>Builder</Eyebrow>
+        <h1 className="mt-4 font-display text-2xl font-bold tracking-tight text-ink sm:text-3xl">
           Receipt Builder
         </h1>
         <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink-soft">
-          Build your receipt section by section with a live preview — free, no
-          sign-up to start. Pick a template or start from scratch, edit every
-          field, then create a free account to download as a PDF or PNG. Your
-          first 3 downloads are watermark-free.
+          Build your receipt section by section with a live preview. Pick a
+          template or start from scratch, edit every field, then download it as
+          a PDF or PNG.
         </p>
       </div>
       <SectionBuilder />

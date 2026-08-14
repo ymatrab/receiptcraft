@@ -43,7 +43,7 @@ export default function ExamplesGrid({ page }: { page: number }) {
                 className="group flex h-full flex-col overflow-hidden rounded-[3px] border border-rule bg-card transition-all hover:-translate-y-1 hover:border-ledger/45 hover:shadow-xl hover:shadow-greenbar/50"
               >
                 <div className="relative flex h-64 items-start justify-center overflow-hidden bg-greenbar/80 pt-6">
-                  <div className="absolute inset-x-0 bottom-0 z-10 h-20 bg-gradient-to-t from-white to-transparent" />
+                  <div className="absolute inset-x-0 bottom-0 z-10 h-20 bg-gradient-to-t from-card to-transparent" />
                   <div className="origin-top scale-[0.58] transition-transform duration-300 ease-out group-hover:scale-[0.61]">
                     <div className="rounded bg-card shadow-md">
                       <ReceiptDocPaper doc={docFromReceiptData(data)} />

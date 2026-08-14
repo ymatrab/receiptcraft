@@ -55,6 +55,7 @@ import { supabaseConfigured } from "@/lib/supabase/config";
 import Link from "next/link";
 import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
 import Watermark from "@/components/receipt/Watermark";
+import { btn } from "@/components/ui/Button";
 import AddSectionModal from "./AddSectionModal";
 import {
   AlignToggle,
@@ -980,12 +981,12 @@ export default function SectionBuilder() {
       <div className="-mx-4 overflow-x-auto px-4 pb-4 pt-3 sm:mx-0 sm:px-0">
         <div className="flex gap-2">
           {TEMPLATES.slice(0, 14).map((t) => (
-            <button key={t.slug} type="button" onClick={() => applyTemplate(t.slug)} className={`flex shrink-0 items-center gap-1.5 rounded-full border px-4 py-2.5 text-sm font-medium transition-colors ${activeTemplate === t.slug ? "border-ledger bg-ledger text-white" : "border-rule bg-card text-ink-soft hover:border-ledger/45"}`}>
+            <button key={t.slug} type="button" onClick={() => applyTemplate(t.slug)} className={`flex shrink-0 items-center gap-1.5 rounded-[3px] border px-4 py-2.5 text-sm font-medium transition-colors ${activeTemplate === t.slug ? "border-ledger bg-ledger text-white" : "border-rule bg-card text-ink-soft hover:border-ledger/45"}`}>
               <span aria-hidden="true">{t.icon}</span>
               {t.shortName}
             </button>
           ))}
-          <Link href="/templates" className="flex shrink-0 items-center gap-1.5 rounded-full border border-dashed border-rule px-4 py-2.5 text-sm font-medium text-ink-soft hover:border-ledger/45 hover:text-ledger">
+          <Link href="/templates" className="flex shrink-0 items-center gap-1.5 rounded-[3px] border border-dashed border-rule px-4 py-2.5 text-sm font-medium text-ink-soft hover:border-ledger/45 hover:text-ledger">
             All templates →
           </Link>
         </div>
@@ -1101,10 +1102,20 @@ export default function SectionBuilder() {
         {/* PREVIEW */}
         <div className={`${mobileTab === "preview" ? "" : "hidden"} lg:block`}>
           <div className="lg:sticky lg:top-20">
-            <div className="rounded-[3px] bg-gradient-to-b from-rule to-rule/60 p-6 sm:p-8">
-              <div className="mb-4 flex items-center justify-between">
-                <h2 className="text-sm font-semibold text-ink">Live Preview</h2>
-                <span className="rounded-full bg-greenbar px-2.5 py-0.5 text-xs font-medium text-ledger-deep">Total: {formatMoney(grandTotal, doc.settings.currency)}</span>
+            {/* A flat tray, not a gradient — the receipt is the only thing in
+                here that should attract the eye, and it separates itself with
+                its own shadow. */}
+            <div className="rounded-[3px] border border-rule bg-ink/5 p-6 sm:p-8">
+              <div className="mb-4 flex items-baseline justify-between gap-3">
+                <h2 className="font-display text-[11px] font-bold uppercase tracking-[0.22em] text-ink-soft">
+                  Live preview
+                </h2>
+                <span className="font-data text-sm">
+                  <span className="text-ink-soft">Total </span>
+                  <span className="font-medium tabular-nums text-ledger-deep">
+                    {formatMoney(grandTotal, doc.settings.currency)}
+                  </span>
+                </span>
               </div>
               <div className="flex justify-center">
                 <div ref={receiptRef} className="relative">
@@ -1113,12 +1124,12 @@ export default function SectionBuilder() {
                 </div>
               </div>
               <div className="mt-6 flex gap-3">
-                <button type="button" onClick={() => requestExport("pdf")} disabled={!!exporting} className="flex-1 rounded-full bg-ledger px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-ledger-deep disabled:opacity-60">{exporting === "pdf" ? "Preparing PDF…" : "Download PDF"}</button>
-                <button type="button" onClick={() => requestExport("png")} disabled={!!exporting} className="flex-1 rounded-full border border-rule bg-card px-5 py-3 text-sm font-semibold text-ledger-deep transition-colors hover:border-ledger/45 hover:bg-greenbar disabled:opacity-60">{exporting === "png" ? "Preparing PNG…" : "Download PNG"}</button>
+                <button type="button" onClick={() => requestExport("pdf")} disabled={!!exporting} className={btn({ className: "flex-1" })}>{exporting === "pdf" ? "Preparing PDF…" : "Download PDF"}</button>
+                <button type="button" onClick={() => requestExport("png")} disabled={!!exporting} className={btn({ variant: "secondary", className: "flex-1" })}>{exporting === "png" ? "Preparing PNG…" : "Download PNG"}</button>
               </div>
               <div className="mt-2 grid grid-cols-2 gap-3">
-                <button type="button" onClick={() => requestExport("jpg")} disabled={!!exporting} className="rounded-full border border-rule bg-card px-4 py-2.5 text-xs font-semibold text-ink-soft hover:bg-greenbar disabled:opacity-60">{exporting === "jpg" ? "Preparing JPG…" : "Download JPG"}</button>
-                <button type="button" onClick={() => requestExport("pdf-print")} disabled={!!exporting} className="rounded-full border border-rule bg-card px-4 py-2.5 text-xs font-semibold text-ink-soft hover:bg-greenbar disabled:opacity-60" title="A4 page, centered — prints cleanly on an office printer">{exporting === "pdf-print" ? "Preparing…" : "Print-ready PDF (A4)"}</button>
+                <button type="button" onClick={() => requestExport("jpg")} disabled={!!exporting} className="rounded-[3px] border border-rule bg-card px-4 py-2.5 text-xs font-medium text-ink-soft transition-colors hover:border-ledger/45 hover:bg-greenbar disabled:cursor-not-allowed disabled:opacity-50">{exporting === "jpg" ? "Preparing JPG…" : "Download JPG"}</button>
+                <button type="button" onClick={() => requestExport("pdf-print")} disabled={!!exporting} className="rounded-[3px] border border-rule bg-card px-4 py-2.5 text-xs font-medium text-ink-soft transition-colors hover:border-ledger/45 hover:bg-greenbar disabled:cursor-not-allowed disabled:opacity-50" title="A4 page, centered — prints cleanly on an office printer">{exporting === "pdf-print" ? "Preparing…" : "Print-ready PDF (A4)"}</button>
               </div>
               <div className="mt-2 flex flex-wrap items-center justify-center gap-x-2 gap-y-0 text-xs font-medium text-ink-soft">
                 {account.isLoggedIn && (
