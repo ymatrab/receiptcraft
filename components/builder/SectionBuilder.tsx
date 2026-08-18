@@ -1271,6 +1271,8 @@ export default function SectionBuilder() {
             <div className="mt-6 flex flex-col gap-2">
               <Link
                 href="/login?next=/create"
+                // Matches the header: never hand crawlers a ?next= login URL.
+                rel="nofollow"
                 onClick={() => {
                   // Flush the latest draft synchronously (the autosave is
                   // debounced) and remember the export so we can resume it.

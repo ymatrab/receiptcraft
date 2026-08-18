@@ -154,6 +154,7 @@ export default function ChatWidget() {
               <p className="text-sm text-slate-600">Log in to start a conversation with us.</p>
               <Link
                 href="/login?next=/"
+                rel="nofollow"
                 className="rounded-full bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white"
               >
                 Log in

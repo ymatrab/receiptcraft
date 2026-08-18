@@ -11,20 +11,32 @@ import { getCurrentUser } from "@/lib/auth";
 // every page, so Googlebot discovers an endless supply of /login?next=… URLs
 // that are pure duplicates of /login with no standalone value — exactly what
 // Search Console flags as "Duplicate without user-selected canonical". We
-// noindex those variants (canonical still points at /login, so link equity
-// lands on the one page we want indexed) while keeping bare /login in the index.
+// noindex those variants while keeping bare /login in the index.
+//
+// The variants self-canonicalise rather than pointing at /login: pairing
+// noindex with a canonical aimed at a *different* URL is a conflicting signal,
+// and Google may resolve it by carrying the noindex over to the canonical
+// target — /login itself, the one page we want indexed. Note we must set the
+// canonical explicitly; metadata merges shallowly, so dropping `alternates`
+// here would inherit the root layout's canonical of "/" and point every
+// variant at the homepage. Nothing is lost by not consolidating: link equity
+// from a log-in link is worth nothing, and /login is indexed off its own
+// sitemap entry.
 export async function generateMetadata({
   searchParams,
 }: {
   searchParams: Promise<{ next?: string }>;
 }): Promise<Metadata> {
   const { next } = await searchParams;
-  const hasNext = typeof next === "string" && next.length > 0;
+  const nextParam = typeof next === "string" && next.length > 0 ? next : null;
+  const canonical = nextParam
+    ? `/login?next=${encodeURIComponent(nextParam)}`
+    : "/login";
   return {
     title: "Log in",
     description: `Log in to ${SITE.name} to download your receipts, manage your Pro subscription and saved templates, and get support. New here? An account takes seconds to create.`,
-    alternates: { canonical: "/login" },
-    ...(hasNext ? { robots: { index: false, follow: true } } : {}),
+    alternates: { canonical },
+    ...(nextParam ? { robots: { index: false, follow: true } } : {}),
   };
 }
 
