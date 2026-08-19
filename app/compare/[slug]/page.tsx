@@ -196,7 +196,7 @@ export default async function ComparePage({ params }: Props) {
               </Link>
             </div>
 
-            <p className="mt-6 text-xs text-slate-400">
+            <p className="mt-6 text-xs text-slate-500">
               Last reviewed {reviewedLabel}. {SITE.name} is our own product;
               {" "}{c.name} data is from its public website (as of {PRICING_AS_OF}).
             </p>
@@ -263,7 +263,7 @@ export default async function ComparePage({ params }: Props) {
               </p>
             </div>
           </div>
-          <p className="mt-3 text-xs text-slate-400">
+          <p className="mt-3 text-xs text-slate-500">
             {c.name} pricing as of {PRICING_AS_OF}, from its public website.
             Prices can change — check {c.name} directly before subscribing.
           </p>

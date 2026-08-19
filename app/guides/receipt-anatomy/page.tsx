@@ -301,7 +301,7 @@ export default function ReceiptAnatomyPage() {
                 <dt className="font-semibold text-slate-900">
                   {t.term}
                   {t.aka ? (
-                    <span className="ml-2 text-sm font-normal text-slate-400">({t.aka})</span>
+                    <span className="ml-2 text-sm font-normal text-slate-500">({t.aka})</span>
                   ) : null}
                 </dt>
                 <dd className="mt-1 leading-relaxed text-slate-600">{t.def}</dd>

@@ -72,7 +72,7 @@ export default async function BlogIndex() {
                   <p className="mt-2 line-clamp-3 text-sm text-slate-600">{post.excerpt}</p>
                 )}
                 {post.publishedAt && (
-                  <time className="mt-4 text-xs text-slate-400">
+                  <time className="mt-4 text-xs text-slate-500">
                     {new Date(post.publishedAt).toLocaleDateString()}
                   </time>
                 )}

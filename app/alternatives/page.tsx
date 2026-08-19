@@ -116,7 +116,7 @@ export default function AlternativesPage() {
             breadth, AI generation, export formats and how much you can do for
             free — so you can pick the right one fast.
           </p>
-          <p className="mt-4 text-sm text-slate-400">
+          <p className="mt-4 text-sm text-slate-500">
             Last reviewed {REVIEWED_LABEL}. Competitor data is from each tool&apos;s
             public website (as of {PRICING_AS_OF}). {SITE.name} is our own tool —
             we&apos;ve tried to keep this list fair and note where rivals are
@@ -164,7 +164,7 @@ export default function AlternativesPage() {
               <span className="text-sm font-bold text-indigo-600">#1</span>
               <h3 className="text-xl font-bold text-slate-900">
                 {SITE.name}{" "}
-                <span className="text-sm font-medium text-slate-400">
+                <span className="text-sm font-medium text-slate-500">
                   (our tool)
                 </span>
               </h3>
@@ -198,7 +198,7 @@ export default function AlternativesPage() {
               className="mt-6 rounded-2xl border border-slate-200 bg-white p-6"
             >
               <div className="flex items-baseline gap-3">
-                <span className="text-sm font-bold text-slate-400">#{i + 2}</span>
+                <span className="text-sm font-bold text-slate-500">#{i + 2}</span>
                 <h3 className="text-xl font-bold text-slate-900">{c.name}</h3>
               </div>
               <p className="mt-1 text-sm text-slate-500">{c.tagline}</p>
@@ -233,7 +233,7 @@ export default function AlternativesPage() {
               className="mt-6 rounded-2xl border border-slate-200 bg-white p-6"
             >
               <div className="flex items-baseline gap-3">
-                <span className="text-sm font-bold text-slate-400">
+                <span className="text-sm font-bold text-slate-500">
                   #{COMPETITORS.length + 2 + i}
                 </span>
                 <h3 className="text-xl font-bold text-slate-900">{o.name}</h3>

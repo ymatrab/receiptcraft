@@ -37,7 +37,7 @@ export default async function AdminChatInbox() {
               >
                 <div>
                   <p className="font-medium text-slate-800">{email ?? "Unknown user"}</p>
-                  <p className="text-xs text-slate-400">
+                  <p className="text-xs text-slate-500">
                     {new Date(c.last_message_at).toLocaleString()}
                   </p>
                 </div>

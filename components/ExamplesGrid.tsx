@@ -29,7 +29,7 @@ export default function ExamplesGrid({ page }: { page: number }) {
           create your own editable version with {SITE.name}.
         </p>
         {total > 1 && (
-          <p className="mt-2 text-sm text-slate-400">Page {page} of {total}</p>
+          <p className="mt-2 text-sm text-slate-500">Page {page} of {total}</p>
         )}
       </header>
 

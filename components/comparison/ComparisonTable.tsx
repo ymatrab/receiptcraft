@@ -10,11 +10,11 @@ export interface ComparisonColumn {
 const ICON: Record<CellState, { glyph: string; className: string; label: string }> = {
   yes: { glyph: "✓", className: "bg-emerald-100 text-emerald-700", label: "Yes" },
   partial: { glyph: "~", className: "bg-amber-100 text-amber-700", label: "Partial" },
-  no: { glyph: "✕", className: "bg-slate-100 text-slate-400", label: "No" },
+  no: { glyph: "✕", className: "bg-slate-100 text-slate-500", label: "No" },
 };
 
 function CellView({ cell }: { cell?: Cells[string] }) {
-  if (!cell) return <span className="text-slate-300">—</span>;
+  if (!cell) return <span className="text-slate-500">—</span>;
   const icon = ICON[cell.state];
   return (
     <div className="flex flex-col items-center gap-1">

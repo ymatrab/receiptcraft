@@ -88,7 +88,7 @@ export default function NewsletterSignup({ source = "footer", className = "" }: 
         </button>
       </div>
       {error && <p className="mt-2 text-xs text-red-600">{error}</p>}
-      <p className="mt-2 text-xs text-slate-400">
+      <p className="mt-2 text-xs text-slate-500">
         Receipt tips, new templates and product updates. No spam, unsubscribe anytime.
       </p>
     </form>

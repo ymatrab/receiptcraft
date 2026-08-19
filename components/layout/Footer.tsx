@@ -202,7 +202,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-10 border-t border-slate-200 pt-8">
-          <p className="text-xs leading-relaxed text-slate-400">
+          <p className="text-xs leading-relaxed text-slate-500">
             © {new Date().getFullYear()} {SITE.name}. All rights reserved.
             Receipts created with this tool are intended for legitimate
             purposes such as record keeping, expense documentation and design

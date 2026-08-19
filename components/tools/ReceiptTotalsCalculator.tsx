@@ -101,7 +101,7 @@ export default function ReceiptTotalsCalculator() {
                 onChange={(e) => setRow(r.id, { qty: num(e.target.value) })}
                 className={`${inputCls} w-16`}
               />
-              <span className="text-slate-400">×</span>
+              <span className="text-slate-500">×</span>
               <input
                 aria-label="Unit price"
                 type="number"
@@ -115,7 +115,7 @@ export default function ReceiptTotalsCalculator() {
                 type="button"
                 onClick={() => removeRow(r.id)}
                 aria-label="Remove item"
-                className="shrink-0 rounded-lg px-2 py-1 text-slate-400 hover:text-red-500"
+                className="shrink-0 rounded-lg px-2 py-1 text-slate-500 hover:text-red-500"
               >
                 ✕
               </button>
@@ -218,7 +218,7 @@ export default function ReceiptTotalsCalculator() {
         >
           Turn this into a receipt — free
         </Link>
-        <p className="mt-2 text-center text-xs text-slate-400">
+        <p className="mt-2 text-center text-xs text-slate-500">
           Build & preview free — account needed only to download.
         </p>
       </div>

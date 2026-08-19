@@ -353,7 +353,7 @@ export default function ReceiptDocPaper({ doc }: Props) {
             <img src={s.src} alt="" className="h-auto w-full object-contain" />
           </div>
         ) : (
-          <p className="text-[11px] text-slate-400">No image chosen</p>
+          <p className="text-[11px] text-slate-500">No image chosen</p>
         );
       case "signature":
         return (

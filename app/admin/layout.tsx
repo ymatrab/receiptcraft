@@ -24,7 +24,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   return (
     <div className="mx-auto flex max-w-7xl flex-col gap-8 px-4 py-10 sm:px-6 lg:flex-row lg:px-8">
       <aside className="lg:w-52 lg:shrink-0">
-        <h2 className="px-3 text-xs font-semibold uppercase tracking-wide text-slate-400">
+        <h2 className="px-3 text-xs font-semibold uppercase tracking-wide text-slate-500">
           Admin
         </h2>
         <nav className="mt-3 flex gap-1 overflow-x-auto lg:flex-col">

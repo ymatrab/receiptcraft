@@ -33,7 +33,7 @@ export default function BrandExplorer({ brands }: { brands: BrandListItem[] }) {
     <div>
       {/* Search */}
       <div className="relative mt-8 max-w-md">
-        <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">🔍</span>
+        <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-500">🔍</span>
         <input
           type="search"
           value={query}
@@ -86,7 +86,7 @@ export default function BrandExplorer({ brands }: { brands: BrandListItem[] }) {
                 <span className="mt-3 text-sm font-semibold text-slate-900 group-hover:text-indigo-600">
                   {b.name}
                 </span>
-                <span className="mt-1 text-[11px] font-medium text-slate-400">{b.category}</span>
+                <span className="mt-1 text-[11px] font-medium text-slate-500">{b.category}</span>
               </Link>
             </li>
           ))}

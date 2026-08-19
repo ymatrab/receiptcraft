@@ -63,7 +63,7 @@ export default async function AdminSubscriptions() {
                         {s.cancel_at_period_end && " (canceling)"}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-slate-400">
+                    <td className="px-4 py-3 text-slate-500">
                       {s.current_period_end
                         ? new Date(s.current_period_end).toLocaleDateString()
                         : "—"}

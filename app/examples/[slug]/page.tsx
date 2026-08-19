@@ -127,7 +127,7 @@ export default async function ExamplePage({
 
           <h2 className="mt-10 text-xl font-bold text-slate-900">What&apos;s on this receipt</h2>
           <table className="mt-3 w-full text-sm">
-            <thead className="text-left text-xs uppercase tracking-wide text-slate-400">
+            <thead className="text-left text-xs uppercase tracking-wide text-slate-500">
               <tr><th className="py-2">Item</th><th className="py-2">Qty</th><th className="py-2 text-right">Price</th></tr>
             </thead>
             <tbody className="divide-y divide-slate-100">

@@ -128,7 +128,7 @@ export default async function AdminMembers() {
                         {providerLabel(m.provider)}
                       </span>
                     ) : (
-                      <span className="text-slate-400">—</span>
+                      <span className="text-slate-500">—</span>
                     )}
                   </td>
                   <td className="px-4 py-3">
@@ -143,7 +143,7 @@ export default async function AdminMembers() {
                   <td className="px-4 py-3 font-medium text-slate-600 tabular-nums">
                     {m.downloads}
                   </td>
-                  <td className="px-4 py-3 text-slate-400">
+                  <td className="px-4 py-3 text-slate-500">
                     {new Date(m.created_at).toLocaleDateString()}
                   </td>
                   <td className="px-4 py-3">

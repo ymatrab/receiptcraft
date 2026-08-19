@@ -107,7 +107,7 @@ export default function BrandsPage() {
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-left font-medium text-slate-900 [&::-webkit-details-marker]:hidden">
                   {faq.question}
                   <svg
-                    className="h-5 w-5 shrink-0 text-slate-400 transition-transform group-open:rotate-180"
+                    className="h-5 w-5 shrink-0 text-slate-500 transition-transform group-open:rotate-180"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"

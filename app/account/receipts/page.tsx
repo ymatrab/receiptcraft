@@ -48,7 +48,7 @@ export default async function SavedReceiptsPage() {
             <li key={r.id} className="flex items-center justify-between px-5 py-4">
               <div>
                 <p className="font-medium text-slate-800">{r.title ?? "Untitled receipt"}</p>
-                <p className="text-xs text-slate-400">
+                <p className="text-xs text-slate-500">
                   {new Date(r.created_at).toLocaleString()}
                 </p>
               </div>

@@ -10,7 +10,7 @@ export default function RelatedPosts({ hub }: { hub: string }) {
     <section className="mt-12" aria-labelledby="related-reading-heading">
       <h2
         id="related-reading-heading"
-        className="text-sm font-semibold uppercase tracking-wide text-slate-400"
+        className="text-sm font-semibold uppercase tracking-wide text-slate-500"
       >
         Related reading
       </h2>

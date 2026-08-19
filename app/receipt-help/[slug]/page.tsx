@@ -151,7 +151,7 @@ export default async function IntentPage({
       {/* Related */}
       {siblings.length > 0 && (
         <section className="mt-12">
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-400">
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500">
             More {page.brandName} receipt help
           </h2>
           <ul className="mt-3 flex flex-wrap gap-2">

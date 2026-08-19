@@ -120,7 +120,7 @@ export default function SplitPaymentChecker() {
                 type="button"
                 onClick={() => removeTender(t.id)}
                 aria-label="Remove payment"
-                className="shrink-0 rounded-lg px-2 py-1 text-slate-400 hover:text-red-500"
+                className="shrink-0 rounded-lg px-2 py-1 text-slate-500 hover:text-red-500"
               >
                 ✕
               </button>
@@ -172,7 +172,7 @@ export default function SplitPaymentChecker() {
         >
           Make a split-payment receipt — free
         </Link>
-        <p className="mt-2 text-center text-xs text-slate-400">
+        <p className="mt-2 text-center text-xs text-slate-500">
           Show each method and amount on one receipt.
         </p>
       </div>

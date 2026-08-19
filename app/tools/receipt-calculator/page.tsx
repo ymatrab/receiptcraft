@@ -126,7 +126,7 @@ export default function ReceiptCalculatorPage() {
           <br />
           total = taxable + tax + tip
           <br />
-          change = tendered − total <span className="text-slate-400">(cash only)</span>
+          change = tendered − total <span className="text-slate-500">(cash only)</span>
         </div>
 
         <p className="mt-8 leading-relaxed text-slate-600">

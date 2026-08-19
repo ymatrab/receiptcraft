@@ -164,7 +164,7 @@ export default function ChatWidget() {
             <>
               <div className="flex-1 space-y-2 overflow-y-auto p-3">
                 {messages.length === 0 && (
-                  <p className="px-2 pt-4 text-center text-xs text-slate-400">
+                  <p className="px-2 pt-4 text-center text-xs text-slate-500">
                     Send us a message and we&apos;ll get back to you.
                   </p>
                 )}

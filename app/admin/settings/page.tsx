@@ -37,7 +37,7 @@ export default async function AdminSettings() {
           <div>
             <label className={label} htmlFor="model">Model</label>
             <input id="model" name="model" defaultValue={ai.model} className={field} placeholder="e.g. gemini-2.0-flash" />
-            <p className="mt-1 text-[11px] text-slate-400">
+            <p className="mt-1 text-[11px] text-slate-500">
               Defaults — Google: {DEFAULT_MODELS.google} · OpenAI: {DEFAULT_MODELS.openai} · Anthropic: {DEFAULT_MODELS.anthropic}
             </p>
           </div>

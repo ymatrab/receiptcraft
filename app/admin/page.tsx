@@ -60,7 +60,7 @@ function Stat({ label, value, hint }: { label: string; value: string; hint?: str
     <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
       <p className="text-sm text-slate-500">{label}</p>
       <p className="mt-1 text-3xl font-bold text-slate-900">{value}</p>
-      {hint && <p className="mt-1 text-xs text-slate-400">{hint}</p>}
+      {hint && <p className="mt-1 text-xs text-slate-500">{hint}</p>}
     </div>
   );
 }
@@ -98,7 +98,7 @@ export default async function AdminOverview() {
                   <td className="px-4 py-3 text-slate-500">
                     {e.props ? JSON.stringify(e.props) : "—"}
                   </td>
-                  <td className="px-4 py-3 text-right text-slate-400">
+                  <td className="px-4 py-3 text-right text-slate-500">
                     {new Date(e.created_at).toLocaleString()}
                   </td>
                 </tr>

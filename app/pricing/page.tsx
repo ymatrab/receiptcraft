@@ -126,7 +126,7 @@ export default async function PricingPage() {
           <ul className="mt-6 space-y-3 text-sm text-slate-600">
             {PLANS.free.features.map((f) => (
               <li key={f} className="flex gap-2">
-                <span className="text-slate-400">✓</span>
+                <span className="text-slate-500">✓</span>
                 {f}
               </li>
             ))}
@@ -146,7 +146,7 @@ export default async function PricingPage() {
             ${weekly.price}
             <span className="text-base font-medium text-slate-500">/wk</span>
           </p>
-          <p className="mt-1 text-xs font-medium text-slate-400">7-day full Pro pass</p>
+          <p className="mt-1 text-xs font-medium text-slate-500">7-day full Pro pass</p>
           <ul className="mt-6 space-y-3 text-sm text-slate-600">
             {weekly.features.map((f) => (
               <li key={f} className="flex gap-2">
