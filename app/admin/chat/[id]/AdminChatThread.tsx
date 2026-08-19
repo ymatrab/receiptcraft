@@ -83,13 +83,15 @@ export default function AdminChatThread({ conversationId, adminId, initialMessag
           onChange={(e) => setDraft(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && send()}
           placeholder="Reply…"
-          className="flex-1 rounded-full border border-slate-300 px-4 py-2 text-sm focus:border-indigo-400 focus:outline-none"
+          aria-label="Reply"
+          className="flex-1 rounded-full border border-slate-300 px-4 py-2 text-base text-slate-900 transition-colors placeholder:text-slate-500 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 sm:text-sm"
         />
         <button
           type="button"
           onClick={send}
           disabled={sending || !draft.trim()}
-          className="rounded-full bg-indigo-600 px-5 py-2 text-sm font-semibold text-white disabled:opacity-50"
+          aria-busy={sending}
+          className="flex shrink-0 cursor-pointer items-center justify-center rounded-full bg-indigo-600 px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-indigo-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
         >
           Send
         </button>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { SearchIcon } from "@/components/Icons";
 import Link from "next/link";
 import { BRAND_CATEGORIES, type BrandCategory } from "@/lib/brand-categories";
 import type { BrandListItem } from "@/lib/brands";
@@ -33,13 +34,13 @@ export default function BrandExplorer({ brands }: { brands: BrandListItem[] }) {
     <div>
       {/* Search */}
       <div className="relative mt-8 max-w-md">
-        <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-500">🔍</span>
+        <SearchIcon className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
         <input
           type="search"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder={`Search ${brands.length}+ brands…`}
-          className="w-full rounded-full border border-slate-300 bg-white py-3 pl-11 pr-4 text-sm focus:border-indigo-400 focus:outline-none"
+          className="w-full rounded-full border border-slate-300 bg-white py-3 pl-11 pr-4 text-base text-slate-900 transition-colors placeholder:text-slate-500 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 sm:text-sm"
           aria-label="Search brands"
         />
       </div>
@@ -86,7 +87,7 @@ export default function BrandExplorer({ brands }: { brands: BrandListItem[] }) {
                 <span className="mt-3 text-sm font-semibold text-slate-900 group-hover:text-indigo-600">
                   {b.name}
                 </span>
-                <span className="mt-1 text-[11px] font-medium text-slate-500">{b.category}</span>
+                <span className="mt-1 text-xs font-medium text-slate-500">{b.category}</span>
               </Link>
             </li>
           ))}
@@ -109,7 +110,8 @@ function Chip({
     <button
       type="button"
       onClick={onClick}
-      className={`rounded-full border px-3.5 py-1.5 text-xs font-medium transition-colors ${
+      aria-pressed={active}
+      className={`cursor-pointer rounded-full border px-3.5 py-2 text-xs font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
         active
           ? "border-indigo-600 bg-indigo-600 text-white"
           : "border-slate-200 bg-white text-slate-600 hover:border-indigo-300"

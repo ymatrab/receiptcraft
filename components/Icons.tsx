@@ -222,6 +222,15 @@ export function EyeOffIcon(p: IconProps) {
   );
 }
 
+export function SearchIcon(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <circle cx="11" cy="11" r="6.5" />
+      <path d="m16 16 4.5 4.5" />
+    </Svg>
+  );
+}
+
 export function SparkleIcon(p: IconProps) {
   return (
     <Svg {...p}>
