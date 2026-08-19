@@ -8,6 +8,7 @@ import {
   LAST_UPDATED,
 } from "@/lib/comparisons";
 import { SITE, absoluteUrl } from "@/lib/site";
+import RelatedPosts from "@/components/RelatedPosts";
 import ComparisonTable from "@/components/comparison/ComparisonTable";
 
 const TITLE = "7 Best Receipt Generators in 2026 (Free & Paid), Compared";
@@ -272,6 +273,8 @@ export default function AlternativesPage() {
             competitors do things better on their dedicated comparison pages.
           </p>
         </section>
+
+        <RelatedPosts hub="/alternatives" />
 
         {/* Final CTA */}
         <section className="mt-16 rounded-3xl bg-slate-900 px-6 py-12 text-center sm:px-12">

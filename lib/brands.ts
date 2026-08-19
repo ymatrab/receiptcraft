@@ -5321,11 +5321,19 @@ function pickDistinct<T>(arr: T[], n: number, seed: number): T[] {
   return out;
 }
 
-const INTRO_VARIANTS: ((n: string, noun: string) => string)[] = [
+// `city` is optional (BrandSeed) — every variant either uses it or ignores it,
+// so pages without a city just render the city-free half of the sentence.
+const INTRO_VARIANTS: ((n: string, noun: string, city?: string) => string)[] = [
   (n, noun) => `Create a realistic ${n} receipt with ${noun}. Perfect for replacing a lost ${n} receipt, expense reports, bookkeeping records or design mockups.`,
   (n, noun) => `Need a ${n} receipt fast? Build one with ${noun}, then sign in free to download a clean PDF or PNG. Your first 3 downloads are watermark-free.`,
   (n, noun) => `Recreate a ${n} receipt that matches the real thing, complete with ${noun}. Adjust the totals and export it for expenses, reimbursements or your own records.`,
   (n, noun) => `Make a ${n} receipt online in seconds. Lay it out with ${noun} — subtotal, tax and total included — ready to print or save.`,
+  (n, noun, city) => `Build a ${n} receipt${city ? ` for a visit to the ${city} location` : ""} with ${noun}. Edit the totals, then download it for expenses or your own records.`,
+  (n, noun) => `Rebuild a ${n} receipt from memory — add ${noun}, set the tax and total, then export a clean PDF or PNG in under a minute.`,
+  (n, noun, city) => `Whether you're replacing a receipt from a ${n}${city ? ` in ${city}` : ""} or issuing one yourself, this generator handles ${noun}, tax and totals in one editable layout.`,
+  (n, noun) => `A ${n} receipt template with ${noun} already laid out — change the items, prices and date to match your own purchase, then download.`,
+  (n, noun) => `Generate a ${n} receipt with ${noun} in the format the real thing uses. Free to build, with a live preview as you edit.`,
+  (n, noun, city) => `This ${n} receipt generator lays out ${noun}${city ? `, styled after the ${city} store` : ""} — edit every field, then export as PDF or PNG.`,
 ];
 
 const SEO_DESC_VARIANTS: ((n: string, noun: string) => string)[] = [
@@ -5334,6 +5342,11 @@ const SEO_DESC_VARIANTS: ((n: string, noun: string) => string)[] = [
   (n, noun) => `Generate a ${n} receipt online, complete with ${noun}. Set the totals and export — free, private, no sign-up to start.`,
   (n, noun) => `Build a ${n} receipt online with ${noun}, editable totals and tax. Free live preview — sign in to download as a PDF or PNG.`,
   (n, noun) => `Free ${n} receipt maker: add ${noun}, set the date and totals, then export a clean PDF or PNG. No sign-up to start.`,
+  (n, noun) => `${n} receipt generator: lay out ${noun}, edit the totals and tax, then export a PDF or PNG. Free, private, no sign-up to start.`,
+  (n, noun) => `Recreate a ${n} receipt with ${noun} in a couple of clicks. Free live preview, download as PDF or PNG once you sign in.`,
+  (n, noun) => `Build an editable ${n} receipt — ${noun}, custom tax and totals — and export it free as a PDF or PNG.`,
+  (n, noun) => `A free ${n} receipt template with ${noun} pre-filled. Adjust the details and download a print-ready PDF or PNG.`,
+  (n, noun) => `Fast, free ${n} receipt generator. Add ${noun}, set the tax rate, preview live, then export as a PDF or PNG.`,
 ];
 
 const TITLE_VARIANTS: ((n: string) => string)[] = [
@@ -5343,19 +5356,34 @@ const TITLE_VARIANTS: ((n: string) => string)[] = [
   (n) => `${n} Receipt Maker — Free Online ${n} Receipt`,
   (n) => `Create a ${n} Receipt Online — Free ${n} Receipt Generator`,
   (n) => `Free ${n} Receipt Maker — Editable PDF & PNG`,
+  (n) => `${n} Receipt Maker — Build & Download a ${n} Receipt Free`,
+  (n) => `Generate a ${n} Receipt Online — Free ${n} Receipt Maker`,
+  (n) => `${n} Receipt Template — Free Online Generator`,
+  (n) => `Build a ${n} Receipt Free — ${n} Receipt Generator & Maker`,
 ];
 
 const USECASE_VARIANTS: ((n: string) => string[])[] = [
   (n) => [`Replace a lost ${n} receipt`, "Expense reports and reimbursement", "Personal bookkeeping and records", "Props and design mockups"],
   (n) => [`Recover a misplaced ${n} receipt`, "Business travel expense claims", "Budgeting and spend tracking", "Mockups for design or film"],
   (n) => [`Reprint a ${n} receipt you lost`, "Submit for reimbursement at work", "Records for taxes and bookkeeping", "Sample receipts for testing or demos"],
+  (n) => [`Rebuild a faded ${n} receipt`, "Attach proof of purchase to a claim", "Keep a personal spending log", "App or website screenshot mockups"],
+  (n) => [`Document a ${n} purchase after the fact`, "Freelance and small-business invoicing", "Tax-season bookkeeping records", "Stage or screen props"],
+  (n) => [`Get a copy of a ${n} receipt you never printed`, "Corporate expense-report backup", "Household budgeting records", "Presentation or portfolio mockups"],
+  (n) => [`Stand in for a thermal ${n} receipt that faded`, "Reimbursement paperwork for work trips", "Everyday bookkeeping and record-keeping", "Design comps that need a real-looking receipt"],
+  (n) => [`Recreate a ${n} receipt for a return`, "Freelancer client expense summaries", "Personal finance tracking", "Film, theatre or app-demo props"],
 ];
 
-const FOOTER_VARIANTS: ((n: string) => string)[] = [
+const FOOTER_VARIANTS: ((n: string, city?: string) => string)[] = [
   (n) => `Thank you — see you again at ${n}!`,
   () => `Thank you for your purchase!`,
   () => `Thanks for shopping with us today.`,
   (n) => `${n} appreciates your business.`,
+  (n, city) => `Thank you for visiting ${n}${city ? ` in ${city}` : ""}!`,
+  () => `We appreciate you choosing us today.`,
+  (n) => `Come back soon — ${n} thanks you!`,
+  () => `Have a great day!`,
+  (n, city) => `${n}${city ? ` — ${city}` : ""} thanks you for your visit.`,
+  () => `Your business means a lot to us.`,
 ];
 
 type FaqVariant = (n: string) => { question: string; answer: string };
@@ -5375,6 +5403,11 @@ const FAQ_POOL: FaqVariant[] = [
   (n) => ({ question: `Do I need an account to make a ${n} receipt?`, answer: `You can build and preview with no sign-up. Downloading uses a free account — your first 3 ${n} receipts are watermark-free, then a small watermark applies unless you go Pro.` }),
   (n) => ({ question: `Can I change the date and store details on a ${n} receipt?`, answer: `Yes. Set the date, store address, register or order number and cashier so your ${n} receipt reflects the right visit.` }),
   (n) => ({ question: `What can I use a ${n} receipt for?`, answer: `People recreate ${n} receipts to replace a lost original, document purchases for expense and reimbursement claims, keep bookkeeping records, or use them as props and mockups.` }),
+  (n) => ({ question: `Can I add my own items to a ${n} receipt?`, answer: `Yes — add, remove or reorder line items freely. The template starts with realistic ${n} items, but every field is yours to change.` }),
+  (n) => ({ question: `What file formats does the ${n} receipt export to?`, answer: `PDF (fitted or print-ready A4), PNG and JPG, all rendered at 3x resolution so they stay sharp when printed or attached to an email.` }),
+  (n) => ({ question: `Will a recreated ${n} receipt have a watermark?`, answer: `Your first 3 downloads on a free account are watermark-free HD. After that, free downloads include a small watermark unless you upgrade to Pro.` }),
+  (n) => ({ question: `Can I set a different currency or tax rate on a ${n} receipt?`, answer: `Yes. Switch between 10 currencies and set any tax label and rate — the totals recalculate instantly.` }),
+  (n) => ({ question: `Is my information saved when I make a ${n} receipt?`, answer: `Only if you ask for it. The builder runs in your browser, so what you type stays on your device unless you save the receipt to your account.` }),
 ];
 
 // Real, brand-appropriate items for seeds that would otherwise fall back to
@@ -5544,7 +5577,7 @@ function makeBrand(s: BrandSeed): ReceiptTemplate {
     seoTitle: pick(TITLE_VARIANTS, seed)(s.name),
     seoDescription: pick(SEO_DESC_VARIANTS, seed >>> 2)(s.name, noun),
     heading: `${s.name} Receipt Generator`,
-    intro: pick(INTRO_VARIANTS, seed >>> 4)(s.name, noun),
+    intro: pick(INTRO_VARIANTS, seed >>> 4)(s.name, noun, s.city),
     useCases: pick(USECASE_VARIANTS, seed >>> 6)(s.name),
     faqs,
     defaults: {
@@ -5555,7 +5588,7 @@ function makeBrand(s: BrandSeed): ReceiptTemplate {
       phone: "",
       taxLabel: "Sales Tax",
       taxRate: s.taxRate ?? 0,
-      footerMessage: pick(FOOTER_VARIANTS, seed >>> 8)(s.name),
+      footerMessage: pick(FOOTER_VARIANTS, seed >>> 8)(s.name, s.city),
       paperStyle: s.paper ?? (s.category === "Digital & Subscriptions" ? "modern" : "thermal"),
       items,
     },

@@ -5,11 +5,30 @@ import { getPaymentLinks } from "@/lib/settings";
 import { absoluteUrl, SITE } from "@/lib/site";
 import PricingCta from "./PricingCta";
 
+const PRICING_TITLE = `Pricing — Remove the Watermark with ${SITE.name} Pro`;
+const PRICING_DESCRIPTION =
+  "Create receipts free with a watermark, or go Pro for watermark-free HD downloads, unlimited AI receipt generation and saved history. Monthly or yearly.";
+
 export const metadata: Metadata = {
-  title: `Pricing — Remove the Watermark with ${SITE.name} Pro`,
-  description:
-    "Create receipts free with a watermark, or go Pro for watermark-free HD downloads, unlimited AI receipt generation and saved history. Monthly or yearly.",
+  title: PRICING_TITLE,
+  description: PRICING_DESCRIPTION,
   alternates: { canonical: "/pricing" },
+  openGraph: {
+    title: PRICING_TITLE,
+    description: PRICING_DESCRIPTION,
+    url: absoluteUrl("/pricing"),
+    siteName: SITE.name,
+    type: "website",
+    // Setting openGraph explicitly drops the default opengraph-image, so
+    // re-add it — otherwise social previews render with no image.
+    images: [absoluteUrl("/opengraph-image")],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: PRICING_TITLE,
+    description: PRICING_DESCRIPTION,
+    images: [absoluteUrl("/opengraph-image")],
+  },
 };
 
 const FAQ = [

@@ -24,10 +24,29 @@ export async function generateMetadata({
   const page = getIntentPage(slug);
   if (!page) return { title: "Not found" };
   const c = intentContent(page);
+  const description = fitSeoDescription(c.description);
   return {
     title: c.title,
-    description: fitSeoDescription(c.description),
+    description,
     alternates: { canonical: `/receipt-help/${slug}` },
+    openGraph: {
+      title: c.title,
+      description,
+      url: absoluteUrl(`/receipt-help/${slug}`),
+      siteName: SITE.name,
+      type: "article",
+      // Setting openGraph explicitly drops the default opengraph-image, so
+      // re-add it — otherwise social previews render with no image.
+      images: [absoluteUrl("/opengraph-image")],
+    },
+    // Mirror OG onto the Twitter card; without this it falls back to the
+    // sitewide homepage title/description.
+    twitter: {
+      card: "summary_large_image",
+      title: c.title,
+      description,
+      images: [absoluteUrl("/opengraph-image")],
+    },
   };
 }
 

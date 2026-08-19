@@ -9,6 +9,7 @@ import { docFromReceiptData } from "@/lib/sections";
 import { calcTotals, formatMoney } from "@/lib/format";
 import { SITE, absoluteUrl } from "@/lib/site";
 import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
+import RelatedPosts from "@/components/RelatedPosts";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -328,6 +329,8 @@ export default async function BrandTemplatePage({ params }: Props) {
             ))}
           </ul>
         </section>
+
+        <RelatedPosts hub={`/brands/${template.slug}`} />
       </div>
     </>
   );

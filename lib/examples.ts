@@ -120,6 +120,72 @@ export function exampleSummary(ex: Example): string {
   return names.join(", ") + (extra > 0 ? ` and ${extra} more item${extra > 1 ? "s" : ""}` : "");
 }
 
+// Variant pools for the surrounding prose so the 300+ /examples pages don't
+// all share byte-identical paragraphs — picked deterministically per slug
+// (offset per section so one page doesn't land on variant[0] for all three),
+// mirroring the layout-variant pattern above.
+const INTRO_VARIANTS: ((brand: string, summary: string, total: string) => string)[] = [
+  (brand, summary, total) =>
+    `This is a sample ${brand} receipt showing ${summary}, with a total of ${total}. Use it as a reference for what a real ${brand} receipt looks like — then make your own with your items, prices, date and store details.`,
+  (brand, summary, total) =>
+    `Here's what a ${brand} receipt looks like: ${summary}, totalling ${total}. Copy the layout and swap in your own items, prices, date and store details to make one that matches your purchase.`,
+  (brand, summary, total) =>
+    `A realistic ${brand} receipt example — ${summary} — coming to ${total}. Use it as a starting point, then edit the items, prices, date and store details to match what you actually bought.`,
+  (brand, summary, total) =>
+    `Wondering what a ${brand} receipt should look like? This example shows ${summary} for a total of ${total}. Build your own version with your real items, prices, date and store details below.`,
+];
+
+const DETAIL_VARIANTS: ((
+  brand: string,
+  payment: string,
+  location: string,
+  date: string,
+  taxLabel: string,
+  taxRate: number,
+) => string)[] = [
+  (brand, payment, location, date, taxLabel, taxRate) =>
+    `This ${brand} example reflects a ${payment} purchase${location ? ` in ${location}` : ""} on ${date}, with ${taxLabel} at ${taxRate}%. Yours can use any items, currency, tax rate, date and payment method you like.`,
+  (brand, payment, location, date, taxLabel, taxRate) =>
+    `The sale shown here was paid by ${payment}${location ? ` at a ${brand} location in ${location}` : ""} on ${date}, taxed as ${taxLabel} at ${taxRate}%. Change any of those details when you build your own.`,
+  (brand, payment, location, date, taxLabel, taxRate) =>
+    `Details on this receipt: ${payment} payment${location ? `, ${location}` : ""}, dated ${date}, with ${taxLabel} charged at ${taxRate}%. Every field is editable in your own version — currency, tax rate, date, payment method.`,
+];
+
+const CLOSING_VARIANTS: ((siteName: string) => string)[] = [
+  (siteName) =>
+    `${siteName} lets you customize every field — business name, address, items, quantities, prices, tax, payment method and date — with a live preview, then download as a PDF or high-resolution PNG. No design skills needed.`,
+  (siteName) =>
+    `Every field on this receipt is editable in ${siteName}: business name, address, items, quantities, prices, tax, payment method and date. Watch the live preview update as you type, then export a PDF or high-resolution PNG.`,
+  (siteName) =>
+    `Build the same kind of receipt in ${siteName} — edit the business name, address, items, quantities, prices, tax, payment method and date, watch it update live, and download it as a PDF or crisp PNG.`,
+];
+
+export function exampleIntroText(ex: Example, summary: string, total: string): string {
+  return INTRO_VARIANTS[slugHash(ex.slug) % INTRO_VARIANTS.length](ex.brand, summary, total);
+}
+
+export function exampleDetailText(
+  ex: Example,
+  payment: string,
+  location: string,
+  date: string,
+  taxLabel: string,
+  taxRate: number,
+): string {
+  return DETAIL_VARIANTS[slugHash(`${ex.slug}-detail`) % DETAIL_VARIANTS.length](
+    ex.brand,
+    payment,
+    location,
+    date,
+    taxLabel,
+    taxRate,
+  );
+}
+
+export function exampleClosingText(ex: Example, siteName: string): string {
+  return CLOSING_VARIANTS[slugHash(`${ex.slug}-closing`) % CLOSING_VARIANTS.length](siteName);
+}
+
 export const EXAMPLES: Example[] = [
   // ── Coffee ──
   { slug: "starbucks-receipt-two-lattes-muffin", brand: "Starbucks", base: "coffee-shop", city: "Seattle, WA 98101", items: [{ name: "Venti Caffè Latte", quantity: 2, price: 5.45 }, { name: "Oat Milk", quantity: 1, price: 0.7 }, { name: "Blueberry Muffin", quantity: 1, price: 3.25 }] },

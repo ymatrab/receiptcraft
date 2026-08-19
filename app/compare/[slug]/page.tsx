@@ -13,6 +13,7 @@ import { docFromReceiptData } from "@/lib/sections";
 import { SITE, absoluteUrl } from "@/lib/site";
 import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
 import ComparisonTable from "@/components/comparison/ComparisonTable";
+import RelatedPosts from "@/components/RelatedPosts";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -415,6 +416,8 @@ export default async function ComparePage({ params }: Props) {
             </Link>
           </div>
         </section>
+
+        <RelatedPosts hub={`/compare/${c.slug}`} />
       </div>
     </>
   );

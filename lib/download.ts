@@ -1,5 +1,3 @@
-import { toPng, toJpeg } from "html-to-image";
-
 const EXPORT_OPTIONS = {
   pixelRatio: 3,
   cacheBust: true,
@@ -17,11 +15,13 @@ function triggerDownload(dataUrl: string, filename: string) {
 }
 
 export async function downloadPng(node: HTMLElement, filename: string): Promise<void> {
+  const { toPng } = await import("html-to-image");
   const dataUrl = await toPng(node, EXPORT_OPTIONS);
   triggerDownload(dataUrl, `${filename}.png`);
 }
 
 export async function downloadJpg(node: HTMLElement, filename: string): Promise<void> {
+  const { toJpeg } = await import("html-to-image");
   // JPG has no alpha — force a white background so it isn't black.
   const dataUrl = await toJpeg(node, { ...EXPORT_OPTIONS, quality: 0.95, backgroundColor: "#ffffff" });
   triggerDownload(dataUrl, `${filename}.jpg`);
@@ -37,7 +37,7 @@ export async function downloadPdf(
   filename: string,
   opts: { printReady?: boolean } = {}
 ): Promise<void> {
-  const { jsPDF } = await import("jspdf");
+  const [{ jsPDF }, { toPng }] = await Promise.all([import("jspdf"), import("html-to-image")]);
   const dataUrl = await toPng(node, { ...EXPORT_OPTIONS, backgroundColor: "#ffffff" });
 
   const width = node.offsetWidth;

@@ -7,6 +7,7 @@ import { docFromReceiptData } from "@/lib/sections";
 import { fitSeoDescription } from "@/lib/seo-description";
 import { SITE, absoluteUrl } from "@/lib/site";
 import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
+import RelatedPosts from "@/components/RelatedPosts";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -292,6 +293,8 @@ export default async function TemplatePage({ params }: Props) {
             ))}
           </ul>
         </section>
+
+        <RelatedPosts hub={`/templates/${template.slug}`} />
       </div>
     </>
   );

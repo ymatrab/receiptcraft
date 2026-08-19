@@ -6,6 +6,9 @@ import {
   receiptFromExample,
   exampleTotal,
   exampleSummary,
+  exampleIntroText,
+  exampleDetailText,
+  exampleClosingText,
   EXAMPLE_SLUGS,
   EXAMPLES,
 } from "@/lib/examples";
@@ -40,7 +43,29 @@ export async function generateMetadata({
       ? full
       : `${ex.brand} receipt example totalling ${total}. Make your own editable version and download it free as PDF or PNG.`,
   );
-  return { title, description, alternates: { canonical: `/examples/${ex.slug}` } };
+  return {
+    title,
+    description,
+    alternates: { canonical: `/examples/${ex.slug}` },
+    openGraph: {
+      title,
+      description,
+      url: absoluteUrl(`/examples/${ex.slug}`),
+      siteName: SITE.name,
+      type: "article",
+      // Setting openGraph explicitly drops the default opengraph-image, so
+      // re-add it — otherwise social previews render with no image.
+      images: [absoluteUrl("/opengraph-image")],
+    },
+    // Mirror OG onto the Twitter card; without this it falls back to the
+    // sitewide homepage title/description.
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [absoluteUrl("/opengraph-image")],
+    },
+  };
 }
 
 export default async function ExamplePage({
@@ -88,9 +113,7 @@ export default async function ExamplePage({
             {ex.brand} Receipt Example
           </h1>
           <p className="mt-4 text-lg leading-relaxed text-slate-600">
-            This is a sample {ex.brand} receipt showing {exampleSummary(ex)}, with a total of{" "}
-            <strong>{totalStr}</strong>. Use it as a reference for what a real {ex.brand} receipt
-            looks like — then make your own with your items, prices, date and store details.
+            {exampleIntroText(ex, exampleSummary(ex), totalStr)}
           </p>
 
           <div className="mt-6">
@@ -123,19 +146,18 @@ export default async function ExamplePage({
           </table>
 
           <p className="mt-4 text-sm leading-relaxed text-slate-500">
-            This {ex.brand} example reflects a {data.paymentMethod.toLowerCase()} purchase
-            {location ? ` in ${location}` : ""} on {formatDisplayDate(data.date)},
-            with {data.taxLabel.toLowerCase()} at {data.taxRate}%
-            {total ? ` and a ${totalStr} total` : ""}. Yours can use any items,
-            currency, tax rate, date and payment method you like.
+            {exampleDetailText(
+              ex,
+              data.paymentMethod.toLowerCase(),
+              location,
+              formatDisplayDate(data.date),
+              data.taxLabel.toLowerCase(),
+              data.taxRate,
+            )}
           </p>
 
           <h2 className="mt-10 text-xl font-bold text-slate-900">Make your own in under a minute</h2>
-          <p className="mt-2 leading-relaxed text-slate-600">
-            {SITE.name} lets you customize every field — business name, address, items, quantities,
-            prices, tax, payment method and date — with a live preview, then download as a PDF or
-            high-resolution PNG. No design skills needed.
-          </p>
+          <p className="mt-2 leading-relaxed text-slate-600">{exampleClosingText(ex, SITE.name)}</p>
         </div>
 
         {/* Rendered example receipt */}

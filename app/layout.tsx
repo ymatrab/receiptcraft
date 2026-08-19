@@ -64,6 +64,13 @@ const orgJsonLd = {
   url: SITE.url,
   logo: `${SITE.url}/logo-1024.png`,
   email: SITE.email,
+  contactPoint: [
+    {
+      "@type": "ContactPoint",
+      email: SITE.email,
+      contactType: "customer support",
+    },
+  ],
   sameAs: [`https://x.com/${SITE.twitter.replace("@", "")}`],
 };
 

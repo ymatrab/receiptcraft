@@ -331,25 +331,6 @@ const faqJsonLd = {
   })),
 };
 
-// HowTo mirrors the visible "How to make a receipt" steps. Assistants quote
-// step lists directly, so the markup and the section must not drift apart.
-const howToJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "HowTo",
-  name: "How to make a receipt online",
-  description:
-    "Create a professional receipt in about a minute: pick a template, customize the business details and line items, then download it as a PDF or PNG.",
-  totalTime: "PT1M",
-  estimatedCost: { "@type": "MonetaryAmount", currency: "USD", value: "0" },
-  step: STEPS.map((step, i) => ({
-    "@type": "HowToStep",
-    position: i + 1,
-    name: step.title,
-    text: step.description,
-    url: absoluteUrl(`/#how-it-works`),
-  })),
-};
-
 // Each anatomy zone as a defined term — the section is written to be quotable,
 // and this states the same definitions in a form a machine can lift cleanly.
 const definedTermsJsonLd = {
@@ -405,10 +386,6 @@ export default function HomePage() {
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(definedTermsJsonLd) }}
       />
 
@@ -422,7 +399,7 @@ export default function HomePage() {
               Free to use · No sign-up to start · 100+ templates
             </p>
             <h1 className="mt-5 text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
-              Make a receipt in{" "}
+              Free receipt maker — build yours in{" "}
               <span className="bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">
                 60 seconds
               </span>
