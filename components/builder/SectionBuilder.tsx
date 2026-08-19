@@ -56,6 +56,19 @@ import Link from "next/link";
 import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
 import Watermark from "@/components/receipt/Watermark";
 import AddSectionModal from "./AddSectionModal";
+import Modal from "@/components/Modal";
+import {
+  ArrowDownIcon,
+  ArrowUpIcon,
+  CheckIcon,
+  ChevronDownIcon,
+  CloseIcon,
+  GripIcon,
+  LockIcon,
+  SpinnerIcon,
+  TagIcon,
+  WarningIcon,
+} from "@/components/Icons";
 import {
   AlignToggle,
   DividerRow,
@@ -193,6 +206,22 @@ export default function SectionBuilder() {
   // After returning from login with a pending export, offer to finish it in one
   // tap (a real click keeps the browser download reliable).
   const [resumeExport, setResumeExport] = useState<ExportKind | null>(null);
+  // Transient status message. Replaces the window.alert() calls this used to
+  // make: a native dialog blocks the page, can't be styled, is easy to miss on
+  // mobile, and says nothing to assistive tech until dismissed. Rendered in a
+  // live region so screen readers announce failures without stealing focus.
+  const [toast, setToast] = useState<{ kind: "error" | "info" | "success"; message: string } | null>(null);
+  const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const notify = (kind: "error" | "info" | "success", message: string) => {
+    if (toastTimer.current) clearTimeout(toastTimer.current);
+    setToast({ kind, message });
+    // Errors linger; confirmations clear themselves.
+    toastTimer.current = setTimeout(() => setToast(null), kind === "error" ? 8000 : 4000);
+  };
+  useEffect(() => () => {
+    if (toastTimer.current) clearTimeout(toastTimer.current);
+  }, []);
+
   // Local (no-account) named templates + autosave.
   const [myTemplates, setMyTemplates] = useState<SavedTemplate[]>([]);
   const [autosaveOn, setAutosaveOn] = useState(true);
@@ -321,7 +350,7 @@ export default function SectionBuilder() {
     });
     if (error) {
       setSaveState("idle");
-      alert("Couldn't save. Make sure you're logged in.");
+      notify("error", "Couldn't save your receipt. Check you're still logged in, then try again.");
       return;
     }
     setSaveState("saved");
@@ -471,8 +500,12 @@ export default function SectionBuilder() {
 
   const handleFile = (file: File | undefined, apply: (dataUrl: string) => void) => {
     if (!file) return;
-    if (!file.type.startsWith("image/")) return alert("Please choose an image file.");
-    if (file.size > 2 * 1024 * 1024) return alert("Image too large (max 2 MB).");
+    if (!file.type.startsWith("image/")) {
+      return notify("error", "That file isn't an image. Pick a PNG, JPG or SVG.");
+    }
+    if (file.size > 2 * 1024 * 1024) {
+      return notify("error", "That image is over the 2 MB limit — try a smaller version.");
+    }
     const reader = new FileReader();
     reader.onload = () => apply(String(reader.result));
     reader.readAsDataURL(file);
@@ -510,7 +543,7 @@ export default function SectionBuilder() {
         }).catch(() => {});
       }
     } catch {
-      alert("Sorry, the export failed. Please try again.");
+      notify("error", "The download failed. Your receipt is safe — press Download to try again.");
     } finally {
       setExporting(null);
       setCaptureWatermark(null);
@@ -561,7 +594,14 @@ export default function SectionBuilder() {
       remaining = data.remaining ?? null;
     } catch {
       // Network/API failure → fail safe to watermarked (don't give away clean).
+      // Say so: silently handing back a watermarked file when the user expected
+      // a clean one reads as the product cheating them rather than as the
+      // transient network error it actually is.
       clean = false;
+      notify(
+        "error",
+        "We couldn't reach the server to check your free downloads, so this one carries a watermark. Check your connection and try again for a clean copy."
+      );
     }
 
     setDl((d) => ({ ...d, loggedIn: true, remaining, willWatermark: !clean }));
@@ -649,7 +689,7 @@ export default function SectionBuilder() {
               <div key={i} className="flex items-center gap-2">
                 <input className={inputClass} defaultValue={r.label ?? ""} placeholder="Label" onChange={(e) => updateRow(s, i, { label: e.target.value })} />
                 <input className={inputClass} defaultValue={r.value} placeholder="Value" onChange={(e) => updateRow(s, i, { value: e.target.value })} />
-                <button type="button" aria-label="Remove line" onClick={() => patchSection(s.id, { rows: s.rows.filter((_, j) => j !== i) })} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-red-500 hover:bg-red-50 hover:text-red-600">✕</button>
+                <button type="button" aria-label="Remove line" onClick={() => patchSection(s.id, { rows: s.rows.filter((_, j) => j !== i) })} className="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-lg text-red-500 transition-colors hover:bg-red-50 hover:text-red-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500"><CloseIcon className="h-4 w-4" /></button>
               </div>
             ))}
             <button type="button" onClick={() => patchSection(s.id, { rows: [...s.rows, { label: "", value: "" }] })} className="w-full rounded-lg border border-dashed border-slate-300 py-2 text-sm font-medium text-slate-500 hover:border-indigo-400 hover:text-indigo-600">+ Add line</button>
@@ -667,7 +707,7 @@ export default function SectionBuilder() {
                   <input className={inputClass} type="number" defaultValue={it.quantity} onChange={(e) => updateItem(s, it.id, { quantity: parseFloat(e.target.value) || 0 })} aria-label="Qty" />
                   <input className={inputClass} defaultValue={it.name} placeholder="Item name" onChange={(e) => updateItem(s, it.id, { name: e.target.value })} aria-label="Name" />
                   <input className={inputClass} type="number" step="0.01" defaultValue={it.price} onChange={(e) => updateItem(s, it.id, { price: parseFloat(e.target.value) || 0 })} aria-label="Price" />
-                  <button type="button" aria-label="Remove item" onClick={() => patchSection(s.id, { items: s.items.filter((x) => x.id !== it.id) })} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-red-500 hover:bg-red-50 hover:text-red-600">✕</button>
+                  <button type="button" aria-label="Remove item" onClick={() => patchSection(s.id, { items: s.items.filter((x) => x.id !== it.id) })} className="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-lg text-red-500 transition-colors hover:bg-red-50 hover:text-red-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500"><CloseIcon className="h-4 w-4" /></button>
                 </div>
                 {itemDetails[it.id] && (
                   <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-3">
@@ -734,7 +774,7 @@ export default function SectionBuilder() {
                   <div key={i} className="flex items-center gap-2">
                     <input className={inputClass} defaultValue={tl.label} placeholder="Label (e.g. GST)" onChange={(e) => patchSection(s.id, { taxLines: s.taxLines!.map((x, j) => (j === i ? { ...x, label: e.target.value } : x)) })} aria-label="Tax label" />
                     <input className={`${inputClass} w-24`} type="number" step="0.01" defaultValue={tl.rate} placeholder="%" onChange={(e) => patchSection(s.id, { taxLines: s.taxLines!.map((x, j) => (j === i ? { ...x, rate: parseFloat(e.target.value) || 0 } : x)) })} aria-label="Tax rate" />
-                    <button type="button" aria-label="Remove tax line" onClick={() => patchSection(s.id, { taxLines: s.taxLines!.filter((_, j) => j !== i) })} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-red-500 hover:bg-red-50 hover:text-red-600">✕</button>
+                    <button type="button" aria-label="Remove tax line" onClick={() => patchSection(s.id, { taxLines: s.taxLines!.filter((_, j) => j !== i) })} className="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-lg text-red-500 transition-colors hover:bg-red-50 hover:text-red-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500"><CloseIcon className="h-4 w-4" /></button>
                   </div>
                 ))}
               </div>
@@ -813,7 +853,7 @@ export default function SectionBuilder() {
                 <div key={i} className="mt-2 flex items-center gap-2">
                   <input className={inputClass} defaultValue={p.method} placeholder="Method" onChange={(e) => patchSection(s.id, { splits: splits.map((x, j) => (j === i ? { ...x, method: e.target.value } : x)) })} aria-label="Split method" />
                   <input className={`${inputClass} w-28`} type="number" step="0.01" defaultValue={p.amount || ""} placeholder="Amount" onChange={(e) => patchSection(s.id, { splits: splits.map((x, j) => (j === i ? { ...x, amount: parseFloat(e.target.value) || 0 } : x)) })} aria-label="Split amount" />
-                  <button type="button" aria-label="Remove split" onClick={() => patchSection(s.id, { splits: splits.filter((_, j) => j !== i) })} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-red-500 hover:bg-red-50 hover:text-red-600">✕</button>
+                  <button type="button" aria-label="Remove split" onClick={() => patchSection(s.id, { splits: splits.filter((_, j) => j !== i) })} className="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-lg text-red-500 transition-colors hover:bg-red-50 hover:text-red-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500"><CloseIcon className="h-4 w-4" /></button>
                 </div>
               ))}
             </div>
@@ -908,20 +948,25 @@ export default function SectionBuilder() {
             value={aiPrompt}
             onChange={(e) => setAiPrompt(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && generateAi()}
+            aria-label="Describe the receipt you want"
+            aria-invalid={aiError ? true : undefined}
+            aria-describedby={aiError ? "ai-error" : undefined}
             placeholder="e.g. Starbucks receipt, 2 lattes and a muffin, this morning"
-            className="min-w-0 flex-1 rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-base focus:border-indigo-400 focus:outline-none sm:py-2 sm:text-sm"
+            className={`min-w-0 flex-1 ${inputClass}`}
           />
           <button
             type="button"
             onClick={generateAi}
             disabled={aiLoading || !aiPrompt.trim()}
-            className="rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-60"
+            aria-busy={aiLoading}
+            className="flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
           >
+            {aiLoading && <SpinnerIcon className="h-4 w-4" />}
             {aiLoading ? "Generating…" : "Generate"}
           </button>
         </div>
         {aiError && (
-          <p className="mt-2 text-xs text-red-600">
+          <p id="ai-error" role="alert" className="mt-2 text-xs font-medium text-red-700">
             {aiError}{" "}
             {aiError.includes("Upgrade") || aiError.includes("upgrade") ? (
               <Link
@@ -958,18 +1003,23 @@ export default function SectionBuilder() {
           {myTemplates.map((t) => (
             <span
               key={t.id}
-              className="group inline-flex items-center gap-1 rounded-full border border-amber-200 bg-amber-50 py-1 pl-3 pr-1.5 text-xs font-medium text-amber-800"
+              className="group inline-flex items-center rounded-full border border-amber-200 bg-amber-50 pl-1 pr-0.5 text-xs font-medium text-amber-900"
             >
-              <button type="button" onClick={() => loadMyTemplate(t)} className="hover:underline" title="Load this template">
+              <button
+                type="button"
+                onClick={() => loadMyTemplate(t)}
+                className="cursor-pointer rounded-full px-2 py-2.5 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-600"
+                title="Load this template"
+              >
                 {t.name}
               </button>
               <button
                 type="button"
                 onClick={() => removeMyTemplate(t.id)}
                 aria-label={`Delete template ${t.name}`}
-                className="rounded-full px-1 text-amber-400 hover:bg-amber-100 hover:text-amber-700"
+                className="flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full text-amber-700 transition-colors hover:bg-amber-100 hover:text-amber-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-600"
               >
-                ✕
+                <CloseIcon className="h-3.5 w-3.5" />
               </button>
             </span>
           ))}
@@ -1070,16 +1120,16 @@ export default function SectionBuilder() {
                 <span
                   draggable
                   onDragStart={() => (dragIndex.current = i)}
-                  className="hidden cursor-grab select-none px-1 text-slate-300 sm:inline"
+                  className="hidden cursor-grab select-none px-1 text-slate-500 sm:inline"
                   aria-label="Drag to reorder"
                 >
-                  ⠿
+                  <GripIcon className="h-5 w-5" />
                 </span>
                 <span className="min-w-0 flex-1 truncate text-sm font-semibold text-slate-900">{SECTION_LABEL[s.type]}</span>
-                <button type="button" onClick={() => reorder(i, i - 1)} disabled={i === 0} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-50 hover:text-slate-600 disabled:opacity-30" aria-label="Move up">↑</button>
-                <button type="button" onClick={() => reorder(i, i + 1)} disabled={i === doc.sections.length - 1} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-50 hover:text-slate-600 disabled:opacity-30" aria-label="Move down">↓</button>
-                <button type="button" onClick={() => setCollapsed((c) => ({ ...c, [s.id]: !c[s.id] }))} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-50 hover:text-slate-600" aria-label={collapsed[s.id] ? "Expand section" : "Collapse section"}>{collapsed[s.id] ? "▾" : "▴"}</button>
-                <button type="button" onClick={() => removeSection(s.id)} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-red-400 hover:bg-red-50 hover:text-red-600" aria-label="Remove section">✕</button>
+                <button type="button" onClick={() => reorder(i, i - 1)} disabled={i === 0} className="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-lg text-slate-500 transition-colors hover:bg-slate-50 hover:text-slate-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-40" aria-label="Move up"><ArrowUpIcon className="h-4 w-4" /></button>
+                <button type="button" onClick={() => reorder(i, i + 1)} disabled={i === doc.sections.length - 1} className="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-lg text-slate-500 transition-colors hover:bg-slate-50 hover:text-slate-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-40" aria-label="Move down"><ArrowDownIcon className="h-4 w-4" /></button>
+                <button type="button" onClick={() => setCollapsed((c) => ({ ...c, [s.id]: !c[s.id] }))} aria-expanded={!collapsed[s.id]} className="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-lg text-slate-500 transition-colors hover:bg-slate-50 hover:text-slate-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500" aria-label={collapsed[s.id] ? "Expand section" : "Collapse section"}><ChevronDownIcon className={`h-4 w-4 transition-transform ${collapsed[s.id] ? "" : "rotate-180"}`} /></button>
+                <button type="button" onClick={() => removeSection(s.id)} className="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-lg text-red-500 transition-colors hover:bg-red-50 hover:text-red-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500" aria-label="Remove section"><CloseIcon className="h-4 w-4" /></button>
               </div>
               {!collapsed[s.id] && (
                 <div className="space-y-4 p-4">
@@ -1203,16 +1253,14 @@ export default function SectionBuilder() {
 
       {/* Watermark fallback (logged-in free user who is out of free receipts) */}
       {pendingExport && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 p-4"
-          onClick={() => setPendingExport(null)}
+        <Modal
+          onClose={() => setPendingExport(null)}
+          labelledBy="watermark-prompt-title"
+          panelClassName="w-full max-w-md rounded-3xl bg-white p-7 shadow-2xl"
         >
-          <div
-            className="w-full max-w-md rounded-3xl bg-white p-7 shadow-2xl"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="text-3xl">🏷️</div>
-            <h3 className="mt-3 text-xl font-bold text-slate-900">
+          <div>
+            <TagIcon className="h-8 w-8 text-indigo-600" />
+            <h3 id="watermark-prompt-title" className="mt-3 text-xl font-bold text-slate-900">
               You&apos;ve used your {FREE_LIMITS.freeReceiptDownloads} free receipts
             </h3>
             <p className="mt-2 text-sm leading-relaxed text-slate-600">
@@ -1241,27 +1289,27 @@ export default function SectionBuilder() {
               <button
                 type="button"
                 onClick={() => setPendingExport(null)}
-                className="px-5 py-2 text-xs font-medium text-slate-400 hover:text-slate-600"
+                className="cursor-pointer rounded-full px-5 py-3 text-sm font-medium text-slate-600 transition-colors hover:text-slate-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
               >
                 Cancel
               </button>
             </div>
           </div>
-        </div>
+        </Modal>
       )}
 
       {/* Login required to download (anonymous users) */}
       {loginPrompt && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 p-4"
-          onClick={() => setLoginPrompt(null)}
+        <Modal
+          onClose={() => setLoginPrompt(null)}
+          labelledBy="login-prompt-title"
+          panelClassName="w-full max-w-md rounded-3xl bg-white p-7 shadow-2xl"
         >
-          <div
-            className="w-full max-w-md rounded-3xl bg-white p-7 shadow-2xl"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="text-3xl">🔐</div>
-            <h3 className="mt-3 text-xl font-bold text-slate-900">Log in to download</h3>
+          <div>
+            <LockIcon className="h-8 w-8 text-indigo-600" />
+            <h3 id="login-prompt-title" className="mt-3 text-xl font-bold text-slate-900">
+              Log in to download
+            </h3>
             <p className="mt-2 text-sm leading-relaxed text-slate-600">
               Create a free account to download your receipt. Every free account includes{" "}
               <strong>{FREE_LIMITS.freeReceiptDownloads} watermark-free HD receipts</strong> — no
@@ -1291,40 +1339,85 @@ export default function SectionBuilder() {
               <button
                 type="button"
                 onClick={() => setLoginPrompt(null)}
-                className="px-5 py-2 text-xs font-medium text-slate-400 hover:text-slate-600"
+                className="cursor-pointer rounded-full px-5 py-3 text-sm font-medium text-slate-600 transition-colors hover:text-slate-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
               >
                 Cancel
+              </button>
+            </div>
+          </div>
+        </Modal>
+      )}
+
+      {/* Resume banner: back from login with a pending download — one tap to finish. */}
+      {resumeExport && (
+        // Sits above the mobile Edit/Preview bar rather than on top of it: that
+        // bar is fixed at bottom-0 with z-40, so a bottom-4 banner at z-50 was
+        // covering the only way to switch tabs on a phone. Stacks to two rows
+        // on narrow screens — the copy plus two buttons never fitted on 375px.
+        <div
+          // Underscores are Tailwind's escape for spaces in arbitrary values —
+          // `calc(4.5rem+env(…))` without them is invalid CSS and gets dropped.
+          className="fixed inset-x-0 bottom-0 z-50 flex justify-center px-4 pb-[calc(4.5rem_+_env(safe-area-inset-bottom))] lg:pb-6"
+          role="status"
+        >
+          <div className="flex w-full max-w-md flex-col gap-3 rounded-2xl border border-indigo-200 bg-white p-4 shadow-2xl sm:max-w-xl sm:flex-row sm:items-center sm:rounded-full sm:py-3 sm:pl-5 sm:pr-3">
+            <span className="flex-1 text-sm font-medium text-slate-700">
+              You&apos;re logged in — your receipt is right here. Finish your download:
+            </span>
+            <div className="flex shrink-0 items-center gap-1">
+              <button
+                type="button"
+                onClick={() => {
+                  const kind = resumeExport;
+                  setResumeExport(null);
+                  if (kind) void requestExport(kind);
+                }}
+                className="flex-1 cursor-pointer rounded-full bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 sm:flex-none"
+              >
+                Download
+              </button>
+              <button
+                type="button"
+                onClick={() => setResumeExport(null)}
+                aria-label="Dismiss"
+                className="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-full text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+              >
+                <CloseIcon className="h-4 w-4" />
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* Resume banner: back from login with a pending download — one tap to finish. */}
-      {resumeExport && (
-        <div className="fixed inset-x-0 bottom-4 z-50 flex justify-center px-4">
-          <div className="flex items-center gap-3 rounded-full border border-indigo-200 bg-white px-5 py-3 shadow-2xl">
-            <span className="text-sm font-medium text-slate-700">
-              You&apos;re logged in — your receipt is right here. Finish your download:
-            </span>
+      {/* Status messages. Anchored top-centre because the bottom of the screen
+          already carries the mobile tab bar and the resume banner. role=alert
+          for failures (announced immediately), role=status for confirmations
+          (announced at the next pause) — neither steals focus. */}
+      {toast && (
+        <div className="pointer-events-none fixed inset-x-0 top-4 z-[60] flex justify-center px-4">
+          <div
+            role={toast.kind === "error" ? "alert" : "status"}
+            className={`pointer-events-auto flex w-full max-w-lg items-start gap-3 rounded-2xl border px-4 py-3 shadow-lg ${
+              toast.kind === "error"
+                ? "border-red-200 bg-red-50 text-red-800"
+                : toast.kind === "success"
+                  ? "border-emerald-200 bg-emerald-50 text-emerald-900"
+                  : "border-slate-200 bg-white text-slate-700"
+            }`}
+          >
+            {toast.kind === "error" ? (
+              <WarningIcon className="mt-0.5 h-5 w-5 shrink-0" />
+            ) : toast.kind === "success" ? (
+              <CheckIcon className="mt-0.5 h-5 w-5 shrink-0" />
+            ) : null}
+            <p className="flex-1 text-sm font-medium leading-relaxed">{toast.message}</p>
             <button
               type="button"
-              onClick={() => {
-                const kind = resumeExport;
-                setResumeExport(null);
-                if (kind) void requestExport(kind);
-              }}
-              className="rounded-full bg-indigo-600 px-4 py-1.5 text-sm font-semibold text-white hover:bg-indigo-700"
+              onClick={() => setToast(null)}
+              aria-label="Dismiss message"
+              className="-mr-1 -mt-1 flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full transition-colors hover:bg-black/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-current"
             >
-              Download
-            </button>
-            <button
-              type="button"
-              onClick={() => setResumeExport(null)}
-              aria-label="Dismiss"
-              className="text-slate-400 hover:text-slate-600"
-            >
-              ✕
+              <CloseIcon className="h-4 w-4" />
             </button>
           </div>
         </div>

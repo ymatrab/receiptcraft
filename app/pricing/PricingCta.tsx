@@ -1,8 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAccount } from "@/lib/useAccount";
 import { analytics } from "@/lib/analytics";
+import { SpinnerIcon } from "@/components/Icons";
 
 interface Props {
   planId: "pro_weekly" | "pro_monthly" | "pro_yearly";
@@ -20,22 +22,31 @@ interface Props {
 export default function PricingCta({ planId, paymentLink, label, className }: Props) {
   const router = useRouter();
   const { account, loading } = useAccount();
+  // Set from the click until the browser actually leaves the page. Navigating
+  // to Stripe isn't instant on a slow connection, and this is the highest-intent
+  // click in the funnel — silence here reads as a broken button and invites
+  // double-clicks.
+  const [busy, setBusy] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   function handleClick() {
-    if (loading) return;
+    if (loading || busy) return;
+    setError(null);
 
     if (account.isPro) {
+      setBusy("Opening your account…");
       router.push("/account");
       return;
     }
 
     if (!account.isLoggedIn) {
+      setBusy("Taking you to sign in…");
       router.push(`/login?next=${encodeURIComponent("/pricing")}`);
       return;
     }
 
     if (!paymentLink) {
-      alert("Checkout isn't configured yet. Please add the Stripe payment link.");
+      setError("Checkout isn't available right now. Please contact support and we'll get you sorted.");
       return;
     }
 
@@ -48,24 +59,44 @@ export default function PricingCta({ planId, paymentLink, label, className }: Pr
     } else {
       // Manual flow: orders are matched to accounts by email, so prefill the
       // buyer's account email at checkout (Shopify cart permalinks support
-      // checkout[email]) and remind them not to change it.
+      // checkout[email]). The "use the same email" instruction is shown
+      // statically on /pricing, so a window.confirm() here was redundant — and
+      // it interrupted the highest-intent moment in the funnel while running
+      // *before* analytics.beginCheckout(), which made its drop-off invisible.
       if (account.email) {
         url.searchParams.set("checkout[email]", account.email);
       }
-      const ok = window.confirm(
-        `Please use the same email you're signed in with at checkout` +
-          `${account.email ? ` — ${account.email}` : ""} — so we can activate your Pro account.\n\nContinue to checkout?`
-      );
-      if (!ok) return;
     }
     const planLabel = planId === "pro_yearly" ? "yearly" : planId === "pro_weekly" ? "weekly" : "monthly";
     analytics.beginCheckout(planLabel, "pricing");
+    setBusy("Taking you to checkout…");
     window.location.href = url.toString();
   }
 
+  // Disabled while the account state is still resolving: a button that looks
+  // live but silently no-ops is worse than one that visibly isn't ready yet.
+  const disabled = loading || busy !== null;
+
   return (
-    <button type="button" onClick={handleClick} className={className} data-plan={planId}>
-      {account.isPro ? "Manage subscription" : label}
-    </button>
+    <>
+      <button
+        type="button"
+        onClick={handleClick}
+        disabled={disabled}
+        aria-busy={busy !== null}
+        className={`${className ?? ""} cursor-pointer transition-opacity disabled:cursor-not-allowed disabled:opacity-60`}
+        data-plan={planId}
+      >
+        <span className="inline-flex items-center justify-center gap-2">
+          {busy && <SpinnerIcon className="h-4 w-4" />}
+          {busy ?? (account.isPro ? "Manage subscription" : label)}
+        </span>
+      </button>
+      {error && (
+        <p role="alert" className="mt-2 text-center text-xs font-medium text-red-700">
+          {error}
+        </p>
+      )}
+    </>
   );
 }

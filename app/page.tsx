@@ -441,7 +441,7 @@ export default function HomePage() {
               </div>
               <div>
                 <dt className="text-2xl font-bold text-slate-900">$0</dt>
-                <dd className="mt-0.5 text-sm text-slate-500">Always free</dd>
+                <dd className="mt-0.5 text-sm text-slate-500">Free to build</dd>
               </div>
             </dl>
           </div>
@@ -1071,7 +1071,7 @@ export default function HomePage() {
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-left font-medium text-slate-900 [&::-webkit-details-marker]:hidden">
                   {faq.question}
                   <svg
-                    className="h-5 w-5 shrink-0 text-slate-400 transition-transform group-open:rotate-180"
+                    className="h-5 w-5 shrink-0 text-slate-500 transition-transform group-open:rotate-180"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
