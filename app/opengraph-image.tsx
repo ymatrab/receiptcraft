@@ -46,7 +46,10 @@ export default function OpenGraphImage() {
             Make a receipt in 60 seconds
           </div>
           <div style={{ marginTop: 28, color: "#c7d2fe", fontSize: 30, lineHeight: 1.4 }}>
-            Free to build · {BRAND_COUNT} brand templates · PDF & PNG
+            {/* One interpolated string, not a mixed array: Satori (next/og)
+                renders text children only as strings, and a bare number child
+                throws during build. */}
+            {`Free to build · ${BRAND_COUNT} brand templates · PDF & PNG`}
           </div>
         </div>
 
