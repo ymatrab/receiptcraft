@@ -29,8 +29,11 @@ export async function POST() {
     .limit(1)
     .maybeSingle();
 
-  if (!sub?.stripe_customer_id) {
-    return NextResponse.json({ error: "no subscription" }, { status: 404 });
+  // "manual" is the placeholder written by admin grants and Shopify orders —
+  // it is not a Stripe customer, and passing it to the portal throws a 500.
+  // Those members cancel by emailing support; /account tells them so.
+  if (!sub?.stripe_customer_id || sub.stripe_customer_id === "manual") {
+    return NextResponse.json({ error: "no stripe subscription" }, { status: 404 });
   }
 
   const session = await getStripe().billingPortal.sessions.create({

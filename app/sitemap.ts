@@ -45,6 +45,10 @@ const GUIDES_UPDATED = new Date("2026-08-20");
 // it does not restamp the other static pages that did not change.
 const POLICY_UPDATED = new Date("2026-08-20");
 const COMPARISONS_UPDATED = new Date(LAST_UPDATED);
+// /pricing — the cancellation FAQ no longer promises a self-serve billing
+// portal that does not exist, and says how to actually cancel or get a refund.
+// Its own constant so it does not restamp the other CONTENT_UPDATED pages.
+const PRICING_UPDATED = new Date("2026-08-20");
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages: MetadataRoute.Sitemap = [
@@ -58,7 +62,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE.url}/examples`, lastModified: EXAMPLES_UPDATED },
     { url: `${SITE.url}/receipt-help`, lastModified: INTENT_UPDATED },
     { url: `${SITE.url}/alternatives`, lastModified: COMPARISONS_UPDATED },
-    { url: `${SITE.url}/pricing`, lastModified: CONTENT_UPDATED },
+    { url: `${SITE.url}/pricing`, lastModified: PRICING_UPDATED },
     { url: `${SITE.url}/login`, lastModified: STATIC_UPDATED },
     { url: `${SITE.url}/blog`, lastModified: STATIC_UPDATED },
     { url: `${SITE.url}/about`, lastModified: STATIC_UPDATED },

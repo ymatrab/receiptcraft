@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { PLANS } from "@/lib/plans";
+import { isProEntitled, PLANS } from "@/lib/plans";
 
 export const dynamic = "force-dynamic";
 
@@ -21,7 +21,10 @@ async function getStats() {
       .from("profiles")
       .select("*", { count: "exact", head: true })
       .gte("created_at", thirtyDaysAgo),
-    admin.from("subscriptions").select("plan, status").in("status", ["active", "trialing"]),
+    admin
+      .from("subscriptions")
+      .select("plan, status, current_period_end")
+      .in("status", ["active", "trialing"]),
     admin
       .from("conversations")
       .select("*", { count: "exact", head: true })
@@ -32,7 +35,11 @@ async function getStats() {
       .is("unsubscribed_at", null),
   ]);
 
-  const subs = activeSubs.data ?? [];
+  // Status alone would count grants that have already run out, overstating both
+  // the member count and MRR.
+  const subs = (activeSubs.data ?? []).filter((s) =>
+    isProEntitled(s.status, s.current_period_end)
+  );
   const mrr = subs.reduce((sum, s) => sum + (MRR_PER_PLAN[s.plan ?? ""] ?? 0), 0);
 
   return {
