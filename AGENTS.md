@@ -16,10 +16,21 @@ exist rather than assuming — more will be added as the product grows.
 Reach Notion with its official MCP. Not Zapier: Zapier spends a task credit on
 every read and write and the account runs dry mid-job.
 
-The current board is "GEO Citations — Task Board":
+Two boards exist today. Check both before asking what to work on — they hold
+different kinds of work and neither supersedes the other.
+
+"GEO Citations — Task Board":
 
 - database `3c10a70b-4d02-81df-8eae-d3d4eed63f2a`
 - data source `collection://3c10a70b-4d02-8181-b72f-000bec9d58cc`
+
+"Marketing & Revenue — Task Board" (added 2026-08-20):
+
+- database `9988b72b-fe79-4586-b8b0-fee400984eb3`
+- data source `collection://2fcc02d7-f743-4ec2-9c7a-5191f5a431cb`
+- seeded from `MARKETING-ACTION-PLAN.md`; the phase order there is deliberate
+  (stop the leak → automate fulfilment → trust → growth) and each phase is
+  worthless if the one before it is skipped
 
 ## Starting work
 
