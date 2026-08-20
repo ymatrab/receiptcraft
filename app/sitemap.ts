@@ -30,8 +30,11 @@ const TEMPLATES_UPDATED = new Date("2026-07-20");
 // list, so a template picks up the fresh date when it gains citations and the
 // uncited ones keep TEMPLATES_UPDATED. Same idea as INTENT_CITED_UPDATED.
 const TEMPLATES_CITED_UPDATED = new Date("2026-08-20");
-const BRANDS_UPDATED = new Date("2026-07-20");
-const INTENT_UPDATED = new Date("2026-07-20");
+// Every /brands and /receipt-help page gained a "Related reading" section on
+// 2026-08-20, so both groups genuinely changed and both dates move. These are
+// real edits to rendered content, not a restamp of untouched pages.
+const BRANDS_UPDATED = new Date("2026-08-20");
+const INTENT_UPDATED = new Date("2026-08-20");
 // The 19 brands whose guides now cite the retailer's own help pages. Only those
 // pages changed; the other ~180 keep INTENT_UPDATED.
 const INTENT_CITED_UPDATED = new Date("2026-08-20");

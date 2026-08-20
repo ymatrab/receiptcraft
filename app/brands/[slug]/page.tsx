@@ -330,7 +330,12 @@ export default async function BrandTemplatePage({ params }: Props) {
           </ul>
         </section>
 
-        <RelatedPosts hub={`/brands/${template.slug}`} />
+        {/* Curated and brand-named posts first; the topical fallback keeps the
+            ~337 brands with no post of their own from being dead ends. */}
+        <RelatedPosts
+          hub={`/brands/${template.slug}`}
+          categories={["Basics", "How-To", "Lost Receipts"]}
+        />
       </div>
     </>
   );
