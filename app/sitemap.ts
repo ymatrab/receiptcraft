@@ -3,7 +3,7 @@ import { SITE } from "@/lib/site";
 import { TEMPLATES } from "@/lib/templates";
 import { BRAND_TEMPLATES } from "@/lib/brands";
 import { EXAMPLES, EXAMPLES_TOTAL_PAGES } from "@/lib/examples";
-import { INTENT_PAGES } from "@/lib/intent-pages";
+import { INTENT_PAGES, hasOfficialSource } from "@/lib/intent-pages";
 import { COMPETITORS, LAST_UPDATED } from "@/lib/comparisons";
 import { getAllPosts } from "@/lib/sanity/queries";
 
@@ -27,7 +27,14 @@ const CONTENT_UPDATED = new Date("2026-08-14");
 const TEMPLATES_UPDATED = new Date("2026-07-20");
 const BRANDS_UPDATED = new Date("2026-07-20");
 const INTENT_UPDATED = new Date("2026-07-20");
+// The 19 brands whose guides now cite the retailer's own help pages. Only those
+// pages changed; the other ~180 keep INTENT_UPDATED.
+const INTENT_CITED_UPDATED = new Date("2026-08-20");
 const EXAMPLES_UPDATED = new Date("2026-07-03");
+// /guides/receipt-anatomy — rewritten with inline citations to the IRS, EMVCo,
+// PCI DSS and the EU/UK VAT rules. Its own constant so bumping it doesn't
+// restamp every other static page.
+const GUIDES_UPDATED = new Date("2026-08-20");
 const COMPARISONS_UPDATED = new Date(LAST_UPDATED);
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -37,7 +44,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE.url}/tools`, lastModified: CONTENT_UPDATED },
     { url: `${SITE.url}/tools/receipt-calculator`, lastModified: CONTENT_UPDATED },
     { url: `${SITE.url}/tools/split-payment-checker`, lastModified: CONTENT_UPDATED },
-    { url: `${SITE.url}/guides/receipt-anatomy`, lastModified: STATIC_UPDATED },
+    { url: `${SITE.url}/guides/receipt-anatomy`, lastModified: GUIDES_UPDATED },
     { url: `${SITE.url}/templates`, lastModified: TEMPLATES_UPDATED },
     { url: `${SITE.url}/examples`, lastModified: EXAMPLES_UPDATED },
     { url: `${SITE.url}/receipt-help`, lastModified: INTENT_UPDATED },
@@ -91,7 +98,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const intentPages: MetadataRoute.Sitemap = INTENT_PAGES.map((p) => ({
     url: `${SITE.url}/receipt-help/${p.slug}`,
-    lastModified: INTENT_UPDATED,
+    lastModified: hasOfficialSource(p.brandSlug) ? INTENT_CITED_UPDATED : INTENT_UPDATED,
   }));
 
   const comparisonPages: MetadataRoute.Sitemap = COMPETITORS.map((c) => ({

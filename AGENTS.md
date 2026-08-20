@@ -46,6 +46,21 @@ gets a preview, and previews are behind Vercel auth. So verify against
 If you stop mid-task, write where you got to and what the next step is. A cold
 session should be able to resume from the task body alone.
 
+## Shipping
+
+`main` deploys production; `dev` is preview only. Merge to `main` when site
+content or code should go live — and ask first, since that is a public release.
+
+Docs, plans and tooling stay on `dev`. Don't merge them to `main` just to tidy
+up; they change nothing for visitors and each merge spends a production deploy.
+
+**Bump the sitemap date for any page whose visible content you changed.**
+`app/sitemap.ts` uses hand-maintained per-section constants, and the IndexNow
+cron only submits URLs whose `lastModified` is newer than its last run — so a
+rewritten page that keeps its old date is silently never sent to Bing or Yandex.
+Move the page onto a fresh constant rather than restamping a shared one:
+false dates on untouched pages are what IndexNow treats as spam.
+
 ## Syncing
 
 Update the board **at the start and at the end of a job** — not after every

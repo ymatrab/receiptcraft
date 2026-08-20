@@ -588,6 +588,13 @@ const BRAND_OFFICIAL: Record<string, BrandOfficial> = {
   },
 };
 
+/** Whether this brand's guides cite its official help pages. Used by the
+ *  sitemap to date only the pages that actually changed — restamping the rest
+ *  would put false dates in <lastmod>, which IndexNow treats as spam. */
+export function hasOfficialSource(brandSlug: string): boolean {
+  return brandSlug in BRAND_OFFICIAL;
+}
+
 /** Where this brand's receipts usually live, phrased for the steps. */
 function lookupStep(slug: string, name: string, category: BrandCategory): string {
   const fact = BRAND_FACTS[slug];
