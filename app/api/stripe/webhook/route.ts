@@ -39,6 +39,7 @@ async function syncSubscription(
     {
       id: sub.id,
       user_id: resolvedUserId,
+      source: "stripe",
       stripe_customer_id: String(sub.customer),
       status: sub.status,
       price_id: priceId,
