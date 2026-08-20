@@ -182,7 +182,7 @@ export const COMPETITORS: Competitor[] = [
       {
         question: "How much does MakeReceipt cost?",
         answer:
-          "MakeReceipt offers Standard, Pro and Enterprise memberships that remove the watermark, but it does not publish exact tier prices publicly on its site (as of July 2026). Makecepeit's Pro is publicly listed at $3/week, $7.99/month or $39/year.",
+          "MakeReceipt offers Standard, Pro and Enterprise memberships that remove the watermark, but it does not publish exact tier prices publicly on its site — re-checked in August 2026, when both its /pricing and /membership paths still redirected to the homepage. Makecepeit's Pro is publicly listed at $3/week, $7.99/month or $39/year.",
       },
       {
         question: "Does MakeReceipt have an AI receipt generator?",
@@ -206,9 +206,9 @@ export const COMPETITORS: Competitor[] = [
     intro:
       "ReceiptFaker is a free, browser-based receipt maker with 100+ retailer templates and no signup to use. Makecepeit covers the same free, fast use case but adds an AI generator, saved receipt history, PDF and PNG export, and a record-keeping-first stance. Here is how the two compare, honestly.",
     overview:
-      "ReceiptFaker offers 100+ templates for major retailers (Walmart, Target, CVS and more), works in the browser with no download, and is mobile-friendly. It presents itself as free to use with no paid tiers listed, and carries prominent disclaimers that receipts are for legitimate business, creative and educational use only.",
+      "ReceiptFaker offers 100+ templates for major retailers (Walmart, Target, CVS and more), works in the browser with no download, and is mobile-friendly. It is still free to use without an account, and since our July 2026 review it has also added weekly, monthly and yearly subscriptions whose selling points are removing watermarks and unlimited downloads. It carries prominent disclaimers that receipts are for legitimate business, creative and educational use only.",
     strengths: [
-      "Genuinely free with no paid tiers listed",
+      "Free to use without an account",
       "100+ recognizable retailer templates",
       "No signup required and mobile-friendly",
     ],
@@ -277,14 +277,14 @@ export const COMPETITORS: Competitor[] = [
     intro:
       "ReceiptBaker is a receipt generator that offers an AI receipt tool, a custom receipt maker and a content blog covering topics like rental receipts. Makecepeit also offers AI generation, plus 350+ named-brand templates and pricing you can see before you buy. Here is a fair, side-by-side look.",
     overview:
-      "ReceiptBaker provides a receipt generator, an AI receipt generator, a custom receipt maker and a template library, alongside an active blog (how-to guides, rental payment receipts and more). Its pricing is not publicly retrievable — the site blocks automated access and its pricing page did not load during our review — so we mark paid tiers as not publicly available rather than guessing.",
+      "ReceiptBaker provides a receipt generator, an AI receipt generator, a custom receipt maker and a template library, alongside an active blog (how-to guides, rental payment receipts and more). Its pricing page renders prices in the browser rather than in the served HTML, which is why an earlier automated check came back empty; opened normally it lists weekly and monthly plans that remove the watermark and cap how much AI generation you get.",
     strengths: [
       "Offers an AI receipt generator and a custom receipt maker",
       "Active blog with practical guides (e.g. rental receipts for landlords and tenants)",
       "Covers niche receipt types such as rent and rental receipts",
     ],
     gaps: [
-      "Pricing is not transparent — we could not retrieve tier prices publicly",
+      "Paid plans meter AI usage — 25 chat generations and 8 photorealistic renders a week, 100 and 30 a month",
       "Fewer named-brand template pages than Makecepeit's 350+",
       "Export formats are not clearly specified",
     ],
@@ -324,7 +324,7 @@ export const COMPETITORS: Competitor[] = [
       {
         question: "How much does ReceiptBaker cost?",
         answer:
-          "We could not retrieve ReceiptBaker's pricing publicly as of July 2026, so we don't list a figure rather than guess. Makecepeit's Pro is publicly listed at $3/week, $7.99/month or $39/year.",
+          "As of August 2026 its pricing page lists $5/week or $12/month, discounted from $7.50 and $20, with no free tier shown; both plans cap AI generation. Makecepeit's Pro is publicly listed at $3/week, $7.99/month or $39/year.",
       },
       {
         question: "Which has more brand templates?",
