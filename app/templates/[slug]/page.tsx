@@ -7,6 +7,8 @@ import { docFromReceiptData } from "@/lib/sections";
 import { fitSeoDescription } from "@/lib/seo-description";
 import { SITE, absoluteUrl } from "@/lib/site";
 import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
+import { CitedText, SourceList } from "@/components/Sources";
+import { citationJsonLd } from "@/lib/sources";
 import RelatedPosts from "@/components/RelatedPosts";
 
 interface Props {
@@ -63,6 +65,11 @@ export default async function TemplatePage({ params }: Props) {
       name: faq.question,
       acceptedAnswer: { "@type": "Answer", text: faq.answer },
     })),
+    // Same data the page renders in its source list — the machine-readable half
+    // of the citation, omitted entirely when a template cites nothing.
+    ...(template.sources?.length
+      ? { citation: citationJsonLd(template.sources) }
+      : {}),
   };
 
   const breadcrumbJsonLd = {
@@ -220,9 +227,7 @@ export default async function TemplatePage({ params }: Props) {
               {template.guidance.map((g) => (
                 <div key={g.heading}>
                   <h3 className="text-lg font-bold text-slate-900">{g.heading}</h3>
-                  {g.body.split(/\n\n+/).map((para, i) => (
-                    <p key={i} className="mt-3 leading-relaxed text-slate-600">{para}</p>
-                  ))}
+                  <CitedText body={g.body} className="mt-3 leading-relaxed text-slate-600" />
                 </div>
               ))}
             </div>
@@ -270,6 +275,14 @@ export default async function TemplatePage({ params }: Props) {
               ))}
             </div>
           </section>
+        )}
+
+        {/* The authorities behind the guidance above */}
+        {template.sources && template.sources.length > 0 && (
+          <SourceList
+            ids={template.sources}
+            note={`The rules cited on this page, with what each one is cited for. They describe how ${template.shortName.toLowerCase()} receipts are treated — they are not advice about your own situation.`}
+          />
         )}
 
         {/* Related templates */}

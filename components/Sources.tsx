@@ -71,6 +71,53 @@ export function CitedSentence({ id, sentence }: { id: SourceId; sentence: string
   );
 }
 
+/**
+ * Renders body copy that carries inline citation markers, so data-driven text
+ * (template guidance, for example) can cite an authority mid-sentence instead
+ * of parking every link in a footer list — which is the weaker signal.
+ *
+ *   "An auto-gratuity is a service charge, not a tip
+ *    {cite:irs-rr-2012-18|Revenue Ruling 2012-18}."
+ *
+ * `{cite:id}` links using the document title; `{cite:id|text}` overrides the
+ * link text, which is what you usually want mid-sentence — some of these titles
+ * run to a full line. Blank lines separate paragraphs. An unknown id falls back
+ * to its plain link text rather than throwing, matching getSources().
+ */
+const CITE_MARKER = /\{cite:([a-z0-9-]+)(?:\|([^}]*))?\}/g;
+
+function withCitations(text: string): React.ReactNode[] {
+  const out: React.ReactNode[] = [];
+  let last = 0;
+  let m: RegExpExecArray | null;
+  CITE_MARKER.lastIndex = 0;
+
+  while ((m = CITE_MARKER.exec(text)) !== null) {
+    if (m.index > last) out.push(text.slice(last, m.index));
+    const [full, id, linkText] = m;
+    out.push(
+      <Cite key={`${id}-${m.index}`} id={id as SourceId}>
+        {linkText || undefined}
+      </Cite>
+    );
+    last = m.index + full.length;
+  }
+  if (last < text.length) out.push(text.slice(last));
+  return out;
+}
+
+export function CitedText({ body, className }: { body: string; className?: string }) {
+  return (
+    <>
+      {body.split(/\n\n+/).map((para, i) => (
+        <p key={i} className={className}>
+          {withCitations(para)}
+        </p>
+      ))}
+    </>
+  );
+}
+
 function formatDate(iso: string) {
   if (!iso) return "";
   return new Date(iso).toLocaleDateString("en-US", {

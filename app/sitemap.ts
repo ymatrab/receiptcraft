@@ -25,6 +25,11 @@ const STATIC_UPDATED = new Date("2026-07-20");
 // puts false dates in the sitemap and is what IndexNow treats as spam.
 const CONTENT_UPDATED = new Date("2026-08-14");
 const TEMPLATES_UPDATED = new Date("2026-07-20");
+// Templates whose copy now cites the rules behind it — rent, donation and
+// restaurant so far. Keyed off `sources` on the template rather than a slug
+// list, so a template picks up the fresh date when it gains citations and the
+// uncited ones keep TEMPLATES_UPDATED. Same idea as INTENT_CITED_UPDATED.
+const TEMPLATES_CITED_UPDATED = new Date("2026-08-20");
 const BRANDS_UPDATED = new Date("2026-07-20");
 const INTENT_UPDATED = new Date("2026-07-20");
 // The 19 brands whose guides now cite the retailer's own help pages. Only those
@@ -35,6 +40,10 @@ const EXAMPLES_UPDATED = new Date("2026-07-03");
 // PCI DSS and the EU/UK VAT rules. Its own constant so bumping it doesn't
 // restamp every other static page.
 const GUIDES_UPDATED = new Date("2026-08-20");
+// /editorial-policy — now states plainly that citing a regulation is not legal
+// or tax advice, and documents the monthly source re-check. Its own constant so
+// it does not restamp the other static pages that did not change.
+const POLICY_UPDATED = new Date("2026-08-20");
 const COMPARISONS_UPDATED = new Date(LAST_UPDATED);
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -55,7 +64,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE.url}/about`, lastModified: STATIC_UPDATED },
     { url: `${SITE.url}/contact`, lastModified: STATIC_UPDATED },
     { url: `${SITE.url}/authors`, lastModified: STATIC_UPDATED },
-    { url: `${SITE.url}/editorial-policy`, lastModified: STATIC_UPDATED },
+    { url: `${SITE.url}/editorial-policy`, lastModified: POLICY_UPDATED },
     { url: `${SITE.url}/privacy`, lastModified: STATIC_UPDATED },
     { url: `${SITE.url}/terms`, lastModified: STATIC_UPDATED },
     { url: `${SITE.url}/cookies`, lastModified: STATIC_UPDATED },
@@ -69,7 +78,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const templatePages: MetadataRoute.Sitemap = TEMPLATES.map((t) => ({
     url: `${SITE.url}/templates/${t.slug}`,
-    lastModified: TEMPLATES_UPDATED,
+    lastModified: t.sources?.length ? TEMPLATES_CITED_UPDATED : TEMPLATES_UPDATED,
   }));
 
   const brandPages: MetadataRoute.Sitemap = BRAND_TEMPLATES.map((t) => ({

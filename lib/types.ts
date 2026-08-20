@@ -1,3 +1,5 @@
+import type { SourceId } from "./sources";
+
 export interface LineItem {
   id: string;
   name: string;
@@ -235,7 +237,11 @@ export interface TemplateField {
 
 /** A block of vertical-specific expert guidance — the tax/tip/fees/legal
  *  nuance that turns a thin stub into the most complete page for the intent.
- *  `body` may contain blank-line-separated paragraphs. */
+ *  `body` may contain blank-line-separated paragraphs, and may cite an
+ *  authority inline with a `{cite:source-id}` or `{cite:source-id|link text}`
+ *  marker — see CitedText in components/Sources.tsx. An in-body citation is
+ *  what the engines quote; the footer list is the companion, not the
+ *  substitute. */
 export interface TemplateGuidance {
   heading: string;
   body: string;
@@ -268,4 +274,8 @@ export interface ReceiptTemplate {
   /** Vertical nuance sections (tax rules, tip vs. service charge, legal notes)
    *  — the depth competitors lack. */
   guidance?: TemplateGuidance[];
+  /** Authorities this template's copy rests on. Rendered as the page's source
+   *  list and as schema.org `citation`. Anything cited inline from `guidance`
+   *  belongs here too, so the reader can see the full list in one place. */
+  sources?: readonly SourceId[];
 }

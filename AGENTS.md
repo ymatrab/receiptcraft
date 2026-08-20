@@ -16,10 +16,24 @@ exist rather than assuming — more will be added as the product grows.
 Reach Notion with its official MCP. Not Zapier: Zapier spends a task credit on
 every read and write and the account runs dry mid-job.
 
-The current board is "GEO Citations — Task Board":
+Two boards exist today. Check both before asking what to work on — they hold
+different kinds of work and neither supersedes the other.
+
+"GEO Citations — Task Board":
 
 - database `3c10a70b-4d02-81df-8eae-d3d4eed63f2a`
 - data source `collection://3c10a70b-4d02-8181-b72f-000bec9d58cc`
+
+"Marketing & Revenue — Task Board" (added 2026-08-20):
+
+- database `9988b72b-fe79-4586-b8b0-fee400984eb3`
+- data source `collection://2fcc02d7-f743-4ec2-9c7a-5191f5a431cb`
+- each task body is the complete brief — there is no companion markdown file to
+  read alongside it
+- `Phase` order on this board is a dependency chain, not a preference: stop the
+  revenue leak → automate fulfilment → build trust → grow. Growth work pours
+  traffic into a funnel that loses buyers invisibly if the earlier phases are
+  skipped, so don't pull a Later task forward just because it looks appealing
 
 ## Starting work
 
@@ -82,11 +96,39 @@ property and the task body, never in the title.
 `Phase` is Now / Next / Later / Ongoing, plus Archive for tasks absorbed into
 another one. The board view hides Archive.
 
+## Timing
+
+`Window` is a date property recording **when a task may happen, not how long it
+takes** — effort is already covered by `Effort`. Leave it empty when a task
+could start today; that is the normal case. Set it only when there is a real
+constraint:
+
+- a gate — "Review the results in mid-September" cannot be pulled forward,
+  because the data does not exist yet
+- a cadence — a monthly link check, a quarterly pricing review
+- a dependency on something being live long enough to judge
+
+To pick up a week's work, select tasks whose `Window` has started or is empty,
+then order by `Priority`. A task with a future `Window` is not backlog neglect —
+it is deliberately waiting.
+
+**Publishing cadence is a separate thing from scheduling a task.** In SEO,
+dropping 60 posts in one day performs worse than two a day for a month, so never
+publish a batch all at once. But the way to spread them is *not* to run 30
+sessions: set a future `publishedAt` on each post in Sanity in a single session.
+`app/sitemap.ts` revalidates hourly, so scheduled posts enter the sitemap as
+they go live, and the IndexNow cron picks each one up on the day. That is how the
+July 2026 batch of 132 posts was released.
+
 ## Where things live
 
-- **Notion** — what needs doing, and its status. The owner's view.
-- **`docs/*.md`** — the full plan behind a large piece of work. Link it from the
-  task body rather than pasting it in.
+- **Notion** — what needs doing, its status, and the brief. The owner's view, and
+  the source of truth. A task body should stand on its own: a cold session must
+  be able to start from it without opening anything else.
+- **`docs/*.md`** — background and workings behind a large piece of analysis.
+  Optional reading, not a dependency. If a markdown file holds something a task
+  needs, move it into the task body rather than pointing at the file — plans on
+  disk go stale, get superseded, or were never committed in the first place.
 - **Claude memory** — how to work with this user. Not a task list.
 
 # Local environment
