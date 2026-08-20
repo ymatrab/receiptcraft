@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import Reviewed from "@/components/Reviewed";
+import { templateReviewedAt } from "@/lib/content-dates";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { TEMPLATES, getTemplate, sourcedFigure } from "@/lib/templates";
@@ -75,6 +77,9 @@ export default async function TemplatePage({ params }: Props) {
     // Same data the page renders in its source list — the machine-readable half
     // of the citation, omitted entirely when a template cites nothing.
     ...(pageSources.length ? { citation: citationJsonLd(pageSources) } : {}),
+    // Machine-readable twin of the visible "Last reviewed" line, from the same
+    // constant the sitemap uses.
+    dateModified: templateReviewedAt(template),
   };
 
   const breadcrumbJsonLd = {
@@ -328,6 +333,8 @@ export default async function TemplatePage({ params }: Props) {
         </section>
 
         <RelatedPosts hub={`/templates/${template.slug}`} />
+
+        <Reviewed date={templateReviewedAt(template)} />
       </div>
     </>
   );

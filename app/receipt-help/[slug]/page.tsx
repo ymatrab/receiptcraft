@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import Reviewed from "@/components/Reviewed";
+import { intentReviewedAt } from "@/lib/content-dates";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
@@ -80,6 +82,7 @@ export default async function IntentPage({
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
+    dateModified: intentReviewedAt(page.brandSlug),
     mainEntity: c.faqs.map((f) => ({
       "@type": "Question",
       name: f.question,
@@ -251,6 +254,7 @@ export default async function IntentPage({
         hub={`/brands/${page.brandSlug}`}
         categories={RELATED_CATEGORIES[page.kind]}
       />
+      <Reviewed date={intentReviewedAt(page.brandSlug)} />
     </main>
   );
 }

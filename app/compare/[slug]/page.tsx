@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import Reviewed from "@/components/Reviewed";
+import { COMPARISONS_UPDATED } from "@/lib/content-dates";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
@@ -432,6 +434,8 @@ export default async function ComparePage({ params }: Props) {
         </section>
 
         <RelatedPosts hub={`/compare/${c.slug}`} />
+
+        <Reviewed date={COMPARISONS_UPDATED} />
       </div>
     </>
   );
