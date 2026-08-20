@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { TEMPLATES, getTemplate } from "@/lib/templates";
+import { TEMPLATES, getTemplate, sourcedFigure } from "@/lib/templates";
 import { previewFromTemplate } from "@/lib/receipt";
 import { docFromReceiptData } from "@/lib/sections";
 import { fitSeoDescription } from "@/lib/seo-description";
@@ -57,6 +57,13 @@ export default async function TemplatePage({ params }: Props) {
   const preview = previewFromTemplate(template);
   const related = TEMPLATES.filter((t) => t.slug !== template.slug).slice(0, 4);
 
+  // A sourced figure for templates that carry none of their own. Its sources
+  // join the page's own so the footer list and the JSON-LD citations both cover
+  // everything actually cited in the body — a citation rendered inline but
+  // missing from the list reads as unsourced to anything parsing the page.
+  const figure = sourcedFigure(template);
+  const pageSources = [...(template.sources ?? []), ...(figure?.sources ?? [])];
+
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -67,9 +74,7 @@ export default async function TemplatePage({ params }: Props) {
     })),
     // Same data the page renders in its source list — the machine-readable half
     // of the citation, omitted entirely when a template cites nothing.
-    ...(template.sources?.length
-      ? { citation: citationJsonLd(template.sources) }
-      : {}),
+    ...(pageSources.length ? { citation: citationJsonLd(pageSources) } : {}),
   };
 
   const breadcrumbJsonLd = {
@@ -234,6 +239,21 @@ export default async function TemplatePage({ params }: Props) {
           </section>
         )}
 
+        {/* A specific, sourced figure for templates that carry none of their own.
+            Rendered as its own section so the number, the authority behind it
+            and the checked date are extractable together rather than inferred
+            from prose. */}
+        {figure && (
+          <section className="mt-20" aria-labelledby="figure-heading">
+            <h2 id="figure-heading" className="text-2xl font-bold text-slate-900">
+              {figure.heading}
+            </h2>
+            <div className="mt-6 max-w-3xl">
+              <CitedText body={figure.body} className="mt-3 leading-relaxed text-slate-600" />
+            </div>
+          </section>
+        )}
+
         {/* Helpful tools & guides — internal links (depth pages only) */}
         {template.guidance && template.guidance.length > 0 && (
           <section className="mt-20" aria-labelledby="tools-heading">
@@ -278,9 +298,9 @@ export default async function TemplatePage({ params }: Props) {
         )}
 
         {/* The authorities behind the guidance above */}
-        {template.sources && template.sources.length > 0 && (
+        {pageSources.length > 0 && (
           <SourceList
-            ids={template.sources}
+            ids={pageSources}
             note={`The rules cited on this page, with what each one is cited for. They describe how ${template.shortName.toLowerCase()} receipts are treated — they are not advice about your own situation.`}
           />
         )}

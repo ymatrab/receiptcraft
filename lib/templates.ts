@@ -1,4 +1,5 @@
 import type { ReceiptTemplate } from "./types";
+import type { SourceId } from "./sources";
 import { BRAND_TEMPLATES } from "./brands";
 
 let n = 0;
@@ -1798,4 +1799,84 @@ export const TEMPLATES: ReceiptTemplate[] = [
 
 export function getTemplate(slug: string): ReceiptTemplate | undefined {
   return [...TEMPLATES, ...BRAND_TEMPLATES].find((t) => t.slug === slug);
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Sourced figures                                                           */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * A specific, sourced number for template pages that carry none of their own.
+ *
+ * Replacing vague claims with a figure attributed to the body that published it
+ * is the single highest-lift GEO intervention measured, and 39 of the 42
+ * templates had nothing extractable — no number, no publisher, no checked date.
+ *
+ * Two rules cover almost every receipt honestly:
+ *
+ *  - card-present sales are bound by the federal truncation rule, which caps
+ *    what may be printed of a card number
+ *  - receipts kept for a business expense are bound by the IRS substantiation
+ *    threshold
+ *
+ * Assignment is by what the receipt actually involves, not by convenience.
+ * medical, dental and veterinary templates are deliberately excluded: their
+ * claims run through FSA/HSA and insurance rules we hold no source for, and
+ * citing Pub 463 at them would be citing a document for something it does not
+ * say. A missing figure is recoverable; a mis-attributed one is not.
+ */
+type FigureKind = "card-present" | "business-expense";
+
+const FIGURE_BY_SLUG: Record<string, FigureKind> = {};
+for (const slug of [
+  "grocery-store", "retail-store", "clothing-store-receipt", "electronics-store-receipt",
+  "hardware-store-receipt", "pet-store-receipt", "liquor-store-receipt", "pharmacy",
+  "fast-food-receipt", "pizza-receipt", "coffee-shop", "bar", "salon", "barber-receipt",
+  "spa-receipt", "dry-cleaning-receipt", "florist-receipt", "catering-receipt",
+  "gym-membership-receipt",
+]) FIGURE_BY_SLUG[slug] = "card-present";
+for (const slug of [
+  "hotel", "airline-receipt", "car-rental-receipt", "taxi", "parking", "gas-station",
+  "invoice", "sales-receipt", "itemized-receipt", "proof-of-purchase", "cash-receipt",
+  "auto-repair", "towing-receipt", "handyman-receipt", "cleaning-service-receipt",
+  "tutoring-receipt", "childcare-receipt",
+]) FIGURE_BY_SLUG[slug] = "business-expense";
+
+export interface SourcedFigure {
+  heading: string;
+  body: string;
+  sources: SourceId[];
+}
+
+/**
+ * The figure section for a template, or null when it already cites its own
+ * sources (restaurant, rent, donation) or has no rule we can honestly attach.
+ *
+ * The subject noun is the template's own, so the passage reads as being about
+ * that receipt rather than as a block pasted onto every page.
+ */
+export function sourcedFigure(template: ReceiptTemplate): SourcedFigure | null {
+  if (template.sources?.length) return null;
+  const kind = FIGURE_BY_SLUG[template.slug];
+  if (!kind) return null;
+
+  const noun = template.shortName.toLowerCase();
+
+  if (kind === "card-present") {
+    return {
+      heading: `What a ${noun} receipt may show of your card`,
+      body:
+        `Federal law limits this, and the limit is specific. {cite:fcra-1681c-g|15 U.S.C. § 1681c(g)} bars any business that accepts cards from printing more than the last five digits of the card number, or the expiry date at all, on the receipt handed to the cardholder at the point of sale. Most merchants print four digits rather than five, which is inside the rule.\n\n` +
+        `It is why a genuine ${noun} receipt shows something like "VISA ****4821" and never the full number. A recreated receipt should follow the same convention — our builder takes only the last four digits for that reason. The rule governs the printed customer copy, so it is one of the few receipt details that is a legal requirement rather than a merchant's house style.`,
+      sources: ["fcra-1681c-g"],
+    };
+  }
+
+  return {
+    heading: `Using a ${noun} receipt for an expense claim`,
+    body:
+      `The threshold is a number, not a judgement call. {cite:irs-pub-463|IRS Publication 463} requires documentary evidence — a receipt — for any lodging expense and for any other expense of $75 or more. Below $75, and for non-lodging costs, a written record may be accepted instead, though most employers set a stricter bar than the IRS does.\n\n` +
+      `The same publication sets out what that evidence has to show: the amount, the date, the place, and the nature of the expense. A ${noun} receipt that records a total but not what was bought fails the last of those, which is why itemisation matters more on an expense claim than it does at the till. Check your employer's own policy as well — it binds you whether or not the IRS threshold does.`,
+    sources: ["irs-pub-463"],
+  };
 }
