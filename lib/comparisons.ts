@@ -15,8 +15,8 @@
 
 import { SITE } from "./site";
 
-export const LAST_UPDATED = "2026-07-31"; // ISO — shown as the page "last reviewed" date
-export const PRICING_AS_OF = "July 2026"; // human-readable disclaimer on pricing tables
+export const LAST_UPDATED = "2026-08-20"; // ISO — shown as the page "last reviewed" date
+export const PRICING_AS_OF = "August 2026"; // human-readable disclaimer on pricing tables
 
 /* -------------------------------------------------------------------------- */
 /*  Feature matrix                                                            */
@@ -84,6 +84,9 @@ export interface Competitor {
   name: string;
   domain: string;
   url: string;
+  /** Direct link to the page a pricing claim came from, so a reader can check
+   *  it. Null when the tool publishes no pricing page — itself a finding. */
+  pricingUrl: string | null;
   /** One-line descriptor used in cards and the hub table. */
   tagline: string;
 
@@ -123,6 +126,7 @@ export const COMPETITORS: Competitor[] = [
     name: "MakeReceipt",
     domain: "makereceipt.com",
     url: "https://makereceipt.com",
+    pricingUrl: null, // /pricing and /membership both 302 to the homepage
     tagline: "The long-established, membership-based receipt maker",
     seoTitle: "Makecepeit vs MakeReceipt: Which Receipt Maker Wins in 2026?",
     seoDescription:
@@ -193,6 +197,7 @@ export const COMPETITORS: Competitor[] = [
     name: "ReceiptFaker",
     domain: "receiptfaker.com",
     url: "https://www.receiptfaker.com",
+    pricingUrl: "https://www.receiptfaker.com/pricing",
     tagline: "A free, no-signup receipt maker with retailer templates",
     seoTitle: "Makecepeit vs ReceiptFaker: Best Free Receipt Maker in 2026?",
     seoDescription:
@@ -213,8 +218,8 @@ export const COMPETITORS: Competitor[] = [
       "Export formats (PDF vs image) are not clearly specified on the site",
     ],
     pricing: {
-      free: "Free to use, with no paid tiers listed on the site.",
-      paid: "No paid plans are publicly listed (as of July 2026).",
+      free: "Still free to use without an account — the site markets itself as a free receipt generator.",
+      paid: "Paid plans have appeared since our previous review: $6.50/week, $13.50/month or $60/year (list prices $9, $20 and $100), sold on removing watermarks and unlimited downloads.",
     },
     cells: {
       free_start: yes("Free to use"),
@@ -225,8 +230,8 @@ export const COMPETITORS: Competitor[] = [
       image_export: partial("Format not specified"),
       ai_generator: no(),
       saved_history: no("Not stated"),
-      watermark_free: yes("No watermark stated"),
-      transparent_pricing: partial("Free; no paid tiers listed"),
+      watermark_free: partial("Paid plans sell watermark removal"),
+      transparent_pricing: yes("Weekly, monthly and yearly prices listed"),
     },
     verdict:
       "For a quick, free receipt with no account, both tools do the job. Makecepeit pulls ahead when you want to draft receipts with AI, save and re-open your history, export as both PDF and PNG, or work from a library of 350+ specific brands. Makecepeit also leads with a legitimate record-keeping and design-mockup positioning rather than a 'fake' framing.",
@@ -248,7 +253,7 @@ export const COMPETITORS: Competitor[] = [
       {
         question: "Is ReceiptFaker free?",
         answer:
-          "Yes, ReceiptFaker is free to use with no paid tiers listed on its site as of July 2026. Makecepeit is also free to build and preview, with your first three HD downloads free before Pro.",
+          "Yes for basic use — it still offers a free generator with no sign-up. Since our previous review it has also added subscriptions ($6.50/week, $13.50/month or $60/year) whose selling points are removing watermarks and unlimited downloads. Makecepeit is also free to build and preview, with your first three HD downloads free before Pro.",
       },
       {
         question: "Are these receipts legal?",
@@ -263,6 +268,7 @@ export const COMPETITORS: Competitor[] = [
     name: "ReceiptBaker",
     domain: "receiptbaker.com",
     url: "https://receiptbaker.com",
+    pricingUrl: "https://receiptbaker.com/pricing",
     tagline: "An AI-enabled receipt generator with a content blog",
     seoTitle: "Makecepeit vs ReceiptBaker: AI Receipt Maker Comparison 2026",
     seoDescription:
@@ -283,11 +289,11 @@ export const COMPETITORS: Competitor[] = [
       "Export formats are not clearly specified",
     ],
     pricing: {
-      free: "A free tier is referenced but could not be confirmed publicly.",
-      paid: "Not publicly available — the pricing page did not load during our review (as of July 2026).",
+      free: "No free tier appears on the pricing page. Paid plans are sold on removing the watermark, which implies free generation carries one.",
+      paid: "$5/week or $12/month (list prices $7.50 and $20). Both cap AI usage: 25 chat generations and 8 photorealistic renders weekly, 100 and 30 monthly.",
     },
     cells: {
-      free_start: partial("Not confirmed"),
+      free_start: partial("No free tier on pricing page"),
       no_signup: partial("Not confirmed"),
       live_preview: yes(),
       brand_templates: yes("Template library + blog"),
@@ -295,8 +301,8 @@ export const COMPETITORS: Competitor[] = [
       image_export: partial("Format not specified"),
       ai_generator: yes("AI receipt generator"),
       saved_history: partial("Not stated"),
-      watermark_free: partial("Not confirmed"),
-      transparent_pricing: no("Not publicly available"),
+      watermark_free: partial("Paid plans remove it"),
+      transparent_pricing: yes("Weekly and monthly prices listed"),
     },
     verdict:
       "Both Makecepeit and ReceiptBaker offer AI receipt generation, so this comes down to transparency and breadth. Makecepeit publishes its pricing ($3/wk, $7.99/mo, $39/yr), lets you start free with no signup, offers 350+ specific brand templates and exports to both PDF and PNG. If those matter to you, Makecepeit is the safer pick; ReceiptBaker is worth a look if its blog and rental-receipt templates match your niche.",

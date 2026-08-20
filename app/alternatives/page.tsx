@@ -205,7 +205,24 @@ export default function AlternativesPage() {
               <p className="mt-3 leading-relaxed text-slate-600">{c.overview}</p>
               <p className="mt-3 text-sm text-slate-500">
                 <span className="font-medium text-slate-600">Pricing:</span>{" "}
-                {c.pricing.free} {c.pricing.paid}
+                {c.pricing.free} {c.pricing.paid}{" "}
+                {c.pricingUrl ? (
+                  <>
+                    Checked on{" "}
+                    <a
+                      href={c.pricingUrl}
+                      target="_blank"
+                      rel="nofollow noopener"
+                      className="font-medium text-indigo-600 underline decoration-indigo-300 underline-offset-2 hover:decoration-indigo-600"
+                    >
+                      their pricing page
+                      <span className="sr-only"> (opens in a new tab)</span>
+                    </a>{" "}
+                    on {REVIEWED_LABEL}.
+                  </>
+                ) : (
+                  <>We found no public pricing page to link on {REVIEWED_LABEL}.</>
+                )}
               </p>
               <div className="mt-4 flex flex-wrap gap-3">
                 <Link
@@ -264,13 +281,30 @@ export default function AlternativesPage() {
             How we compared them
           </h2>
           <p className="mt-4 leading-relaxed text-slate-600">
-            We reviewed each tool&apos;s public website for pricing, template
-            breadth, export formats, AI features and whether you can start
-            without an account. Where a tool doesn&apos;t publish its prices, we
-            say so rather than guess. Pricing changes often, so treat the figures
-            as a snapshot from {PRICING_AS_OF} and confirm on each provider&apos;s
-            site. As the makers of {SITE.name}, we&apos;ve flagged where
-            competitors do things better on their dedicated comparison pages.
+            We check each tool&apos;s own public website — pricing page, feature
+            pages and sign-up flow — for prices, template breadth, export
+            formats, AI features and whether you can start without an account.
+            Every figure on this page links to the page it came from and carries
+            the date we last opened it, so you can check our work rather than
+            take it on trust. This round was verified on {REVIEWED_LABEL}.
+          </p>
+          <p className="mt-4 leading-relaxed text-slate-600">
+            Where a tool doesn&apos;t publish something, we say that instead of
+            guessing. MakeReceipt, for example, sends both{" "}
+            <code className="rounded bg-slate-100 px-1 py-0.5 text-sm">/pricing</code>{" "}
+            and{" "}
+            <code className="rounded bg-slate-100 px-1 py-0.5 text-sm">/membership</code>{" "}
+            back to its homepage, so its tier prices genuinely are not public —
+            that absence is a finding, not a gap in our research. Two competitors
+            changed their pricing between our July and {PRICING_AS_OF} reviews,
+            which is why we re-check rather than let a page age quietly.
+          </p>
+          <p className="mt-4 leading-relaxed text-slate-600">
+            We are the makers of {SITE.name}, so treat our verdicts as
+            interested. We list it first and label it as ours, we name the things
+            competitors do better on their dedicated comparison pages, and we
+            don&apos;t claim a rival lacks a feature we couldn&apos;t confirm
+            either way — those are marked as unconfirmed in the table above.
           </p>
         </section>
 

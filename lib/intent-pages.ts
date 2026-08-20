@@ -536,7 +536,7 @@ const BRAND_OFFICIAL: Record<string, BrandOfficial> = {
   mcdonalds: {
     policyUrl: "https://www.mcdonalds.com/us/en-us/faq/what-if-i-have-an-issue-with-mobile-order-pay-or-want-a-refund.html",
     receiptUrl: "https://www.mcdonalds.com/us/en-us/contact-us.html",
-    fact: "McDonald\u2019s sends Mobile Order & Pay refunds back to the restaurant that made the order, and routes delivery orders to Uber Eats or DoorDash depending on which one carried it.",
+    fact: "McDonald's sends Mobile Order & Pay refunds back to the restaurant that made the order, and routes delivery orders to Uber Eats or DoorDash depending on which one carried it.",
     verifiedAt: "2026-08-20",
     via: "search",
   },
@@ -556,7 +556,7 @@ const BRAND_OFFICIAL: Record<string, BrandOfficial> = {
   "macy-s": {
     policyUrl: "https://www.macys.com/customer-service/articles/what-is-macys-return-policy/",
     receiptUrl: "https://www.macys.com/customer-service/articles/does-macys-have-ereceipts",
-    fact: "Macy\u2019s says it can retrieve receipt information for up to two years after the purchase, which is far longer than most stores keep a lookup window open.",
+    fact: "Macy's says it can retrieve receipt information for up to two years after the purchase, which is far longer than most stores keep a lookup window open.",
     verifiedAt: "2026-08-20",
     via: "search",
   },
@@ -569,7 +569,7 @@ const BRAND_OFFICIAL: Record<string, BrandOfficial> = {
   },
   "tim-hortons": {
     policyUrl: "https://www.timhortons.com/support",
-    fact: "Tim Hortons asks you to raise the problem with the restaurant\u2019s manager first, with Guest Services (1-888-601-1616) as the fallback.",
+    fact: "Tim Hortons asks you to raise the problem with the restaurant's manager first, with Guest Services (1-888-601-1616) as the fallback.",
     verifiedAt: "2026-08-20",
     via: "fetch",
   },

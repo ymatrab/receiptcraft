@@ -264,8 +264,21 @@ export default async function ComparePage({ params }: Props) {
             </div>
           </div>
           <p className="mt-3 text-xs text-slate-500">
-            {c.name} pricing as of {PRICING_AS_OF}, from its public website.
-            Prices can change — check {c.name} directly before subscribing.
+            {c.name} pricing as of {PRICING_AS_OF}, taken from{" "}
+            {c.pricingUrl ? (
+              <a
+                href={c.pricingUrl}
+                target="_blank"
+                rel="nofollow noopener"
+                className="font-medium text-indigo-600 underline decoration-indigo-300 underline-offset-2 hover:decoration-indigo-600"
+              >
+                its published pricing page
+                <span className="sr-only"> (opens in a new tab)</span>
+              </a>
+            ) : (
+              <>its public website — it publishes no pricing page we could link</>
+            )}
+            . Prices can change — check {c.name} directly before subscribing.
           </p>
         </section>
 
