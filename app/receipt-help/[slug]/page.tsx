@@ -120,6 +120,31 @@ export default async function IntentPage({
               ))}
             </ol>
           )}
+          {s.cite && (
+            <p className="mt-3 leading-relaxed text-slate-600">
+              {s.cite.fact ? `${s.cite.fact} ` : null}
+              Check{" "}
+              <a
+                href={s.cite.url}
+                target="_blank"
+                rel="noopener"
+                className="font-medium text-indigo-600 underline decoration-indigo-300 underline-offset-2 hover:decoration-indigo-600"
+              >
+                {s.cite.label}
+                <span className="sr-only"> (opens in a new tab)</span>
+              </a>{" "}
+              for the current rules — policies change, and the brand&apos;s own page is
+              the only authoritative version.{" "}
+              <span className="text-sm text-slate-500">
+                Link checked {new Date(s.cite.verifiedAt).toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+                .
+              </span>
+            </p>
+          )}
         </section>
       ))}
 

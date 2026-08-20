@@ -441,6 +441,153 @@ const BRAND_FACTS: Record<string, BrandFacts> = {
   },
 };
 
+/**
+ * Official brand pages cited on these guides.
+ *
+ * These pages answer "how do I get a copy of my X receipt" and "can I return
+ * without a receipt", so the brand's own help page is the primary source — and
+ * until now not one of these 237 pages linked out to it. Each entry carries the
+ * specific thing that page says, so the citation adds information rather than
+ * decorating the copy with a link.
+ *
+ * `via` records how the URL was confirmed: "fetch" means we retrieved it,
+ * "search" means the host rejects automated requests and it was confirmed
+ * through the US search index instead. Re-check with the top-of-file cadence;
+ * brand help centres move often.
+ */
+interface BrandOfficial {
+  /** Returns, refunds or general customer-support policy. */
+  policyUrl: string;
+  /** Where the brand explains getting a receipt copy or order history. */
+  receiptUrl?: string;
+  /** What that page actually says — one sentence, brand-specific. */
+  fact?: string;
+  verifiedAt: string;
+  via: "fetch" | "search";
+}
+
+const BRAND_OFFICIAL: Record<string, BrandOfficial> = {
+  zara: {
+    policyUrl: "https://www.zara.com/us/en/help-center/HowToReturn",
+    receiptUrl: "https://www.zara.com/us/en/help-center/RefundWithGiftReceipt",
+    fact: "Zara returns are free in any of its stores, and guest purchases are managed through the \u201cManage Your Order\u201d link in the order confirmation email rather than an account.",
+    verifiedAt: "2026-08-20",
+    via: "fetch",
+  },
+  chipotle: {
+    policyUrl: "https://www.chipotle.com/contact-us",
+    fact: "Chipotle handles refunds for app and website orders through its own customer service, but sends you to the delivery partner for anything ordered through a third party.",
+    verifiedAt: "2026-08-20",
+    via: "fetch",
+  },
+  sephora: {
+    policyUrl: "https://www.sephora.com/beauty/returns-exchanges",
+    receiptUrl: "https://www.sephora.com/beauty/orders-returns",
+    fact: "Sephora refunds to the original payment method within 30 days with proof of purchase; between 31 and 60 days it becomes an exchange or store credit.",
+    verifiedAt: "2026-08-20",
+    via: "search",
+  },
+  autozone: {
+    policyUrl: "https://www.autozone.com/lp/faqs",
+    receiptUrl: "https://www.autozone.com/contactus",
+    fact: "AutoZone says that if the receipt is gone, its customer support line (1-800-288-6966) can find the transaction and complete the return.",
+    verifiedAt: "2026-08-20",
+    via: "search",
+  },
+  "chick-fil-a": {
+    policyUrl: "https://www.chick-fil-a.com/customer-support",
+    verifiedAt: "2026-08-20",
+    via: "fetch",
+  },
+  kroger: {
+    policyUrl: "https://www.kroger.com/i/terms/return-policy",
+    receiptUrl: "https://www.kroger.com/hc/help/returns",
+    fact: "Kroger publishes its in-store return policy and its online refund policy separately, so which one applies depends on how the order was placed.",
+    verifiedAt: "2026-08-20",
+    via: "search",
+  },
+  "barnes-noble": {
+    policyUrl: "https://help.barnesandnoble.com/hc/en-us/articles/5324602017691-Refund-and-Return-Policies",
+    fact: "Barnes & Noble gives a full refund on unread merchandise within 30 days with the store sales receipt; with a gift receipt it becomes store credit, within 60 days.",
+    verifiedAt: "2026-08-20",
+    via: "fetch",
+  },
+  dunkin: {
+    policyUrl: "https://www.dunkindonuts.com/en/about/contact-us",
+    fact: "Dunkin' points unsatisfactory items back to the store for a refund, and mobile-order substitutions or refunds are settled by the individual franchisee.",
+    verifiedAt: "2026-08-20",
+    via: "search",
+  },
+  "ulta-beauty": {
+    policyUrl: "https://www.ulta.com/guestservices/returns",
+    verifiedAt: "2026-08-20",
+    via: "fetch",
+  },
+  walgreens: {
+    policyUrl: "https://www.walgreens.com/topic/help/generalhelp/returnpolicy.jsp",
+    verifiedAt: "2026-08-20",
+    via: "fetch",
+  },
+  "panda-express": {
+    policyUrl: "https://www.pandaexpress.com/order/faqs",
+    verifiedAt: "2026-08-20",
+    via: "search",
+  },
+  mcdonalds: {
+    policyUrl: "https://www.mcdonalds.com/us/en-us/faq/what-if-i-have-an-issue-with-mobile-order-pay-or-want-a-refund.html",
+    receiptUrl: "https://www.mcdonalds.com/us/en-us/contact-us.html",
+    fact: "McDonald\u2019s sends Mobile Order & Pay refunds back to the restaurant that made the order, and routes delivery orders to Uber Eats or DoorDash depending on which one carried it.",
+    verifiedAt: "2026-08-20",
+    via: "search",
+  },
+  publix: {
+    policyUrl: "https://www.publix.com/pages/policies/refund-policy",
+    receiptUrl: "https://www.publix.com/faq/e-receipts",
+    fact: "Publix can look the receipt up for you if you paid by card or entered your phone number at checkout; without it the refund comes back as a gift card.",
+    verifiedAt: "2026-08-20",
+    via: "fetch",
+  },
+  gamestop: {
+    policyUrl: "https://www.gamestop.com/fullreturnpolicy/",
+    fact: "GameStop requires proof of purchase or a GameStop.com order number on every return, and runs a 15-day window on new items that drops to 7 for special editions, PCs and TVs.",
+    verifiedAt: "2026-08-20",
+    via: "search",
+  },
+  "macy-s": {
+    policyUrl: "https://www.macys.com/customer-service/articles/what-is-macys-return-policy/",
+    receiptUrl: "https://www.macys.com/customer-service/articles/does-macys-have-ereceipts",
+    fact: "Macy\u2019s says it can retrieve receipt information for up to two years after the purchase, which is far longer than most stores keep a lookup window open.",
+    verifiedAt: "2026-08-20",
+    via: "search",
+  },
+  "cvs-pharmacy": {
+    policyUrl: "https://www.cvs.com/retail/help/return_policy",
+    receiptUrl: "https://www.cvs.com/content/digital-receipt",
+    fact: "CVS allows 60 days for most unopened items, and caps a no-receipt refund at the lowest advertised price from the 60 days before the return.",
+    verifiedAt: "2026-08-20",
+    via: "search",
+  },
+  "tim-hortons": {
+    policyUrl: "https://www.timhortons.com/support",
+    fact: "Tim Hortons asks you to raise the problem with the restaurant\u2019s manager first, with Guest Services (1-888-601-1616) as the fallback.",
+    verifiedAt: "2026-08-20",
+    via: "fetch",
+  },
+  "pizza-hut": {
+    policyUrl: "https://www.pizzahut.com/contact-us",
+    fact: "Pizza Hut routes an order still in progress to the restaurant on your confirmation email, and grants refunds case by case with about four weeks to process.",
+    verifiedAt: "2026-08-20",
+    via: "search",
+  },
+  "apple-store": {
+    policyUrl: "https://www.apple.com/shop/help/returns_refund",
+    receiptUrl: "https://www.apple.com/shop/help/viewing_changing_orders",
+    fact: "Apple gives 14 days to return with a receipt, and suggests searching your email for \u201creceipt from Apple\u201d or \u201cinvoice from Apple\u201d when the paper copy is gone.",
+    verifiedAt: "2026-08-20",
+    via: "fetch",
+  },
+};
+
 /** Where this brand's receipts usually live, phrased for the steps. */
 function lookupStep(slug: string, name: string, category: BrandCategory): string {
   const fact = BRAND_FACTS[slug];
@@ -463,10 +610,56 @@ function quirkSection(slug: string, name: string): IntentSection[] {
   return fact ? [{ heading: `Good to know about ${name} receipts`, body: fact.quirk }] : [];
 }
 
+/** A citation of the brand's own help page, attached to the section where it
+ *  answers the question the page is about. */
+export interface IntentCite {
+  url: string;
+  /** What that page says — specific to the brand, so no two pages carry the
+   *  same sentence. Absent when we only have a verified link. */
+  fact?: string;
+  /** Anchor text. Varies by intent so the same phrase is not repeated across
+   *  every guide on the site. */
+  label: string;
+  verifiedAt: string;
+}
+
 export interface IntentSection {
   heading: string;
   body?: string;
   steps?: string[];
+  cite?: IntentCite;
+}
+
+/** Possessive form of a brand name. A naive template of name + apostrophe-s
+ *  produces "Macy's's", "Dunkin''s" and "Starbucks's" — 17 of the brands in
+ *  this file end in an s or an apostrophe. */
+function poss(name: string): string {
+  if (name.endsWith("'s")) return name;        // Macy's, McDonald's
+  if (name.endsWith("'")) return `${name}s`;   // Dunkin' -> Dunkin's
+  if (name.endsWith("s")) return `${name}'`;   // Starbucks -> Starbucks'
+  return `${name}'s`;
+}
+
+/** Cite the brand's own page for this intent, when we have a verified URL.
+ *  Receipt-focused intents get the receipt/order-history page where one
+ *  exists; returns and refunds get the policy. */
+function officialCite(slug: string, name: string, kind: IntentKind): IntentCite | undefined {
+  const o = BRAND_OFFICIAL[slug];
+  if (!o) return undefined;
+
+  const wantsReceiptPage = kind === "lost-receipt" || kind === "receipt-copy";
+  const url = (wantsReceiptPage && o.receiptUrl) || o.policyUrl;
+
+  const label =
+    kind === "lost-receipt"
+      ? `${poss(name)} own help pages`
+      : kind === "receipt-copy"
+        ? `${poss(name)} receipt and order help`
+        : kind === "return-policy"
+          ? `the official ${name} return policy`
+          : `${poss(name)} refund and support policy`;
+
+  return { url, fact: o.fact, label, verifiedAt: o.verifiedAt };
 }
 
 export interface IntentContent {
@@ -482,6 +675,7 @@ export interface IntentContent {
 export function intentContent(p: IntentPage): IntentContent {
   const n = p.brandName;
   const fact = BRAND_FACTS[p.brandSlug];
+  const cite = officialCite(p.brandSlug, n, p.kind);
   if (p.kind === "lost-receipt") {
     return {
       title: `How to Find a Lost ${n} Receipt (2026 Guide)`,
@@ -491,6 +685,7 @@ export function intentContent(p: IntentPage): IntentContent {
       sections: [
         {
           heading: `Where to look first`,
+          cite,
           steps: [
             `Check your email — ${n} and many retailers send a digital receipt or order confirmation at checkout.`,
             lookupStep(p.brandSlug, n, p.category),
@@ -530,6 +725,7 @@ export function intentContent(p: IntentPage): IntentContent {
       sections: [
         {
           heading: `Ways to get a duplicate ${n} receipt`,
+          cite,
           steps: [
             `In store: take your payment card and the approximate date to the ${n} customer-service desk and ask for a receipt reprint.`,
             lookupStep(p.brandSlug, n, p.category),
@@ -561,7 +757,8 @@ export function intentContent(p: IntentPage): IntentContent {
       sections: [
         {
           heading: `Do you need a receipt for a ${n} refund?`,
-          body: `For most refunds and cancellations, ${n} ties the request to your order — so a receipt, order confirmation or account record makes it much faster. Refund eligibility and timeframes vary and change over time, so check ${n}'s current refund or cancellation policy before requesting one.`,
+          cite,
+          body: `For most refunds and cancellations, ${n} ties the request to your order — so a receipt, order confirmation or account record makes it much faster. Refund eligibility and timeframes vary and change over time${cite ? "." : `, so check ${poss(n)} current refund or cancellation policy before requesting one.`}`,
         },
         {
           heading: `Where to find your ${n} order details`,
@@ -580,7 +777,7 @@ export function intentContent(p: IntentPage): IntentContent {
       faqs: [
         {
           question: `How do I get a refund from ${n}?`,
-          answer: `Start from your ${n} order or account, find the transaction, and follow the refund or cancellation steps. ${fact ? `${fact.lookup} ` : ""}Having the receipt or confirmation handy speeds the process up considerably. Exact steps and eligibility depend on ${n}'s current policy, so check it before submitting the request.`,
+          answer: `Start from your ${n} order or account, find the transaction, and follow the refund or cancellation steps. ${fact ? `${fact.lookup} ` : ""}Having the receipt or confirmation handy speeds the process up considerably. Exact steps and eligibility depend on ${poss(n)} current policy, so check it before submitting the request.`,
         },
         { question: `Can I get a receipt for a ${n} refund?`, answer: `Yes — ${n} typically issues a refund confirmation by email or in your account. Keep it with the original receipt for your records.` },
       ],
@@ -597,7 +794,8 @@ export function intentContent(p: IntentPage): IntentContent {
     sections: [
       {
         heading: `Do you need a receipt to return to ${n}?`,
-        body: `Most retailers, including ${n}, ask for a receipt or other proof of purchase to process a return or refund. A receipt confirms what you bought, when, where and for how much. Return windows and conditions vary by item and change over time, so always check the official ${n} return policy for the current rules before heading to the store.`,
+        cite,
+        body: `Most retailers, including ${n}, ask for a receipt or other proof of purchase to process a return or refund. A receipt confirms what you bought, when, where and for how much. Return windows and conditions vary by item and change over time${cite ? "." : `, so always check the official ${n} return policy for the current rules before heading to the store.`}`,
       },
       {
         heading: `What counts as proof of purchase`,
@@ -616,9 +814,9 @@ export function intentContent(p: IntentPage): IntentContent {
     faqs: [
       {
         question: `Can I return to ${n} without a receipt?`,
-        answer: `Sometimes — some stores offer store credit or accept alternate proof such as your account history or the original payment card, often with ID and limits. ${fact ? `${fact.quirk} ` : ""}Policies vary by item and change over time, so check ${n}'s official return policy before heading to the store.`,
+        answer: `Sometimes — some stores offer store credit or accept alternate proof such as your account history or the original payment card, often with ID and limits. ${fact ? `${fact.quirk} ` : ""}Policies vary by item and change over time, so check ${poss(n)} official return policy before heading to the store.`,
       },
-      { question: `How long do I have to return to ${n}?`, answer: `Return windows depend on the item and current policy, so confirm the timeframe on ${n}'s official return-policy page or your receipt before returning.` },
+      { question: `How long do I have to return to ${n}?`, answer: `Return windows depend on the item and current policy, so confirm the timeframe on ${poss(n)} official return-policy page or your receipt before returning.` },
     ],
     ctaHeading: `Recreate a lost ${n} receipt`,
   };
