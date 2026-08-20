@@ -35,6 +35,10 @@ const EXAMPLES_UPDATED = new Date("2026-07-03");
 // PCI DSS and the EU/UK VAT rules. Its own constant so bumping it doesn't
 // restamp every other static page.
 const GUIDES_UPDATED = new Date("2026-08-20");
+// /editorial-policy — now states plainly that citing a regulation is not legal
+// or tax advice, and documents the monthly source re-check. Its own constant so
+// it does not restamp the other static pages that did not change.
+const POLICY_UPDATED = new Date("2026-08-20");
 const COMPARISONS_UPDATED = new Date(LAST_UPDATED);
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -55,7 +59,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE.url}/about`, lastModified: STATIC_UPDATED },
     { url: `${SITE.url}/contact`, lastModified: STATIC_UPDATED },
     { url: `${SITE.url}/authors`, lastModified: STATIC_UPDATED },
-    { url: `${SITE.url}/editorial-policy`, lastModified: STATIC_UPDATED },
+    { url: `${SITE.url}/editorial-policy`, lastModified: POLICY_UPDATED },
     { url: `${SITE.url}/privacy`, lastModified: STATIC_UPDATED },
     { url: `${SITE.url}/terms`, lastModified: STATIC_UPDATED },
     { url: `${SITE.url}/cookies`, lastModified: STATIC_UPDATED },

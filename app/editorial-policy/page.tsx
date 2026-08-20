@@ -4,7 +4,7 @@ import { SITE, absoluteUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Editorial Policy — How We Write & Review",
-  description: `How ${SITE.name} creates its receipt guides and templates: who writes and reviews them, how we source facts, keep pages current, handle corrections and disclose our own product.`,
+  description: `How ${SITE.name} creates its receipt guides and templates: who writes and reviews them, how we cite official rules and re-check those sources monthly, why citing a regulation is not legal or tax advice, and how we handle corrections.`,
   alternates: { canonical: "/editorial-policy" },
 };
 
@@ -69,10 +69,52 @@ export default function EditorialPolicyPage() {
         <H2>Accuracy and sources</H2>
         <p>
           We aim to describe receipts, fields and common practices accurately.
-          Where a guide touches on tax, legal or compliance matters, we point to
-          primary or official sources and recommend you confirm your specific
-          situation with a qualified professional. Our guides are educational
-          and are not legal, tax or accounting advice.
+          Where a guide states what a rule requires, we cite the body that
+          issued it — the IRS, a state legislature, or the EU and UK tax
+          authorities — and link to the document itself rather than to someone
+          else&apos;s summary of it. Every source we cite is kept in a single
+          registry that records the publisher, the specific claim the document
+          backs, and the date we last confirmed it says that. Pages built on
+          those rules list their sources at the end, with the same detail.
+        </p>
+        <p>
+          Rules differ by jurisdiction. What a receipt must show in California
+          is not what it must show in New York, and neither matches the EU or
+          the UK. Where a rule is specific to a state or a country, the source
+          list says so.
+        </p>
+
+        <H2>Citing a rule is not advice</H2>
+        <p>
+          Citing a regulation is not legal, tax or accounting advice, and
+          nothing on this site is. We publish what a rule says and where to
+          read it in full — we do not tell you how it applies to you. Whether a
+          rule covers your situation, and what you should do about it, depends
+          on facts we do not have. For that, ask a qualified professional.
+        </p>
+        <p>
+          {SITE.name} is a tool for producing receipts, not a tax, legal or
+          accounting service, and reading a page here does not create a
+          professional relationship of any kind.
+        </p>
+
+        <H2>How often we re-check sources</H2>
+        <p>
+          Government and standards bodies move documents, and a dead link on a
+          cited rule is worse than no citation at all. Every source link is
+          re-checked monthly — automatically, for link rot and for redirects
+          that quietly land on an error page while still returning success. A
+          few legislature and standards sites refuse automated requests while
+          serving readers normally; those we open by hand in a browser and
+          confirm the text still supports the claim we attached to it.
+        </p>
+        <p>
+          After a clean pass we update the verification date, which is shown
+          alongside the sources on every page that cites them, so you can see
+          how recently the link was confirmed rather than taking our word for
+          it. If a document has moved, we follow it to its new home. If the
+          rule itself has changed, we rewrite the page rather than quietly
+          re-point the link.
         </p>
 
         <H2>Keeping pages current</H2>
