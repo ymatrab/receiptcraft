@@ -1,5 +1,5 @@
 import { createAdminClient } from "@/lib/supabase/admin";
-import { isProStatus } from "@/lib/plans";
+import { isProEntitled } from "@/lib/plans";
 import { grantPro, revokePro } from "./actions";
 
 export const dynamic = "force-dynamic";
@@ -25,9 +25,17 @@ async function getMembers() {
     .from("subscriptions")
     .select("user_id, plan, status, current_period_end");
 
-  const subByUser = new Map<string, { plan: string | null; status: string }>();
+  const subByUser = new Map<
+    string,
+    { plan: string | null; status: string; current_period_end: string | null }
+  >();
   for (const s of subs ?? []) {
-    if (!subByUser.has(s.user_id)) subByUser.set(s.user_id, { plan: s.plan, status: s.status });
+    if (!subByUser.has(s.user_id))
+      subByUser.set(s.user_id, {
+        plan: s.plan,
+        status: s.status,
+        current_period_end: s.current_period_end,
+      });
   }
 
   // Signup method (google vs email) and email-confirmation status both live in
@@ -93,7 +101,7 @@ export default async function AdminMembers() {
           </thead>
           <tbody className="divide-y divide-slate-100">
             {members.map((m) => {
-              const pro = isProStatus(m.sub?.status);
+              const pro = isProEntitled(m.sub?.status, m.sub?.current_period_end);
               return (
                 <tr key={m.id}>
                   <td className="px-4 py-3 font-medium text-slate-700">

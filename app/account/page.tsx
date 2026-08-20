@@ -3,7 +3,8 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { supabaseConfigured } from "@/lib/supabase/config";
-import { isProStatus, PLANS } from "@/lib/plans";
+import { isProEntitled, isProStatus, PLANS } from "@/lib/plans";
+import { SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Your Account",
@@ -32,14 +33,28 @@ export default async function AccountPage() {
 
   const { data: sub } = await supabase
     .from("subscriptions")
-    .select("status, plan, current_period_end, cancel_at_period_end")
+    .select("status, plan, current_period_end, cancel_at_period_end, stripe_customer_id")
     .eq("user_id", user.id)
     .order("current_period_end", { ascending: false })
     .limit(1)
     .maybeSingle();
 
-  const isPro = isProStatus(sub?.status);
-  const planName = sub?.plan ? PLANS[sub.plan as keyof typeof PLANS]?.name ?? sub.plan : "Free";
+  const isPro = isProEntitled(sub?.status, sub?.current_period_end);
+  // A grant that has run out: still marked active in the table, but past its
+  // period end. Worth naming on the page rather than silently showing "Free".
+  const hasLapsed = !isPro && isProStatus(sub?.status) && Boolean(sub?.current_period_end);
+  const planName =
+    isPro && sub?.plan ? PLANS[sub.plan as keyof typeof PLANS]?.name ?? sub.plan : "Free";
+
+  // Shopify and admin grants are one-off purchases that simply end. Only a real
+  // Stripe customer has a subscription that renews — and a billing portal to
+  // manage it.
+  const isSelfServeBilling = Boolean(
+    sub?.stripe_customer_id && sub.stripe_customer_id !== "manual"
+  );
+  const endDate = sub?.current_period_end
+    ? new Date(sub.current_period_end).toLocaleDateString()
+    : null;
 
   return (
     <main className="mx-auto max-w-2xl px-4 py-16 sm:px-6">
@@ -61,15 +76,24 @@ export default async function AccountPage() {
           </span>
         </div>
 
-        {isPro && sub?.current_period_end && (
+        {isPro && endDate && (
           <p className="mt-4 text-sm text-slate-500">
-            {sub.cancel_at_period_end ? "Cancels" : "Renews"} on{" "}
-            {new Date(sub.current_period_end).toLocaleDateString()}
+            {isSelfServeBilling
+              ? `${sub?.cancel_at_period_end ? "Cancels" : "Renews"} on ${endDate}`
+              : `Pro access until ${endDate}`}
+          </p>
+        )}
+
+        {hasLapsed && endDate && (
+          <p className="mt-4 text-sm text-slate-500">
+            Your Pro access ended on {endDate}.
           </p>
         )}
 
         <div className="mt-6 flex flex-wrap gap-3">
-          {isPro ? (
+          {/* The portal only exists for real Stripe customers; a manual grant
+              has no subscription to manage, and posting one used to 500. */}
+          {isPro && isSelfServeBilling && (
             <form action="/api/stripe/portal" method="post">
               <button
                 type="submit"
@@ -78,12 +102,13 @@ export default async function AccountPage() {
                 Manage billing
               </button>
             </form>
-          ) : (
+          )}
+          {!isPro && (
             <Link
               href="/pricing"
               className="rounded-full bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-indigo-700"
             >
-              Upgrade to Pro
+              {hasLapsed ? "Renew Pro" : "Upgrade to Pro"}
             </Link>
           )}
           <Link
@@ -93,6 +118,16 @@ export default async function AccountPage() {
             Saved receipts
           </Link>
         </div>
+
+        {isPro && !isSelfServeBilling && (
+          <p className="mt-6 border-t border-slate-100 pt-5 text-sm text-slate-500">
+            Need to cancel or get a refund? Email{" "}
+            <a href={`mailto:${SITE.email}`} className="font-medium text-indigo-600 hover:underline">
+              {SITE.email}
+            </a>{" "}
+            and we&apos;ll sort it within one business day.
+          </p>
+        )}
       </div>
 
       <form action="/auth/signout" method="post" className="mt-6">

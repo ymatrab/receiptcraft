@@ -89,7 +89,9 @@ export default function PricingCta({ planId, paymentLink, label, className }: Pr
       >
         <span className="inline-flex items-center justify-center gap-2">
           {busy && <SpinnerIcon className="h-4 w-4" />}
-          {busy ?? (account.isPro ? "Manage subscription" : label)}
+          {/* "Manage subscription" promised self-serve billing that doesn't
+              exist — a pass just runs out. The destination is unchanged. */}
+          {busy ?? (account.isPro ? "View your account" : label)}
         </span>
       </button>
       {error && (

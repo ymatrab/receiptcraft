@@ -38,7 +38,7 @@ const FAQ = [
   },
   {
     q: "Can I cancel anytime?",
-    a: "Yes. Manage or cancel your subscription anytime from your account page — you keep Pro until the end of the billing period.",
+    a: `Pro is a pass that runs for the period you bought, and your access ends on the date shown on your account page — so there's nothing to cancel to stay in control. There's no self-serve billing portal yet: to cancel, stop any future charge or ask for a refund, email ${SITE.email} and we'll sort it within one business day.`,
   },
   {
     q: "Do I need an account to use the free tier?",

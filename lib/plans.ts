@@ -98,3 +98,26 @@ export const FREE_LIMITS = {
 export function isProStatus(status: string | null | undefined): boolean {
   return status === "active" || status === "trialing";
 }
+
+/**
+ * Whether a subscription row still entitles the holder to Pro *right now*.
+ *
+ * Status alone is not enough: on a Shopify-only rail every customer is a manual
+ * grant that stays `status: "active"` forever, so a $3 weekly pass used to buy
+ * Pro for life. The period end is what makes a grant expire, so every
+ * server-side entitlement check must go through here rather than isProStatus.
+ *
+ * A row with no period end never expires — Stripe rows can legitimately land
+ * without one, and locking out a real payer is worse than a rare open-ended
+ * grant. Manual grants always set it.
+ */
+export function isProEntitled(
+  status: string | null | undefined,
+  currentPeriodEnd: string | null | undefined
+): boolean {
+  if (!isProStatus(status)) return false;
+  if (!currentPeriodEnd) return true;
+  const endsAt = new Date(currentPeriodEnd).getTime();
+  // An unparseable date is treated as non-expiring, matching the null case.
+  return Number.isNaN(endsAt) || endsAt > Date.now();
+}
