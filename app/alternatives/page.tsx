@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { BRAND_COUNT } from "@/lib/counts";
 import {
   COMPETITORS,
   OTHER_ALTERNATIVES,
@@ -170,8 +171,8 @@ export default function AlternativesPage() {
               </h3>
             </div>
             <p className="mt-3 leading-relaxed text-slate-600">
-              A free, AI-powered receipt maker with 350+ named-brand templates
-              (Walmart, Target, Starbucks and more), live preview, and PDF plus
+              A free, AI-powered receipt maker with {BRAND_COUNT} named-brand
+              templates (Walmart, Target, Starbucks and more), live preview, and PDF plus
               high-resolution PNG export. You can build and preview with no
               signup; your first three HD downloads are free, and Pro removes the
               watermark with unlimited AI generation and saved history.
@@ -316,8 +317,8 @@ export default function AlternativesPage() {
             Make your receipt free in seconds
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-slate-300">
-            350+ brand templates, AI generation and PDF &amp; PNG export — with
-            no signup to start.
+            {BRAND_COUNT} brand templates, AI generation and PDF &amp; PNG export
+            — no signup to build, free account to download.
           </p>
           <div className="mt-8">
             <Link

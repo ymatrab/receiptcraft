@@ -1,10 +1,9 @@
 export const SITE = {
   name: "Makecepeit",
   tagline: "Free Receipt Maker — Create & Download Receipts in Seconds",
-  // Kept under ~160 chars so it doesn't truncate in SERPs. Used as the default
-  // meta description + OpenGraph/Twitter/WebSite-schema description site-wide.
-  description:
-    "Create professional receipts online for free with 100+ brand templates — live preview, instant PDF & PNG download, editable fields, and no sign-up to start.",
+  // The default meta description lives in lib/counts.ts as SITE_DESCRIPTION,
+  // because it quotes the real brand count and this module is imported by client
+  // components — importing the catalogue here would ship it to the browser.
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.makecepeit.com",
   twitter: "@makecepeit",
   email: "hello@makecepeit.com",

@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { TEMPLATES } from "@/lib/templates";
 import { absoluteUrl } from "@/lib/site";
+import { TEMPLATE_COUNT } from "@/lib/counts";
 
 export const metadata: Metadata = {
-  title: "Receipt Templates — 40+ Free Business Styles",
+  title: `Receipt Templates — ${TEMPLATE_COUNT} Free Business Styles`,
   description:
     "Browse free receipt templates: grocery, restaurant, gas station, taxi, hotel, pharmacy and more — each pre-filled with realistic items. Customize and download.",
   alternates: { canonical: "/templates" },
@@ -46,7 +47,9 @@ export default function TemplatesPage() {
         <p className="mt-4 text-lg leading-relaxed text-slate-600">
           Every template is pre-filled with realistic items, prices and tax
           rates for its business type. Pick one, customize what you need, and
-          download your receipt in seconds — free to use, no sign-up to start.
+          download your receipt in seconds. Building and previewing is free with
+          no sign-up; downloading uses a free account, and your first 3 are
+          watermark-free.
         </p>
       </div>
 

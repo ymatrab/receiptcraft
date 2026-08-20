@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { SITE, absoluteUrl } from "@/lib/site";
+import { BRAND_COUNT, TEMPLATE_COUNT, SITE_DESCRIPTION } from "@/lib/counts";
 import HomeAiGenerator from "@/components/HomeAiGenerator";
 import { TEMPLATES } from "@/lib/templates";
 import { BRAND_LIST } from "@/lib/brands";
@@ -143,7 +144,7 @@ const FEATURES = [
   {
     icon: "🆓",
     tint: "bg-rose-50 ring-rose-100",
-    title: "Free to start, no sign-up",
+    title: "Free to build — account to download",
     description:
       "Build and preview receipts with no account. Create a free account to download — your first 3 are watermark-free — then go Pro for unlimited HD, watermark-free exports.",
   },
@@ -153,7 +154,7 @@ const STEPS = [
   {
     title: "Pick a template",
     description:
-      "Choose from 40+ receipt templates — grocery, restaurant, gas station, taxi, hotel and more — each pre-filled with realistic details.",
+      `Choose from ${TEMPLATE_COUNT} receipt templates and ${BRAND_COUNT} named-brand layouts — grocery, restaurant, gas station, taxi, hotel and more — each pre-filled with realistic details.`,
   },
   {
     title: "Customize everything",
@@ -352,16 +353,16 @@ const appJsonLd = {
   url: SITE.url,
   applicationCategory: "BusinessApplication",
   operatingSystem: "Any",
-  description: SITE.description,
+  description: SITE_DESCRIPTION,
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   featureList: [
     // Derived so the structured data can't drift from what the page shows.
-    `${TEMPLATES.length}+ receipt templates and ${BRAND_LIST.length} brand-style layouts`,
+    `${TEMPLATE_COUNT} receipt templates and ${BRAND_COUNT} brand-style layouts`,
     "Live receipt preview",
     "PDF and PNG download",
     "Custom tax, discount and tip",
     "10 currencies",
-    "No sign-up to start building",
+    "No sign-up to build — free account to download",
     "AI receipt generator",
   ],
 };
@@ -396,7 +397,8 @@ export default function HomePage() {
           <div>
             <p className="inline-flex items-center gap-1.5 rounded-full border border-indigo-200 bg-indigo-50 px-3 py-1 text-xs font-medium text-indigo-700">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-              Free to use · No sign-up to start · 100+ templates
+              Free to build · {BRAND_COUNT} brand templates · Free account to
+              download
             </p>
             <h1 className="mt-5 text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
               Free receipt maker — build yours in{" "}
@@ -428,12 +430,18 @@ export default function HomePage() {
             </div>
             <p className="mt-3 text-sm text-slate-500">
               Free to build &amp; preview — no sign-up. A free account is needed
-              only to download, and your first 3 downloads are watermark-free.
+              only to download, and your first 3 downloads are watermark-free.{" "}
+              <Link
+                href="/pricing"
+                className="font-medium text-indigo-600 underline underline-offset-2 hover:text-indigo-700"
+              >
+                See pricing
+              </Link>
             </p>
             <dl className="mt-10 grid max-w-md grid-cols-3 gap-6">
               <div>
-                <dt className="text-2xl font-bold text-slate-900">100+</dt>
-                <dd className="mt-0.5 text-sm text-slate-500">Templates</dd>
+                <dt className="text-2xl font-bold text-slate-900">{BRAND_COUNT}</dt>
+                <dd className="mt-0.5 text-sm text-slate-500">Brand templates</dd>
               </div>
               <div>
                 <dt className="text-2xl font-bold text-slate-900">60s</dt>
@@ -1098,16 +1106,24 @@ export default function HomePage() {
             Your receipt is 60 seconds away
           </h2>
           <p className="relative mx-auto mt-4 max-w-xl text-lg text-indigo-100">
-            No sign-up to start. {TEMPLATES.length} business templates and{" "}
-            {BRAND_LIST.length} brand layouts. Just a clean, professional receipt
-            ready to download.
+            No sign-up to build. {TEMPLATE_COUNT} business templates and{" "}
+            {BRAND_COUNT} brand layouts. A free account downloads your first 3
+            watermark-free.
           </p>
-          <Link
-            href="/create"
-            className="relative mt-8 inline-block rounded-full bg-white px-8 py-4 text-base font-semibold text-indigo-700 shadow-xl transition-transform hover:scale-105"
-          >
-            Create Your Free Receipt
-          </Link>
+          <div className="relative mt-8 flex flex-wrap items-center justify-center gap-4">
+            <Link
+              href="/create"
+              className="inline-block rounded-full bg-white px-8 py-4 text-base font-semibold text-indigo-700 shadow-xl transition-transform hover:scale-105"
+            >
+              Create Your Free Receipt
+            </Link>
+            <Link
+              href="/pricing"
+              className="inline-block rounded-full border border-white/40 px-8 py-4 text-base font-semibold text-white transition-colors hover:bg-white/10"
+            >
+              See Pro pricing
+            </Link>
+          </div>
         </div>
       </section>
     </>

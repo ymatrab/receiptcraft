@@ -3,6 +3,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { fontVariables } from "./fonts";
 import "./globals.css";
 import { SITE } from "@/lib/site";
+import { SITE_DESCRIPTION } from "@/lib/counts";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import ChatWidget from "@/components/chat/ChatWidget";
@@ -15,7 +16,7 @@ export const metadata: Metadata = {
     default: SITE.tagline,
     template: `%s | ${SITE.name}`,
   },
-  description: SITE.description,
+  description: SITE_DESCRIPTION,
   applicationName: SITE.name,
   keywords: [
     "receipt maker",
@@ -37,13 +38,13 @@ export const metadata: Metadata = {
     type: "website",
     siteName: SITE.name,
     title: SITE.tagline,
-    description: SITE.description,
+    description: SITE_DESCRIPTION,
     url: SITE.url,
   },
   twitter: {
     card: "summary_large_image",
     title: SITE.tagline,
-    description: SITE.description,
+    description: SITE_DESCRIPTION,
   },
   robots: {
     index: true,
@@ -79,7 +80,7 @@ const webSiteJsonLd = {
   "@type": "WebSite",
   name: SITE.name,
   url: SITE.url,
-  description: SITE.description,
+  description: SITE_DESCRIPTION,
 };
 
 export default function RootLayout({
