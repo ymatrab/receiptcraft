@@ -25,6 +25,11 @@ const STATIC_UPDATED = new Date("2026-07-20");
 // puts false dates in the sitemap and is what IndexNow treats as spam.
 const CONTENT_UPDATED = new Date("2026-08-14");
 const TEMPLATES_UPDATED = new Date("2026-07-20");
+// Templates whose copy now cites the rules behind it — rent, donation and
+// restaurant so far. Keyed off `sources` on the template rather than a slug
+// list, so a template picks up the fresh date when it gains citations and the
+// uncited ones keep TEMPLATES_UPDATED. Same idea as INTENT_CITED_UPDATED.
+const TEMPLATES_CITED_UPDATED = new Date("2026-08-20");
 const BRANDS_UPDATED = new Date("2026-07-20");
 const INTENT_UPDATED = new Date("2026-07-20");
 // The 19 brands whose guides now cite the retailer's own help pages. Only those
@@ -73,7 +78,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const templatePages: MetadataRoute.Sitemap = TEMPLATES.map((t) => ({
     url: `${SITE.url}/templates/${t.slug}`,
-    lastModified: TEMPLATES_UPDATED,
+    lastModified: t.sources?.length ? TEMPLATES_CITED_UPDATED : TEMPLATES_UPDATED,
   }));
 
   const brandPages: MetadataRoute.Sitemap = BRAND_TEMPLATES.map((t) => ({

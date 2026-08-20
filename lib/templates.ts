@@ -119,7 +119,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
       {
         heading: "Tip vs. service charge — keep them separate",
         body:
-          "A tip is voluntary and usually written in by the guest after tax, which is why the printed merchant copy leaves the 'Tip' and 'Total' lines blank while the customer copy shows suggested totals.\n\nA service charge (or 'auto-gratuity') is a mandatory percentage the restaurant adds itself — commonly 18–20% for parties of six or more — and prints as its own line before the total. The two are taxed and reported differently, so if the real receipt itemized a service charge, don't fold it into the tip field; add it as its own line labelled 'Service Charge (18%)'.",
+          "A tip is voluntary and usually written in by the guest after tax, which is why the printed merchant copy leaves the 'Tip' and 'Total' lines blank while the customer copy shows suggested totals.\n\nA service charge (or 'auto-gratuity') is a mandatory percentage the restaurant adds itself — commonly 18–20% for parties of six or more — and prints as its own line before the total. The two are taxed and reported differently, so if the real receipt itemized a service charge, don't fold it into the tip field; add it as its own line labelled 'Service Charge (18%)'.\n\nThe IRS draws the same line. Under {cite:irs-rr-2012-18|Revenue Ruling 2012-18} an automatic gratuity the restaurant sets is a service charge rather than a tip, and {cite:irs-pub-531|Publication 531} treats tips separately from employer-set service charges. That is the reason the two get their own lines on a real check instead of being merged into one figure.",
       },
       {
         heading: "How tax is applied to a restaurant bill",
@@ -134,7 +134,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
       {
         heading: "Alcohol and separate bar tabs",
         body:
-          "Bars and many restaurants ring alcohol on a separate tab or under a different tax line, and expense policies often exclude alcohol from reimbursement. Itemize drinks as their own lines so an approver can see — and, if needed, subtract — them. A total-only receipt usually fails an itemization requirement.",
+          "Bars and many restaurants ring alcohol on a separate tab or under a different tax line, and expense policies often exclude alcohol from reimbursement. Itemize drinks as their own lines so an approver can see — and, if needed, subtract — them. A total-only receipt usually fails an itemization requirement: {cite:irs-pub-463|Publication 463} sets out what a receipt has to show to substantiate a business expense — the amount, the date, the place and what the expense was for.",
       },
     ],
     faqs: [
@@ -164,6 +164,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
           "Many expense systems accept a recreated itemized receipt alongside the card-statement line for the meal. Recreate the real restaurant, date, dishes and amounts, keep alcohol on its own line if your policy excludes it, and submit both documents together. Always follow your employer's reimbursement rules.",
       },
     ],
+    sources: ["irs-rr-2012-18", "irs-pub-531", "irs-pub-463"],
     defaults: {
       businessName: "The Olive Garden Bistro",
       addressLine1: "88 Harbor Street",
@@ -626,6 +627,24 @@ export const TEMPLATES: ReceiptTemplate[] = [
           "A rent receipt is a record of payment and can serve as evidence that rent was paid. In some jurisdictions landlords are required to provide one on request. It is most useful when it accurately reflects a real payment between the named tenant and landlord.",
       },
     ],
+    guidance: [
+      {
+        heading: "When a landlord has to give a receipt",
+        body:
+          "Whether a rent receipt is optional depends on where the property is — and in several states it is not optional at all. California is the broadest: {cite:ca-civ-1499|Civil Code § 1499} entitles anyone paying money to a receipt from the person who accepts it. New York is specific to rent — under {cite:ny-rpl-235-e|Real Property Law § 235-e} a landlord must give a written receipt whenever rent is paid by any means other than the tenant's own personal check, and the statute sets out what that receipt has to state.\n\nWashington ties the duty to cash: {cite:wa-rcw-59-18-063|RCW 59.18.063} requires a receipt for any payment made in cash, and on request for other payment methods. Massachusetts covers the money a tenant hands over at the start of a tenancy — {cite:ma-mgl-186-15b|G.L. c.186 § 15B} governs the receipt for a security deposit or last month's rent, down to what it has to contain.\n\nThose four are examples, not the full picture. Rules differ by state and sometimes by city, and the one that binds you is the one where the property sits — not where either party lives. Look yours up before assuming a receipt is a courtesy.",
+      },
+      {
+        heading: "Why cash rent is the case that matters",
+        body:
+          "A bank transfer or a cheque leaves a record on both sides without anyone doing anything. Cash leaves nothing, which is why the statutes that single out a payment method almost always single out cash, and why a tenant paying in cash should insist on a receipt every month rather than at the end of a dispute.\n\nMake the receipt say which period the payment covers, not just the date it was handed over. 'Rent — June 2026' settles an argument that '$1,850 received on 3 June' does not: a payment made in June could be June's rent, May's arrears, or a part payment of both.",
+      },
+      {
+        heading: "What the landlord keeps it for",
+        body:
+          "The receipt is the tenant's proof, but it is also the landlord's own income record. {cite:irs-pub-527|Publication 527} sets out the rental income and expense records a landlord is expected to keep, and receipts are the income side of that file. Issuing them monthly means the year-end position is already assembled rather than reconstructed.",
+      },
+    ],
+    sources: ["ca-civ-1499", "ny-rpl-235-e", "wa-rcw-59-18-063", "ma-mgl-186-15b", "irs-pub-527"],
     defaults: {
       businessName: "Maple Grove Properties",
       addressLine1: "Unit 4B, 215 Birch Lane",
@@ -707,6 +726,19 @@ export const TEMPLATES: ReceiptTemplate[] = [
           "A donation receipt generally needs the organization's name, the donor's name, the date and amount of the contribution, and a statement about whether goods or services were provided in return. Tax rules vary by country, so confirm your local requirements before relying on it for a deduction.",
       },
     ],
+    guidance: [
+      {
+        heading: "The $250 line, and the sentence that has to be on the receipt",
+        body:
+          "For a single contribution of $250 or more, a donor needs a written acknowledgement from the charity. {cite:irs-pub-1771|Publication 1771} sets out that threshold and the statement the acknowledgement carries about whether the organization provided any goods or services in return for the gift.\n\nThat second half is what the familiar line — that no goods or services were provided in exchange for the contribution — is doing on a donation receipt. It is not boilerplate. It is the statement the rule asks for, and a receipt that records the amount but omits it is incomplete for a donor who intends to claim the gift. This template prints it in the footer by default for exactly that reason.\n\nBelow $250 the written acknowledgement is not required, but a charity that issues one anyway spares the donor from reconstructing the gift months later from a bank line that says only 'transfer'.",
+      },
+      {
+        heading: "A receipt records the gift — it does not make it deductible",
+        body:
+          "Whether a donation can actually be deducted turns on the organization's tax status and on the donor's own circumstances, neither of which a receipt establishes. A charity issuing receipts is documenting what it received; it is not certifying anyone's deduction.\n\nSo write the receipt to be accurate about the facts — who gave, how much, when, and what if anything was given back — and leave the question of deductibility to the donor and their own adviser. Tax rules also differ by country, and the threshold above is a US one.",
+      },
+    ],
+    sources: ["irs-pub-1771"],
     defaults: {
       businessName: "Helping Hands Foundation",
       addressLine1: "501 Charity Way",
