@@ -88,6 +88,31 @@ export default async function IntentPage({
     url: absoluteUrl(`/receipt-help/${slug}`),
   };
 
+  // HowTo over the first section that actually renders a step list — on these
+  // pages that is "Where to look first", the procedure the whole page exists to
+  // give. Google retired the HowTo rich result, but models still parse the
+  // markup, and it makes each step individually extractable instead of
+  // something an engine has to infer from prose.
+  //
+  // Built from the rendered sections, so a page without steps emits no HowTo
+  // rather than markup describing a procedure it does not show.
+  const stepSection = c.sections.find((sec) => sec.steps && sec.steps.length > 0);
+  const howToJsonLd = stepSection
+    ? {
+        "@context": "https://schema.org",
+        "@type": "HowTo",
+        name: c.h1,
+        description: c.lead,
+        url: absoluteUrl(`/receipt-help/${slug}`),
+        step: stepSection.steps!.map((text, i) => ({
+          "@type": "HowToStep",
+          position: i + 1,
+          name: `Step ${i + 1}`,
+          text,
+        })),
+      }
+    : null;
+
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -102,6 +127,9 @@ export default async function IntentPage({
     <main className="mx-auto max-w-3xl px-4 py-14 sm:px-6 lg:px-8">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      {howToJsonLd && (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }} />
+      )}
 
       <nav className="text-sm text-slate-500">
         <Link href="/receipt-help" className="hover:text-slate-700">Receipt Help</Link>
