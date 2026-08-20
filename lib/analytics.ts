@@ -46,6 +46,12 @@ export const analytics = {
     track("download_receipt", { format, template, pro }),
   beginCheckout: (plan: "weekly" | "monthly" | "yearly", location?: string) =>
     track("begin_checkout", { plan, location }),
+  // Buyer came back from Shopify's checkout. Paired with begin_checkout this is
+  // the first honest read on how many started checkouts actually complete.
+  purchaseLanded: () => track("purchase_landed", {}),
+  // Entitlement actually appeared. `seconds` is how long the buyer waited on the
+  // activation page — the number that says whether fulfilment feels instant.
+  proActivated: (seconds: number) => track("pro_activated", { seconds }),
   upgradeClick: (location: string) => track("upgrade_click", { location }),
   signIn: (method: string) => track("login", { method }),
   signUp: (method: string) => track("sign_up", { method }),
