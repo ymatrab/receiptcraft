@@ -6,10 +6,22 @@ import {
   intentContent,
   siblingIntents,
   INTENT_SLUGS,
+  type IntentKind,
 } from "@/lib/intent-pages";
 import { getTemplate } from "@/lib/templates";
 import { fitSeoDescription } from "@/lib/seo-description";
 import { absoluteUrl, SITE } from "@/lib/site";
+import RelatedPosts from "@/components/RelatedPosts";
+
+/** Which blog categories suit each guide. A "can I return without a receipt"
+ *  page wants the legal reading; a lost-receipt page wants the recovery
+ *  reading. Falls back to Lost Receipts, which fits every kind. */
+const RELATED_CATEGORIES: Record<IntentKind, readonly string[]> = {
+  "lost-receipt": ["Lost Receipts"],
+  "receipt-copy": ["Lost Receipts"],
+  "return-policy": ["Legal", "Lost Receipts"],
+  "refund-policy": ["Legal", "Lost Receipts"],
+};
 
 export function generateStaticParams() {
   return INTENT_SLUGS.map((slug) => ({ slug }));
@@ -201,6 +213,14 @@ export default async function IntentPage({
           </ul>
         </section>
       )}
+
+      {/* Articles about this brand. Keyed off the brand hub so a guide and the
+          brand's own template page surface the same reading, with a topical
+          fallback for the ~337 brands that have no post named after them. */}
+      <RelatedPosts
+        hub={`/brands/${page.brandSlug}`}
+        categories={RELATED_CATEGORIES[page.kind]}
+      />
     </main>
   );
 }

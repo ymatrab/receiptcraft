@@ -1,9 +1,18 @@
 import Link from "next/link";
 import { relatedPostsForHub } from "@/lib/related-posts";
 
-/** Renders nothing if this hub has no tracked spokes yet. */
-export default function RelatedPosts({ hub }: { hub: string }) {
-  const posts = relatedPostsForHub(hub);
+/** Renders nothing if this hub has no tracked spokes yet. Async because brand
+ *  hubs resolve their spokes from the published post list rather than a
+ *  hand-maintained map — see lib/related-posts.ts. */
+export default async function RelatedPosts({
+  hub,
+  categories,
+}: {
+  hub: string;
+  /** Blog categories to fall back on when the hub has no posts of its own. */
+  categories?: readonly string[];
+}) {
+  const posts = await relatedPostsForHub(hub, categories);
   if (posts.length === 0) return null;
 
   return (
