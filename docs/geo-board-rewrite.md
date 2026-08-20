@@ -4,11 +4,17 @@
 ("build lib/sources.ts", "build components/Sources.tsx"). That is unreadable as a
 progress record. One outcome = one task; file paths belong in the task body.
 
-**Status:** ready to apply. Blocked on the Zapier account being out of task
-credits (`insufficient tasks on account`).
+**Status:** applied on 2026-08-20 through the official Notion MCP, which the
+workspace connected directly — no Zapier, no per-page integration, and no task
+credits. The 13 surviving tasks were renamed in place, one was added, and the 15
+absorbed ones were moved to a new `Archive` phase that the board view filters
+out. The Phase options were also renamed from dev-planning labels
+(`0 — Infra`, `1 — This week`) to `Now / Next / Later / Ongoing / Archive`.
 
-**Applying it:** rename the 14 tasks below in place and archive the other 14 —
-renaming is cheaper than recreating. ~28 Zapier calls total.
+A `scripts/notion-board.mjs` helper was written for the direct Notion API while
+Zapier was down, and removed once the MCP route worked: it matched tasks by their
+old titles, so re-running it after the rename would have archived every task on
+the board.
 
 ---
 
