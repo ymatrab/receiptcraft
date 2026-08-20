@@ -46,6 +46,14 @@ export const metadata: Metadata = {
     title: SITE.tagline,
     description: SITE_DESCRIPTION,
   },
+  // Proves host ownership to Bing Webmaster Tools, which is also what feeds
+  // Microsoft Copilot's citations. Public by design — it identifies the site,
+  // it does not grant access to it.
+  verification: {
+    other: {
+      "msvalidate.01": "3A3CD96A324801E10FE17EF579BD3073",
+    },
+  },
   robots: {
     index: true,
     follow: true,
