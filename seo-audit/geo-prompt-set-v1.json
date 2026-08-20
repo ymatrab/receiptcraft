@@ -1,0 +1,83 @@
+{
+  "version": 1,
+  "frozen": "2026-08-20",
+  "_readme": [
+    "Frozen prompt set for measuring whether AI assistants mention Makecepeit.",
+    "",
+    "DO NOT EDIT THE PROMPTS. Week-to-week numbers are only comparable if the set,",
+    "the competitor list and the locale stay identical. If the set genuinely needs",
+    "to change, create v2 alongside this file and keep running v1 until v2 has",
+    "enough history to stand on its own — otherwise a change in the questions",
+    "looks exactly like a change in visibility.",
+    "",
+    "Record each run as seo-audit/geo-ai-visibility-<date>.json using the shape in",
+    "'record_shape' below. One run is a reading, not a baseline; the second run is",
+    "what makes the first one mean anything."
+  ],
+  "locale": {
+    "language": "en",
+    "country": "US",
+    "note": "Frozen. Results differ materially by locale, so a change here invalidates the trend."
+  },
+  "surfaces": [
+    "chatgpt",
+    "perplexity",
+    "gemini",
+    "copilot",
+    "google_ai_overviews"
+  ],
+  "competitors": [
+    "MakeReceipt",
+    "ReceiptFaker",
+    "ReceiptBaker",
+    "Receiptmakerly",
+    "ExpressExpense"
+  ],
+  "prompts": [
+    { "id": "p01", "intent": "commercial", "text": "What is the best free receipt generator online?" },
+    { "id": "p02", "intent": "commercial", "text": "Best receipt maker for a small business" },
+    { "id": "p03", "intent": "commercial", "text": "Free receipt maker with no sign-up" },
+    { "id": "p04", "intent": "commercial", "text": "What tool can I use to create a realistic receipt for a design mockup?" },
+    { "id": "p05", "intent": "commercial", "text": "Receipt generator that exports to PDF and PNG" },
+    { "id": "p06", "intent": "commercial", "text": "Is there a receipt maker with templates for specific stores?" },
+    { "id": "p07", "intent": "commercial", "text": "Cheapest receipt maker subscription" },
+    { "id": "p08", "intent": "alternative", "text": "What are the best alternatives to MakeReceipt?" },
+    { "id": "p09", "intent": "alternative", "text": "ReceiptFaker alternative" },
+    { "id": "p10", "intent": "alternative", "text": "ExpressExpense alternatives for making receipts" },
+    { "id": "p11", "intent": "alternative", "text": "Receiptmakerly vs other receipt generators" },
+    { "id": "p12", "intent": "alternative", "text": "Which receipt maker has the most brand templates?" },
+    { "id": "p13", "intent": "procedural", "text": "How do I replace a lost Walmart receipt?" },
+    { "id": "p14", "intent": "procedural", "text": "How can I get a copy of a Target receipt?" },
+    { "id": "p15", "intent": "procedural", "text": "I lost my Amazon receipt, how do I get proof of purchase?" },
+    { "id": "p16", "intent": "procedural", "text": "How do I get a duplicate Chipotle receipt?" },
+    { "id": "p17", "intent": "procedural", "text": "How do I get a receipt copy from Uber for my expense report?" },
+    { "id": "p18", "intent": "procedural", "text": "Can I return something to Costco without a receipt?" },
+    { "id": "p19", "intent": "procedural", "text": "How do I make a receipt for an expense report?" },
+    { "id": "p20", "intent": "procedural", "text": "What do I do if I lost a receipt I need for reimbursement?" },
+    { "id": "p21", "intent": "template", "text": "Where can I find a rent receipt template?" },
+    { "id": "p22", "intent": "template", "text": "Free donation receipt template that meets IRS rules" },
+    { "id": "p23", "intent": "template", "text": "Restaurant receipt template I can customise" },
+    { "id": "p24", "intent": "informational", "text": "What has to be on a valid receipt?" },
+    { "id": "p25", "intent": "informational", "text": "Is it legal to create your own receipt?" }
+  ],
+  "record_shape": {
+    "_note": "One object per (prompt x surface) per run.",
+    "run_date": "YYYY-MM-DD",
+    "prompt_id": "p01",
+    "surface": "chatgpt",
+    "mentioned": "true | false — did the answer name Makecepeit at all",
+    "position": "1-based rank among tools named, or null if not mentioned",
+    "linked": "true | false — did it link makecepeit.com, not just name it",
+    "sentiment": "positive | neutral | negative",
+    "competitors_named": ["MakeReceipt"],
+    "sources_cited": [
+      "third-party domains the engine cited, e.g. reddit.com — this is the list that tells us WHERE to earn mentions next"
+    ]
+  },
+  "kpis": [
+    "mention_rate = mentioned / total prompts, per surface",
+    "link_rate = linked / mentioned — being named without a link sends no traffic",
+    "share_of_voice = times Makecepeit named / times any tool named",
+    "branded GSC impressions for 'makecepeit' — the cheapest independent check that AI exposure is turning into demand"
+  ]
+}
