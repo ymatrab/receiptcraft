@@ -1,10 +1,11 @@
 import type { MetadataRoute } from "next";
 import { SITE } from "@/lib/site";
-import { TEMPLATES, sourcedFigure } from "@/lib/templates";
+import { TEMPLATES } from "@/lib/templates";
 import { BRAND_TEMPLATES } from "@/lib/brands";
 import { EXAMPLES, EXAMPLES_TOTAL_PAGES } from "@/lib/examples";
-import { INTENT_PAGES, hasOfficialSource } from "@/lib/intent-pages";
-import { COMPETITORS, LAST_UPDATED } from "@/lib/comparisons";
+import { INTENT_PAGES } from "@/lib/intent-pages";
+import { COMPETITORS } from "@/lib/comparisons";
+import * as C from "@/lib/content-dates";
 import { getAllPosts } from "@/lib/sanity/queries";
 
 // Regenerate hourly so scheduled blog posts (publishedAt <= now()) enter the
@@ -16,109 +17,63 @@ export const revalidate = 3600;
 // as "just modified" every deploy and trains crawlers to ignore <lastmod>).
 // changefreq/priority are intentionally omitted: Google and Bing have ignored
 // them since 2023. Blog entries use their real publishedAt.
-const STATIC_UPDATED = new Date("2026-07-20");
-// Bump this to today whenever a page's visible content actually changes, and
-// move that page onto it. The IndexNow cron only submits URLs whose
-// lastModified is newer than its own last run, so a brand-new or rewritten
-// page that keeps an older date is silently never submitted to Bing/Yandex.
-// Only pages that genuinely changed belong here — restamping untouched pages
-// puts false dates in the sitemap and is what IndexNow treats as spam.
-const CONTENT_UPDATED = new Date("2026-08-14");
-const TEMPLATES_UPDATED = new Date("2026-07-20");
-// Templates whose copy now cites the rules behind it — rent, donation and
-// restaurant so far. Keyed off `sources` on the template rather than a slug
-// list, so a template picks up the fresh date when it gains citations and the
-// uncited ones keep TEMPLATES_UPDATED. Same idea as INTENT_CITED_UPDATED.
-const TEMPLATES_CITED_UPDATED = new Date("2026-08-20");
-// The 36 templates that gained a sourced figure — a specific number, the body
-// that published it, and a checked date — on 2026-08-21. Its own constant so it
-// does not restamp the three above, which already cited their own rules and did
-// not change, nor the medical/dental/veterinary three that were deliberately
-// left without a figure.
-const TEMPLATES_FIGURE_UPDATED = new Date("2026-08-21");
-// Every /brands and /receipt-help page gained a "Related reading" section on
-// 2026-08-20, so both groups genuinely changed and both dates move. These are
-// real edits to rendered content, not a restamp of untouched pages.
-const BRANDS_UPDATED = new Date("2026-08-20");
-const INTENT_UPDATED = new Date("2026-08-20");
-// The 19 brands whose guides now cite the retailer's own help pages. Only those
-// pages changed; the other ~180 keep INTENT_UPDATED.
-const INTENT_CITED_UPDATED = new Date("2026-08-20");
-const EXAMPLES_UPDATED = new Date("2026-07-03");
-// /guides/receipt-anatomy — rewritten with inline citations to the IRS, EMVCo,
-// PCI DSS and the EU/UK VAT rules. Its own constant so bumping it doesn't
-// restamp every other static page.
-const GUIDES_UPDATED = new Date("2026-08-20");
-// /editorial-policy — now states plainly that citing a regulation is not legal
-// or tax advice, and documents the monthly source re-check. Its own constant so
-// it does not restamp the other static pages that did not change.
-const POLICY_UPDATED = new Date("2026-08-20");
-const COMPARISONS_UPDATED = new Date(LAST_UPDATED);
-// /pricing — the cancellation FAQ no longer promises a self-serve billing
-// portal that does not exist, and says how to actually cancel or get a refund.
-// Its own constant so it does not restamp the other CONTENT_UPDATED pages.
-const PRICING_UPDATED = new Date("2026-08-20");
-// The three index pages whose copy now states one derived template count and
-// discloses that downloading needs a free account. Each gets its own constant
-// because the constants they used to share (CONTENT_UPDATED, TEMPLATES_UPDATED,
-// BRANDS_UPDATED) also cover pages that did not change — the ~42 template pages
-// and ~348 brand pages among them.
-const HOME_UPDATED = new Date("2026-08-20");
-const TEMPLATES_INDEX_UPDATED = new Date("2026-08-20");
-const BRANDS_INDEX_UPDATED = new Date("2026-08-20");
+// Section review dates now live in lib/content-dates.ts so the date a reader
+// sees on the page and the date reported here are the same constant. The rule
+// is unchanged: only pages that genuinely changed get a fresh date, and a page
+// moves onto a new constant rather than restamping one that also covers
+// untouched pages.
+const d = (iso: string) => new Date(iso);
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages: MetadataRoute.Sitemap = [
-    { url: SITE.url, lastModified: HOME_UPDATED },
-    { url: `${SITE.url}/create`, lastModified: STATIC_UPDATED },
-    { url: `${SITE.url}/tools`, lastModified: CONTENT_UPDATED },
-    { url: `${SITE.url}/tools/receipt-calculator`, lastModified: CONTENT_UPDATED },
-    { url: `${SITE.url}/tools/split-payment-checker`, lastModified: CONTENT_UPDATED },
-    { url: `${SITE.url}/guides/receipt-anatomy`, lastModified: GUIDES_UPDATED },
-    { url: `${SITE.url}/templates`, lastModified: TEMPLATES_INDEX_UPDATED },
-    { url: `${SITE.url}/examples`, lastModified: EXAMPLES_UPDATED },
-    { url: `${SITE.url}/receipt-help`, lastModified: INTENT_UPDATED },
-    { url: `${SITE.url}/alternatives`, lastModified: COMPARISONS_UPDATED },
-    { url: `${SITE.url}/pricing`, lastModified: PRICING_UPDATED },
-    { url: `${SITE.url}/login`, lastModified: STATIC_UPDATED },
-    { url: `${SITE.url}/blog`, lastModified: STATIC_UPDATED },
-    { url: `${SITE.url}/about`, lastModified: STATIC_UPDATED },
-    { url: `${SITE.url}/contact`, lastModified: STATIC_UPDATED },
-    { url: `${SITE.url}/authors`, lastModified: STATIC_UPDATED },
-    { url: `${SITE.url}/editorial-policy`, lastModified: POLICY_UPDATED },
-    { url: `${SITE.url}/privacy`, lastModified: STATIC_UPDATED },
-    { url: `${SITE.url}/terms`, lastModified: STATIC_UPDATED },
-    { url: `${SITE.url}/cookies`, lastModified: STATIC_UPDATED },
+    { url: SITE.url, lastModified: d(C.HOME_UPDATED) },
+    { url: `${SITE.url}/create`, lastModified: d(C.STATIC_UPDATED) },
+    { url: `${SITE.url}/tools`, lastModified: d(C.CONTENT_UPDATED) },
+    { url: `${SITE.url}/tools/receipt-calculator`, lastModified: d(C.CONTENT_UPDATED) },
+    { url: `${SITE.url}/tools/split-payment-checker`, lastModified: d(C.CONTENT_UPDATED) },
+    { url: `${SITE.url}/guides/receipt-anatomy`, lastModified: d(C.GUIDES_UPDATED) },
+    { url: `${SITE.url}/templates`, lastModified: d(C.TEMPLATES_INDEX_UPDATED) },
+    { url: `${SITE.url}/examples`, lastModified: d(C.EXAMPLES_UPDATED) },
+    { url: `${SITE.url}/receipt-help`, lastModified: d(C.INTENT_UPDATED) },
+    { url: `${SITE.url}/alternatives`, lastModified: d(C.COMPARISONS_UPDATED) },
+    { url: `${SITE.url}/pricing`, lastModified: d(C.PRICING_UPDATED) },
+    { url: `${SITE.url}/login`, lastModified: d(C.STATIC_UPDATED) },
+    { url: `${SITE.url}/blog`, lastModified: d(C.STATIC_UPDATED) },
+    { url: `${SITE.url}/about`, lastModified: d(C.STATIC_UPDATED) },
+    { url: `${SITE.url}/contact`, lastModified: d(C.STATIC_UPDATED) },
+    { url: `${SITE.url}/authors`, lastModified: d(C.STATIC_UPDATED) },
+    { url: `${SITE.url}/editorial-policy`, lastModified: d(C.POLICY_UPDATED) },
+    { url: `${SITE.url}/privacy`, lastModified: d(C.STATIC_UPDATED) },
+    { url: `${SITE.url}/terms`, lastModified: d(C.STATIC_UPDATED) },
+    { url: `${SITE.url}/cookies`, lastModified: d(C.STATIC_UPDATED) },
   ];
 
   const posts = await getAllPosts();
   const blogPages: MetadataRoute.Sitemap = posts.map((p) => ({
     url: `${SITE.url}/blog/${p.slug}`,
-    lastModified: p.publishedAt ? new Date(p.publishedAt) : STATIC_UPDATED,
+    lastModified: p.publishedAt ? new Date(p.publishedAt) : d(C.STATIC_UPDATED),
   }));
 
   const templatePages: MetadataRoute.Sitemap = TEMPLATES.map((t) => ({
     url: `${SITE.url}/templates/${t.slug}`,
-    lastModified: t.sources?.length
-      ? TEMPLATES_CITED_UPDATED
-      : sourcedFigure(t)
-        ? TEMPLATES_FIGURE_UPDATED
-        : TEMPLATES_UPDATED,
+    // Precedence lives in lib/content-dates so the page and the sitemap cannot
+    // disagree about when a template was last reviewed.
+    lastModified: d(C.templateReviewedAt(t)),
   }));
 
   const brandPages: MetadataRoute.Sitemap = BRAND_TEMPLATES.map((t) => ({
     url: `${SITE.url}/brands/${t.slug}`,
-    lastModified: BRANDS_UPDATED,
+    lastModified: d(C.BRANDS_UPDATED),
   }));
 
   brandPages.push({
     url: `${SITE.url}/brands`,
-    lastModified: BRANDS_INDEX_UPDATED,
+    lastModified: d(C.BRANDS_INDEX_UPDATED),
   });
 
   const examplePages: MetadataRoute.Sitemap = EXAMPLES.map((e) => ({
     url: `${SITE.url}/examples/${e.slug}`,
-    lastModified: EXAMPLES_UPDATED,
+    lastModified: d(C.EXAMPLES_UPDATED),
   }));
 
   // Paginated /examples index pages (page 1 is /examples, already listed above).
@@ -126,18 +81,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { length: Math.max(0, EXAMPLES_TOTAL_PAGES - 1) },
     (_, i) => ({
       url: `${SITE.url}/examples/page/${i + 2}`,
-      lastModified: EXAMPLES_UPDATED,
+      lastModified: d(C.EXAMPLES_UPDATED),
     })
   );
 
   const intentPages: MetadataRoute.Sitemap = INTENT_PAGES.map((p) => ({
     url: `${SITE.url}/receipt-help/${p.slug}`,
-    lastModified: hasOfficialSource(p.brandSlug) ? INTENT_CITED_UPDATED : INTENT_UPDATED,
+    lastModified: d(C.intentReviewedAt(p.brandSlug)),
   }));
 
   const comparisonPages: MetadataRoute.Sitemap = COMPETITORS.map((c) => ({
     url: `${SITE.url}/compare/${c.slug}`,
-    lastModified: COMPARISONS_UPDATED,
+    lastModified: d(C.COMPARISONS_UPDATED),
   }));
 
   return [

@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import Reviewed from "@/components/Reviewed";
+import { EXAMPLES_UPDATED } from "@/lib/content-dates";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
@@ -189,6 +191,7 @@ export default async function ExamplePage({
           </ul>
         </section>
       )}
+      <Reviewed date={EXAMPLES_UPDATED} />
     </main>
   );
 }
