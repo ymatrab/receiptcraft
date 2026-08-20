@@ -28,9 +28,12 @@ different kinds of work and neither supersedes the other.
 
 - database `9988b72b-fe79-4586-b8b0-fee400984eb3`
 - data source `collection://2fcc02d7-f743-4ec2-9c7a-5191f5a431cb`
-- seeded from `MARKETING-ACTION-PLAN.md`; the phase order there is deliberate
-  (stop the leak → automate fulfilment → trust → growth) and each phase is
-  worthless if the one before it is skipped
+- each task body is the complete brief — there is no companion markdown file to
+  read alongside it
+- `Phase` order on this board is a dependency chain, not a preference: stop the
+  revenue leak → automate fulfilment → build trust → grow. Growth work pours
+  traffic into a funnel that loses buyers invisibly if the earlier phases are
+  skipped, so don't pull a Later task forward just because it looks appealing
 
 ## Starting work
 
@@ -119,9 +122,13 @@ July 2026 batch of 132 posts was released.
 
 ## Where things live
 
-- **Notion** — what needs doing, and its status. The owner's view.
-- **`docs/*.md`** — the full plan behind a large piece of work. Link it from the
-  task body rather than pasting it in.
+- **Notion** — what needs doing, its status, and the brief. The owner's view, and
+  the source of truth. A task body should stand on its own: a cold session must
+  be able to start from it without opening anything else.
+- **`docs/*.md`** — background and workings behind a large piece of analysis.
+  Optional reading, not a dependency. If a markdown file holds something a task
+  needs, move it into the task body rather than pointing at the file — plans on
+  disk go stale, get superseded, or were never committed in the first place.
 - **Claude memory** — how to work with this user. Not a task list.
 
 # Local environment
