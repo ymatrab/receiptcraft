@@ -76,3 +76,21 @@ export const analytics = {
   downloadClick: (format: string, state: "pro" | "free" | "anon") =>
     track("download_click", { format, state }),
 };
+
+/**
+ * The GA4 client id from the browser's `_ga` cookie.
+ *
+ * Lives here rather than in lib/ga4.ts because this module is client-safe:
+ * lib/ga4.ts reads GA4_API_SECRET at module scope and must never be pulled into
+ * a client bundle.
+ *
+ * Cookie format is `GA1.1.<client_id>`, where client_id is itself two
+ * dot-separated numbers — e.g. `GA1.1.1234567890.1234567890`.
+ */
+export function clientIdFromGaCookie(raw: string | null | undefined): string | null {
+  if (!raw) return null;
+  const parts = raw.split(".");
+  if (parts.length < 4) return null;
+  const clientId = parts.slice(2).join(".");
+  return /^\d+\.\d+$/.test(clientId) ? clientId : null;
+}

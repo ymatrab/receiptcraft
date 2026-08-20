@@ -57,6 +57,8 @@ export interface ShopifyNoteAttribute {
 export interface ShopifyOrder {
   id?: number | string | null;
   order_number?: number | string | null;
+  total_price?: string | number | null;
+  currency?: string | null;
   email?: string | null;
   contact_email?: string | null;
   customer?: { email?: string | null } | null;
@@ -64,12 +66,18 @@ export interface ShopifyOrder {
   line_items?: ShopifyLineItem[] | null;
 }
 
-/** The user id we asked the cart permalink to carry, if the buyer kept it. */
-export function userIdFromOrder(order: ShopifyOrder): string | null {
+/** Read one cart attribute the permalink carried through checkout. */
+export function orderAttribute(order: ShopifyOrder, name: string): string | null {
   const attr = (order.note_attributes ?? []).find(
-    (a) => (a?.name ?? "").toLowerCase() === "user_id"
+    (a) => (a?.name ?? "").toLowerCase() === name.toLowerCase()
   );
   const value = (attr?.value ?? "").trim();
+  return value || null;
+}
+
+/** The user id we asked the cart permalink to carry, if the buyer kept it. */
+export function userIdFromOrder(order: ShopifyOrder): string | null {
+  const value = orderAttribute(order, "user_id") ?? "";
   // Guard against an empty attribute or a buyer-edited junk value reaching a
   // uuid column — a malformed id would throw on insert rather than fall back.
   return /^[0-9a-f-]{36}$/i.test(value) ? value : null;

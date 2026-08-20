@@ -2,8 +2,10 @@ import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { supabaseConfigured } from "@/lib/supabase/config";
 import { getShopifyVariantPlans } from "@/lib/settings";
+import { sendPurchase } from "@/lib/ga4";
 import {
   emailFromOrder,
+  orderAttribute,
   periodEndFor,
   planFromOrder,
   shopifyConfigured,
@@ -136,6 +138,19 @@ async function handleOrderPaid(order: ShopifyOrder): Promise<void> {
     user_id: userId,
     name: "pro_activated",
     props: { source: "shopify", plan, order_id: orderId, until: periodEnd.toISOString() },
+  });
+
+  // Report the sale to GA4 server-side. Payment completes on Shopify's domain,
+  // so nothing in the browser can fire this — without it, checkout→paid
+  // conversion is unknowable. Deliberately awaited *after* the grant is
+  // committed and deliberately non-throwing: analytics must never be able to
+  // fail a webhook that already gave someone access.
+  await sendPurchase({
+    clientId: orderAttribute(order, "ga_client_id") ?? "",
+    transactionId: orderId,
+    value: Number(order.total_price ?? 0) || 0,
+    currency: order.currency ?? "USD",
+    plan,
   });
 
   console.info(`[shopify] order ${orderId} granted ${plan} to ${userId} until ${periodEnd.toISOString()}`);
