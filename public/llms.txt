@@ -28,3 +28,4 @@ Typical legitimate uses: replacing lost or faded receipts for real purchases, ex
 - Privacy: manual receipt building is client-side in the browser; only the optional AI generator and account saving send data
 - Output: PDF document or 3x-resolution PNG image
 - Time to create a receipt: under one minute using a template
+- Sourcing: where a published rule governs a receipt field, our guides link the issuing authority (IRS, EMVCo, PCI Security Standards Council, EU VAT directive, HMRC) in the text; every link is re-checked monthly and shown with its verification date

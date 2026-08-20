@@ -3,6 +3,7 @@ import { TEMPLATES } from "@/lib/templates";
 import { HOMEPAGE_FAQS } from "@/lib/faqs";
 import { PLANS } from "@/lib/plans";
 import { getAllPosts } from "@/lib/sanity/queries";
+import { SOURCES } from "@/lib/sources";
 
 // Regenerate hourly so newly published blog posts appear without a redeploy.
 export const revalidate = 3600;
@@ -37,6 +38,12 @@ export async function GET() {
           .join("\n")
       : "- Guides are published on a rolling schedule — see the blog index.";
 
+  // Generated from the same registry the pages cite, so this can't drift out
+  // of date the way a hand-maintained list would.
+  const sourceLines = Object.values(SOURCES)
+    .map((s) => `- [${s.title}](${s.url}) — ${s.publisher}. ${s.supports} (checked ${s.verifiedAt})`)
+    .join("\n");
+
   const body = `# ${SITE.name} — Full Reference
 
 > ${SITE.name} is a free online receipt maker at ${SITE.url}. Users build professional receipts with a live preview — free, with no sign-up. Downloading uses a free account: the first 3 receipts export watermark-free in HD (PDF, PNG or JPG), after which free downloads carry a small watermark unless the user upgrades to Pro. An optional Pro plan removes the watermark on every download and unlocks unlimited AI generation and saved history. Manual receipt building is processed entirely in the browser; only the optional AI generator and account features send data to a server.
@@ -60,6 +67,12 @@ ${faqLines}
 ## Guides
 
 ${blogLines}
+
+## Sources we cite
+
+Where a receipt field or rule is governed by a published authority, our guides link that authority in the text rather than paraphrasing it. Every link below is re-checked monthly and carries the date it was last verified. Citing these rules is not legal or tax advice.
+
+${sourceLines}
 
 ## Responsible use
 
