@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SITE, absoluteUrl } from "@/lib/site";
+import { Cite, CitedSentence, SourceList } from "@/components/Sources";
+import { SOURCES, citationJsonLd, lastVerified, type SourceId } from "@/lib/sources";
 
 export const metadata: Metadata = {
   title: "Anatomy of a Receipt: Every Field Explained",
@@ -13,7 +15,33 @@ interface Term {
   term: string;
   aka?: string;
   def: string;
+  /** A follow-on sentence attributing the rule to a named authority, rendered
+   *  as prose inside the definition itself — the in-body form is what makes a
+   *  passage citable, a footer list alone is not. Put `{source}` where the link
+   *  belongs; JSON-LD gets the same sentence with the document title inlined. */
+  cite?: { id: SourceId; sentence: string };
 }
+
+/** Every authority this page draws on, including ones referenced by the
+ *  section prose rather than by a single term. */
+const PAGE_SOURCES: SourceId[] = [
+  "irs-pub-463",
+  "irs-pub-583",
+  "irs-pub-531",
+  "irs-rr-2012-18",
+  "fcra-1681c-g",
+  "pci-dss",
+  "emvco-specs",
+  "eu-vat-directive-226",
+  "hmrc-vat-notice-700",
+];
+
+/** Plain-text form of a cited sentence, for the JSON-LD description. */
+function citeText(cite: Term["cite"]): string {
+  if (!cite) return "";
+  return cite.sentence.replace("{source}", SOURCES[cite.id]?.title ?? "");
+}
+
 interface Section {
   id: string;
   title: string;
@@ -46,6 +74,11 @@ const SECTIONS: Section[] = [
       {
         term: "Receipt number",
         def: "A unique number the point-of-sale system assigns to this receipt. It lets the merchant look up the exact transaction later and is what you quote when requesting a copy or making a return.",
+        cite: {
+          id: "irs-pub-583",
+          sentence:
+            "The IRS treats receipts as the supporting documents behind a business's gross receipts, which is why {source} tells businesses to keep them.",
+        },
       },
       {
         term: "Transaction ID",
@@ -123,14 +156,29 @@ const SECTIONS: Section[] = [
       {
         term: "Sales tax & tax rate",
         def: "Government tax added to taxable items, shown as a rate (%) and a calculated amount. Tax is applied to the taxable subtotal after discounts; some items may be tax-exempt.",
+        cite: {
+          id: "eu-vat-directive-226",
+          sentence:
+            "Outside the US the equivalent field is VAT or GST: {source} sets out the tax particulars an EU invoice has to carry, including the rate applied and the supplier's VAT number.",
+        },
       },
       {
         term: "Tip / gratuity",
         def: "An optional amount added for service, common in restaurants and personal services. It is added after tax and is not itself taxed.",
+        cite: {
+          id: "irs-pub-531",
+          sentence:
+            "A tip belongs to the employee who received it and is reported as tip income under {source}.",
+        },
       },
       {
         term: "Service charge",
         def: "A mandatory fee the business adds (e.g. large-party or delivery), distinct from a voluntary tip. Unlike a tip it may be taxable and is set by the business, not the customer.",
+        cite: {
+          id: "irs-rr-2012-18",
+          sentence:
+            "The distinction is not cosmetic: in {source} the IRS held that an automatic gratuity is a service charge rather than a tip, which changes how it is taxed and paid out.",
+        },
       },
       {
         term: "Total / grand total",
@@ -161,6 +209,11 @@ const SECTIONS: Section[] = [
       {
         term: "Card last four / masked number",
         def: "Only the last four digits of the card are printed; the rest are masked (e.g. ************1234). A compliant receipt never shows the full card number, expiry date or security code.",
+        cite: {
+          id: "fcra-1681c-g",
+          sentence:
+            "This is a legal requirement in the US, not a convention — {source} bars an electronically printed receipt from showing more than the last five digits of the card number, or the expiry date at all.",
+        },
       },
       {
         term: "Entry method",
@@ -169,10 +222,20 @@ const SECTIONS: Section[] = [
       {
         term: "AID (Application Identifier)",
         def: "An EMV chip field identifying the card application the terminal used (e.g. a Visa or Mastercard debit or credit app). It appears on chip-card receipts and confirms which app processed the payment.",
+        cite: {
+          id: "emvco-specs",
+          sentence:
+            "AID is defined in the chip-card specifications published by EMVCo ({source}).",
+        },
       },
       {
         term: "TVR (Terminal Verification Results)",
         def: "An EMV code (10 hex characters) recording the checks the terminal ran during a chip transaction. It is diagnostic data used mainly for dispute and fraud analysis.",
+        cite: {
+          id: "emvco-specs",
+          sentence:
+            "The bit-by-bit meaning of each TVR position is specified in {source}.",
+        },
       },
       {
         term: "TSI (Transaction Status Information)",
@@ -191,6 +254,11 @@ const SECTIONS: Section[] = [
       {
         term: "Barcode / QR code",
         def: "An encoded version of the receipt or transaction number, scannable for fast returns or loyalty. It should encode a reference only — never full card or personal data.",
+        cite: {
+          id: "pci-dss",
+          sentence:
+            "Encoding card data into the barcode would defeat the masking on the face of the receipt, which {source} exists to enforce.",
+        },
       },
       {
         term: "Return policy",
@@ -214,9 +282,11 @@ const definedTermSetJsonLd = {
   hasDefinedTerm: ALL_TERMS.map((t) => ({
     "@type": "DefinedTerm",
     name: t.term,
-    description: t.def,
+    description: t.cite ? `${t.def} ${citeText(t.cite)}` : t.def,
     inDefinedTermSet: absoluteUrl("/guides/receipt-anatomy"),
   })),
+  citation: citationJsonLd(PAGE_SOURCES),
+  dateModified: lastVerified(PAGE_SOURCES),
 };
 
 const breadcrumbJsonLd = {
@@ -271,7 +341,11 @@ export default function ReceiptAnatomyPage() {
         <strong>line items</strong> and their <strong>subtotal</strong>,{" "}
         <strong>discounts and tax</strong>, any <strong>tip or fees</strong>, the{" "}
         <strong>grand total</strong>, and <strong>how it was paid</strong> — with
-        only the last four digits of any card. This dictionary defines each field.
+        only the last four digits of any card. This dictionary defines each field,
+        with the rule behind it cited where one exists — the substantiation
+        requirements in <Cite id="irs-pub-463" />, the card-truncation rule in{" "}
+        <Cite id="fcra-1681c-g">15 U.S.C. § 1681c(g)</Cite>, and the EMV chip
+        fields defined by <Cite id="emvco-specs">EMVCo</Cite>.
       </p>
 
       {/* Table of contents */}
@@ -304,12 +378,25 @@ export default function ReceiptAnatomyPage() {
                     <span className="ml-2 text-sm font-normal text-slate-500">({t.aka})</span>
                   ) : null}
                 </dt>
-                <dd className="mt-1 leading-relaxed text-slate-600">{t.def}</dd>
+                <dd className="mt-1 leading-relaxed text-slate-600">
+                  {t.def}
+                  {t.cite ? (
+                    <>
+                      {" "}
+                      <CitedSentence id={t.cite.id} sentence={t.cite.sentence} />
+                    </>
+                  ) : null}
+                </dd>
               </div>
             ))}
           </dl>
         </section>
       ))}
+
+      <SourceList
+        ids={PAGE_SOURCES}
+        note="Definitions above are ours; where a field is governed by a published rule we link the issuing authority rather than paraphrasing it."
+      />
 
       {/* Internal links — put the fields to use */}
       <section className="mt-14 rounded-2xl border border-indigo-100 bg-indigo-50/40 p-6">

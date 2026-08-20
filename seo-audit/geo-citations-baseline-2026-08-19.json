@@ -1,0 +1,6662 @@
+{
+  "site": "sc-domain:makecepeit.com",
+  "window": {
+    "start": "2026-07-21",
+    "end": "2026-08-17"
+  },
+  "captured": "2026-08-20T00:20:56.885Z",
+  "siteTotal": [
+    {
+      "clicks": 239,
+      "impressions": 35172,
+      "ctr": 0.0067951779824860685,
+      "position": 20.108097350164904
+    }
+  ],
+  "receiptHelpTotal": [
+    {
+      "clicks": 96,
+      "impressions": 17618,
+      "ctr": 0.005448972641616529,
+      "position": 10.358099670791237
+    }
+  ],
+  "receiptHelpPages": [
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/chipotle-receipt-copy"
+      ],
+      "clicks": 12,
+      "impressions": 878,
+      "ctr": 0.01366742596810934,
+      "position": 7.41002277904328
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/panda-express-receipt-copy"
+      ],
+      "clicks": 7,
+      "impressions": 310,
+      "ctr": 0.02258064516129032,
+      "position": 7.529032258064516
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/domino-s-pizza-lost-receipt"
+      ],
+      "clicks": 6,
+      "impressions": 795,
+      "ctr": 0.007547169811320755,
+      "position": 8.714465408805031
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/mcdonalds-receipt-copy"
+      ],
+      "clicks": 4,
+      "impressions": 253,
+      "ctr": 0.015810276679841896,
+      "position": 9.205533596837945
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/pizza-hut-receipt-copy"
+      ],
+      "clicks": 4,
+      "impressions": 209,
+      "ctr": 0.019138755980861243,
+      "position": 7.69377990430622
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/7-eleven-lost-receipt"
+      ],
+      "clicks": 3,
+      "impressions": 44,
+      "ctr": 0.06818181818181818,
+      "position": 6.7272727272727275
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/bp-lost-receipt"
+      ],
+      "clicks": 3,
+      "impressions": 23,
+      "ctr": 0.13043478260869565,
+      "position": 6.173913043478261
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/dunkin-receipt-copy"
+      ],
+      "clicks": 3,
+      "impressions": 175,
+      "ctr": 0.017142857142857144,
+      "position": 9.188571428571429
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/tim-hortons-receipt-copy"
+      ],
+      "clicks": 3,
+      "impressions": 66,
+      "ctr": 0.045454545454545456,
+      "position": 6.545454545454546
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/whole-foods-lost-receipt"
+      ],
+      "clicks": 3,
+      "impressions": 82,
+      "ctr": 0.036585365853658534,
+      "position": 10.987804878048781
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/7-eleven-receipt-copy"
+      ],
+      "clicks": 2,
+      "impressions": 56,
+      "ctr": 0.03571428571428571,
+      "position": 6.25
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/barnes-noble-lost-receipt"
+      ],
+      "clicks": 2,
+      "impressions": 310,
+      "ctr": 0.0064516129032258064,
+      "position": 7.916129032258064
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/dunkin-lost-receipt"
+      ],
+      "clicks": 2,
+      "impressions": 174,
+      "ctr": 0.011494252873563218,
+      "position": 8.919540229885058
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/exxon-receipt-copy"
+      ],
+      "clicks": 2,
+      "impressions": 33,
+      "ctr": 0.06060606060606061,
+      "position": 6.666666666666667
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/gucci-lost-receipt"
+      ],
+      "clicks": 2,
+      "impressions": 100,
+      "ctr": 0.02,
+      "position": 8.96
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/kfc-lost-receipt"
+      ],
+      "clicks": 2,
+      "impressions": 65,
+      "ctr": 0.03076923076923077,
+      "position": 11.384615384615385
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/publix-receipt-copy"
+      ],
+      "clicks": 2,
+      "impressions": 283,
+      "ctr": 0.007067137809187279,
+      "position": 9.183745583038869
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/trader-joe-s-return-policy"
+      ],
+      "clicks": 2,
+      "impressions": 150,
+      "ctr": 0.013333333333333334,
+      "position": 7.1466666666666665
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/airbnb-lost-receipt"
+      ],
+      "clicks": 1,
+      "impressions": 78,
+      "ctr": 0.01282051282051282,
+      "position": 16.384615384615387
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/aldi-lost-receipt"
+      ],
+      "clicks": 1,
+      "impressions": 115,
+      "ctr": 0.008695652173913044,
+      "position": 10.626086956521739
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/apple-store-lost-receipt"
+      ],
+      "clicks": 1,
+      "impressions": 87,
+      "ctr": 0.011494252873563218,
+      "position": 22.20689655172414
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/autozone-lost-receipt"
+      ],
+      "clicks": 1,
+      "impressions": 482,
+      "ctr": 0.002074688796680498,
+      "position": 8.887966804979254
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/barnes-noble-receipt-copy"
+      ],
+      "clicks": 1,
+      "impressions": 74,
+      "ctr": 0.013513513513513514,
+      "position": 9.608108108108109
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/burger-king-receipt-copy"
+      ],
+      "clicks": 1,
+      "impressions": 117,
+      "ctr": 0.008547008547008548,
+      "position": 6.9914529914529915
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/chick-fil-a-lost-receipt"
+      ],
+      "clicks": 1,
+      "impressions": 267,
+      "ctr": 0.003745318352059925,
+      "position": 8.831460674157302
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/costco-receipt-copy"
+      ],
+      "clicks": 1,
+      "impressions": 53,
+      "ctr": 0.018867924528301886,
+      "position": 29.566037735849058
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/delta-airlines-lost-receipt"
+      ],
+      "clicks": 1,
+      "impressions": 16,
+      "ctr": 0.0625,
+      "position": 20
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/dollar-tree-receipt-copy"
+      ],
+      "clicks": 1,
+      "impressions": 120,
+      "ctr": 0.008333333333333333,
+      "position": 8.891666666666666
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/domino-s-pizza-receipt-copy"
+      ],
+      "clicks": 1,
+      "impressions": 195,
+      "ctr": 0.005128205128205128,
+      "position": 12.03076923076923
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/doordash-receipt-copy"
+      ],
+      "clicks": 1,
+      "impressions": 108,
+      "ctr": 0.009259259259259259,
+      "position": 11.074074074074074
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/gamestop-lost-receipt"
+      ],
+      "clicks": 1,
+      "impressions": 239,
+      "ctr": 0.0041841004184100415,
+      "position": 9.01673640167364
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/gucci-receipt-copy"
+      ],
+      "clicks": 1,
+      "impressions": 55,
+      "ctr": 0.01818181818181818,
+      "position": 10.854545454545455
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/h-m-receipt-copy"
+      ],
+      "clicks": 1,
+      "impressions": 99,
+      "ctr": 0.010101010101010102,
+      "position": 8.97979797979798
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/h-m-return-policy"
+      ],
+      "clicks": 1,
+      "impressions": 124,
+      "ctr": 0.008064516129032258,
+      "position": 9.330645161290322
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/kfc-receipt-copy"
+      ],
+      "clicks": 1,
+      "impressions": 74,
+      "ctr": 0.013513513513513514,
+      "position": 9.378378378378379
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/kroger-receipt-copy"
+      ],
+      "clicks": 1,
+      "impressions": 313,
+      "ctr": 0.003194888178913738,
+      "position": 11.015974440894569
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/panda-express-lost-receipt"
+      ],
+      "clicks": 1,
+      "impressions": 42,
+      "ctr": 0.023809523809523808,
+      "position": 6.380952380952381
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/petco-return-policy"
+      ],
+      "clicks": 1,
+      "impressions": 196,
+      "ctr": 0.00510204081632653,
+      "position": 10.755102040816327
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/pizza-hut-lost-receipt"
+      ],
+      "clicks": 1,
+      "impressions": 62,
+      "ctr": 0.016129032258064516,
+      "position": 9.387096774193548
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/pizza-hut-refund-policy"
+      ],
+      "clicks": 1,
+      "impressions": 41,
+      "ctr": 0.024390243902439025,
+      "position": 9.146341463414634
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/safeway-lost-receipt"
+      ],
+      "clicks": 1,
+      "impressions": 10,
+      "ctr": 0.1,
+      "position": 5.6
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/sephora-lost-receipt"
+      ],
+      "clicks": 1,
+      "impressions": 584,
+      "ctr": 0.0017123287671232876,
+      "position": 8.775684931506849
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/subway-receipt-copy"
+      ],
+      "clicks": 1,
+      "impressions": 85,
+      "ctr": 0.011764705882352941,
+      "position": 8.141176470588235
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/taco-bell-lost-receipt"
+      ],
+      "clicks": 1,
+      "impressions": 13,
+      "ctr": 0.07692307692307693,
+      "position": 10.538461538461538
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/taco-bell-receipt-copy"
+      ],
+      "clicks": 1,
+      "impressions": 56,
+      "ctr": 0.017857142857142856,
+      "position": 7.678571428571429
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/tim-hortons-lost-receipt"
+      ],
+      "clicks": 1,
+      "impressions": 122,
+      "ctr": 0.00819672131147541,
+      "position": 8.336065573770492
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/united-airlines-lost-receipt"
+      ],
+      "clicks": 1,
+      "impressions": 255,
+      "ctr": 0.00392156862745098,
+      "position": 8.596078431372549
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/united-airlines-refund-policy"
+      ],
+      "clicks": 1,
+      "impressions": 12,
+      "ctr": 0.08333333333333333,
+      "position": 8.166666666666668
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/walmart-return-policy"
+      ],
+      "clicks": 1,
+      "impressions": 17,
+      "ctr": 0.058823529411764705,
+      "position": 15.941176470588236
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/zara-receipt-copy"
+      ],
+      "clicks": 1,
+      "impressions": 1103,
+      "ctr": 0.0009066183136899365,
+      "position": 8.054397098821397
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/7-eleven-refund-policy"
+      ],
+      "clicks": 0,
+      "impressions": 180,
+      "ctr": 0,
+      "position": 8.955555555555556
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/airbnb-refund-policy"
+      ],
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 8.166666666666668
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/aldi-receipt-copy"
+      ],
+      "clicks": 0,
+      "impressions": 40,
+      "ctr": 0,
+      "position": 12.375
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/aldi-return-policy"
+      ],
+      "clicks": 0,
+      "impressions": 16,
+      "ctr": 0,
+      "position": 9.75
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/amazon-lost-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 39,
+      "ctr": 0,
+      "position": 12.025641025641026
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/amazon-receipt-copy"
+      ],
+      "clicks": 0,
+      "impressions": 32,
+      "ctr": 0,
+      "position": 41.0625
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/amazon-return-policy"
+      ],
+      "clicks": 0,
+      "impressions": 19,
+      "ctr": 0,
+      "position": 12.31578947368421
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/american-airlines-lost-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 15,
+      "ctr": 0,
+      "position": 17.133333333333333
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/american-airlines-receipt-copy"
+      ],
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 34.6
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/apple-store-receipt-copy"
+      ],
+      "clicks": 0,
+      "impressions": 124,
+      "ctr": 0,
+      "position": 23.048387096774192
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/apple-store-return-policy"
+      ],
+      "clicks": 0,
+      "impressions": 82,
+      "ctr": 0,
+      "position": 12.74390243902439
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/autozone-receipt-copy"
+      ],
+      "clicks": 0,
+      "impressions": 29,
+      "ctr": 0,
+      "position": 15.448275862068966
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/autozone-return-policy"
+      ],
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 10
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/barnes-noble-return-policy"
+      ],
+      "clicks": 0,
+      "impressions": 32,
+      "ctr": 0,
+      "position": 16.21875
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/best-buy-lost-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 31,
+      "ctr": 0,
+      "position": 10
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/best-buy-receipt-copy"
+      ],
+      "clicks": 0,
+      "impressions": 79,
+      "ctr": 0,
+      "position": 15.569620253164556
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/bp-receipt-copy"
+      ],
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 20.333333333333332
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/bp-refund-policy"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 3
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/burger-king-lost-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 51,
+      "ctr": 0,
+      "position": 7.980392156862745
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/burger-king-refund-policy"
+      ],
+      "clicks": 0,
+      "impressions": 17,
+      "ctr": 0,
+      "position": 8.647058823529413
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/chevron-lost-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 41
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/chevron-receipt-copy"
+      ],
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 4
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/chevron-refund-policy"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 4
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/chick-fil-a-receipt-copy"
+      ],
+      "clicks": 0,
+      "impressions": 170,
+      "ctr": 0,
+      "position": 9.370588235294118
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/chick-fil-a-refund-policy"
+      ],
+      "clicks": 0,
+      "impressions": 66,
+      "ctr": 0,
+      "position": 10.454545454545455
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/chipotle-lost-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 25,
+      "ctr": 0,
+      "position": 8.280000000000001
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/chipotle-refund-policy"
+      ],
+      "clicks": 0,
+      "impressions": 123,
+      "ctr": 0,
+      "position": 9.560975609756097
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/costco-lost-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 41,
+      "ctr": 0,
+      "position": 31.365853658536587
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/cvs-pharmacy-lost-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 158,
+      "ctr": 0,
+      "position": 13.968354430379748
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/cvs-pharmacy-receipt-copy"
+      ],
+      "clicks": 0,
+      "impressions": 160,
+      "ctr": 0,
+      "position": 19.2375
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/cvs-pharmacy-return-policy"
+      ],
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 9.8
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/delta-airlines-receipt-copy"
+      ],
+      "clicks": 0,
+      "impressions": 8,
+      "ctr": 0,
+      "position": 11.375
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/delta-airlines-refund-policy"
+      ],
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 9.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/dollar-tree-return-policy"
+      ],
+      "clicks": 0,
+      "impressions": 15,
+      "ctr": 0,
+      "position": 11.6
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/domino-s-pizza-refund-policy"
+      ],
+      "clicks": 0,
+      "impressions": 30,
+      "ctr": 0,
+      "position": 11.266666666666667
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/doordash-refund-policy"
+      ],
+      "clicks": 0,
+      "impressions": 130,
+      "ctr": 0,
+      "position": 9.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/dunkin-refund-policy"
+      ],
+      "clicks": 0,
+      "impressions": 63,
+      "ctr": 0,
+      "position": 9.603174603174603
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/ebay-lost-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 9,
+      "ctr": 0,
+      "position": 15.88888888888889
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/ebay-receipt-copy"
+      ],
+      "clicks": 0,
+      "impressions": 16,
+      "ctr": 0,
+      "position": 13.6875
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/ebay-return-policy"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 9.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/expedia-lost-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 11,
+      "ctr": 0,
+      "position": 12.181818181818182
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/expedia-receipt-copy"
+      ],
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 12.166666666666666
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/expedia-refund-policy"
+      ],
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 7.166666666666667
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/exxon-lost-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 9
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/exxon-refund-policy"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 3.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/gamestop-receipt-copy"
+      ],
+      "clicks": 0,
+      "impressions": 99,
+      "ctr": 0,
+      "position": 8.151515151515152
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/gamestop-return-policy"
+      ],
+      "clicks": 0,
+      "impressions": 25,
+      "ctr": 0,
+      "position": 11
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/grubhub-receipt-copy"
+      ],
+      "clicks": 0,
+      "impressions": 11,
+      "ctr": 0,
+      "position": 10.909090909090908
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/grubhub-refund-policy"
+      ],
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 30.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/gucci-return-policy"
+      ],
+      "clicks": 0,
+      "impressions": 8,
+      "ctr": 0,
+      "position": 15.625
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/hertz-lost-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 39
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/hertz-refund-policy"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 10
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/hilton-receipt-copy"
+      ],
+      "clicks": 0,
+      "impressions": 27,
+      "ctr": 0,
+      "position": 8.148148148148149
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/hilton-refund-policy"
+      ],
+      "clicks": 0,
+      "impressions": 12,
+      "ctr": 0,
+      "position": 11.333333333333334
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/home-depot-lost-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 13,
+      "ctr": 0,
+      "position": 28.307692307692307
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/home-depot-receipt-copy"
+      ],
+      "clicks": 0,
+      "impressions": 64,
+      "ctr": 0,
+      "position": 28.078125
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/home-depot-return-policy"
+      ],
+      "clicks": 0,
+      "impressions": 11,
+      "ctr": 0,
+      "position": 18.818181818181817
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/hyatt-lost-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 7.2
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/hyatt-receipt-copy"
+      ],
+      "clicks": 0,
+      "impressions": 36,
+      "ctr": 0,
+      "position": 6.027777777777778
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/hyatt-refund-policy"
+      ],
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 10.166666666666666
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/ikea-lost-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 101,
+      "ctr": 0,
+      "position": 13.475247524752476
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/ikea-receipt-copy"
+      ],
+      "clicks": 0,
+      "impressions": 78,
+      "ctr": 0,
+      "position": 17.435897435897434
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/ikea-return-policy"
+      ],
+      "clicks": 0,
+      "impressions": 8,
+      "ctr": 0,
+      "position": 16
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/instacart-lost-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 46,
+      "ctr": 0,
+      "position": 11.347826086956522
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/instacart-receipt-copy"
+      ],
+      "clicks": 0,
+      "impressions": 96,
+      "ctr": 0,
+      "position": 11
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/instacart-refund-policy"
+      ],
+      "clicks": 0,
+      "impressions": 16,
+      "ctr": 0,
+      "position": 11.8125
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/kfc-refund-policy"
+      ],
+      "clicks": 0,
+      "impressions": 118,
+      "ctr": 0,
+      "position": 10.915254237288135
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/kroger-lost-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 103,
+      "ctr": 0,
+      "position": 11.368932038834952
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/kroger-return-policy"
+      ],
+      "clicks": 0,
+      "impressions": 30,
+      "ctr": 0,
+      "position": 13.266666666666667
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/lowe-s-lost-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 16.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/lowe-s-receipt-copy"
+      ],
+      "clicks": 0,
+      "impressions": 58,
+      "ctr": 0,
+      "position": 22.43103448275862
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/lyft-lost-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 9
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/lyft-receipt-copy"
+      ],
+      "clicks": 0,
+      "impressions": 11,
+      "ctr": 0,
+      "position": 29.818181818181817
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/lyft-refund-policy"
+      ],
+      "clicks": 0,
+      "impressions": 9,
+      "ctr": 0,
+      "position": 15.333333333333334
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/macy-s-lost-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 334,
+      "ctr": 0,
+      "position": 11.005988023952096
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/macy-s-receipt-copy"
+      ],
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 8.75
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/macy-s-return-policy"
+      ],
+      "clicks": 0,
+      "impressions": 15,
+      "ctr": 0,
+      "position": 10.066666666666666
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/marriott-lost-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 8
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/marriott-receipt-copy"
+      ],
+      "clicks": 0,
+      "impressions": 102,
+      "ctr": 0,
+      "position": 7.4411764705882355
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/marriott-refund-policy"
+      ],
+      "clicks": 0,
+      "impressions": 59,
+      "ctr": 0,
+      "position": 7.830508474576271
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/mcdonalds-lost-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 98,
+      "ctr": 0,
+      "position": 9.89795918367347
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/mcdonalds-refund-policy"
+      ],
+      "clicks": 0,
+      "impressions": 26,
+      "ctr": 0,
+      "position": 8.615384615384615
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/netflix-lost-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 6.25
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/netflix-receipt-copy"
+      ],
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 8.75
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/netflix-refund-policy"
+      ],
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 10.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/nike-lost-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 144,
+      "ctr": 0,
+      "position": 9.23611111111111
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/nike-return-policy"
+      ],
+      "clicks": 0,
+      "impressions": 31,
+      "ctr": 0,
+      "position": 14.193548387096774
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/nordstrom-lost-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 17,
+      "ctr": 0,
+      "position": 8
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/nordstrom-receipt-copy"
+      ],
+      "clicks": 0,
+      "impressions": 179,
+      "ctr": 0,
+      "position": 8.815642458100559
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/nordstrom-return-policy"
+      ],
+      "clicks": 0,
+      "impressions": 58,
+      "ctr": 0,
+      "position": 10.672413793103448
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/panda-express-refund-policy"
+      ],
+      "clicks": 0,
+      "impressions": 26,
+      "ctr": 0,
+      "position": 9.23076923076923
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/panera-bread-lost-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 21,
+      "ctr": 0,
+      "position": 15.333333333333334
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/panera-bread-receipt-copy"
+      ],
+      "clicks": 0,
+      "impressions": 15,
+      "ctr": 0,
+      "position": 13.533333333333333
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/peet-s-coffee-receipt-copy"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 6
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/peet-s-coffee-refund-policy"
+      ],
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 9.333333333333334
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/petco-lost-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 90,
+      "ctr": 0,
+      "position": 9.166666666666666
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/petco-receipt-copy"
+      ],
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 9
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/popeyes-lost-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 8
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/popeyes-receipt-copy"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 2
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/popeyes-refund-policy"
+      ],
+      "clicks": 0,
+      "impressions": 12,
+      "ctr": 0,
+      "position": 12.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/publix-lost-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 80,
+      "ctr": 0,
+      "position": 12.425
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/publix-return-policy"
+      ],
+      "clicks": 0,
+      "impressions": 12,
+      "ctr": 0,
+      "position": 15.833333333333334
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/safeway-receipt-copy"
+      ],
+      "clicks": 0,
+      "impressions": 100,
+      "ctr": 0,
+      "position": 13.05
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/safeway-return-policy"
+      ],
+      "clicks": 0,
+      "impressions": 92,
+      "ctr": 0,
+      "position": 9.728260869565217
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/sam-s-club-lost-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 7,
+      "ctr": 0,
+      "position": 12.714285714285714
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/sam-s-club-receipt-copy"
+      ],
+      "clicks": 0,
+      "impressions": 7,
+      "ctr": 0,
+      "position": 10.428571428571429
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/sam-s-club-return-policy"
+      ],
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 10
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/sephora-receipt-copy"
+      ],
+      "clicks": 0,
+      "impressions": 159,
+      "ctr": 0,
+      "position": 9.062893081761006
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/sephora-return-policy"
+      ],
+      "clicks": 0,
+      "impressions": 123,
+      "ctr": 0,
+      "position": 11.16260162601626
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/shell-lost-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 16,
+      "ctr": 0,
+      "position": 7.0625
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/shell-receipt-copy"
+      ],
+      "clicks": 0,
+      "impressions": 87,
+      "ctr": 0,
+      "position": 8.50574712643678
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/shell-refund-policy"
+      ],
+      "clicks": 0,
+      "impressions": 8,
+      "ctr": 0,
+      "position": 15.875
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/southwest-airlines-lost-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 78,
+      "ctr": 0,
+      "position": 12.217948717948717
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/southwest-airlines-receipt-copy"
+      ],
+      "clicks": 0,
+      "impressions": 54,
+      "ctr": 0,
+      "position": 11.592592592592593
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/southwest-airlines-refund-policy"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 23
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/spotify-receipt-copy"
+      ],
+      "clicks": 0,
+      "impressions": 41,
+      "ctr": 0,
+      "position": 20.585365853658537
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/starbucks-lost-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 24,
+      "ctr": 0,
+      "position": 27.916666666666668
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/starbucks-receipt-copy"
+      ],
+      "clicks": 0,
+      "impressions": 89,
+      "ctr": 0,
+      "position": 14.337078651685394
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/starbucks-refund-policy"
+      ],
+      "clicks": 0,
+      "impressions": 114,
+      "ctr": 0,
+      "position": 10.649122807017545
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/subway-lost-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 14,
+      "ctr": 0,
+      "position": 7.571428571428571
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/subway-refund-policy"
+      ],
+      "clicks": 0,
+      "impressions": 62,
+      "ctr": 0,
+      "position": 10.629032258064516
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/taco-bell-refund-policy"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 7
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/target-lost-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 24,
+      "ctr": 0,
+      "position": 15.666666666666666
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/target-receipt-copy"
+      ],
+      "clicks": 0,
+      "impressions": 10,
+      "ctr": 0,
+      "position": 25
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/target-return-policy"
+      ],
+      "clicks": 0,
+      "impressions": 8,
+      "ctr": 0,
+      "position": 36.75
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/tim-hortons-refund-policy"
+      ],
+      "clicks": 0,
+      "impressions": 127,
+      "ctr": 0,
+      "position": 9.921259842519685
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/trader-joe-s-lost-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 16,
+      "ctr": 0,
+      "position": 5.0625
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/trader-joe-s-receipt-copy"
+      ],
+      "clicks": 0,
+      "impressions": 7,
+      "ctr": 0,
+      "position": 3.7142857142857144
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/uber-eats-lost-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 52,
+      "ctr": 0,
+      "position": 9
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/uber-eats-receipt-copy"
+      ],
+      "clicks": 0,
+      "impressions": 18,
+      "ctr": 0,
+      "position": 14.11111111111111
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/uber-eats-refund-policy"
+      ],
+      "clicks": 0,
+      "impressions": 16,
+      "ctr": 0,
+      "position": 7.875
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/uber-lost-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 8,
+      "ctr": 0,
+      "position": 11.125
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/uber-receipt-copy"
+      ],
+      "clicks": 0,
+      "impressions": 15,
+      "ctr": 0,
+      "position": 36.666666666666664
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/uber-refund-policy"
+      ],
+      "clicks": 0,
+      "impressions": 33,
+      "ctr": 0,
+      "position": 8.93939393939394
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/ulta-beauty-lost-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 66,
+      "ctr": 0,
+      "position": 9.515151515151516
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/ulta-beauty-receipt-copy"
+      ],
+      "clicks": 0,
+      "impressions": 308,
+      "ctr": 0,
+      "position": 9.402597402597403
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/ulta-beauty-return-policy"
+      ],
+      "clicks": 0,
+      "impressions": 27,
+      "ctr": 0,
+      "position": 15.925925925925926
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/walgreens-lost-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 273,
+      "ctr": 0,
+      "position": 10.827838827838828
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/walgreens-receipt-copy"
+      ],
+      "clicks": 0,
+      "impressions": 77,
+      "ctr": 0,
+      "position": 16.5974025974026
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/walgreens-return-policy"
+      ],
+      "clicks": 0,
+      "impressions": 37,
+      "ctr": 0,
+      "position": 13.891891891891891
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/walmart-lost-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 43,
+      "ctr": 0,
+      "position": 50.55813953488372
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/walmart-receipt-copy"
+      ],
+      "clicks": 0,
+      "impressions": 13,
+      "ctr": 0,
+      "position": 27.153846153846153
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/wawa-lost-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 6
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/wawa-receipt-copy"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 2
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/wendy-s-lost-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 7
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/wendy-s-receipt-copy"
+      ],
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 4.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/wendy-s-refund-policy"
+      ],
+      "clicks": 0,
+      "impressions": 29,
+      "ctr": 0,
+      "position": 8.793103448275861
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/whole-foods-return-policy"
+      ],
+      "clicks": 0,
+      "impressions": 199,
+      "ctr": 0,
+      "position": 10.407035175879397
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/zara-lost-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 221,
+      "ctr": 0,
+      "position": 9.384615384615385
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/zara-return-policy"
+      ],
+      "clicks": 0,
+      "impressions": 1461,
+      "ctr": 0,
+      "position": 9.707734428473648
+    }
+  ],
+  "templatesTotal": [
+    {
+      "clicks": 9,
+      "impressions": 3582,
+      "ctr": 0.002512562814070352,
+      "position": 46.268006700167504
+    }
+  ],
+  "templatesPages": [
+    {
+      "keys": [
+        "https://www.makecepeit.com/templates/liquor-store-receipt"
+      ],
+      "clicks": 5,
+      "impressions": 91,
+      "ctr": 0.054945054945054944,
+      "position": 7.549450549450549
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/templates/pet-store-receipt"
+      ],
+      "clicks": 2,
+      "impressions": 21,
+      "ctr": 0.09523809523809523,
+      "position": 7.095238095238095
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/templates/restaurant"
+      ],
+      "clicks": 1,
+      "impressions": 443,
+      "ctr": 0.002257336343115124,
+      "position": 49.896162528216706
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/templates/veterinary-receipt"
+      ],
+      "clicks": 1,
+      "impressions": 85,
+      "ctr": 0.011764705882352941,
+      "position": 52.705882352941174
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/templates/airline-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 110,
+      "ctr": 0,
+      "position": 22.4
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/templates/auto-repair"
+      ],
+      "clicks": 0,
+      "impressions": 481,
+      "ctr": 0,
+      "position": 51.775467775467774
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/templates/bar"
+      ],
+      "clicks": 0,
+      "impressions": 44,
+      "ctr": 0,
+      "position": 23.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/templates/barber-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 18,
+      "ctr": 0,
+      "position": 16.444444444444443
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/templates/childcare-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 28,
+      "ctr": 0,
+      "position": 32.75
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/templates/cleaning-service-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 62,
+      "ctr": 0,
+      "position": 57.83870967741935
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/templates/clothing-store-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 50,
+      "ctr": 0,
+      "position": 31.26
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/templates/coffee-shop"
+      ],
+      "clicks": 0,
+      "impressions": 37,
+      "ctr": 0,
+      "position": 26.756756756756758
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/templates/dental-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 107,
+      "ctr": 0,
+      "position": 51.08411214953271
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/templates/donation-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 78,
+      "ctr": 0,
+      "position": 77.42307692307692
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/templates/dry-cleaning-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 52,
+      "ctr": 0,
+      "position": 40.25
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/templates/electronics-store-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 17,
+      "ctr": 0,
+      "position": 40.470588235294116
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/templates/florist-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 39,
+      "ctr": 0,
+      "position": 17.17948717948718
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/templates/gas-station"
+      ],
+      "clicks": 0,
+      "impressions": 300,
+      "ctr": 0,
+      "position": 40.03666666666667
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/templates/grocery-store"
+      ],
+      "clicks": 0,
+      "impressions": 137,
+      "ctr": 0,
+      "position": 42.496350364963504
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/templates/gym-membership-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 106,
+      "ctr": 0,
+      "position": 36.905660377358494
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/templates/handyman-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 44,
+      "ctr": 0,
+      "position": 67.1590909090909
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/templates/hardware-store-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 95,
+      "ctr": 0,
+      "position": 17.231578947368423
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/templates/hotel"
+      ],
+      "clicks": 0,
+      "impressions": 330,
+      "ctr": 0,
+      "position": 49.518181818181816
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/templates/itemized-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 61,
+      "ctr": 0,
+      "position": 53.83606557377049
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/templates/medical-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 46,
+      "ctr": 0,
+      "position": 50.43478260869565
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/templates/parking"
+      ],
+      "clicks": 0,
+      "impressions": 82,
+      "ctr": 0,
+      "position": 44.46341463414634
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/templates/pharmacy"
+      ],
+      "clicks": 0,
+      "impressions": 87,
+      "ctr": 0,
+      "position": 41.229885057471265
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/templates/proof-of-purchase"
+      ],
+      "clicks": 0,
+      "impressions": 77,
+      "ctr": 0,
+      "position": 69.48051948051948
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/templates/rent-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 24,
+      "ctr": 0,
+      "position": 68.625
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/templates/retail-store"
+      ],
+      "clicks": 0,
+      "impressions": 73,
+      "ctr": 0,
+      "position": 63.35616438356164
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/templates/sales-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 49,
+      "ctr": 0,
+      "position": 73.51020408163265
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/templates/salon"
+      ],
+      "clicks": 0,
+      "impressions": 15,
+      "ctr": 0,
+      "position": 33.6
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/templates/spa-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 32,
+      "ctr": 0,
+      "position": 39.71875
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/templates/taxi"
+      ],
+      "clicks": 0,
+      "impressions": 214,
+      "ctr": 0,
+      "position": 61.2196261682243
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/templates/towing-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 31,
+      "ctr": 0,
+      "position": 43.29032258064516
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/templates/tutoring-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 16,
+      "ctr": 0,
+      "position": 40.3125
+    }
+  ],
+  "targetPages": [
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/chipotle-receipt-copy"
+      ],
+      "clicks": 12,
+      "impressions": 878,
+      "ctr": 0.01366742596810934,
+      "position": 7.41002277904328
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/panda-express-receipt-copy"
+      ],
+      "clicks": 7,
+      "impressions": 310,
+      "ctr": 0.02258064516129032,
+      "position": 7.529032258064516
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/domino-s-pizza-lost-receipt"
+      ],
+      "clicks": 6,
+      "impressions": 795,
+      "ctr": 0.007547169811320755,
+      "position": 8.714465408805031
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/dhl"
+      ],
+      "clicks": 5,
+      "impressions": 18,
+      "ctr": 0.2777777777777778,
+      "position": 6.277777777777778
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/templates/liquor-store-receipt"
+      ],
+      "clicks": 5,
+      "impressions": 91,
+      "ctr": 0.054945054945054944,
+      "position": 7.549450549450549
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/mcdonalds-receipt-copy"
+      ],
+      "clicks": 4,
+      "impressions": 253,
+      "ctr": 0.015810276679841896,
+      "position": 9.205533596837945
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/pizza-hut-receipt-copy"
+      ],
+      "clicks": 4,
+      "impressions": 209,
+      "ctr": 0.019138755980861243,
+      "position": 7.69377990430622
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/best-receipt-maker-reddit"
+      ],
+      "clicks": 3,
+      "impressions": 129,
+      "ctr": 0.023255813953488372,
+      "position": 12.775193798449612
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/receiptbaker-alternative"
+      ],
+      "clicks": 3,
+      "impressions": 18,
+      "ctr": 0.16666666666666666,
+      "position": 11.555555555555555
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/dick-s-sporting-goods"
+      ],
+      "clicks": 3,
+      "impressions": 6,
+      "ctr": 0.5,
+      "position": 6.833333333333333
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/food-lion"
+      ],
+      "clicks": 3,
+      "impressions": 45,
+      "ctr": 0.06666666666666667,
+      "position": 7.888888888888889
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/grab"
+      ],
+      "clicks": 3,
+      "impressions": 41,
+      "ctr": 0.07317073170731707,
+      "position": 7.2926829268292686
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/jersey-mike-s"
+      ],
+      "clicks": 3,
+      "impressions": 7,
+      "ctr": 0.42857142857142855,
+      "position": 2
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/petsmart"
+      ],
+      "clicks": 3,
+      "impressions": 13,
+      "ctr": 0.23076923076923078,
+      "position": 14.461538461538462
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/planet-fitness"
+      ],
+      "clicks": 3,
+      "impressions": 77,
+      "ctr": 0.03896103896103896,
+      "position": 9.883116883116884
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/7-eleven-lost-receipt"
+      ],
+      "clicks": 3,
+      "impressions": 44,
+      "ctr": 0.06818181818181818,
+      "position": 6.7272727272727275
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/bp-lost-receipt"
+      ],
+      "clicks": 3,
+      "impressions": 23,
+      "ctr": 0.13043478260869565,
+      "position": 6.173913043478261
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/dunkin-receipt-copy"
+      ],
+      "clicks": 3,
+      "impressions": 175,
+      "ctr": 0.017142857142857144,
+      "position": 9.188571428571429
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/tim-hortons-receipt-copy"
+      ],
+      "clicks": 3,
+      "impressions": 66,
+      "ctr": 0.045454545454545456,
+      "position": 6.545454545454546
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/whole-foods-lost-receipt"
+      ],
+      "clicks": 3,
+      "impressions": 82,
+      "ctr": 0.036585365853658534,
+      "position": 10.987804878048781
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/amount-tendered-meaning"
+      ],
+      "clicks": 2,
+      "impressions": 1358,
+      "ctr": 0.0014727540500736377,
+      "position": 5.731222385861561
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/are-receipts-legally-required"
+      ],
+      "clicks": 2,
+      "impressions": 465,
+      "ctr": 0.004301075268817204,
+      "position": 8.541935483870969
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/expressexpense-alternative"
+      ],
+      "clicks": 2,
+      "impressions": 40,
+      "ctr": 0.05,
+      "position": 15.025
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/picture-of-receipt-return"
+      ],
+      "clicks": 2,
+      "impressions": 744,
+      "ctr": 0.002688172043010753,
+      "position": 6.65994623655914
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/prove-purchase-without-receipt"
+      ],
+      "clicks": 2,
+      "impressions": 124,
+      "ctr": 0.016129032258064516,
+      "position": 27.217741935483872
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/receiptmakerly-alternative"
+      ],
+      "clicks": 2,
+      "impressions": 29,
+      "ctr": 0.06896551724137931,
+      "position": 6.689655172413793
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/return-without-receipt-reddit"
+      ],
+      "clicks": 2,
+      "impressions": 138,
+      "ctr": 0.014492753623188406,
+      "position": 10.731884057971014
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/amazon"
+      ],
+      "clicks": 2,
+      "impressions": 104,
+      "ctr": 0.019230769230769232,
+      "position": 40.86538461538461
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/amc-theatres"
+      ],
+      "clicks": 2,
+      "impressions": 22,
+      "ctr": 0.09090909090909091,
+      "position": 8.363636363636363
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/apple-store"
+      ],
+      "clicks": 2,
+      "impressions": 30,
+      "ctr": 0.06666666666666667,
+      "position": 20.6
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/avis"
+      ],
+      "clicks": 2,
+      "impressions": 4,
+      "ctr": 0.5,
+      "position": 6
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/giant-eagle"
+      ],
+      "clicks": 2,
+      "impressions": 7,
+      "ctr": 0.2857142857142857,
+      "position": 1.8571428571428572
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/hertz"
+      ],
+      "clicks": 2,
+      "impressions": 4,
+      "ctr": 0.5,
+      "position": 14.25
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/napa-auto-parts"
+      ],
+      "clicks": 2,
+      "impressions": 14,
+      "ctr": 0.14285714285714285,
+      "position": 8.785714285714285
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/prada"
+      ],
+      "clicks": 2,
+      "impressions": 13,
+      "ctr": 0.15384615384615385,
+      "position": 7
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/discount-tire-receipt"
+      ],
+      "clicks": 2,
+      "impressions": 22,
+      "ctr": 0.09090909090909091,
+      "position": 9.954545454545455
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/7-eleven-receipt-copy"
+      ],
+      "clicks": 2,
+      "impressions": 56,
+      "ctr": 0.03571428571428571,
+      "position": 6.25
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/barnes-noble-lost-receipt"
+      ],
+      "clicks": 2,
+      "impressions": 310,
+      "ctr": 0.0064516129032258064,
+      "position": 7.916129032258064
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/dunkin-lost-receipt"
+      ],
+      "clicks": 2,
+      "impressions": 174,
+      "ctr": 0.011494252873563218,
+      "position": 8.919540229885058
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/exxon-receipt-copy"
+      ],
+      "clicks": 2,
+      "impressions": 33,
+      "ctr": 0.06060606060606061,
+      "position": 6.666666666666667
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/gucci-lost-receipt"
+      ],
+      "clicks": 2,
+      "impressions": 100,
+      "ctr": 0.02,
+      "position": 8.96
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/kfc-lost-receipt"
+      ],
+      "clicks": 2,
+      "impressions": 65,
+      "ctr": 0.03076923076923077,
+      "position": 11.384615384615385
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/publix-receipt-copy"
+      ],
+      "clicks": 2,
+      "impressions": 283,
+      "ctr": 0.007067137809187279,
+      "position": 9.183745583038869
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/trader-joe-s-return-policy"
+      ],
+      "clicks": 2,
+      "impressions": 150,
+      "ctr": 0.013333333333333334,
+      "position": 7.1466666666666665
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/templates/pet-store-receipt"
+      ],
+      "clicks": 2,
+      "impressions": 21,
+      "ctr": 0.09523809523809523,
+      "position": 7.095238095238095
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/"
+      ],
+      "clicks": 1,
+      "impressions": 403,
+      "ctr": 0.0024813895781637717,
+      "position": 74.87344913151365
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/airline-receipt-retrieval"
+      ],
+      "clicks": 1,
+      "impressions": 99,
+      "ctr": 0.010101010101010102,
+      "position": 12.848484848484848
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/costco-receipt-copy"
+      ],
+      "clicks": 1,
+      "impressions": 466,
+      "ctr": 0.002145922746781116,
+      "position": 32.128755364806864
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/customer-copy-receipt-meaning"
+      ],
+      "clicks": 1,
+      "impressions": 374,
+      "ctr": 0.00267379679144385,
+      "position": 9.890374331550802
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/do-stores-keep-receipt-copies"
+      ],
+      "clicks": 1,
+      "impressions": 353,
+      "ctr": 0.0028328611898017,
+      "position": 10.869688385269122
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/fake-receipt-reddit"
+      ],
+      "clicks": 1,
+      "impressions": 49,
+      "ctr": 0.02040816326530612,
+      "position": 23.224489795918366
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/how-to-make-a-daycare-receipt"
+      ],
+      "clicks": 1,
+      "impressions": 4,
+      "ctr": 0.25,
+      "position": 27.25
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/how-to-replace-a-lost-receipt"
+      ],
+      "clicks": 1,
+      "impressions": 29,
+      "ctr": 0.034482758620689655,
+      "position": 20.896551724137932
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/receipts-evidence-court"
+      ],
+      "clicks": 1,
+      "impressions": 62,
+      "ctr": 0.016129032258064516,
+      "position": 8.903225806451612
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/uber-lyft-receipts-reddit"
+      ],
+      "clicks": 1,
+      "impressions": 67,
+      "ctr": 0.014925373134328358,
+      "position": 10.388059701492537
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/what-is-a-till-receipt"
+      ],
+      "clicks": 1,
+      "impressions": 102,
+      "ctr": 0.00980392156862745,
+      "position": 7.833333333333333
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands"
+      ],
+      "clicks": 1,
+      "impressions": 365,
+      "ctr": 0.0027397260273972603,
+      "position": 41.723287671232875
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/aldi"
+      ],
+      "clicks": 1,
+      "impressions": 4,
+      "ctr": 0.25,
+      "position": 5.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/apple-services"
+      ],
+      "clicks": 1,
+      "impressions": 2,
+      "ctr": 0.5,
+      "position": 7.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/asda"
+      ],
+      "clicks": 1,
+      "impressions": 22,
+      "ctr": 0.045454545454545456,
+      "position": 14.818181818181818
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/balenciaga"
+      ],
+      "clicks": 1,
+      "impressions": 1,
+      "ctr": 1,
+      "position": 16
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/biggby-coffee"
+      ],
+      "clicks": 1,
+      "impressions": 9,
+      "ctr": 0.1111111111111111,
+      "position": 7
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/blue-bottle-coffee"
+      ],
+      "clicks": 1,
+      "impressions": 7,
+      "ctr": 0.14285714285714285,
+      "position": 6.571428571428571
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/careem"
+      ],
+      "clicks": 1,
+      "impressions": 1,
+      "ctr": 1,
+      "position": 7
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/chanel"
+      ],
+      "clicks": 1,
+      "impressions": 4,
+      "ctr": 0.25,
+      "position": 28.25
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/chili-s"
+      ],
+      "clicks": 1,
+      "impressions": 15,
+      "ctr": 0.06666666666666667,
+      "position": 8.066666666666666
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/citgo"
+      ],
+      "clicks": 1,
+      "impressions": 1,
+      "ctr": 1,
+      "position": 2
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/deliveroo"
+      ],
+      "clicks": 1,
+      "impressions": 4,
+      "ctr": 0.25,
+      "position": 2.25
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/didi"
+      ],
+      "clicks": 1,
+      "impressions": 1,
+      "ctr": 1,
+      "position": 8
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/emirates"
+      ],
+      "clicks": 1,
+      "impressions": 2,
+      "ctr": 0.5,
+      "position": 3.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/epic-games"
+      ],
+      "clicks": 1,
+      "impressions": 4,
+      "ctr": 0.25,
+      "position": 5.75
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/exxon"
+      ],
+      "clicks": 1,
+      "impressions": 6,
+      "ctr": 0.16666666666666666,
+      "position": 4.833333333333334
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/five-guys"
+      ],
+      "clicks": 1,
+      "impressions": 17,
+      "ctr": 0.058823529411764705,
+      "position": 8.529411764705882
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/fred-meyer"
+      ],
+      "clicks": 1,
+      "impressions": 39,
+      "ctr": 0.02564102564102564,
+      "position": 9.76923076923077
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/grammarly"
+      ],
+      "clicks": 1,
+      "impressions": 1,
+      "ctr": 1,
+      "position": 1
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/grubhub"
+      ],
+      "clicks": 1,
+      "impressions": 3,
+      "ctr": 0.3333333333333333,
+      "position": 4.333333333333334
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/guitar-center"
+      ],
+      "clicks": 1,
+      "impressions": 17,
+      "ctr": 0.058823529411764705,
+      "position": 16.176470588235293
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/harbor-freight"
+      ],
+      "clicks": 1,
+      "impressions": 11,
+      "ctr": 0.09090909090909091,
+      "position": 9.636363636363637
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/hermes"
+      ],
+      "clicks": 1,
+      "impressions": 10,
+      "ctr": 0.1,
+      "position": 15.7
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/hobby-lobby"
+      ],
+      "clicks": 1,
+      "impressions": 5,
+      "ctr": 0.2,
+      "position": 7.6
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/kohls"
+      ],
+      "clicks": 1,
+      "impressions": 4,
+      "ctr": 0.25,
+      "position": 7.75
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/kroger"
+      ],
+      "clicks": 1,
+      "impressions": 4,
+      "ctr": 0.25,
+      "position": 9
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/la-fitness"
+      ],
+      "clicks": 1,
+      "impressions": 8,
+      "ctr": 0.125,
+      "position": 8.625
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/loblaws"
+      ],
+      "clicks": 1,
+      "impressions": 1,
+      "ctr": 1,
+      "position": 5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/lyft"
+      ],
+      "clicks": 1,
+      "impressions": 20,
+      "ctr": 0.05,
+      "position": 7.35
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/macy-s"
+      ],
+      "clicks": 1,
+      "impressions": 2,
+      "ctr": 0.5,
+      "position": 10.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/marathon-gas"
+      ],
+      "clicks": 1,
+      "impressions": 4,
+      "ctr": 0.25,
+      "position": 6.75
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/olive-garden"
+      ],
+      "clicks": 1,
+      "impressions": 2,
+      "ctr": 0.5,
+      "position": 6.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/panera-bread"
+      ],
+      "clicks": 1,
+      "impressions": 29,
+      "ctr": 0.034482758620689655,
+      "position": 13.586206896551724
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/paypal"
+      ],
+      "clicks": 1,
+      "impressions": 50,
+      "ctr": 0.02,
+      "position": 37.32
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/philz-coffee"
+      ],
+      "clicks": 1,
+      "impressions": 1,
+      "ctr": 1,
+      "position": 3
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/pizza-hut"
+      ],
+      "clicks": 1,
+      "impressions": 3,
+      "ctr": 0.3333333333333333,
+      "position": 5.333333333333333
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/quest-diagnostics"
+      ],
+      "clicks": 1,
+      "impressions": 9,
+      "ctr": 0.1111111111111111,
+      "position": 6.888888888888889
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/rewe"
+      ],
+      "clicks": 1,
+      "impressions": 3,
+      "ctr": 0.3333333333333333,
+      "position": 5.333333333333333
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/shoprite"
+      ],
+      "clicks": 1,
+      "impressions": 5,
+      "ctr": 0.2,
+      "position": 9
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/sixt"
+      ],
+      "clicks": 1,
+      "impressions": 1,
+      "ctr": 1,
+      "position": 5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/sobeys"
+      ],
+      "clicks": 1,
+      "impressions": 9,
+      "ctr": 0.1111111111111111,
+      "position": 10.11111111111111
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/speedway"
+      ],
+      "clicks": 1,
+      "impressions": 48,
+      "ctr": 0.020833333333333332,
+      "position": 9.020833333333334
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/tgi-fridays"
+      ],
+      "clicks": 1,
+      "impressions": 23,
+      "ctr": 0.043478260869565216,
+      "position": 11.043478260869565
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/uber"
+      ],
+      "clicks": 1,
+      "impressions": 211,
+      "ctr": 0.004739336492890996,
+      "position": 40.540284360189574
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/ulta-beauty"
+      ],
+      "clicks": 1,
+      "impressions": 15,
+      "ctr": 0.06666666666666667,
+      "position": 9.466666666666667
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/walgreens"
+      ],
+      "clicks": 1,
+      "impressions": 11,
+      "ctr": 0.09090909090909091,
+      "position": 15.545454545454545
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/walmart"
+      ],
+      "clicks": 1,
+      "impressions": 14,
+      "ctr": 0.07142857142857142,
+      "position": 34.642857142857146
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/wendy-s"
+      ],
+      "clicks": 1,
+      "impressions": 7,
+      "ctr": 0.14285714285714285,
+      "position": 10.714285714285714
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/woolworths-au"
+      ],
+      "clicks": 1,
+      "impressions": 3,
+      "ctr": 0.3333333333333333,
+      "position": 8
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/xbox-store"
+      ],
+      "clicks": 1,
+      "impressions": 7,
+      "ctr": 0.14285714285714285,
+      "position": 7.428571428571429
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/youtube-premium"
+      ],
+      "clicks": 1,
+      "impressions": 2,
+      "ctr": 0.5,
+      "position": 3
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/compare/receiptbaker"
+      ],
+      "clicks": 1,
+      "impressions": 11,
+      "ctr": 0.09090909090909091,
+      "position": 8.09090909090909
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/adidas-receipt-shoes"
+      ],
+      "clicks": 1,
+      "impressions": 1,
+      "ctr": 1,
+      "position": 18
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/adidas-receipt-soccer"
+      ],
+      "clicks": 1,
+      "impressions": 2,
+      "ctr": 0.5,
+      "position": 7.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/burger-king-receipt-whopper-meal"
+      ],
+      "clicks": 1,
+      "impressions": 2,
+      "ctr": 0.5,
+      "position": 11
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/doordash-receipt-food-delivery"
+      ],
+      "clicks": 1,
+      "impressions": 16,
+      "ctr": 0.0625,
+      "position": 7.625
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/moes-receipt-burrito"
+      ],
+      "clicks": 1,
+      "impressions": 1,
+      "ctr": 1,
+      "position": 4
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/olive-garden-receipt-take-home"
+      ],
+      "clicks": 1,
+      "impressions": 1,
+      "ctr": 1,
+      "position": 3
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/tesco-receipt-uk-shop"
+      ],
+      "clicks": 1,
+      "impressions": 6,
+      "ctr": 0.16666666666666666,
+      "position": 5.833333333333333
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/uber-eats-receipt-order"
+      ],
+      "clicks": 1,
+      "impressions": 13,
+      "ctr": 0.07692307692307693,
+      "position": 7
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/yellow-cab-receipt-nyc"
+      ],
+      "clicks": 1,
+      "impressions": 7,
+      "ctr": 0.14285714285714285,
+      "position": 34.142857142857146
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/guides/receipt-anatomy"
+      ],
+      "clicks": 1,
+      "impressions": 34,
+      "ctr": 0.029411764705882353,
+      "position": 49.029411764705884
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/airbnb-lost-receipt"
+      ],
+      "clicks": 1,
+      "impressions": 78,
+      "ctr": 0.01282051282051282,
+      "position": 16.384615384615387
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/aldi-lost-receipt"
+      ],
+      "clicks": 1,
+      "impressions": 115,
+      "ctr": 0.008695652173913044,
+      "position": 10.626086956521739
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/apple-store-lost-receipt"
+      ],
+      "clicks": 1,
+      "impressions": 87,
+      "ctr": 0.011494252873563218,
+      "position": 22.20689655172414
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/autozone-lost-receipt"
+      ],
+      "clicks": 1,
+      "impressions": 482,
+      "ctr": 0.002074688796680498,
+      "position": 8.887966804979254
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/barnes-noble-receipt-copy"
+      ],
+      "clicks": 1,
+      "impressions": 74,
+      "ctr": 0.013513513513513514,
+      "position": 9.608108108108109
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/burger-king-receipt-copy"
+      ],
+      "clicks": 1,
+      "impressions": 117,
+      "ctr": 0.008547008547008548,
+      "position": 6.9914529914529915
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/chick-fil-a-lost-receipt"
+      ],
+      "clicks": 1,
+      "impressions": 267,
+      "ctr": 0.003745318352059925,
+      "position": 8.831460674157302
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/costco-receipt-copy"
+      ],
+      "clicks": 1,
+      "impressions": 53,
+      "ctr": 0.018867924528301886,
+      "position": 29.566037735849058
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/delta-airlines-lost-receipt"
+      ],
+      "clicks": 1,
+      "impressions": 16,
+      "ctr": 0.0625,
+      "position": 20
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/dollar-tree-receipt-copy"
+      ],
+      "clicks": 1,
+      "impressions": 120,
+      "ctr": 0.008333333333333333,
+      "position": 8.891666666666666
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/domino-s-pizza-receipt-copy"
+      ],
+      "clicks": 1,
+      "impressions": 195,
+      "ctr": 0.005128205128205128,
+      "position": 12.03076923076923
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/doordash-receipt-copy"
+      ],
+      "clicks": 1,
+      "impressions": 108,
+      "ctr": 0.009259259259259259,
+      "position": 11.074074074074074
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/gamestop-lost-receipt"
+      ],
+      "clicks": 1,
+      "impressions": 239,
+      "ctr": 0.0041841004184100415,
+      "position": 9.01673640167364
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/gucci-receipt-copy"
+      ],
+      "clicks": 1,
+      "impressions": 55,
+      "ctr": 0.01818181818181818,
+      "position": 10.854545454545455
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/h-m-receipt-copy"
+      ],
+      "clicks": 1,
+      "impressions": 99,
+      "ctr": 0.010101010101010102,
+      "position": 8.97979797979798
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/h-m-return-policy"
+      ],
+      "clicks": 1,
+      "impressions": 124,
+      "ctr": 0.008064516129032258,
+      "position": 9.330645161290322
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/kfc-receipt-copy"
+      ],
+      "clicks": 1,
+      "impressions": 74,
+      "ctr": 0.013513513513513514,
+      "position": 9.378378378378379
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/kroger-receipt-copy"
+      ],
+      "clicks": 1,
+      "impressions": 313,
+      "ctr": 0.003194888178913738,
+      "position": 11.015974440894569
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/panda-express-lost-receipt"
+      ],
+      "clicks": 1,
+      "impressions": 42,
+      "ctr": 0.023809523809523808,
+      "position": 6.380952380952381
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/petco-return-policy"
+      ],
+      "clicks": 1,
+      "impressions": 196,
+      "ctr": 0.00510204081632653,
+      "position": 10.755102040816327
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/pizza-hut-lost-receipt"
+      ],
+      "clicks": 1,
+      "impressions": 62,
+      "ctr": 0.016129032258064516,
+      "position": 9.387096774193548
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/pizza-hut-refund-policy"
+      ],
+      "clicks": 1,
+      "impressions": 41,
+      "ctr": 0.024390243902439025,
+      "position": 9.146341463414634
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/safeway-lost-receipt"
+      ],
+      "clicks": 1,
+      "impressions": 10,
+      "ctr": 0.1,
+      "position": 5.6
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/sephora-lost-receipt"
+      ],
+      "clicks": 1,
+      "impressions": 584,
+      "ctr": 0.0017123287671232876,
+      "position": 8.775684931506849
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/subway-receipt-copy"
+      ],
+      "clicks": 1,
+      "impressions": 85,
+      "ctr": 0.011764705882352941,
+      "position": 8.141176470588235
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/taco-bell-lost-receipt"
+      ],
+      "clicks": 1,
+      "impressions": 13,
+      "ctr": 0.07692307692307693,
+      "position": 10.538461538461538
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/taco-bell-receipt-copy"
+      ],
+      "clicks": 1,
+      "impressions": 56,
+      "ctr": 0.017857142857142856,
+      "position": 7.678571428571429
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/tim-hortons-lost-receipt"
+      ],
+      "clicks": 1,
+      "impressions": 122,
+      "ctr": 0.00819672131147541,
+      "position": 8.336065573770492
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/united-airlines-lost-receipt"
+      ],
+      "clicks": 1,
+      "impressions": 255,
+      "ctr": 0.00392156862745098,
+      "position": 8.596078431372549
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/united-airlines-refund-policy"
+      ],
+      "clicks": 1,
+      "impressions": 12,
+      "ctr": 0.08333333333333333,
+      "position": 8.166666666666668
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/walmart-return-policy"
+      ],
+      "clicks": 1,
+      "impressions": 17,
+      "ctr": 0.058823529411764705,
+      "position": 15.941176470588236
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/receipt-help/zara-receipt-copy"
+      ],
+      "clicks": 1,
+      "impressions": 1103,
+      "ctr": 0.0009066183136899365,
+      "position": 8.054397098821397
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/templates/restaurant"
+      ],
+      "clicks": 1,
+      "impressions": 443,
+      "ctr": 0.002257336343115124,
+      "position": 49.896162528216706
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/templates/veterinary-receipt"
+      ],
+      "clicks": 1,
+      "impressions": 85,
+      "ctr": 0.011764705882352941,
+      "position": 52.705882352941174
+    },
+    {
+      "keys": [
+        "https://shop.makecepeit.com/?utm_source=shop_app"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 2
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/about"
+      ],
+      "clicks": 0,
+      "impressions": 14,
+      "ctr": 0,
+      "position": 10.071428571428571
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/alternatives"
+      ],
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 60.666666666666664
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog"
+      ],
+      "clicks": 0,
+      "impressions": 49,
+      "ctr": 0,
+      "position": 40.6530612244898
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/amazon-receipt-download"
+      ],
+      "clicks": 0,
+      "impressions": 49,
+      "ctr": 0,
+      "position": 40.816326530612244
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/are-receipts-recyclable"
+      ],
+      "clicks": 0,
+      "impressions": 65,
+      "ctr": 0,
+      "position": 38.36923076923077
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/audit-no-receipts-reddit"
+      ],
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 43.8
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/best-free-receipt-generator"
+      ],
+      "clicks": 0,
+      "impressions": 10,
+      "ctr": 0,
+      "position": 4.7
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/best-receipt-scanning-app-reddit"
+      ],
+      "clicks": 0,
+      "impressions": 93,
+      "ctr": 0,
+      "position": 11.89247311827957
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/best-receipt-scanning-apps"
+      ],
+      "clicks": 0,
+      "impressions": 428,
+      "ctr": 0,
+      "position": 75.74532710280374
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/bpa-receipt-paper"
+      ],
+      "clicks": 0,
+      "impressions": 80,
+      "ctr": 0,
+      "position": 52.4
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/burger-king-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 9,
+      "ctr": 0,
+      "position": 11.666666666666666
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/business-travel-receipt-checklist"
+      ],
+      "clicks": 0,
+      "impressions": 14,
+      "ctr": 0,
+      "position": 37.857142857142854
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/cash-back-receipt-meaning"
+      ],
+      "clicks": 0,
+      "impressions": 246,
+      "ctr": 0,
+      "position": 21.146341463414632
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/cash-payment-proof-reddit"
+      ],
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 9.4
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/charitable-donation-receipt-taxes"
+      ],
+      "clicks": 0,
+      "impressions": 24,
+      "ctr": 0,
+      "position": 79.54166666666667
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/costco-receipt-copy-reddit"
+      ],
+      "clicks": 0,
+      "impressions": 46,
+      "ctr": 0,
+      "position": 17.195652173913043
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/cvs-pharmacy-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 272,
+      "ctr": 0,
+      "position": 24.628676470588236
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/digital-receipts-guide"
+      ],
+      "clicks": 0,
+      "impressions": 23,
+      "ctr": 0,
+      "position": 38.56521739130435
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/digitize-old-receipts-reddit"
+      ],
+      "clicks": 0,
+      "impressions": 17,
+      "ctr": 0,
+      "position": 30.823529411764707
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/do-receipts-show-card-number"
+      ],
+      "clicks": 0,
+      "impressions": 240,
+      "ctr": 0,
+      "position": 9.879166666666666
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/donation-receipts-reddit"
+      ],
+      "clicks": 0,
+      "impressions": 10,
+      "ctr": 0,
+      "position": 18.1
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/doordash-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 8.8
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/dry-cleaning-receipt-generator"
+      ],
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 7.8
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/duplicate-receipt-meaning"
+      ],
+      "clicks": 0,
+      "impressions": 98,
+      "ctr": 0,
+      "position": 11.040816326530612
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/ebay-etsy-receipts-reddit"
+      ],
+      "clicks": 0,
+      "impressions": 11,
+      "ctr": 0,
+      "position": 8.09090909090909
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/email-receipt-best-practices"
+      ],
+      "clicks": 0,
+      "impressions": 12,
+      "ctr": 0,
+      "position": 29.25
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/email-receipt-to-yourself"
+      ],
+      "clicks": 0,
+      "impressions": 46,
+      "ctr": 0,
+      "position": 53.26086956521739
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/employee-reimbursement-rules"
+      ],
+      "clicks": 0,
+      "impressions": 82,
+      "ctr": 0,
+      "position": 54.073170731707314
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/expense-report-receipts-guide"
+      ],
+      "clicks": 0,
+      "impressions": 27,
+      "ctr": 0,
+      "position": 31.40740740740741
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/expense-report-tips-reddit"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 10
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/expensify-vs-ramp-reddit"
+      ],
+      "clicks": 0,
+      "impressions": 80,
+      "ctr": 0,
+      "position": 39.35
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/florist-receipt-generator-custom-logo"
+      ],
+      "clicks": 0,
+      "impressions": 15,
+      "ctr": 0,
+      "position": 10.266666666666667
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/food-truck-receipt-generator-tax-tip"
+      ],
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 10.666666666666666
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/freelancer-receipts-reddit"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 8
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/gym-membership-receipt-generator"
+      ],
+      "clicks": 0,
+      "impressions": 14,
+      "ctr": 0,
+      "position": 33.785714285714285
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/home-depot-lowes-receipt-reprint"
+      ],
+      "clicks": 0,
+      "impressions": 49,
+      "ctr": 0,
+      "position": 10.591836734693878
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/how-long-to-keep-receipts"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 8
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/how-long-to-keep-receipts-reddit"
+      ],
+      "clicks": 0,
+      "impressions": 10,
+      "ctr": 0,
+      "position": 8.9
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/how-restaurants-split-receipts"
+      ],
+      "clicks": 0,
+      "impressions": 9,
+      "ctr": 0,
+      "position": 15.333333333333334
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/how-to-make-a-catering-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 18,
+      "ctr": 0,
+      "position": 17.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/how-to-make-a-cleaning-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 20,
+      "ctr": 0,
+      "position": 24.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/how-to-make-a-contractor-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 11,
+      "ctr": 0,
+      "position": 32.54545454545455
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/how-to-make-a-gas-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 8,
+      "ctr": 0,
+      "position": 12.625
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/how-to-make-a-grocery-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 24,
+      "ctr": 0,
+      "position": 25.625
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/how-to-make-a-parking-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 8.2
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/how-to-make-a-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 137,
+      "ctr": 0,
+      "position": 77.4963503649635
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/how-to-make-a-receipt-of-payment"
+      ],
+      "clicks": 0,
+      "impressions": 64,
+      "ctr": 0,
+      "position": 74.984375
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/how-to-make-a-receipt-online"
+      ],
+      "clicks": 0,
+      "impressions": 7,
+      "ctr": 0,
+      "position": 68.85714285714286
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/how-to-make-a-restaurant-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 32,
+      "ctr": 0,
+      "position": 18.375
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/how-to-make-a-salon-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 17.25
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/how-to-make-a-taxi-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 12,
+      "ctr": 0,
+      "position": 68.25
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/how-to-make-a-tutoring-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 19.75
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/how-to-make-an-auto-repair-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 32,
+      "ctr": 0,
+      "position": 48.59375
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/how-to-write-a-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 30,
+      "ctr": 0,
+      "position": 40.2
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/how-to-write-a-rent-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 14,
+      "ctr": 0,
+      "position": 69.35714285714286
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/how-to-write-tip-on-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 350,
+      "ctr": 0,
+      "position": 11.437142857142858
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/irs-75-dollar-receipt-rule"
+      ],
+      "clicks": 0,
+      "impressions": 53,
+      "ctr": 0,
+      "position": 15.452830188679245
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/irs-receipt-photos-reddit"
+      ],
+      "clicks": 0,
+      "impressions": 10,
+      "ctr": 0,
+      "position": 10.9
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/is-it-legal-to-make-your-own-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 74,
+      "ctr": 0,
+      "position": 8.364864864864865
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/keep-every-receipt-reddit"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 8
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/lost-receipt-advice-reddit"
+      ],
+      "clicks": 0,
+      "impressions": 53,
+      "ctr": 0,
+      "position": 13.037735849056604
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/lost-receipt-expense-report"
+      ],
+      "clicks": 0,
+      "impressions": 227,
+      "ctr": 0,
+      "position": 23.17180616740088
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/louis-vuitton-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 124,
+      "ctr": 0,
+      "position": 15.774193548387096
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/make-a-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 101,
+      "ctr": 0,
+      "position": 56
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/makereceipt-alternative"
+      ],
+      "clicks": 0,
+      "impressions": 94,
+      "ctr": 0,
+      "position": 12.872340425531915
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/mileage-log-receipts"
+      ],
+      "clicks": 0,
+      "impressions": 12,
+      "ctr": 0,
+      "position": 13.916666666666666
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/mileage-tracking-reddit"
+      ],
+      "clicks": 0,
+      "impressions": 29,
+      "ctr": 0,
+      "position": 24.275862068965516
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/online-receipt-maker"
+      ],
+      "clicks": 0,
+      "impressions": 7,
+      "ctr": 0,
+      "position": 4
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/organize-receipts-reddit"
+      ],
+      "clicks": 0,
+      "impressions": 40,
+      "ctr": 0,
+      "position": 8.9
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/parts-of-a-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 46,
+      "ctr": 0,
+      "position": 28.608695652173914
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/per-diem-vs-actual-expenses"
+      ],
+      "clicks": 0,
+      "impressions": 17,
+      "ctr": 0,
+      "position": 34.64705882352941
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/pet-grooming-receipt-generator"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 11
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/photography-receipt-generator"
+      ],
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 66
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/picture-peit-return"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 1
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/pro-forma-invoice-vs-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 51,
+      "ctr": 0,
+      "position": 36.509803921568626
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/prop-receipts-film-design"
+      ],
+      "clicks": 0,
+      "impressions": 24,
+      "ctr": 0,
+      "position": 13.875
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/receipt-book-vs-digital"
+      ],
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 23.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/receipt-checks-at-door-reddit"
+      ],
+      "clicks": 0,
+      "impressions": 13,
+      "ctr": 0,
+      "position": 15.076923076923077
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/receipt-generator-free"
+      ],
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 6
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/receipt-generator-legal-reddit"
+      ],
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 14.333333333333334
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/receipt-maker-free"
+      ],
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 7
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/receipt-paper-sizes"
+      ],
+      "clicks": 0,
+      "impressions": 17,
+      "ctr": 0,
+      "position": 15.882352941176471
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/receipt-qr-codes-barcodes"
+      ],
+      "clicks": 0,
+      "impressions": 27,
+      "ctr": 0,
+      "position": 18.074074074074073
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/receipt-statistics"
+      ],
+      "clicks": 0,
+      "impressions": 12,
+      "ctr": 0,
+      "position": 28.166666666666668
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/receipt-vs-invoice"
+      ],
+      "clicks": 0,
+      "impressions": 26,
+      "ctr": 0,
+      "position": 70.61538461538461
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/receipt-vs-ticket"
+      ],
+      "clicks": 0,
+      "impressions": 96,
+      "ctr": 0,
+      "position": 7.104166666666667
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/receiptfaker-alternative"
+      ],
+      "clicks": 0,
+      "impressions": 27,
+      "ctr": 0,
+      "position": 27.88888888888889
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/receipts-as-legal-documents"
+      ],
+      "clicks": 0,
+      "impressions": 41,
+      "ctr": 0,
+      "position": 32.02439024390244
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/receipts-to-keep-for-taxes"
+      ],
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 21
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/rent-receipt-reddit"
+      ],
+      "clicks": 0,
+      "impressions": 7,
+      "ctr": 0,
+      "position": 6.714285714285714
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/reprint-receipt-meaning"
+      ],
+      "clicks": 0,
+      "impressions": 88,
+      "ctr": 0,
+      "position": 11.125
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/scanned-receipts-irs"
+      ],
+      "clicks": 0,
+      "impressions": 10,
+      "ctr": 0,
+      "position": 9.8
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/self-employed-receipt-tracking"
+      ],
+      "clicks": 0,
+      "impressions": 12,
+      "ctr": 0,
+      "position": 53.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/sku-meaning-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 60,
+      "ctr": 0,
+      "position": 26.316666666666666
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/store-receipt-checks-rights"
+      ],
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 6.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/target-receipt-lookup"
+      ],
+      "clicks": 0,
+      "impressions": 22,
+      "ctr": 0,
+      "position": 13.318181818181818
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/thermal-receipt-printers-guide"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 56
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/types-of-receipts"
+      ],
+      "clicks": 0,
+      "impressions": 179,
+      "ctr": 0,
+      "position": 17.312849162011172
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/uber-lyft-receipt-download"
+      ],
+      "clicks": 0,
+      "impressions": 64,
+      "ctr": 0,
+      "position": 37.171875
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/vat-receipt-explained"
+      ],
+      "clicks": 0,
+      "impressions": 199,
+      "ctr": 0,
+      "position": 31.582914572864322
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/veterinary-receipt-generator"
+      ],
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 41.25
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/void-receipt-meaning"
+      ],
+      "clicks": 0,
+      "impressions": 181,
+      "ctr": 0,
+      "position": 12.160220994475138
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/walmart-receipt-lookup"
+      ],
+      "clicks": 0,
+      "impressions": 38,
+      "ctr": 0,
+      "position": 25.81578947368421
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/what-counts-as-proof-of-purchase"
+      ],
+      "clicks": 0,
+      "impressions": 72,
+      "ctr": 0,
+      "position": 21.13888888888889
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/what-is-a-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 24,
+      "ctr": 0,
+      "position": 33.75
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/blog/what-is-an-official-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 79,
+      "ctr": 0,
+      "position": 16.60759493670886
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/7-eleven"
+      ],
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 8.666666666666668
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/ace-hardware"
+      ],
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 7.666666666666667
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/adobe"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 1
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/advance-auto-parts"
+      ],
+      "clicks": 0,
+      "impressions": 23,
+      "ctr": 0,
+      "position": 14.869565217391305
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/alaska-airlines"
+      ],
+      "clicks": 0,
+      "impressions": 25,
+      "ctr": 0,
+      "position": 13.64
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/albert-heijn"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 2
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/albertsons"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 9
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/american-airlines"
+      ],
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 28.4
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/american-eagle"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 9
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/apple-tv-plus"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 3
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/applebees"
+      ],
+      "clicks": 0,
+      "impressions": 7,
+      "ctr": 0,
+      "position": 7.285714285714286
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/arby-s"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 3
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/arco"
+      ],
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 2.4
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/bass-pro-shops"
+      ],
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 2
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/bath-body-works"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 17
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/big-lots"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 2
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/boba-guys"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 11
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/bojangles"
+      ],
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 3
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/booking-com"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 6
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/boots-pharmacy"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 1
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/buffalo-wild-wings"
+      ],
+      "clicks": 0,
+      "impressions": 8,
+      "ctr": 0,
+      "position": 8.375
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/burberry"
+      ],
+      "clicks": 0,
+      "impressions": 11,
+      "ctr": 0,
+      "position": 11.909090909090908
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/cabelas"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 2
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/canva"
+      ],
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 12.833333333333334
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/carrefour"
+      ],
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 6.666666666666667
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/casey-s"
+      ],
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 6.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/caviar"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 88
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/checkers"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 3
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/cheesecake-factory"
+      ],
+      "clicks": 0,
+      "impressions": 7,
+      "ctr": 0,
+      "position": 7
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/chevron"
+      ],
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 7.6
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/chick-fil-a"
+      ],
+      "clicks": 0,
+      "impressions": 12,
+      "ctr": 0,
+      "position": 9.166666666666666
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/chipotle"
+      ],
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 9.666666666666666
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/church-s-chicken"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 10
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/circle-k"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 11
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/coach"
+      ],
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 7.4
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/coles"
+      ],
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 5.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/comfort-inn"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 2.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/costa-coffee"
+      ],
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 18.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/costco"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 4
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/cracker-barrel"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 2.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/crunch-fitness"
+      ],
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 15.166666666666666
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/culvers"
+      ],
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 7.333333333333333
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/cvs-pharmacy"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 9
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/dairy-queen"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 10
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/days-inn"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 3
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/del-taco"
+      ],
+      "clicks": 0,
+      "impressions": 13,
+      "ctr": 0,
+      "position": 6.615384615384615
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/delta-airlines"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 8.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/denny-s"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 7
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/dior"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 7
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/dollar-tree"
+      ],
+      "clicks": 0,
+      "impressions": 8,
+      "ctr": 0,
+      "position": 7.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/domino-s-pizza"
+      ],
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 9.666666666666666
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/doordash"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 6.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/dunkin"
+      ],
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 8.8
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/dutch-bros"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 2
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/ebay"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 7.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/edeka"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 7
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/einstein-bros-bagels"
+      ],
+      "clicks": 0,
+      "impressions": 24,
+      "ctr": 0,
+      "position": 10.416666666666666
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/el-pollo-loco"
+      ],
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 8.25
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/enterprise"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 8
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/family-dollar"
+      ],
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 8.333333333333332
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/fedex"
+      ],
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 6
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/five-below"
+      ],
+      "clicks": 0,
+      "impressions": 7,
+      "ctr": 0,
+      "position": 6.714285714285714
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/foot-locker"
+      ],
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 9.333333333333334
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/frontier-airlines"
+      ],
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 10.75
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/gap"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 3
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/giant-food"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 8
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/godaddy"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 25
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/google-play"
+      ],
+      "clicks": 0,
+      "impressions": 12,
+      "ctr": 0,
+      "position": 17.25
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/gucci"
+      ],
+      "clicks": 0,
+      "impressions": 30,
+      "ctr": 0,
+      "position": 23.8
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/h-e-b"
+      ],
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 7
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/h-r-block"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 10
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/hardees"
+      ],
+      "clicks": 0,
+      "impressions": 12,
+      "ctr": 0,
+      "position": 10.666666666666666
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/hilton"
+      ],
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 15
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/home-depot"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 8
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/hulu"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 4
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/hy-vee"
+      ],
+      "clicks": 0,
+      "impressions": 33,
+      "ctr": 0,
+      "position": 9.030303030303031
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/hyatt"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 6.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/ikea"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 4
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/in-n-out-burger"
+      ],
+      "clicks": 0,
+      "impressions": 17,
+      "ctr": 0,
+      "position": 7.529411764705882
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/instacart"
+      ],
+      "clicks": 0,
+      "impressions": 96,
+      "ctr": 0,
+      "position": 10.927083333333334
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/jack-in-the-box"
+      ],
+      "clicks": 0,
+      "impressions": 24,
+      "ctr": 0,
+      "position": 7.458333333333333
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/jamba-juice"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/jcpenney"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 8
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/joann"
+      ],
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 15.166666666666666
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/just-eat"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 2
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/kay-jewelers"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 6
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/kfc"
+      ],
+      "clicks": 0,
+      "impressions": 17,
+      "ctr": 0,
+      "position": 8.117647058823529
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/little-caesars"
+      ],
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 8.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/longhorn-steakhouse"
+      ],
+      "clicks": 0,
+      "impressions": 8,
+      "ctr": 0,
+      "position": 8.25
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/louis-vuitton"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 15.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/lululemon"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 22
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/marco-s-pizza"
+      ],
+      "clicks": 0,
+      "impressions": 11,
+      "ctr": 0,
+      "position": 7.181818181818182
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/marriott"
+      ],
+      "clicks": 0,
+      "impressions": 8,
+      "ctr": 0,
+      "position": 13.375
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/marshalls"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 5.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/meijer"
+      ],
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 13.333333333333334
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/menards"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 39
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/michael-kors"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 9.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/michaels"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 10
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/micro-center"
+      ],
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 10
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/microsoft-365"
+      ],
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 22.833333333333332
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/microsoft-store"
+      ],
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 24.333333333333332
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/mod-pizza"
+      ],
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 7.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/morrisons"
+      ],
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 3.6666666666666665
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/motel-6"
+      ],
+      "clicks": 0,
+      "impressions": 20,
+      "ctr": 0,
+      "position": 25.45
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/national-car-rental"
+      ],
+      "clicks": 0,
+      "impressions": 13,
+      "ctr": 0,
+      "position": 39.53846153846154
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/netflix"
+      ],
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 3.2
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/nike"
+      ],
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 15
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/nintendo-eshop"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 6
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/nordstrom"
+      ],
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 27
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/office-depot"
+      ],
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 17.666666666666668
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/ola"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 54
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/old-navy"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 47
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/orangetheory"
+      ],
+      "clicks": 0,
+      "impressions": 19,
+      "ctr": 0,
+      "position": 9.210526315789474
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/outback-steakhouse"
+      ],
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 7
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/panda-express"
+      ],
+      "clicks": 0,
+      "impressions": 11,
+      "ctr": 0,
+      "position": 7.545454545454546
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/papa-john-s"
+      ],
+      "clicks": 0,
+      "impressions": 19,
+      "ctr": 0,
+      "position": 10.578947368421053
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/peet-s-coffee"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 8.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/pep-boys"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 9
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/petco"
+      ],
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 7.666666666666667
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/phillips-66"
+      ],
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 3.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/popeyes"
+      ],
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 12
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/postmates"
+      ],
+      "clicks": 0,
+      "impressions": 8,
+      "ctr": 0,
+      "position": 12.875
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/potbelly"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 22
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/priceline"
+      ],
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 5.666666666666667
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/publix"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 9
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/qdoba"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 6
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/quiktrip"
+      ],
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 14.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/raising-canes"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 10
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/ralphs"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 5.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/red-lobster"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 3
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/red-robin"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/regal-cinemas"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 7
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/rei"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 7
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/rite-aid"
+      ],
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 7.333333333333333
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/roblox"
+      ],
+      "clicks": 0,
+      "impressions": 9,
+      "ctr": 0,
+      "position": 2.888888888888889
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/rolex"
+      ],
+      "clicks": 0,
+      "impressions": 7,
+      "ctr": 0,
+      "position": 8.857142857142858
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/ross-dress-for-less"
+      ],
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 7.166666666666667
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/safeway"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 7
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/sainsburys"
+      ],
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 12.333333333333334
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/sam-s-club"
+      ],
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 8.333333333333332
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/sephora"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 7.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/shake-shack"
+      ],
+      "clicks": 0,
+      "impressions": 7,
+      "ctr": 0,
+      "position": 9.285714285714286
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/sheetz"
+      ],
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 7.666666666666667
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/sheraton"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/shipt"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 64
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/sonic-drive-in"
+      ],
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 7.333333333333333
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/southwest-airlines"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 6
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/spirit-airlines"
+      ],
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 3
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/sprouts"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 8
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/starbucks"
+      ],
+      "clicks": 0,
+      "impressions": 117,
+      "ctr": 0,
+      "position": 23.05128205128205
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/steak-n-shake"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 2
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/steam"
+      ],
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 7
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/stop-shop"
+      ],
+      "clicks": 0,
+      "impressions": 146,
+      "ctr": 0,
+      "position": 66.84246575342466
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/subway"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 8
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/sunoco"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 4
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/sweetgreen"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 6.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/taco-bell"
+      ],
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 10
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/target"
+      ],
+      "clicks": 0,
+      "impressions": 24,
+      "ctr": 0,
+      "position": 41.583333333333336
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/tesco"
+      ],
+      "clicks": 0,
+      "impressions": 31,
+      "ctr": 0,
+      "position": 5.774193548387097
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/texas-roadhouse"
+      ],
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 6.6
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/the-ups-store"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 7
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/tiffany-co"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 5.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/tim-hortons"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 8
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/total-wine"
+      ],
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 36
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/tractor-supply"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 1
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/trader-joe-s"
+      ],
+      "clicks": 0,
+      "impressions": 14,
+      "ctr": 0,
+      "position": 7.642857142857143
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/united-airlines"
+      ],
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 8.25
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/valero"
+      ],
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 9.333333333333334
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/venmo"
+      ],
+      "clicks": 0,
+      "impressions": 14,
+      "ctr": 0,
+      "position": 9.214285714285714
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/versace"
+      ],
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 8
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/victorias-secret"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 4
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/vitamin-shoppe"
+      ],
+      "clicks": 0,
+      "impressions": 14,
+      "ctr": 0,
+      "position": 7.071428571428571
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/vons"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 7
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/vrbo"
+      ],
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 7.75
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/waffle-house"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 6
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/wegmans"
+      ],
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 8
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/westin"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 7
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/whataburger"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 6
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/white-castle"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 4
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/whole-foods"
+      ],
+      "clicks": 0,
+      "impressions": 12,
+      "ctr": 0,
+      "position": 6.083333333333333
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/williams-sonoma"
+      ],
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 3.3333333333333335
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/winco-foods"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 7
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/wingstop"
+      ],
+      "clicks": 0,
+      "impressions": 7,
+      "ctr": 0,
+      "position": 7.142857142857143
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/youtube-tv"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 8
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/zales"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 5.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/zara"
+      ],
+      "clicks": 0,
+      "impressions": 9,
+      "ctr": 0,
+      "position": 14.777777777777779
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/brands/zaxbys"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 2.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/cookies"
+      ],
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 8
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/create"
+      ],
+      "clicks": 0,
+      "impressions": 853,
+      "ctr": 0,
+      "position": 78.9706916764361
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples"
+      ],
+      "clicks": 0,
+      "impressions": 37,
+      "ctr": 0,
+      "position": 26.513513513513512
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/7-eleven-receipt-snacks"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 8.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/airbnb-receipt-stay"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 9
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/airbnb-receipt-week-stay"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 2
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/airport-parking-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 6
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/albertsons-receipt-groceries"
+      ],
+      "clicks": 0,
+      "impressions": 45,
+      "ctr": 0,
+      "position": 5.6
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/aldi-receipt-budget-groceries"
+      ],
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 12.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/aldi-receipt-weekly"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 30.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/aldi-sud-receipt-germany"
+      ],
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 9.333333333333334
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/apple-store-receipt-airpods"
+      ],
+      "clicks": 0,
+      "impressions": 25,
+      "ctr": 0,
+      "position": 12.52
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/applebees-receipt-2-for-25"
+      ],
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 8.666666666666668
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/applebees-receipt-dinner"
+      ],
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 9.8
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/arbys-receipt-meat-mountain"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 7
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/asda-receipt-uk"
+      ],
+      "clicks": 0,
+      "impressions": 10,
+      "ctr": 0,
+      "position": 38.7
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/asda-receipt-weekly-shop"
+      ],
+      "clicks": 0,
+      "impressions": 7,
+      "ctr": 0,
+      "position": 34
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/auntie-annes-receipt-pretzel"
+      ],
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 7.666666666666667
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/bar-receipt-night-out"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 4
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/barnes-noble-receipt-books"
+      ],
+      "clicks": 0,
+      "impressions": 14,
+      "ctr": 0,
+      "position": 8.928571428571429
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/buffalo-wild-wings-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 8,
+      "ctr": 0,
+      "position": 7.375
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/cabify-receipt-spain"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 9
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/car-wash-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 6
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/carrefour-receipt-france"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 4
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/cheesecake-factory-receipt-cheesecake"
+      ],
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 8
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/cheesecake-factory-receipt-dinner"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 9
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/chevron-receipt-fillup"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 3
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/chevron-receipt-gas"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 6
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/chick-fil-a-receipt-sandwich-meal"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 8
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/childcare-receipt-monthly"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 6
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/chilis-receipt-dinner"
+      ],
+      "clicks": 0,
+      "impressions": 18,
+      "ctr": 0,
+      "position": 11.555555555555555
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/chipotle-receipt-burrito-bowl"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 6.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/chipotle-receipt-two-burritos"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 4
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/church-donation-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 10
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/costa-coffee-receipt-cappuccino"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 9
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/costco-receipt-monthly-stockup"
+      ],
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 8.75
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/culvers-receipt-value-basket"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 3.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/cvs-pharmacy-receipt-essentials"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 6
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/daycare-receipt-monthly"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 8
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/dennys-receipt-grand-slam"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 10
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/dental-receipt-cleaning"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 6
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/dicks-sporting-goods-receipt"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 7.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/dominos-receipt-large-pizza"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 10
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/dominos-receipt-two-pizzas"
+      ],
+      "clicks": 0,
+      "impressions": 8,
+      "ctr": 0,
+      "position": 7.625
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/doordash-receipt-grocery"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 8.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/dunkin-receipt-coffee-donuts"
+      ],
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 7.5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/dunkin-receipt-dozen-donuts"
+      ],
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 10.333333333333334
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/edeka-receipt-germany"
+      ],
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 8
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/esso-receipt-uk"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 5
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/expedia-receipt-package"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 8
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/five-guys-receipt-burger-fries"
+      ],
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 6.666666666666667
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/florist-receipt-anniversary-bouquet"
+      ],
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 4.8
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/food-lion-receipt-groceries"
+      ],
+      "clicks": 0,
+      "impressions": 11,
+      "ctr": 0,
+      "position": 12.909090909090908
+    },
+    {
+      "keys": [
+        "https://www.makecepeit.com/examples/foot-locker-receipt-dunks"
+      ],
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 11
+    }
+  ]
+}
