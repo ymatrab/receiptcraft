@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og";
+import { BRAND_COUNT } from "@/lib/counts";
 
 export const alt = "Makecepeit — Free Receipt Maker";
 export const size = { width: 1200, height: 630 };
@@ -45,7 +46,7 @@ export default function OpenGraphImage() {
             Make a receipt in 60 seconds
           </div>
           <div style={{ marginTop: 28, color: "#c7d2fe", fontSize: 30, lineHeight: 1.4 }}>
-            Free · No sign-up to start · 100+ templates · PDF & PNG
+            Free to build · {BRAND_COUNT} brand templates · PDF & PNG
           </div>
         </div>
 

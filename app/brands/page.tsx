@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BRAND_LIST } from "@/lib/brands";
+import { BRAND_COUNT } from "@/lib/counts";
 import BrandExplorer from "@/components/BrandExplorer";
 import { absoluteUrl } from "@/lib/site";
 
@@ -33,7 +34,7 @@ const BRAND_FAQS = [
   {
     question: "Is my receipt data stored?",
     answer:
-      "No. Receipt editing and export happen in your browser. Makecepeit does not require sign-up and does not store the receipt information you type into the builder.",
+      "No. Receipt editing and export happen in your browser, and Makecepeit does not store the receipt information you type into the builder. Building and previewing need no sign-up; downloading uses a free account.",
   },
   {
     question: "Can I use these templates for reimbursements?",
@@ -67,9 +68,8 @@ const breadcrumbLd = {
 };
 
 export const metadata: Metadata = {
-  title: "Brand Receipt Templates — 300+ Stores",
-  description:
-    "Browse 300+ free brand receipt templates — Walmart, Starbucks, Uber, McDonald's and more. Search by name or filter by category, then customize and download.",
+  title: `Brand Receipt Templates — ${BRAND_COUNT} Stores`,
+  description: `Browse ${BRAND_COUNT} free brand receipt templates — Walmart, Starbucks, Uber, McDonald's and more. Free to build; a free account downloads your first 3.`,
   alternates: { canonical: "/brands" },
 };
 
@@ -85,9 +85,10 @@ export default function BrandsPage() {
           Brand Receipt Templates
         </h1>
         <p className="mt-4 text-lg leading-relaxed text-slate-600">
-          {BRAND_LIST.length}+ receipt templates inspired by popular brands across restaurants,
+          {BRAND_COUNT} receipt templates inspired by popular brands across restaurants,
           grocery, retail, travel, gas and more. Search for a brand or filter by category, then
-          customize the items, dates and prices and download for free.
+          customize the items, dates and prices. Building and previewing is free with no
+          sign-up; downloading uses a free account, and your first 3 are watermark-free.
         </p>
       </div>
 

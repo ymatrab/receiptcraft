@@ -1,4 +1,5 @@
 import { SITE } from "@/lib/site";
+import { BRAND_COUNT } from "@/lib/counts";
 import { TEMPLATES } from "@/lib/templates";
 import { HOMEPAGE_FAQS } from "@/lib/faqs";
 import { PLANS } from "@/lib/plans";
@@ -58,7 +59,7 @@ ${planLines}
 
 ${templateLines}
 
-Also available: 350+ brand-style receipt layouts (${SITE.url}/brands), real-world receipt examples by industry (${SITE.url}/examples), and lost-receipt help guides for 70+ major brands (${SITE.url}/receipt-help).
+Also available: ${BRAND_COUNT} brand-style receipt layouts (${SITE.url}/brands), real-world receipt examples by industry (${SITE.url}/examples), and lost-receipt help guides for 70+ major brands (${SITE.url}/receipt-help).
 
 ## Frequently asked questions
 

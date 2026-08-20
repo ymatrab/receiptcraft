@@ -11,6 +11,7 @@ import { BRAND_TEMPLATES } from "@/lib/brands";
 import { previewFromTemplate } from "@/lib/receipt";
 import { docFromReceiptData } from "@/lib/sections";
 import { SITE, absoluteUrl } from "@/lib/site";
+import { BRAND_COUNT, SITE_DESCRIPTION } from "@/lib/counts";
 import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
 import ComparisonTable from "@/components/comparison/ComparisonTable";
 import RelatedPosts from "@/components/RelatedPosts";
@@ -125,7 +126,7 @@ export default async function ComparePage({ params }: Props) {
     name: SITE.name,
     applicationCategory: "BusinessApplication",
     operatingSystem: "Web",
-    description: SITE.description,
+    description: SITE_DESCRIPTION,
     url: SITE.url,
     offers: {
       "@type": "Offer",
@@ -377,8 +378,8 @@ export default async function ComparePage({ params }: Props) {
             Make a receipt in seconds — free
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-slate-300">
-            350+ brand templates, AI generation and PDF &amp; PNG export. Start
-            building with no signup and see the difference yourself.
+            {BRAND_COUNT} brand templates, AI generation and PDF &amp; PNG export.
+            Build with no signup; a free account downloads your first 3.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Link

@@ -14,6 +14,7 @@
  */
 
 import { SITE } from "./site";
+import { BRAND_COUNT } from "./counts";
 
 export const LAST_UPDATED = "2026-08-20"; // ISO — shown as the page "last reviewed" date
 export const PRICING_AS_OF = "August 2026"; // human-readable disclaimer on pricing tables
@@ -26,7 +27,7 @@ export type CellState = "yes" | "no" | "partial";
 
 export interface Cell {
   state: CellState;
-  /** Short qualifier shown under the icon, e.g. "350+ brands" or "Pro only". */
+  /** Short qualifier shown under the icon, e.g. "348 brands" or "Pro only". */
   note?: string;
 }
 
@@ -65,7 +66,9 @@ export const MAKECEPEIT = {
     free_start: yes("Build + first 3 HD downloads free"),
     no_signup: yes("Build & preview, no signup"),
     live_preview: yes(),
-    brand_templates: yes("350+ brands"),
+    // Exact, not "350+": this is the dimension we win outright (348 vs their
+    // 100+), and a rounded-up range read as a tie with ReceiptFaker.
+    brand_templates: yes(`${BRAND_COUNT} brands`),
     pdf_export: yes(),
     image_export: yes("PNG at 3× resolution"),
     ai_generator: yes("3/day free, unlimited on Pro"),
@@ -133,7 +136,7 @@ export const COMPETITORS: Competitor[] = [
       "Makecepeit vs MakeReceipt compared: pricing, templates, AI generation, PDF & PNG export and watermarks. See which free receipt maker fits your needs in 2026.",
     h1: "Makecepeit vs MakeReceipt",
     intro:
-      "MakeReceipt is one of the oldest online receipt makers, with a broad template library and a membership model that removes watermarks. Makecepeit is a newer, AI-powered receipt maker with 350+ named-brand templates, transparent low pricing, and no signup to start building. Here is an honest, field-by-field comparison.",
+      `MakeReceipt is one of the oldest online receipt makers, with a broad template library and a membership model that removes watermarks. Makecepeit is a newer, AI-powered receipt maker with ${BRAND_COUNT} named-brand templates, transparent low pricing, and no signup to start building. Here is an honest, field-by-field comparison.`,
     overview:
       "MakeReceipt bills itself as the original online receipt maker. It offers 60+ category templates (restaurant, retail, gas, pharmacy, parking, taxi and more), multi-currency and multi-language support, and lets you create free receipts that carry a watermark until you join a paid membership. Its Standard, Pro and Enterprise tiers are referenced on the site but exact prices are not published publicly.",
     strengths: [
@@ -143,7 +146,7 @@ export const COMPETITORS: Competitor[] = [
     ],
     gaps: [
       "No AI receipt generator — every field is filled in by hand",
-      "Fewer named-brand templates (Walmart, Target, CVS…) than Makecepeit's 350+",
+      `Fewer named-brand templates (Walmart, Target, CVS…) than Makecepeit's ${BRAND_COUNT}`,
       "Exact membership prices are not listed publicly; Makecepeit publishes $3/wk, $7.99/mo, $39/yr",
     ],
     pricing: {
@@ -163,7 +166,7 @@ export const COMPETITORS: Competitor[] = [
       transparent_pricing: no("Tiers not listed publicly"),
     },
     verdict:
-      "If you want a long-established tool with deep multi-language support, MakeReceipt is a proven option. But if you want AI-assisted receipts, 350+ specific brand templates, both PDF and PNG export, and pricing you can see before you commit, Makecepeit is the stronger, more transparent choice — and you can build a full receipt for free before spending anything.",
+      `If you want a long-established tool with deep multi-language support, MakeReceipt is a proven option. But if you want AI-assisted receipts, ${BRAND_COUNT} specific brand templates, both PDF and PNG export, and pricing you can see before you commit, Makecepeit is the stronger, more transparent choice — and you can build a full receipt for free before spending anything.`,
     chooseUs: [
       "You want an AI generator to draft a receipt from a plain-text description",
       "You need a specific store's look (Walmart, Target, CVS, Starbucks…)",
@@ -234,7 +237,7 @@ export const COMPETITORS: Competitor[] = [
       transparent_pricing: yes("Weekly, monthly and yearly prices listed"),
     },
     verdict:
-      "For a quick, free receipt with no account, both tools do the job. Makecepeit pulls ahead when you want to draft receipts with AI, save and re-open your history, export as both PDF and PNG, or work from a library of 350+ specific brands. Makecepeit also leads with a legitimate record-keeping and design-mockup positioning rather than a 'fake' framing.",
+      `For a quick, free receipt with no account, both tools do the job. Makecepeit pulls ahead when you want to draft receipts with AI, save and re-open your history, export as both PDF and PNG, or work from a library of ${BRAND_COUNT} specific brands. Makecepeit also leads with a legitimate record-keeping and design-mockup positioning rather than a 'fake' framing.`,
     chooseUs: [
       "You want an AI generator and saved receipt history",
       "You need reliable PDF and high-resolution PNG export",
@@ -248,7 +251,7 @@ export const COMPETITORS: Competitor[] = [
       {
         question: "Is Makecepeit better than ReceiptFaker?",
         answer:
-          "They overlap on the free, no-signup basics. Makecepeit adds an AI generator, saved history, PDF plus PNG export, and 350+ named-brand templates, so it's the better fit if you need more than a single quick receipt.",
+          `They overlap on the free, no-signup basics. Makecepeit adds an AI generator, saved history, PDF plus PNG export, and ${BRAND_COUNT} named-brand templates, so it's the better fit if you need more than a single quick receipt.`,
       },
       {
         question: "Is ReceiptFaker free?",
@@ -275,7 +278,7 @@ export const COMPETITORS: Competitor[] = [
       "Makecepeit vs ReceiptBaker compared: AI receipt generation, templates, pricing transparency, PDF & PNG export. See which receipt maker to pick in 2026.",
     h1: "Makecepeit vs ReceiptBaker",
     intro:
-      "ReceiptBaker is a receipt generator that offers an AI receipt tool, a custom receipt maker and a content blog covering topics like rental receipts. Makecepeit also offers AI generation, plus 350+ named-brand templates and pricing you can see before you buy. Here is a fair, side-by-side look.",
+      `ReceiptBaker is a receipt generator that offers an AI receipt tool, a custom receipt maker and a content blog covering topics like rental receipts. Makecepeit also offers AI generation, plus ${BRAND_COUNT} named-brand templates and pricing you can see before you buy. Here is a fair, side-by-side look.`,
     overview:
       "ReceiptBaker provides a receipt generator, an AI receipt generator, a custom receipt maker and a template library, alongside an active blog (how-to guides, rental payment receipts and more). Its pricing page renders prices in the browser rather than in the served HTML, which is why an earlier automated check came back empty; opened normally it lists weekly and monthly plans that remove the watermark and cap how much AI generation you get.",
     strengths: [
@@ -285,7 +288,7 @@ export const COMPETITORS: Competitor[] = [
     ],
     gaps: [
       "Paid plans meter AI usage — 25 chat generations and 8 photorealistic renders a week, 100 and 30 a month",
-      "Fewer named-brand template pages than Makecepeit's 350+",
+      `Fewer named-brand template pages than Makecepeit's ${BRAND_COUNT}`,
       "Export formats are not clearly specified",
     ],
     pricing: {
@@ -305,10 +308,10 @@ export const COMPETITORS: Competitor[] = [
       transparent_pricing: yes("Weekly and monthly prices listed"),
     },
     verdict:
-      "Both Makecepeit and ReceiptBaker offer AI receipt generation, so this comes down to transparency and breadth. Makecepeit publishes its pricing ($3/wk, $7.99/mo, $39/yr), lets you start free with no signup, offers 350+ specific brand templates and exports to both PDF and PNG. If those matter to you, Makecepeit is the safer pick; ReceiptBaker is worth a look if its blog and rental-receipt templates match your niche.",
+      `Both Makecepeit and ReceiptBaker offer AI receipt generation, so this comes down to transparency and breadth. Makecepeit publishes its pricing ($3/wk, $7.99/mo, $39/yr), lets you start free with no signup, offers ${BRAND_COUNT} specific brand templates and exports to both PDF and PNG. If those matter to you, Makecepeit is the safer pick; ReceiptBaker is worth a look if its blog and rental-receipt templates match your niche.`,
     chooseUs: [
       "You want AI generation and pricing you can see before committing",
-      "You need a specific brand's receipt from a 350+ template library",
+      `You need a specific brand's receipt from a ${BRAND_COUNT}-template library`,
       "You want to start free with no signup",
     ],
     chooseThem: [
@@ -329,7 +332,7 @@ export const COMPETITORS: Competitor[] = [
       {
         question: "Which has more brand templates?",
         answer:
-          "Makecepeit offers 350+ named-brand templates. ReceiptBaker has a template library and blog but does not appear to match that breadth of specific brands.",
+          `Makecepeit offers ${BRAND_COUNT} named-brand templates. ReceiptBaker has a template library and blog but does not appear to match that breadth of specific brands.`,
       },
     ],
     updated: LAST_UPDATED,

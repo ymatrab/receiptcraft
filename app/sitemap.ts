@@ -49,16 +49,24 @@ const COMPARISONS_UPDATED = new Date(LAST_UPDATED);
 // portal that does not exist, and says how to actually cancel or get a refund.
 // Its own constant so it does not restamp the other CONTENT_UPDATED pages.
 const PRICING_UPDATED = new Date("2026-08-20");
+// The three index pages whose copy now states one derived template count and
+// discloses that downloading needs a free account. Each gets its own constant
+// because the constants they used to share (CONTENT_UPDATED, TEMPLATES_UPDATED,
+// BRANDS_UPDATED) also cover pages that did not change — the ~42 template pages
+// and ~348 brand pages among them.
+const HOME_UPDATED = new Date("2026-08-20");
+const TEMPLATES_INDEX_UPDATED = new Date("2026-08-20");
+const BRANDS_INDEX_UPDATED = new Date("2026-08-20");
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages: MetadataRoute.Sitemap = [
-    { url: SITE.url, lastModified: CONTENT_UPDATED },
+    { url: SITE.url, lastModified: HOME_UPDATED },
     { url: `${SITE.url}/create`, lastModified: STATIC_UPDATED },
     { url: `${SITE.url}/tools`, lastModified: CONTENT_UPDATED },
     { url: `${SITE.url}/tools/receipt-calculator`, lastModified: CONTENT_UPDATED },
     { url: `${SITE.url}/tools/split-payment-checker`, lastModified: CONTENT_UPDATED },
     { url: `${SITE.url}/guides/receipt-anatomy`, lastModified: GUIDES_UPDATED },
-    { url: `${SITE.url}/templates`, lastModified: TEMPLATES_UPDATED },
+    { url: `${SITE.url}/templates`, lastModified: TEMPLATES_INDEX_UPDATED },
     { url: `${SITE.url}/examples`, lastModified: EXAMPLES_UPDATED },
     { url: `${SITE.url}/receipt-help`, lastModified: INTENT_UPDATED },
     { url: `${SITE.url}/alternatives`, lastModified: COMPARISONS_UPDATED },
@@ -92,7 +100,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   brandPages.push({
     url: `${SITE.url}/brands`,
-    lastModified: BRANDS_UPDATED,
+    lastModified: BRANDS_INDEX_UPDATED,
   });
 
   const examplePages: MetadataRoute.Sitemap = EXAMPLES.map((e) => ({
