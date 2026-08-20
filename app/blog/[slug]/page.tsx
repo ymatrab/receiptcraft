@@ -94,6 +94,14 @@ export async function generateMetadata({
   const post = await getPost(slug);
   if (!post) return { title: "Post not found" };
   const description = fitSeoDescription(post.seoDescription ?? post.excerpt, { neutral: true });
+  // Setting openGraph here replaces the root metadata's openGraph wholesale, so
+  // `images: undefined` did not fall back to the site image — it emitted a
+  // summary_large_image card with no image at all. About 136 of 172 posts were
+  // affected, including the site's largest impression page. Same bug already
+  // fixed on /create.
+  const ogImage = post.mainImage
+    ? urlForImage(post.mainImage).width(1200).height(630).url()
+    : absoluteUrl("/opengraph-image");
   return {
     title: post.seoTitle ?? post.title,
     description,
@@ -103,17 +111,13 @@ export async function generateMetadata({
       description,
       type: "article",
       publishedTime: post.publishedAt,
-      images: post.mainImage
-        ? [urlForImage(post.mainImage).width(1200).height(630).url()]
-        : undefined,
+      images: [ogImage],
     },
     twitter: {
       card: "summary_large_image",
       title: post.seoTitle ?? post.title,
       description,
-      images: post.mainImage
-        ? [urlForImage(post.mainImage).width(1200).height(630).url()]
-        : undefined,
+      images: [ogImage],
     },
   };
 }
