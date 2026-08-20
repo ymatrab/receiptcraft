@@ -93,6 +93,30 @@ property and the task body, never in the title.
 `Phase` is Now / Next / Later / Ongoing, plus Archive for tasks absorbed into
 another one. The board view hides Archive.
 
+## Timing
+
+`Window` is a date property recording **when a task may happen, not how long it
+takes** — effort is already covered by `Effort`. Leave it empty when a task
+could start today; that is the normal case. Set it only when there is a real
+constraint:
+
+- a gate — "Review the results in mid-September" cannot be pulled forward,
+  because the data does not exist yet
+- a cadence — a monthly link check, a quarterly pricing review
+- a dependency on something being live long enough to judge
+
+To pick up a week's work, select tasks whose `Window` has started or is empty,
+then order by `Priority`. A task with a future `Window` is not backlog neglect —
+it is deliberately waiting.
+
+**Publishing cadence is a separate thing from scheduling a task.** In SEO,
+dropping 60 posts in one day performs worse than two a day for a month, so never
+publish a batch all at once. But the way to spread them is *not* to run 30
+sessions: set a future `publishedAt` on each post in Sanity in a single session.
+`app/sitemap.ts` revalidates hourly, so scheduled posts enter the sitemap as
+they go live, and the IndexNow cron picks each one up on the day. That is how the
+July 2026 batch of 132 posts was released.
+
 ## Where things live
 
 - **Notion** — what needs doing, and its status. The owner's view.
