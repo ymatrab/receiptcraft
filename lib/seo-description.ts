@@ -82,14 +82,23 @@ function padShort(desc: string, pads: readonly string[]): string {
 
 /**
  * Fit any meta description into the [150, 160] char window.
+ *
  * Pass `neutral: true` for editorial/blog copy to use non-receipt filler.
+ *
+ * Pass `preformatted: true` for copy that was already composed to length — it
+ * will be trimmed if it somehow overflows, but never padded. Filler earns its
+ * place only when the alternative is a stub; appending "Editable." to a finished
+ * sentence spends SERP characters saying nothing, and it was landing on real
+ * pages ("…recreate a Sephora receipt in seconds. Editable."). A 145-character
+ * description that reads well beats a 152-character one with a filler tail.
  */
 export function fitSeoDescription(
   input: string,
-  opts: { neutral?: boolean } = {},
+  opts: { neutral?: boolean; preformatted?: boolean } = {},
 ): string {
   const desc = input.replace(/\s+/g, " ").trim();
   if (desc.length > DESC_MAX) return trimLong(desc);
+  if (opts.preformatted) return desc;
   if (desc.length < DESC_MIN) return padShort(desc, opts.neutral ? NEUTRAL_PADS : RECEIPT_PADS);
   return desc;
 }
