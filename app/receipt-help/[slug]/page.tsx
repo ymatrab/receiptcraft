@@ -36,7 +36,9 @@ export async function generateMetadata({
   const page = getIntentPage(slug);
   if (!page) return { title: "Not found" };
   const c = intentContent(page);
-  const description = fitSeoDescription(c.description);
+  // Composed to length in intentContent(), so it needs no padding — filler was
+  // landing on these pages as a literal "Editable." after a finished sentence.
+  const description = fitSeoDescription(c.description, { preformatted: true });
   return {
     title: c.title,
     description,

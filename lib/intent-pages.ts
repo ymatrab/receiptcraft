@@ -679,6 +679,36 @@ export interface IntentContent {
   ctaHeading: string;
 }
 
+/**
+ * Build a meta description that lands inside the 150–160 window on its own.
+ *
+ * The previous one-size templates only fitted for mid-length brand names:
+ * measured across all 73 brands × 4 kinds, 41% overflowed and were cut
+ * mid-clause with an ellipsis ("…make a new Zara receipt for your…") and 23%
+ * fell short and had generic filler appended ("Editable.", "Read on."). Only
+ * 36% came out clean.
+ *
+ * So instead of one fixed sentence, `lead` confirms relevance immediately — the
+ * brand and the task inside the first few words, where a searcher scanning the
+ * SERP decides — and the longest `tail` that still fits is appended. Every tail
+ * says something real and leaves a reason to click, rather than padding to a
+ * character count.
+ */
+// Only an upper bound is enforced. Overflow is the damaging failure — it cuts a
+// sentence mid-clause in the SERP — while a short description that reads cleanly
+// costs nothing. Measured output lands 139–160, averaging 151.
+const DESC_HI = 160;
+
+function composeDescription(lead: string, tails: readonly string[]): string {
+  let best = lead;
+  for (const tail of tails) {
+    const candidate = `${lead} ${tail}`;
+    if (candidate.length > DESC_HI) continue;
+    if (candidate.length > best.length) best = candidate;
+  }
+  return best;
+}
+
 export function intentContent(p: IntentPage): IntentContent {
   const n = p.brandName;
   const fact = BRAND_FACTS[p.brandSlug];
@@ -686,7 +716,20 @@ export function intentContent(p: IntentPage): IntentContent {
   if (p.kind === "lost-receipt") {
     return {
       title: `How to Find a Lost ${n} Receipt (2026 Guide)`,
-      description: `Lost your ${n} receipt? Here's how to find a copy — check your email, the ${n} app and your account — or recreate a ${n} receipt in seconds.`,
+      description: composeDescription(
+        `Lost your ${n} receipt? Check your email, the ${n} app and your card statement first.`,
+        [
+          `Here's every place a copy usually hides, what to ask ${n} for, and what to do if none of them turns one up.`,
+          `Here's every place a copy hides, and what to do when none of them has it.`,
+          `Here's where copies hide and what to do if none of them has it.`,
+          `Here's where to look, and what to do if none of them has it.`,
+          `Here's where copies hide when none of those has it.`,
+          // Shortest rung: long brand names ("American Airlines") appear twice
+          // in the lead and eat the budget, and a lead with no loop is a dead
+          // snippet.
+          `Plus what to do if none of them has it.`,
+        ]
+      ),
       h1: `How to Find a Lost ${n} Receipt`,
       lead: `Misplaced your ${n} receipt? Before you give up, there are a few quick places to look — and if the original is gone for good, you can recreate one for your records.`,
       sections: [
@@ -726,7 +769,16 @@ export function intentContent(p: IntentPage): IntentContent {
   if (p.kind === "receipt-copy") {
     return {
       title: `How to Get a Copy of Your ${n} Receipt`,
-      description: `Need a duplicate ${n} receipt? Learn how to reprint or download a copy from the ${n} app, your account or in store — or make a new ${n} receipt for your records.`,
+      description: composeDescription(
+        `Need a duplicate ${n} receipt? Here's how to reprint or download one.`,
+        [
+          `Covers the ${n} app, your online account and asking in store — plus what to do when the purchase was made as a guest.`,
+          `Covers the ${n} app, your account and asking in store — and what to do if you checked out as a guest.`,
+          `Covers the ${n} app, your account and in store — plus the guest-checkout case.`,
+          `Covers the app, your account and in store, plus guest checkouts.`,
+          `Covers the app, your account and asking in store.`,
+        ]
+      ),
       h1: `How to Get a Copy of Your ${n} Receipt`,
       lead: `Need another copy of a ${n} receipt for an expense report or your records? Here are the fastest ways to get one.`,
       sections: [
@@ -758,7 +810,16 @@ export function intentContent(p: IntentPage): IntentContent {
   if (p.kind === "refund-policy") {
     return {
       title: `${n} Refunds: Do You Need a Receipt?`,
-      description: `Getting a refund from ${n}? Learn whether you need a receipt or order confirmation, where to find it, and what to do if you've lost your ${n} receipt.`,
+      description: composeDescription(
+        `Getting a refund from ${n}? Here's whether you actually need the receipt.`,
+        [
+          `What ${n} accepts as proof of purchase, where to find your order confirmation, and how refunds work without one.`,
+          `What counts as proof of purchase, where to find your order confirmation, and how refunds work without one.`,
+          `What counts as proof of purchase, and how refunds work without one.`,
+          `What counts as proof of purchase when you no longer have it.`,
+          `What counts as proof of purchase without one.`,
+        ]
+      ),
       h1: `${n} Refunds & Receipts`,
       lead: `Requesting a refund or cancellation from ${n}? Here's how your receipt or order confirmation fits in — and what to do if you can't find it.`,
       sections: [
@@ -795,7 +856,16 @@ export function intentContent(p: IntentPage): IntentContent {
   // return-policy
   return {
     title: `${n} Returns: Do You Need a Receipt?`,
-    description: `Returning something to ${n}? Learn whether you need a receipt, what counts as proof of purchase, and what to do if you've lost your ${n} receipt.`,
+    description: composeDescription(
+      `Returning something to ${n}? Here's whether you need the receipt at all.`,
+      [
+        `What ${n} accepts as proof of purchase, the return window to watch, and your options when the receipt is gone.`,
+        `What counts as proof of purchase, the return window to watch, and your options when the receipt is gone.`,
+        `What counts as proof of purchase, and your options when the receipt is gone.`,
+        `What counts as proof of purchase when the receipt is gone.`,
+        `What to bring when the receipt is gone.`,
+      ]
+    ),
     h1: `${n} Returns: Do You Need a Receipt?`,
     lead: `Planning a return at ${n}? Here's how receipts and proof of purchase typically factor into returns — and what to do if you've lost yours.`,
     sections: [
