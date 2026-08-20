@@ -17,6 +17,68 @@ declare global {
   }
 }
 
+/**
+ * Which AI assistant, if any, sent this visitor.
+ *
+ * Hostname suffixes rather than exact matches, so regional and app subdomains
+ * (`www.perplexity.ai`, `ios.chat.openai.com`) classify correctly. Ordered
+ * most-specific first: google.com must be tested for its AI surfaces before any
+ * broader google rule would swallow them.
+ */
+const AI_REFERRERS: [RegExp, string][] = [
+  [/(^|\.)chatgpt\.com$/i, "chatgpt"],
+  [/(^|\.)chat\.openai\.com$/i, "chatgpt"],
+  [/(^|\.)openai\.com$/i, "chatgpt"],
+  [/(^|\.)perplexity\.ai$/i, "perplexity"],
+  [/(^|\.)gemini\.google\.com$/i, "gemini"],
+  [/(^|\.)bard\.google\.com$/i, "gemini"],
+  [/(^|\.)copilot\.microsoft\.com$/i, "copilot"],
+  [/(^|\.)claude\.ai$/i, "claude"],
+  [/(^|\.)you\.com$/i, "you"],
+  [/(^|\.)phind\.com$/i, "phind"],
+];
+
+/** Classify a referrer URL into an AI surface, or null if it isn't one. */
+export function aiSourceFromReferrer(referrer: string | null | undefined): string | null {
+  if (!referrer) return null;
+  try {
+    const host = new URL(referrer).hostname;
+    for (const [pattern, name] of AI_REFERRERS) {
+      if (pattern.test(host)) return name;
+    }
+  } catch {
+    // Malformed referrer — treat as unknown rather than throwing inside track().
+  }
+  return null;
+}
+
+const AI_SOURCE_KEY = "mkc_ai_source";
+
+/**
+ * The AI surface that started this session, remembered for its duration.
+ *
+ * `document.referrer` is only populated on the landing page — after one
+ * client-side navigation it is gone. Without persisting it, an AI visitor would
+ * be attributed on their first pageview and appear organic for every event that
+ * actually matters (download, upgrade), which is precisely the join this task
+ * exists to make.
+ *
+ * "none" is stored explicitly so a non-AI session is not re-classified later,
+ * when a same-tab navigation could make an internal page look like the referrer.
+ */
+function sessionAiSource(): string | null {
+  try {
+    const stored = sessionStorage.getItem(AI_SOURCE_KEY);
+    if (stored) return stored === "none" ? null : stored;
+    const detected = aiSourceFromReferrer(document.referrer);
+    sessionStorage.setItem(AI_SOURCE_KEY, detected ?? "none");
+    return detected;
+  } catch {
+    // Private mode / storage disabled — fall back to a best-effort read.
+    return aiSourceFromReferrer(document.referrer);
+  }
+}
+
 export function track(event: string, params: EventParams = {}): void {
   if (typeof window === "undefined") return;
 
@@ -25,6 +87,11 @@ export function track(event: string, params: EventParams = {}): void {
   for (const [k, v] of Object.entries(params)) {
     if (v !== undefined && v !== null) clean[k] = v;
   }
+
+  // Stamp every event with the AI surface that started the session, so
+  // downloads and upgrades can be split by AI source rather than only pageviews.
+  const aiSource = sessionAiSource();
+  if (aiSource) clean.ai_source = aiSource;
 
   // GA4 custom event.
   window.gtag?.("event", event, clean);
