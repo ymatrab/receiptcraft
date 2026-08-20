@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { SITE } from "@/lib/site";
-import { TEMPLATES } from "@/lib/templates";
+import { TEMPLATES, sourcedFigure } from "@/lib/templates";
 import { BRAND_TEMPLATES } from "@/lib/brands";
 import { EXAMPLES, EXAMPLES_TOTAL_PAGES } from "@/lib/examples";
 import { INTENT_PAGES, hasOfficialSource } from "@/lib/intent-pages";
@@ -30,6 +30,12 @@ const TEMPLATES_UPDATED = new Date("2026-07-20");
 // list, so a template picks up the fresh date when it gains citations and the
 // uncited ones keep TEMPLATES_UPDATED. Same idea as INTENT_CITED_UPDATED.
 const TEMPLATES_CITED_UPDATED = new Date("2026-08-20");
+// The 36 templates that gained a sourced figure — a specific number, the body
+// that published it, and a checked date — on 2026-08-21. Its own constant so it
+// does not restamp the three above, which already cited their own rules and did
+// not change, nor the medical/dental/veterinary three that were deliberately
+// left without a figure.
+const TEMPLATES_FIGURE_UPDATED = new Date("2026-08-21");
 // Every /brands and /receipt-help page gained a "Related reading" section on
 // 2026-08-20, so both groups genuinely changed and both dates move. These are
 // real edits to rendered content, not a restamp of untouched pages.
@@ -93,7 +99,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const templatePages: MetadataRoute.Sitemap = TEMPLATES.map((t) => ({
     url: `${SITE.url}/templates/${t.slug}`,
-    lastModified: t.sources?.length ? TEMPLATES_CITED_UPDATED : TEMPLATES_UPDATED,
+    lastModified: t.sources?.length
+      ? TEMPLATES_CITED_UPDATED
+      : sourcedFigure(t)
+        ? TEMPLATES_FIGURE_UPDATED
+        : TEMPLATES_UPDATED,
   }));
 
   const brandPages: MetadataRoute.Sitemap = BRAND_TEMPLATES.map((t) => ({
