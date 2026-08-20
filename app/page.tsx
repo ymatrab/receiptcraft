@@ -367,6 +367,32 @@ const appJsonLd = {
   ],
 };
 
+/**
+ * HowTo markup for the three steps already rendered below.
+ *
+ * Google retired the HowTo rich result, so this earns no SERP decoration —
+ * models still parse the markup, and it makes each step individually
+ * extractable rather than something an engine has to infer from prose. Built
+ * from the same STEPS array the page renders, so the markup cannot describe a
+ * flow the page no longer shows.
+ */
+const howToJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  name: "How to make a receipt online",
+  description: `Build a receipt with ${SITE.name} in three steps: pick a template, customize the details, then download it as a PDF or PNG.`,
+  totalTime: "PT1M",
+  supply: [],
+  tool: [{ "@type": "HowToTool", name: `${SITE.name} receipt builder` }],
+  step: STEPS.map((s, i) => ({
+    "@type": "HowToStep",
+    position: i + 1,
+    name: s.title,
+    text: s.description,
+    url: `${SITE.url}/#how-it-works`,
+  })),
+};
+
 /** Small label above a section heading. */
 function Eyebrow({ children }: { children: React.ReactNode }) {
   return (
@@ -388,6 +414,10 @@ export default function HomePage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(definedTermsJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }}
       />
 
       {/* ===== HERO ===== */}
