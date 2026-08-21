@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PortableText, type PortableTextComponents } from "@portabletext/react";
-import { getPost, getPostSlugs } from "@/lib/sanity/queries";
+import { getPost, getPostSlugs, authorSlug } from "@/lib/sanity/queries";
 import { urlForImage } from "@/lib/sanity/client";
 import { fitSeoDescription } from "@/lib/seo-description";
 import { absoluteUrl, SITE } from "@/lib/site";
@@ -148,10 +148,16 @@ export default async function BlogPostPage({
     description: post.seoDescription ?? post.excerpt,
     datePublished: post.publishedAt,
     dateModified,
+    // author.url pointed at /about, which describes the company rather than the
+    // person — the Person entity had nowhere to resolve to. It now points at the
+    // author's own page, which carries the matching Person block.
     author: {
       "@type": post.authorName ? "Person" : "Organization",
       name: post.authorName ?? SITE.name,
-      url: post.authorName ? absoluteUrl("/about") : SITE.url,
+      url: post.authorName
+        ? absoluteUrl(`/authors/${authorSlug({ slug: post.authorSlug, name: post.authorName })}`)
+        : SITE.url,
+      ...(post.authorJobTitle ? { jobTitle: post.authorJobTitle } : {}),
     },
     publisher: {
       "@type": "Organization",
@@ -232,7 +238,15 @@ export default async function BlogPostPage({
         )}
         <h1 className="mt-2 text-4xl font-bold tracking-tight text-slate-900">{post.title}</h1>
         <div className="mt-3 flex items-center gap-2 text-sm text-slate-500">
-          {post.authorName && <span>{post.authorName}</span>}
+          {post.authorName && (
+            <Link
+              href={`/authors/${authorSlug({ slug: post.authorSlug, name: post.authorName })}`}
+              rel="author"
+              className="hover:text-indigo-600"
+            >
+              {post.authorName}
+            </Link>
+          )}
           {post.authorName && post.publishedAt && <span>·</span>}
           {post.publishedAt && (
             <time dateTime={post.publishedAt}>
