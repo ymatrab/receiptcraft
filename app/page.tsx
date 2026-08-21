@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { SITE, absoluteUrl } from "@/lib/site";
 import { BRAND_COUNT, TEMPLATE_COUNT, SITE_DESCRIPTION } from "@/lib/counts";
-import { receiptsDownloaded, RECEIPTS_FLOOR } from "@/lib/stats";
 import HomeAiGenerator from "@/components/HomeAiGenerator";
 import { TEMPLATES } from "@/lib/templates";
 import { BRAND_LIST } from "@/lib/brands";
@@ -323,11 +322,6 @@ const DIRECTORIES: {
   },
 ];
 
-// Cached for an hour: the homepage is the busiest page on the site and must
-// not run a stats query per request, but the number should not need a redeploy
-// to move either.
-export const revalidate = 3600;
-
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -406,9 +400,7 @@ function Eyebrow({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default async function HomePage() {
-  // Counted live, gated by a floor — see lib/stats.ts.
-  const downloads = await receiptsDownloaded();
+export default function HomePage() {
 
   return (
     <>
@@ -1058,16 +1050,6 @@ export default async function HomePage() {
           className="border-t border-slate-100 py-14 sm:py-16"
           aria-labelledby="directories-heading"
         >
-          {/* One countable figure carries more than eight badges nobody
-              recognises, so it sits above them and they become the footnote.
-              Rendered only once it clears the floor — a small number undersells
-              harder than no number at all. */}
-          {downloads !== null && downloads >= RECEIPTS_FLOOR && (
-            <p className="mb-10 text-center text-2xl font-bold text-slate-900 sm:text-3xl">
-              {downloads.toLocaleString("en-US")}{" "}
-              <span className="font-semibold text-slate-600">receipts downloaded</span>
-            </p>
-          )}
           <h2
             id="directories-heading"
             className="text-center text-sm font-semibold uppercase tracking-wide text-slate-500"
