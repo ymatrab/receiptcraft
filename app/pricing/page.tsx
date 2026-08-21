@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { PLANS } from "@/lib/plans";
+import { PLANS, FREE_LIMITS } from "@/lib/plans";
+import { docFromReceiptData } from "@/lib/sections";
+import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
+import Watermark from "@/components/receipt/Watermark";
+import type { ReceiptData } from "@/lib/types";
 import { getPaymentLinks } from "@/lib/settings";
 import { absoluteUrl, SITE } from "@/lib/site";
 import PricingCta from "./PricingCta";
@@ -29,6 +33,46 @@ export const metadata: Metadata = {
     description: PRICING_DESCRIPTION,
     images: [absoluteUrl("/opengraph-image")],
   },
+};
+
+// Small, deliberately ordinary receipt: the panels are about the watermark, so
+// the content should not compete with it.
+const WATERMARK_DEMO = docFromReceiptData({
+  businessName: "Corner Market",
+  logoDataUrl: "",
+  addressLine1: "18 Mill Lane",
+  addressLine2: "Portland, OR 97204",
+  phone: "(503) 555-0142",
+  website: "",
+  receiptNumber: "104822",
+  date: "2026-08-14",
+  time: "17:26",
+  cashier: "Cashier: Dan",
+  register: "Register 1",
+  items: [
+    { id: "w1", name: "Sourdough Loaf", quantity: 1, price: 4.5 },
+    { id: "w2", name: "Orange Juice 1L", quantity: 1, price: 3.2 },
+    { id: "w3", name: "Free-Range Eggs (6)", quantity: 1, price: 3.95 },
+  ],
+  currency: "USD",
+  taxLabel: "Sales Tax",
+  taxRate: 0,
+  discount: 0,
+  tip: 0,
+  paymentMethod: "Credit Card",
+  cardLastFour: "4821",
+  amountTendered: 0,
+  footerMessage: "Thanks for shopping local!",
+  showBarcode: true,
+  paperStyle: "thermal",
+} as ReceiptData);
+
+// Narrowed so both panels sit side by side on a phone without either being
+// scaled down to the point the watermark stops being legible — which would
+// defeat the whole section.
+const WATERMARK_DEMO_DOC = {
+  ...WATERMARK_DEMO,
+  settings: { ...WATERMARK_DEMO.settings, widthPx: 260 },
 };
 
 const FAQ = [
@@ -115,6 +159,40 @@ export default async function PricingPage() {
           </li>
         ))}
       </ol>
+
+      {/* The watermark is the single asset the whole Free -> Pro decision turns
+          on, and the page described it in words without ever showing it. Both
+          panels render the same receipt through the same components the builder
+          uses, with the real Watermark overlay on the left — so this is the
+          actual artefact, not an illustration of one. */}
+      <section className="mx-auto mt-14 max-w-3xl" aria-labelledby="watermark-heading">
+        <h2 id="watermark-heading" className="text-center text-2xl font-bold text-slate-900">
+          This is what Pro removes
+        </h2>
+        <p className="mx-auto mt-3 max-w-xl text-center text-slate-600">
+          Your first {FREE_LIMITS.freeReceiptDownloads} downloads are watermark-free either way.
+          After that, a free download looks like the one on the left.
+        </p>
+        <div className="mt-8 grid gap-8 sm:grid-cols-2">
+          <figure>
+            <div className="relative mx-auto w-fit overflow-hidden rounded-xl">
+              <ReceiptDocPaper doc={WATERMARK_DEMO_DOC} />
+              <Watermark />
+            </div>
+            <figcaption className="mt-3 text-center text-sm text-slate-500">
+              Free download, after your first {FREE_LIMITS.freeReceiptDownloads}
+            </figcaption>
+          </figure>
+          <figure>
+            <div className="mx-auto w-fit overflow-hidden rounded-xl">
+              <ReceiptDocPaper doc={WATERMARK_DEMO_DOC} />
+            </div>
+            <figcaption className="mt-3 text-center text-sm font-medium text-indigo-600">
+              Every Pro download
+            </figcaption>
+          </figure>
+        </div>
+      </section>
 
       <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {/* Free */}
