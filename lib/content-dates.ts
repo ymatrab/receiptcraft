@@ -29,6 +29,10 @@ export const INTENT_UPDATED = "2026-08-20";
 export const INTENT_CITED_UPDATED = "2026-08-20";
 export const EXAMPLES_UPDATED = "2026-07-03";
 export const GUIDES_UPDATED = "2026-08-20";
+// /guides/receipt-legality — new on 2026-08-21. Its own constant so the new URL
+// carries a date newer than the IndexNow cron's last run and is actually
+// submitted, without restamping /guides/receipt-anatomy, which did not change.
+export const GUIDES_LEGALITY_UPDATED = "2026-08-21";
 export const POLICY_UPDATED = "2026-08-20";
 // 2026-08-21: /pricing now shows the watermark it asks people to pay to remove.
 export const PRICING_UPDATED = "2026-08-21";
