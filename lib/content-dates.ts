@@ -30,7 +30,8 @@ export const INTENT_CITED_UPDATED = "2026-08-20";
 export const EXAMPLES_UPDATED = "2026-07-03";
 export const GUIDES_UPDATED = "2026-08-20";
 export const POLICY_UPDATED = "2026-08-20";
-export const PRICING_UPDATED = "2026-08-20";
+// 2026-08-21: /pricing now shows the watermark it asks people to pay to remove.
+export const PRICING_UPDATED = "2026-08-21";
 export const HOME_UPDATED = "2026-08-20";
 export const TEMPLATES_INDEX_UPDATED = "2026-08-20";
 export const COMPARISONS_UPDATED = LAST_UPDATED;
