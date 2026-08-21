@@ -90,7 +90,16 @@ const FAQ = [
   },
 ];
 
-export const dynamic = "force-dynamic";
+// Was force-dynamic, which meant every visit re-rendered the page AND made three
+// Supabase round-trips for the payment links. Measured against production: a cold
+// request took 3.0s and a warm one ~0.9s, while the cached homepage — four times
+// the HTML — served in 0.68s. Paying a database round-trip per view on the page
+// that asks for money is the worst place to spend it.
+//
+// The links change only when an admin edits them, and saveLinksAction revalidates
+// this path on save, so the cache is corrected immediately rather than after the
+// window. The 5-minute window is just the backstop.
+export const revalidate = 300;
 
 export default async function PricingPage() {
   const weekly = PLANS.pro_weekly;

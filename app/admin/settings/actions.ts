@@ -22,4 +22,7 @@ export async function saveLinksAction(formData: FormData) {
     yearly: String(formData.get("yearly") ?? "") || null,
   });
   revalidatePath("/admin/settings");
+  // /pricing caches these links now, so purge it here — otherwise a corrected
+  // checkout URL would keep sending buyers to the old one for up to 5 minutes.
+  revalidatePath("/pricing");
 }
