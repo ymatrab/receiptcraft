@@ -29,7 +29,7 @@ const PROVIDER_HELP: Record<AiProvider, string> = {
   cloudflare:
     "Account ID + API token, from dash.cloudflare.com. 10,000 free neurons a day ≈ 100 receipts on Llama 3.3 70B, then ~$0.001 each.",
   google:
-    "API key from Google AI Studio. Google no longer publishes free-tier limits — check your own at aistudio.google.com/rate-limit. This is the tier that expired in August 2026.",
+    "API key from Google AI Studio. Google retires model ids outright — gemini-2.0-flash was shut off and returned 404 for six days here — so prefer a current one: gemini-3.6-flash (stable), gemini-3.7-flash (latest) or gemini-3.5-flash-lite (cheapest). Free-tier limits are no longer published; check yours at aistudio.google.com/rate-limit.",
   groq:
     "API key from console.groq.com. Free tier caps at 200k tokens/day — measured at ~194 receipts, since the token limit binds long before the 1,000-request one. Keep the default openai/gpt-oss-120b: gpt-oss-20b costs the same tokens but failed 2 of 6 multi-item receipts, and Groq's Llama and Qwen models don't honour strict schemas at all.",
   huggingface:
