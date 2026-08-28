@@ -10,19 +10,24 @@ import { SpinnerIcon } from "@/components/Icons";
 /**
  * Post-purchase landing page. Shopify's thank-you URL points here.
  *
- * The webhook grants Pro within a minute, but "within a minute" is an eternity
- * to someone who has just been charged and can see nothing for it. So this polls
- * rather than asking them to refresh, and every branch ends somewhere concrete —
- * never a dead end that leaves a paying customer guessing.
+ * Pro is granted by hand from /admin/members, so activation takes as long as it
+ * takes a person — minutes if someone is at a desk, longer otherwise. This page
+ * therefore promises no duration at all. It still polls, because a buyer whose
+ * grant lands while they are watching should see it immediately, but every
+ * branch ends somewhere concrete: nobody who has just been charged is left
+ * guessing, and nobody is told a wait is "unusual" when it is the norm.
+ *
+ * If automatic fulfilment ever returns, shorten PATIENCE_MS and say so in the
+ * copy — the timings below are deliberately generous for a human in the loop.
  */
 
-// Poll briskly while the webhook is most likely to land, then back off rather
+// Poll briskly at first in case the grant is already in, then back off rather
 // than hammering /api/me forever on a tab someone left open.
 const FAST_INTERVAL_MS = 3000;
 const SLOW_INTERVAL_MS = 15000;
 const FAST_WINDOW_MS = 60000;
-/** When to stop promising and start offering a way out. */
-const PATIENCE_MS = 90000;
+/** When to stop asking someone to sit and watch, and hand them a way out. */
+const PATIENCE_MS = 45000;
 
 type Phase = "waiting" | "active" | "slow" | "signed-out";
 
@@ -134,8 +139,8 @@ export default function ProActivating() {
     return (
       <Card
         tone="warn"
-        title="Your payment went through — activation is taking longer than usual"
-        body="This is normally under a minute. Your purchase is safe and recorded; it may just need a moment, or a quick hand from us."
+        title="Your payment went through — Pro is being switched on"
+        body="Our team activates each purchase by hand, so this can take a little while. Your payment is safe and recorded, and Pro attaches to your account the moment it is on — there is no need to keep this page open."
       >
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Link
@@ -154,7 +159,7 @@ export default function ProActivating() {
     <Card
       tone="waiting"
       title="Thanks — setting up your Pro access"
-      body="This usually takes under a minute. The page updates on its own, so there's no need to refresh."
+      body="Our team switches each purchase on by hand. This page updates on its own if it lands while you're here, and your account keeps the access either way."
     >
       <p className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-slate-500">
         <SpinnerIcon className="h-4 w-4" />
