@@ -65,9 +65,13 @@ export const DEFAULT_MODELS: Record<AiProvider, string> = {
   anthropic: "claude-opus-5",
   xai: "grok-4.6",
   cloudflare: "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
-  // Groq's strict json_schema output is only on a few models — gpt-oss-20b is
-  // the fast, free-tier one. llama-3.x on Groq does NOT support strict schemas.
-  groq: "openai/gpt-oss-20b",
+  // Groq's strict json_schema output is only on a few models, and 120b is the
+  // one to use: measured 2026-08-28, gpt-oss-20b failed 2 of 6 receipts with
+  // json_validate_failed (both on the same multi-item prompt) while costing
+  // the same ~1,900 tokens, so the smaller model buys nothing. llama-3.x on
+  // Groq does not support strict schemas at all, and qwen3.8-27b ignored the
+  // schema outright (lowercase currencies, unparseable dates, 0/3 clean).
+  groq: "openai/gpt-oss-120b",
   // Routed to whichever partner serves this model fastest. gpt-oss is the safe
   // pick because it honours strict json_schema on the providers that serve it.
   huggingface: "openai/gpt-oss-120b",

@@ -31,7 +31,7 @@ const PROVIDER_HELP: Record<AiProvider, string> = {
   google:
     "API key from Google AI Studio. Google no longer publishes free-tier limits — check your own at aistudio.google.com/rate-limit. This is the tier that expired in August 2026.",
   groq:
-    "API key from console.groq.com. Free tier caps at 200k tokens/day — about 200 receipts, since the daily token limit binds long before the 1,000-request one. Needs a model with strict structured outputs: openai/gpt-oss-20b or -120b. Groq's Llama models do not support them.",
+    "API key from console.groq.com. Free tier caps at 200k tokens/day — measured at ~194 receipts, since the token limit binds long before the 1,000-request one. Keep the default openai/gpt-oss-120b: gpt-oss-20b costs the same tokens but failed 2 of 6 multi-item receipts, and Groq's Llama and Qwen models don't honour strict schemas at all.",
   huggingface:
     "Fine-grained token from huggingface.co/settings/tokens with “Make calls to Inference Providers”. Free monthly credits; routes to whichever partner serves the model fastest.",
   xai: "API key from console.x.ai. OpenAI-compatible, so no account ID needed.",
