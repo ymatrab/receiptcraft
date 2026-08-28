@@ -424,7 +424,14 @@ export default function HomePage() {
       {/* ===== HERO ===== */}
       <section className="bg-grid relative overflow-hidden">
         <div className="pointer-events-none absolute -top-32 left-1/2 h-96 w-150 -translate-x-1/2 rounded-full bg-gradient-to-r from-indigo-200/40 to-violet-200/40 blur-3xl" />
-        <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-4 pb-14 pt-10 sm:px-6 sm:pb-20 sm:pt-16 lg:grid-cols-2 lg:gap-8 lg:px-8 lg:pb-28 lg:pt-24">
+        {/* grid-cols-[minmax(0,1fr)] is load-bearing below lg. The single
+            implicit track is `auto`-sized, so the 380px hero receipt stretched
+            it to 380px inside a 343px container — dragging the text column, and
+            with it the primary CTA, off the right edge on every phone under
+            412px. scrollWidth === clientWidth, so it could not even be scrolled
+            to. Capping the track lets the decorative receipt clip against the
+            section's existing overflow-hidden instead. */}
+        <div className="relative mx-auto grid max-w-7xl grid-cols-[minmax(0,1fr)] items-center gap-12 px-4 pb-14 pt-10 sm:px-6 sm:pb-20 sm:pt-16 lg:grid-cols-2 lg:gap-8 lg:px-8 lg:pb-28 lg:pt-24">
           <div>
             <p className="inline-flex items-center gap-1.5 rounded-full border border-indigo-200 bg-indigo-50 px-3 py-1 text-xs font-medium text-indigo-700">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />

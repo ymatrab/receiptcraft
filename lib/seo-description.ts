@@ -17,13 +17,20 @@ const DESC_TARGET = 155;
 
 // Receipt-oriented filler, ordered short→long, spanning ~9 to ~86 chars so the
 // greedy fitter can always land inside [MIN, MAX] (usually in a single append).
+// No pad may claim "no sign-up". Building and previewing are free without an
+// account, but downloading is not — so a bare "Free — no sign-up." tail promised
+// something the product does not do, on 231 of the 348 brand pages. The two
+// offending pads are replaced (not deleted) by accurate strings of the same
+// length, because the fitter relies on this array spanning ~9→86 chars evenly,
+// and the shortest entry must stay <= DESC_MAX - DESC_MIN for padShort's
+// "a pad always fits" guarantee to hold.
 export const RECEIPT_PADS: readonly string[] = [
   "Editable.",
   "Free to use.",
   "Fully editable.",
-  "Free — no sign-up.",
+  "Free to customize.",
   "Every item is editable.",
-  "Free to use, no sign-up.",
+  "Free to build & preview.",
   "Every item and total is editable.",
   "Adjust the items, tax and totals to match.",
   "Edit the store details, items, prices and totals.",

@@ -23,7 +23,10 @@ export const CONTENT_UPDATED = "2026-08-14";
 export const TEMPLATES_UPDATED = "2026-07-20";
 export const TEMPLATES_CITED_UPDATED = "2026-08-20";
 export const TEMPLATES_FIGURE_UPDATED = "2026-08-21";
-export const BRANDS_UPDATED = "2026-08-20";
+// 2026-08-23: all 348 brand pages got a new meta description — the five
+// SEO_DESC_VARIANTS that promised "no sign-up to start" one clause after
+// promising a download now say an account is needed.
+export const BRANDS_UPDATED = "2026-08-23";
 export const BRANDS_INDEX_UPDATED = "2026-08-20";
 export const INTENT_UPDATED = "2026-08-20";
 export const INTENT_CITED_UPDATED = "2026-08-20";
@@ -36,7 +39,13 @@ export const GUIDES_LEGALITY_UPDATED = "2026-08-21";
 export const POLICY_UPDATED = "2026-08-20";
 // 2026-08-21: /pricing now shows the watermark it asks people to pay to remove.
 export const PRICING_UPDATED = "2026-08-21";
-export const HOME_UPDATED = "2026-08-20";
+// 2026-08-23: the hero grid no longer stretches to the 380px receipt, so the
+// primary CTA is reachable again on phones under 412px — a visible change to
+// the page's most important element.
+// 2026-08-28: the "Is Makecepeit free?" FAQ — rendered on the page and in its
+// FAQPage JSON-LD — no longer says the AI generator gives 3 generations a day
+// with no account. Signed-out visitors now get one; three needs a free account.
+export const HOME_UPDATED = "2026-08-28";
 export const TEMPLATES_INDEX_UPDATED = "2026-08-20";
 export const COMPARISONS_UPDATED = LAST_UPDATED;
 
