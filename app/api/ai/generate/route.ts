@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 import { getAccountStatus } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { supabaseConfigured } from "@/lib/supabase/config";
-import { getEnabledAiConnections } from "@/lib/settings";
+import { getRoutableAiConnections, setAiCooldown, clearAiCooldown } from "@/lib/settings";
 import { generateJson, AiProviderError } from "@/lib/ai-providers";
 import { FREE_LIMITS } from "@/lib/plans";
 import { AI_RECEIPT_SCHEMA, type AiReceiptResult } from "@/lib/ai-receipt";
@@ -54,7 +54,7 @@ async function checkUserLimit(userId: string): Promise<boolean> {
 }
 
 export async function POST(req: Request) {
-  const connections = await getEnabledAiConnections();
+  const { ordered: connections, cooling } = await getRoutableAiConnections();
   if (connections.length === 0) {
     return NextResponse.json({ error: "AI is not configured yet." }, { status: 503 });
   }
@@ -90,9 +90,13 @@ export async function POST(req: Request) {
     }
   }
 
-  // Try each connection in priority order: one dead key demotes us to the next
-  // provider rather than taking the feature offline.
+  // Try each connection in routing order: one dead or spent key demotes us to
+  // the next provider rather than taking the feature offline. A provider that
+  // reports an exhausted quota is parked so the next request skips straight
+  // past it — that is what makes stacked free tiers add up instead of each one
+  // costing a wasted round-trip once it runs dry.
   let result: AiReceiptResult | null = null;
+  let servedBy: string | null = null;
   let failures = 0;
   let transientFailures = 0;
   for (const connection of connections) {
@@ -103,10 +107,18 @@ export async function POST(req: Request) {
         prompt.slice(0, 600),
         AI_RECEIPT_SCHEMA
       )) as AiReceiptResult;
+      servedBy = connection.id;
       break;
     } catch (err) {
       failures++;
-      if (err instanceof AiProviderError && err.isTransient) transientFailures++;
+      if (err instanceof AiProviderError) {
+        if (err.isTransient) transientFailures++;
+        if (err.isQuotaExhausted) {
+          const until = err.cooldownUntil();
+          await setAiCooldown(connection.id, until).catch(() => {});
+          console.warn(`[ai] ${connection.label} exhausted — resting until ${until.toISOString()}`);
+        }
+      }
       // The only place the real cause is recorded — the response below is
       // deliberately vague, and /admin/ai re-runs this on demand to show it.
       console.error(`[ai] ${connection.label} (${connection.provider}) failed`, err);
@@ -127,6 +139,11 @@ export async function POST(req: Request) {
       { status: 502 }
     );
   }
+
+  // A success means any parked cooldown for that connection is stale. Only
+  // touch the store when there was actually one to clear — the happy path
+  // should not pay a settings write (or even a read) for nothing.
+  if (servedBy && cooling[servedBy]) await clearAiCooldown(servedBy).catch(() => {});
 
   // Record usage for rate limiting (free users only).
   if (!account.isPro) {

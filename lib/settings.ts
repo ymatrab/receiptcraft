@@ -50,6 +50,7 @@ export interface PaymentLinks {
 
 const KEY_AI = "ai";
 const KEY_AI_CONNECTIONS = "ai_connections";
+const KEY_AI_COOLDOWNS = "ai_cooldowns";
 const KEY_LINK_WEEKLY = "stripe_link_weekly";
 const KEY_LINK_MONTHLY = "stripe_link_monthly";
 const KEY_LINK_YEARLY = "stripe_link_yearly";
@@ -200,6 +201,66 @@ export async function moveAiConnection(id: string, delta: -1 | 1): Promise<void>
   if (at < 0 || to < 0 || to >= list.length) return;
   [list[at], list[to]] = [list[to], list[at]];
   await saveAiConnections(list);
+}
+
+/**
+ * Per-connection "don't route here until" timestamps, keyed by connection id.
+ *
+ * This is what makes stacking free tiers actually pay off. Failover alone finds
+ * the next working provider, but it re-tries the exhausted one on every single
+ * request first — so once Gemini's daily quota is gone, every generation for
+ * the rest of the day carries a wasted round-trip. Remembering the exhaustion
+ * turns that into one wasted call per quota window instead of one per request.
+ *
+ * State, not config, so it lives under its own key: the admin rewrites the
+ * connection list, the route rewrites this, and neither clobbers the other.
+ */
+export async function getAiCooldowns(): Promise<Record<string, string>> {
+  return (await getSetting<Record<string, string>>(KEY_AI_COOLDOWNS)) ?? {};
+}
+
+/** Park a connection until `until`. Expired entries are pruned as we go. */
+export async function setAiCooldown(id: string, until: Date): Promise<void> {
+  const now = Date.now();
+  const next: Record<string, string> = {};
+  for (const [k, v] of Object.entries(await getAiCooldowns())) {
+    if (k !== id && Date.parse(v) > now) next[k] = v;
+  }
+  next[id] = until.toISOString();
+  await setSetting(KEY_AI_COOLDOWNS, next);
+}
+
+/** Called after a success, so a recovered provider is used again immediately. */
+export async function clearAiCooldown(id: string): Promise<void> {
+  const current = await getAiCooldowns();
+  if (!current[id]) return;
+  const now = Date.now();
+  const next: Record<string, string> = {};
+  for (const [k, v] of Object.entries(current)) {
+    if (k !== id && Date.parse(v) > now) next[k] = v;
+  }
+  await setSetting(KEY_AI_COOLDOWNS, next);
+}
+
+/**
+ * Connections in the order the generator should try them: everything that is
+ * ready first, then anything still cooling as a last resort. Cooling providers
+ * are demoted rather than dropped — a stale cooldown must never be the reason
+ * the feature goes dark when it is the only key configured.
+ */
+export async function getRoutableAiConnections(): Promise<{
+  ordered: AiConnection[];
+  cooling: Record<string, string>;
+}> {
+  const [connections, cooldowns] = await Promise.all([getEnabledAiConnections(), getAiCooldowns()]);
+  const now = Date.now();
+  const isCooling = (c: AiConnection) => {
+    const until = cooldowns[c.id];
+    return Boolean(until && Date.parse(until) > now);
+  };
+  const ready = connections.filter((c) => !isCooling(c));
+  const resting = connections.filter(isCooling);
+  return { ordered: [...ready, ...resting], cooling: cooldowns };
 }
 
 /** Stripe payment links, falling back to env. */
