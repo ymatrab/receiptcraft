@@ -3,8 +3,8 @@ import { cookies } from "next/headers";
 import { getAccountStatus } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { supabaseConfigured } from "@/lib/supabase/config";
-import { getAiConfig } from "@/lib/settings";
-import { generateJson } from "@/lib/ai-providers";
+import { getEnabledAiConnections } from "@/lib/settings";
+import { generateJson, AiProviderError } from "@/lib/ai-providers";
 import { FREE_LIMITS } from "@/lib/plans";
 import { AI_RECEIPT_SCHEMA, type AiReceiptResult } from "@/lib/ai-receipt";
 
@@ -26,7 +26,8 @@ async function checkAnonLimit(): Promise<{ ok: boolean; remaining: number }> {
   const raw = store.get(COOKIE)?.value ?? "";
   const [day, n] = raw.split(":");
   const used = day === today ? parseInt(n) || 0 : 0;
-  return { ok: used < FREE_LIMITS.aiGenerationsPerDay, remaining: FREE_LIMITS.aiGenerationsPerDay - used };
+  const limit = FREE_LIMITS.aiGenerationsPerDayAnon;
+  return { ok: used < limit, remaining: limit - used };
 }
 
 async function bumpAnonCookie() {
@@ -53,8 +54,8 @@ async function checkUserLimit(userId: string): Promise<boolean> {
 }
 
 export async function POST(req: Request) {
-  const aiConfig = await getAiConfig();
-  if (!aiConfig) {
+  const connections = await getEnabledAiConnections();
+  if (connections.length === 0) {
     return NextResponse.json({ error: "AI is not configured yet." }, { status: 503 });
   }
 
@@ -65,7 +66,8 @@ export async function POST(req: Request) {
 
   const account = await getAccountStatus();
 
-  // Rate limit free users (Pro is unlimited).
+  // Rate limit free users (Pro is unlimited). Signed-out visitors get a smaller
+  // allowance than account holders, so signing in is worth something.
   if (!account.isPro) {
     if (account.userId) {
       const ok = await checkUserLimit(account.userId);
@@ -79,26 +81,42 @@ export async function POST(req: Request) {
       const { ok } = await checkAnonLimit();
       if (!ok) {
         return NextResponse.json(
-          { error: "Free daily limit reached. Log in and upgrade for unlimited AI generation." },
+          {
+            error: `That's your free generation for today. Create a free account for ${FREE_LIMITS.aiGenerationsPerDay} a day, or upgrade for unlimited.`,
+          },
           { status: 429 }
         );
       }
     }
   }
 
-  let result: AiReceiptResult;
-  try {
-    result = (await generateJson(
-      aiConfig,
-      SYSTEM,
-      prompt.slice(0, 600),
-      AI_RECEIPT_SCHEMA
-    )) as AiReceiptResult;
-  } catch (err) {
-    console.error("[ai] generation failed", err);
-    const msg = err instanceof Error ? err.message : String(err);
-    // Provider quota / rate-limit / overload → tell the user to come back later.
-    if (/\b429\b|quota|resource_exhausted|rate.?limit|overloaded|exhausted/i.test(msg)) {
+  // Try each connection in priority order: one dead key demotes us to the next
+  // provider rather than taking the feature offline.
+  let result: AiReceiptResult | null = null;
+  let failures = 0;
+  let transientFailures = 0;
+  for (const connection of connections) {
+    try {
+      result = (await generateJson(
+        connection,
+        SYSTEM,
+        prompt.slice(0, 600),
+        AI_RECEIPT_SCHEMA
+      )) as AiReceiptResult;
+      break;
+    } catch (err) {
+      failures++;
+      if (err instanceof AiProviderError && err.isTransient) transientFailures++;
+      // The only place the real cause is recorded — the response below is
+      // deliberately vague, and /admin/ai re-runs this on demand to show it.
+      console.error(`[ai] ${connection.label} (${connection.provider}) failed`, err);
+    }
+  }
+
+  if (!result) {
+    // Everything we tried is rate-limited or down → it's worth coming back.
+    // Anything else is a misconfiguration only an admin can fix, so say less.
+    if (failures > 0 && transientFailures === failures) {
       return NextResponse.json(
         { error: "The AI generator is taking a break right now — please try again in a little while." },
         { status: 503 }

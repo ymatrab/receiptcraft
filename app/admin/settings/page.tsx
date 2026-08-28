@@ -1,56 +1,33 @@
-import { getAiConfigPublic, getPaymentLinks, DEFAULT_MODELS } from "@/lib/settings";
-import { saveAiAction, saveLinksAction } from "./actions";
+import Link from "next/link";
+import { getPaymentLinks } from "@/lib/settings";
+import { saveLinksAction } from "./actions";
 
 export const dynamic = "force-dynamic";
-
-const PROVIDERS: { value: string; label: string }[] = [
-  { value: "google", label: "Google Gemini (free tier available)" },
-  { value: "openai", label: "OpenAI" },
-  { value: "anthropic", label: "Anthropic (Claude)" },
-];
 
 const field =
   "w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 transition-colors focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/30";
 const label = "mb-1 block text-xs font-medium text-slate-600";
 
 export default async function AdminSettings() {
-  const [links, ai] = await Promise.all([getPaymentLinks(), getAiConfigPublic()]);
+  const links = await getPaymentLinks();
 
   return (
     <div className="max-w-2xl">
       <h1 className="text-2xl font-bold text-slate-900">Settings</h1>
 
-      {/* AI provider */}
+      {/* AI provider — now a list of failover connections on its own page. */}
       <section className="mt-6 rounded-2xl border border-slate-200 bg-white p-6">
         <h2 className="text-lg font-semibold text-slate-900">AI receipt generator</h2>
         <p className="mt-1 text-sm text-slate-500">
-          Choose a provider, model and API key. The key is stored server-side and never shown again.
+          Providers, models and API keys now live on their own page, where several can be
+          stacked so a dead key falls through to the next one.
         </p>
-        <form action={saveAiAction} className="mt-4 space-y-4">
-          <div>
-            <label className={label} htmlFor="provider">Provider</label>
-            <select id="provider" name="provider" defaultValue={ai.provider} className={field}>
-              {PROVIDERS.map((p) => (
-                <option key={p.value} value={p.value}>{p.label}</option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label className={label} htmlFor="model">Model</label>
-            <input id="model" name="model" defaultValue={ai.model} className={field} placeholder="e.g. gemini-2.0-flash" />
-            <p className="mt-1 text-[11px] text-slate-500">
-              Defaults — Google: {DEFAULT_MODELS.google} · OpenAI: {DEFAULT_MODELS.openai} · Anthropic: {DEFAULT_MODELS.anthropic}
-            </p>
-          </div>
-          <div>
-            <label className={label} htmlFor="apiKey">API key</label>
-            <input id="apiKey" name="apiKey" type="password" autoComplete="off" className={field}
-              placeholder={ai.hasKey ? "•••••••• (a key is configured — leave blank to keep)" : "Paste your API key"} />
-          </div>
-          <button type="submit" className="rounded-full bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-indigo-700">
-            Save AI settings
-          </button>
-        </form>
+        <Link
+          href="/admin/ai"
+          className="mt-4 inline-block rounded-full bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-700"
+        >
+          Manage AI connections
+        </Link>
       </section>
 
       {/* Checkout links */}
