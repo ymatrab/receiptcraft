@@ -113,11 +113,13 @@ export const analytics = {
     track("download_receipt", { format, template, pro }),
   beginCheckout: (plan: "weekly" | "monthly" | "yearly", location?: string) =>
     track("begin_checkout", { plan, location }),
-  // Buyer came back from Shopify's checkout. Paired with begin_checkout this is
-  // the first honest read on how many started checkouts actually complete.
+  // Buyer came back from checkout. Paired with begin_checkout this is the first
+  // honest read on how many started checkouts actually complete — client-side,
+  // so it survives fulfilment being manual.
   purchaseLanded: () => track("purchase_landed", {}),
   // Entitlement actually appeared. `seconds` is how long the buyer waited on the
-  // activation page — the number that says whether fulfilment feels instant.
+  // activation page — with fulfilment done by hand, this is the only measure of
+  // how long that actually takes.
   proActivated: (seconds: number) => track("pro_activated", { seconds }),
   upgradeClick: (location: string) => track("upgrade_click", { location }),
   signIn: (method: string) => track("login", { method }),
@@ -143,21 +145,3 @@ export const analytics = {
   downloadClick: (format: string, state: "pro" | "free" | "anon") =>
     track("download_click", { format, state }),
 };
-
-/**
- * The GA4 client id from the browser's `_ga` cookie.
- *
- * Lives here rather than in lib/ga4.ts because this module is client-safe:
- * lib/ga4.ts reads GA4_API_SECRET at module scope and must never be pulled into
- * a client bundle.
- *
- * Cookie format is `GA1.1.<client_id>`, where client_id is itself two
- * dot-separated numbers — e.g. `GA1.1.1234567890.1234567890`.
- */
-export function clientIdFromGaCookie(raw: string | null | undefined): string | null {
-  if (!raw) return null;
-  const parts = raw.split(".");
-  if (parts.length < 4) return null;
-  const clientId = parts.slice(2).join(".");
-  return /^\d+\.\d+$/.test(clientId) ? clientId : null;
-}

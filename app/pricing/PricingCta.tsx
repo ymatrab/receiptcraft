@@ -3,8 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAccount } from "@/lib/useAccount";
-import { analytics, clientIdFromGaCookie } from "@/lib/analytics";
-
+import { analytics } from "@/lib/analytics";
 import { SpinnerIcon } from "@/components/Icons";
 
 interface Props {
@@ -58,22 +57,12 @@ export default function PricingCta({ planId, paymentLink, label, className }: Pr
     if (url.hostname.includes("stripe.com")) {
       url.searchParams.set("client_reference_id", account.userId!);
     } else {
-      // Shopify flow: carry the account id as a cart attribute so the
-      // orders/paid webhook can match the order to an account exactly. Email is
-      // only the fallback — it breaks the moment a buyer edits the address at
+      // Shopify flow: carry the account id as a cart attribute so whoever
+      // fulfils the order can match it to an account exactly. Fulfilment is by
+      // hand, which makes this more useful rather than less — email is only the
+      // fallback, and it breaks the moment a buyer edits the address at
       // checkout, which is exactly when a grant would silently go missing.
       url.searchParams.set("attributes[user_id]", account.userId!);
-      // Carry the GA4 client id too. Payment completes on Shopify's domain, so
-      // the browser cannot report the purchase — the webhook does, server-side,
-      // and this is the only thing that lets GA4 join that sale back to the
-      // session and traffic source that produced it.
-      const gaClientId = clientIdFromGaCookie(
-        document.cookie
-          .split("; ")
-          .find((c) => c.startsWith("_ga="))
-          ?.slice("_ga=".length)
-      );
-      if (gaClientId) url.searchParams.set("attributes[ga_client_id]", gaClientId);
       // Still prefill the email: it makes the fallback work and saves typing.
       // The "use the same email" instruction is shown statically on /pricing, so
       // a window.confirm() here was redundant — and it interrupted the
