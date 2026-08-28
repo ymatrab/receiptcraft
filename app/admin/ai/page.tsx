@@ -1,4 +1,5 @@
 import {
+  getAiCooldowns,
   getAiConnectionsPublic,
   DEFAULT_MODELS,
   PROVIDER_LABELS,
@@ -27,8 +28,10 @@ const ghostBtn =
 const PROVIDER_HELP: Record<AiProvider, string> = {
   cloudflare:
     "Account ID + API token, from dash.cloudflare.com. 10,000 free neurons a day ≈ 100 receipts on Llama 3.3 70B, then ~$0.001 each.",
-  google: "API key from Google AI Studio. Has a free tier, which is what expired in August 2026.",
-  groq: "API key from console.groq.com. Free tier and very fast. Needs a model that supports strict structured outputs — the default openai/gpt-oss-20b does (or openai/gpt-oss-120b); Groq's Llama models do not.",
+  google:
+    "API key from Google AI Studio. Google no longer publishes free-tier limits — check your own at aistudio.google.com/rate-limit. This is the tier that expired in August 2026.",
+  groq:
+    "API key from console.groq.com. Free tier caps at 200k tokens/day — about 200 receipts, since the daily token limit binds long before the 1,000-request one. Needs a model with strict structured outputs: openai/gpt-oss-20b or -120b. Groq's Llama models do not support them.",
   huggingface:
     "Fine-grained token from huggingface.co/settings/tokens with “Make calls to Inference Providers”. Free monthly credits; routes to whichever partner serves the model fastest.",
   xai: "API key from console.x.ai. OpenAI-compatible, so no account ID needed.",
@@ -41,10 +44,13 @@ function ConnectionForm({
   connection,
   index,
   total,
+  coolingUntil,
 }: {
   connection?: AiConnectionPublic;
   index?: number;
   total?: number;
+  /** Set when this provider reported an exhausted quota and is being skipped. */
+  coolingUntil?: Date;
 }) {
   const isNew = !connection;
   const provider = connection?.provider ?? "cloudflare";
@@ -66,6 +72,20 @@ function ConnectionForm({
             {!connection.hasKey && (
               <span className="rounded-full bg-red-100 px-2 py-0.5 text-[11px] font-semibold text-red-800">
                 no key
+              </span>
+            )}
+            {coolingUntil && (
+              <span
+                title={`Quota spent. Skipped until ${coolingUntil.toISOString()}`}
+                className="rounded-full bg-sky-100 px-2 py-0.5 text-[11px] font-semibold text-sky-800"
+              >
+                resting until{" "}
+                {coolingUntil.toLocaleTimeString("en-GB", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  timeZone: "UTC",
+                })}{" "}
+                UTC
               </span>
             )}
           </div>
@@ -206,15 +226,25 @@ function ConnectionForm({
 }
 
 export default async function AdminAiPage() {
-  const connections = await getAiConnectionsPublic();
+  const [connections, cooldowns] = await Promise.all([
+    getAiConnectionsPublic(),
+    getAiCooldowns(),
+  ]);
   const live = connections.filter((c) => c.enabled && c.hasKey);
+  const now = Date.now();
+  const coolingFor = (id: string) => {
+    const until = cooldowns[id];
+    return until && Date.parse(until) > now ? new Date(until) : undefined;
+  };
 
   return (
     <div className="max-w-3xl">
       <h1 className="text-2xl font-bold text-slate-900">AI connections</h1>
       <p className="mt-2 text-sm text-slate-600">
         The receipt generator tries these in order and uses the first one that answers, so a
-        dead key falls through to the next provider instead of taking the feature offline. Use{" "}
+        dead key falls through to the next provider instead of taking the feature offline. When a
+        provider reports a spent quota it is skipped until the quota resets, which is what lets
+        several free tiers add up instead of each one costing a wasted call once it runs dry. Use{" "}
         <strong>Test</strong> to run a real generation and see the provider&apos;s own error.
       </p>
 
@@ -249,7 +279,13 @@ export default async function AdminAiPage() {
 
       <div className="mt-6 space-y-4">
         {connections.map((c, i) => (
-          <ConnectionForm key={c.id} connection={c} index={i} total={connections.length} />
+          <ConnectionForm
+            key={c.id}
+            connection={c}
+            index={i}
+            total={connections.length}
+            coolingUntil={coolingFor(c.id)}
+          />
         ))}
       </div>
 

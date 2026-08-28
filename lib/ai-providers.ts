@@ -10,10 +10,13 @@ import type { AiConfig } from "@/lib/settings";
  */
 export class AiProviderError extends Error {
   readonly status: number | null;
-  constructor(message: string, status: number | null = null) {
+  /** Seconds until this provider is worth trying again, when it told us. */
+  readonly retryAfterSeconds: number | null;
+  constructor(message: string, status: number | null = null, retryAfterSeconds: number | null = null) {
     super(message);
     this.name = "AiProviderError";
     this.status = status;
+    this.retryAfterSeconds = retryAfterSeconds;
   }
   /** Whether trying the same provider again shortly could plausibly work. */
   get isTransient(): boolean {
@@ -21,12 +24,53 @@ export class AiProviderError extends Error {
     if (this.status !== null && this.status >= 500) return true;
     return /overload|timeout|temporarily/i.test(this.message);
   }
+  /** A spent quota rather than a broken key — the provider is fine, we're out. */
+  get isQuotaExhausted(): boolean {
+    return this.status === 429 || /quota|resource_exhausted|rate.?limit/i.test(this.message);
+  }
+  /**
+   * How long to stop routing to this provider.
+   *
+   * Free tiers cap per minute *and* per day, and the two want very different
+   * waits: a minute limit clears almost immediately, a daily one not until the
+   * quota window rolls. Guessing short on a daily limit means every request for
+   * the rest of the day pays a wasted round-trip before failing over, so when
+   * the provider names a day we wait for the next UTC midnight.
+   */
+  cooldownUntil(now = new Date()): Date {
+    if (this.retryAfterSeconds !== null) {
+      return new Date(now.getTime() + Math.min(this.retryAfterSeconds, 86_400) * 1000);
+    }
+    if (/per ?day|daily|PerDay|requests per day/i.test(this.message)) {
+      const midnight = new Date(now);
+      midnight.setUTCHours(24, 0, 0, 0);
+      return midnight;
+    }
+    return new Date(now.getTime() + 5 * 60 * 1000);
+  }
 }
 
 /** Trim a provider's error body to something readable in an admin table. */
 function short(body: string): string {
   const text = body.trim().replace(/\s+/g, " ");
   return text.length > 300 ? `${text.slice(0, 300)}…` : text;
+}
+
+/**
+ * Seconds to wait, from a `Retry-After` header (Groq and OpenAI send one) or a
+ * `retryDelay: "37s"` field in Google's error body. Null when unstated.
+ */
+function retryAfterFrom(res: Response, body: string): number | null {
+  const header = res.headers.get("retry-after");
+  if (header) {
+    const secs = Number(header);
+    if (Number.isFinite(secs)) return secs;
+    const at = Date.parse(header);
+    if (!Number.isNaN(at)) return Math.max(0, Math.round((at - Date.now()) / 1000));
+  }
+  const delay = body.match(/"retryDelay"\s*:\s*"(\d+(?:\.\d+)?)s"/);
+  if (delay) return Math.ceil(Number(delay[1]));
+  return null;
 }
 
 /**
@@ -128,7 +172,10 @@ async function generateOpenaiCompatible(
       },
     }),
   });
-  if (!res.ok) throw new AiProviderError(`${label} ${res.status}: ${short(await res.text())}`, res.status);
+  if (!res.ok) {
+    const body = await res.text();
+    throw new AiProviderError(`${label} ${res.status}: ${short(body)}`, res.status, retryAfterFrom(res, body));
+  }
   const data = await res.json();
   const content = data.choices?.[0]?.message?.content;
   if (!content) throw new AiProviderError(`Empty ${label} response`);
@@ -218,7 +265,10 @@ async function generateCloudflare(config: AiConfig, system: string, prompt: stri
       response_format: { type: "json_schema", json_schema: schema },
     }),
   });
-  if (!res.ok) throw new AiProviderError(`Cloudflare ${res.status}: ${short(await res.text())}`, res.status);
+  if (!res.ok) {
+    const body = await res.text();
+    throw new AiProviderError(`Cloudflare ${res.status}: ${short(body)}`, res.status, retryAfterFrom(res, body));
+  }
   const data = await res.json();
   // Workers AI answers 200 with success:false for model-level errors.
   if (data.success === false) {
@@ -261,7 +311,10 @@ async function generateGoogle(config: AiConfig, system: string, prompt: string, 
       },
     }),
   });
-  if (!res.ok) throw new AiProviderError(`Gemini ${res.status}: ${short(await res.text())}`, res.status);
+  if (!res.ok) {
+    const body = await res.text();
+    throw new AiProviderError(`Gemini ${res.status}: ${short(body)}`, res.status, retryAfterFrom(res, body));
+  }
   const data = await res.json();
   const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
   if (!text) throw new AiProviderError("Empty Gemini response");
