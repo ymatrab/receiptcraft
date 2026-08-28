@@ -1,6 +1,5 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 import { supabaseConfigured } from "@/lib/supabase/config";
-import type { PlanId } from "@/lib/plans";
 
 /**
  * Server-only settings store. Reads/writes go through the service-role client and
@@ -56,7 +55,6 @@ const KEY_LINK_WEEKLY = "stripe_link_weekly";
 const KEY_LINK_MONTHLY = "stripe_link_monthly";
 const KEY_LINK_YEARLY = "stripe_link_yearly";
 const KEY_INDEXNOW_LAST_RUN = "indexnow_last_run";
-const KEY_SHOPIFY_VARIANTS = "shopify_variant_plans";
 
 /** Sensible default model per provider. */
 export const DEFAULT_MODELS: Record<AiProvider, string> = {
@@ -307,24 +305,6 @@ export async function savePaymentLinks(links: PaymentLinks): Promise<void> {
     setSetting(KEY_LINK_MONTHLY, links.monthly ?? ""),
     setSetting(KEY_LINK_YEARLY, links.yearly ?? ""),
   ]);
-}
-
-/**
- * Shopify variant/SKU → plan overrides, e.g. { "44821": "pro_yearly" }.
- *
- * The real variant ids live in the Shopify store rather than this repo, so they
- * are configured in /admin/settings instead of being hard-coded. Empty is the
- * expected state until the store is mapped: lib/shopify.ts then falls back to
- * reading "weekly"/"monthly"/"yearly" out of the line item title, so orders are
- * still fulfilled rather than all landing in pending_orders.
- */
-export async function getShopifyVariantPlans(): Promise<Record<string, PlanId>> {
-  const stored = await getSetting<Record<string, PlanId>>(KEY_SHOPIFY_VARIANTS);
-  return stored ?? {};
-}
-
-export async function saveShopifyVariantPlans(map: Record<string, PlanId>): Promise<void> {
-  await setSetting(KEY_SHOPIFY_VARIANTS, map);
 }
 
 /**

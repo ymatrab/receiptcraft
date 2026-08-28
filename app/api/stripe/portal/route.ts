@@ -23,18 +23,16 @@ export async function POST() {
 
   const { data: sub } = await supabase
     .from("subscriptions")
-    .select("stripe_customer_id, source")
+    .select("stripe_customer_id")
     .eq("user_id", user.id)
-    .eq("source", "stripe")
     .order("current_period_end", { ascending: false })
     .limit(1)
     .maybeSingle();
 
-  // Only a Stripe-sourced row has a customer the portal can open. Shopify and
-  // admin grants have none, and the old "manual" sentinel used to reach Stripe
-  // as a customer id and throw a 500. Those members cancel by emailing support;
-  // /account tells them so.
-  if (!sub?.stripe_customer_id) {
+  // "manual" is the placeholder written by admin grants and Shopify orders —
+  // it is not a Stripe customer, and passing it to the portal throws a 500.
+  // Those members cancel by emailing support; /account tells them so.
+  if (!sub?.stripe_customer_id || sub.stripe_customer_id === "manual") {
     return NextResponse.json({ error: "no stripe subscription" }, { status: 404 });
   }
 

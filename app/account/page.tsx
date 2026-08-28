@@ -33,11 +33,7 @@ export default async function AccountPage() {
 
   const { data: sub } = await supabase
     .from("subscriptions")
-    // `*` rather than a column list on purpose: `source` only exists once
-    // migration 0005 has run, and naming a missing column makes the whole query
-    // error — which would render every Pro member as Free until the migration
-    // lands. Selecting everything degrades to the old sentinel instead.
-    .select("*")
+    .select("status, plan, current_period_end, cancel_at_period_end, stripe_customer_id")
     .eq("user_id", user.id)
     .order("current_period_end", { ascending: false })
     .limit(1)
@@ -51,19 +47,11 @@ export default async function AccountPage() {
     isPro && sub?.plan ? PLANS[sub.plan as keyof typeof PLANS]?.name ?? sub.plan : "Free";
 
   // Shopify and admin grants are one-off purchases that simply end. Only a real
-  // Stripe subscription renews — and only it has a billing portal to manage.
-  //
-  // Falls back to the pre-0005 sentinel so this page is correct on either
-  // schema: before the migration a grant is identified by stripe_customer_id
-  // being the literal "manual", after it by source.
-  const source =
-    sub?.source ??
-    (sub?.stripe_customer_id
-      ? sub.stripe_customer_id === "manual"
-        ? "manual"
-        : "stripe"
-      : null);
-  const isSelfServeBilling = source === "stripe";
+  // Stripe customer has a subscription that renews — and a billing portal to
+  // manage it.
+  const isSelfServeBilling = Boolean(
+    sub?.stripe_customer_id && sub.stripe_customer_id !== "manual"
+  );
   const endDate = sub?.current_period_end
     ? new Date(sub.current_period_end).toLocaleDateString()
     : null;

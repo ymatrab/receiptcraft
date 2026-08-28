@@ -28,11 +28,7 @@ export async function grantPro(formData: FormData) {
     {
       id: `manual_${userId}`,
       user_id: userId,
-      // `source` records provenance properly. This used to write the string
-      // "manual" into stripe_customer_id, which then reached the Stripe billing
-      // portal as a customer id and 500'd.
-      source: "manual",
-      stripe_customer_id: null,
+      stripe_customer_id: "manual",
       status: "active",
       plan,
       current_period_end: end.toISOString(),
