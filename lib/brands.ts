@@ -5336,13 +5336,19 @@ const INTRO_VARIANTS: ((n: string, noun: string, city?: string) => string)[] = [
   (n, noun, city) => `This ${n} receipt generator lays out ${noun}${city ? `, styled after the ${city} store` : ""} — edit every field, then export as PDF or PNG.`,
 ];
 
+// Five of these used to end "no sign-up to start" one clause after promising a
+// download — which reads as "download without an account", and downloading needs
+// one. Variants 3 and 6 already said it honestly ("sign in to download"), so the
+// other five now follow that pattern rather than dropping the clause entirely:
+// "free to build, account to download" is the accurate framing the hero and
+// /create were corrected to use, and it still earns the "free" click.
 const SEO_DESC_VARIANTS: ((n: string, noun: string) => string)[] = [
-  (n, noun) => `Create a realistic ${n} receipt online in seconds. Add ${noun}, then download as a PDF or PNG. Free to use, no sign-up to start.`,
-  (n, noun) => `Make a ${n} receipt with ${noun} and download a print-ready PDF or PNG. Free ${n} receipt generator — no sign-up to start.`,
-  (n, noun) => `Generate a ${n} receipt online, complete with ${noun}. Set the totals and export — free, private, no sign-up to start.`,
+  (n, noun) => `Create a realistic ${n} receipt online in seconds. Add ${noun}, preview it free, then sign in to download as a PDF or PNG.`,
+  (n, noun) => `Make a ${n} receipt with ${noun} and download a print-ready PDF or PNG. Free ${n} receipt generator — free account to download.`,
+  (n, noun) => `Generate a ${n} receipt online, complete with ${noun}. Set the totals, preview free, then export with a free account.`,
   (n, noun) => `Build a ${n} receipt online with ${noun}, editable totals and tax. Free live preview — sign in to download as a PDF or PNG.`,
-  (n, noun) => `Free ${n} receipt maker: add ${noun}, set the date and totals, then export a clean PDF or PNG. No sign-up to start.`,
-  (n, noun) => `${n} receipt generator: lay out ${noun}, edit the totals and tax, then export a PDF or PNG. Free, private, no sign-up to start.`,
+  (n, noun) => `Free ${n} receipt maker: add ${noun}, set the date and totals, then export a clean PDF or PNG with a free account.`,
+  (n, noun) => `${n} receipt generator: lay out ${noun}, edit the totals and tax, then export a PDF or PNG. Free to build and preview.`,
   (n, noun) => `Recreate a ${n} receipt with ${noun} in a couple of clicks. Free live preview, download as PDF or PNG once you sign in.`,
   (n, noun) => `Build an editable ${n} receipt — ${noun}, custom tax and totals — and export it free as a PDF or PNG.`,
   (n, noun) => `A free ${n} receipt template with ${noun} pre-filled. Adjust the details and download a print-ready PDF or PNG.`,

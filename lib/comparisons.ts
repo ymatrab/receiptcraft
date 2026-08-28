@@ -16,7 +16,11 @@
 import { SITE } from "./site";
 import { BRAND_COUNT } from "./counts";
 
-export const LAST_UPDATED = "2026-08-20"; // ISO — shown as the page "last reviewed" date
+// Rivals re-fetched live and the table re-verified on 2026-08-22 — ReceiptBaker's
+// named-brand and no-signup rows were both wrong, and the ExpressExpense price
+// was unsourced. A genuine review of the whole set, so the shared date moves
+// rather than a per-competitor one. Stamped 08-23, the day the copy shipped.
+export const LAST_UPDATED = "2026-08-23"; // ISO — shown as the page "last reviewed" date
 export const PRICING_AS_OF = "August 2026"; // human-readable disclaimer on pricing tables
 
 /* -------------------------------------------------------------------------- */
@@ -190,7 +194,7 @@ export const COMPETITORS: Competitor[] = [
       {
         question: "Does MakeReceipt have an AI receipt generator?",
         answer:
-          "No. MakeReceipt receipts are filled in by hand. Makecepeit includes an AI generator that drafts a receipt from a short text description — free for three receipts a day, unlimited on Pro.",
+          "No. MakeReceipt receipts are filled in by hand. Makecepeit includes an AI generator that drafts a receipt from a short text description — one a day without an account, three a day on a free account, unlimited on Pro.",
       },
     ],
     updated: LAST_UPDATED,
@@ -288,7 +292,7 @@ export const COMPETITORS: Competitor[] = [
     ],
     gaps: [
       "Paid plans meter AI usage — 25 chat generations and 8 photorealistic renders a week, 100 and 30 a month",
-      `Fewer named-brand template pages than Makecepeit's ${BRAND_COUNT}`,
+      `No named-brand template pages — category templates only, against Makecepeit's ${BRAND_COUNT}`,
       "Export formats are not clearly specified",
     ],
     pricing: {
@@ -297,9 +301,13 @@ export const COMPETITORS: Competitor[] = [
     },
     cells: {
       free_start: partial("No free tier on pricing page"),
-      no_signup: partial("Not confirmed"),
+      // Both corrected 2026-08-22 against their live site. "Not confirmed" was
+      // wrong — their homepage states "No signup required". And they carry no
+      // named-brand templates at all, only category ones, so marking this row
+      // yes gave away the one row we win outright.
+      no_signup: yes("No signup required"),
       live_preview: yes(),
-      brand_templates: yes("Template library + blog"),
+      brand_templates: no("Category templates only, no named brands"),
       pdf_export: partial("Format not specified"),
       image_export: partial("Format not specified"),
       ai_generator: yes("AI receipt generator"),
@@ -332,7 +340,7 @@ export const COMPETITORS: Competitor[] = [
       {
         question: "Which has more brand templates?",
         answer:
-          `Makecepeit offers ${BRAND_COUNT} named-brand templates. ReceiptBaker has a template library and blog but does not appear to match that breadth of specific brands.`,
+          `Makecepeit offers ${BRAND_COUNT} named-brand templates. ReceiptBaker's library is organised by receipt category rather than by retailer, so it carries no named-brand templates — checked against their live site on 22 August 2026.`,
       },
     ],
     updated: LAST_UPDATED,
@@ -370,7 +378,11 @@ export const OTHER_ALTERNATIVES: OtherAlternative[] = [
     url: "https://expressexpense.com",
     blurb:
       "A receipt maker with iOS and Android apps and a free receipt format. Full access is a membership after a short free trial.",
-    pricing: "Free format + 3-day trial; membership approx. $9–$49/mo",
+    // The "$9–$49/mo" range that used to sit here had no source, on a page that
+    // promises every figure links to one. Rechecked 2026-08-22: their /pricing
+    // and /membership both 302 to the homepage, so no price is publicly
+    // quotable. Say that, rather than repeat an unsourced number.
+    pricing: "Free receipt format + 3-day trial; membership price not published (checked 22 Aug 2026)",
     bestFor: "Users who want native mobile apps alongside the web tool.",
   },
 ];

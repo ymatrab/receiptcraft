@@ -90,8 +90,14 @@ export default function Footer() {
             <h3 className="text-sm font-semibold text-slate-900">Product</h3>
             <ul className="mt-4 space-y-2.5">
               <li>
+                {/* Anchor text is deliberate: this link fires on all 1,121
+                    URLs and was the largest keyword-free signal pointing at
+                    /create. GSC demand is brand-qualified "<brand> receipt
+                    generator", so the anchor now carries that term rather than
+                    the internal product name. The header CTA keeps "Create
+                    Receipt" — action clarity beats anchor text on a button. */}
                 <Link href="/create" className="text-sm text-slate-500 transition-colors hover:text-indigo-600">
-                  Receipt Builder
+                  Receipt Generator
                 </Link>
               </li>
               <li>

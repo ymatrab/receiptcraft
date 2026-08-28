@@ -12,7 +12,13 @@ import { SITE, absoluteUrl } from "@/lib/site";
 import RelatedPosts from "@/components/RelatedPosts";
 import ComparisonTable from "@/components/comparison/ComparisonTable";
 
-const TITLE = "7 Best Receipt Generators in 2026 (Free & Paid), Compared";
+// Derived, not hardcoded: the title said "7 Best" while the page rendered 6,
+// on a page whose whole promise is that every figure is checkable. Counting the
+// same arrays the page renders means the headline can never drift from the body
+// again — the same reason BRAND_COUNT is derived rather than typed.
+const ALTERNATIVE_COUNT =
+  1 + COMPETITORS.length + OTHER_ALTERNATIVES.length; // Makecepeit + tracked + other
+const TITLE = `${ALTERNATIVE_COUNT} Best Receipt Generators in 2026 (Free & Paid), Compared`;
 const DESCRIPTION =
   "The best receipt makers and Makecepeit alternatives in 2026, compared on price, templates, AI generation and PDF/PNG export — including MakeReceipt, ReceiptFaker and ReceiptBaker.";
 
