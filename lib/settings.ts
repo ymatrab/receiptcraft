@@ -58,7 +58,7 @@ const KEY_INDEXNOW_LAST_RUN = "indexnow_last_run";
 
 /** Sensible default model per provider. */
 export const DEFAULT_MODELS: Record<AiProvider, string> = {
-  google: "gemini-2.0-flash",
+  google: "gemini-3.6-flash",
   openai: "gpt-4o-mini",
   anthropic: "claude-opus-5",
   xai: "grok-4.6",
@@ -85,6 +85,24 @@ export const PROVIDER_LABELS: Record<AiProvider, string> = {
   openai: "OpenAI",
   anthropic: "Anthropic (Claude)",
 };
+
+/**
+ * Model ids Google has switched off, mapped to their live replacement.
+ *
+ * A retired model is not a configuration choice — it can only ever 404. The
+ * August 2026 outage was exactly this: `gemini-2.0-flash` was shut down, the
+ * route turned the 404 into a generic 502, and the feature was dark for six
+ * days. Rewriting a dead id on read means a stored connection heals itself
+ * instead of needing someone to know the new name.
+ */
+const RETIRED_MODELS: Record<string, string> = {
+  "gemini-2.0-flash": "gemini-3.6-flash",
+  "gemini-2.0-flash-lite": "gemini-3.5-flash-lite",
+};
+
+function liveModel(model: string): string {
+  return RETIRED_MODELS[model] ?? model;
+}
 
 async function getSetting<T>(key: string): Promise<T | null> {
   if (!supabaseConfigured) return null;
@@ -119,7 +137,7 @@ export async function getAiConnections(): Promise<AiConnection[]> {
   // An empty saved list still counts as configured: it means the admin deleted
   // everything. Falling through to the legacy row there would resurrect the
   // connection they just removed.
-  if (Array.isArray(stored)) return stored;
+  if (Array.isArray(stored)) return stored.map((c) => ({ ...c, model: liveModel(c.model) }));
 
   const legacy = await getSetting<AiConfig>(KEY_AI);
   if (legacy?.apiKey) {
@@ -128,7 +146,7 @@ export async function getAiConnections(): Promise<AiConnection[]> {
         id: "legacy",
         label: `${PROVIDER_LABELS[legacy.provider] ?? legacy.provider} (imported)`,
         provider: legacy.provider,
-        model: legacy.model || DEFAULT_MODELS[legacy.provider],
+        model: liveModel(legacy.model || DEFAULT_MODELS[legacy.provider]),
         apiKey: legacy.apiKey,
         enabled: true,
       },

@@ -293,6 +293,16 @@ async function generateCloudflare(config: AiConfig, system: string, prompt: stri
 }
 
 // --- Google (Gemini) --------------------------------------------------------
+/**
+ * Uses `:generateContent` on v1beta. Google made the Interactions API the
+ * default surface in June 2026 and generateContent is now legacy — still fully
+ * supported, but new features will not land on it. Worth migrating the day this
+ * path needs anything new; not worth the churn before then.
+ *
+ * Model ids matter more here than elsewhere: Google retires them outright, and
+ * a retired id returns 404 rather than anything that reads like a config error.
+ * lib/settings.ts rewrites the ones we know are dead.
+ */
 /** Gemini's responseSchema doesn't accept additionalProperties — strip it. */
 function toGeminiSchema(schema: unknown): unknown {
   if (Array.isArray(schema)) return schema.map(toGeminiSchema);
