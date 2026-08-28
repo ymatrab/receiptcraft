@@ -79,14 +79,22 @@ export default function HomeAiGenerator() {
       {error ? (
         <p id="home-ai-error" role="alert" className="mt-2 text-xs font-medium text-red-700">
           {error}{" "}
-          {/upgrade|limit/i.test(error) && (
-            <Link
-              href="/pricing"
-              onClick={() => analytics.upgradeClick("home_ai_limit")}
-              className="font-semibold underline"
-            >
-              See plans
+          {/* Signed-out visitors are told to make an account, not shown a price
+              list: the next step that costs them nothing is the one to offer. */}
+          {/account/i.test(error) ? (
+            <Link href="/login?next=/" className="font-semibold underline">
+              Create a free account
             </Link>
+          ) : (
+            /upgrade|limit/i.test(error) && (
+              <Link
+                href="/pricing"
+                onClick={() => analytics.upgradeClick("home_ai_limit")}
+                className="font-semibold underline"
+              >
+                See plans
+              </Link>
+            )
           )}
         </p>
       ) : (

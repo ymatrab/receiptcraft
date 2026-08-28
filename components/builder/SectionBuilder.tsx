@@ -968,7 +968,13 @@ export default function SectionBuilder() {
         {aiError && (
           <p id="ai-error" role="alert" className="mt-2 text-xs font-medium text-red-700">
             {aiError}{" "}
-            {aiError.includes("Upgrade") || aiError.includes("upgrade") ? (
+            {/* Signed-out visitors get offered the free step first — an account
+                lifts them from one generation a day to three at no cost. */}
+            {/account/i.test(aiError) ? (
+              <Link href="/login?next=/create" className="font-semibold underline">
+                Create a free account
+              </Link>
+            ) : aiError.includes("Upgrade") || aiError.includes("upgrade") ? (
               <Link
                 href="/pricing"
                 onClick={() => analytics.upgradeClick("builder_ai_limit")}
