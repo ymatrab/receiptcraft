@@ -58,7 +58,10 @@ export default function ProPlanCard() {
             return (
               <label
                 key={option.id}
-                className={`flex-1 cursor-pointer rounded-full px-3 py-2 text-center text-sm font-semibold transition-colors focus-within:ring-2 focus-within:ring-indigo-500 ${
+                // min-h-11 is 44px — the tap-target minimum. px-3 py-2 came out
+                // at 36px, which is the sort of thing that only shows up when
+                // you measure it on the device.
+                className={`flex min-h-11 flex-1 cursor-pointer items-center justify-center rounded-full px-3 text-center text-sm font-semibold transition-colors focus-within:ring-2 focus-within:ring-indigo-500 ${
                   active ? "bg-white text-slate-900 shadow-sm" : "text-slate-600 hover:text-slate-900"
                 }`}
               >
