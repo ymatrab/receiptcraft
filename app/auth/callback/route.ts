@@ -20,6 +20,15 @@ export async function GET(request: Request) {
   // Set by LoginForm when a gate started this signup (the download wall, the AI
   // prompt). It means work is waiting at `next`, so the plans have to wait.
   const fromGate = searchParams.get("signup") === "1";
+  // Which form the person actually used. Supabase returns a `code` for Google
+  // and for a PKCE email link alike, so this cannot be inferred from the params
+  // — LoginForm has to say.
+  //
+  // Absent means "don't count this one": the password-reset link also lands
+  // here (`next=/auth/reset`) and sets no `m`, and resetting a password is not
+  // a login worth putting in the login numbers.
+  const rawMethod = searchParams.get("m");
+  const method = rawMethod === "google" ? "google" : rawMethod === "email" ? "email" : null;
 
   // The OAuth provider (or Supabase) can bounce back with an explicit error —
   // surface its description on the login page instead of a generic message.
@@ -39,9 +48,11 @@ export async function GET(request: Request) {
    * LoginForm. Covers the two routes that land here instead: a verified email
    * link, and Google sign-in by someone who has never used the site.
    *
-   * A gated signup goes back to `next` with the welcome sheet, because there is
-   * work waiting there. Everyone else goes to the plans — they came to make an
-   * account and nothing else, so nothing is lost by leading with pricing.
+   * A signup goes back to `next` with the welcome sheet whenever anything is
+   * waiting there — either a gate set signup=1, or the caller supplied a real
+   * destination. Only someone with nowhere to return to gets the plans; they
+   * came to make an account and nothing else, so nothing is lost by leading
+   * with pricing.
    *
    * "New" is judged by how recently the account was created, because that is
    * the only signal available here — `last_sign_in_at` is already stamped by
@@ -51,13 +62,35 @@ export async function GET(request: Request) {
    * are unaffected either way and go straight to `next`.
    */
   const destinationFor = (createdAt: string | undefined): string => {
-    if (!createdAt) return next;
-    const age = Date.now() - new Date(createdAt).getTime();
-    if (!Number.isFinite(age) || age > 10 * 60 * 1000) return next;
-    if (!fromGate) return "/pricing?new=1";
+    const isNew = (() => {
+      if (!createdAt) return false;
+      const age = Date.now() - new Date(createdAt).getTime();
+      return Number.isFinite(age) && age <= 10 * 60 * 1000;
+    })();
+
+    // Whatever the destination turns out to be, mark it so AuthEventBeacon can
+    // fire the event from there. These flows finish on the server, which has no
+    // client to fire from — which is why a Google account never appeared in the
+    // sign-up funnel at all until now.
+    const withEvent = (dest: string): string => {
+      if (!method) return dest;
+      const url = new URL(dest, origin);
+      url.searchParams.set("ev", isNew ? "signup" : "login");
+      url.searchParams.set("ev_method", method);
+      return `${url.pathname}${url.search}${url.hash}`;
+    };
+
+    if (!isNew) return withEvent(next);
+
+    // A real `next` means this person was mid-journey, so send them back to it
+    // even without a gate flag — matching the same rule in LoginForm. Only
+    // someone with nowhere to return to gets the plans.
+    const workIsWaiting = fromGate || (next !== "/create" && next !== "/");
+    if (!workIsWaiting) return withEvent("/pricing?new=1");
+
     const url = new URL(next, origin);
     url.searchParams.set("welcome", "1");
-    return `${url.pathname}${url.search}${url.hash}`;
+    return withEvent(`${url.pathname}${url.search}${url.hash}`);
   };
 
   if (supabaseConfigured) {

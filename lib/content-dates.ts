@@ -55,7 +55,11 @@ export const COOKIES_UPDATED = "2026-08-29";
 // /privacy and /terms, none of which changed.
 export const LOGIN_UPDATED = "2026-08-29";
 // 2026-08-21: /pricing now shows the watermark it asks people to pay to remove.
-export const PRICING_UPDATED = "2026-08-21";
+// 2026-08-29: the price table moved above that watermark comparison. Measured on
+// a 375px phone, the comparison ran 594px to 2,024px and pushed the first price
+// to 2,105px — 2.6 screens before anyone saw a number. The page's whole reading
+// order changes, which is as visible as a change gets.
+export const PRICING_UPDATED = "2026-08-29";
 // 2026-08-23: the hero grid no longer stretches to the 380px receipt, so the
 // primary CTA is reachable again on phones under 412px — a visible change to
 // the page's most important element.
