@@ -10,11 +10,23 @@ import { AI_RECEIPT_SCHEMA, type AiReceiptResult } from "@/lib/ai-receipt";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const SYSTEM = `You generate realistic receipt data from a short description.
+/**
+ * Built per request so the model is told what "today" is.
+ *
+ * A model cannot know the current date, so asking for "today's date" and
+ * leaving it at that just makes it guess from training data — live Gemini
+ * output dated a fresh receipt 2023-10-24. Stating the date turns the most
+ * scrutinised field on a receipt from a guess into a fact.
+ */
+function systemPrompt(now = new Date()): string {
+  const today = now.toISOString().slice(0, 10);
+  return `You generate realistic receipt data from a short description.
+Today's date is ${today}. Use it as the receipt date unless the description
+says otherwise, and never return a date in the future.
 Invent plausible specifics: a fitting business name and address, line items with
-realistic prices and quantities, a sensible tax rate for the locale, a receipt
-number, and today's date unless the user specifies otherwise. Keep totals
-coherent. Return only the structured fields requested.`;
+realistic prices and quantities, a sensible tax rate for the locale, and a receipt
+number. Keep totals coherent. Return only the structured fields requested.`;
+}
 
 /** Logged-in free users: count today's rows in ai_usage. */
 async function checkUserLimit(userId: string): Promise<boolean> {
@@ -74,6 +86,9 @@ export async function POST(req: Request) {
   // reports an exhausted quota is parked so the next request skips straight
   // past it — that is what makes stacked free tiers add up instead of each one
   // costing a wasted round-trip once it runs dry.
+  // Resolved once, so every failover attempt sends an identical prompt (and a
+  // retry that straddles midnight cannot change the date mid-request).
+  const system = systemPrompt();
   let result: AiReceiptResult | null = null;
   let servedBy: string | null = null;
   let failures = 0;
@@ -82,7 +97,7 @@ export async function POST(req: Request) {
     try {
       result = (await generateJson(
         connection,
-        SYSTEM,
+        system,
         prompt.slice(0, 600),
         AI_RECEIPT_SCHEMA
       )) as AiReceiptResult;
