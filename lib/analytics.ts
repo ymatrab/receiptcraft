@@ -121,6 +121,12 @@ export const analytics = {
   // activation page — with fulfilment done by hand, this is the only measure of
   // how long that actually takes.
   proActivated: (seconds: number) => track("pro_activated", { seconds }),
+  // The post-signup welcome sheet was shown. Pairs with sign_up to confirm the
+  // flag survives the redirect, and with upgrade_click{welcome_sheet}.
+  welcomeShown: () => track("welcome_shown", {}),
+  // Which worked example a visitor opened. Tells us whether the hero demo is
+  // doing any work now that AI itself needs an account.
+  aiDemoOpened: (example: string) => track("ai_demo_opened", { example }),
   upgradeClick: (location: string) => track("upgrade_click", { location }),
   signIn: (method: string) => track("login", { method }),
   signUp: (method: string) => track("sign_up", { method }),
