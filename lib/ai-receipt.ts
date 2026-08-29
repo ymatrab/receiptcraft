@@ -68,3 +68,26 @@ export const AI_RECEIPT_SCHEMA = {
     "footerMessage",
   ],
 } as const;
+
+/**
+ * The system prompt, built per request so the model is told what "today" is.
+ *
+ * Shared by /api/ai/generate and the /admin/ai Test button on purpose: a test
+ * that sends different text from production can pass while production fails,
+ * which is exactly the blindness that let a retired model 502 the site for six
+ * days. Test what actually ships.
+ *
+ * A model cannot know the current date. Asking for "today's date" without
+ * saying what it is leaves it guessing from training data — live Gemini output
+ * dated a fresh receipt 2023-10-24, though Groq's gpt-oss got it right, so the
+ * failure is model-dependent and only stating the date removes it everywhere.
+ */
+export function receiptSystemPrompt(now = new Date()): string {
+  const today = now.toISOString().slice(0, 10);
+  return `You generate realistic receipt data from a short description.
+Today's date is ${today}. Use it as the receipt date unless the description
+says otherwise, and never return a date in the future.
+Invent plausible specifics: a fitting business name and address, line items with
+realistic prices and quantities, a sensible tax rate for the locale, and a receipt
+number. Keep totals coherent. Return only the structured fields requested.`;
+}

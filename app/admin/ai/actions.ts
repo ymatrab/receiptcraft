@@ -10,11 +10,12 @@ import {
   type AiProvider,
 } from "@/lib/settings";
 import { generateJson } from "@/lib/ai-providers";
+import { receiptSystemPrompt } from "@/lib/ai-receipt";
 import { AI_RECEIPT_SCHEMA, type AiReceiptResult } from "@/lib/ai-receipt";
 import type { TestResult } from "./types";
 
-const TEST_SYSTEM =
-  "You generate realistic receipt data from a short description. Return only the structured fields requested.";
+// Deliberately the live prompt, not a simplified one: a Test that passes on
+// text production never sends is a Test that can lie.
 const TEST_PROMPT = "Coffee and a croissant at a Paris cafe, about 8 euros";
 
 export async function saveConnectionAction(formData: FormData) {
@@ -72,7 +73,7 @@ export async function testConnectionAction(
   try {
     const receipt = (await generateJson(
       connection,
-      TEST_SYSTEM,
+      receiptSystemPrompt(),
       TEST_PROMPT,
       AI_RECEIPT_SCHEMA
     )) as AiReceiptResult;
@@ -81,11 +82,20 @@ export async function testConnectionAction(
     if (!receipt?.businessName) {
       return { id, ok: false, ms, message: "Responded, but without a usable receipt." };
     }
+    // Report the date the model chose. Providers differ on this even given the
+    // same prompt — Gemini dated a fresh receipt 2023-10-24 where Groq got it
+    // right — and a receipt carrying the wrong date is wrong in the field
+    // people check first, while still looking like a healthy pass.
+    const today = new Date().toISOString().slice(0, 10);
+    const dateNote =
+      receipt.date === today ? "" : ` — dated ${receipt.date}, not today (${today})`;
     return {
       id,
       ok: true,
       ms,
-      message: `OK — "${receipt.businessName}", ${items} line item${items === 1 ? "" : "s"}.`,
+      message: `OK — "${receipt.businessName}", ${items} line item${
+        items === 1 ? "" : "s"
+      }, ${receipt.currency}${dateNote}.`,
     };
   } catch (err) {
     return {
