@@ -6,7 +6,14 @@ import { analytics } from "@/lib/analytics";
 import { FREE_LIMITS, PLANS } from "@/lib/plans";
 
 /**
- * Shown once, immediately after a new account is created.
+ * Shown once, immediately after a new account is created *at a gate* — the
+ * download wall, or a stashed AI prompt. Those signups have work waiting, so
+ * they return to it and this sheet rides along.
+ *
+ * An ungated signup no longer reaches this: it lands on /pricing, which renders
+ * app/pricing/NewAccountBanner.tsx instead. The reasoning below still governs
+ * this surface, and shaped that one — the banner leads with the free account
+ * and keeps a visible way out for the same reason.
  *
  * Deliberately not a price list. Someone who has just signed up did so because
  * we promised a free account, and has not yet made a receipt, hit the watermark
