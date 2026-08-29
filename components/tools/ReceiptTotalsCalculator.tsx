@@ -219,7 +219,7 @@ export default function ReceiptTotalsCalculator() {
           Turn this into a receipt — free
         </Link>
         <p className="mt-2 text-center text-xs text-slate-500">
-          Build & preview free — account needed only to download.
+          Build & preview free — account needed to download or for AI.
         </p>
       </div>
     </div>

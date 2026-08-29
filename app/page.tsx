@@ -468,7 +468,8 @@ export default function HomePage() {
             </div>
             <p className="mt-3 text-sm text-slate-500">
               Free to build &amp; preview — no sign-up. A free account is needed
-              only to download, and your first 3 downloads are watermark-free.{" "}
+              to download or to use the AI generator, and your first 3 downloads
+              are watermark-free.{" "}
               <Link
                 href="/pricing"
                 className="font-medium text-indigo-600 underline underline-offset-2 hover:text-indigo-700"
