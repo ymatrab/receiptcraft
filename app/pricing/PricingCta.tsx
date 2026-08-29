@@ -57,12 +57,17 @@ export default function PricingCta({ planId, paymentLink, label, className }: Pr
     if (url.hostname.includes("stripe.com")) {
       url.searchParams.set("client_reference_id", account.userId!);
     } else {
-      // Manual flow: orders are matched to accounts by email, so prefill the
-      // buyer's account email at checkout (Shopify cart permalinks support
-      // checkout[email]). The "use the same email" instruction is shown
-      // statically on /pricing, so a window.confirm() here was redundant — and
-      // it interrupted the highest-intent moment in the funnel while running
-      // *before* analytics.beginCheckout(), which made its drop-off invisible.
+      // Shopify flow: carry the account id as a cart attribute so whoever
+      // fulfils the order can match it to an account exactly. Fulfilment is by
+      // hand, which makes this more useful rather than less — email is only the
+      // fallback, and it breaks the moment a buyer edits the address at
+      // checkout, which is exactly when a grant would silently go missing.
+      url.searchParams.set("attributes[user_id]", account.userId!);
+      // Still prefill the email: it makes the fallback work and saves typing.
+      // The "use the same email" instruction is shown statically on /pricing, so
+      // a window.confirm() here was redundant — and it interrupted the
+      // highest-intent moment in the funnel while running *before*
+      // analytics.beginCheckout(), which made its drop-off invisible.
       if (account.email) {
         url.searchParams.set("checkout[email]", account.email);
       }
