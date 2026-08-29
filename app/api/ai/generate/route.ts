@@ -3,13 +3,28 @@ import { getAccountStatus } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { supabaseConfigured } from "@/lib/supabase/config";
 import { getRoutableAiConnections, setAiCooldown, clearAiCooldown } from "@/lib/settings";
-import { generateJson, AiProviderError } from "@/lib/ai-providers";
+import { generateJson, AiProviderError, AI_ATTEMPT_TIMEOUT_MS } from "@/lib/ai-providers";
 import { FREE_LIMITS } from "@/lib/plans";
 import { AI_RECEIPT_SCHEMA, receiptSystemPrompt, type AiReceiptResult } from "@/lib/ai-receipt";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+/**
+ * Long enough for two provider attempts on the budget lib/ai-providers.ts gives
+ * each one, plus this route's own Supabase round-trips. Left unset, this
+ * inherited the platform default — which on some plans is 10s, less than a
+ * single slow Gemini call, so the function could be killed mid-generation and
+ * the failover below never got the chance to run.
+ */
+export const maxDuration = 30;
 
+/**
+ * Stop starting new provider attempts once there isn't room for one to finish
+ * inside `maxDuration`. Without this, a third connection could begin a 12s call
+ * with 6s of budget left — the request dies with no answer instead of returning
+ * the honest "try again" below.
+ */
+const ROUTING_BUDGET_MS = 26_000;
 
 /** Logged-in free users: count today's rows in ai_usage. */
 async function checkUserLimit(userId: string): Promise<boolean> {
@@ -76,7 +91,12 @@ export async function POST(req: Request) {
   let servedBy: string | null = null;
   let failures = 0;
   let transientFailures = 0;
+  const startedAt = Date.now();
   for (const connection of connections) {
+    if (Date.now() - startedAt + AI_ATTEMPT_TIMEOUT_MS > ROUTING_BUDGET_MS) {
+      console.warn(`[ai] out of time before trying ${connection.label}`);
+      break;
+    }
     try {
       result = (await generateJson(
         connection,
