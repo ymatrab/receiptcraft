@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { analytics } from "@/lib/analytics";
@@ -8,6 +8,16 @@ import { SparkleIcon, SpinnerIcon } from "@/components/Icons";
 
 /** Key used to hand the generated receipt to the builder on /create. */
 export const AI_HANDOFF_KEY = "rc_ai_receipt";
+
+/**
+ * Holds the prompt across a sign-in round trip.
+ *
+ * AI generation needs an account, and the person who hits that wall has just
+ * typed the one sentence describing exactly what they want. Making them retype
+ * it after logging in is how the highest-intent moment in the funnel becomes an
+ * abandoned one.
+ */
+const AI_PROMPT_KEY = "rc_ai_prompt";
 
 /**
  * Homepage AI receipt generator. On success it stashes the result and sends the
@@ -19,11 +29,27 @@ export default function HomeAiGenerator() {
   const [prompt, setPrompt] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [needsAuth, setNeedsAuth] = useState(false);
+
+  // Restore a prompt kept across sign-in, then clear it, so a later visit starts
+  // blank instead of resurrecting something already used.
+  useEffect(() => {
+    try {
+      const saved = sessionStorage.getItem(AI_PROMPT_KEY);
+      if (saved) {
+        setPrompt(saved);
+        sessionStorage.removeItem(AI_PROMPT_KEY);
+      }
+    } catch {
+      // Private-mode storage throws; not worth breaking the hero over.
+    }
+  }, []);
 
   async function generate() {
     if (!prompt.trim() || loading) return;
     setLoading(true);
     setError(null);
+    setNeedsAuth(false);
     analytics.aiGenerate("start");
     try {
       const res = await fetch("/api/ai/generate", {
@@ -34,6 +60,14 @@ export default function HomeAiGenerator() {
       const data = await res.json();
       if (!res.ok) {
         analytics.aiGenerate("error");
+        if (res.status === 401 || data.needsAuth) {
+          setNeedsAuth(true);
+          try {
+            sessionStorage.setItem(AI_PROMPT_KEY, prompt);
+          } catch {
+            // Not fatal: what's on screen stays, it just won't survive the login.
+          }
+        }
         setError(data.error ?? "Generation failed.");
         return;
       }
@@ -80,9 +114,15 @@ export default function HomeAiGenerator() {
         <p id="home-ai-error" role="alert" className="mt-2 text-xs font-medium text-red-700">
           {error}{" "}
           {/* Signed-out visitors are told to make an account, not shown a price
-              list: the next step that costs them nothing is the one to offer. */}
-          {/account/i.test(error) ? (
-            <Link href="/login?next=/" className="font-semibold underline">
+              list: the next step that costs them nothing is the one to offer.
+              Driven by the route's needsAuth flag rather than by matching on the
+              error text, so rewording the message cannot silently drop the link. */}
+          {needsAuth ? (
+            <Link
+              href="/login?next=/"
+              onClick={() => analytics.upgradeClick("home_ai_signup")}
+              className="font-semibold underline"
+            >
               Create a free account
             </Link>
           ) : (

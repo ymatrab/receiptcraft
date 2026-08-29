@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
 import { getAccountStatus } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { supabaseConfigured } from "@/lib/supabase/config";
@@ -16,28 +15,6 @@ Invent plausible specifics: a fitting business name and address, line items with
 realistic prices and quantities, a sensible tax rate for the locale, a receipt
 number, and today's date unless the user specifies otherwise. Keep totals
 coherent. Return only the structured fields requested.`;
-
-const COOKIE = "ai_free_usage";
-
-/** Anonymous daily counter stored in a cookie: "YYYY-MM-DD:N". */
-async function checkAnonLimit(): Promise<{ ok: boolean; remaining: number }> {
-  const store = await cookies();
-  const today = new Date().toISOString().slice(0, 10);
-  const raw = store.get(COOKIE)?.value ?? "";
-  const [day, n] = raw.split(":");
-  const used = day === today ? parseInt(n) || 0 : 0;
-  const limit = FREE_LIMITS.aiGenerationsPerDayAnon;
-  return { ok: used < limit, remaining: limit - used };
-}
-
-async function bumpAnonCookie() {
-  const store = await cookies();
-  const today = new Date().toISOString().slice(0, 10);
-  const raw = store.get(COOKIE)?.value ?? "";
-  const [day, n] = raw.split(":");
-  const used = day === today ? parseInt(n) || 0 : 0;
-  store.set(COOKIE, `${today}:${used + 1}`, { httpOnly: true, sameSite: "lax", path: "/" });
-}
 
 /** Logged-in free users: count today's rows in ai_usage. */
 async function checkUserLimit(userId: string): Promise<boolean> {
@@ -66,27 +43,29 @@ export async function POST(req: Request) {
 
   const account = await getAccountStatus();
 
-  // Rate limit free users (Pro is unlimited). Signed-out visitors get a smaller
-  // allowance than account holders, so signing in is worth something.
+  // AI generation needs an account. The signed-out tier it replaces was enforced
+  // by a cookie, which anyone could clear — so account holders were the only
+  // people actually rate-limited, and every generation by everyone else cost
+  // real provider tokens while identifying nobody. Requiring an account makes
+  // the limit real and turns the spend into a known user.
+  if (!account.userId) {
+    return NextResponse.json(
+      {
+        error: `Create a free account to generate receipts with AI — ${FREE_LIMITS.aiGenerationsPerDay} a day free.`,
+        needsAuth: true,
+      },
+      { status: 401 }
+    );
+  }
+
+  // Rate limit free accounts; Pro is unlimited.
   if (!account.isPro) {
-    if (account.userId) {
-      const ok = await checkUserLimit(account.userId);
-      if (!ok) {
-        return NextResponse.json(
-          { error: "You've used your free AI generations for today. Upgrade for unlimited." },
-          { status: 429 }
-        );
-      }
-    } else {
-      const { ok } = await checkAnonLimit();
-      if (!ok) {
-        return NextResponse.json(
-          {
-            error: `That's your free generation for today. Create a free account for ${FREE_LIMITS.aiGenerationsPerDay} a day, or upgrade for unlimited.`,
-          },
-          { status: 429 }
-        );
-      }
+    const ok = await checkUserLimit(account.userId);
+    if (!ok) {
+      return NextResponse.json(
+        { error: "You've used your free AI generations for today. Upgrade for unlimited." },
+        { status: 429 }
+      );
     }
   }
 
@@ -145,13 +124,9 @@ export async function POST(req: Request) {
   // should not pay a settings write (or even a read) for nothing.
   if (servedBy && cooling[servedBy]) await clearAiCooldown(servedBy).catch(() => {});
 
-  // Record usage for rate limiting (free users only).
-  if (!account.isPro) {
-    if (account.userId && supabaseConfigured) {
-      await createAdminClient().from("ai_usage").insert({ user_id: account.userId });
-    } else if (!account.userId) {
-      await bumpAnonCookie();
-    }
+  // Record usage for rate limiting (free accounts only).
+  if (!account.isPro && supabaseConfigured) {
+    await createAdminClient().from("ai_usage").insert({ user_id: account.userId });
   }
 
   return NextResponse.json({ receipt: result });

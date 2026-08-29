@@ -27,7 +27,7 @@ const d = (iso: string) => new Date(iso);
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages: MetadataRoute.Sitemap = [
     { url: SITE.url, lastModified: d(C.HOME_UPDATED) },
-    { url: `${SITE.url}/create`, lastModified: d(C.STATIC_UPDATED) },
+    { url: `${SITE.url}/create`, lastModified: d(C.CREATE_UPDATED) },
     { url: `${SITE.url}/tools`, lastModified: d(C.CONTENT_UPDATED) },
     { url: `${SITE.url}/tools/receipt-calculator`, lastModified: d(C.CONTENT_UPDATED) },
     { url: `${SITE.url}/tools/split-payment-checker`, lastModified: d(C.CONTENT_UPDATED) },
@@ -46,7 +46,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE.url}/editorial-policy`, lastModified: d(C.POLICY_UPDATED) },
     { url: `${SITE.url}/privacy`, lastModified: d(C.STATIC_UPDATED) },
     { url: `${SITE.url}/terms`, lastModified: d(C.STATIC_UPDATED) },
-    { url: `${SITE.url}/cookies`, lastModified: d(C.STATIC_UPDATED) },
+    { url: `${SITE.url}/cookies`, lastModified: d(C.COOKIES_UPDATED) },
   ];
 
   const posts = await getAllPosts();

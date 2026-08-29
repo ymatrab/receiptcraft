@@ -19,11 +19,6 @@ const ESSENTIAL = [
     duration: "Session / up to 1 year",
   },
   {
-    name: "ai_free_usage",
-    purpose: "Counts free AI generations per day so limits work without an account.",
-    duration: "1 day (resets daily)",
-  },
-  {
     name: "rc_cookie_consent (local storage)",
     purpose: "Remembers whether you accepted or declined analytics cookies.",
     duration: "Until you clear browser data",
