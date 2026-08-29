@@ -133,8 +133,26 @@ export const analytics = {
   // doing any work now that AI itself needs an account.
   aiDemoOpened: (example: string) => track("ai_demo_opened", { example }),
   upgradeClick: (location: string) => track("upgrade_click", { location }),
+  // Both fire only on a confirmed session. Google and email-confirmation links
+  // resolve server-side, so app/auth/callback/route.ts marks its redirect and
+  // components/AuthEventBeacon.tsx fires these from the destination — otherwise
+  // a Google account never appeared in the sign-up funnel at all.
   signIn: (method: string) => track("login", { method }),
   signUp: (method: string) => track("sign_up", { method }),
+  // Intent, not success. `login` used to be fired at the click for Google and
+  // at the session for a password, which made the two impossible to compare and
+  // silently counted everyone who abandoned at Google's account chooser.
+  loginAttempt: (method: string) => track("login_attempt", { method }),
+  // Why an account could not be created or entered. `reason` is a fixed code
+  // from classifyAuthError, never the raw server text and never the address:
+  // already_registered, invalid_email, rate_limited, weak_password,
+  // signups_disabled, empty_response, other.
+  //
+  // These exist because sign-ups were failing in production with an empty
+  // server body — the whole reason classifyAuthError was written — and nothing
+  // recorded it. The funnel showed a sign-up that simply never happened.
+  signUpError: (reason: string) => track("sign_up_error", { reason }),
+  signInError: (reason: string) => track("login_error", { reason }),
   newsletterSignup: (source: string) => track("newsletter_signup", { source }),
   scrollDepth: (percent: number) => track("scroll_depth", { percent }),
 

@@ -37,39 +37,67 @@ const NEW_ACCOUNT_DESTINATION = "/pricing?new=1";
 const googleEnabled = process.env.NEXT_PUBLIC_GOOGLE_AUTH_ENABLED === "true";
 
 /**
- * Turn a Supabase auth error into something a person can act on.
+ * Turn a Supabase auth error into something a person can act on, plus a fixed
+ * code we can count.
  *
  * Its client stringifies any error body it does not recognise, so a failure can
  * surface as the literal string "{}" — which is what a real signup showed:
  * an empty red box, and the actual reason lost. Never render that. Map the
  * known cases, and when the message is empty or structural, say something
  * useful and put the raw error in the console for whoever debugs it next.
+ *
+ * The `reason` is the half that was missing. Every failure here used to be
+ * silent — someone hit a wall, left, and the funnel showed only a sign-up that
+ * never happened. It is a closed set of codes on purpose: it must never carry
+ * the raw server text or the address into analytics.
  */
-function authErrorMessage(err: { message?: string } | null | undefined): string {
+type AuthFailure = { message: string; reason: string };
+
+function classifyAuthError(err: { message?: string } | null | undefined): AuthFailure {
   const raw = (err?.message ?? "").trim();
   // eslint-disable-next-line no-console
   console.error("[auth]", err);
 
   if (/rate limit|too many requests/i.test(raw)) {
-    return "Too many attempts just now. Wait a minute and try again.";
+    return {
+      reason: "rate_limited",
+      message: "Too many attempts just now. Wait a minute and try again.",
+    };
   }
   if (/already registered|already been registered/i.test(raw)) {
-    return "That email is already registered. Try logging in instead.";
+    return {
+      reason: "already_registered",
+      message: "That email is already registered. Try logging in instead.",
+    };
   }
   if (/invalid.*email|email.*invalid/i.test(raw)) {
-    return "That email address was rejected. Check it for typos — double dots and trailing dots are not allowed.";
+    return {
+      reason: "invalid_email",
+      message:
+        "That email address was rejected. Check it for typos — double dots and trailing dots are not allowed.",
+    };
   }
   if (/signups? not allowed|disabled/i.test(raw)) {
-    return "New sign-ups are turned off right now. Please contact support.";
+    return {
+      reason: "signups_disabled",
+      message: "New sign-ups are turned off right now. Please contact support.",
+    };
   }
   if (/password/i.test(raw) && /weak|short|least/i.test(raw)) {
-    return "That password is too weak — use 8 characters or more.";
+    return {
+      reason: "weak_password",
+      message: "That password is too weak — use 8 characters or more.",
+    };
   }
   // Empty, "{}", or anything else carrying no actual words.
   if (!/[a-z]/i.test(raw)) {
-    return "Sign-up failed, and the server didn't say why. Check your email address for typos, or try Continue with Google.";
+    return {
+      reason: "empty_response",
+      message:
+        "Sign-up failed, and the server didn't say why. Check your email address for typos, or try Continue with Google.",
+    };
   }
-  return raw;
+  return { reason: "other", message: raw };
 }
 
 /**
@@ -147,9 +175,17 @@ export default function LoginForm({
   // involved?" decision this component makes below. Without it, the email-
   // confirmation and Google routes have no way to tell a gated signup from a
   // plain one and would send everybody to the same place.
-  const redirectTo = `${typeof window !== "undefined" ? window.location.origin : ""}/auth/callback?next=${encodeURIComponent(next)}${
-    signup ? "&signup=1" : ""
-  }`;
+  //
+  // `m` rides along too, so the callback can name the method in the event it
+  // fires. It cannot infer that: Supabase returns a `code` for Google *and* for
+  // a PKCE email link, so guessing from the params would label email sign-ups
+  // as Google.
+  function callbackUrl(method: "email" | "google"): string {
+    const origin = typeof window !== "undefined" ? window.location.origin : "";
+    return `${origin}/auth/callback?next=${encodeURIComponent(next)}${
+      signup ? "&signup=1" : ""
+    }&m=${method}`;
+  }
 
   // The verify panel replaces the whole form, which is a navigation-sized
   // change with no page load — move focus to it so screen reader users are
@@ -232,7 +268,7 @@ export default function LoginForm({
       });
       setBusy(false);
       if (error) {
-        setError(authErrorMessage(error));
+        setError(classifyAuthError(error).message);
         emailRef.current?.focus();
       } else {
         setNotice(`If an account exists for ${cleanEmail}, a reset link is on its way.`);
@@ -252,17 +288,22 @@ export default function LoginForm({
       const { data, error } = await supabase.auth.signUp({
         email: cleanEmail,
         password,
-        options: { emailRedirectTo: redirectTo },
+        options: { emailRedirectTo: callbackUrl("email") },
       });
       setBusy(false);
       if (error) {
-        setError(authErrorMessage(error));
+        const failure = classifyAuthError(error);
+        analytics.signUpError(failure.reason);
+        setError(failure.message);
         emailRef.current?.focus();
         return;
       }
       // When email confirmation is on, Supabase returns a user with an empty
-      // identities array if the email is already registered.
+      // identities array if the email is already registered. It is not an
+      // `error`, so it has to be counted separately — and it is the single most
+      // common way a sign-up fails.
       if (data.user && data.user.identities?.length === 0) {
+        analytics.signUpError("already_registered");
         setError("That email is already registered. Try logging in instead.");
         setMode("login");
         passwordRef.current?.focus();
@@ -273,12 +314,21 @@ export default function LoginForm({
       // session — the user is already signed in, so showing them a "check your
       // inbox" wall would strand them on a screen they cannot clear.
       if (data.session) {
-        // `signup` (the prop), not `mode` (the state). The prop means "a gate
-        // sent this person here", which is what decides whether work is waiting
-        // at `next`. `mode` is only which form is on screen — someone who
-        // opened /login and toggled over to Create an account has mode
-        // "signup" and no pending task, and belongs on the plans.
-        window.location.assign(signup ? withWelcome(next) : NEW_ACCOUNT_DESTINATION);
+        // Never `mode` (the state) — that is only which form is on screen. What
+        // decides the destination is whether anything is actually waiting:
+        //
+        //  - a gate set signup=1, so there is a stashed prompt or a download to
+        //    resume. Its `next` is "/create", the default, so the flag is the
+        //    only thing that can tell us; or
+        //  - the caller supplied a real `next`, meaning this person was already
+        //    mid-journey. The header appends the current path to its log-in link
+        //    and never sets signup=1, so someone reading a brand guide who
+        //    toggled over to "Create an account" was dumped on the price list
+        //    and lost their place — logging in kept it, signing up didn't.
+        //
+        // Only a visitor with nowhere to go back to gets the plans.
+        const workIsWaiting = signup || (nextParam !== null && nextParam !== "/create");
+        window.location.assign(workIsWaiting ? withWelcome(next) : NEW_ACCOUNT_DESTINATION);
         return;
       }
       setVerifyEmail(cleanEmail);
@@ -293,8 +343,10 @@ export default function LoginForm({
     setBusy(false);
     if (error) {
       if (/email not confirmed/i.test(error.message)) {
+        analytics.signInError("email_not_confirmed");
         setError("Please verify your email first — check your inbox for the link.");
       } else {
+        analytics.signInError("invalid_credentials");
         setError("Wrong email or password.");
       }
       // Send focus back to the first field the user needs to correct.
@@ -315,10 +367,10 @@ export default function LoginForm({
     const { error } = await supabase.auth.resend({
       type: "signup",
       email: verifyEmail,
-      options: { emailRedirectTo: redirectTo },
+      options: { emailRedirectTo: callbackUrl("email") },
     });
     setResendBusy(false);
-    if (error) setError(authErrorMessage(error));
+    if (error) setError(classifyAuthError(error).message);
     else setNotice("Verification email resent.");
   }
 
@@ -326,12 +378,16 @@ export default function LoginForm({
     if (googleBusy) return;
     setGoogleBusy(true);
     setError(null);
-    analytics.signIn("google");
+    // Intent, not success. This used to fire `login`, which counted everyone who
+    // bounced off Google's account chooser and made Google incomparable to the
+    // password path — that one fires only once a session exists. The real
+    // `login` / `sign_up` now comes back from /auth/callback via AuthEventBeacon.
+    analytics.loginAttempt("google");
     const supabase = createClient();
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo,
+        redirectTo: callbackUrl("google"),
         // Always show the Google account chooser so a wrong cached account
         // doesn't silently fail the flow.
         queryParams: { prompt: "select_account" },
@@ -339,7 +395,7 @@ export default function LoginForm({
     });
     if (error) {
       setGoogleBusy(false);
-      setError(`Sign-in failed: ${authErrorMessage(error)}`);
+      setError(`Sign-in failed: ${classifyAuthError(error).message}`);
     }
     // On success the browser is redirected to the provider.
   }

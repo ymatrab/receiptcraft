@@ -8,6 +8,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import ChatWidget from "@/components/chat/ChatWidget";
 import ConsentGate from "@/components/analytics/ConsentGate";
+import AuthEventBeacon from "@/components/analytics/AuthEventBeacon";
 import WelcomeSheet from "@/components/WelcomeSheet";
 import ScrollDepthTracker from "@/components/analytics/ScrollDepthTracker";
 
@@ -111,6 +112,10 @@ export default function RootLayout({
         {/* GA4 + Clarity set cookies, so they load behind the consent banner.
             Vercel Analytics is cookieless and can always run. */}
         <ConsentGate />
+        {/* Auth that finishes on the server redirects here with a flag; this
+            turns it into the login / sign_up event. Any page can be the
+            destination, which is why it sits in the layout. */}
+        <AuthEventBeacon />
         <WelcomeSheet />
         <Analytics />
         <Header />

@@ -5,10 +5,10 @@ import { docFromReceiptData } from "@/lib/sections";
 import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
 import Watermark from "@/components/receipt/Watermark";
 import type { ReceiptData } from "@/lib/types";
-import { getPaymentLinks } from "@/lib/settings";
 import { absoluteUrl, SITE } from "@/lib/site";
 import PricingCta from "./PricingCta";
 import NewAccountBanner from "./NewAccountBanner";
+import CheckoutNotice from "./CheckoutNotice";
 
 const PRICING_TITLE = `Pricing — Remove the Watermark with ${SITE.name} Pro`;
 const PRICING_DESCRIPTION =
@@ -68,9 +68,12 @@ const WATERMARK_DEMO = docFromReceiptData({
   paperStyle: "thermal",
 } as ReceiptData);
 
-// Narrowed so both panels sit side by side on a phone without either being
-// scaled down to the point the watermark stops being legible — which would
-// defeat the whole section.
+// Narrowed so the pair reads comfortably without either panel being scaled down
+// to the point the watermark stops being legible — which would defeat the whole
+// section. Note they stack on a phone rather than sitting side by side: the grid
+// below is `sm:grid-cols-2`, and two 260px receipts do not fit in the ~343px a
+// 375px viewport leaves. Stacking is the right call there; making them narrow
+// enough to pair would cost the legibility this width exists to protect.
 const WATERMARK_DEMO_DOC = {
   ...WATERMARK_DEMO,
   settings: { ...WATERMARK_DEMO.settings, widthPx: 260 },
@@ -91,23 +94,20 @@ const FAQ = [
   },
 ];
 
-// Was force-dynamic, which meant every visit re-rendered the page AND made three
-// Supabase round-trips for the payment links. Measured against production: a cold
-// request took 3.0s and a warm one ~0.9s, while the cached homepage — four times
-// the HTML — served in 0.68s. Paying a database round-trip per view on the page
-// that asks for money is the worst place to spend it.
+// This page reads nothing per-request any more, so it is plain static HTML.
 //
-// The links change only when an admin edits them, and saveLinksAction revalidates
-// this path on save, so the cache is corrected immediately rather than after the
-// window. The 5-minute window is just the backstop.
-export const revalidate = 300;
+// It was force-dynamic once, re-rendering on every visit and making three
+// Supabase round-trips for the payment links: a cold request took 3.0s and a
+// warm one ~0.9s, against 0.68s for the cached homepage at four times the HTML.
+// It then became `revalidate = 300` to cache that. Now /api/checkout resolves
+// the links at click time instead, so there is nothing left to revalidate — and
+// an admin editing a link takes effect on the next click rather than after a
+// five-minute window.
 
-export default async function PricingPage() {
+export default function PricingPage() {
   const weekly = PLANS.pro_weekly;
   const monthly = PLANS.pro_monthly;
   const yearly = PLANS.pro_yearly;
-  // Payment links come from the admin panel (DB), falling back to env.
-  const links = await getPaymentLinks();
 
   const isoDuration: Record<string, string> = { week: "P7D", month: "P1M", year: "P1Y" };
   const softwareAppJsonLd = {
@@ -143,6 +143,8 @@ export default async function PricingPage() {
       {/* Renders nothing unless ?new=1, so the static HTML crawlers and every
           other visitor get is byte-for-byte what it was. */}
       <NewAccountBanner />
+      {/* Renders nothing unless /api/checkout bounced someone back here. */}
+      <CheckoutNotice />
       <div className="text-center">
         <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
           Simple, honest pricing
@@ -172,40 +174,6 @@ export default async function PricingPage() {
           </li>
         ))}
       </ol>
-
-      {/* The watermark is the single asset the whole Free -> Pro decision turns
-          on, and the page described it in words without ever showing it. Both
-          panels render the same receipt through the same components the builder
-          uses, with the real Watermark overlay on the left — so this is the
-          actual artefact, not an illustration of one. */}
-      <section className="mx-auto mt-14 max-w-3xl" aria-labelledby="watermark-heading">
-        <h2 id="watermark-heading" className="text-center text-2xl font-bold text-slate-900">
-          This is what Pro removes
-        </h2>
-        <p className="mx-auto mt-3 max-w-xl text-center text-slate-600">
-          Your first {FREE_LIMITS.freeReceiptDownloads} downloads are watermark-free either way.
-          After that, a free download looks like the one on the left.
-        </p>
-        <div className="mt-8 grid gap-8 sm:grid-cols-2">
-          <figure>
-            <div className="relative mx-auto w-fit overflow-hidden rounded-xl">
-              <ReceiptDocPaper doc={WATERMARK_DEMO_DOC} />
-              <Watermark />
-            </div>
-            <figcaption className="mt-3 text-center text-sm text-slate-500">
-              Free download, after your first {FREE_LIMITS.freeReceiptDownloads}
-            </figcaption>
-          </figure>
-          <figure>
-            <div className="mx-auto w-fit overflow-hidden rounded-xl">
-              <ReceiptDocPaper doc={WATERMARK_DEMO_DOC} />
-            </div>
-            <figcaption className="mt-3 text-center text-sm font-medium text-indigo-600">
-              Every Pro download
-            </figcaption>
-          </figure>
-        </div>
-      </section>
 
       <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {/* Free */}
@@ -248,7 +216,6 @@ export default async function PricingPage() {
           </ul>
           <PricingCta
             planId="pro_weekly"
-            paymentLink={links.weekly}
             className="mt-8 block rounded-full border border-indigo-200 bg-indigo-50 px-5 py-3 text-center text-sm font-semibold text-indigo-700 hover:bg-indigo-100"
             label="Get 7-day Pro"
           />
@@ -271,7 +238,6 @@ export default async function PricingPage() {
           </ul>
           <PricingCta
             planId="pro_monthly"
-            paymentLink={links.monthly}
             className="mt-8 block rounded-full border border-indigo-200 bg-indigo-50 px-5 py-3 text-center text-sm font-semibold text-indigo-700 hover:bg-indigo-100"
             label="Go Pro Monthly"
           />
@@ -297,7 +263,6 @@ export default async function PricingPage() {
           </ul>
           <PricingCta
             planId="pro_yearly"
-            paymentLink={links.yearly}
             className="mt-8 block rounded-full bg-indigo-600 px-5 py-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-700"
             label="Go Pro Yearly"
           />
@@ -308,6 +273,49 @@ export default async function PricingPage() {
         💡 Please check out using the <strong>same email you sign in with</strong> — that&apos;s how
         we match your payment and activate Pro on your account.
       </p>
+
+      {/* The watermark is the single asset the whole Free -> Pro decision turns
+          on, and the page described it in words without ever showing it. Both
+          panels render the same receipt through the same components the builder
+          uses, with the real Watermark overlay on the left — so this is the
+          actual artefact, not an illustration of one.
+
+          It sits *below* the price table, which is the whole reason this block
+          moved. Measured on a 375px phone it ran 594px to 2,024px and pushed the
+          first price to 2,105px — 2.6 screens before anyone saw a number. It
+          answers "is it worth it?", and that is a question people ask after
+          seeing the price, not before. */}
+      <section className="mx-auto mt-20 max-w-3xl" aria-labelledby="watermark-heading">
+        <h2 id="watermark-heading" className="text-center text-2xl font-bold text-slate-900">
+          This is what Pro removes
+        </h2>
+        <p className="mx-auto mt-3 max-w-xl text-center text-slate-600">
+          {/* Not "the one on the left": the pair stacks below 640px, where left
+              and right do not exist. The figcaptions already name each panel, so
+              point at those instead of at a position. */}
+          Your first {FREE_LIMITS.freeReceiptDownloads} downloads are watermark-free either way.
+          After that, a free download carries the watermark below.
+        </p>
+        <div className="mt-8 grid gap-8 sm:grid-cols-2">
+          <figure>
+            <div className="relative mx-auto w-fit overflow-hidden rounded-xl">
+              <ReceiptDocPaper doc={WATERMARK_DEMO_DOC} />
+              <Watermark />
+            </div>
+            <figcaption className="mt-3 text-center text-sm text-slate-500">
+              Free download, after your first {FREE_LIMITS.freeReceiptDownloads}
+            </figcaption>
+          </figure>
+          <figure>
+            <div className="mx-auto w-fit overflow-hidden rounded-xl">
+              <ReceiptDocPaper doc={WATERMARK_DEMO_DOC} />
+            </div>
+            <figcaption className="mt-3 text-center text-sm font-medium text-indigo-600">
+              Every Pro download
+            </figcaption>
+          </figure>
+        </div>
+      </section>
 
       <section className="mx-auto mt-20 max-w-3xl">
         <h2 className="text-center text-2xl font-bold text-slate-900">Pricing FAQ</h2>

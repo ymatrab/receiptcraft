@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { supabaseConfigured } from "@/lib/supabase/config";
 import { useAccount } from "@/lib/useAccount";
+import { useConsent } from "@/lib/consent";
 import type { ChatMessage } from "@/lib/chat";
 
 /**
@@ -16,6 +17,7 @@ import type { ChatMessage } from "@/lib/chat";
  */
 export default function ChatWidget() {
   const { account } = useAccount();
+  const consent = useConsent();
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [conversationId, setConversationId] = useState<string | null>(null);
@@ -130,6 +132,18 @@ export default function ChatWidget() {
 
   // Admins reply from the dashboard, not the floating widget.
   if (!supabaseConfigured || pathname?.startsWith("/admin")) return null;
+
+  // Stay out of the way until the cookie choice is made. Both this launcher
+  // (bottom-5 right-5) and the consent banner (inset-x-4 bottom-4) are z-50 and
+  // share the bottom-right corner: on a 375px viewport the launcher covered
+  // roughly 36px of the 146px Decline button, its full height, and won the tap
+  // because it paints later. Waiting is also simply right — a support chat is
+  // not what someone needs in the first two seconds of their first visit.
+  //
+  // `null` means the choice hasn't been read from localStorage yet, so a
+  // returning visitor gets the launcher a tick after mount rather than seeing it
+  // appear and then vanish.
+  if (consent !== "granted" && consent !== "denied") return null;
 
   return (
     <>

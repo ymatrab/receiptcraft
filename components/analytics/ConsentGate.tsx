@@ -1,12 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import Script from "next/script";
 import { SITE } from "@/lib/site";
-
-type Consent = "granted" | "denied" | "unset";
-const CONSENT_KEY = "rc_cookie_consent";
+import { CONSENT_KEY, useConsent, writeConsent } from "@/lib/consent";
 
 /**
  * Cookie consent banner + analytics loader, using Google Consent Mode v2.
@@ -22,17 +19,13 @@ const CONSENT_KEY = "rc_cookie_consent";
  */
 export default function ConsentGate() {
   // null until we've read localStorage, so SSR/first paint renders nothing
-  // and the banner never flashes for returning visitors.
-  const [consent, setConsent] = useState<Consent | null>(null);
-
-  useEffect(() => {
-    const stored = localStorage.getItem(CONSENT_KEY);
-    setConsent(stored === "granted" || stored === "denied" ? stored : "unset");
-  }, []);
+  // and the banner never flashes for returning visitors. The state lives in
+  // lib/consent.ts because the chat launcher needs to know too — it shares this
+  // corner of the screen and used to sit on top of the Decline button.
+  const consent = useConsent();
 
   const decide = (value: "granted" | "denied") => {
-    localStorage.setItem(CONSENT_KEY, value);
-    setConsent(value);
+    writeConsent(value);
     if (value === "granted") {
       window.gtag?.("consent", "update", { analytics_storage: "granted" });
     }
