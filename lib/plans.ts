@@ -83,6 +83,30 @@ export const PLANS: Record<PlanId, Plan> = {
   },
 };
 
+/**
+ * What a plan costs per month, so three intervals can be compared on one scale.
+ *
+ * /pricing listed $3, $7.99 and $39 side by side, which reads as a rising ladder
+ * — the cheapest *number* on the page was also the worst value, at $13/mo
+ * equivalent. Derived rather than written out so the comparison cannot go stale
+ * when a price changes.
+ *
+ * 52/12 weeks per month rather than 4, which would understate the weekly pass
+ * by about 8%.
+ */
+export function monthlyEquivalent(plan: Plan): number | null {
+  switch (plan.interval) {
+    case "week":
+      return (plan.price * 52) / 12;
+    case "month":
+      return plan.price;
+    case "year":
+      return plan.price / 12;
+    default:
+      return null;
+  }
+}
+
 /** Free-tier limits. Adjust here as the only place these numbers live. */
 export const FREE_LIMITS = {
   aiGenerationsPerDay: 3,

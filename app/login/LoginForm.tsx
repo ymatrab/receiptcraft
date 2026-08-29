@@ -483,6 +483,36 @@ export default function LoginForm({
         </p>
       )}
 
+      {/* Google leads.
+          It is the one-tap path and it used to sit fourth on the screen — under
+          the email field, the password field, the submit button and the mode
+          toggle — which read as the fallback rather than the fast way in. The
+          divider goes beneath it so the email form still reads as a complete
+          alternative, and the whole block disappears when the provider is off,
+          leaving the email field first with no orphaned "or". */}
+      {mode !== "forgot" && googleEnabled && (
+        <>
+          <button
+            type="button"
+            onClick={signInWithGoogle}
+            disabled={googleBusy}
+            aria-busy={googleBusy}
+            className="flex w-full cursor-pointer items-center justify-center gap-3 rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            {googleBusy ? <SpinnerIcon className="h-5 w-5" /> : <GoogleIcon />}
+            {googleBusy ? "Redirecting…" : "Continue with Google"}
+          </button>
+
+          <div className="flex items-center gap-3 py-1">
+            <span className="h-px flex-1 bg-slate-200" />
+            <span className="text-xs uppercase tracking-wide text-slate-500">
+              or use your email
+            </span>
+            <span className="h-px flex-1 bg-slate-200" />
+          </div>
+        </>
+      )}
+
       {/* Email + password */}
       <form onSubmit={handleSubmit} className="space-y-3" noValidate>
         <div>
@@ -626,33 +656,11 @@ export default function LoginForm({
       )}
 
       {mode !== "forgot" && (
-        <>
-          {googleEnabled && (
-            <>
-              <div className="flex items-center gap-3 py-1">
-                <span className="h-px flex-1 bg-slate-200" />
-                <span className="text-xs uppercase tracking-wide text-slate-500">or</span>
-                <span className="h-px flex-1 bg-slate-200" />
-              </div>
-
-              <button
-                type="button"
-                onClick={signInWithGoogle}
-                disabled={googleBusy}
-                aria-busy={googleBusy}
-                className="flex w-full cursor-pointer items-center justify-center gap-3 rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-60"
-              >
-                {googleBusy ? <SpinnerIcon className="h-5 w-5" /> : <GoogleIcon />}
-                {googleBusy ? "Redirecting…" : "Continue with Google"}
-              </button>
-            </>
-          )}
-          <p className="pt-2 text-center text-xs leading-relaxed text-slate-600">
-            By continuing you agree to our{" "}
-            <a href="/terms" className="underline hover:text-slate-900">Terms</a> and{" "}
-            <a href="/privacy" className="underline hover:text-slate-900">Privacy Policy</a>.
-          </p>
-        </>
+        <p className="pt-2 text-center text-xs leading-relaxed text-slate-600">
+          By continuing you agree to our{" "}
+          <a href="/terms" className="underline hover:text-slate-900">Terms</a> and{" "}
+          <a href="/privacy" className="underline hover:text-slate-900">Privacy Policy</a>.
+        </p>
       )}
     </div>
   );
