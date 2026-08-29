@@ -54,6 +54,8 @@ export const PRICING_UPDATED = "2026-08-21";
 // with no account. Signed-out visitors now get one; three needs a free account.
 // 2026-08-29: superseded the same day — AI now requires an account outright, so
 // that FAQ answer changed again. Both the visible copy and the JSON-LD move.
+// Also 2026-08-29: the hero carries worked AI examples, so a signed-out visitor
+// can still see what the generator does now that using it needs an account.
 export const HOME_UPDATED = "2026-08-29";
 export const TEMPLATES_INDEX_UPDATED = "2026-08-20";
 export const COMPARISONS_UPDATED = LAST_UPDATED;

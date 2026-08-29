@@ -66,6 +66,20 @@ export default function LoginForm() {
   // open on signup to save them a click. The log-in toggle is still one tap away.
   const nextParam = params.get("next");
   const next = nextParam ?? "/create";
+  /**
+   * Where a brand-new account lands: their original destination, flagged so the
+   * welcome sheet fires once there. Built with URL so a `next` that already
+   * carries a query string keeps it instead of being truncated.
+   */
+  function withWelcome(dest: string): string {
+    try {
+      const url = new URL(dest, window.location.origin);
+      url.searchParams.set("welcome", "1");
+      return `${url.pathname}${url.search}${url.hash}`;
+    } catch {
+      return dest;
+    }
+  }
   const hadError = params.get("error");
   const errorDetail = params.get("error_description");
 
@@ -216,7 +230,7 @@ export default function LoginForm() {
       // session — the user is already signed in, so showing them a "check your
       // inbox" wall would strand them on a screen they cannot clear.
       if (data.session) {
-        window.location.assign(next);
+        window.location.assign(withWelcome(next));
         return;
       }
       setVerifyEmail(cleanEmail);

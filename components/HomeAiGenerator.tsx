@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { analytics } from "@/lib/analytics";
 import { SparkleIcon, SpinnerIcon } from "@/components/Icons";
+import AiDemo from "@/components/AiDemo";
 
 /** Key used to hand the generated receipt to the builder on /create. */
 export const AI_HANDOFF_KEY = "rc_ai_receipt";
@@ -140,6 +141,7 @@ export default function HomeAiGenerator() {
       ) : (
         <p className="mt-2 text-xs text-slate-500">Generate with AI, then fine-tune everything in the editor.</p>
       )}
+      <AiDemo />
     </div>
   );
 }

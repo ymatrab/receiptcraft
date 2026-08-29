@@ -8,6 +8,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import ChatWidget from "@/components/chat/ChatWidget";
 import ConsentGate from "@/components/analytics/ConsentGate";
+import WelcomeSheet from "@/components/WelcomeSheet";
 import ScrollDepthTracker from "@/components/analytics/ScrollDepthTracker";
 
 export const metadata: Metadata = {
@@ -110,6 +111,7 @@ export default function RootLayout({
         {/* GA4 + Clarity set cookies, so they load behind the consent banner.
             Vercel Analytics is cookieless and can always run. */}
         <ConsentGate />
+        <WelcomeSheet />
         <Analytics />
         <Header />
         <main className="flex-1">{children}</main>

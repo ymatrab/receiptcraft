@@ -31,16 +31,40 @@ export async function GET(request: Request) {
 
   if (providerError) return fail(providerError);
 
+  /**
+   * Send a brand-new account to the welcome sheet, the same as the password
+   * sign-up path does. Covers the two routes that land here instead: a verified
+   * email link, and Google sign-in by someone who has never used the site.
+   *
+   * "New" is judged by how recently the account was created, because that is
+   * the only signal available here — `last_sign_in_at` is already stamped by
+   * the exchange itself, so it cannot distinguish first visit from tenth. The
+   * window is generous on purpose: showing a one-time welcome twice is a
+   * trivial cost, never showing it to a real new user is not.
+   */
+  const destinationFor = (createdAt: string | undefined): string => {
+    if (!createdAt) return next;
+    const age = Date.now() - new Date(createdAt).getTime();
+    if (!Number.isFinite(age) || age > 10 * 60 * 1000) return next;
+    const url = new URL(next, origin);
+    url.searchParams.set("welcome", "1");
+    return `${url.pathname}${url.search}${url.hash}`;
+  };
+
   if (supabaseConfigured) {
     const supabase = await createClient();
 
     if (code) {
-      const { error } = await supabase.auth.exchangeCodeForSession(code);
-      if (!error) return NextResponse.redirect(`${origin}${next}`);
+      const { data, error } = await supabase.auth.exchangeCodeForSession(code);
+      if (!error) {
+        return NextResponse.redirect(`${origin}${destinationFor(data.user?.created_at)}`);
+      }
       return fail(error.message);
     } else if (tokenHash && type) {
-      const { error } = await supabase.auth.verifyOtp({ token_hash: tokenHash, type });
-      if (!error) return NextResponse.redirect(`${origin}${next}`);
+      const { data, error } = await supabase.auth.verifyOtp({ token_hash: tokenHash, type });
+      if (!error) {
+        return NextResponse.redirect(`${origin}${destinationFor(data.user?.created_at)}`);
+      }
       return fail(error.message);
     }
   }
