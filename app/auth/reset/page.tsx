@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
 import ResetForm from "./ResetForm";
 import { SITE } from "@/lib/site";
 
@@ -17,9 +16,12 @@ export default function ResetPasswordPage() {
         <p className="mt-2 text-sm text-slate-500">
           Enter a new password below. Once saved you&apos;ll be logged in.
         </p>
-        <Suspense fallback={<div className="mt-8 h-12 animate-pulse rounded-full bg-slate-100" />}>
-          <ResetForm />
-        </Suspense>
+        {/* No boundary around this form: ResetForm takes no props and
+            suspends on nothing, so wrapping it only moved the form into a
+            hidden <div> that an inline script has to swap in on an animation
+            frame. That is a way for the form to never appear, bought with
+            nothing in return. */}
+        <ResetForm />
       </div>
     </main>
   );

@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { supabaseConfigured } from "@/lib/supabase/config";
 import { analytics } from "@/lib/analytics";
@@ -57,14 +56,32 @@ function authErrorMessage(err: { message?: string } | null | undefined): string 
   return raw;
 }
 
-export default function LoginForm() {
-  const params = useSearchParams();
+/**
+ * The query params arrive as props from the server page rather than from the
+ * client-side search-params hook. That hook forces this component under a
+ * <Suspense> boundary, and a suspended boundary is not plain HTML: React
+ * ships the form inside a hidden <div> and only swaps it into place from an
+ * inline script, scheduled with requestAnimationFrame. Anything that stops
+ * that frame from running - a background tab, a blocked inline script, JS
+ * turned off - leaves the visitor looking at the loading skeleton with no
+ * form at all, for as long as they stay on the page. Reading the params on
+ * the server puts the real form in the initial HTML, where it renders before
+ * any client JS is involved.
+ */
+export default function LoginForm({
+  next: nextParam = null,
+  authError = null,
+  authErrorDetail = null,
+}: {
+  next?: string | null;
+  authError?: string | null;
+  authErrorDetail?: string | null;
+}) {
   // Default back to the builder (not the profile page) so a user who logged in
   // mid-build lands on /create, where their autosaved draft is restored.
   // A ?next= param means the visitor was sent here by a gated action (usually
   // the download wall), so they are far more likely to be new than returning —
   // open on signup to save them a click. The log-in toggle is still one tap away.
-  const nextParam = params.get("next");
   const next = nextParam ?? "/create";
   /**
    * Where a brand-new account lands: their original destination, flagged so the
@@ -80,8 +97,8 @@ export default function LoginForm() {
       return dest;
     }
   }
-  const hadError = params.get("error");
-  const errorDetail = params.get("error_description");
+  const hadError = authError;
+  const errorDetail = authErrorDetail;
 
   const [mode, setMode] = useState<Mode>(nextParam ? "signup" : "login");
   const [email, setEmail] = useState("");
