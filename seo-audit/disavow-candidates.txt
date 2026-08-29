@@ -1,0 +1,25 @@
+# makecepeit.com — disavow CANDIDATES — 2026-08-17
+# ---------------------------------------------------------------------------
+# IMPORTANT: This is OPTIONAL. Google already discounts these links to ~0 on
+# its own (Penguin 4.0, 2016). There is no manual action, so disavowing is a
+# tidy-up, not a fix. Upload to Google Search Console → Disavow Links tool ONLY
+# if you want the profile clean; it will not change rankings.
+#
+# Included below = the ONLY genuinely junk domains (DataForSEO spam score 60-70,
+# irrelevant, 1 backlink each, appeared Aug 2026 — classic scraper/spam).
+#
+# DO NOT disavow the AI-tool directories Semrush flagged as "Dangerous"
+# (fazier.com=spam1, roastmyweb.com=1, pfpresizer.com=4, bookwiz.io=6,
+# bestofai.com=7, thehackstack.com=23, whattheai.tech=24, toolhunt.io=47).
+# Their objective spam scores are low — they are legitimate directory
+# citations. Removing them would only hurt.
+# ---------------------------------------------------------------------------
+
+domain:homesforsaleoldgreenwichct.com
+domain:betulcrime.com
+domain:ggmap.us.com
+
+# Optional / monitor only (spam 26, irrelevant "greenhouse" .dk sites — likely
+# scrapers). Uncomment ONLY if they persist or multiply:
+# domain:drivhuseffekten.dk
+# domain:drivhusgasser.dk

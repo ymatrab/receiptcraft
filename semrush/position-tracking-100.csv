@@ -1,0 +1,101 @@
+keyword,semrush_vol,kd,our_pos_aug17,tag,target_page
+receipt maker,8100,45,—,money,home
+receipt generator,4400,53,—,money,/create
+free receipt maker,2400,48,—,money,home + /create
+receipt generator free,2400,49,—,money,/create
+online receipt generator,1000,28,—,money,/create
+free receipt generator,720,35,—,money,/create
+receipt maker free,1300,36,—,money,/create
+online receipt maker,1300,49,—,money,/create
+receipt creator,1000,52,—,money,/create
+create a receipt,1300,41,—,money,/create
+make a receipt,1300,37,—,money,/create
+receipt template,9900,39,77,templates,/templates
+receipt templates,720,44,—,templates,/templates
+free receipt template,2900,45,86,templates,/templates
+receipt template free,1900,40,—,templates,/templates
+rent receipt template,4400,25,—,templates,/templates/rent-receipt (NEW A2)
+rental receipt template,?,?,—,templates,/templates/rent-receipt (NEW A2)
+rent receipt template word,?,?,—,templates,/templates/rent-receipt (NEW A2)
+itemized receipt,?,?,—,templates,/templates/itemized-receipt (C1)
+grocery receipt,1600,26,64,templates,/templates/grocery-store (C1)
+restaurant receipt,1000,17,48,templates,/templates/restaurant (C1)
+store receipts,2400,35,—,templates,/templates/retail-store (C1)
+hotel receipt,880,18,53,templates,/templates/hotel
+gas receipt,720,5,60,templates,/templates/gas-station
+donation receipt template,?,?,—,templates,NEW
+digital receipt,1300,36,—,tier-a,/create (C1)
+walmart receipt lookup,?,?,—,tier-a,/blog/walmart-receipt-lookup (H1)
+how to get a copy of walmart receipt,70,39,13,tier-a,/blog/walmart-receipt-lookup
+how to retrieve walmart receipt,170,39,15,tier-a,/blog/walmart-receipt-lookup
+walmart receipt lookup by card,?,?,—,tier-a,/blog/walmart-receipt-lookup
+walmart serial number search,110,32,23,tier-a,/blog/walmart-receipt-lookup
+best free receipt templates,?,?,—,tier-a-geo,NEW roundup (A3)
+best free receipt generator,?,?,—,tier-a-geo,/blog/best-free-receipt-generator (A5)
+best receipt generator,30,28,—,tier-a-geo,/blog/best-free-receipt-generator
+create a receipt for a small business,?,?,—,tier-a-geo,NEW guide (A4)
+kfc receipt,210,31,1,defend,/receipt-help/kfc-receipt-copy
+customer copy,90,14,1,defend,/blog/customer-copy-receipt-meaning
+amount tendered,140,26,6,defend,/blog/amount-tendered-meaning
+what does amount tendered mean,110,25,5,defend,/blog/amount-tendered-meaning
+what does tendered amount mean,90,34,9,defend,/blog/amount-tendered-meaning
+apple store receipt generator,90,1,7,defend,/brands/apple-store
+motel 6 receipt template,70,11,9,defend,/brands/motel-6
+mcdonalds receipt lookup,40,19,11,defend,/receipt-help/mcdonalds-lost-receipt
+zara recover my receipt,720,27,15,striking,/receipt-help/zara-return-policy
+recover my receipt zara,140,24,13,striking,/receipt-help/zara-return-policy
+zara receipt,170,29,19,striking,/brands/zara
+makereceipt,590,18,23,striking,home (competitor brand)
+recite of purchase,590,12,30,striking,/blog/what-is-a-receipt
+generic receipt for plane ticket,390,20,12,striking,/templates/airline-receipt
+panda express receipt,320,26,14,striking,/receipt-help/panda-express-receipt-copy
+walmart recept,260,44,16,striking,/blog/walmart-receipt-lookup
+costco recipt,210,35,14,striking,/receipt-help/costco-lost-receipt
+how to get a lyft receipt,210,24,30,striking,/receipt-help/lyft-receipt-copy
+receipts from lyft,170,,17,striking,/receipt-help/lyft-receipt-copy
+receipt for southwest flight,170,30,13,striking,/receipt-help/southwest-airlines-receipt
+dunkin donuts receipt,170,24,26,striking,/receipt-help/dunkin-lost-receipt
+dunkin receipt,140,28,26,striking,/receipt-help/dunkin-lost-receipt
+safeway receipts,140,33,25,striking,/receipt-help/safeway-receipt-copy
+safeway receipt lookup,110,25,22,striking,/receipt-help/safeway-receipt-copy
+aa invoice,140,27,29,striking,/brands/american-airlines
+cvs rx receipt,90,54,13,striking,/receipt-help/cvs-pharmacy-receipt-copy
+fuel receipt generator,90,0,13,striking,/templates/gas-station
+hotel receipt generator free,70,9,14,striking,/templates/hotel
+store receipt generator,50,36,65,striking,/templates/retail-store
+amiri receipt,720,4,—,brand,/brands/amiri (NEW B1)
+stockx receipt,880,29,—,brand,/brands/stockx (NEW B7)
+stock x receipt,720,14,—,brand,/brands/stockx (NEW B7)
+taco bell receipt,590,19,—,brand,/brands/taco-bell (B10)
+instacart receipt generator,?,?,—,brand,/brands/instacart (H5)
+apple receipt maker,?,?,—,brand,/brands/apple (H5)
+fake grab receipt,?,?,—,brand,/brands/grab (H5)
+fake walmart receipt,260,5,—,brand,/brands/walmart (H5)
+burberry receipt generator,?,?,—,brand,/brands/burberry (H5)
+cash app receipt,480,22,—,brand,/brands/cash-app
+louis vuitton receipt,1300,30,—,brand,/blog/louis-vuitton-receipt
+lv receipt,1000,22,—,brand,/blog/louis-vuitton-receipt
+receipt for louis vuitton,1000,23,—,brand,/blog/louis-vuitton-receipt
+sephora receipt,720,27,—,brand,/brands/sephora
+best buy recipt,720,29,—,brand,/brands/best-buy
+chipotle receipt,720,39,—,brand,/brands/chipotle
+popeyes receipt,480,32,—,brand,/brands/popeyes
+doordash receipt,1000,33,—,brand,/brands/doordash (gap)
+costco receipt,1300,40,58,brand,/receipt-help/costco-lost-receipt
+add receipt to starbucks app,210,18,—,brand,/brands/starbucks (B8)
+target receipt lookup,?,?,—,brand,/receipt-help/target
+dental receipt,170,8,—,tier-b,/templates/dental-receipt (B3)
+towing receipt template,140,5,50,tier-b,/templates/towing-receipt (B4)
+pharmacy receipt,140,17,48,tier-b,/templates/pharmacy (B6)
+clothing receipt,90,18,34,tier-b,/templates/clothing-store-receipt (B9)
+ai receipt generator free,260,11,—,tier-b,/create (B5)
+cash app generator,390,7,—,tier-b,/create brand-safe (B2)
+oil change receipt,590,14,—,tier-b,/templates/oil-change
+parking receipt template,?,?,—,tier-b,NEW
+fake receipt generator,1900,31,—,contested,/create (brand-safe)
+fake receipt maker,1300,38,—,contested,/create (brand-safe)
+fake receipts,1000,21,—,contested,fake-cluster
+create fake receipt,880,39,—,contested,fake-cluster
+makecepeit,?,?,—,brand-defense,home
+makecepeit receipt maker,?,?,—,brand-defense,home
+makereceipt alternatives,?,?,—,brand-defense,/alternatives

@@ -45,3 +45,19 @@ client_secret_*.json
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# marketing source images (kept local, not in history)
+# Posts/ and scripts/posts/assets/ are the same 80 images under different
+# names — the raw drop and the renamed working copy — about 56 MB each. The
+# site builds from none of them: published post images live in Sanity. This
+# repo is public and its whole history is 13 MB, so committing ~112 MB of
+# duplicated source art would cost more than it's worth, permanently. Same for
+# the Semrush screenshots; its .xlsx/.csv exports are text and are tracked.
+# Force one in with `git add -f <path>` if a specific asset ever has to ship.
+/Posts/
+/scripts/posts/assets/
+/semrush/*.png
+/semrush/*.jpeg
+/logo.png
+/create receipt.png
+/makecepeit welcome.png
