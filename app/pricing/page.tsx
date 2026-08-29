@@ -6,7 +6,7 @@ import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
 import Watermark from "@/components/receipt/Watermark";
 import type { ReceiptData } from "@/lib/types";
 import { absoluteUrl, SITE } from "@/lib/site";
-import PricingCta from "./PricingCta";
+import ProPlanCard from "./ProPlanCard";
 import NewAccountBanner from "./NewAccountBanner";
 import CheckoutNotice from "./CheckoutNotice";
 
@@ -175,98 +175,44 @@ export default function PricingPage() {
         ))}
       </ol>
 
-      <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      {/* Two cards, not four.
+          At 1440px the old lg:grid-cols-4 row gave each card 222px — 158px of
+          content inside p-8, enough to wrap "Unlimited AI receipt generation"
+          onto three lines — and the CTAs did not align because the feature
+          lists differed in length. The three Pro prices also read left to right
+          as a rising ladder ($3, $7.99, $39) when per month they fall
+          ($13.00, $7.99, $3.25). The interval is a choice inside one card now,
+          which puts those numbers on a single scale. */}
+      <div className="mx-auto mt-12 grid max-w-3xl gap-6 sm:grid-cols-2">
         {/* Free */}
-        <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+        <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
           <h2 className="text-lg font-semibold text-slate-900">Free</h2>
-          <p className="mt-2 text-4xl font-bold text-slate-900">
-            $0<span className="text-base font-medium text-slate-500">/forever</span>
+          <p className="mt-1 text-sm text-slate-600">
+            Every template, and your first {FREE_LIMITS.freeReceiptDownloads} downloads clean.
           </p>
+          <p className="mt-6 text-4xl font-bold text-slate-900">
+            $0<span className="ml-1 text-base font-medium text-slate-500">forever</span>
+          </p>
+          <p className="mt-1 text-sm text-slate-600">No card, no trial</p>
           <ul className="mt-6 space-y-3 text-sm text-slate-600">
             {PLANS.free.features.map((f) => (
               <li key={f} className="flex gap-2">
-                <span className="text-slate-500">✓</span>
+                <span aria-hidden className="text-slate-400">
+                  ✓
+                </span>
                 {f}
               </li>
             ))}
           </ul>
           <Link
             href="/create"
-            className="mt-8 block rounded-full border border-slate-300 bg-white px-5 py-3 text-center text-sm font-semibold text-slate-700 hover:bg-slate-50"
+            className="mt-8 block rounded-full border border-slate-300 bg-white px-5 py-3 text-center text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50"
           >
             Start free
           </Link>
         </div>
 
-        {/* Pro Weekly */}
-        <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
-          <h2 className="text-lg font-semibold text-slate-900">{weekly.name}</h2>
-          <p className="mt-2 text-4xl font-bold text-slate-900">
-            ${weekly.price}
-            <span className="text-base font-medium text-slate-500">/wk</span>
-          </p>
-          <p className="mt-1 text-xs font-medium text-slate-500">7-day full Pro pass</p>
-          <ul className="mt-6 space-y-3 text-sm text-slate-600">
-            {weekly.features.map((f) => (
-              <li key={f} className="flex gap-2">
-                <span className="text-indigo-500">✓</span>
-                {f}
-              </li>
-            ))}
-          </ul>
-          <PricingCta
-            planId="pro_weekly"
-            className="mt-8 block rounded-full border border-indigo-200 bg-indigo-50 px-5 py-3 text-center text-sm font-semibold text-indigo-700 hover:bg-indigo-100"
-            label="Get 7-day Pro"
-          />
-        </div>
-
-        {/* Pro Monthly */}
-        <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
-          <h2 className="text-lg font-semibold text-slate-900">{monthly.name}</h2>
-          <p className="mt-2 text-4xl font-bold text-slate-900">
-            ${monthly.price}
-            <span className="text-base font-medium text-slate-500">/mo</span>
-          </p>
-          <ul className="mt-6 space-y-3 text-sm text-slate-600">
-            {monthly.features.map((f) => (
-              <li key={f} className="flex gap-2">
-                <span className="text-indigo-500">✓</span>
-                {f}
-              </li>
-            ))}
-          </ul>
-          <PricingCta
-            planId="pro_monthly"
-            className="mt-8 block rounded-full border border-indigo-200 bg-indigo-50 px-5 py-3 text-center text-sm font-semibold text-indigo-700 hover:bg-indigo-100"
-            label="Go Pro Monthly"
-          />
-        </div>
-
-        {/* Pro Yearly (highlighted) */}
-        <div className="relative rounded-3xl border-2 border-indigo-600 bg-white p-8 shadow-lg">
-          <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-indigo-600 px-3 py-1 text-xs font-semibold text-white">
-            Best value · Save ~60%
-          </span>
-          <h2 className="text-lg font-semibold text-slate-900">{yearly.name}</h2>
-          <p className="mt-2 text-4xl font-bold text-slate-900">
-            ${yearly.price}
-            <span className="text-base font-medium text-slate-500">/yr</span>
-          </p>
-          <ul className="mt-6 space-y-3 text-sm text-slate-600">
-            {yearly.features.map((f) => (
-              <li key={f} className="flex gap-2">
-                <span className="text-indigo-500">✓</span>
-                {f}
-              </li>
-            ))}
-          </ul>
-          <PricingCta
-            planId="pro_yearly"
-            className="mt-8 block rounded-full bg-indigo-600 px-5 py-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-700"
-            label="Go Pro Yearly"
-          />
-        </div>
+        <ProPlanCard />
       </div>
 
       <p className="mx-auto mt-8 max-w-xl rounded-xl bg-amber-50 px-4 py-3 text-center text-sm text-amber-800">
