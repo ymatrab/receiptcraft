@@ -1,0 +1,571 @@
+<title>Makecepeit Conversion Audit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Courier+Prime:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+
+<style>
+  :root {
+    --ground: #F5F5F8;
+    --surface: #FFFFFF;
+    --ink: #17161F;
+    --muted: #6C6980;
+    --rule: #E2E1E9;
+    --rule-strong: #C9C7D4;
+    --accent: #4F46E5;
+    --accent-soft: #EEEDFD;
+    --critical: #BE2D46;
+    --critical-soft: #FBEAED;
+    --warn: #A65A0B;
+    --warn-soft: #FBF1E3;
+    --good: #0D7A63;
+    --good-soft: #E5F4F0;
+    --display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+    --body: "Source Serif 4", Georgia, "Times New Roman", serif;
+    --data: "Courier Prime", "SFMono-Regular", Menlo, Consolas, monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #131219;
+      --surface: #1C1B24;
+      --ink: #EDECF3;
+      --muted: #9B98AC;
+      --rule: #2C2A36;
+      --rule-strong: #3E3B4C;
+      --accent: #928CFF;
+      --accent-soft: #241F3D;
+      --critical: #F2607A;
+      --critical-soft: #331721;
+      --warn: #E0983C;
+      --warn-soft: #2E2113;
+      --good: #3FBFA0;
+      --good-soft: #12291F;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ground: #131219;
+    --surface: #1C1B24;
+    --ink: #EDECF3;
+    --muted: #9B98AC;
+    --rule: #2C2A36;
+    --rule-strong: #3E3B4C;
+    --accent: #928CFF;
+    --accent-soft: #241F3D;
+    --critical: #F2607A;
+    --critical-soft: #331721;
+    --warn: #E0983C;
+    --warn-soft: #2E2113;
+    --good: #3FBFA0;
+    --good-soft: #12291F;
+  }
+
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 17px;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .sheet {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 56px 24px 96px;
+    display: flex;
+    flex-direction: column;
+    gap: 52px;
+  }
+
+  /* ---------- shared type ---------- */
+  .eyebrow {
+    font-family: var(--data);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0;
+  }
+
+  h1, h2, h3 {
+    font-family: var(--display);
+    text-wrap: balance;
+    margin: 0;
+    letter-spacing: -0.015em;
+  }
+
+  h1 { font-size: clamp(34px, 6vw, 52px); font-weight: 700; line-height: 1.05; }
+  h2 { font-size: clamp(23px, 3.4vw, 29px); font-weight: 600; line-height: 1.18; }
+  h3 { font-size: 18px; font-weight: 600; line-height: 1.3; }
+
+  p { margin: 0; }
+  .prose { max-width: 68ch; }
+  .prose + .prose { margin-top: 14px; }
+
+  code, .mono { font-family: var(--data); font-size: 0.88em; }
+  code {
+    background: var(--accent-soft);
+    color: var(--accent);
+    padding: 1px 5px;
+    border-radius: 3px;
+    word-break: break-word;
+  }
+
+  a { color: var(--accent); }
+
+  strong { font-weight: 600; }
+
+  /* perforation: the one motif, borrowed from the product */
+  .perf {
+    border: 0;
+    border-top: 2px dashed var(--rule-strong);
+    margin: 0;
+    height: 0;
+  }
+
+  /* ---------- masthead ---------- */
+  .masthead { display: flex; flex-direction: column; gap: 18px; }
+  .masthead .thesis {
+    font-family: var(--display);
+    font-size: clamp(19px, 2.6vw, 23px);
+    font-weight: 500;
+    line-height: 1.42;
+    max-width: 32ch;
+    color: var(--ink);
+  }
+  .masthead .thesis em { font-style: normal; color: var(--critical); }
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 26px;
+    font-family: var(--data);
+    font-size: 12.5px;
+    color: var(--muted);
+    padding-top: 6px;
+  }
+  .meta span b { font-weight: 400; color: var(--ink); }
+
+  /* ---------- metric strip: set like a receipt total block ---------- */
+  .totals {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 4px 22px;
+  }
+  .totals-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 15px 0;
+    border-bottom: 1px dotted var(--rule-strong);
+  }
+  .totals-row:last-child { border-bottom: 0; }
+  .totals-row .label {
+    font-family: var(--body);
+    font-size: 15.5px;
+    color: var(--muted);
+    max-width: 46ch;
+  }
+  .totals-row .value {
+    font-family: var(--data);
+    font-weight: 700;
+    font-size: clamp(20px, 3.2vw, 26px);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    color: var(--ink);
+  }
+  .totals-row .value.bad { color: var(--critical); }
+  .totals-row .value .unit { font-size: 0.6em; font-weight: 400; color: var(--muted); margin-left: 3px; }
+
+  /* ---------- findings ledger ---------- */
+  .ledger { display: flex; flex-direction: column; }
+  .line {
+    display: grid;
+    grid-template-columns: 46px 1fr;
+    gap: 0 18px;
+    padding: 24px 0;
+    border-top: 1px dotted var(--rule-strong);
+  }
+  .ledger .line:first-child { border-top: 1px solid var(--rule-strong); }
+  .line .sku {
+    font-family: var(--data);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+    padding-top: 3px;
+  }
+  .line .item { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+  .line-head { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+
+  .chip {
+    font-family: var(--data);
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 3px;
+    white-space: nowrap;
+  }
+  .chip.critical { background: var(--critical-soft); color: var(--critical); }
+  .chip.friction { background: var(--warn-soft); color: var(--warn); }
+  .chip.blind    { background: var(--accent-soft); color: var(--accent); }
+  .chip.polish   { background: var(--ground); color: var(--muted); border: 1px solid var(--rule-strong); }
+  .chip.good     { background: var(--good-soft); color: var(--good); }
+
+  .line .ref {
+    font-family: var(--data);
+    font-size: 12.5px;
+    color: var(--muted);
+    word-break: break-word;
+  }
+  .line .fix {
+    font-family: var(--body);
+    font-size: 15.5px;
+    color: var(--ink);
+    border-left: 2px solid var(--accent);
+    padding-left: 14px;
+  }
+  .line .fix b {
+    font-family: var(--data);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 3px;
+    font-weight: 700;
+  }
+  .line p { font-size: 16px; }
+
+  /* ---------- scroll-depth figure ---------- */
+  .depth {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 22px;
+    overflow-x: auto;
+  }
+  .depth-grid {
+    display: grid;
+    grid-template-columns: max-content 1fr max-content;
+    align-items: center;
+    gap: 9px 14px;
+    min-width: 420px;
+  }
+  .depth-grid .px {
+    font-family: var(--data);
+    font-size: 12.5px;
+    font-variant-numeric: tabular-nums;
+    color: var(--muted);
+    text-align: right;
+  }
+  .depth-grid .bar { height: 13px; border-radius: 2px; background: var(--rule); }
+  .depth-grid .bar.hot { background: var(--critical); }
+  .depth-grid .bar.warm { background: var(--warn); }
+  .depth-grid .bar.cool { background: var(--accent); }
+  .depth-grid .what { font-family: var(--body); font-size: 14.5px; color: var(--ink); white-space: nowrap; }
+  .depth-caption { font-family: var(--data); font-size: 12px; color: var(--muted); margin-top: 16px; }
+
+  /* ---------- ordered fix list: a real sequence ---------- */
+  ol.steps { list-style: none; margin: 0; padding: 0; counter-reset: step; display: flex; flex-direction: column; }
+  ol.steps li {
+    counter-increment: step;
+    display: grid;
+    grid-template-columns: 46px 1fr;
+    gap: 0 18px;
+    padding: 18px 0;
+    border-top: 1px dotted var(--rule-strong);
+  }
+  ol.steps li:first-child { border-top: 1px solid var(--rule-strong); }
+  ol.steps li::before {
+    content: counter(step);
+    font-family: var(--data);
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+  }
+  ol.steps .why { color: var(--muted); font-size: 15px; display: block; margin-top: 2px; }
+
+  ul.plain { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 11px; }
+  ul.plain li { display: grid; grid-template-columns: 16px 1fr; gap: 10px; font-size: 16px; }
+  ul.plain li::before { content: "✓"; font-family: var(--data); color: var(--good); font-weight: 700; }
+
+  section { display: flex; flex-direction: column; gap: 20px; }
+  .section-head { display: flex; flex-direction: column; gap: 7px; }
+
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+
+  @media (max-width: 560px) {
+    body { font-size: 16px; }
+    .sheet { padding: 40px 18px 72px; gap: 44px; }
+    .line, ol.steps li { grid-template-columns: 34px 1fr; gap: 0 12px; }
+    .totals { padding: 2px 16px; }
+    .totals-row { flex-direction: column; gap: 4px; align-items: flex-start; }
+  }
+</style>
+
+<div class="sheet">
+
+  <header class="masthead">
+    <p class="eyebrow">Conversion &amp; UI review · 29 Aug 2026</p>
+    <h1>Makecepeit Conversion Audit</h1>
+    <p class="thesis">The page that asks for money ships its three paid buttons <em>disabled</em>, and the first price is 2,105px down a phone screen.</p>
+    <div class="meta">
+      <span><b>Scope</b> /pricing · /login · sign-up</span>
+      <span><b>Measured on</b> www.makecepeit.com, live</span>
+      <span><b>Search data</b> GSC, 28 May – 26 Aug 2026</span>
+    </div>
+  </header>
+
+  <hr class="perf">
+
+  <section>
+    <div class="section-head">
+      <p class="eyebrow">The numbers</p>
+      <h2>What the funnel actually looks like</h2>
+    </div>
+    <p class="prose">Every figure below was taken from the live site or from Search Console — none are estimates. The scroll-depth numbers come from element bounding boxes measured on a 375 × 812 viewport.</p>
+
+    <div class="totals">
+      <div class="totals-row">
+        <span class="label">Organic clicks to <code>/pricing</code> in 90 days (from 8 impressions)</span>
+        <span class="value bad">0</span>
+      </div>
+      <div class="totals-row">
+        <span class="label">Scroll depth to the first price on a phone — 2.6 screens</span>
+        <span class="value bad">2,105<span class="unit">px</span></span>
+      </div>
+      <div class="totals-row">
+        <span class="label">Scroll depth to the button on the plan you recommend — 4.4 screens</span>
+        <span class="value bad">3,610<span class="unit">px</span></span>
+      </div>
+      <div class="totals-row">
+        <span class="label">Paid CTAs that arrive from the server with <code>disabled=""</code></span>
+        <span class="value bad">3 of 3</span>
+      </div>
+      <div class="totals-row">
+        <span class="label">Analytics events fired when a sign-up fails</span>
+        <span class="value bad">0</span>
+      </div>
+      <div class="totals-row">
+        <span class="label">Site-wide search performance — 511 clicks / 68,631 impressions, avg. position 21.3</span>
+        <span class="value">0.74<span class="unit">% CTR</span></span>
+      </div>
+    </div>
+  </section>
+
+  <hr class="perf">
+
+  <section>
+    <div class="section-head">
+      <p class="eyebrow">Finding group A</p>
+      <h2>/pricing</h2>
+    </div>
+
+    <div class="ledger">
+
+      <div class="line">
+        <span class="sku">A1</span>
+        <div class="item">
+          <div class="line-head"><span class="chip critical">Revenue blocking</span><h3>The three paid buttons ship disabled</h3></div>
+          <p>The server HTML for all three plan CTAs contains <code>disabled=""</code> and <code>disabled:opacity-60</code>. They stay inert and visibly faded until React hydrates <em>and</em> <code>/api/me</code> returns — that request measured 0.51–0.57s from this machine, on top of hydration. Anyone who taps in that window gets nothing back.</p>
+          <p>They are also <code>&lt;button&gt;</code> elements, not links. If hydration never completes — a blocked script, a slow phone, a background tab — they never work at all. The Free card's CTA is a real <code>&lt;Link&gt;</code> and always works, so the only dead controls on the page are the three that take money.</p>
+          <p class="ref">app/pricing/PricingCta.tsx:83 · app/pricing/PricingCta.tsx:87</p>
+          <p class="fix"><b>Fix</b>Render each paid CTA as <code>&lt;a href={paymentLink}&gt;</code> so it works as plain HTML, and let the click handler upgrade it — appending <code>client_reference_id</code>, redirecting to login, firing <code>begin_checkout</code>. Keep the spinner for the busy state; drop the initial disabled state entirely.</p>
+        </div>
+      </div>
+
+      <div class="line">
+        <span class="sku">A2</span>
+        <div class="item">
+          <div class="line-head"><span class="chip critical">Revenue blocking</span><h3>No price is visible for two and a half screens</h3></div>
+          <p>On a 375 × 812 phone the hero, the four-row free-tier ladder and the watermark comparison consume everything above 2,105px. The watermark demo alone is 1,430px — 1.76 screens of two stacked receipt images. The full page is 6,567px.</p>
+          <div class="depth">
+            <div class="depth-grid">
+              <span class="px">129</span><span class="bar cool" style="width:4%"></span><span class="what">H1 “Simple, honest pricing”</span>
+              <span class="px">321</span><span class="bar cool" style="width:9%"></span><span class="what">Free-tier ladder</span>
+              <span class="px">594</span><span class="bar warm" style="width:17%"></span><span class="what">Watermark comparison starts</span>
+              <span class="px">2,024</span><span class="bar warm" style="width:59%"></span><span class="what">Watermark comparison ends</span>
+              <span class="px">2,105</span><span class="bar hot" style="width:61%"></span><span class="what">First price appears</span>
+              <span class="px">3,610</span><span class="bar hot" style="width:100%"></span><span class="what">“Go Pro Yearly” button</span>
+            </div>
+            <p class="depth-caption">Distance from top of document, 375 × 812 viewport. One screen = 812px.</p>
+          </div>
+          <p class="fix"><b>Fix</b>Put the price table directly under the hero on mobile and move the watermark comparison below it — the comparison answers “is it worth it?”, which is a question people ask <em>after</em> they've seen the number, not before.</p>
+        </div>
+      </div>
+
+      <div class="line">
+        <span class="sku">A3</span>
+        <div class="item">
+          <div class="line-head"><span class="chip friction">Friction</span><h3>The watermark demo doesn't do what its own comment says</h3></div>
+          <p>The demo receipt is narrowed to <code>widthPx: 260</code> with the comment “Narrowed so both panels sit side by side on a phone.” But the container is <code>grid gap-8 sm:grid-cols-2</code> — a single column below 640px. Measured on the live page, the two figures sit at y=742 and y=1399: stacked. Mobile pays the cost of the narrowing (a smaller, less legible watermark) and gets none of the benefit.</p>
+          <p class="ref">app/pricing/page.tsx:76 · app/pricing/page.tsx:189</p>
+          <p class="fix"><b>Fix</b>Make it <code>grid-cols-2</code> from the base breakpoint. That is what the 260px width was chosen for, and it also removes ~700px from the scroll depth in A2.</p>
+        </div>
+      </div>
+
+      <div class="line">
+        <span class="sku">A4</span>
+        <div class="item">
+          <div class="line-head"><span class="chip friction">Friction</span><h3>Four tiers squeezed into 222px columns</h3></div>
+          <p>At 1440px the grid is <code>lg:grid-cols-4</code> inside <code>max-w-5xl</code>, so each card measures 222px wide. With <code>p-8</code> padding that leaves 158px for content, and bullets like “Unlimited AI receipt generation” wrap to three lines. Because the feature lists differ in length, the CTAs don't align — their tops land at 1,684 / 1,676 / 1,621.</p>
+          <p class="fix"><b>Fix</b>Two cards — Free and Pro — with a week / month / year selector inside the Pro card. That gives each card real width, aligns the CTAs by construction, and makes the interval a choice rather than three competing products.</p>
+        </div>
+      </div>
+
+      <div class="line">
+        <span class="sku">A5</span>
+        <div class="item">
+          <div class="line-head"><span class="chip friction">Friction</span><h3>The $3 anchor is working against the $7.99 plan</h3></div>
+          <p>Weekly at $3 is the cheapest number on the page and the worst value per month — $13/mo equivalent. It sits left of monthly, so the eye reads $3 → $7.99 → $39 as a rising ladder rather than a falling per-month price. Meanwhile the only badge on the page (“Best value · Save ~60%”) is on the yearly plan, which is a hard sell for a job that is usually one-off: someone who lost a receipt needs it this week, not this year.</p>
+          <p class="fix"><b>Fix</b>State every plan's monthly equivalent under its price ($13/mo · $7.99/mo · $3.25/mo) so the ladder reads in one direction. Then check <code>begin_checkout</code> by plan before deciding which card earns the badge — the data to answer this is already being collected.</p>
+        </div>
+      </div>
+
+      <div class="line">
+        <span class="sku">A6</span>
+        <div class="item">
+          <div class="line-head"><span class="chip friction">Friction</span><h3>The scariest sentence on the page has nothing standing next to it</h3></div>
+          <p>The cancellation FAQ says there is no self-serve billing portal and that cancelling or refunding means emailing support. That is honest and it should stay. But it is the only thing on the page addressing risk — there is no refund promise, no customer quote, no count of receipts made. The page asks for money and offers nothing to trust.</p>
+          <p class="fix"><b>Fix</b>Two tasks already on the Marketing &amp; Revenue board land exactly here: “Put three real customer quotes on the site” (P1, Next) and “Publish a refund policy” (P2, Next). Put both above the FAQ rather than elsewhere on the site — this is the page where they change a decision.</p>
+        </div>
+      </div>
+
+      <div class="line">
+        <span class="sku">A7</span>
+        <div class="item">
+          <div class="line-head"><span class="chip friction">Friction</span><h3>The chat bubble covers a quarter of the Decline button</h3></div>
+          <p>The consent dialog is <code>fixed inset-x-4 bottom-4 z-50</code> and the chat launcher is <code>fixed bottom-5 right-5 z-50</code>, 56 × 56. On a 375px viewport the Decline button spans x 193–339 and the launcher spans x 303–359: roughly 36px of a 146px button, its full height, sits under the bubble. Same z-index, so paint order decides — and the launcher wins. Confirmed visually on the live page.</p>
+          <p class="ref">components/analytics/ConsentGate.tsx:89 · components/chat/ChatWidget.tsx:139</p>
+          <p class="fix"><b>Fix</b>Hide the chat launcher while consent is unset, or lift the launcher above the dialog's height. This affects only first-time visitors — which is every visitor, once.</p>
+        </div>
+      </div>
+
+      <div class="line">
+        <span class="sku">A8</span>
+        <div class="item">
+          <div class="line-head"><span class="chip polish">Polish</span><h3>Screen readers announce “check mark” before every feature</h3></div>
+          <p>The plan feature lists use a bare <code>&lt;span&gt;✓&lt;/span&gt;</code> with no <code>aria-hidden</code>, so it is read aloud on all four cards. <code>NewAccountBanner.tsx</code> already marks its own ✓ as <code>aria-hidden</code> — so two files on the same page disagree.</p>
+          <p class="ref">app/pricing/page.tsx:220, 244, 267, 293</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="perf">
+
+  <section>
+    <div class="section-head">
+      <p class="eyebrow">Finding group B</p>
+      <h2>/login and sign-up</h2>
+    </div>
+
+    <p class="prose">The form itself is the best-built thing reviewed here, and none of the findings below are about its markup. They are about what surrounds it: where it sends people, and what it fails to record.</p>
+
+    <div class="ledger">
+
+      <div class="line">
+        <span class="sku">B1</span>
+        <div class="item">
+          <div class="line-head"><span class="chip blind">Blind spot</span><h3>Nothing is recorded when a sign-up fails</h3></div>
+          <p>There is a whole error-mapping function in <code>LoginForm.tsx</code>, written because real sign-ups were failing with an empty server body and showing a blank red box. Every one of those failures — already-registered, rejected address, rate limit, empty <code>{}</code> — is invisible in analytics. A person hits the wall, leaves, and the funnel shows only a missing sign-up.</p>
+          <p class="ref">app/login/LoginForm.tsx:48–73</p>
+          <p class="fix"><b>Fix</b>One line: <code>track("sign_up_error", { reason })</code> in the branch that already classifies the error. This is the highest-leverage analytics change on the page, and it pairs directly with the board's “See which checkouts actually turn into sales” (P1, Next).</p>
+        </div>
+      </div>
+
+      <div class="line">
+        <span class="sku">B2</span>
+        <div class="item">
+          <div class="line-head"><span class="chip blind">Blind spot</span><h3>Google sign-ups never fire <code>sign_up</code></h3></div>
+          <p><code>analytics.signUp("password")</code> is called only on the password path. Google accounts and email-confirmed accounts are both created server-side in the auth callback, which fires nothing. So an entire acquisition channel produces accounts that never appear in the sign-up funnel.</p>
+          <p class="ref">app/login/LoginForm.tsx:271 · app/auth/callback/route.ts:53–78</p>
+        </div>
+      </div>
+
+      <div class="line">
+        <span class="sku">B3</span>
+        <div class="item">
+          <div class="line-head"><span class="chip blind">Blind spot</span><h3>The <code>login</code> event counts Google at intent and password at success</h3></div>
+          <p><code>analytics.signIn("google")</code> fires <em>before</em> <code>signInWithOAuth</code> redirects, so it counts everyone who clicks the button — including those who abandon at Google's account chooser or bounce back with an error. <code>analytics.signIn("password")</code> fires only after a confirmed session. The two are not comparable and Google is systematically inflated.</p>
+          <p class="ref">app/login/LoginForm.tsx:304 vs. app/login/LoginForm.tsx:329</p>
+          <p class="fix"><b>Fix</b>Move the Google success event into the auth callback destination, and if the click is worth counting, count it as a separate <code>login_attempt</code>.</p>
+        </div>
+      </div>
+
+      <div class="line">
+        <span class="sku">B4</span>
+        <div class="item">
+          <div class="line-head"><span class="chip friction">Friction</span><h3>Signing up from the header throws away where you were</h3></div>
+          <p>The header's log-in link carries the current path — <code>/login?next=/brands/starbucks</code> — but no <code>signup=1</code>. Toggle to “New here? Create an account”, submit, and the redirect branches on the <code>signup</code> <em>prop</em>, which is false, so the new account lands on <code>/pricing?new=1</code> and <code>next</code> is discarded. Logging in keeps your place; signing up loses it. Someone reading a Starbucks receipt guide is sent to a price list instead of back to the guide.</p>
+          <p class="ref">app/login/LoginForm.tsx:281 · components/layout/Header.tsx:30–34</p>
+          <p class="fix"><b>Fix</b>Honour an explicit <code>next</code> whenever one was supplied and isn't the <code>/create</code> default, regardless of which form the person ended up submitting.</p>
+        </div>
+      </div>
+
+      <div class="line">
+        <span class="sku">B5</span>
+        <div class="item">
+          <div class="line-head"><span class="chip friction">Friction</span><h3>The one-tap path is fourth on the screen</h3></div>
+          <p>“Continue with Google” sits below the email field, the password field, the primary submit and the mode toggle. It is the fastest way to an account and it reads as the fallback.</p>
+          <p class="fix"><b>Fix</b>Move Google above the email field with the “or” divider beneath it. Everything else on the screen stays exactly as it is.</p>
+        </div>
+      </div>
+
+      <div class="line">
+        <span class="sku">B6</span>
+        <div class="item">
+          <div class="line-head"><span class="chip good">Already right</span><h3>The form itself passes every check</h3></div>
+          <ul class="plain">
+            <li>Validation on blur, not on keystroke — and the email check names the actual typo (“Remove the extra dot”)</li>
+            <li>Correct <code>autocomplete</code> per mode: <code>new-password</code> when signing up, <code>current-password</code> when logging in</li>
+            <li>Password reveal toggle at a true 44 × 44 tap target with <code>aria-pressed</code></li>
+            <li>Visible labels, inline errors wired through <code>aria-describedby</code>, <code>role="alert"</code> on each</li>
+            <li>Focus moves to the verification panel when it replaces the form</li>
+            <li><code>text-base</code> on mobile, so iOS doesn't zoom on focus</li>
+            <li>Rendered from server props rather than a Suspense boundary — the form is in the initial HTML</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="perf">
+
+  <section>
+    <div class="section-head">
+      <p class="eyebrow">Reading the data</p>
+      <h2>Where conversion is actually won</h2>
+    </div>
+    <p class="prose"><code>/pricing</code> took 8 impressions and 0 clicks over 90 days. It is not a landing page and there is no point treating it as one — every visitor arrives from inside the product: the header, the watermark modal, the builder's download note, the post-sign-up banner, or the homepage. Its search performance is irrelevant; its first screen is not.</p>
+    <p class="prose"><code>/login</code> returned no rows at all, which is the correct outcome for a funnel step. The <code>noindex</code> treatment of its query-string variants is doing its job and needs nothing further.</p>
+    <p class="prose"><code>/create</code> — the top of the paid funnel — has 1,494 impressions and 0 clicks at an average position of 78. That is a ranking problem, not a page problem, and it already sits in memory as such. It matters here only because it means the paid funnel is currently fed almost entirely by blog and brand pages, so anything that breaks between “I made a receipt” and “I paid” costs the whole month's content work.</p>
+    <p class="prose">Downstream instrumentation is genuinely good: <code>download_click</code> → <code>watermark_prompt</code> → <code>upgrade_click</code> → <code>begin_checkout</code> → <code>purchase_landed</code> → <code>pro_activated</code> covers the money path end to end, including manual fulfilment. The blind spot is the auth step sitting in the middle of it — which is what B1 through B3 are about.</p>
+  </section>
+
+  <hr class="perf">
+
+  <section>
+    <div class="section-head">
+      <p class="eyebrow">Order of work</p>
+      <h2>What to fix first</h2>
+    </div>
+    <ol class="steps">
+      <li><div><strong>Make the paid CTAs work as plain HTML</strong><span class="why">A1. Nothing else on this list matters if the button doesn't respond. Smallest change, largest downside removed.</span></div></li>
+      <li><div><strong>Record sign-up failures and fix the Google events</strong><span class="why">B1–B3. Until these land, every other change on this page is being judged on numbers that don't include the people it's failing.</span></div></li>
+      <li><div><strong>Put the price above the watermark comparison on mobile</strong><span class="why">A2 and A3 together. Fixing the stacked grid alone removes about 700px; reordering removes the rest.</span></div></li>
+      <li><div><strong>Keep <code>next</code> through sign-up</strong><span class="why">B4. A one-line condition that stops sending mid-journey readers to a price list.</span></div></li>
+      <li><div><strong>Then the trust work already on the board</strong><span class="why">A6. Quotes and a refund policy, placed on /pricing rather than elsewhere. Both are already written up as tasks.</span></div></li>
+    </ol>
+    <p class="prose">Steps 1, 2 and 4 are each small enough to ship together in one pass. Step 3 is a layout change worth reviewing on a real phone before it merges to <code>main</code>.</p>
+  </section>
+
+</div>
