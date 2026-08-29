@@ -15,6 +15,22 @@ import {
 type Mode = "login" | "signup" | "forgot";
 const MIN_PASSWORD = 8;
 
+/**
+ * Where a brand-new account lands when nothing is waiting for them.
+ *
+ * A signup that began at a gate has work to finish — a stashed AI prompt, a
+ * download to resume — and must go back to it. Everyone else arrived to make an
+ * account and nothing more, so they get the plans.
+ *
+ * `new=1`, deliberately not `welcome=1`: the welcome sheet is a modal, and a
+ * modal covering the price table is the opposite of showing someone the plans.
+ * /pricing renders an inline banner off this flag instead — see
+ * app/pricing/NewAccountBanner.tsx. app/auth/callback/route.ts repeats this
+ * destination for the email and Google routes, the same way `welcome=1` is
+ * already repeated across the three files that know about it.
+ */
+const NEW_ACCOUNT_DESTINATION = "/pricing?new=1";
+
 // Show "Continue with Google" only once the provider is actually configured in
 // Supabase. Flip NEXT_PUBLIC_GOOGLE_AUTH_ENABLED="true" in Vercel to enable it —
 // no code change needed. Hidden by default so we never show a dead button.
@@ -127,7 +143,13 @@ export default function LoginForm({
   const passwordRef = useRef<HTMLInputElement>(null);
   const verifyPanelRef = useRef<HTMLDivElement>(null);
 
-  const redirectTo = `${typeof window !== "undefined" ? window.location.origin : ""}/auth/callback?next=${encodeURIComponent(next)}`;
+  // `signup` rides along so /auth/callback can make the same "was a gate
+  // involved?" decision this component makes below. Without it, the email-
+  // confirmation and Google routes have no way to tell a gated signup from a
+  // plain one and would send everybody to the same place.
+  const redirectTo = `${typeof window !== "undefined" ? window.location.origin : ""}/auth/callback?next=${encodeURIComponent(next)}${
+    signup ? "&signup=1" : ""
+  }`;
 
   // The verify panel replaces the whole form, which is a navigation-sized
   // change with no page load — move focus to it so screen reader users are
@@ -251,7 +273,12 @@ export default function LoginForm({
       // session — the user is already signed in, so showing them a "check your
       // inbox" wall would strand them on a screen they cannot clear.
       if (data.session) {
-        window.location.assign(withWelcome(next));
+        // `signup` (the prop), not `mode` (the state). The prop means "a gate
+        // sent this person here", which is what decides whether work is waiting
+        // at `next`. `mode` is only which form is on screen — someone who
+        // opened /login and toggled over to Create an account has mode
+        // "signup" and no pending task, and belongs on the plans.
+        window.location.assign(signup ? withWelcome(next) : NEW_ACCOUNT_DESTINATION);
         return;
       }
       setVerifyEmail(cleanEmail);

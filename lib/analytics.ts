@@ -124,6 +124,11 @@ export const analytics = {
   // The post-signup welcome sheet was shown. Pairs with sign_up to confirm the
   // flag survives the redirect, and with upgrade_click{welcome_sheet}.
   welcomeShown: () => track("welcome_shown", {}),
+  // A new account landed on /pricing instead of the welcome sheet — the
+  // ungated signup path. The two are mutually exclusive, so welcome_shown and
+  // this one together should account for every sign_up, and comparing the
+  // purchase rate after each is the whole point of splitting them.
+  newAccountPricingShown: () => track("new_account_pricing_shown", {}),
   // Which worked example a visitor opened. Tells us whether the hero demo is
   // doing any work now that AI itself needs an account.
   aiDemoOpened: (example: string) => track("ai_demo_opened", { example }),

@@ -8,6 +8,7 @@ import type { ReceiptData } from "@/lib/types";
 import { getPaymentLinks } from "@/lib/settings";
 import { absoluteUrl, SITE } from "@/lib/site";
 import PricingCta from "./PricingCta";
+import NewAccountBanner from "./NewAccountBanner";
 
 const PRICING_TITLE = `Pricing — Remove the Watermark with ${SITE.name} Pro`;
 const PRICING_DESCRIPTION =
@@ -139,6 +140,9 @@ export default async function PricingPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppJsonLd) }}
       />
+      {/* Renders nothing unless ?new=1, so the static HTML crawlers and every
+          other visitor get is byte-for-byte what it was. */}
+      <NewAccountBanner />
       <div className="text-center">
         <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
           Simple, honest pricing

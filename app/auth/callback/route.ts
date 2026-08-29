@@ -17,6 +17,9 @@ export async function GET(request: Request) {
   const tokenHash = searchParams.get("token_hash");
   const type = searchParams.get("type") as EmailOtpType | null;
   const next = searchParams.get("next") ?? "/create";
+  // Set by LoginForm when a gate started this signup (the download wall, the AI
+  // prompt). It means work is waiting at `next`, so the plans have to wait.
+  const fromGate = searchParams.get("signup") === "1";
 
   // The OAuth provider (or Supabase) can bounce back with an explicit error —
   // surface its description on the login page instead of a generic message.
@@ -32,20 +35,26 @@ export async function GET(request: Request) {
   if (providerError) return fail(providerError);
 
   /**
-   * Send a brand-new account to the welcome sheet, the same as the password
-   * sign-up path does. Covers the two routes that land here instead: a verified
-   * email link, and Google sign-in by someone who has never used the site.
+   * Where a brand-new account goes, mirroring the password sign-up path in
+   * LoginForm. Covers the two routes that land here instead: a verified email
+   * link, and Google sign-in by someone who has never used the site.
+   *
+   * A gated signup goes back to `next` with the welcome sheet, because there is
+   * work waiting there. Everyone else goes to the plans — they came to make an
+   * account and nothing else, so nothing is lost by leading with pricing.
    *
    * "New" is judged by how recently the account was created, because that is
    * the only signal available here — `last_sign_in_at` is already stamped by
    * the exchange itself, so it cannot distinguish first visit from tenth. The
    * window is generous on purpose: showing a one-time welcome twice is a
-   * trivial cost, never showing it to a real new user is not.
+   * trivial cost, never showing it to a real new user is not. Returning users
+   * are unaffected either way and go straight to `next`.
    */
   const destinationFor = (createdAt: string | undefined): string => {
     if (!createdAt) return next;
     const age = Date.now() - new Date(createdAt).getTime();
     if (!Number.isFinite(age) || age > 10 * 60 * 1000) return next;
+    if (!fromGate) return "/pricing?new=1";
     const url = new URL(next, origin);
     url.searchParams.set("welcome", "1");
     return `${url.pathname}${url.search}${url.hash}`;
