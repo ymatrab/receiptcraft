@@ -14,7 +14,7 @@ export const HOMEPAGE_FAQS: Faq[] = [
   {
     question: "Do I need to create an account to make a receipt?",
     answer:
-      "You can build and preview a receipt instantly with no sign-up. Downloading uses a free account: your first 3 receipts export watermark-free in HD, and after that free downloads include a small watermark unless you upgrade to Pro. An account also lets you save receipts to reopen later.",
+      "You can build and preview a receipt instantly with no sign-up. A free account is needed for two things: downloading, and the AI generator. Your first 3 downloads export watermark-free in HD, and after that free downloads include a small watermark unless you upgrade to Pro. An account also lets you save receipts to reopen later.",
   },
   {
     question: "What file formats can I download my receipt in?",

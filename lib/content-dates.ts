@@ -19,7 +19,11 @@ import { LAST_UPDATED } from "./comparisons";
  */
 
 export const STATIC_UPDATED = "2026-07-20";
-export const CONTENT_UPDATED = "2026-08-14";
+// 2026-08-29: /tools/receipt-calculator stopped saying an account is needed
+// "only to download" — the AI generator needs one too. /tools and the other
+// calculator did not change, but they share this constant and the text sits in
+// a shared footer note, so one date covers the set honestly.
+export const CONTENT_UPDATED = "2026-08-29";
 export const TEMPLATES_UPDATED = "2026-07-20";
 export const TEMPLATES_CITED_UPDATED = "2026-08-20";
 export const TEMPLATES_FIGURE_UPDATED = "2026-08-21";
