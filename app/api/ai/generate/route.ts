@@ -5,6 +5,7 @@ import { supabaseConfigured } from "@/lib/supabase/config";
 import { getRoutableAiConnections, setAiCooldown, clearAiCooldown } from "@/lib/settings";
 import { generateJson, AiProviderError, AI_ATTEMPT_TIMEOUT_MS } from "@/lib/ai-providers";
 import { FREE_LIMITS } from "@/lib/plans";
+import { startOfUsageDay } from "@/lib/usage";
 import { AI_RECEIPT_SCHEMA, receiptSystemPrompt, type AiReceiptResult } from "@/lib/ai-receipt";
 
 export const runtime = "nodejs";
@@ -26,12 +27,17 @@ export const maxDuration = 30;
  */
 const ROUTING_BUDGET_MS = 26_000;
 
-/** Logged-in free users: count today's rows in ai_usage. */
+/**
+ * Logged-in free users: count today's rows in ai_usage.
+ *
+ * The day boundary comes from lib/usage.ts because the account page now shows
+ * the user how many generations they have left. Two definitions of "today"
+ * would mean the page says "1 left" and this function then refuses the request.
+ */
 async function checkUserLimit(userId: string): Promise<boolean> {
   if (!supabaseConfigured) return true;
   const admin = createAdminClient();
-  const since = new Date();
-  since.setHours(0, 0, 0, 0);
+  const since = startOfUsageDay();
   const { count } = await admin
     .from("ai_usage")
     .select("*", { count: "exact", head: true })
