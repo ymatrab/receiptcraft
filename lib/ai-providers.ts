@@ -12,14 +12,27 @@ export class AiProviderError extends Error {
   readonly status: number | null;
   /** Seconds until this provider is worth trying again, when it told us. */
   readonly retryAfterSeconds: number | null;
-  constructor(message: string, status: number | null = null, retryAfterSeconds: number | null = null) {
+  /**
+   * The call never got an answer at all — timed out, or the socket/DNS failed.
+   * There is no status to reason about, but an unanswered call is always worth
+   * another go, so this has to be tracked separately from `status`.
+   */
+  readonly networkFailure: boolean;
+  constructor(
+    message: string,
+    status: number | null = null,
+    retryAfterSeconds: number | null = null,
+    networkFailure = false
+  ) {
     super(message);
     this.name = "AiProviderError";
     this.status = status;
     this.retryAfterSeconds = retryAfterSeconds;
+    this.networkFailure = networkFailure;
   }
   /** Whether trying the same provider again shortly could plausibly work. */
   get isTransient(): boolean {
+    if (this.networkFailure) return true;
     if (this.status === 429) return true;
     if (this.status !== null && this.status >= 500) return true;
     return /overload|timeout|temporarily/i.test(this.message);
@@ -74,6 +87,40 @@ function retryAfterFrom(res: Response, body: string): number | null {
 }
 
 /**
+ * How long one provider gets before we give up on it and try the next.
+ *
+ * Every call in this file used to be a bare `fetch` with no signal, which made
+ * the failover loop in /api/ai/generate theoretical rather than real: a provider
+ * that hangs instead of erroring holds the whole request until Vercel kills the
+ * function, so the next connection is never reached and the user waits for a
+ * response that can no longer arrive. Sized off measured latency on 2026-08-29
+ * (Groq ~1.1s, Gemini ~7.8s worst case 9.8s) with headroom, and the route's
+ * `maxDuration` covers two attempts plus its own overhead.
+ */
+export const AI_ATTEMPT_TIMEOUT_MS = 12_000;
+
+/**
+ * `fetch` that gives up rather than hanging, reporting the give-up as a
+ * transient provider error so the caller fails over instead of dying.
+ */
+async function fetchProvider(label: string, url: string, init: RequestInit): Promise<Response> {
+  try {
+    return await fetch(url, { ...init, signal: AbortSignal.timeout(AI_ATTEMPT_TIMEOUT_MS) });
+  } catch (err) {
+    const name = err instanceof Error ? err.name : "";
+    if (name === "TimeoutError" || name === "AbortError") {
+      throw new AiProviderError(
+        `${label} timeout after ${AI_ATTEMPT_TIMEOUT_MS / 1000}s`,
+        null,
+        null,
+        true
+      );
+    }
+    throw new AiProviderError(`${label} unreachable: ${short(String(err))}`, null, null, true);
+  }
+}
+
+/**
  * Generate structured JSON from a prompt using the configured provider. Returns
  * the parsed object. Each provider is asked to return JSON matching `schema`.
  */
@@ -113,7 +160,15 @@ function parseJson(text: string, provider: string): unknown {
 
 // --- Anthropic (Claude) -----------------------------------------------------
 async function generateAnthropic(config: AiConfig, system: string, prompt: string, schema: object) {
-  const client = new Anthropic({ apiKey: config.apiKey });
+  // The SDK defaults to a 10-minute timeout and 2 retries, so a stalled Claude
+  // could hold the request for half an hour on its own. Failover across
+  // providers is the retry that matters here, so this one gets a single shot on
+  // the same budget every other provider gets.
+  const client = new Anthropic({
+    apiKey: config.apiKey,
+    timeout: AI_ATTEMPT_TIMEOUT_MS,
+    maxRetries: 0,
+  });
   let message;
   try {
     message = await client.messages.create({
@@ -127,7 +182,15 @@ async function generateAnthropic(config: AiConfig, system: string, prompt: strin
     });
   } catch (err) {
     if (err instanceof Anthropic.APIError) {
-      throw new AiProviderError(`Anthropic ${err.status}: ${short(err.message)}`, err.status ?? null);
+      // Connection and timeout errors are APIErrors too, but carry no status.
+      // They mean the call was never answered, which is worth failing over on.
+      const status = err.status ?? null;
+      throw new AiProviderError(
+        `Anthropic ${status ?? "connection"}: ${short(err.message)}`,
+        status,
+        null,
+        status === null
+      );
     }
     throw err;
   }
@@ -156,7 +219,7 @@ async function generateOpenaiCompatible(
   /** Provider-specific body fields, e.g. Groq's reasoning_effort. */
   extra: Record<string, unknown> = {}
 ) {
-  const res = await fetch(url, {
+  const res = await fetchProvider(label, url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -263,7 +326,7 @@ async function generateCloudflare(config: AiConfig, system: string, prompt: stri
     throw new AiProviderError("Cloudflare needs an account ID as well as an API token.");
   }
   const url = `https://api.cloudflare.com/client/v4/accounts/${config.accountId}/ai/run/${config.model}`;
-  const res = await fetch(url, {
+  const res = await fetchProvider("Cloudflare", url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -319,7 +382,7 @@ function toGeminiSchema(schema: unknown): unknown {
 
 async function generateGoogle(config: AiConfig, system: string, prompt: string, schema: object) {
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${config.model}:generateContent`;
-  const res = await fetch(url, {
+  const res = await fetchProvider("Gemini", url, {
     method: "POST",
     // The key rides in a header rather than the query string so it cannot leak
     // into request logs or error messages that quote the URL.
