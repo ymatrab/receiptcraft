@@ -20,7 +20,7 @@ import { BRAND_COUNT } from "./counts";
 // named-brand and no-signup rows were both wrong, and the ExpressExpense price
 // was unsourced. A genuine review of the whole set, so the shared date moves
 // rather than a per-competitor one. Stamped 08-23, the day the copy shipped.
-export const LAST_UPDATED = "2026-08-23"; // ISO — shown as the page "last reviewed" date
+export const LAST_UPDATED = "2026-08-29"; // ISO — shown as the page "last reviewed" date
 export const PRICING_AS_OF = "August 2026"; // human-readable disclaimer on pricing tables
 
 /* -------------------------------------------------------------------------- */
@@ -194,7 +194,7 @@ export const COMPETITORS: Competitor[] = [
       {
         question: "Does MakeReceipt have an AI receipt generator?",
         answer:
-          "No. MakeReceipt receipts are filled in by hand. Makecepeit includes an AI generator that drafts a receipt from a short text description — one a day without an account, three a day on a free account, unlimited on Pro.",
+          "No. MakeReceipt receipts are filled in by hand. Makecepeit includes an AI generator that drafts a receipt from a short text description — three a day on a free account, unlimited on Pro.",
       },
     ],
     updated: LAST_UPDATED,

@@ -197,6 +197,7 @@ export default function SectionBuilder() {
   const [aiPrompt, setAiPrompt] = useState("");
   const [aiLoading, setAiLoading] = useState(false);
   const [aiError, setAiError] = useState<string | null>(null);
+  const [aiNeedsAuth, setAiNeedsAuth] = useState(false);
   const [saveState, setSaveState] = useState<"idle" | "saving" | "saved">("idle");
   // Shown when an out-of-credits free user downloads (watermark fallback).
   const [pendingExport, setPendingExport] = useState<ExportKind | null>(null);
@@ -468,6 +469,7 @@ export default function SectionBuilder() {
     if (!aiPrompt.trim() || aiLoading) return;
     setAiLoading(true);
     setAiError(null);
+    setAiNeedsAuth(false);
     analytics.aiGenerate("start", activeTemplate || undefined);
     try {
       const res = await fetch("/api/ai/generate", {
@@ -478,6 +480,7 @@ export default function SectionBuilder() {
       const data = await res.json();
       if (!res.ok) {
         analytics.aiGenerate("error", activeTemplate || undefined);
+        if (res.status === 401 || data.needsAuth) setAiNeedsAuth(true);
         setAiError(data.error ?? "Generation failed.");
         return;
       }
@@ -968,9 +971,10 @@ export default function SectionBuilder() {
         {aiError && (
           <p id="ai-error" role="alert" className="mt-2 text-xs font-medium text-red-700">
             {aiError}{" "}
-            {/* Signed-out visitors get offered the free step first — an account
-                lifts them from one generation a day to three at no cost. */}
-            {/account/i.test(aiError) ? (
+            {/* Signed-out visitors get offered the free step first: AI needs an
+                account, and that step costs them nothing. Driven by the route's
+                needsAuth flag, so rewording the message cannot drop the link. */}
+            {aiNeedsAuth ? (
               <Link href="/login?next=/create" className="font-semibold underline">
                 Create a free account
               </Link>

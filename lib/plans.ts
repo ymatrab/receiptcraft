@@ -87,14 +87,6 @@ export const PLANS: Record<PlanId, Plan> = {
 export const FREE_LIMITS = {
   aiGenerationsPerDay: 3,
   /**
-   * AI generations a signed-out visitor gets per day. Deliberately smaller than
-   * the signed-in allowance: this tier is enforced by a cookie, which anyone can
-   * clear, so it buys a demo rather than a usable quota. Signing in is what
-   * turns the limit into a real one (counted in ai_usage against the user id)
-   * and is what the 3/day figure published across the site refers to.
-   */
-  aiGenerationsPerDayAnon: 1,
-  /**
    * Watermark-free receipt downloads a logged-in free account gets before
    * downloads fall back to watermarked. Counted per unique receipt (re-downloads
    * and multiple formats of the same receipt don't consume extra credits).

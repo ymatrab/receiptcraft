@@ -37,6 +37,13 @@ export const GUIDES_UPDATED = "2026-08-20";
 // submitted, without restamping /guides/receipt-anatomy, which did not change.
 export const GUIDES_LEGALITY_UPDATED = "2026-08-21";
 export const POLICY_UPDATED = "2026-08-20";
+// /create and /cookies both sat on STATIC_UPDATED, which also stamps /login,
+// /blog, /about, /contact, /authors, /privacy and /terms. Both changed on
+// 2026-08-29 — /create renders the homepage FAQ, and /cookies listed the
+// ai_free_usage cookie that no longer exists — so they get their own constants
+// rather than dragging seven untouched pages into an IndexNow submission.
+export const CREATE_UPDATED = "2026-08-29";
+export const COOKIES_UPDATED = "2026-08-29";
 // 2026-08-21: /pricing now shows the watermark it asks people to pay to remove.
 export const PRICING_UPDATED = "2026-08-21";
 // 2026-08-23: the hero grid no longer stretches to the 380px receipt, so the
@@ -45,7 +52,9 @@ export const PRICING_UPDATED = "2026-08-21";
 // 2026-08-28: the "Is Makecepeit free?" FAQ — rendered on the page and in its
 // FAQPage JSON-LD — no longer says the AI generator gives 3 generations a day
 // with no account. Signed-out visitors now get one; three needs a free account.
-export const HOME_UPDATED = "2026-08-28";
+// 2026-08-29: superseded the same day — AI now requires an account outright, so
+// that FAQ answer changed again. Both the visible copy and the JSON-LD move.
+export const HOME_UPDATED = "2026-08-29";
 export const TEMPLATES_INDEX_UPDATED = "2026-08-20";
 export const COMPARISONS_UPDATED = LAST_UPDATED;
 
