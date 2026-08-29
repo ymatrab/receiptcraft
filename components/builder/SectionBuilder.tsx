@@ -975,7 +975,7 @@ export default function SectionBuilder() {
                 account, and that step costs them nothing. Driven by the route's
                 needsAuth flag, so rewording the message cannot drop the link. */}
             {aiNeedsAuth ? (
-              <Link href="/login?next=/create" className="font-semibold underline">
+              <Link href="/login?next=/create&signup=1" className="font-semibold underline">
                 Create a free account
               </Link>
             ) : aiError.includes("Upgrade") || aiError.includes("upgrade") ? (
@@ -1328,7 +1328,7 @@ export default function SectionBuilder() {
             </p>
             <div className="mt-6 flex flex-col gap-2">
               <Link
-                href="/login?next=/create"
+                href="/login?next=/create&signup=1"
                 // Matches the header: never hand crawlers a ?next= login URL.
                 rel="nofollow"
                 onClick={() => {
