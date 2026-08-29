@@ -21,6 +21,42 @@ const MIN_PASSWORD = 8;
 // no code change needed. Hidden by default so we never show a dead button.
 const googleEnabled = process.env.NEXT_PUBLIC_GOOGLE_AUTH_ENABLED === "true";
 
+/**
+ * Turn a Supabase auth error into something a person can act on.
+ *
+ * Its client stringifies any error body it does not recognise, so a failure can
+ * surface as the literal string "{}" — which is what a real signup showed:
+ * an empty red box, and the actual reason lost. Never render that. Map the
+ * known cases, and when the message is empty or structural, say something
+ * useful and put the raw error in the console for whoever debugs it next.
+ */
+function authErrorMessage(err: { message?: string } | null | undefined): string {
+  const raw = (err?.message ?? "").trim();
+  // eslint-disable-next-line no-console
+  console.error("[auth]", err);
+
+  if (/rate limit|too many requests/i.test(raw)) {
+    return "Too many attempts just now. Wait a minute and try again.";
+  }
+  if (/already registered|already been registered/i.test(raw)) {
+    return "That email is already registered. Try logging in instead.";
+  }
+  if (/invalid.*email|email.*invalid/i.test(raw)) {
+    return "That email address was rejected. Check it for typos — double dots and trailing dots are not allowed.";
+  }
+  if (/signups? not allowed|disabled/i.test(raw)) {
+    return "New sign-ups are turned off right now. Please contact support.";
+  }
+  if (/password/i.test(raw) && /weak|short|least/i.test(raw)) {
+    return "That password is too weak — use 8 characters or more.";
+  }
+  // Empty, "{}", or anything else carrying no actual words.
+  if (!/[a-z]/i.test(raw)) {
+    return "Sign-up failed, and the server didn't say why. Check your email address for typos, or try Continue with Google.";
+  }
+  return raw;
+}
+
 export default function LoginForm() {
   const params = useSearchParams();
   // Default back to the builder (not the profile page) so a user who logged in
@@ -85,6 +121,15 @@ export default function LoginForm() {
       setEmailError("Enter a valid email address, like you@example.com.");
       return false;
     }
+    // Consecutive, leading or trailing dots in the local part are invalid per
+    // RFC 5322, and the server rejects them — but it did so with an empty body,
+    // leaving the user staring at a blank error. Catch the typo here, where we
+    // can actually name it.
+    const local = value.slice(0, value.lastIndexOf("@"));
+    if (local.includes("..") || local.startsWith(".") || local.endsWith(".")) {
+      setEmailError("Remove the extra dot — an address can't contain \"..\" or start or end with a dot.");
+      return false;
+    }
     setEmailError(null);
     return true;
   }
@@ -130,7 +175,7 @@ export default function LoginForm() {
       });
       setBusy(false);
       if (error) {
-        setError(error.message);
+        setError(authErrorMessage(error));
         emailRef.current?.focus();
       } else {
         setNotice(`If an account exists for ${cleanEmail}, a reset link is on its way.`);
@@ -154,7 +199,7 @@ export default function LoginForm() {
       });
       setBusy(false);
       if (error) {
-        setError(error.message);
+        setError(authErrorMessage(error));
         emailRef.current?.focus();
         return;
       }
@@ -211,7 +256,7 @@ export default function LoginForm() {
       options: { emailRedirectTo: redirectTo },
     });
     setResendBusy(false);
-    if (error) setError(error.message);
+    if (error) setError(authErrorMessage(error));
     else setNotice("Verification email resent.");
   }
 
@@ -232,7 +277,7 @@ export default function LoginForm() {
     });
     if (error) {
       setGoogleBusy(false);
-      setError(`Sign-in failed: ${error.message}`);
+      setError(`Sign-in failed: ${authErrorMessage(error)}`);
     }
     // On success the browser is redirected to the provider.
   }
