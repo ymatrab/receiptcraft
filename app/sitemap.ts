@@ -38,7 +38,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE.url}/receipt-help`, lastModified: d(C.INTENT_UPDATED) },
     { url: `${SITE.url}/alternatives`, lastModified: d(C.COMPARISONS_UPDATED) },
     { url: `${SITE.url}/pricing`, lastModified: d(C.PRICING_UPDATED) },
-    { url: `${SITE.url}/login`, lastModified: d(C.STATIC_UPDATED) },
+    { url: `${SITE.url}/login`, lastModified: d(C.LOGIN_UPDATED) },
     { url: `${SITE.url}/blog`, lastModified: d(C.STATIC_UPDATED) },
     { url: `${SITE.url}/about`, lastModified: d(C.STATIC_UPDATED) },
     { url: `${SITE.url}/contact`, lastModified: d(C.STATIC_UPDATED) },

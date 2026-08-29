@@ -120,7 +120,7 @@ export default function HomeAiGenerator() {
               error text, so rewording the message cannot silently drop the link. */}
           {needsAuth ? (
             <Link
-              href="/login?next=/"
+              href="/login?next=/&signup=1"
               onClick={() => analytics.upgradeClick("home_ai_signup")}
               className="font-semibold underline"
             >

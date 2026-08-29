@@ -48,6 +48,12 @@ export const POLICY_UPDATED = "2026-08-20";
 // rather than dragging seven untouched pages into an IndexNow submission.
 export const CREATE_UPDATED = "2026-08-29";
 export const COOKIES_UPDATED = "2026-08-29";
+// 2026-08-29: /login now leads with the log-in form instead of "Create your
+// free account" — the heading, the sub-heading and the form itself all change
+// for anyone arriving with a ?next=. Its own constant for the same reason as
+// the two above: STATIC_UPDATED also covers /blog, /about, /contact, /authors,
+// /privacy and /terms, none of which changed.
+export const LOGIN_UPDATED = "2026-08-29";
 // 2026-08-21: /pricing now shows the watermark it asks people to pay to remove.
 export const PRICING_UPDATED = "2026-08-21";
 // 2026-08-23: the hero grid no longer stretches to the 380px receipt, so the

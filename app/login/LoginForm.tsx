@@ -70,18 +70,17 @@ function authErrorMessage(err: { message?: string } | null | undefined): string 
  */
 export default function LoginForm({
   next: nextParam = null,
+  signup = false,
   authError = null,
   authErrorDetail = null,
 }: {
   next?: string | null;
+  signup?: boolean;
   authError?: string | null;
   authErrorDetail?: string | null;
 }) {
   // Default back to the builder (not the profile page) so a user who logged in
   // mid-build lands on /create, where their autosaved draft is restored.
-  // A ?next= param means the visitor was sent here by a gated action (usually
-  // the download wall), so they are far more likely to be new than returning —
-  // open on signup to save them a click. The log-in toggle is still one tap away.
   const next = nextParam ?? "/create";
   /**
    * Where a brand-new account lands: their original destination, flagged so the
@@ -100,7 +99,12 @@ export default function LoginForm({
   const hadError = authError;
   const errorDetail = authErrorDetail;
 
-  const [mode, setMode] = useState<Mode>(nextParam ? "signup" : "login");
+  // Which form to open on. The caller decides via `?signup=1` — inferring it
+  // from the presence of `?next=` meant every "Log in" link in the site (the
+  // header's, the chat widget's, the redirects out of /account and /admin)
+  // opened a "Create your free account" form and then told the returning user
+  // their own email was already registered. See app/login/page.tsx.
+  const [mode, setMode] = useState<Mode>(signup ? "signup" : "login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);

@@ -59,7 +59,7 @@ export default function AiDemo() {
           <p className="mt-3 border-t border-dashed border-slate-200 pt-3 text-[11px] text-slate-500">
             A real example from the same generator.{" "}
             <Link
-              href="/login?next=/create"
+              href="/login?next=/create&signup=1"
               onClick={() => analytics.upgradeClick("home_ai_demo")}
               className="font-semibold text-indigo-600 underline"
             >

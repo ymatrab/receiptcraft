@@ -24,18 +24,23 @@ import { getCurrentUser } from "@/lib/auth";
 export async function generateMetadata({
   searchParams,
 }: {
-  searchParams: Promise<{ next?: string }>;
+  searchParams: Promise<{ next?: string; signup?: string }>;
 }): Promise<Metadata> {
-  const { next } = await searchParams;
+  const { next, signup } = await searchParams;
   const nextParam = typeof next === "string" && next.length > 0 ? next : null;
-  const canonical = nextParam
-    ? `/login?next=${encodeURIComponent(nextParam)}`
-    : "/login";
+  const signupParam = signup === "1";
+  // Any parameterised variant is a duplicate of bare /login, whichever param
+  // made it one — so both feed the canonical and both trigger the noindex.
+  const query = new URLSearchParams();
+  if (nextParam) query.set("next", nextParam);
+  if (signupParam) query.set("signup", "1");
+  const suffix = query.toString();
+  const canonical = suffix ? `/login?${suffix}` : "/login";
   return {
     title: "Log in",
     description: `Log in to ${SITE.name} to download your receipts, manage your Pro subscription and saved templates, and get support. New here? An account takes seconds to create.`,
     alternates: { canonical },
-    ...(nextParam ? { robots: { index: false, follow: true } } : {}),
+    ...(suffix ? { robots: { index: false, follow: true } } : {}),
   };
 }
 
@@ -44,13 +49,14 @@ export default async function LoginPage({
 }: {
   searchParams: Promise<{
     next?: string;
+    signup?: string;
     error?: string;
     error_description?: string;
   }>;
 }) {
   // Already signed in? There's nothing to log into — send them on. Honour a
   // safe internal `next` if present, otherwise drop them into the builder.
-  const { next, error, error_description: errorDetail } = await searchParams;
+  const { next, signup, error, error_description: errorDetail } = await searchParams;
 
   if (await getCurrentUser()) {
     const dest =
@@ -58,10 +64,23 @@ export default async function LoginPage({
     redirect(dest);
   }
 
-  // Visitors arriving with ?next= were stopped by a gate (almost always the
-  // download wall), so lead with what they were trying to do rather than with
-  // "log in" — LoginForm opens on signup for exactly the same reason.
-  const fromGate = Boolean(next);
+  /**
+   * Which form to lead with. Callers say so explicitly with `?signup=1`.
+   *
+   * This used to be inferred from the presence of `?next=`, on the theory that
+   * a `next` meant the visitor had been stopped by the download wall and was
+   * therefore new. But `next` only ever meant "return me here afterwards", and
+   * far more of the links that set it belong to people who already have an
+   * account: the header's own "Log in" link on every page, the chat widget's
+   * "Log in", /pro-activating's "Sign in", and the redirects out of /account,
+   * /account/receipts and /admin. All of them showed a returning user a
+   * "Create your free account" form, which then rejected their real address
+   * with "that email is already registered".
+   *
+   * So the default is log in, and the handful of gates aimed at new visitors
+   * opt in. Intent belongs to the caller; it cannot be read off a destination.
+   */
+  const fromGate = signup === "1";
 
   return (
     <main className="mx-auto flex min-h-[70dvh] max-w-md flex-col justify-center px-4 py-16">
@@ -76,6 +95,7 @@ export default async function LoginPage({
         </p>
         <LoginForm
           next={typeof next === "string" && next.length > 0 ? next : null}
+          signup={fromGate}
           authError={typeof error === "string" ? error : null}
           authErrorDetail={typeof errorDetail === "string" ? errorDetail : null}
         />
