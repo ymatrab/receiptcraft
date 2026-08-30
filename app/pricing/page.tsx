@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { PLANS, FREE_LIMITS } from "@/lib/plans";
+import { PLANS, FREE_LIMITS, monthlyEquivalent } from "@/lib/plans";
 import { docFromReceiptData } from "@/lib/sections";
 import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
 import Watermark from "@/components/receipt/Watermark";
 import type { ReceiptData } from "@/lib/types";
 import { absoluteUrl, SITE } from "@/lib/site";
-import ProPlanCard from "./ProPlanCard";
+import PricingCta from "./PricingCta";
 import NewAccountBanner from "./NewAccountBanner";
 import CheckoutNotice from "./CheckoutNotice";
 
@@ -78,6 +78,45 @@ const WATERMARK_DEMO_DOC = {
   ...WATERMARK_DEMO,
   settings: { ...WATERMARK_DEMO.settings, widthPx: 260 },
 };
+
+/**
+ * How each Pro plan is named, priced and called-to-action on the cards.
+ *
+ * Separate from lib/plans.ts `features`, which is a marketing list: the three
+ * Pro tiers are entitlement-identical, so the cards say what differs (duration
+ * and price) and PRO_INCLUDES below says what they share.
+ */
+const PRO_LABEL: Record<string, string> = {
+  pro_weekly: "7-day pass",
+  pro_monthly: "Monthly",
+  pro_yearly: "Yearly",
+};
+const PRO_UNIT: Record<string, string> = {
+  pro_weekly: "one week",
+  pro_monthly: "per month",
+  pro_yearly: "per year",
+};
+const PRO_CTA: Record<string, string> = {
+  pro_weekly: "Get 7 days",
+  pro_monthly: "Go monthly",
+  pro_yearly: "Go yearly",
+};
+
+/**
+ * What Pro gives you, said once.
+ *
+ * Taken from the set the three Pro plans genuinely share. Priority support is
+ * deliberately not in here — lib/plans.ts lists it on monthly and yearly but not
+ * weekly, and promising it to a weekly buyer because it tidied up the layout
+ * would be the sort of small untruth this page has had to be corrected for
+ * before. It is named in the line under the list instead.
+ */
+const PRO_INCLUDES = [
+  "No watermark",
+  "HD exports",
+  "Unlimited AI receipt generation",
+  "Saved receipt history",
+] as const;
 
 const FAQ = [
   {
@@ -175,44 +214,106 @@ export default function PricingPage() {
         ))}
       </ol>
 
-      {/* Two cards, not four.
-          At 1440px the old lg:grid-cols-4 row gave each card 222px — 158px of
-          content inside p-8, enough to wrap "Unlimited AI receipt generation"
-          onto three lines — and the CTAs did not align because the feature
-          lists differed in length. The three Pro prices also read left to right
-          as a rising ladder ($3, $7.99, $39) when per month they fall
-          ($13.00, $7.99, $3.25). The interval is a choice inside one card now,
-          which puts those numbers on a single scale. */}
-      <div className="mx-auto mt-12 grid max-w-3xl gap-6 sm:grid-cols-2">
+      {/* All four plans on screen at once, because comparing them is the whole
+          job of this page.
+
+          The layout follows from what actually differs between them: nothing.
+          pro_weekly, pro_monthly and pro_yearly are entitlement-identical — the
+          feature arrays in lib/plans.ts read differently, but yearly's list is a
+          cross-reference chain ("Everything in Pro Monthly"), not a difference.
+          The only axis that varies is price and duration.
+
+          So the entitlements are stated once, below, instead of being repeated
+          in four columns. That is what lets each card stay short enough to sit
+          in a 4-wide row without the 222px cramping the old version had, and it
+          means the four CTAs align by construction rather than by luck.
+
+          Every price also carries its monthly equivalent, so $3 / $7.99 / $39
+          stop reading as a rising ladder when per month they fall. */}
+      <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {/* Free */}
-        <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-          <h2 className="text-lg font-semibold text-slate-900">Free</h2>
-          <p className="mt-1 text-sm text-slate-600">
-            Every template, and your first {FREE_LIMITS.freeReceiptDownloads} downloads clean.
+        <div className="flex flex-col rounded-2xl border border-slate-200 bg-white p-6">
+          <h2 className="text-base font-semibold text-slate-900">Free</h2>
+          <p className="mt-4 text-3xl font-bold tabular-nums text-slate-900">$0</p>
+          <p className="text-sm text-slate-500">forever</p>
+          <p className="mt-3 min-h-10 text-sm text-slate-600">
+            First {FREE_LIMITS.freeReceiptDownloads} downloads clean, then watermarked.
           </p>
-          <p className="mt-6 text-4xl font-bold text-slate-900">
-            $0<span className="ml-1 text-base font-medium text-slate-500">forever</span>
-          </p>
-          <p className="mt-1 text-sm text-slate-600">No card, no trial</p>
-          <ul className="mt-6 space-y-3 text-sm text-slate-600">
-            {PLANS.free.features.map((f) => (
-              <li key={f} className="flex gap-2">
-                <span aria-hidden className="text-slate-400">
-                  ✓
-                </span>
-                {f}
-              </li>
-            ))}
-          </ul>
           <Link
             href="/create"
-            className="mt-8 block rounded-full border border-slate-300 bg-white px-5 py-3 text-center text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50"
+            className="mt-auto flex min-h-11 items-center justify-center rounded-full border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50"
           >
             Start free
           </Link>
         </div>
 
-        <ProPlanCard />
+        {[PLANS.pro_weekly, PLANS.pro_monthly, PLANS.pro_yearly].map((p) => {
+          const perMonth = monthlyEquivalent(p);
+          const best = p.id === "pro_yearly";
+          return (
+            <div
+              key={p.id}
+              className={`relative flex flex-col rounded-2xl bg-white p-6 ${
+                best ? "border-2 border-indigo-600 shadow-md" : "border border-slate-200"
+              }`}
+            >
+              {best && (
+                <span className="absolute -top-3 left-6 rounded-full bg-indigo-600 px-3 py-1 text-xs font-semibold text-white">
+                  Best value
+                </span>
+              )}
+              <h2 className="text-base font-semibold text-slate-900">{PRO_LABEL[p.id]}</h2>
+              <p className="mt-4 text-3xl font-bold tabular-nums text-slate-900">${p.price}</p>
+              <p className="text-sm text-slate-500">{PRO_UNIT[p.id]}</p>
+              {/* min-h keeps this line's height identical across cards, so the
+                  prices above it and the buttons below it stay on one line. */}
+              <p className="mt-3 min-h-10 text-sm text-slate-600">
+                {perMonth !== null && (
+                  <>
+                    <span className="font-semibold tabular-nums text-slate-900">
+                      ${perMonth.toFixed(2)}
+                    </span>{" "}
+                    a month
+                  </>
+                )}
+                {best && (
+                  <span className="block text-xs font-medium text-emerald-700">
+                    Save ~60% vs monthly
+                  </span>
+                )}
+              </p>
+              <PricingCta
+                planId={p.id as "pro_weekly" | "pro_monthly" | "pro_yearly"}
+                className={`mt-auto flex min-h-11 items-center justify-center rounded-full px-4 text-sm font-semibold transition-colors ${
+                  best
+                    ? "bg-indigo-600 text-white shadow-sm hover:bg-indigo-700"
+                    : "border border-indigo-200 bg-indigo-50 text-indigo-700 hover:bg-indigo-100"
+                }`}
+                label={PRO_CTA[p.id]}
+              />
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Stated once rather than four times. This is the whole reason the cards
+          above can be compact enough to compare at a glance. */}
+      <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-6">
+        <h2 className="text-sm font-semibold text-slate-900">Every Pro plan includes</h2>
+        <ul className="mt-3 grid gap-2 text-sm text-slate-700 sm:grid-cols-2 lg:grid-cols-4">
+          {PRO_INCLUDES.map((f) => (
+            <li key={f} className="flex gap-2">
+              <span aria-hidden className="font-bold text-indigo-500">
+                ✓
+              </span>
+              {f}
+            </li>
+          ))}
+        </ul>
+        <p className="mt-4 text-xs text-slate-500">
+          The plans differ only in how long they run and what they cost — the features are the
+          same. Monthly and yearly also include priority support.
+        </p>
       </div>
 
       <p className="mx-auto mt-8 max-w-xl rounded-xl bg-amber-50 px-4 py-3 text-center text-sm text-amber-800">
