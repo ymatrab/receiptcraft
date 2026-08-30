@@ -70,6 +70,10 @@ export const LOGIN_UPDATED = "2026-08-30";
 // hides two thirds of the options behind a click. The monthly equivalents stay,
 // and the entitlements are now stated once beneath the row instead of repeated
 // in four columns, which is what keeps the cards uncramped.
+// 2026-08-30, third revision: every plan card now carries its full feature list
+// rather than sharing one band underneath, and a comparison table sits below the
+// cards. Comparing what you get is the job of this page and a buyer should not
+// have to scroll past the cards to find out what they are buying.
 export const PRICING_UPDATED = "2026-08-30";
 // 2026-08-23: the hero grid no longer stretches to the 380px receipt, so the
 // primary CTA is reachable again on phones under 412px — a visible change to

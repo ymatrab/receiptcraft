@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PLANS, FREE_LIMITS, monthlyEquivalent } from "@/lib/plans";
+import { BRAND_COUNT } from "@/lib/counts";
 import { docFromReceiptData } from "@/lib/sections";
 import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
 import Watermark from "@/components/receipt/Watermark";
@@ -80,41 +81,79 @@ const WATERMARK_DEMO_DOC = {
 };
 
 /**
- * How each Pro plan is named, priced and called-to-action on the cards.
+ * The plan grid, described once as data.
  *
- * Separate from lib/plans.ts `features`, which is a marketing list: the three
- * Pro tiers are entitlement-identical, so the cards say what differs (duration
- * and price) and PRO_INCLUDES below says what they share.
+ * Every card carries its full feature list rather than the four shared lines
+ * sitting in a band underneath — comparing what you get is the job of this page,
+ * and a buyer should not have to scroll past the cards to find out.
+ *
+ * `has` is the truth table. It is deliberately explicit per plan rather than
+ * inherited ("everything in Free, plus…"), because inheritance is what let the
+ * old feature arrays drift: lib/plans.ts still gives priority support to
+ * monthly and yearly but not weekly, and a chain of cross-references hid that
+ * instead of showing it.
  */
-const PRO_LABEL: Record<string, string> = {
-  pro_weekly: "7-day pass",
-  pro_monthly: "Monthly",
-  pro_yearly: "Yearly",
-};
-const PRO_UNIT: Record<string, string> = {
-  pro_weekly: "one week",
-  pro_monthly: "per month",
-  pro_yearly: "per year",
-};
-const PRO_CTA: Record<string, string> = {
-  pro_weekly: "Get 7 days",
-  pro_monthly: "Go monthly",
-  pro_yearly: "Go yearly",
+type PlanRow = {
+  id: "free" | "pro_weekly" | "pro_monthly" | "pro_yearly";
+  label: string;
+  unit: string;
+  access: string;
+  cta: string;
+  /** Free-tier caps read as text; unlimited plans say so. */
+  downloads: string;
+  ai: string;
+  support: boolean;
 };
 
-/**
- * What Pro gives you, said once.
- *
- * Taken from the set the three Pro plans genuinely share. Priority support is
- * deliberately not in here — lib/plans.ts lists it on monthly and yearly but not
- * weekly, and promising it to a weekly buyer because it tidied up the layout
- * would be the sort of small untruth this page has had to be corrected for
- * before. It is named in the line under the list instead.
- */
-const PRO_INCLUDES = [
-  "No watermark",
-  "HD exports",
-  "Unlimited AI receipt generation",
+const PLAN_ROWS: PlanRow[] = [
+  {
+    id: "free",
+    label: "Free",
+    unit: "forever",
+    access: "Forever",
+    cta: "Start free",
+    downloads: `${FREE_LIMITS.freeReceiptDownloads} watermark-free`,
+    ai: `${FREE_LIMITS.aiGenerationsPerDay} a day`,
+    support: false,
+  },
+  {
+    id: "pro_weekly",
+    label: "7-day pass",
+    unit: "one week",
+    access: "7 days",
+    cta: "Get 7 days",
+    downloads: "Unlimited",
+    ai: "Unlimited",
+    support: false,
+  },
+  {
+    id: "pro_monthly",
+    label: "Monthly",
+    unit: "per month",
+    access: "30 days",
+    cta: "Go monthly",
+    downloads: "Unlimited",
+    ai: "Unlimited",
+    support: true,
+  },
+  {
+    id: "pro_yearly",
+    label: "Yearly",
+    unit: "per year",
+    access: "12 months",
+    cta: "Go yearly",
+    downloads: "Unlimited",
+    ai: "Unlimited",
+    support: true,
+  },
+];
+
+/** Rows every plan shares — the builder itself, which is free for everyone. */
+const SHARED_FEATURES = [
+  `All ${BRAND_COUNT} brand templates`,
+  "32 fonts · 3 paper styles",
+  "PNG, JPG, PDF, print-PDF",
+  "Logo, barcode, custom sections",
   "Saved receipt history",
 ] as const;
 
@@ -142,6 +181,55 @@ const FAQ = [
 // the links at click time instead, so there is nothing left to revalidate — and
 // an admin editing a link takes effect on the next click rather than after a
 // five-minute window.
+
+/** A ✓ / ✗ mark. aria-hidden — the row label already carries the meaning, and
+ *  the sr-only word is what a screen reader should hear instead of "check mark". */
+function Tick({ yes }: { yes: boolean }) {
+  return (
+    <>
+      <span aria-hidden className={yes ? "font-bold text-emerald-600" : "text-slate-300"}>
+        {yes ? "✓" : "✗"}
+      </span>
+      <span className="sr-only">{yes ? "Included" : "Not included"}</span>
+    </>
+  );
+}
+
+/** One line in a plan card. */
+function Feature({ yes = true, children }: { yes?: boolean; children: React.ReactNode }) {
+  return (
+    <li className={`flex gap-2 ${yes ? "" : "text-slate-400"}`}>
+      <span aria-hidden className={yes ? "text-emerald-600" : "text-slate-300"}>
+        {yes ? "✓" : "✗"}
+      </span>
+      <span>
+        {children}
+        <span className="sr-only">{yes ? " — included" : " — not included"}</span>
+      </span>
+    </li>
+  );
+}
+
+function Row({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <tr>
+      <th scope="row" className="px-4 py-2.5 text-left font-normal text-slate-600">
+        {label}
+      </th>
+      {children}
+    </tr>
+  );
+}
+
+function Cell({ children, strong = false }: { children: React.ReactNode; strong?: boolean }) {
+  return (
+    <td
+      className={`px-4 py-2.5 tabular-nums ${strong ? "font-semibold text-slate-900" : "text-slate-700"}`}
+    >
+      {children}
+    </td>
+  );
+}
 
 export default function PricingPage() {
   const weekly = PLANS.pro_weekly;
@@ -214,45 +302,27 @@ export default function PricingPage() {
         ))}
       </ol>
 
-      {/* All four plans on screen at once, because comparing them is the whole
-          job of this page.
+      {/* All four plans on screen, each carrying its whole feature list.
 
-          The layout follows from what actually differs between them: nothing.
-          pro_weekly, pro_monthly and pro_yearly are entitlement-identical — the
-          feature arrays in lib/plans.ts read differently, but yearly's list is a
-          cross-reference chain ("Everything in Pro Monthly"), not a difference.
-          The only axis that varies is price and duration.
+          An earlier version put the shared entitlements in one band under the
+          row, on the grounds that the Pro tiers are identical and repeating
+          four lines four times is noise. That is true of the *entitlements* and
+          false of the *page*: comparing what you get is the job here, and a
+          buyer should not have to scroll past the cards to find out what they
+          are buying. ReceiptFaker and Receiptmakerly both repeat the list per
+          card for the same reason.
 
-          So the entitlements are stated once, below, instead of being repeated
-          in four columns. That is what lets each card stay short enough to sit
-          in a 4-wide row without the 222px cramping the old version had, and it
-          means the four CTAs align by construction rather than by luck.
-
-          Every price also carries its monthly equivalent, so $3 / $7.99 / $39
-          stop reading as a rising ladder when per month they fall. */}
+          The table underneath is the other half — cards to decide from, a grid
+          to compare in. Every price carries its monthly equivalent, so $3 /
+          $7.99 / $39 do not read as a rising ladder when per month they fall. */}
       <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {/* Free */}
-        <div className="flex flex-col rounded-2xl border border-slate-200 bg-white p-6">
-          <h2 className="text-base font-semibold text-slate-900">Free</h2>
-          <p className="mt-4 text-3xl font-bold tabular-nums text-slate-900">$0</p>
-          <p className="text-sm text-slate-500">forever</p>
-          <p className="mt-3 min-h-10 text-sm text-slate-600">
-            First {FREE_LIMITS.freeReceiptDownloads} downloads clean, then watermarked.
-          </p>
-          <Link
-            href="/create"
-            className="mt-auto flex min-h-11 items-center justify-center rounded-full border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50"
-          >
-            Start free
-          </Link>
-        </div>
-
-        {[PLANS.pro_weekly, PLANS.pro_monthly, PLANS.pro_yearly].map((p) => {
-          const perMonth = monthlyEquivalent(p);
-          const best = p.id === "pro_yearly";
+        {PLAN_ROWS.map((row) => {
+          const plan = row.id === "free" ? PLANS.free : PLANS[row.id];
+          const perMonth = monthlyEquivalent(plan);
+          const best = row.id === "pro_yearly";
           return (
             <div
-              key={p.id}
+              key={row.id}
               className={`relative flex flex-col rounded-2xl bg-white p-6 ${
                 best ? "border-2 border-indigo-600 shadow-md" : "border border-slate-200"
               }`}
@@ -262,12 +332,12 @@ export default function PricingPage() {
                   Best value
                 </span>
               )}
-              <h2 className="text-base font-semibold text-slate-900">{PRO_LABEL[p.id]}</h2>
-              <p className="mt-4 text-3xl font-bold tabular-nums text-slate-900">${p.price}</p>
-              <p className="text-sm text-slate-500">{PRO_UNIT[p.id]}</p>
-              {/* min-h keeps this line's height identical across cards, so the
-                  prices above it and the buttons below it stay on one line. */}
-              <p className="mt-3 min-h-10 text-sm text-slate-600">
+              <h2 className="text-base font-semibold text-slate-900">{row.label}</h2>
+              <p className="mt-3 text-3xl font-bold tabular-nums text-slate-900">${plan.price}</p>
+              <p className="text-sm text-slate-500">{row.unit}</p>
+              {/* min-h holds the four cards' prices and lists on the same lines
+                  whether or not this plan has a monthly equivalent to show. */}
+              <p className="mt-1 min-h-5 text-xs text-slate-600">
                 {perMonth !== null && (
                   <>
                     <span className="font-semibold tabular-nums text-slate-900">
@@ -276,45 +346,136 @@ export default function PricingPage() {
                     a month
                   </>
                 )}
-                {best && (
-                  <span className="block text-xs font-medium text-emerald-700">
-                    Save ~60% vs monthly
-                  </span>
-                )}
               </p>
-              <PricingCta
-                planId={p.id as "pro_weekly" | "pro_monthly" | "pro_yearly"}
-                className={`mt-auto flex min-h-11 items-center justify-center rounded-full px-4 text-sm font-semibold transition-colors ${
-                  best
-                    ? "bg-indigo-600 text-white shadow-sm hover:bg-indigo-700"
-                    : "border border-indigo-200 bg-indigo-50 text-indigo-700 hover:bg-indigo-100"
-                }`}
-                label={PRO_CTA[p.id]}
-              />
+
+              <ul className="mt-5 flex-1 space-y-2.5 text-sm text-slate-600">
+                <Feature yes>
+                  <strong className="font-semibold text-slate-900">{row.downloads}</strong>{" "}
+                  {row.downloads === "Unlimited" ? "watermark-free downloads" : "downloads"}
+                </Feature>
+                <Feature yes>
+                  <strong className="font-semibold text-slate-900">{row.ai}</strong> AI generations
+                </Feature>
+                {SHARED_FEATURES.map((f) => (
+                  <Feature key={f} yes>
+                    {f}
+                  </Feature>
+                ))}
+                <Feature yes={row.support}>Priority support</Feature>
+                {row.id === "free" && (
+                  <Feature yes={false}>
+                    Watermarked after {FREE_LIMITS.freeReceiptDownloads}
+                  </Feature>
+                )}
+              </ul>
+
+              {row.id === "free" ? (
+                <Link
+                  href="/create"
+                  className="mt-6 flex min-h-11 items-center justify-center rounded-full border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50"
+                >
+                  {row.cta}
+                </Link>
+              ) : (
+                <PricingCta
+                  planId={row.id}
+                  className={`mt-6 flex min-h-11 items-center justify-center rounded-full px-4 text-sm font-semibold transition-colors ${
+                    best
+                      ? "bg-indigo-600 text-white shadow-sm hover:bg-indigo-700"
+                      : "border border-indigo-200 bg-indigo-50 text-indigo-700 hover:bg-indigo-100"
+                  }`}
+                  label={row.cta}
+                />
+              )}
             </div>
           );
         })}
       </div>
 
-      {/* Stated once rather than four times. This is the whole reason the cards
-          above can be compact enough to compare at a glance. */}
-      <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-6">
-        <h2 className="text-sm font-semibold text-slate-900">Every Pro plan includes</h2>
-        <ul className="mt-3 grid gap-2 text-sm text-slate-700 sm:grid-cols-2 lg:grid-cols-4">
-          {PRO_INCLUDES.map((f) => (
-            <li key={f} className="flex gap-2">
-              <span aria-hidden className="font-bold text-indigo-500">
-                ✓
-              </span>
-              {f}
-            </li>
-          ))}
-        </ul>
-        <p className="mt-4 text-xs text-slate-500">
-          The plans differ only in how long they run and what they cost — the features are the
-          same. Monthly and yearly also include priority support.
-        </p>
-      </div>
+      {/* The same information as a grid. Cards are for deciding; a table is the
+          fastest way to read four options against each other, which is what a
+          pricing page is actually for. Scrolls horizontally rather than letting
+          the page do it. */}
+      <section aria-labelledby="compare-heading" className="mt-10">
+        <h2 id="compare-heading" className="text-lg font-semibold text-slate-900">
+          Compare every plan
+        </h2>
+        <div className="mt-4 overflow-x-auto rounded-2xl border border-slate-200 bg-white">
+          <table className="w-full min-w-[34rem] border-collapse text-sm">
+            <caption className="sr-only">
+              Feature comparison across the free plan and the three Pro periods
+            </caption>
+            <thead>
+              <tr className="border-b border-slate-200 bg-slate-50">
+                <th scope="col" className="px-4 py-3 text-left font-semibold text-slate-900">
+                  Feature
+                </th>
+                {PLAN_ROWS.map((r) => (
+                  <th
+                    key={r.id}
+                    scope="col"
+                    className={`px-4 py-3 text-left font-semibold ${
+                      r.id === "pro_yearly" ? "text-indigo-700" : "text-slate-900"
+                    }`}
+                  >
+                    {r.label}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100">
+              <Row label="Price">
+                {PLAN_ROWS.map((r) => {
+                  const plan = r.id === "free" ? PLANS.free : PLANS[r.id];
+                  return (
+                    <Cell key={r.id} strong>
+                      ${plan.price}
+                    </Cell>
+                  );
+                })}
+              </Row>
+              <Row label="Per month">
+                {PLAN_ROWS.map((r) => {
+                  const plan = r.id === "free" ? PLANS.free : PLANS[r.id];
+                  const pm = monthlyEquivalent(plan);
+                  return <Cell key={r.id}>{pm === null ? "—" : `$${pm.toFixed(2)}`}</Cell>;
+                })}
+              </Row>
+              <Row label="Access">
+                {PLAN_ROWS.map((r) => (
+                  <Cell key={r.id}>{r.access}</Cell>
+                ))}
+              </Row>
+              <Row label="Watermark-free downloads">
+                {PLAN_ROWS.map((r) => (
+                  <Cell key={r.id}>{r.downloads}</Cell>
+                ))}
+              </Row>
+              <Row label="AI generations">
+                {PLAN_ROWS.map((r) => (
+                  <Cell key={r.id}>{r.ai}</Cell>
+                ))}
+              </Row>
+              {SHARED_FEATURES.map((f) => (
+                <Row key={f} label={f}>
+                  {PLAN_ROWS.map((r) => (
+                    <Cell key={r.id}>
+                      <Tick yes />
+                    </Cell>
+                  ))}
+                </Row>
+              ))}
+              <Row label="Priority support">
+                {PLAN_ROWS.map((r) => (
+                  <Cell key={r.id}>
+                    <Tick yes={r.support} />
+                  </Cell>
+                ))}
+              </Row>
+            </tbody>
+          </table>
+        </div>
+      </section>
 
       <p className="mx-auto mt-8 max-w-xl rounded-xl bg-amber-50 px-4 py-3 text-center text-sm text-amber-800">
         💡 Please check out using the <strong>same email you sign in with</strong> — that&apos;s how
