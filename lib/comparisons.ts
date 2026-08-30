@@ -20,7 +20,7 @@ import { BRAND_COUNT } from "./counts";
 // named-brand and no-signup rows were both wrong, and the ExpressExpense price
 // was unsourced. A genuine review of the whole set, so the shared date moves
 // rather than a per-competitor one. Stamped 08-23, the day the copy shipped.
-export const LAST_UPDATED = "2026-08-29"; // ISO — shown as the page "last reviewed" date
+export const LAST_UPDATED = "2026-08-30"; // ISO — shown as the page "last reviewed" date
 export const PRICING_AS_OF = "August 2026"; // human-readable disclaimer on pricing tables
 
 /* -------------------------------------------------------------------------- */
@@ -174,7 +174,7 @@ export const COMPETITORS: Competitor[] = [
     chooseUs: [
       "You want an AI generator to draft a receipt from a plain-text description",
       "You need a specific store's look (Walmart, Target, CVS, Starbucks…)",
-      "You want to see exact prices up front and start free with no signup",
+      "You want to see exact prices up front and build without an account",
     ],
     chooseThem: [
       "You need eight-language localization out of the box",
@@ -184,7 +184,7 @@ export const COMPETITORS: Competitor[] = [
       {
         question: "Is Makecepeit a free alternative to MakeReceipt?",
         answer:
-          "Yes. You can build and preview a receipt on Makecepeit with no signup, and your first three HD downloads are free. MakeReceipt lets you make free receipts too, but they stay watermarked until you buy a membership.",
+          "Yes. Building and previewing a receipt on Makecepeit needs no account at all, and a free account then gets your first three HD downloads clean. MakeReceipt lets you make free receipts too, but they stay watermarked until you buy a membership.",
       },
       {
         question: "How much does MakeReceipt cost?",
@@ -284,20 +284,20 @@ export const COMPETITORS: Competitor[] = [
     intro:
       `ReceiptBaker is a receipt generator that offers an AI receipt tool, a custom receipt maker and a content blog covering topics like rental receipts. Makecepeit also offers AI generation, plus ${BRAND_COUNT} named-brand templates and pricing you can see before you buy. Here is a fair, side-by-side look.`,
     overview:
-      "ReceiptBaker provides a receipt generator, an AI receipt generator, a custom receipt maker and a template library, alongside an active blog (how-to guides, rental payment receipts and more). Its pricing page renders prices in the browser rather than in the served HTML, which is why an earlier automated check came back empty; opened normally it lists weekly and monthly plans that remove the watermark and cap how much AI generation you get.",
+      "ReceiptBaker provides a receipt generator, an AI receipt generator, a custom receipt maker and a template library, alongside an active blog (how-to guides, rental payment receipts and more). Its pricing page renders prices in the browser rather than in the served HTML, which is why an earlier automated check came back empty; read in a browser on 2026-08-30 it lists three tiers — Basic, Pro and Studio — on a weekly or monthly period, each metering how many AI generations and photorealistic renders you get.",
     strengths: [
       "Offers an AI receipt generator and a custom receipt maker",
       "Active blog with practical guides (e.g. rental receipts for landlords and tenants)",
       "Covers niche receipt types such as rent and rental receipts",
     ],
     gaps: [
-      "Paid plans meter AI usage — 25 chat generations and 8 photorealistic renders a week, 100 and 30 a month",
+      "Every paid tier meters AI — 30, 45 or 50 generations a month, and Basic gets no photorealistic renders at all",
       `No named-brand template pages — category templates only, against Makecepeit's ${BRAND_COUNT}`,
       "Export formats are not clearly specified",
     ],
     pricing: {
       free: "No free tier appears on the pricing page. Paid plans are sold on removing the watermark, which implies free generation carries one.",
-      paid: "$5/week or $12/month (list prices $7.50 and $20). Both cap AI usage: 25 chat generations and 8 photorealistic renders weekly, 100 and 30 monthly.",
+      paid: "Three tiers, weekly or monthly. Monthly: Basic $8.75, Pro $14.70, Studio $22.40 (list $12.50, $21.00, $32.00 — a 30% discount was running when we checked). Weekly: $3.50, $5.95, $8.75 (list $5.00, $8.50, $12.50). Every tier caps AI generation — 30, 45 and 50 a month, or 8, 10 and 15 a week — and Basic includes no photorealistic renders; Pro gets 25 a month and Studio 45.",
     },
     cells: {
       free_start: partial("No free tier on pricing page"),
@@ -313,14 +313,14 @@ export const COMPETITORS: Competitor[] = [
       ai_generator: yes("AI receipt generator"),
       saved_history: partial("Not stated"),
       watermark_free: partial("Paid plans remove it"),
-      transparent_pricing: yes("Weekly and monthly prices listed"),
+      transparent_pricing: yes("Three tiers listed, weekly or monthly"),
     },
     verdict:
-      `Both Makecepeit and ReceiptBaker offer AI receipt generation, so this comes down to transparency and breadth. Makecepeit publishes its pricing ($3/wk, $7.99/mo, $39/yr), lets you start free with no signup, offers ${BRAND_COUNT} specific brand templates and exports to both PDF and PNG. If those matter to you, Makecepeit is the safer pick; ReceiptBaker is worth a look if its blog and rental-receipt templates match your niche.`,
+      `Both Makecepeit and ReceiptBaker offer AI receipt generation, so this comes down to how much you get and what it costs. ReceiptBaker meters every tier — its cheapest, Basic at $8.75 a month, allows 30 AI generations and no photorealistic renders. Makecepeit is $7.99 a month for unlimited AI generation, is free to build and preview without an account, and offers ${BRAND_COUNT} specific brand templates with PDF and PNG export. ReceiptBaker is worth a look if its blog, rental-receipt templates or photorealistic renders match your niche.`,
     chooseUs: [
       "You want AI generation and pricing you can see before committing",
       `You need a specific brand's receipt from a ${BRAND_COUNT}-template library`,
-      "You want to start free with no signup",
+      "You want unlimited AI generation rather than a monthly quota",
     ],
     chooseThem: [
       "You specifically want its rental/rent-receipt guides and templates",
