@@ -65,6 +65,11 @@ export const LOGIN_UPDATED = "2026-08-30";
 // billing period as a choice. Every price on the page now also states its
 // monthly equivalent, so $3 / $7.99 / $39 stop reading as a rising ladder when
 // per month they fall. Different prices, different structure, visible either way.
+// 2026-08-30, later the same day: reverted to all four plans on screen at once,
+// at the owner's call — comparing them is the point of the page and a selector
+// hides two thirds of the options behind a click. The monthly equivalents stay,
+// and the entitlements are now stated once beneath the row instead of repeated
+// in four columns, which is what keeps the cards uncramped.
 export const PRICING_UPDATED = "2026-08-30";
 // 2026-08-23: the hero grid no longer stretches to the 380px receipt, so the
 // primary CTA is reachable again on phones under 412px — a visible change to
