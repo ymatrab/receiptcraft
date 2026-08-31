@@ -90,7 +90,7 @@ export default async function LoginPage({
         </h1>
         <p className="mt-2 text-sm text-slate-500">
           {fromGate
-            ? "It takes about ten seconds, and your receipt is saved right where you left it. Your first 3 HD downloads are watermark-free."
+            ? "It takes about ten seconds, and your receipt is saved right where you left it. Your first HD download is watermark-free."
             : "Log in to save your receipts and pick up where you left off. The free builder works without an account."}
         </p>
         <LoginForm

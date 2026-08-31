@@ -225,15 +225,15 @@ export default async function AccountPage() {
             }
           />
           <Stat
-            label="AI generations today"
-            value={isPro ? "Unlimited" : `${usage.aiLeftToday} of ${FREE_LIMITS.aiGenerationsPerDay}`}
-            tone={isPro ? "good" : usage.aiLeftToday === 0 ? "spent" : "neutral"}
+            label="AI generations this month"
+            value={isPro ? "Unlimited" : `${usage.aiLeftThisMonth} of ${FREE_LIMITS.aiGenerationsPerMonth}`}
+            tone={isPro ? "good" : usage.aiLeftThisMonth === 0 ? "spent" : "neutral"}
             hint={
               isPro
-                ? "No daily cap"
-                : usage.aiLeftToday === 0
-                  ? "Resets at midnight"
-                  : `Used ${usage.aiUsedToday} today`
+                ? "No monthly cap"
+                : usage.aiLeftThisMonth === 0
+                  ? "Resets on the 1st"
+                  : `Used ${usage.aiUsedThisMonth} this month`
             }
           />
           <Stat

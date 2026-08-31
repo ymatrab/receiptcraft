@@ -146,7 +146,7 @@ const FEATURES = [
     tint: "bg-rose-50 ring-rose-100",
     title: "Free to build — account to download",
     description:
-      "Build and preview receipts with no account. Create a free account to download — your first 3 are watermark-free — then go Pro for unlimited HD, watermark-free exports.",
+      "Build and preview receipts with no account. Create a free account to download — your first is watermark-free — then go Pro for unlimited HD, watermark-free exports.",
   },
 ];
 
@@ -164,7 +164,7 @@ const STEPS = [
   {
     title: "Sign in & download",
     description:
-      "Create a free account and export your receipt as a PDF or high-resolution PNG. Your first 3 downloads are watermark-free HD — upgrade to Pro for unlimited watermark-free exports.",
+      "Create a free account and export your receipt as a PDF or high-resolution PNG. Your first download is watermark-free HD — upgrade to Pro for unlimited watermark-free exports.",
   },
 ];
 
@@ -468,7 +468,7 @@ export default function HomePage() {
             </div>
             <p className="mt-3 text-sm text-slate-500">
               Free to build &amp; preview — no sign-up. A free account is needed
-              to download or to use the AI generator, and your first 3 downloads
+              to download or to use the AI generator, and your first download
               are watermark-free.{" "}
               <Link
                 href="/pricing"
@@ -1146,7 +1146,7 @@ export default function HomePage() {
           </h2>
           <p className="relative mx-auto mt-4 max-w-xl text-lg text-indigo-100">
             No sign-up to build. {TEMPLATE_COUNT} business templates and{" "}
-            {BRAND_COUNT} brand layouts. A free account downloads your first 3
+            {BRAND_COUNT} brand layouts. A free account downloads your first one
             watermark-free.
           </p>
           <div className="relative mt-8 flex flex-wrap items-center justify-center gap-4">

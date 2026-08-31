@@ -241,7 +241,7 @@ export default async function ComparePage({ params }: Props) {
             <div className="rounded-2xl border-2 border-indigo-200 bg-indigo-50/50 p-6">
               <h3 className="text-lg font-bold text-slate-900">{SITE.name}</h3>
               <p className="mt-3 text-sm leading-relaxed text-slate-600">
-                Free to build and preview with no signup. Your first 3 HD
+                Free to build and preview with no signup. Your first HD
                 downloads are free; after that, Pro removes the watermark and
                 unlocks unlimited HD exports, unlimited AI generation and saved
                 history.
@@ -381,7 +381,7 @@ export default async function ComparePage({ params }: Props) {
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-slate-300">
             {BRAND_COUNT} brand templates, AI generation and PDF &amp; PNG export.
-            Build with no signup; a free account downloads your first 3.
+            Build with no signup; a free account downloads your first one.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Link

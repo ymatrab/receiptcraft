@@ -5,7 +5,7 @@ import { supabaseConfigured } from "@/lib/supabase/config";
 import { getRoutableAiConnections, setAiCooldown, clearAiCooldown } from "@/lib/settings";
 import { generateJson, AiProviderError, AI_ATTEMPT_TIMEOUT_MS } from "@/lib/ai-providers";
 import { FREE_LIMITS } from "@/lib/plans";
-import { startOfUsageDay } from "@/lib/usage";
+import { startOfUsageMonth } from "@/lib/usage";
 import { AI_RECEIPT_SCHEMA, receiptSystemPrompt, type AiReceiptResult } from "@/lib/ai-receipt";
 
 export const runtime = "nodejs";
@@ -28,7 +28,7 @@ export const maxDuration = 30;
 const ROUTING_BUDGET_MS = 26_000;
 
 /**
- * Logged-in free users: count today's rows in ai_usage.
+ * Logged-in free users: count this month's rows in ai_usage.
  *
  * The day boundary comes from lib/usage.ts because the account page now shows
  * the user how many generations they have left. Two definitions of "today"
@@ -37,13 +37,13 @@ const ROUTING_BUDGET_MS = 26_000;
 async function checkUserLimit(userId: string): Promise<boolean> {
   if (!supabaseConfigured) return true;
   const admin = createAdminClient();
-  const since = startOfUsageDay();
+  const since = startOfUsageMonth();
   const { count } = await admin
     .from("ai_usage")
     .select("*", { count: "exact", head: true })
     .eq("user_id", userId)
     .gte("created_at", since.toISOString());
-  return (count ?? 0) < FREE_LIMITS.aiGenerationsPerDay;
+  return (count ?? 0) < FREE_LIMITS.aiGenerationsPerMonth;
 }
 
 export async function POST(req: Request) {
@@ -67,7 +67,7 @@ export async function POST(req: Request) {
   if (!account.userId) {
     return NextResponse.json(
       {
-        error: `Create a free account to generate receipts with AI — ${FREE_LIMITS.aiGenerationsPerDay} a day free.`,
+        error: `Create a free account to generate receipts with AI — ${FREE_LIMITS.aiGenerationsPerMonth} a month free.`,
         needsAuth: true,
       },
       { status: 401 }
@@ -79,7 +79,7 @@ export async function POST(req: Request) {
     const ok = await checkUserLimit(account.userId);
     if (!ok) {
       return NextResponse.json(
-        { error: "You've used your free AI generations for today. Upgrade for unlimited." },
+        { error: "You've used your free AI generations for this month. Upgrade for unlimited." },
         { status: 429 }
       );
     }

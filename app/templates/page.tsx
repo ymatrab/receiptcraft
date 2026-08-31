@@ -48,7 +48,7 @@ export default function TemplatesPage() {
           Every template is pre-filled with realistic items, prices and tax
           rates for its business type. Pick one, customize what you need, and
           download your receipt in seconds. Building and previewing is free with
-          no sign-up; downloading uses a free account, and your first 3 are
+          no sign-up; downloading uses a free account, and your first is
           watermark-free.
         </p>
       </div>

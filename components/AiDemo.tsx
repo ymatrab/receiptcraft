@@ -65,7 +65,7 @@ export default function AiDemo() {
             >
               Create a free account
             </Link>{" "}
-            to make your own — 3 a day free.
+            to make your own — 3 a month free.
           </p>
         </div>
       )}

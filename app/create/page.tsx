@@ -84,7 +84,7 @@ export default function CreatePage() {
           This is {SITE.name}&apos;s free receipt maker and generator — build your
           receipt section by section with a live preview, free and no sign-up to
           start. Pick a template or start from scratch, edit every field, then
-          create a free account to download as a PDF or PNG. Your first 3
+          create a free account to download as a PDF or PNG. Your first
           downloads are watermark-free.
         </p>
       </div>

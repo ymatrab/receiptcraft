@@ -256,7 +256,7 @@ export default async function AdminAiPage() {
       ) : (
         <p className="mt-4 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
           {live.length} connection{live.length === 1 ? "" : "s"} in rotation. AI needs an account:
-          free accounts get {FREE_LIMITS.aiGenerationsPerDay} generations a day, Pro unlimited.
+          free accounts get {FREE_LIMITS.aiGenerationsPerMonth} generations a month, Pro unlimited.
           Signed-out visitors get none.
         </p>
       )}

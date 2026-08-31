@@ -33,7 +33,7 @@ export default function AboutPage() {
           {SITE.name} is a free online receipt maker built around three ideas:
           it should be <strong className="text-slate-900">fast</strong> (a finished receipt in under a
           minute), <strong className="text-slate-900">honest</strong> (build with no sign-up, and a
-          free account lets you download — your first 3 receipts are watermark-free, with an optional
+          free account lets you download — your first receipt is watermark-free, with an optional
           Pro plan for unlimited watermark-free exports; no trial walls or hidden fees), and{" "}
           <strong className="text-slate-900">private</strong> (the builder runs in your browser, so
           your receipt data stays on your device).

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { PLANS, FREE_LIMITS, monthlyEquivalent } from "@/lib/plans";
-import { BRAND_COUNT } from "@/lib/counts";
+import { PLANS, FREE_LIMITS, monthlyEquivalent, freeDownloadsPhrase } from "@/lib/plans";
 import { docFromReceiptData } from "@/lib/sections";
 import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
 import Watermark from "@/components/receipt/Watermark";
@@ -102,8 +101,22 @@ type PlanRow = {
   /** Free-tier caps read as text; unlimited plans say so. */
   downloads: string;
   ai: string;
+  brands: string;
+  styling: string;
+  saveTemplates: boolean;
   support: boolean;
 };
+
+/**
+ * Brand-template wording, the same on every plan because brand access is not
+ * gated — every one of them is free to use.
+ *
+ * "300+" rather than the exact count: the catalogue grows, and a round floor
+ * stays true without a copy edit every time it does. Using it on Free as well as
+ * the paid plans matters — an exact "348" on Free beside "300+" on Pro reads as
+ * though the free plan offers more.
+ */
+const BRANDS_LABEL = "300+ brand templates";
 
 const PLAN_ROWS: PlanRow[] = [
   {
@@ -112,8 +125,11 @@ const PLAN_ROWS: PlanRow[] = [
     unit: "forever",
     access: "Forever",
     cta: "Start free",
-    downloads: `${FREE_LIMITS.freeReceiptDownloads} watermark-free`,
-    ai: `${FREE_LIMITS.aiGenerationsPerDay} a day`,
+    downloads: freeDownloadsPhrase("watermark-free"),
+    ai: `${FREE_LIMITS.aiGenerationsPerMonth} a month`,
+    brands: BRANDS_LABEL,
+    styling: "3 fonts · 1 paper style",
+    saveTemplates: false,
     support: false,
   },
   {
@@ -124,6 +140,9 @@ const PLAN_ROWS: PlanRow[] = [
     cta: "Get 7 days",
     downloads: "Unlimited",
     ai: "Unlimited",
+    brands: BRANDS_LABEL,
+    styling: "All 32 fonts · 3 paper styles",
+    saveTemplates: true,
     support: false,
   },
   {
@@ -134,6 +153,9 @@ const PLAN_ROWS: PlanRow[] = [
     cta: "Go monthly",
     downloads: "Unlimited",
     ai: "Unlimited",
+    brands: BRANDS_LABEL,
+    styling: "All 32 fonts · 3 paper styles",
+    saveTemplates: true,
     support: true,
   },
   {
@@ -144,14 +166,17 @@ const PLAN_ROWS: PlanRow[] = [
     cta: "Go yearly",
     downloads: "Unlimited",
     ai: "Unlimited",
+    brands: BRANDS_LABEL,
+    styling: "All 32 fonts · 3 paper styles",
+    saveTemplates: true,
     support: true,
   },
 ];
 
-/** Rows every plan shares — the builder itself, which is free for everyone. */
+/** Rows every plan shares. Brand templates, fonts and paper styles moved out —
+ *  they differ by plan now, so they are columns in the table rather than a
+ *  shared list. */
 const SHARED_FEATURES = [
-  `All ${BRAND_COUNT} brand templates`,
-  "32 fonts · 3 paper styles",
   "PNG, JPG, PDF, print-PDF",
   "Logo, barcode, custom sections",
   "Saved receipt history",
@@ -160,7 +185,7 @@ const SHARED_FEATURES = [
 const FAQ = [
   {
     q: "What's the difference between Free and Pro?",
-    a: "Free gives you every template and unlimited preview. On a free account your first 3 downloads are watermark-free HD; after that downloads carry a small watermark, and you get 3 AI generations per day. Pro removes the watermark on every download, unlocks unlimited HD exports, unlimited AI generation and saved receipt history.",
+    a: "Free gives you every brand template and unlimited preview. On a free account your first download is watermark-free HD; after that downloads carry a small watermark. Free also includes 3 AI generations a month, 3 fonts and one paper style. Pro removes the watermark on every download and unlocks unlimited HD exports, unlimited AI generation, all 32 fonts, all three paper styles and your own saved templates.",
   },
   {
     q: "Can I cancel anytime?",
@@ -168,7 +193,7 @@ const FAQ = [
   },
   {
     q: "Do I need an account to use the free tier?",
-    a: "You can build and preview with no sign-up. Downloading uses a free account: your first 3 receipts are watermark-free, then downloads are watermarked until you upgrade to Pro.",
+    a: "You can build and preview with no sign-up. Downloading uses a free account: your first receipt is watermark-free, then downloads are watermarked until you upgrade to Pro.",
   },
 ];
 
@@ -287,7 +312,11 @@ export default function PricingPage() {
       <ol className="mx-auto mt-10 max-w-2xl divide-y divide-slate-200 rounded-2xl border border-slate-200 bg-white">
         {[
           { step: "Build and preview", detail: "No account needed", free: true },
-          { step: "Your first 3 downloads", detail: "Watermark-free HD", free: true },
+          {
+            step: `Your first ${freeDownloadsPhrase("download")}`,
+            detail: "Watermark-free HD",
+            free: true,
+          },
           { step: "Downloads after that", detail: "Include a small watermark", free: false },
           { step: "Pro", detail: "Unlimited watermark-free HD exports", free: true },
         ].map((row) => (
@@ -356,6 +385,9 @@ export default function PricingPage() {
                 <Feature yes>
                   <strong className="font-semibold text-slate-900">{row.ai}</strong> AI generations
                 </Feature>
+                <Feature yes>{row.brands}</Feature>
+                <Feature yes>{row.styling}</Feature>
+                <Feature yes={row.saveTemplates}>Save your own templates</Feature>
                 {SHARED_FEATURES.map((f) => (
                   <Feature key={f} yes>
                     {f}
@@ -364,7 +396,7 @@ export default function PricingPage() {
                 <Feature yes={row.support}>Priority support</Feature>
                 {row.id === "free" && (
                   <Feature yes={false}>
-                    Watermarked after {FREE_LIMITS.freeReceiptDownloads}
+                    Watermarked after your first
                   </Feature>
                 )}
               </ul>
@@ -456,6 +488,23 @@ export default function PricingPage() {
                   <Cell key={r.id}>{r.ai}</Cell>
                 ))}
               </Row>
+              <Row label="Brand templates">
+                {PLAN_ROWS.map((r) => (
+                  <Cell key={r.id}>{r.brands}</Cell>
+                ))}
+              </Row>
+              <Row label="Fonts &amp; paper styles">
+                {PLAN_ROWS.map((r) => (
+                  <Cell key={r.id}>{r.styling}</Cell>
+                ))}
+              </Row>
+              <Row label="Save your own templates">
+                {PLAN_ROWS.map((r) => (
+                  <Cell key={r.id}>
+                    <Tick yes={r.saveTemplates} />
+                  </Cell>
+                ))}
+              </Row>
               {SHARED_FEATURES.map((f) => (
                 <Row key={f} label={f}>
                   {PLAN_ROWS.map((r) => (
@@ -501,8 +550,8 @@ export default function PricingPage() {
           {/* Not "the one on the left": the pair stacks below 640px, where left
               and right do not exist. The figcaptions already name each panel, so
               point at those instead of at a position. */}
-          Your first {FREE_LIMITS.freeReceiptDownloads} downloads are watermark-free either way.
-          After that, a free download carries the watermark below.
+          Your first {freeDownloadsPhrase("download")} is watermark-free either way. After that, a
+          free download carries the watermark below.
         </p>
         <div className="mt-8 grid gap-8 sm:grid-cols-2">
           <figure>
@@ -511,7 +560,7 @@ export default function PricingPage() {
               <Watermark />
             </div>
             <figcaption className="mt-3 text-center text-sm text-slate-500">
-              Free download, after your first {FREE_LIMITS.freeReceiptDownloads}
+              Free download, after your first {freeDownloadsPhrase("download")}
             </figcaption>
           </figure>
           <figure>

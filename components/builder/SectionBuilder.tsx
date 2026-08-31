@@ -49,7 +49,7 @@ import type { AiReceiptResult } from "@/lib/ai-receipt";
 import { downloadPng, downloadJpg, downloadPdf, exportFilename } from "@/lib/download";
 import { analytics } from "@/lib/analytics";
 import { useAccount } from "@/lib/useAccount";
-import { FREE_LIMITS } from "@/lib/plans";
+import { FREE_LIMITS, FREE_FONTS, FREE_PAPER_STYLE, freeDownloadsPhrase } from "@/lib/plans";
 import { createClient } from "@/lib/supabase/client";
 import { supabaseConfigured } from "@/lib/supabase/config";
 import Link from "next/link";
@@ -133,6 +133,26 @@ const TEXT_WEIGHTS = [
   { value: "medium", label: "Medium" },
   { value: "bold", label: "Bold" },
 ];
+/**
+ * Narrow a set of style options to the free tier, without breaking a template.
+ *
+ * The gate is on *switching*, not on rendering. Brand templates carry their own
+ * `fontFamily` and paper finish — 107 of the 348 set a style explicitly — so
+ * forcing a free user's Starbucks receipt onto a different face would break the
+ * one thing the brand pages exist to provide. The value the template chose is
+ * always kept in the list so the select shows it correctly; the free user simply
+ * cannot pick a *different* premium one.
+ */
+function gateOptions<T extends { value: string; label: string }>(
+  all: readonly T[],
+  allowed: readonly string[],
+  current: string | undefined,
+  isPro: boolean
+): T[] {
+  if (isPro) return [...all];
+  return all.filter((o) => allowed.includes(o.value) || o.value === current);
+}
+
 const PAPER_FINISHES = [
   { value: "thermal", label: "Thermal (torn paper)" },
   { value: "clean", label: "Clean white" },
@@ -420,6 +440,13 @@ export default function SectionBuilder() {
 
   // ---- local "save as template" -----------------------------------------
   const saveAsTemplate = () => {
+    // Saving your own layouts is a Pro feature. Saved *receipts* are not — those
+    // stay free on every plan, and the pricing page says so.
+    if (!account.isPro) {
+      analytics.upgradeClick("builder_save_template");
+      window.location.assign("/pricing");
+      return;
+    }
     const header = doc.sections.find((s) => s.type === "header") as HeaderSection | undefined;
     const name = window.prompt("Save this layout as a template. Name it:", header?.storeName || "My template");
     if (!name?.trim()) return;
@@ -942,7 +969,7 @@ export default function SectionBuilder() {
           <span className="text-sm font-semibold text-slate-900">Generate with AI</span>
           {!account.isPro && (
             <span className="rounded-full bg-white px-2 py-0.5 text-[11px] font-medium text-indigo-600">
-              {account.isLoggedIn ? "Free: limited per day" : "Free to try"}
+              {account.isLoggedIn ? "Free: limited per month" : "Free to try"}
             </span>
           )}
         </div>
@@ -1063,18 +1090,31 @@ export default function SectionBuilder() {
             {settingsOpen && (
               <div className="space-y-4 border-t border-slate-100 p-4">
                 <div className="grid gap-3 sm:grid-cols-2">
-                  <SelectField label="Font family" defaultValue={doc.settings.font} onChange={(v) => patchSettings({ font: v as FontFamily })} options={FONTS} />
+                  <SelectField label="Font family" defaultValue={doc.settings.font} onChange={(v) => patchSettings({ font: v as FontFamily })} options={gateOptions(FONTS, FREE_FONTS, doc.settings.font, account.isPro)} />
                   <SelectField label="Currency" defaultValue={doc.settings.currency} onChange={(v) => patchSettings({ currency: v })} options={CURRENCIES.map((c) => ({ value: c.code, label: c.label }))} />
                   <SelectField label="Font size" defaultValue={doc.settings.fontScale ?? "normal"} onChange={(v) => patchSettings({ fontScale: v as FontScale })} options={FONT_SCALES} />
                   <SelectField label="Line height" defaultValue={doc.settings.lineSpacing ?? "normal"} onChange={(v) => patchSettings({ lineSpacing: v as LineSpacing })} options={LINE_SPACINGS} />
                   <SelectField label="Letter spacing" defaultValue={doc.settings.letterSpacing ?? "normal"} onChange={(v) => patchSettings({ letterSpacing: v as LetterSpacingPreset })} options={LETTER_SPACINGS} />
                   <SelectField label="Text weight" defaultValue={doc.settings.weight ?? "normal"} onChange={(v) => patchSettings({ weight: v as TextWeight })} options={TEXT_WEIGHTS} />
-                  <SelectField label="Paper style" defaultValue={doc.settings.paper ?? "thermal"} onChange={(v) => patchSettings({ paper: v as PaperFinish })} options={PAPER_FINISHES} />
+                  <SelectField label="Paper style" defaultValue={doc.settings.paper ?? "thermal"} onChange={(v) => patchSettings({ paper: v as PaperFinish })} options={gateOptions(PAPER_FINISHES, [FREE_PAPER_STYLE], doc.settings.paper, account.isPro)} />
                   <label className="block text-xs font-medium text-slate-600">
                     Accent color
                     <input type="color" defaultValue={doc.settings.accent} onChange={(e) => patchSettings({ accent: e.target.value })} className="mt-1 block h-9 w-full rounded-lg border border-slate-300" />
                   </label>
                 </div>
+                {!account.isPro && (
+                  <p className="text-xs text-slate-500">
+                    Free includes {FREE_FONTS.length} fonts and one paper style.{" "}
+                    <Link
+                      href="/pricing"
+                      onClick={() => analytics.upgradeClick("builder_styling_limit")}
+                      className="font-semibold text-indigo-600 hover:text-indigo-700"
+                    >
+                      Pro unlocks all 32 fonts and every paper style
+                    </Link>
+                    .
+                  </p>
+                )}
                 <div>
                   <span className="mb-1.5 block text-xs font-medium text-slate-600">Receipt width: {doc.settings.widthPx}px</span>
                   <div className="mb-2 flex flex-wrap gap-1.5">
@@ -1186,7 +1226,9 @@ export default function SectionBuilder() {
                     {saveState === "saving" ? "Saving…" : saveState === "saved" ? "✓ Saved to account" : "💾 Save to account"}
                   </button>
                 )}
-                <button type="button" onClick={saveAsTemplate} className="rounded-lg px-2 py-2.5 hover:text-slate-700">★ Save as template</button>
+                <button type="button" onClick={saveAsTemplate} className="rounded-lg px-2 py-2.5 hover:text-slate-700">
+                  ★ Save as template{!account.isPro && " (Pro)"}
+                </button>
                 <button type="button" onClick={reset} className="rounded-lg px-2 py-2.5 hover:text-slate-700">↺ Reset</button>
                 <button
                   type="button"
@@ -1205,12 +1247,12 @@ export default function SectionBuilder() {
                 <p className="mt-3 text-center text-[11px] leading-relaxed text-slate-500">
                   Log in to download ·{" "}
                   <span className="font-semibold text-slate-600">
-                    {FREE_LIMITS.freeReceiptDownloads} free HD receipts per account
+                    {freeDownloadsPhrase("free HD receipt")} per account
                   </span>
                 </p>
               ) : (dl.remaining ?? 0) > 0 ? (
                 <p className="mt-3 text-center text-[11px] leading-relaxed text-emerald-600">
-                  ✓ {dl.remaining} of {FREE_LIMITS.freeReceiptDownloads} free HD receipts left
+                  ✓ {dl.remaining} of {freeDownloadsPhrase("free HD receipt")} left
                 </p>
               ) : (
                 <p className="mt-3 text-center text-[11px] leading-relaxed text-slate-500">
@@ -1271,7 +1313,7 @@ export default function SectionBuilder() {
           <div>
             <TagIcon className="h-8 w-8 text-indigo-600" />
             <h3 id="watermark-prompt-title" className="mt-3 text-xl font-bold text-slate-900">
-              You&apos;ve used your {FREE_LIMITS.freeReceiptDownloads} free receipts
+              You&apos;ve used your {freeDownloadsPhrase("free receipt")}
             </h3>
             <p className="mt-2 text-sm leading-relaxed text-slate-600">
               This download will include a small <strong>{SITE.name}</strong> watermark. Go Pro for
@@ -1322,7 +1364,7 @@ export default function SectionBuilder() {
             </h3>
             <p className="mt-2 text-sm leading-relaxed text-slate-600">
               Create a free account to download your receipt. Every free account includes{" "}
-              <strong>{FREE_LIMITS.freeReceiptDownloads} watermark-free HD receipts</strong> — no
+              <strong>{freeDownloadsPhrase("watermark-free HD receipt")}</strong> — no
               payment required. Your receipt is saved — we&apos;ll bring you right back here to
               finish the download.
             </p>
