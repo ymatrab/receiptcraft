@@ -202,10 +202,18 @@ export default function SectionBuilder() {
   // Download-quota state (from /api/downloads). A logged-in free account gets
   // FREE_LIMITS.freeReceiptDownloads clean receipts, then downloads are
   // watermarked. Pro is always clean; anonymous users must log in to download.
-  const [dl, setDl] = useState<{ loggedIn: boolean; willWatermark: boolean; remaining: number | null }>({
+  const [dl, setDl] = useState<{
+    loggedIn: boolean;
+    willWatermark: boolean;
+    remaining: number | null;
+    /** This template is outside the free-brand list, so a free export always
+     *  carries the watermark however many credits are left. */
+    brandLocked: boolean;
+  }>({
     loggedIn: false,
     willWatermark: false,
     remaining: FREE_LIMITS.freeReceiptDownloads,
+    brandLocked: false,
   });
   // Pins the watermark during a capture so the exported image matches the
   // claim result exactly; null means "follow the preview".
@@ -335,18 +343,27 @@ export default function SectionBuilder() {
   useEffect(() => {
     if (account.isPro || !account.isLoggedIn || !doc.id) return;
     let active = true;
-    fetch(`/api/downloads?receiptKey=${encodeURIComponent(doc.id)}`)
+    fetch(
+      `/api/downloads?receiptKey=${encodeURIComponent(doc.id)}${
+        activeTemplate ? `&brand=${encodeURIComponent(activeTemplate)}` : ""
+      }`
+    )
       .then((r) => (r.ok ? r.json() : null))
       .then((s) => {
         if (active && s) {
-          setDl({ loggedIn: Boolean(s.loggedIn), willWatermark: Boolean(s.willWatermark), remaining: s.remaining ?? null });
+          setDl({
+            loggedIn: Boolean(s.loggedIn),
+            willWatermark: Boolean(s.willWatermark),
+            remaining: s.remaining ?? null,
+            brandLocked: Boolean(s.brandLocked),
+          });
         }
       })
       .catch(() => {});
     return () => {
       active = false;
     };
-  }, [doc.id, account.isLoggedIn, account.isPro]);
+  }, [doc.id, activeTemplate, account.isLoggedIn, account.isPro]);
 
   const loadReceipt = async (id: string) => {
     const supabase = createClient();
@@ -613,7 +630,7 @@ export default function SectionBuilder() {
       const res = await fetch("/api/downloads", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ receiptKey: key }),
+        body: JSON.stringify({ receiptKey: key, brand: activeTemplate || undefined }),
       });
       if (res.status === 401) {
         setLoginPrompt(kind);
@@ -1250,13 +1267,15 @@ export default function SectionBuilder() {
                     {freeDownloadsPhrase("free HD receipt")} per account
                   </span>
                 </p>
-              ) : (dl.remaining ?? 0) > 0 ? (
-                <p className="mt-3 text-center text-[11px] leading-relaxed text-emerald-600">
-                  ✓ {dl.remaining} of {freeDownloadsPhrase("free HD receipt")} left
-                </p>
-              ) : (
+              ) : /* The brand gate is checked before the credit count: a Pro-only
+                     template watermarks however many credits are left, so showing
+                     "1 free receipt left" here would promise a clean export we are
+                     not going to give. */
+              dl.brandLocked || (dl.remaining ?? 0) <= 0 ? (
                 <p className="mt-3 text-center text-[11px] leading-relaxed text-slate-500">
-                  Free receipts used · downloads now include a watermark ·{" "}
+                  {dl.brandLocked
+                    ? "Pro template · this download includes a watermark · "
+                    : "Free receipts used · downloads now include a watermark · "}
                   <Link
                     href="/pricing"
                     onClick={() => analytics.upgradeClick("builder_download_note")}
@@ -1264,6 +1283,10 @@ export default function SectionBuilder() {
                   >
                     Upgrade to remove
                   </Link>
+                </p>
+              ) : (
+                <p className="mt-3 text-center text-[11px] leading-relaxed text-emerald-600">
+                  ✓ {dl.remaining} of {freeDownloadsPhrase("free HD receipt")} left
                 </p>
               )}
             </div>

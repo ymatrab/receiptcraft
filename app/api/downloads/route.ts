@@ -3,6 +3,7 @@ import { getAccountStatus } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { supabaseConfigured } from "@/lib/supabase/config";
 import { FREE_LIMITS } from "@/lib/plans";
+import { isFreeBrand } from "@/lib/brand-access";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -41,17 +42,23 @@ export async function GET(req: Request) {
   if (!account.userId || !supabaseConfigured) {
     return NextResponse.json({ isPro: false, loggedIn: false, willWatermark: false, remaining: LIMIT });
   }
-  const key = new URL(req.url).searchParams.get("receiptKey") ?? "";
+  const params = new URL(req.url).searchParams;
+  const key = params.get("receiptKey") ?? "";
+  const brand = params.get("brand");
   const [used, claimed] = await Promise.all([
     usedCount(account.userId),
     key ? alreadyClaimed(account.userId, key) : Promise.resolve(false),
   ]);
   const remaining = Math.max(0, LIMIT - used);
-  // A receipt already claimed re-downloads clean; otherwise it's clean only
-  // while the account still has credits left.
-  const willWatermark = !claimed && remaining <= 0;
+  // Two independent gates. The credit gate is per account; the brand gate is per
+  // template — outside the free fifty, a free export always carries the
+  // watermark however many credits are left. An already-claimed receipt still
+  // re-downloads clean either way, so nobody loses a receipt they already paid a
+  // credit for because the brand list changed under them.
+  const brandLocked = !isFreeBrand(brand);
+  const willWatermark = !claimed && (brandLocked || remaining <= 0);
   return NextResponse.json(
-    { isPro: false, loggedIn: true, willWatermark, remaining },
+    { isPro: false, loggedIn: true, willWatermark, remaining, brandLocked },
     { headers: { "Cache-Control": "no-store" } }
   );
 }
@@ -69,15 +76,31 @@ export async function POST(req: Request) {
     return NextResponse.json({ clean: false, requiresLogin: true, remaining: LIMIT }, { status: 401 });
   }
 
-  const { receiptKey } = (await req.json().catch(() => ({}))) as { receiptKey?: string };
+  const { receiptKey, brand } = (await req.json().catch(() => ({}))) as {
+    receiptKey?: string;
+    brand?: string;
+  };
   const key = (receiptKey || "").slice(0, 200);
   if (!key) return NextResponse.json({ error: "Missing receiptKey" }, { status: 400 });
 
   const userId = account.userId;
 
-  // Already claimed → clean re-download, no new credit consumed.
+  // Already claimed → clean re-download, no new credit consumed. Checked before
+  // the brand gate on purpose: a receipt that already cost a credit stays clean
+  // even if its brand later leaves the free list.
   if (await alreadyClaimed(userId, key)) {
     return NextResponse.json({ clean: true, remaining: Math.max(0, LIMIT - (await usedCount(userId))) });
+  }
+
+  // A Pro-only brand never consumes a credit — it simply exports watermarked.
+  // Spending one here would be the worst of both: the user pays a credit and
+  // still gets a watermark.
+  if (!isFreeBrand(brand)) {
+    return NextResponse.json({
+      clean: false,
+      brandLocked: true,
+      remaining: Math.max(0, LIMIT - (await usedCount(userId))),
+    });
   }
 
   const used = await usedCount(userId);

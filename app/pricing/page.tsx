@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PLANS, FREE_LIMITS, monthlyEquivalent, freeDownloadsPhrase } from "@/lib/plans";
+import { FREE_BRAND_SLUGS } from "@/lib/brand-access";
 import { docFromReceiptData } from "@/lib/sections";
 import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
 import Watermark from "@/components/receipt/Watermark";
@@ -108,15 +109,18 @@ type PlanRow = {
 };
 
 /**
- * Brand-template wording, the same on every plan because brand access is not
- * gated — every one of them is free to use.
+ * Brand-template wording.
  *
- * "300+" rather than the exact count: the catalogue grows, and a round floor
- * stays true without a copy edit every time it does. Using it on Free as well as
- * the paid plans matters — an exact "348" on Free beside "300+" on Pro reads as
- * though the free plan offers more.
+ * Every brand stays free to build and preview — that is what the brand pages
+ * promise and what brings the traffic. What differs is the clean download: 50
+ * brands export watermark-free on the free plan, the rest need Pro. See
+ * lib/brand-access.ts.
+ *
+ * Paid says "300+" rather than the exact count: the catalogue grows, and a round
+ * floor stays true without a copy edit every time it does.
  */
 const BRANDS_LABEL = "300+ brand templates";
+const FREE_BRANDS_LABEL = `${FREE_BRAND_SLUGS.size} brands watermark-free`;
 
 const PLAN_ROWS: PlanRow[] = [
   {
@@ -127,7 +131,7 @@ const PLAN_ROWS: PlanRow[] = [
     cta: "Start free",
     downloads: freeDownloadsPhrase("watermark-free"),
     ai: `${FREE_LIMITS.aiGenerationsPerMonth} a month`,
-    brands: BRANDS_LABEL,
+    brands: FREE_BRANDS_LABEL,
     styling: "3 fonts · 1 paper style",
     saveTemplates: false,
     support: false,
@@ -185,7 +189,7 @@ const SHARED_FEATURES = [
 const FAQ = [
   {
     q: "What's the difference between Free and Pro?",
-    a: "Free gives you every brand template and unlimited preview. On a free account your first download is watermark-free HD; after that downloads carry a small watermark. Free also includes 3 AI generations a month, 3 fonts and one paper style. Pro removes the watermark on every download and unlocks unlimited HD exports, unlimited AI generation, all 32 fonts, all three paper styles and your own saved templates.",
+    a: "Free gives you every brand template to build and preview. On a free account your first download is watermark-free HD; after that downloads carry a small watermark. Free also includes 3 AI generations a month, 3 fonts and one paper style, and 50 of the brand templates export watermark-free. Pro removes the watermark on every download and unlocks unlimited HD exports, unlimited AI generation, all 32 fonts, all three paper styles and your own saved templates.",
   },
   {
     q: "Can I cancel anytime?",
