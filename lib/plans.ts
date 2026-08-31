@@ -156,6 +156,19 @@ export function freeDownloadsPhrase(noun = "download"): string {
   return n === 1 ? `1 ${noun}` : `${n} ${noun}s`;
 }
 
+/**
+ * The same count for the "your first …" construction, where the number is
+ * implicit when it is one.
+ *
+ * "your first download" / "your first 3 downloads" — never "your first 1
+ * download", which is what freeDownloadsPhrase produces there and what shipped
+ * to /create and /pricing before anyone read the rendered sentence.
+ */
+export function firstDownloadsPhrase(noun = "download"): string {
+  const n = FREE_LIMITS.freeReceiptDownloads;
+  return n === 1 ? noun : `${n} ${noun}s`;
+}
+
 /** A user is "Pro" when they hold any active, non-free subscription. */
 export function isProStatus(status: string | null | undefined): boolean {
   return status === "active" || status === "trialing";

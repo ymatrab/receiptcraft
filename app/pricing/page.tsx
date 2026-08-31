@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { PLANS, FREE_LIMITS, monthlyEquivalent, freeDownloadsPhrase } from "@/lib/plans";
+import { PLANS, FREE_LIMITS, monthlyEquivalent, freeDownloadsPhrase, firstDownloadsPhrase } from "@/lib/plans";
 import { FREE_BRAND_SLUGS } from "@/lib/brand-access";
 import { docFromReceiptData } from "@/lib/sections";
 import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
@@ -317,7 +317,7 @@ export default function PricingPage() {
         {[
           { step: "Build and preview", detail: "No account needed", free: true },
           {
-            step: `Your first ${freeDownloadsPhrase("download")}`,
+            step: `Your first ${firstDownloadsPhrase()}`,
             detail: "Watermark-free HD",
             free: true,
           },
@@ -554,7 +554,7 @@ export default function PricingPage() {
           {/* Not "the one on the left": the pair stacks below 640px, where left
               and right do not exist. The figcaptions already name each panel, so
               point at those instead of at a position. */}
-          Your first {freeDownloadsPhrase("download")} is watermark-free either way. After that, a
+          Your first {firstDownloadsPhrase()} is watermark-free either way. After that, a
           free download carries the watermark below.
         </p>
         <div className="mt-8 grid gap-8 sm:grid-cols-2">
@@ -564,7 +564,7 @@ export default function PricingPage() {
               <Watermark />
             </div>
             <figcaption className="mt-3 text-center text-sm text-slate-500">
-              Free download, after your first {freeDownloadsPhrase("download")}
+              A free download, once your first is used
             </figcaption>
           </figure>
           <figure>

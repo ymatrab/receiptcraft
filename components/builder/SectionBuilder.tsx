@@ -49,7 +49,7 @@ import type { AiReceiptResult } from "@/lib/ai-receipt";
 import { downloadPng, downloadJpg, downloadPdf, exportFilename } from "@/lib/download";
 import { analytics } from "@/lib/analytics";
 import { useAccount } from "@/lib/useAccount";
-import { FREE_LIMITS, FREE_FONTS, FREE_PAPER_STYLE, PLANS, freeDownloadsPhrase } from "@/lib/plans";
+import { FREE_LIMITS, FREE_FONTS, FREE_PAPER_STYLE, PLANS, freeDownloadsPhrase, firstDownloadsPhrase } from "@/lib/plans";
 import { createClient } from "@/lib/supabase/client";
 import { supabaseConfigured } from "@/lib/supabase/config";
 import Link from "next/link";
@@ -1407,7 +1407,7 @@ export default function SectionBuilder() {
           <div>
             <TagIcon className="h-8 w-8 text-indigo-600" />
             <h3 id="watermark-prompt-title" className="mt-3 text-xl font-bold text-slate-900">
-              You&apos;ve used your {freeDownloadsPhrase("free receipt")}
+              You&apos;ve used your {firstDownloadsPhrase("free receipt")}
             </h3>
             <p className="mt-2 text-sm leading-relaxed text-slate-600">
               This download will include a small <strong>{SITE.name}</strong> watermark. Go Pro for
