@@ -5441,7 +5441,12 @@ const FAQ_POOL: FaqVariant[] = [
   (n) => ({ question: `Can I edit the items and prices on a ${n} receipt?`, answer: `Every line, quantity, price and the tax rate is fully editable, so your ${n} receipt matches exactly what you need.` }),
   (n) => ({ question: `Can I download a ${n} receipt as a PDF?`, answer: `Yes — export your ${n} receipt as a high-resolution PDF or PNG, ready to print or attach to an expense report.` }),
   (n) => ({ question: `Does it look like a real ${n} receipt?`, answer: `The layout mirrors a genuine ${n} receipt — logo, itemized lines, subtotal, tax and total — so it reads as authentic at a glance.` }),
-  (n) => ({ question: `Do I need an account to make a ${n} receipt?`, answer: `You can build and preview with no sign-up. Downloading uses a free account — your first ${n} receipt is watermark-free, then a small watermark applies unless you go Pro.` }),
+  (n, slug) => ({
+    question: `Do I need an account to make a ${n} receipt?`,
+    answer: isFreeBrand(slug)
+      ? `You can build and preview with no sign-up. Downloading uses a free account — your first ${n} receipt is watermark-free, then a small watermark applies unless you go Pro.`
+      : `The ${n} template is one of our Pro layouts, so it needs a Makecepeit Pro account. The generic receipt builder is free to use with no sign-up at all.`,
+  }),
   (n) => ({ question: `Can I change the date and store details on a ${n} receipt?`, answer: `Yes. Set the date, store address, register or order number and cashier so your ${n} receipt reflects the right visit.` }),
   (n) => ({ question: `What can I use a ${n} receipt for?`, answer: `People recreate ${n} receipts to replace a lost original, document purchases for expense and reimbursement claims, keep bookkeeping records, or use them as props and mockups.` }),
   (n) => ({ question: `Can I add my own items to a ${n} receipt?`, answer: `Yes — add, remove or reorder line items freely. The template starts with realistic ${n} items, but every field is yours to change.` }),
