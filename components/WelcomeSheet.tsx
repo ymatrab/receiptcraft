@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { analytics } from "@/lib/analytics";
-import { FREE_LIMITS, PLANS } from "@/lib/plans";
+import { FREE_LIMITS, PLANS, freeDownloadsPhrase } from "@/lib/plans";
 
 /**
  * Shown once, immediately after a new account is created *at a gate* — the
@@ -77,10 +77,10 @@ export default function WelcomeSheet() {
 
         <ul className="mt-4 space-y-2 text-sm text-slate-700">
           <Item>
-            <strong>{FREE_LIMITS.aiGenerationsPerDay} AI receipt generations</strong> a day
+            <strong>{FREE_LIMITS.aiGenerationsPerMonth} AI receipt generations</strong> a month
           </Item>
           <Item>
-            <strong>{FREE_LIMITS.freeReceiptDownloads} watermark-free HD downloads</strong> — PDF,
+            <strong>{freeDownloadsPhrase("watermark-free HD download")}</strong> — PDF,
             PNG or JPG
           </Item>
           <Item>Every template and brand layout, and your saved receipts</Item>

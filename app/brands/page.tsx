@@ -69,7 +69,7 @@ const breadcrumbLd = {
 
 export const metadata: Metadata = {
   title: `Brand Receipt Templates — ${BRAND_COUNT} Stores`,
-  description: `Browse ${BRAND_COUNT} free brand receipt templates — Walmart, Starbucks, Uber, McDonald's and more. Free to build; a free account downloads your first 3.`,
+  description: `Browse ${BRAND_COUNT} free brand receipt templates — Walmart, Starbucks, Uber, McDonald's and more. Free to build; a free account downloads your first one.`,
   alternates: { canonical: "/brands" },
 };
 
@@ -88,7 +88,7 @@ export default function BrandsPage() {
           {BRAND_COUNT} receipt templates inspired by popular brands across restaurants,
           grocery, retail, travel, gas and more. Search for a brand or filter by category, then
           customize the items, dates and prices. Building and previewing is free with no
-          sign-up; downloading uses a free account, and your first 3 are watermark-free.
+          sign-up; downloading uses a free account, and your first is watermark-free.
         </p>
       </div>
 

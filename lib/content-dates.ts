@@ -18,7 +18,11 @@ import { LAST_UPDATED } from "./comparisons";
  * cosmetic restamp is what crawlers learn to ignore.
  */
 
-export const STATIC_UPDATED = "2026-07-20";
+// 2026-08-31: the free tier changed — one watermark-free download instead of
+// three, 3 AI generations a month instead of 3 a day, 3 fonts and one paper
+// style, and saving your own templates is now Pro. Every page that stated the
+// old numbers changed with it.
+export const STATIC_UPDATED = "2026-08-31";
 // 2026-08-29: /tools/receipt-calculator stopped saying an account is needed
 // "only to download" — the AI generator needs one too. /tools and the other
 // calculator did not change, but they share this constant and the text sits in
@@ -30,8 +34,10 @@ export const TEMPLATES_FIGURE_UPDATED = "2026-08-21";
 // 2026-08-23: all 348 brand pages got a new meta description — the five
 // SEO_DESC_VARIANTS that promised "no sign-up to start" one clause after
 // promising a download now say an account is needed.
-export const BRANDS_UPDATED = "2026-08-23";
-export const BRANDS_INDEX_UPDATED = "2026-08-20";
+// 2026-08-31: free-tier limits changed — see STATIC_UPDATED above.
+export const BRANDS_UPDATED = "2026-08-31";
+// 2026-08-31: free-tier limits changed — see STATIC_UPDATED above.
+export const BRANDS_INDEX_UPDATED = "2026-08-31";
 export const INTENT_UPDATED = "2026-08-20";
 export const INTENT_CITED_UPDATED = "2026-08-20";
 export const EXAMPLES_UPDATED = "2026-07-03";
@@ -40,13 +46,15 @@ export const GUIDES_UPDATED = "2026-08-20";
 // carries a date newer than the IndexNow cron's last run and is actually
 // submitted, without restamping /guides/receipt-anatomy, which did not change.
 export const GUIDES_LEGALITY_UPDATED = "2026-08-21";
-export const POLICY_UPDATED = "2026-08-20";
+// 2026-08-31: free-tier limits changed — see STATIC_UPDATED above.
+export const POLICY_UPDATED = "2026-08-31";
 // /create and /cookies both sat on STATIC_UPDATED, which also stamps /login,
 // /blog, /about, /contact, /authors, /privacy and /terms. Both changed on
 // 2026-08-29 — /create renders the homepage FAQ, and /cookies listed the
 // ai_free_usage cookie that no longer exists — so they get their own constants
 // rather than dragging seven untouched pages into an IndexNow submission.
-export const CREATE_UPDATED = "2026-08-29";
+// 2026-08-31: free-tier limits changed — see STATIC_UPDATED above.
+export const CREATE_UPDATED = "2026-08-31";
 export const COOKIES_UPDATED = "2026-08-29";
 // 2026-08-29: /login now leads with the log-in form instead of "Create your
 // free account" — the heading, the sub-heading and the form itself all change
@@ -55,7 +63,8 @@ export const COOKIES_UPDATED = "2026-08-29";
 // /privacy and /terms, none of which changed.
 // 2026-08-30: "Continue with Google" moved above the email form, so the visible
 // order of the page's controls changed.
-export const LOGIN_UPDATED = "2026-08-30";
+// 2026-08-31: free-tier limits changed — see STATIC_UPDATED above.
+export const LOGIN_UPDATED = "2026-08-31";
 // 2026-08-21: /pricing now shows the watermark it asks people to pay to remove.
 // 2026-08-29: the price table moved above that watermark comparison. Measured on
 // a 375px phone, the comparison ran 594px to 2,024px and pushed the first price
@@ -74,7 +83,8 @@ export const LOGIN_UPDATED = "2026-08-30";
 // rather than sharing one band underneath, and a comparison table sits below the
 // cards. Comparing what you get is the job of this page and a buyer should not
 // have to scroll past the cards to find out what they are buying.
-export const PRICING_UPDATED = "2026-08-30";
+// 2026-08-31: free-tier limits changed — see STATIC_UPDATED above.
+export const PRICING_UPDATED = "2026-08-31";
 // 2026-08-23: the hero grid no longer stretches to the 380px receipt, so the
 // primary CTA is reachable again on phones under 412px — a visible change to
 // the page's most important element.
@@ -85,8 +95,10 @@ export const PRICING_UPDATED = "2026-08-30";
 // that FAQ answer changed again. Both the visible copy and the JSON-LD move.
 // Also 2026-08-29: the hero carries worked AI examples, so a signed-out visitor
 // can still see what the generator does now that using it needs an account.
-export const HOME_UPDATED = "2026-08-29";
-export const TEMPLATES_INDEX_UPDATED = "2026-08-20";
+// 2026-08-31: free-tier limits changed — see STATIC_UPDATED above.
+export const HOME_UPDATED = "2026-08-31";
+// 2026-08-31: free-tier limits changed — see STATIC_UPDATED above.
+export const TEMPLATES_INDEX_UPDATED = "2026-08-31";
 export const COMPARISONS_UPDATED = LAST_UPDATED;
 
 /**

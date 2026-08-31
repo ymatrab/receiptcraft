@@ -33,8 +33,9 @@ export const PLANS: Record<PlanId, Plan> = {
     features: [
       "All receipt templates & brands",
       "Live preview",
-      "3 free HD receipt downloads, then watermarked",
-      "3 AI receipt generations per day",
+      "1 free HD receipt download, then watermarked",
+      "3 AI receipt generations a month",
+      "3 fonts · 1 paper style",
     ],
   },
   pro_weekly: {
@@ -109,14 +110,50 @@ export function monthlyEquivalent(plan: Plan): number | null {
 
 /** Free-tier limits. Adjust here as the only place these numbers live. */
 export const FREE_LIMITS = {
-  aiGenerationsPerDay: 3,
+  /**
+   * AI generations a free account gets per calendar month.
+   *
+   * This was 3 *a day*, which compounds to ~90 a month — three times what
+   * ReceiptBaker's cheapest paying customer gets for $8.75. A daily allowance is
+   * not a trial, it is a free product. Monthly is the window the limiter and the
+   * account page both read, via startOfUsageMonth() in lib/usage.ts.
+   */
+  aiGenerationsPerMonth: 3,
   /**
    * Watermark-free receipt downloads a logged-in free account gets before
    * downloads fall back to watermarked. Counted per unique receipt (re-downloads
    * and multiple formats of the same receipt don't consume extra credits).
+   *
+   * Was 3, which is more than any competitor gives away and close enough to the
+   * $3 pass that a one-off buyer had no reason to reach the paid ladder at all.
    */
-  freeReceiptDownloads: 3,
+  freeReceiptDownloads: 1,
 } as const;
+
+/**
+ * Fonts a free account can choose from, out of the 32 in the builder.
+ *
+ * A gate on *switching*, not on rendering: brand templates carry their own
+ * `fontFamily`, and forcing a free user's Starbucks receipt onto a different
+ * face would break the one thing the brand pages exist to provide.
+ */
+export const FREE_FONTS = ["mono", "sans", "courier"] as const;
+
+/** Paper style a free account is limited to. Same rule — the template's own
+ *  style still renders; this only limits manual switching. */
+export const FREE_PAPER_STYLE = "thermal" as const;
+
+/**
+ * "1 watermark-free download" / "3 watermark-free downloads".
+ *
+ * The number appears in about thirty places across the site and the surrounding
+ * grammar changes with it. Centralised so a future change to FREE_LIMITS cannot
+ * leave half the site saying "your first 1 downloads".
+ */
+export function freeDownloadsPhrase(noun = "download"): string {
+  const n = FREE_LIMITS.freeReceiptDownloads;
+  return n === 1 ? `1 ${noun}` : `${n} ${noun}s`;
+}
 
 /** A user is "Pro" when they hold any active, non-free subscription. */
 export function isProStatus(status: string | null | undefined): boolean {

@@ -13,21 +13,26 @@ import type { createClient } from "@/lib/supabase/server";
 type ServerClient = Awaited<ReturnType<typeof createClient>>;
 
 /**
- * The start of the current usage day.
+ * The start of the current usage month.
  *
- * This is server-local midnight, which on Vercel means UTC. That is a choice
- * with a real edge — someone in Los Angeles gets their AI generations back at
- * 5pm rather than at midnight — but it is the boundary the limiter has always
- * used, and the only thing worse than an odd reset time is two of them.
+ * The AI allowance used to be per day. Three a day compounds to about ninety a
+ * month, which is more than competitors sell — so the window is now the calendar
+ * month, and the allowance resets on the 1st.
  *
- * It lives here because it is now read in two places. app/api/ai/generate
- * decides whether to allow a generation; the account page tells the user how
- * many they have left. If those two ever compute "today" differently, the page
- * says "1 left" and the next request is refused — which reads as a broken
- * product rather than a quota.
+ * Server-local, which on Vercel means UTC. That has a real edge — someone in Los
+ * Angeles gets their allowance back at 5pm on the last day of the month — but it
+ * is one boundary rather than two, and the only thing worse than an odd reset
+ * time is two of them disagreeing.
+ *
+ * It lives here because it is read in two places. app/api/ai/generate decides
+ * whether to allow a generation; the account page tells the user how many are
+ * left. If those ever computed the window differently, the page would say "1
+ * left" and the next request would be refused — which reads as a broken product
+ * rather than a quota.
  */
-export function startOfUsageDay(): Date {
+export function startOfUsageMonth(): Date {
   const since = new Date();
+  since.setDate(1);
   since.setHours(0, 0, 0, 0);
   return since;
 }
@@ -36,9 +41,9 @@ export interface AccountUsage {
   /** Watermark-free downloads claimed, and how many of the free allowance are left. */
   downloadsUsed: number;
   downloadsLeft: number;
-  /** AI generations used since startOfUsageDay(), and how many remain. */
-  aiUsedToday: number;
-  aiLeftToday: number;
+  /** AI generations used since startOfUsageMonth(), and how many remain. */
+  aiUsedThisMonth: number;
+  aiLeftThisMonth: number;
   /** Receipts saved to the account. */
   receiptCount: number;
 }
@@ -65,18 +70,18 @@ export async function getAccountUsage(
       .from("ai_usage")
       .select("*", { count: "exact", head: true })
       .eq("user_id", userId)
-      .gte("created_at", startOfUsageDay().toISOString()),
+      .gte("created_at", startOfUsageMonth().toISOString()),
     supabase.from("receipts").select("*", { count: "exact", head: true }).eq("user_id", userId),
   ]);
 
   const downloadsUsed = downloads.count ?? 0;
-  const aiUsedToday = ai.count ?? 0;
+  const aiUsedThisMonth = ai.count ?? 0;
 
   return {
     downloadsUsed,
     downloadsLeft: Math.max(0, FREE_LIMITS.freeReceiptDownloads - downloadsUsed),
-    aiUsedToday,
-    aiLeftToday: Math.max(0, FREE_LIMITS.aiGenerationsPerDay - aiUsedToday),
+    aiUsedThisMonth,
+    aiLeftThisMonth: Math.max(0, FREE_LIMITS.aiGenerationsPerMonth - aiUsedThisMonth),
     receiptCount: receipts.count ?? 0,
   };
 }

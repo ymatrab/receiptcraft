@@ -20,7 +20,7 @@ import { BRAND_COUNT } from "./counts";
 // named-brand and no-signup rows were both wrong, and the ExpressExpense price
 // was unsourced. A genuine review of the whole set, so the shared date moves
 // rather than a per-competitor one. Stamped 08-23, the day the copy shipped.
-export const LAST_UPDATED = "2026-08-30"; // ISO — shown as the page "last reviewed" date
+export const LAST_UPDATED = "2026-08-31"; // ISO — shown as the page "last reviewed" date
 export const PRICING_AS_OF = "August 2026"; // human-readable disclaimer on pricing tables
 
 /* -------------------------------------------------------------------------- */
@@ -67,7 +67,7 @@ export const MAKECEPEIT = {
   url: SITE.url,
   startingPrice: "Free · Pro from $3/wk",
   cells: {
-    free_start: yes("Build + first 3 HD downloads free"),
+    free_start: yes("Build + first HD download free"),
     no_signup: yes("Build & preview, no signup"),
     live_preview: yes(),
     // Exact, not "350+": this is the dimension we win outright (348 vs their
@@ -77,7 +77,7 @@ export const MAKECEPEIT = {
     image_export: yes("PNG at 3× resolution"),
     ai_generator: yes("3/day free, unlimited on Pro"),
     saved_history: yes("Pro"),
-    watermark_free: partial("3 free, then Pro from $3/wk"),
+    watermark_free: partial("1 free, then Pro from $3/wk"),
     transparent_pricing: yes("$3/wk · $7.99/mo · $39/yr"),
   } as Cells,
 } as const;
@@ -330,7 +330,7 @@ export const COMPETITORS: Competitor[] = [
       {
         question: "Do both Makecepeit and ReceiptBaker have AI receipt generators?",
         answer:
-          "Yes. Both offer AI-assisted receipt generation. Makecepeit's AI is free for three receipts per day and unlimited on Pro, with prices published on the pricing page.",
+          "Yes. Both offer AI-assisted receipt generation. Makecepeit's AI is free for three receipts a month and unlimited on Pro, with prices published on the pricing page.",
       },
       {
         question: "How much does ReceiptBaker cost?",

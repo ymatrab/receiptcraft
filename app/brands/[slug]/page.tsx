@@ -251,7 +251,7 @@ export default async function BrandTemplatePage({ params }: Props) {
           <ol className="mt-4 max-w-3xl list-decimal space-y-2 pl-5 text-slate-600">
             <li>Open the {template.shortName} template — it loads with realistic items and {d.taxLabel ?? "tax"} already filled in.</li>
             <li>Edit the business details, line items, prices, date and payment method to match what you need.</li>
-            <li>Sign in with a free account to download a print-ready PDF or high-resolution PNG — your first 3 receipts are watermark-free.</li>
+            <li>Sign in with a free account to download a print-ready PDF or high-resolution PNG — your first receipt is watermark-free.</li>
           </ol>
         </section>
 

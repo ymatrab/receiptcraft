@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { analytics } from "@/lib/analytics";
-import { FREE_LIMITS } from "@/lib/plans";
+import { FREE_LIMITS, freeDownloadsPhrase } from "@/lib/plans";
 
 /**
  * Shown once at the top of /pricing, immediately after a new account is created.
@@ -56,10 +56,10 @@ export default function NewAccountBanner() {
       <p className="mt-2 text-sm text-emerald-900">It already includes:</p>
       <ul className="mt-3 grid gap-2 text-sm text-emerald-900 sm:grid-cols-3">
         <Item>
-          <strong>{FREE_LIMITS.aiGenerationsPerDay} AI generations</strong> a day
+          <strong>{FREE_LIMITS.aiGenerationsPerMonth} AI generations</strong> a month
         </Item>
         <Item>
-          <strong>{FREE_LIMITS.freeReceiptDownloads} watermark-free</strong> HD downloads
+          <strong>{freeDownloadsPhrase("watermark-free HD download")}</strong>
         </Item>
         <Item>Every template, and your saved receipts</Item>
       </ul>

@@ -5325,7 +5325,7 @@ function pickDistinct<T>(arr: T[], n: number, seed: number): T[] {
 // so pages without a city just render the city-free half of the sentence.
 const INTRO_VARIANTS: ((n: string, noun: string, city?: string) => string)[] = [
   (n, noun) => `Create a realistic ${n} receipt with ${noun}. Perfect for replacing a lost ${n} receipt, expense reports, bookkeeping records or design mockups.`,
-  (n, noun) => `Need a ${n} receipt fast? Build one with ${noun}, then sign in free to download a clean PDF or PNG. Your first 3 downloads are watermark-free.`,
+  (n, noun) => `Need a ${n} receipt fast? Build one with ${noun}, then sign in free to download a clean PDF or PNG. Your first download is watermark-free.`,
   (n, noun) => `Recreate a ${n} receipt that matches the real thing, complete with ${noun}. Adjust the totals and export it for expenses, reimbursements or your own records.`,
   (n, noun) => `Make a ${n} receipt online in seconds. Lay it out with ${noun} — subtotal, tax and total included — ready to print or save.`,
   (n, noun, city) => `Build a ${n} receipt${city ? ` for a visit to the ${city} location` : ""} with ${noun}. Edit the totals, then download it for expenses or your own records.`,
@@ -5402,16 +5402,16 @@ const FAQ_ANCHOR: FaqVariant = (n) => ({
 });
 
 const FAQ_POOL: FaqVariant[] = [
-  (n) => ({ question: `Is the ${n} receipt generator free?`, answer: `Yes. Building a ${n} receipt is free. Downloading uses a free account — your first 3 are watermark-free, then a small watermark applies unless you upgrade to Pro, which also unlocks unlimited AI generation.` }),
+  (n) => ({ question: `Is the ${n} receipt generator free?`, answer: `Yes. Building a ${n} receipt is free. Downloading uses a free account — your first is watermark-free, then a small watermark applies unless you upgrade to Pro, which also unlocks unlimited AI generation.` }),
   (n) => ({ question: `Can I edit the items and prices on a ${n} receipt?`, answer: `Every line, quantity, price and the tax rate is fully editable, so your ${n} receipt matches exactly what you need.` }),
   (n) => ({ question: `Can I download a ${n} receipt as a PDF?`, answer: `Yes — export your ${n} receipt as a high-resolution PDF or PNG, ready to print or attach to an expense report.` }),
   (n) => ({ question: `Does it look like a real ${n} receipt?`, answer: `The layout mirrors a genuine ${n} receipt — logo, itemized lines, subtotal, tax and total — so it reads as authentic at a glance.` }),
-  (n) => ({ question: `Do I need an account to make a ${n} receipt?`, answer: `You can build and preview with no sign-up. Downloading uses a free account — your first 3 ${n} receipts are watermark-free, then a small watermark applies unless you go Pro.` }),
+  (n) => ({ question: `Do I need an account to make a ${n} receipt?`, answer: `You can build and preview with no sign-up. Downloading uses a free account — your first ${n} receipt is watermark-free, then a small watermark applies unless you go Pro.` }),
   (n) => ({ question: `Can I change the date and store details on a ${n} receipt?`, answer: `Yes. Set the date, store address, register or order number and cashier so your ${n} receipt reflects the right visit.` }),
   (n) => ({ question: `What can I use a ${n} receipt for?`, answer: `People recreate ${n} receipts to replace a lost original, document purchases for expense and reimbursement claims, keep bookkeeping records, or use them as props and mockups.` }),
   (n) => ({ question: `Can I add my own items to a ${n} receipt?`, answer: `Yes — add, remove or reorder line items freely. The template starts with realistic ${n} items, but every field is yours to change.` }),
   (n) => ({ question: `What file formats does the ${n} receipt export to?`, answer: `PDF (fitted or print-ready A4), PNG and JPG, all rendered at 3x resolution so they stay sharp when printed or attached to an email.` }),
-  (n) => ({ question: `Will a recreated ${n} receipt have a watermark?`, answer: `Your first 3 downloads on a free account are watermark-free HD. After that, free downloads include a small watermark unless you upgrade to Pro.` }),
+  (n) => ({ question: `Will a recreated ${n} receipt have a watermark?`, answer: `Your first download on a free account is watermark-free HD. After that, free downloads include a small watermark unless you upgrade to Pro.` }),
   (n) => ({ question: `Can I set a different currency or tax rate on a ${n} receipt?`, answer: `Yes. Switch between 10 currencies and set any tax label and rate — the totals recalculate instantly.` }),
   (n) => ({ question: `Is my information saved when I make a ${n} receipt?`, answer: `Only if you ask for it. The builder runs in your browser, so what you type stays on your device unless you save the receipt to your account.` }),
 ];
