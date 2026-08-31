@@ -49,7 +49,8 @@ import type { AiReceiptResult } from "@/lib/ai-receipt";
 import { downloadPng, downloadJpg, downloadPdf, exportFilename } from "@/lib/download";
 import { analytics } from "@/lib/analytics";
 import { useAccount } from "@/lib/useAccount";
-import { FREE_LIMITS, FREE_FONTS, FREE_PAPER_STYLE, freeDownloadsPhrase } from "@/lib/plans";
+import { FREE_LIMITS, FREE_FONTS, FREE_PAPER_STYLE, PLANS, freeDownloadsPhrase } from "@/lib/plans";
+import { isFreeBrand } from "@/lib/brand-access";
 import { createClient } from "@/lib/supabase/client";
 import { supabaseConfigured } from "@/lib/supabase/config";
 import Link from "next/link";
@@ -196,9 +197,13 @@ export default function SectionBuilder() {
   const [exporting, setExporting] = useState<ExportKind | null>(null);
   const [mobileTab, setMobileTab] = useState<"edit" | "preview">("edit");
   const [activeTemplate, setActiveTemplate] = useState("");
+  /** Slug of a Pro-only template a free user just tried to open. */
+  const [proTemplate, setProTemplate] = useState<string | null>(null);
+  /** A ?template= slug waiting for the account to resolve before it is applied. */
+  const [pendingTemplate, setPendingTemplate] = useState<string | null>(null);
   const dragIndex = useRef<number | null>(null);
   const receiptRef = useRef<HTMLDivElement>(null);
-  const { account } = useAccount();
+  const { account, loading: accountLoading } = useAccount();
   // Download-quota state (from /api/downloads). A logged-in free account gets
   // FREE_LIMITS.freeReceiptDownloads clean receipts, then downloads are
   // watermarked. Pro is always clean; anonymous users must log in to download.
@@ -286,7 +291,10 @@ export default function SectionBuilder() {
     }
     const slug = getQueryTemplate();
     if (slug) {
-      applyTemplate(slug);
+      // Deferred, not applied here: at mount `account.isPro` is still false
+      // while /api/me is in flight, so gating now would show a paying
+      // subscriber the upgrade wall on every arrival from a brand page.
+      setPendingTemplate(slug);
       analytics.builderOpened("template");
       return;
     }
@@ -365,6 +373,17 @@ export default function SectionBuilder() {
     };
   }, [doc.id, activeTemplate, account.isLoggedIn, account.isPro]);
 
+  // Apply the ?template= slug once the account is known, so the Pro gate is
+  // decided against a real answer rather than against the anonymous default.
+  useEffect(() => {
+    if (!pendingTemplate || accountLoading) return;
+    applyTemplate(pendingTemplate);
+    setPendingTemplate(null);
+    // applyTemplate is stable enough for this one-shot; re-running on every
+    // render would re-apply the template and discard the user's edits.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pendingTemplate, accountLoading]);
+
   const loadReceipt = async (id: string) => {
     const supabase = createClient();
     const { data } = await supabase.from("receipts").select("data").eq("id", id).maybeSingle();
@@ -439,9 +458,26 @@ export default function SectionBuilder() {
   // different saved receipt. `keepId` carries the working id onto the new doc.
   const keepId = (next: ReceiptDoc) => (d: ReceiptDoc) => ({ ...next, id: d.id });
 
+  /**
+   * Load a brand template into the builder.
+   *
+   * Outside the free fifty this needs Pro. The gate is here rather than on the
+   * brand page because the page itself stays public and indexable — it is the
+   * template that is paid for, not the article around it.
+   *
+   * Account state resolves asynchronously, so this is checked at click time
+   * rather than baked into the button: `account.isPro` is false until /api/me
+   * lands, and gating the button on that would flash a locked state at a paying
+   * subscriber on every page load.
+   */
   const applyTemplate = (slug: string) => {
     const t = getTemplate(slug);
     if (!t) return;
+    if (!account.isPro && !isFreeBrand(slug)) {
+      setProTemplate(slug);
+      analytics.upgradeClick("builder_pro_template");
+      return;
+    }
     setDoc(keepId(docFromReceiptData(receiptFromTemplate(t))));
     setActiveTemplate(slug);
     setCollapsed({});
@@ -1084,7 +1120,10 @@ export default function SectionBuilder() {
       <div className="-mx-4 overflow-x-auto px-4 pb-4 pt-3 sm:mx-0 sm:px-0">
         <div className="flex gap-2">
           {TEMPLATES.slice(0, 14).map((t) => (
-            <button key={t.slug} type="button" onClick={() => applyTemplate(t.slug)} className={`flex shrink-0 items-center gap-1.5 rounded-full border px-4 py-2.5 text-sm font-medium transition-colors ${activeTemplate === t.slug ? "border-indigo-600 bg-indigo-600 text-white" : "border-slate-200 bg-white text-slate-600 hover:border-indigo-300"}`}>
+            <button key={t.slug} type="button" onClick={() => applyTemplate(t.slug)} title={!account.isPro && !isFreeBrand(t.slug) ? "Pro template" : undefined} className={`flex shrink-0 items-center gap-1.5 rounded-full border px-4 py-2.5 text-sm font-medium transition-colors ${activeTemplate === t.slug ? "border-indigo-600 bg-indigo-600 text-white" : "border-slate-200 bg-white text-slate-600 hover:border-indigo-300"}`}>
+                {!account.isPro && !isFreeBrand(t.slug) && (
+                  <LockIcon aria-hidden className="h-3.5 w-3.5 shrink-0 opacity-60" />
+                )}
               <span aria-hidden="true">{t.icon}</span>
               {t.shortName}
             </button>
@@ -1367,6 +1406,43 @@ export default function SectionBuilder() {
                 className="cursor-pointer rounded-full px-5 py-3 text-sm font-medium text-slate-600 transition-colors hover:text-slate-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
               >
                 Cancel
+              </button>
+            </div>
+          </div>
+        </Modal>
+      )}
+
+      {/* Pro-only brand template */}
+      {proTemplate && (
+        <Modal
+          onClose={() => setProTemplate(null)}
+          labelledBy="pro-template-title"
+          panelClassName="w-full max-w-md rounded-3xl bg-white p-7 shadow-2xl"
+        >
+          <div>
+            <LockIcon className="h-8 w-8 text-indigo-600" />
+            <h3 id="pro-template-title" className="mt-3 text-xl font-bold text-slate-900">
+              {getTemplate(proTemplate)?.shortName ?? "This"} is a Pro template
+            </h3>
+            <p className="mt-2 text-sm leading-relaxed text-slate-600">
+              Around fifty brand templates are free to use, and the receipt builder itself is free
+              for everyone with no sign-up. This one needs Pro — which also removes the watermark
+              everywhere and unlocks unlimited AI generation.
+            </p>
+            <div className="mt-6 flex flex-col gap-2">
+              <Link
+                href="/pricing"
+                onClick={() => analytics.upgradeClick("pro_template_modal")}
+                className="rounded-full bg-indigo-600 px-5 py-3 text-center text-sm font-semibold text-white hover:bg-indigo-700"
+              >
+                See plans — from ${PLANS.pro_weekly.price}
+              </Link>
+              <button
+                type="button"
+                onClick={() => setProTemplate(null)}
+                className="cursor-pointer rounded-full px-5 py-3 text-sm font-medium text-slate-600 transition-colors hover:text-slate-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+              >
+                Pick a different template
               </button>
             </div>
           </div>
