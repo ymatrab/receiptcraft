@@ -140,7 +140,12 @@ export const PRICING_UPDATED = "2026-08-31";
 // Also 2026-08-29: the hero carries worked AI examples, so a signed-out visitor
 // can still see what the generator does now that using it needs an account.
 // 2026-08-31: free-tier limits changed — see STATIC_UPDATED above.
-export const HOME_UPDATED = "2026-08-31";
+// 2026-09-01: the H1 and title stop duplicating /create. Google was showing
+// both pages for "receipt maker" at position ~89 apiece; /create now owns the
+// head term and the homepage leads on the brand catalogue, linking to the
+// builder with exact-match anchor text. Also fixes "your first download are
+// watermark-free", left ungrammatical when the free allowance dropped to one.
+export const HOME_UPDATED = "2026-09-01";
 // 2026-08-31: free-tier limits changed — see STATIC_UPDATED above.
 export const TEMPLATES_INDEX_UPDATED = "2026-08-31";
 export const COMPARISONS_UPDATED = LAST_UPDATED;
