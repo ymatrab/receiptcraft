@@ -439,15 +439,22 @@ export default function HomePage() {
               download
             </p>
             <h1 className="mt-5 text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
-              Free receipt maker — build yours in{" "}
+              Recreate any store receipt in{" "}
               <span className="bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">
                 60 seconds
               </span>
             </h1>
             <p className="mt-5 max-w-xl text-lg leading-relaxed text-slate-600">
-              The fastest free receipt maker online. Pick a template, customize
+              Pick the template that matches where you shopped, customize
               items, tax and payment details with a live preview, then download
-              your receipt as a PDF or PNG — instantly.
+              as a PDF or PNG. Open the{" "}
+              <Link
+                href="/create"
+                className="font-medium text-indigo-600 underline underline-offset-2 hover:text-indigo-700"
+              >
+                free receipt maker
+              </Link>{" "}
+              to start from a blank receipt.
             </p>
 
             <HomeAiGenerator />
@@ -469,7 +476,7 @@ export default function HomePage() {
             <p className="mt-3 text-sm text-slate-500">
               Free to build &amp; preview — no sign-up. A free account is needed
               to download or to use the AI generator, and your first download
-              are watermark-free.{" "}
+              is watermark-free.{" "}
               <Link
                 href="/pricing"
                 className="font-medium text-indigo-600 underline underline-offset-2 hover:text-indigo-700"

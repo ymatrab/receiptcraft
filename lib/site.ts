@@ -1,6 +1,10 @@
 export const SITE = {
   name: "Makecepeit",
-  tagline: "Free Receipt Maker — Create & Download Receipts in Seconds",
+  // Deliberately not "Free Receipt Maker …": that is /create's title and H1,
+  // and in Aug 2026 Google was showing both pages for "receipt maker", each at
+  // position ~89. /create owns the head term; the homepage leads on the brand
+  // catalogue, which is what it can win that /create cannot.
+  tagline: "Makecepeit — Brand Receipt Templates & Receipt Builder",
   // The default meta description lives in lib/counts.ts as SITE_DESCRIPTION,
   // because it quotes the real brand count and this module is imported by client
   // components — importing the catalogue here would ship it to the browser.
