@@ -69,7 +69,18 @@ export const FREE_BRAND_SLUGS: ReadonlySet<string> = new Set([
   "xbox-store",
 ]);
 
-/** Whether a free account gets a watermark-free download of this template. */
+/**
+ * Whether this BRAND is one of the free fifty.
+ *
+ * Only call this when the slug is already known to be a brand — a brand page,
+ * or brand data. For "does this template need Pro?" use templateNeedsPro() in
+ * lib/templates.ts instead.
+ *
+ * The difference is not cosmetic. This function returns false for every generic
+ * template too (grocery-store, restaurant, taxi…), because they are not in the
+ * set — so using it as a paywall check locks the entire free builder. That
+ * shipped once.
+ */
 export function isFreeBrand(slug: string | null | undefined): boolean {
   if (!slug) return true; // not a brand template at all — the generic builder stays free
   return FREE_BRAND_SLUGS.has(slug);

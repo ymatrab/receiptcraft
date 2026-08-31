@@ -3,7 +3,7 @@ import { getAccountStatus } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { supabaseConfigured } from "@/lib/supabase/config";
 import { FREE_LIMITS } from "@/lib/plans";
-import { isFreeBrand } from "@/lib/brand-access";
+import { templateNeedsPro } from "@/lib/templates";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -62,7 +62,7 @@ export async function GET(req: Request) {
   // An already-claimed receipt re-downloads clean either way, so nobody loses a
   // receipt they already spent a credit on because the brand list changed under
   // them.
-  const brandLocked = !isFreeBrand(brand);
+  const brandLocked = templateNeedsPro(brand);
   const willWatermark = !claimed && (brandLocked || remaining <= 0);
   return NextResponse.json(
     { isPro: false, loggedIn: true, willWatermark, remaining, brandLocked },
@@ -102,7 +102,7 @@ export async function POST(req: Request) {
   // A Pro-only brand never consumes a credit — it simply exports watermarked.
   // Spending one here would be the worst of both: the user pays a credit and
   // still gets a watermark.
-  if (!isFreeBrand(brand)) {
+  if (templateNeedsPro(brand)) {
     return NextResponse.json({
       clean: false,
       brandLocked: true,

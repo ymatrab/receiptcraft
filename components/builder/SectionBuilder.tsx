@@ -32,7 +32,7 @@ import {
   SPACING_DEFAULTS,
   WIDTH_PRESETS,
 } from "@/lib/sections";
-import { getTemplate, TEMPLATES } from "@/lib/templates";
+import { getTemplate, templateNeedsPro, TEMPLATES } from "@/lib/templates";
 import { receiptFromTemplate } from "@/lib/receipt";
 import {
   deleteTemplate,
@@ -50,7 +50,6 @@ import { downloadPng, downloadJpg, downloadPdf, exportFilename } from "@/lib/dow
 import { analytics } from "@/lib/analytics";
 import { useAccount } from "@/lib/useAccount";
 import { FREE_LIMITS, FREE_FONTS, FREE_PAPER_STYLE, PLANS, freeDownloadsPhrase } from "@/lib/plans";
-import { isFreeBrand } from "@/lib/brand-access";
 import { createClient } from "@/lib/supabase/client";
 import { supabaseConfigured } from "@/lib/supabase/config";
 import Link from "next/link";
@@ -473,7 +472,7 @@ export default function SectionBuilder() {
   const applyTemplate = (slug: string) => {
     const t = getTemplate(slug);
     if (!t) return;
-    if (!account.isPro && !isFreeBrand(slug)) {
+    if (!account.isPro && templateNeedsPro(slug)) {
       setProTemplate(slug);
       analytics.upgradeClick("builder_pro_template");
       return;
@@ -1120,8 +1119,8 @@ export default function SectionBuilder() {
       <div className="-mx-4 overflow-x-auto px-4 pb-4 pt-3 sm:mx-0 sm:px-0">
         <div className="flex gap-2">
           {TEMPLATES.slice(0, 14).map((t) => (
-            <button key={t.slug} type="button" onClick={() => applyTemplate(t.slug)} title={!account.isPro && !isFreeBrand(t.slug) ? "Pro template" : undefined} className={`flex shrink-0 items-center gap-1.5 rounded-full border px-4 py-2.5 text-sm font-medium transition-colors ${activeTemplate === t.slug ? "border-indigo-600 bg-indigo-600 text-white" : "border-slate-200 bg-white text-slate-600 hover:border-indigo-300"}`}>
-                {!account.isPro && !isFreeBrand(t.slug) && (
+            <button key={t.slug} type="button" onClick={() => applyTemplate(t.slug)} title={!account.isPro && templateNeedsPro(t.slug) ? "Pro template" : undefined} className={`flex shrink-0 items-center gap-1.5 rounded-full border px-4 py-2.5 text-sm font-medium transition-colors ${activeTemplate === t.slug ? "border-indigo-600 bg-indigo-600 text-white" : "border-slate-200 bg-white text-slate-600 hover:border-indigo-300"}`}>
+                {!account.isPro && templateNeedsPro(t.slug) && (
                   <LockIcon aria-hidden className="h-3.5 w-3.5 shrink-0 opacity-60" />
                 )}
               <span aria-hidden="true">{t.icon}</span>

@@ -1,5 +1,6 @@
 import type { ReceiptTemplate } from "./types";
 import type { SourceId } from "./sources";
+import { isFreeBrand } from "@/lib/brand-access";
 import { BRAND_TEMPLATES } from "./brands";
 
 let n = 0;
@@ -1799,6 +1800,28 @@ export const TEMPLATES: ReceiptTemplate[] = [
 
 export function getTemplate(slug: string): ReceiptTemplate | undefined {
   return [...TEMPLATES, ...BRAND_TEMPLATES].find((t) => t.slug === slug);
+}
+
+/** Every brand slug, for the Pro check below. Built once, not per call. */
+const BRAND_SLUGS: ReadonlySet<string> = new Set(BRAND_TEMPLATES.map((t) => t.slug));
+
+/**
+ * Whether opening this template requires Pro.
+ *
+ * Only *brand* templates can be Pro. The generic ones — grocery-store,
+ * restaurant, taxi and the rest — are the free builder, and gating them would
+ * put the whole product behind the paywall.
+ *
+ * This lives here rather than in lib/brand-access.ts because answering it needs
+ * to know which slugs are brands at all, and brand-access cannot import
+ * lib/brands without a cycle. Asking `isFreeBrand` directly is the trap: it
+ * answers "is this slug in the free fifty", which is false for every generic
+ * template as well as for the Pro brands.
+ */
+export function templateNeedsPro(slug: string | null | undefined): boolean {
+  if (!slug) return false;
+  if (!BRAND_SLUGS.has(slug)) return false;
+  return !isFreeBrand(slug);
 }
 
 /* -------------------------------------------------------------------------- */
