@@ -78,7 +78,7 @@ export const MAKECEPEIT = {
     ai_generator: yes("3/day free, unlimited on Pro"),
     saved_history: yes("Pro"),
     watermark_free: partial("1 free, then Pro from $3/wk"),
-    transparent_pricing: yes("$3/wk · $7.99/mo · $39/yr"),
+    transparent_pricing: yes("$3/wk · $7.99/mo · $49/yr"),
   } as Cells,
 } as const;
 
@@ -151,7 +151,7 @@ export const COMPETITORS: Competitor[] = [
     gaps: [
       "No AI receipt generator — every field is filled in by hand",
       `Fewer named-brand templates (Walmart, Target, CVS…) than Makecepeit's ${BRAND_COUNT}`,
-      "Exact membership prices are not listed publicly; Makecepeit publishes $3/wk, $7.99/mo, $39/yr",
+      "Exact membership prices are not listed publicly; Makecepeit publishes $3/wk, $7.99/mo, $49/yr",
     ],
     pricing: {
       free: "Free receipts available, but they carry a watermark until you upgrade.",
@@ -189,7 +189,7 @@ export const COMPETITORS: Competitor[] = [
       {
         question: "How much does MakeReceipt cost?",
         answer:
-          "MakeReceipt offers Standard, Pro and Enterprise memberships that remove the watermark, but it does not publish exact tier prices publicly on its site — re-checked in August 2026, when both its /pricing and /membership paths still redirected to the homepage. Makecepeit's Pro is publicly listed at $3/week, $7.99/month or $39/year.",
+          "MakeReceipt sells Standard, Pro and Enterprise memberships. Its /pricing path redirects to the homepage, but the prices are public on its sign-up page — read there on 2026-08-30: $7.99, $12.79 and $39.99 a month, discounted from $9.99, $15.99 and $49.99, with annual billing about 38% cheaper. Standard is limited to basic receipt styles; all 60+ styles need Pro, and API and QuickBooks access need Enterprise. Makecepeit's Pro is $3/week, $7.99/month or $49/year with every template included.",
       },
       {
         question: "Does MakeReceipt have an AI receipt generator?",
@@ -335,7 +335,7 @@ export const COMPETITORS: Competitor[] = [
       {
         question: "How much does ReceiptBaker cost?",
         answer:
-          "As of August 2026 its pricing page lists $5/week or $12/month, discounted from $7.50 and $20, with no free tier shown; both plans cap AI generation. Makecepeit's Pro is publicly listed at $3/week, $7.99/month or $39/year.",
+          "Read on 2026-08-30, it runs three tiers on a weekly or monthly period, with no free tier shown. Monthly: Basic $8.75, Pro $14.70, Studio $22.40 (list $12.50, $21.00 and $32.00 — a 30% discount was running). Every tier caps AI generation at 30, 45 or 50 a month, and Basic includes no photorealistic renders. Makecepeit's Pro is $3/week, $7.99/month or $49/year with unlimited AI generation.",
       },
       {
         question: "Which has more brand templates?",

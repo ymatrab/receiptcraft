@@ -50,6 +50,7 @@ export const PLANS: Record<PlanId, Plan> = {
       "HD exports",
       "Unlimited AI receipt generation",
       "Saved receipt history",
+      "Priority support",
       "7 days of full Pro access",
     ],
   },
@@ -72,14 +73,14 @@ export const PLANS: Record<PlanId, Plan> = {
   pro_yearly: {
     id: "pro_yearly",
     name: "Pro Yearly",
-    price: 39,
+    price: 49,
     interval: "year",
     stripePriceId: process.env.STRIPE_PRICE_PRO_YEARLY ?? null,
     paymentLink: process.env.NEXT_PUBLIC_STRIPE_LINK_YEARLY ?? null,
     features: [
       "Everything in Pro Monthly",
-      "Save ~60% vs monthly",
-      "Just $3.25/mo, billed yearly",
+      "Save ~49% vs monthly",
+      "Just $4.08/mo, billed yearly",
     ],
   },
 };
