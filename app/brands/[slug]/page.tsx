@@ -150,7 +150,11 @@ export default async function BrandTemplatePage({ params }: Props) {
                 href={`/create?template=${template.slug}`}
                 className="rounded-full bg-indigo-600 px-7 py-3.5 text-base font-semibold text-white shadow-lg shadow-indigo-600/25 transition-all hover:bg-indigo-700"
               >
-                Use This Template — Free
+                {/* This said "Use This Template — Free" on every brand, which
+                    stopped being true for 298 of them the moment the templates
+                    needed Pro. A false promise on the button itself is the
+                    worst place for one. */}
+                {isFreeBrand(template.slug) ? "Use This Template — Free" : "Use This Template"}
               </Link>
               <Link
                 href="/brands"

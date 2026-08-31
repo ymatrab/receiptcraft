@@ -5961,6 +5961,8 @@ export interface BrandListItem {
   logo: string;
   icon: string;
   category: BrandCategory;
+  /** Needs Pro to open in the builder. */
+  pro: boolean;
 }
 
 /** Lightweight list for the /brands explorer (no heavy template fields). */
@@ -5970,4 +5972,7 @@ export const BRAND_LIST: BrandListItem[] = BRAND_TEMPLATES.map((t) => ({
   logo: t.defaults.logoDataUrl ?? "",
   icon: t.icon,
   category: brandCategoryFor(t.slug),
+  // Carried on the list item so the index can mark Pro templates without
+  // importing the access rules into a client component.
+  pro: !isFreeBrand(t.slug),
 }));

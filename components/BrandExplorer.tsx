@@ -68,8 +68,17 @@ export default function BrandExplorer({ brands }: { brands: BrandListItem[] }) {
             <li key={b.slug}>
               <Link
                 href={`/brands/${b.slug}`}
+                title={b.pro ? "Pro template" : undefined}
                 className="group flex h-full flex-col items-center rounded-2xl border border-slate-200 bg-white p-5 text-center transition-all hover:-translate-y-0.5 hover:border-indigo-300 hover:shadow-md"
               >
+                {/* Marked here, not after the click. A visitor who picks a
+                    template from this grid and only meets the paywall in the
+                    builder has been told "free" by the page they came from. */}
+                {b.pro && (
+                  <span className="mb-1 rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-slate-600">
+                    Pro
+                  </span>
+                )}
                 <span className="flex h-12 items-center justify-center">
                   {b.logo ? (
                     // eslint-disable-next-line @next/next/no-img-element
