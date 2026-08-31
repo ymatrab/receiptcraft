@@ -42,6 +42,32 @@ export const RECEIPT_PADS: readonly string[] = [
 
 // Editorial-neutral filler for blog/CMS copy, where receipt-maker phrasing would
 // read wrong.
+/**
+ * Pads for Pro-only brand pages.
+ *
+ * Receipt-flavoured like RECEIPT_PADS, but none of them claims the page is
+ * free — three of those do ("Free to use.", "Free to customize.", "Free to
+ * build & preview."), and on a template that needs Pro to open they turn a
+ * correct description into a false one at the padding step, after every other
+ * check has passed. That is how "Create a realistic Target receipt online…"
+ * shipped with "…for free" appended to it.
+ *
+ * Same 9→86 char spread as RECEIPT_PADS so padShort's "a pad always fits"
+ * guarantee still holds.
+ */
+export const PRO_PADS: readonly string[] = [
+  "Editable.",
+  "Fully editable.",
+  "Every field is editable.",
+  "Edit every line and total.",
+  "Every item and total is editable.",
+  "Edit the items, totals and tax rate.",
+  "Every item, total and tax rate is editable.",
+  "Set the store details, items and totals, then export.",
+  "Edit every line, total and tax rate, then export as a PDF or PNG.",
+  "Change the store details, items, totals and date, then export a print-ready file.",
+] as const;
+
 export const NEUTRAL_PADS: readonly string[] = [
   "Read on.",
   "See more.",
@@ -101,11 +127,14 @@ function padShort(desc: string, pads: readonly string[]): string {
  */
 export function fitSeoDescription(
   input: string,
-  opts: { neutral?: boolean; preformatted?: boolean } = {},
+  opts: { neutral?: boolean; pro?: boolean; preformatted?: boolean } = {},
 ): string {
   const desc = input.replace(/\s+/g, " ").trim();
   if (desc.length > DESC_MAX) return trimLong(desc);
   if (opts.preformatted) return desc;
-  if (desc.length < DESC_MIN) return padShort(desc, opts.neutral ? NEUTRAL_PADS : RECEIPT_PADS);
+  if (desc.length < DESC_MIN) {
+    const pads = opts.pro ? PRO_PADS : opts.neutral ? NEUTRAL_PADS : RECEIPT_PADS;
+    return padShort(desc, pads);
+  }
   return desc;
 }

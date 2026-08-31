@@ -5364,10 +5364,13 @@ const SEO_DESC_VARIANTS: ((n: string, noun: string) => string)[] = [
  * grammars ("preview it free", "with a free account") to edit safely, and none
  * of them is true once the template needs Pro to open. So these replace them.
  */
-const PRO_DESC_VARIANTS: ((n: string, noun: string) => string)[] = [
-  (n, noun) => `Create a realistic ${n} receipt online. Add ${noun}, set the totals and tax, then download a print-ready PDF or PNG with Makecepeit Pro.`,
-  (n, noun) => `${n} receipt generator: lay out ${noun}, edit the totals and date, and export a clean PDF or PNG. A Pro template.`,
-  (n, noun) => `Build a ${n} receipt with ${noun}, editable totals and tax. One of our Pro layouts — Pro exports it as a PDF or PNG.`,
+const PRO_DESC_VARIANTS: ((n: string) => string)[] = [
+  (n) =>
+    `Create a realistic ${n} receipt online. Add your items, set the totals, tax and date, then download a print-ready PDF or PNG. A Makecepeit Pro template.`,
+  (n) =>
+    `${n} receipt generator: lay out your items, edit the totals, tax and store details, then export a clean PDF or PNG. One of our Pro brand templates.`,
+  (n) =>
+    `Build a ${n} receipt with your own items, editable totals and tax. A Pro layout — Makecepeit Pro exports it as a print-ready PDF or high-resolution PNG.`,
 ];
 
 const TITLE_VARIANTS: ((n: string) => string)[] = [
@@ -5931,9 +5934,12 @@ export const BRAND_TEMPLATES: ReceiptTemplate[] = [...HAND_BRANDS, ...GENERATED_
   const pro = !isFreeBrand(t.slug);
   const seoTitle = pro ? stripFree(t.seoTitle) : t.seoTitle;
   const rawDescription = pro
-    ? pick(PRO_DESC_VARIANTS, hashSlug(t.slug) >>> 2)(t.shortName, "your items")
+    ? pick(PRO_DESC_VARIANTS, hashSlug(t.slug) >>> 2)(t.shortName)
     : t.seoDescription;
-  return { ...t, seoTitle, seoDescription: fitSeoDescription(rawDescription) };
+  // `pro` swaps the pad pool: three of the receipt pads say "Free to use", which
+  // would re-introduce the false claim at the padding step, after the
+  // description itself was written correctly.
+  return { ...t, seoTitle, seoDescription: fitSeoDescription(rawDescription, { pro }) };
 });
 
 const NEW_BRAND_CATEGORY: Record<string, BrandCategory> = {};
