@@ -11,6 +11,7 @@ import {
   type IntentKind,
 } from "@/lib/intent-pages";
 import { getTemplate } from "@/lib/templates";
+import { isFreeBrand } from "@/lib/brand-access";
 import { fitSeoDescription } from "@/lib/seo-description";
 import { absoluteUrl, SITE } from "@/lib/site";
 import RelatedPosts from "@/components/RelatedPosts";
@@ -203,6 +204,15 @@ export default async function IntentPage({
         >
           Open the {page.brandName} receipt builder
         </Link>
+        {/* These pages carry most of the site's traffic and send it straight at
+            a template. Saying which templates are paid belongs here, before the
+            click, not in the modal after it. */}
+        {!isFreeBrand(page.brandSlug) && (
+          <p className="mt-3 text-sm text-indigo-100">
+            The {page.brandName} template is one of our Pro layouts. The receipt builder itself is
+            free to use with no sign-up.
+          </p>
+        )}
       </div>
 
       {/* FAQ */}

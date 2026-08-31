@@ -46,9 +46,13 @@ export const TEMPLATES_FIGURE_UPDATED = "2026-08-21";
 // and descriptions move on 62 pages.
 export const BRANDS_UPDATED = "2026-08-31";
 // 2026-08-31: free-tier limits changed — see STATIC_UPDATED above.
+// 2026-08-31 (2): the explorer marks Pro templates, and the brand page CTA no
+// longer says "Use This Template — Free" on templates that need Pro.
 export const BRANDS_INDEX_UPDATED = "2026-08-31";
-export const INTENT_UPDATED = "2026-08-20";
-export const INTENT_CITED_UPDATED = "2026-08-20";
+// 2026-08-31: the CTA names a Pro template before the click.
+export const INTENT_UPDATED = "2026-08-31";
+// 2026-08-31: the CTA names a Pro template before the click.
+export const INTENT_CITED_UPDATED = "2026-08-31";
 export const EXAMPLES_UPDATED = "2026-07-03";
 export const GUIDES_UPDATED = "2026-08-20";
 // /guides/receipt-legality — new on 2026-08-21. Its own constant so the new URL
