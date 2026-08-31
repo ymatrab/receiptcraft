@@ -51,10 +51,17 @@ export async function GET(req: Request) {
   ]);
   const remaining = Math.max(0, LIMIT - used);
   // Two independent gates. The credit gate is per account; the brand gate is per
-  // template — outside the free fifty, a free export always carries the
-  // watermark however many credits are left. An already-claimed receipt still
-  // re-downloads clean either way, so nobody loses a receipt they already paid a
-  // credit for because the brand list changed under them.
+  // template.
+  //
+  // The brand gate is belt-and-braces now that applyTemplate refuses to open a
+  // Pro-only template at all — but it is the server-side half, and it still
+  // catches the cases the client cannot: a subscription that lapsed while the
+  // doc was open, a restored autosave of a template bought under Pro, and
+  // anyone driving the API directly.
+  //
+  // An already-claimed receipt re-downloads clean either way, so nobody loses a
+  // receipt they already spent a credit on because the brand list changed under
+  // them.
   const brandLocked = !isFreeBrand(brand);
   const willWatermark = !claimed && (brandLocked || remaining <= 0);
   return NextResponse.json(

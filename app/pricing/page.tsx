@@ -120,7 +120,7 @@ type PlanRow = {
  * floor stays true without a copy edit every time it does.
  */
 const BRANDS_LABEL = "300+ brand templates";
-const FREE_BRANDS_LABEL = `${FREE_BRAND_SLUGS.size} brands watermark-free`;
+const FREE_BRANDS_LABEL = `${FREE_BRAND_SLUGS.size} brand templates`;
 
 const PLAN_ROWS: PlanRow[] = [
   {
@@ -189,7 +189,7 @@ const SHARED_FEATURES = [
 const FAQ = [
   {
     q: "What's the difference between Free and Pro?",
-    a: "Free gives you every brand template to build and preview. On a free account your first download is watermark-free HD; after that downloads carry a small watermark. Free also includes 3 AI generations a month, 3 fonts and one paper style, and 50 of the brand templates export watermark-free. Pro removes the watermark on every download and unlocks unlimited HD exports, unlimited AI generation, all 32 fonts, all three paper styles and your own saved templates.",
+    a: "Free gives you the generic receipt builder with no sign-up, plus 50 of the brand templates. On a free account your first download is watermark-free HD; after that downloads carry a small watermark. Free also includes 3 AI generations a month, 3 fonts and one paper style, and 50 of the brand templates; the other 298 need Pro. Pro removes the watermark on every download and unlocks unlimited HD exports, unlimited AI generation, all 32 fonts, all three paper styles and your own saved templates.",
   },
   {
     q: "Can I cancel anytime?",

@@ -256,7 +256,7 @@ export default async function BrandTemplatePage({ params }: Props) {
               Sign in with a free account to download a print-ready PDF or high-resolution PNG
               {isFreeBrand(template.slug)
                 ? " — your first receipt is watermark-free."
-                : " — this template is a Pro one, so free downloads carry a small watermark."}
+                : " — this is one of our Pro templates, so opening it needs Makecepeit Pro."}
             </li>
           </ol>
         </section>

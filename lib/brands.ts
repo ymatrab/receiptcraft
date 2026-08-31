@@ -5356,6 +5356,31 @@ const SEO_DESC_VARIANTS: ((n: string, noun: string) => string)[] = [
   (n, noun) => `Fast, free ${n} receipt generator. Add ${noun}, set the tax rate, preview live, then export as a PDF or PNG.`,
 ];
 
+/**
+ * Titles for the 298 Pro-only brands.
+ *
+ * Nine of the ten variants below contain the word "Free", which stopped being
+ * true for these brands the moment their templates required Pro to open. A
+ * title that promises free access to something you cannot use free is the
+ * strongest possible version of the false-promise problem this codebase has
+ * already been corrected for twice.
+ *
+ * The head phrase — "{Brand} Receipt Generator" — is kept in every variant,
+ * because that is what these pages actually rank for. What is lost is "Free" as
+ * a CTR word in the SERP, not relevance.
+ */
+const PRO_TITLE_VARIANTS: ((n: string) => string)[] = [
+  (n) => `${n} Receipt Generator — Create a Realistic ${n} Receipt`,
+  (n) => `${n} Receipt Maker — Editable ${n} Receipt Template`,
+  (n) => `${n} Receipt Template — Online ${n} Receipt Generator`,
+];
+
+const PRO_DESC_VARIANTS: ((n: string, noun: string) => string)[] = [
+  (n, noun) => `Create a realistic ${n} receipt online. Add ${noun}, set the totals and tax, then download a print-ready PDF or PNG with Makecepeit Pro.`,
+  (n, noun) => `${n} receipt generator: lay out ${noun}, edit the totals and date, and export a clean PDF or PNG. A Pro template.`,
+  (n, noun) => `Build a ${n} receipt with ${noun}, editable totals and tax. One of our Pro layouts — Pro exports it as a PDF or PNG.`,
+];
+
 const TITLE_VARIANTS: ((n: string) => string)[] = [
   (n) => `Free ${n} Receipt Generator — Make a ${n} Receipt`,
   (n) => `${n} Receipt Generator — Create a Realistic ${n} Receipt`,
@@ -5419,7 +5444,7 @@ const FAQ_POOL: FaqVariant[] = [
     question: `Is the ${n} receipt generator free?`,
     answer: isFreeBrand(slug)
       ? `Yes. Building a ${n} receipt is free. Downloading uses a free account — your first is watermark-free, then a small watermark applies unless you upgrade to Pro, which also unlocks unlimited AI generation.`
-      : `Building and previewing a ${n} receipt is free, with no sign-up. It is one of our Pro layouts, so downloads carry a small watermark unless you upgrade to Pro, which also unlocks unlimited AI generation.`,
+      : `The ${n} template is one of our Pro layouts, so it needs Makecepeit Pro. Around fifty brand templates are free to use, and the generic receipt builder is free for everyone with no sign-up.`,
   }),
   (n) => ({ question: `Can I edit the items and prices on a ${n} receipt?`, answer: `Every line, quantity, price and the tax rate is fully editable, so your ${n} receipt matches exactly what you need.` }),
   (n) => ({ question: `Can I download a ${n} receipt as a PDF?`, answer: `Yes — export your ${n} receipt as a high-resolution PDF or PNG, ready to print or attach to an expense report.` }),
@@ -5433,7 +5458,7 @@ const FAQ_POOL: FaqVariant[] = [
     question: `Will a recreated ${n} receipt have a watermark?`,
     answer: isFreeBrand(slug)
       ? `Your first download on a free account is watermark-free HD. After that, free downloads include a small watermark unless you upgrade to Pro.`
-      : `The ${n} template is one of our Pro layouts, so downloads on a free account carry a small watermark. Pro removes it on every download.`,
+      : `The ${n} template is one of our Pro layouts. Opening and exporting it needs Makecepeit Pro, which also removes the watermark everywhere and unlocks unlimited AI generation.`,
   }),
   (n) => ({ question: `Can I set a different currency or tax rate on a ${n} receipt?`, answer: `Yes. Switch between 10 currencies and set any tax label and rate — the totals recalculate instantly.` }),
   (n) => ({ question: `Is my information saved when I make a ${n} receipt?`, answer: `Only if you ask for it. The builder runs in your browser, so what you type stays on your device unless you save the receipt to your account.` }),
@@ -5603,8 +5628,12 @@ function makeBrand(s: BrandSeed): ReceiptTemplate {
     name: `${s.name} Receipt`,
     shortName: s.name,
     icon: s.icon ?? CATEGORY_ICON[s.category],
-    seoTitle: pick(TITLE_VARIANTS, seed)(s.name),
-    seoDescription: pick(SEO_DESC_VARIANTS, seed >>> 2)(s.name, noun),
+    seoTitle: isFreeBrand(s.slug)
+      ? pick(TITLE_VARIANTS, seed)(s.name)
+      : pick(PRO_TITLE_VARIANTS, seed)(s.name),
+    seoDescription: isFreeBrand(s.slug)
+      ? pick(SEO_DESC_VARIANTS, seed >>> 2)(s.name, noun)
+      : pick(PRO_DESC_VARIANTS, seed >>> 2)(s.name, noun),
     heading: `${s.name} Receipt Generator`,
     intro: pick(INTRO_VARIANTS, seed >>> 4)(s.name, noun, s.city),
     useCases: pick(USECASE_VARIANTS, seed >>> 6)(s.name),
