@@ -37,7 +37,7 @@ export async function generateMetadata({
   // Keep the title short enough to avoid SERP truncation (~60 chars incl. the
   // " | Makecepeit" suffix); the verbose item summary stays in the description.
   const title = `${ex.brand} Receipt Example (${total})`;
-  const full = `See a realistic ${ex.brand} receipt example: ${exampleSummary(ex)}, totalling ${total}. Make your own editable ${ex.brand} receipt and download it as PDF or PNG.`;
+  const full = `See a sample ${ex.brand} receipt example: ${exampleSummary(ex)}, totalling ${total}. Make your own editable ${ex.brand} receipt and download it as PDF or PNG.`;
   // Long item summaries (or long brand names) can push the rich description past
   // the ~160-char SERP truncation limit — fall back to a concise variant then.
   const description = fitSeoDescription(

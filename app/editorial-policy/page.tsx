@@ -4,7 +4,7 @@ import { SITE, absoluteUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Editorial Policy — How We Write & Review",
-  description: `How ${SITE.name} creates its receipt guides and templates: who writes and reviews them, how we cite official rules and re-check those sources monthly, why citing a regulation is not legal or tax advice, and how we handle corrections.`,
+  description: `How ${SITE.name} writes and reviews its receipt guides: who authors them, how we cite official rules and re-check those sources monthly, and how we fix mistakes.`,
   alternates: { canonical: "/editorial-policy" },
 };
 
@@ -62,7 +62,7 @@ export default function EditorialPolicyPage() {
           </Link>
           , drawing on hands-on experience with small-business receipts,
           bookkeeping and expense reporting. Guides are grounded in how receipts
-          actually work in practice, and every template is reviewed for realistic
+          actually work in practice, and every template is reviewed for accurate
           fields and layout before it is published.
         </p>
 

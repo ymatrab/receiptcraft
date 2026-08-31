@@ -229,6 +229,15 @@ export default function SectionBuilder() {
   // watermarked (logged-in free user who is out of, or hasn't claimed, credits).
   const previewWatermark = !account.isPro && account.isLoggedIn && dl.willWatermark;
   const renderWatermark = captureWatermark ?? previewWatermark;
+  // Brand name for the lawful-use notice by the download buttons, or null for
+  // the generic templates, which imitate nobody and need no attribution.
+  // Brand-ness is "known to getTemplate but not one of the generic TEMPLATES" —
+  // deliberately not templateNeedsPro, which is about payment: fifty brands are
+  // free and still must not claim to be issued by the retailer.
+  const activeBrandName =
+    activeTemplate && !TEMPLATES.some((t) => t.slug === activeTemplate)
+      ? getTemplate(activeTemplate)?.shortName ?? null
+      : null;
   const [aiPrompt, setAiPrompt] = useState("");
   const [aiLoading, setAiLoading] = useState(false);
   const [aiError, setAiError] = useState<string | null>(null);
@@ -1360,6 +1369,21 @@ export default function SectionBuilder() {
                   ✓ {dl.remaining} of {freeDownloadsPhrase("free HD receipt")} left
                 </p>
               )}
+
+              {/* Lawful-use notice, at the download step.
+                  The brand pages already carry a non-affiliation line beside
+                  their CTA, but nothing said it here — which is the moment the
+                  file is actually produced, and the only moment that matters
+                  for a template loaded straight from /create?template=. Names
+                  the brand when one is loaded, because a generic disclaimer is
+                  the one people read past. */}
+              <p className="mt-4 border-t border-slate-200 pt-3 text-center text-[11px] leading-relaxed text-slate-500">
+                {activeBrandName
+                  ? `Independent, customizable template — not issued by or affiliated with ${activeBrandName}. `
+                  : "Independent, customizable template. "}
+                For lawful records, mockups and authorized use only — not valid
+                as proof of purchase.
+              </p>
             </div>
           </div>
         </div>

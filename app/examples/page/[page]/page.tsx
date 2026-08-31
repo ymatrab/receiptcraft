@@ -21,7 +21,7 @@ export async function generateMetadata({
   return {
     title: `Receipt Examples — Page ${n}`,
     description: fitSeoDescription(
-      `More realistic receipt examples by brand (page ${n} of ${EXAMPLES_TOTAL_PAGES}). See what each receipt looks like, then make your own.`,
+      `More receipt examples by brand (page ${n} of ${EXAMPLES_TOTAL_PAGES}). See what each receipt looks like, then make your own.`,
     ),
     alternates: { canonical: `/examples/page/${n}` },
   };

@@ -254,13 +254,18 @@ export default async function BrandTemplatePage({ params }: Props) {
             How to make a {template.shortName} receipt
           </h3>
           <ol className="mt-4 max-w-3xl list-decimal space-y-2 pl-5 text-slate-600">
-            <li>Open the {template.shortName} template — it loads with realistic items and {d.taxLabel ?? "tax"} already filled in.</li>
+            <li>Open the {template.shortName} template — it loads with sample items and {d.taxLabel ?? "tax"} already filled in.</li>
             <li>Edit the business details, line items, prices, date and payment method to match what you need.</li>
             <li>
               Sign in with a free account to download a print-ready PDF or high-resolution PNG
+              {/* Pro gates the clean export, not opening the template: isFreeBrand is
+                  read by the watermark check in the builder, and lib/brand-access.ts
+                  is explicit that all 348 stay free to build and preview. The old
+                  copy told 298 brands' visitors they needed Pro to open the page
+                  they were already on. */}
               {isFreeBrand(template.slug)
                 ? " — your first receipt is watermark-free."
-                : " — this is one of our Pro templates, so opening it needs Makecepeit Pro."}
+                : " — this is a Pro template, so a free account's export carries the watermark."}
             </li>
           </ol>
         </section>
