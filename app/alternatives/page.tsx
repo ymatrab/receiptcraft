@@ -184,7 +184,7 @@ export default function AlternativesPage() {
               watermark with unlimited AI generation and saved history.
             </p>
             <p className="mt-3 text-sm font-medium text-slate-500">
-              Pricing: Free · Pro $3/wk, $7.99/mo or $39/yr · Best for: anyone
+              Pricing: Free · Pro $3/wk, $7.99/mo or $49/yr · Best for: anyone
               who wants the most templates and AI at the lowest transparent
               price.
             </p>

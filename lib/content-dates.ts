@@ -84,6 +84,9 @@ export const LOGIN_UPDATED = "2026-08-31";
 // cards. Comparing what you get is the job of this page and a buyer should not
 // have to scroll past the cards to find out what they are buying.
 // 2026-08-31: free-tier limits changed — see STATIC_UPDATED above.
+// 2026-08-31 (2): yearly is $49, and the 7-day pass now lists priority support —
+// it was the only plan without it, which was copy drift rather than a real
+// distinction.
 export const PRICING_UPDATED = "2026-08-31";
 // 2026-08-23: the hero grid no longer stretches to the 380px receipt, so the
 // primary CTA is reachable again on phones under 412px — a visible change to

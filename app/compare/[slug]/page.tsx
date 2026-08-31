@@ -253,7 +253,7 @@ export default async function ComparePage({ params }: Props) {
                 </span>
               </p>
               <p className="mt-1 text-sm text-slate-500">
-                $3/week · $7.99/month · $39/year
+                $3/week · $7.99/month · $49/year
               </p>
             </div>
             <div className="rounded-2xl border border-slate-200 bg-white p-6">
