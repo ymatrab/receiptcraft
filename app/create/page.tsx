@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { SITE, absoluteUrl } from "@/lib/site";
-import { freeDownloadsPhrase } from "@/lib/plans";
+import { firstDownloadsPhrase } from "@/lib/plans";
 import { HOMEPAGE_FAQS } from "@/lib/faqs";
 import SectionBuilder from "@/components/builder/SectionBuilder";
 import RelatedPosts from "@/components/RelatedPosts";
@@ -86,7 +86,7 @@ export default function CreatePage() {
           receipt section by section with a live preview, free and no sign-up to
           start. Pick a template or start from scratch, edit every field, then
           create a free account to download as a PDF or PNG — your first{" "}
-          {freeDownloadsPhrase("download")} is watermark-free.
+          {firstDownloadsPhrase()} is watermark-free.
         </p>
       </div>
       <SectionBuilder />
