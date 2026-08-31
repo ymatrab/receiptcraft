@@ -1824,6 +1824,70 @@ export function templateNeedsPro(slug: string | null | undefined): boolean {
   return !isFreeBrand(slug);
 }
 
+/**
+ * Build-time invariants for the free/Pro split.
+ *
+ * Three bugs shipped to production in one afternoon getting this right, and all
+ * three had the same shape: a rule applied to one source of a value and not the
+ * other. Each looked correct in the diff and was wrong on the live page.
+ *
+ *  - 96 hand-written brand titles never went near the generated title path, so
+ *    they kept saying "Free X Receipt Generator" over a paid template.
+ *  - Pro descriptions were written correctly and then had "Free to use."
+ *    appended by the shared padding pool.
+ *  - The Pro gate was applied with isFreeBrand(), which is false for every
+ *    generic template too, so the entire free builder went behind the paywall.
+ *
+ * This module is imported by the brand pages and the builder, so it evaluates
+ * during `next build` and a violation fails the build rather than reaching a
+ * visitor. Cheap to run — a few hundred regex tests, once.
+ */
+const PROMISES_FREE = /\bfree\b/i;
+
+{
+  const problems: string[] = [];
+
+  for (const t of TEMPLATES) {
+    if (templateNeedsPro(t.slug)) {
+      problems.push(`generic template "${t.slug}" is gated behind Pro — the free builder must stay free`);
+    }
+  }
+
+  for (const b of BRAND_TEMPLATES) {
+    if (!templateNeedsPro(b.slug)) continue;
+    if (PROMISES_FREE.test(b.seoTitle)) {
+      problems.push(`Pro brand "${b.slug}" title promises free: ${b.seoTitle}`);
+    }
+    if (PROMISES_FREE.test(b.seoDescription)) {
+      problems.push(`Pro brand "${b.slug}" description promises free: ${b.seoDescription}`);
+    }
+    for (const f of b.faqs) {
+      // Deliberately narrow, and anchored on the brand name.
+      //
+      // A Pro page legitimately says "the generic receipt builder is free" and
+      // "around fifty brand templates are free to use" — both true. A blanket
+      // /free/ test flags those, and a guard that cries wolf is a guard everyone
+      // learns to skip. So: any "watermark-free" claim at all, or a "is free"
+      // sitting close enough to the brand name to be about *this* template.
+      const nearBrand = new RegExp(
+        `${b.shortName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}[^.]{0,60}\\bis free\\b`,
+        "i"
+      );
+      if (/watermark-free/i.test(f.answer) || nearBrand.test(f.answer)) {
+        problems.push(`Pro brand "${b.slug}" FAQ promises free: ${f.question}`);
+      }
+    }
+  }
+
+  if (problems.length > 0) {
+    throw new Error(
+      `Free/Pro invariants violated (${problems.length}):\n  ` +
+        problems.slice(0, 12).join("\n  ") +
+        (problems.length > 12 ? `\n  …and ${problems.length - 12} more` : "")
+    );
+  }
+}
+
 /* -------------------------------------------------------------------------- */
 /*  Sourced figures                                                           */
 /* -------------------------------------------------------------------------- */
