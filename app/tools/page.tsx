@@ -3,7 +3,7 @@ import Link from "next/link";
 import { SITE, absoluteUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Free Receipt Tools — Total Calculator & Split-Payment Checker",
+  title: "Free Receipt Tools — Totals & Split Payments",
   description:
     "Free browser-based receipt tools: calculate subtotal, tax, discount, tip, total and change, or reconcile a bill split across several payments. No sign-up.",
   alternates: { canonical: "/tools" },

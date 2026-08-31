@@ -41,7 +41,7 @@ const PAGE_SOURCES: SourceId[] = [
 
 const TITLE = "Is It Legal to Make a Receipt?";
 const DESCRIPTION =
-  "Making a receipt is an ordinary business act, and in several states the law requires one. Here is what the IRS and state statutes actually say, and where the line sits.";
+  "Making a receipt is an ordinary business act, and several states require one. Here is what the IRS and state statutes actually say, and where the line sits.";
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -271,7 +271,7 @@ export default function ReceiptLegalityPage() {
             id="fcra-1681c-g"
             sentence="One detail is a legal requirement rather than a convention: {source} bars printing more than the last five digits of a card number, or the expiry date at all, on the copy handed to the cardholder."
           />{" "}
-          A realistic receipt follows that rule, which is why a genuine one shows
+          A well-made receipt follows that rule, which is why a genuine one shows
           only the final digits.
         </p>
       </section>

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { BRAND_LIST } from "@/lib/brands";
 import { BRAND_COUNT } from "@/lib/counts";
+import { FREE_BRAND_COUNT } from "@/lib/brand-access";
 import BrandExplorer from "@/components/BrandExplorer";
 import { absoluteUrl } from "@/lib/site";
 
@@ -17,9 +18,9 @@ const BRAND_FAQS = [
       "Yes. Each brand template opens in the receipt builder with editable store details, receipt number, date, time, line items, quantities, prices, tax, discount, tip, payment method, barcode and footer message.",
   },
   {
-    question: "Do the brand templates include realistic items?",
+    question: "Do the brand templates include true-to-life items?",
     answer:
-      "Yes. Templates include brand-appropriate sample items, prices, addresses, tax labels and receipt styles so the first preview looks realistic before you make changes.",
+      "Yes. Templates include brand-appropriate sample items, prices, addresses, tax labels and receipt styles so the first preview looks true to life before you make changes.",
   },
   {
     question: "Can I upload or remove a logo?",
@@ -69,7 +70,11 @@ const breadcrumbLd = {
 
 export const metadata: Metadata = {
   title: `Brand Receipt Templates — ${BRAND_COUNT} Stores`,
-  description: `Browse ${BRAND_COUNT} free brand receipt templates — Walmart, Starbucks, Uber, McDonald's and more. Free to build; a free account downloads your first one.`,
+  // Every brand is free to build and preview; only FREE_BRAND_COUNT of them
+  // export without a watermark on a free account. The old line ("… free brand
+  // receipt templates … a free account downloads your first one") promised the
+  // clean download for all 348.
+  description: `Browse ${BRAND_COUNT} brand receipt templates — Walmart, Starbucks, Uber, McDonald's and more. All free to build and preview; ${FREE_BRAND_COUNT} download clean on a free account.`,
   alternates: { canonical: "/brands" },
 };
 

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SITE, absoluteUrl } from "@/lib/site";
+import { fitSeoDescription } from "@/lib/seo-description";
 import { firstDownloadsPhrase } from "@/lib/plans";
 import { HOMEPAGE_FAQS } from "@/lib/faqs";
 import SectionBuilder from "@/components/builder/SectionBuilder";
@@ -15,13 +16,25 @@ const CREATE_FAQ_QUESTIONS = [
 ];
 const CREATE_FAQS = HOMEPAGE_FAQS.filter((f) => CREATE_FAQ_QUESTIONS.includes(f.question));
 
+// Title is written to fit the ` | Makecepeit` template in app/layout.tsx: 44
+// chars here, 57 rendered, inside the ~60 Google shows. The previous one was 62
+// on its own and 75 once the template was applied, so it was always truncated —
+// the length that matters is the rendered one, not the string in this file.
+const CREATE_TITLE = "Free Receipt Maker — Create a Receipt Online";
+
 export const metadata: Metadata = {
-  title: "Free Receipt Maker & Generator — Build a Custom Receipt Online",
-  description:
-    "Free receipt maker: build a receipt section by section — header, items, payment, barcode and more — with a live preview and no sign-up to start. Sign in to download as PDF or PNG.",
+  title: CREATE_TITLE,
+  // Routed through the shared normalizer like every programmatic section, so
+  // this page cannot drift back out of the 150–160 window on its own. Written
+  // to length already, hence `preformatted` — the padding pools exist to rescue
+  // stubs, not to append "Editable." to a finished sentence.
+  description: fitSeoDescription(
+    "Free receipt maker: build a receipt section by section — header, items, payment and barcode — with a live preview. No sign-up to start; sign in to download.",
+    { preformatted: true }
+  ),
   alternates: { canonical: "/create" },
   openGraph: {
-    title: "Free Receipt Maker & Generator — Build a Custom Receipt Online",
+    title: CREATE_TITLE,
     description:
       "Build a receipt section by section with a live preview — free, no sign-up to start.",
     url: absoluteUrl("/create"),
@@ -33,7 +46,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Free Receipt Maker & Generator — Build a Custom Receipt Online",
+    title: CREATE_TITLE,
     description:
       "Build a receipt section by section with a live preview — free, no sign-up to start.",
     images: [absoluteUrl("/opengraph-image")],

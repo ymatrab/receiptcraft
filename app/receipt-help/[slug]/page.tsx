@@ -2,12 +2,13 @@ import type { Metadata } from "next";
 import Reviewed from "@/components/Reviewed";
 import { intentReviewedAt } from "@/lib/content-dates";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import {
   getIntentPage,
   intentContent,
   siblingIntents,
   INTENT_SLUGS,
+  RETIRED_INTENT_REDIRECTS,
   type IntentKind,
 } from "@/lib/intent-pages";
 import { getTemplate } from "@/lib/templates";
@@ -74,7 +75,14 @@ export default async function IntentPage({
 }) {
   const { slug } = await params;
   const page = getIntentPage(slug);
-  if (!page) notFound();
+  // The retired return-policy / refund-policy guides. They are still indexed
+  // and still take impressions, so send that to the brand's lost-receipt guide
+  // rather than burning it on a 404. See RETIRED_INTENT_REDIRECTS.
+  if (!page) {
+    const target = RETIRED_INTENT_REDIRECTS.get(slug);
+    if (target) permanentRedirect(`/receipt-help/${target}`);
+    notFound();
+  }
 
   const c = intentContent(page);
   const logo = getTemplate(page.brandSlug)?.defaults.logoDataUrl ?? "";

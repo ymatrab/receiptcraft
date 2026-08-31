@@ -28,9 +28,29 @@ export const STATIC_UPDATED = "2026-08-31";
 // calculator did not change, but they share this constant and the text sits in
 // a shared footer note, so one date covers the set honestly.
 export const CONTENT_UPDATED = "2026-08-29";
+// 2026-08-31: /tools alone got a shorter title (the old one rendered at 74
+// chars with the " | Makecepeit" template and was truncated in the SERP). Its
+// own constant because CONTENT_UPDATED also stamps the two calculators, and
+// neither of them changed.
+export const TOOLS_INDEX_UPDATED = "2026-08-31";
 export const TEMPLATES_UPDATED = "2026-07-20";
 export const TEMPLATES_CITED_UPDATED = "2026-08-20";
 export const TEMPLATES_FIGURE_UPDATED = "2026-08-21";
+// 2026-08-31: the Aug 2026 external audit flagged "realistic" as a promise to
+// reproduce someone else's document. The word left every title, description,
+// intro, use case and FAQ on the site — but only 19 of the 42 generic templates
+// actually carried it. Listing those 19 rather than restamping the three
+// constants above keeps the other 23 on their real review dates; a template
+// whose copy did not change must not claim it did.
+export const TEMPLATES_COPY_UPDATED = "2026-08-31";
+const TEMPLATES_DEREALISTICISED: ReadonlySet<string> = new Set([
+  "airline-receipt", "barber-receipt", "car-rental-receipt", "catering-receipt",
+  "clothing-store-receipt", "dental-receipt", "dry-cleaning-receipt",
+  "electronics-store-receipt", "fast-food-receipt", "florist-receipt",
+  "grocery-store", "gym-membership-receipt", "hardware-store-receipt",
+  "liquor-store-receipt", "pet-store-receipt", "pizza-receipt", "spa-receipt",
+  "towing-receipt", "veterinary-receipt",
+]);
 // 2026-08-23: all 348 brand pages got a new meta description — the five
 // SEO_DESC_VARIANTS that promised "no sign-up to start" one clause after
 // promising a download now say an account is needed.
@@ -53,7 +73,11 @@ export const BRANDS_INDEX_UPDATED = "2026-08-31";
 export const INTENT_UPDATED = "2026-08-31";
 // 2026-08-31: the CTA names a Pro template before the click.
 export const INTENT_CITED_UPDATED = "2026-08-31";
-export const EXAMPLES_UPDATED = "2026-07-03";
+// 2026-08-31: every example page's meta description changed with the
+// "realistic" removal, and a third of them use the intro variant that carried
+// the word in visible copy. All 293 plus the paginated index genuinely moved,
+// so one date covers the set honestly.
+export const EXAMPLES_UPDATED = "2026-08-31";
 export const GUIDES_UPDATED = "2026-08-20";
 // /guides/receipt-legality — new on 2026-08-21. Its own constant so the new URL
 // carries a date newer than the IndexNow cron's last run and is actually
@@ -128,6 +152,7 @@ export const COMPARISONS_UPDATED = LAST_UPDATED;
  * the most recently worked, then one carrying a sourced figure, then the rest.
  */
 export function templateReviewedAt(t: ReceiptTemplate): string {
+  if (TEMPLATES_DEREALISTICISED.has(t.slug)) return TEMPLATES_COPY_UPDATED;
   if (t.sources?.length) return TEMPLATES_CITED_UPDATED;
   if (sourcedFigure(t)) return TEMPLATES_FIGURE_UPDATED;
   return TEMPLATES_UPDATED;

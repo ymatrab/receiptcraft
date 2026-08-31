@@ -5,7 +5,7 @@ import { getAuthors } from "@/lib/sanity/queries";
 
 export const metadata: Metadata = {
   title: "Editorial Team",
-  description: `Who writes and reviews ${SITE.name}'s receipt guides and templates, and the editorial standards we hold them to.`,
+  description: `Who writes and reviews ${SITE.name}'s receipt guides and templates, the real experience each author brings, and the editorial standards we hold them to.`,
   alternates: { canonical: "/authors" },
 };
 
@@ -86,7 +86,7 @@ export default async function AuthorsPage() {
           <Link href="/blog" className="font-medium text-indigo-600 hover:underline">
             blog
           </Link>
-          , review every template for realistic fields and layout, and answer
+          , review every template for accurate fields and layout, and answer
           support ourselves. Our guides are grounded in how receipts actually
           work — what each field means, how totals are calculated, and how to
           keep records lawfully.

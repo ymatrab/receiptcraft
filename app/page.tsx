@@ -154,7 +154,7 @@ const STEPS = [
   {
     title: "Pick a template",
     description:
-      `Choose from ${TEMPLATE_COUNT} receipt templates and ${BRAND_COUNT} named-brand layouts — grocery, restaurant, gas station, taxi, hotel and more — each pre-filled with realistic details.`,
+      `Choose from ${TEMPLATE_COUNT} receipt templates and ${BRAND_COUNT} named-brand layouts — grocery, restaurant, gas station, taxi, hotel and more — each pre-filled with sample details.`,
   },
   {
     title: "Customize everything",
@@ -807,7 +807,7 @@ export default function HomePage() {
               Which receipt template do you need?
             </h2>
             <p className="mt-3 text-lg text-slate-600">
-              Every template comes pre-filled with realistic items and tax rates
+              Every template comes pre-filled with sample items and tax rates
               for its business type — so you only change what you need to.
             </p>
           </div>
