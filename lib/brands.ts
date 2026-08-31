@@ -5357,24 +5357,13 @@ const SEO_DESC_VARIANTS: ((n: string, noun: string) => string)[] = [
 ];
 
 /**
- * Titles for the 298 Pro-only brands.
+ * Descriptions for Pro-only brands.
  *
- * Nine of the ten variants below contain the word "Free", which stopped being
- * true for these brands the moment their templates required Pro to open. A
- * title that promises free access to something you cannot use free is the
- * strongest possible version of the false-promise problem this codebase has
- * already been corrected for twice.
- *
- * The head phrase — "{Brand} Receipt Generator" — is kept in every variant,
- * because that is what these pages actually rank for. What is lost is "Free" as
- * a CTR word in the SERP, not relevance.
+ * Titles are handled by stripFree at assembly — surgical, so hand-written ones
+ * keep their character. Descriptions cannot be: they say "free" in too many
+ * grammars ("preview it free", "with a free account") to edit safely, and none
+ * of them is true once the template needs Pro to open. So these replace them.
  */
-const PRO_TITLE_VARIANTS: ((n: string) => string)[] = [
-  (n) => `${n} Receipt Generator — Create a Realistic ${n} Receipt`,
-  (n) => `${n} Receipt Maker — Editable ${n} Receipt Template`,
-  (n) => `${n} Receipt Template — Online ${n} Receipt Generator`,
-];
-
 const PRO_DESC_VARIANTS: ((n: string, noun: string) => string)[] = [
   (n, noun) => `Create a realistic ${n} receipt online. Add ${noun}, set the totals and tax, then download a print-ready PDF or PNG with Makecepeit Pro.`,
   (n, noun) => `${n} receipt generator: lay out ${noun}, edit the totals and date, and export a clean PDF or PNG. A Pro template.`,
@@ -5628,12 +5617,11 @@ function makeBrand(s: BrandSeed): ReceiptTemplate {
     name: `${s.name} Receipt`,
     shortName: s.name,
     icon: s.icon ?? CATEGORY_ICON[s.category],
-    seoTitle: isFreeBrand(s.slug)
-      ? pick(TITLE_VARIANTS, seed)(s.name)
-      : pick(PRO_TITLE_VARIANTS, seed)(s.name),
-    seoDescription: isFreeBrand(s.slug)
-      ? pick(SEO_DESC_VARIANTS, seed >>> 2)(s.name, noun)
-      : pick(PRO_DESC_VARIANTS, seed >>> 2)(s.name, noun),
+    // Free/Pro wording is applied once, at assembly — see stripFree and the
+    // BRAND_TEMPLATES map. Doing it here as well would be the second mechanism
+    // that made 96 hand-written titles miss the rule in the first place.
+    seoTitle: pick(TITLE_VARIANTS, seed)(s.name),
+    seoDescription: pick(SEO_DESC_VARIANTS, seed >>> 2)(s.name, noun),
     heading: `${s.name} Receipt Generator`,
     intro: pick(INTRO_VARIANTS, seed >>> 4)(s.name, noun, s.city),
     useCases: pick(USECASE_VARIANTS, seed >>> 6)(s.name),
@@ -5913,9 +5901,40 @@ const GENERATED_BRANDS = NEW_BRAND_SEEDS.map(makeBrand);
 // so every brand passes through the shared fitSeoDescription at assembly: short
 // ones gain a follow-on sentence landing closest to the target, overlong ones
 // are trimmed to a clean word boundary.
-export const BRAND_TEMPLATES: ReceiptTemplate[] = [...HAND_BRANDS, ...GENERATED_BRANDS].map(
-  (t) => ({ ...t, seoDescription: fitSeoDescription(t.seoDescription) })
-);
+/**
+ * Strip the word "Free" from a Pro-only brand's title.
+ *
+ * Applied at assembly rather than at generation because 118 brands carry a
+ * hand-written seoTitle that never goes near TITLE_VARIANTS — 96 of them are
+ * Pro-only and said "Free X Receipt Generator" over a template you must pay to
+ * open. Fixing only the generated path left those live and wrong, which is
+ * exactly the failure this codebase keeps repeating: a rule applied to one
+ * source of a value and not the other.
+ *
+ * Surgical rather than replacing the whole title, so the hand-written ones keep
+ * their character: "Free Target Receipt Generator — Store Receipt Maker"
+ * becomes "Target Receipt Generator — Store Receipt Maker".
+ */
+function stripFree(title: string): string {
+  return title
+    .replace(/\bFree\s+/gi, "")
+    .replace(/\s+Free\b/gi, "")
+    .replace(/\s{2,}/g, " ")
+    .replace(/\s+—\s*$/, "")
+    .trim();
+}
+
+export const BRAND_TEMPLATES: ReceiptTemplate[] = [...HAND_BRANDS, ...GENERATED_BRANDS].map((t) => {
+  // Descriptions are replaced outright rather than stripped: they say "free" in
+  // too many different grammars ("preview it free", "with a free account") to
+  // edit safely, and none of them is true once the template needs Pro to open.
+  const pro = !isFreeBrand(t.slug);
+  const seoTitle = pro ? stripFree(t.seoTitle) : t.seoTitle;
+  const rawDescription = pro
+    ? pick(PRO_DESC_VARIANTS, hashSlug(t.slug) >>> 2)(t.shortName, "your items")
+    : t.seoDescription;
+  return { ...t, seoTitle, seoDescription: fitSeoDescription(rawDescription) };
+});
 
 const NEW_BRAND_CATEGORY: Record<string, BrandCategory> = {};
 for (const s of NEW_BRAND_SEEDS) NEW_BRAND_CATEGORY[s.slug] = s.category;
