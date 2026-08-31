@@ -1,5 +1,5 @@
 /**
- * Brand templates a free account can download watermark-free.
+ * Brand templates a free account can use.
  *
  * Every one of the 348 brands stays free to *build and preview* — that is
  * what the brand pages promise in their titles ("Free Motel 6 Receipt
@@ -7,66 +7,73 @@
  * the clean download: outside this list, a free account's export always carries
  * the watermark.
  *
- * The fifty were chosen by measured click volume over 180 days of Search
- * Console, not by guesswork or by impressions. Impressions are concentrated at
- * the head while clicks are not — a top-50 chosen by impressions would have kept
- * only 44% of brand clicks, where this one keeps 68%.
+ * The fifty are chosen by measured click volume over 180 days of Search
+ * Console, counted across BOTH page types that lead here.
  *
- * That still leaves roughly a third of brand clicks arriving on a page whose
- * clean download is now paid, which is the cost the owner accepted knowingly.
- * If this list is ever re-cut, re-cut it on clicks.
+ * The first cut used /brands/* clicks alone and kept only 29% of
+ * brand-attributable traffic free. That was the wrong denominator: 51% of all
+ * site traffic lands on /receipt-help/*, and every one of those pages links to
+ * a brand template via /create?template={brandSlug}. Chipotle, McDonald's,
+ * Dunkin and Domino's — the actual top drivers — were all behind the gate, and
+ * 97% of receipt-help clicks met a paywall.
+ *
+ * Counting both sources together, this list keeps 74% of brand clicks free.
+ *
+ * If it is ever re-cut: rank on CLICKS, summed across /receipt-help and
+ * /brands. Impressions concentrate at the head and clicks do not, and /brands
+ * alone is under a third of the picture.
  */
 export const FREE_BRAND_SLUGS: ReadonlySet<string> = new Set([
+  "7-eleven",
   "albert-heijn",
+  "aldi",
   "amazon",
-  "amc-theatres",
   "apple-store",
-  "asda",
-  "avis",
-  "balenciaga",
-  "careem",
+  "autozone",
+  "barnes-noble",
+  "bp",
+  "burger-king",
   "chanel",
-  "chevron",
-  "coles",
+  "chick-fil-a",
+  "chipotle",
   "deliveroo",
   "dhl",
   "dick-s-sporting-goods",
-  "epic-games",
-  "five-guys",
+  "dollar-tree",
+  "domino-s-pizza",
+  "dunkin",
+  "exxon",
   "food-lion",
-  "fred-meyer",
+  "gamestop",
   "giant-eagle",
-  "google-play",
   "grab",
-  "grammarly",
   "gucci",
   "guitar-center",
+  "h-m",
   "harbor-freight",
-  "hermes",
-  "hertz",
-  "hy-vee",
-  "instacart",
   "jersey-mike-s",
-  "just-eat",
-  "lululemon",
-  "lyft",
-  "micro-center",
-  "morrisons",
-  "napa-auto-parts",
-  "panera-bread",
+  "kfc",
+  "kroger",
+  "marriott",
+  "mcdonalds",
+  "nordstrom",
+  "panda-express",
   "paypal",
   "petsmart",
+  "pizza-hut",
   "planet-fitness",
-  "prada",
-  "priceline",
-  "speedway",
+  "publix",
+  "safeway",
+  "sephora",
+  "subway",
+  "taco-bell",
   "tgi-fridays",
-  "uber",
-  "ulta-beauty",
-  "versace",
-  "vitamin-shoppe",
+  "tim-hortons",
+  "trader-joe-s",
+  "united-airlines",
   "walmart",
-  "xbox-store",
+  "whole-foods",
+  "zara",
 ]);
 
 /**

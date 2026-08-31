@@ -40,6 +40,10 @@ export const TEMPLATES_FIGURE_UPDATED = "2026-08-21";
 // variants say "Free", which stopped being true — so they move to a Pro variant
 // that keeps "{Brand} Receipt Generator" and drops the word "Free". The seo
 // description and the two FAQ answers that promised free access change with it.
+// 2026-08-31 (3): the free fifty were re-cut on combined /receipt-help + /brands
+// click data. The first cut used /brands alone and kept only 29% of
+// brand-attributable traffic free; this keeps 74%. 31 brands swapped, so titles
+// and descriptions move on 62 pages.
 export const BRANDS_UPDATED = "2026-08-31";
 // 2026-08-31: free-tier limits changed — see STATIC_UPDATED above.
 export const BRANDS_INDEX_UPDATED = "2026-08-31";
@@ -59,6 +63,8 @@ export const POLICY_UPDATED = "2026-08-31";
 // ai_free_usage cookie that no longer exists — so they get their own constants
 // rather than dragging seven untouched pages into an IndexNow submission.
 // 2026-08-31: free-tier limits changed — see STATIC_UPDATED above.
+// 2026-08-31 (2): the free-download sentence on /create was left ungrammatical
+// by the bulk copy sweep ("Your first downloads are watermark-free").
 export const CREATE_UPDATED = "2026-08-31";
 export const COOKIES_UPDATED = "2026-08-29";
 // 2026-08-29: /login now leads with the log-in form instead of "Create your
