@@ -65,6 +65,8 @@ export const POLICY_UPDATED = "2026-08-31";
 // 2026-08-31: free-tier limits changed — see STATIC_UPDATED above.
 // 2026-08-31 (2): the free-download sentence on /create was left ungrammatical
 // by the bulk copy sweep ("Your first downloads are watermark-free").
+// 2026-08-31 (3): the builder's AI panel now counts the remaining monthly
+// allowance out loud instead of saying "limited per month".
 export const CREATE_UPDATED = "2026-08-31";
 export const COOKIES_UPDATED = "2026-08-29";
 // 2026-08-29: /login now leads with the log-in form instead of "Create your
