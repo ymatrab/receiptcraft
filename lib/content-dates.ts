@@ -35,6 +35,10 @@ export const TEMPLATES_FIGURE_UPDATED = "2026-08-21";
 // SEO_DESC_VARIANTS that promised "no sign-up to start" one clause after
 // promising a download now say an account is needed.
 // 2026-08-31: free-tier limits changed — see STATIC_UPDATED above.
+// 2026-08-31 (2): 50 brands export watermark-free on the free plan; the other
+// 298 are Pro. Every brand stays free to build and preview, so the page titles
+// and the "free generator" promise are unchanged — but the two FAQ answers that
+// promised a clean download now tell the truth per brand.
 export const BRANDS_UPDATED = "2026-08-31";
 // 2026-08-31: free-tier limits changed — see STATIC_UPDATED above.
 export const BRANDS_INDEX_UPDATED = "2026-08-31";

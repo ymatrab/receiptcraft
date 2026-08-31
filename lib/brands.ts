@@ -1,3 +1,4 @@
+import { isFreeBrand } from "@/lib/brand-access";
 import type { LineItem, ReceiptTemplate } from "./types";
 import { WIKIMEDIA_LOGOS } from "./brand-logos";
 import type { BrandCategory } from "./brand-categories";
@@ -5392,7 +5393,19 @@ const FOOTER_VARIANTS: ((n: string, city?: string) => string)[] = [
   () => `Your business means a lot to us.`,
 ];
 
-type FaqVariant = (n: string) => { question: string; answer: string };
+type FaqVariant = (n: string, slug: string) => { question: string; answer: string };
+
+/**
+ * Whether this brand's template exports watermark-free on a free account.
+ *
+ * Only two FAQ answers depend on it — the ones that promise a clean download.
+ * The rest are true for every brand, because building and previewing stays free
+ * for all 348: that is what the page titles promise and what brings the traffic.
+ *
+ * Imported lazily via require-style indirection would be neater, but this file
+ * is data and brand-access is data, so a plain import is fine and has no cycle:
+ * brand-access does not import brands.
+ */
 
 // "How do I make…" is the primary search intent, so it always leads; two more
 // are rotated in from the pool below for variety.
@@ -5402,7 +5415,12 @@ const FAQ_ANCHOR: FaqVariant = (n) => ({
 });
 
 const FAQ_POOL: FaqVariant[] = [
-  (n) => ({ question: `Is the ${n} receipt generator free?`, answer: `Yes. Building a ${n} receipt is free. Downloading uses a free account — your first is watermark-free, then a small watermark applies unless you upgrade to Pro, which also unlocks unlimited AI generation.` }),
+  (n, slug) => ({
+    question: `Is the ${n} receipt generator free?`,
+    answer: isFreeBrand(slug)
+      ? `Yes. Building a ${n} receipt is free. Downloading uses a free account — your first is watermark-free, then a small watermark applies unless you upgrade to Pro, which also unlocks unlimited AI generation.`
+      : `Building and previewing a ${n} receipt is free, with no sign-up. It is one of our Pro layouts, so downloads carry a small watermark unless you upgrade to Pro, which also unlocks unlimited AI generation.`,
+  }),
   (n) => ({ question: `Can I edit the items and prices on a ${n} receipt?`, answer: `Every line, quantity, price and the tax rate is fully editable, so your ${n} receipt matches exactly what you need.` }),
   (n) => ({ question: `Can I download a ${n} receipt as a PDF?`, answer: `Yes — export your ${n} receipt as a high-resolution PDF or PNG, ready to print or attach to an expense report.` }),
   (n) => ({ question: `Does it look like a real ${n} receipt?`, answer: `The layout mirrors a genuine ${n} receipt — logo, itemized lines, subtotal, tax and total — so it reads as authentic at a glance.` }),
@@ -5411,7 +5429,12 @@ const FAQ_POOL: FaqVariant[] = [
   (n) => ({ question: `What can I use a ${n} receipt for?`, answer: `People recreate ${n} receipts to replace a lost original, document purchases for expense and reimbursement claims, keep bookkeeping records, or use them as props and mockups.` }),
   (n) => ({ question: `Can I add my own items to a ${n} receipt?`, answer: `Yes — add, remove or reorder line items freely. The template starts with realistic ${n} items, but every field is yours to change.` }),
   (n) => ({ question: `What file formats does the ${n} receipt export to?`, answer: `PDF (fitted or print-ready A4), PNG and JPG, all rendered at 3x resolution so they stay sharp when printed or attached to an email.` }),
-  (n) => ({ question: `Will a recreated ${n} receipt have a watermark?`, answer: `Your first download on a free account is watermark-free HD. After that, free downloads include a small watermark unless you upgrade to Pro.` }),
+  (n, slug) => ({
+    question: `Will a recreated ${n} receipt have a watermark?`,
+    answer: isFreeBrand(slug)
+      ? `Your first download on a free account is watermark-free HD. After that, free downloads include a small watermark unless you upgrade to Pro.`
+      : `The ${n} template is one of our Pro layouts, so downloads on a free account carry a small watermark. Pro removes it on every download.`,
+  }),
   (n) => ({ question: `Can I set a different currency or tax rate on a ${n} receipt?`, answer: `Yes. Switch between 10 currencies and set any tax label and rate — the totals recalculate instantly.` }),
   (n) => ({ question: `Is my information saved when I make a ${n} receipt?`, answer: `Only if you ask for it. The builder runs in your browser, so what you type stays on your device unless you save the receipt to your account.` }),
 ];
@@ -5573,7 +5596,7 @@ function makeBrand(s: BrandSeed): ReceiptTemplate {
   ).map((it) => ({ id: id(), ...it }));
   const faqs = [
     FAQ_ANCHOR(s.name),
-    ...pickDistinct(FAQ_POOL, 2, seed).map((f) => f(s.name)),
+    ...pickDistinct(FAQ_POOL, 2, seed).map((f) => f(s.name, s.slug)),
   ];
   return {
     slug: s.slug,

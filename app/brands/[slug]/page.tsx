@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { isFreeBrand } from "@/lib/brand-access";
 import Reviewed from "@/components/Reviewed";
 import { BRANDS_UPDATED } from "@/lib/content-dates";
 import Link from "next/link";
@@ -251,7 +252,12 @@ export default async function BrandTemplatePage({ params }: Props) {
           <ol className="mt-4 max-w-3xl list-decimal space-y-2 pl-5 text-slate-600">
             <li>Open the {template.shortName} template — it loads with realistic items and {d.taxLabel ?? "tax"} already filled in.</li>
             <li>Edit the business details, line items, prices, date and payment method to match what you need.</li>
-            <li>Sign in with a free account to download a print-ready PDF or high-resolution PNG — your first receipt is watermark-free.</li>
+            <li>
+              Sign in with a free account to download a print-ready PDF or high-resolution PNG
+              {isFreeBrand(template.slug)
+                ? " — your first receipt is watermark-free."
+                : " — this template is a Pro one, so free downloads carry a small watermark."}
+            </li>
           </ol>
         </section>
 
