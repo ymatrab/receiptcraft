@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { PortableText, type PortableTextComponents } from "@portabletext/react";
 import { getPost, getPostSlugs, authorSlug } from "@/lib/sanity/queries";
+import { consolidationTarget } from "@/lib/consolidated-posts";
 import { urlForImage } from "@/lib/sanity/client";
 import { fitSeoDescription } from "@/lib/seo-description";
 import { absoluteUrl, SITE } from "@/lib/site";
@@ -128,6 +129,13 @@ export default async function BlogPostPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+  // Posts folded into another page 301 there. Checked before getPost so it
+  // holds whether or not the Sanity document still exists — the documents are
+  // deliberately left in place, so this is the only thing standing between an
+  // indexed URL and a live duplicate. See lib/consolidated-posts.ts.
+  const consolidated = consolidationTarget(slug);
+  if (consolidated) permanentRedirect(consolidated);
+
   const post = await getPost(slug);
   if (!post) notFound();
 

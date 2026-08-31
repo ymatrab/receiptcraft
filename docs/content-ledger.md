@@ -2,7 +2,7 @@
 
 **Running record of every published post. Update this after each publish** (append the row, set status ✅, note hero/inline images and any caveats). Companion to the [reconciled calendar](./august-2026-content-plan-RECONCILED.md) (the *plan*); this file is the *log* of what actually shipped, with live URLs and image status.
 
-- **Published:** 42 / 53
+- **Published:** 46 / 53
 - **Combined target volume (live):** ~16,190 searches/mo
 - **All live on** https://www.makecepeit.com/blog/
 - **Images:** every post has a hero; #3 onward also have one inline body image (#1–#2 are hero-only — candidates for inline backfill).
@@ -53,6 +53,44 @@
 | 40 | Aug 25 | sales receipt maker with split payment | [sales-receipt-maker-split-payment](https://www.makecepeit.com/blog/sales-receipt-maker-split-payment) | — | — | /create | industry | hero + inline | doc-supplied (images 40-1/40-2); 2 tables + blockquote + 10 FAQs; Instapaper stripped; links to /templates/sales-receipt |
 | 41 | Aug 27 | receipt maker with qr code and barcode | [receipt-maker-qr-code-barcode](https://www.makecepeit.com/blog/receipt-maker-qr-code-barcode) | — | — | /create | industry | hero + inline | doc-supplied (images 41-1/41-2, hero/inline reversed); 1 table + blockquote + 10 FAQs; Instapaper + leftover ":contentReference[oaicite]" AI-citation tokens stripped |
 | 42 | Aug 27 | receipt generator with multiple tax lines | [receipt-generator-multiple-tax-lines](https://www.makecepeit.com/blog/receipt-generator-multiple-tax-lines) | — | — | /create | industry | hero + inline | doc-supplied (images 42-1/42-2); 2 tables + blockquote + 10 FAQs; Instapaper stripped; links to /templates/itemized-receipt |
+| 43 | Aug 30 | ai receipt generator from text description | [ai-receipt-generator-from-text-description](https://www.makecepeit.com/blog/ai-receipt-generator-from-text-description) | — | — | /create | industry | hero + inline | doc-supplied (images 43-1/43-2); 1 table + blockquote + 10 FAQs; links to /create |
+| 44 | Aug 30 | receipt maker with custom logo and no watermark | [receipt-maker-custom-logo-no-watermark](https://www.makecepeit.com/blog/receipt-maker-custom-logo-no-watermark) | — | — | /create | industry | hero + inline | doc-supplied (images 44-1/44-2, hero/inline reversed); 2 tables + blockquote + 10 FAQs; links to /templates |
+| 45 | Aug 31 | receipt generator for craft fair vendors | [receipt-generator-craft-fair-vendors](https://www.makecepeit.com/blog/receipt-generator-craft-fair-vendors) | — | — | /create | industry | hero + inline | doc-supplied (images 45-1/45-2, hero/inline reversed); 2 tables + blockquote + 10 FAQs; links to /create |
+| 46 | Aug 31 | receipt maker for farmers market sellers | [receipt-maker-farmers-market-sellers](https://www.makecepeit.com/blog/receipt-maker-farmers-market-sellers) | — | — | /create | industry | hero + inline | doc-supplied (images 46-1/46-2); 2 tables + blockquote + 10 FAQs; Instapaper stripped; links to /create |
+
+## Consolidated — 2026-09-01
+
+Five posts folded into the page that should own their query. The documents are
+untouched in Sanity; `lib/consolidated-posts.ts` holds the map, and every blog
+surface (index, sitemap, llms-full.txt, related posts, author pages) reads it
+from one place. Deleting a line there restores a post.
+
+**Why.** Search Console, 1–30 Aug 2026: seven posts covering ~8,900 searches/mo
+between them returned **902 impressions and 2 clicks**, while the head terms went
+to /create and the homepage at position 88–90 apiece — the signal was split eight
+ways. This ledger already flagged the overlap when they shipped (#2 "overlaps
+#13/#16", #16 "overlaps #2").
+
+| # | Post | Impr | Pos | Folded into |
+|--:|---|--:|--:|---|
+| 13 | create-a-receipt | 0 | — | `/create` |
+| 12 | receipt-maker-free | 6 | 6.0 | `/create` |
+| 10 | receipt-generator-free | 6 | 18.5 | `/create` |
+| 14 | online-receipt-maker | 8 | 10.5 | `/create` |
+| 16 | make-a-receipt | 101 | 56.0 | `/blog/how-to-make-a-receipt` |
+
+Three of them held good positions on almost no volume — receipt-maker-free ranked
+6th and took six impressions a month.
+
+**Kept, deliberately:** #2 `how-to-make-a-receipt` (canonical how-to, 174 impr);
+#4 `how-to-make-a-receipt-of-payment` (distinct sub-intent, not a rephrasing);
+#3 `best-free-receipt-generator` (comparison intent, hub /alternatives — 543
+impr, the most of the group, and it outranks /create for "receipt maker" at 67.8
+vs 88.9; folding a roundup into a tool page would lose the intent, not
+consolidate it).
+
+The published count above is unchanged: these posts shipped, and this records
+what happened to them afterwards.
 
 ## Watch list
 
