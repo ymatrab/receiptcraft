@@ -4,11 +4,29 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { supabaseConfigured } from "@/lib/supabase/config";
 import { FREE_LIMITS } from "@/lib/plans";
 import { templateNeedsPro } from "@/lib/templates";
+import { startOfUsageMonth } from "@/lib/usage";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 const LIMIT = FREE_LIMITS.freeReceiptDownloads;
+
+/**
+ * AI generations this account has used in the current usage month.
+ *
+ * Reads the same startOfUsageMonth() boundary the limiter in
+ * app/api/ai/generate uses. Recomputing the window here would let the builder
+ * show "2 left" while the next request is refused, which is the exact drift
+ * lib/usage.ts exists to prevent.
+ */
+async function aiUsedThisMonth(userId: string): Promise<number> {
+  const { count } = await createAdminClient()
+    .from("ai_usage")
+    .select("*", { count: "exact", head: true })
+    .eq("user_id", userId)
+    .gte("created_at", startOfUsageMonth().toISOString());
+  return count ?? 0;
+}
 
 /** Distinct receipts this user has already claimed a free (clean) download for. */
 async function usedCount(userId: string): Promise<number> {
@@ -37,17 +55,30 @@ async function alreadyClaimed(userId: string, key: string): Promise<boolean> {
 export async function GET(req: Request) {
   const account = await getAccountStatus();
   if (account.isPro) {
-    return NextResponse.json({ isPro: true, loggedIn: true, willWatermark: false, remaining: null });
+    return NextResponse.json({
+      isPro: true,
+      loggedIn: true,
+      willWatermark: false,
+      remaining: null,
+      aiRemaining: null,
+    });
   }
   if (!account.userId || !supabaseConfigured) {
-    return NextResponse.json({ isPro: false, loggedIn: false, willWatermark: false, remaining: LIMIT });
+    return NextResponse.json({
+      isPro: false,
+      loggedIn: false,
+      willWatermark: false,
+      remaining: LIMIT,
+      aiRemaining: FREE_LIMITS.aiGenerationsPerMonth,
+    });
   }
   const params = new URL(req.url).searchParams;
   const key = params.get("receiptKey") ?? "";
   const brand = params.get("brand");
-  const [used, claimed] = await Promise.all([
+  const [used, claimed, aiUsed] = await Promise.all([
     usedCount(account.userId),
     key ? alreadyClaimed(account.userId, key) : Promise.resolve(false),
+    aiUsedThisMonth(account.userId),
   ]);
   const remaining = Math.max(0, LIMIT - used);
   // Two independent gates. The credit gate is per account; the brand gate is per
@@ -65,7 +96,14 @@ export async function GET(req: Request) {
   const brandLocked = templateNeedsPro(brand);
   const willWatermark = !claimed && (brandLocked || remaining <= 0);
   return NextResponse.json(
-    { isPro: false, loggedIn: true, willWatermark, remaining, brandLocked },
+    {
+      isPro: false,
+      loggedIn: true,
+      willWatermark,
+      remaining,
+      brandLocked,
+      aiRemaining: Math.max(0, FREE_LIMITS.aiGenerationsPerMonth - aiUsed),
+    },
     { headers: { "Cache-Control": "no-store" } }
   );
 }

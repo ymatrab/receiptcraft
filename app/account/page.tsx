@@ -6,6 +6,8 @@ import { supabaseConfigured } from "@/lib/supabase/config";
 import { isProEntitled, isProStatus, PLANS, FREE_LIMITS } from "@/lib/plans";
 import { getAccountUsage } from "@/lib/usage";
 import { SITE } from "@/lib/site";
+import { FREE_BRAND_SLUGS } from "@/lib/brand-access";
+import { BRAND_TEMPLATES } from "@/lib/brands";
 import LocalDate from "@/components/LocalDate";
 import BillingNotice from "./BillingNotice";
 import { deleteReceiptAction } from "./actions";
@@ -211,7 +213,7 @@ export default async function AccountPage() {
         <h2 id="usage-heading" className="text-lg font-semibold text-slate-900">
           {isPro ? "Your usage" : "What's left"}
         </h2>
-        <div className="mt-4 grid gap-4 sm:grid-cols-3">
+        <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <Stat
             label="Watermark-free downloads"
             value={isPro ? "Unlimited" : `${usage.downloadsLeft} of ${FREE_LIMITS.freeReceiptDownloads}`}
@@ -237,6 +239,16 @@ export default async function AccountPage() {
             }
           />
           <Stat
+            label="Brand templates"
+            value={isPro ? `All ${BRAND_TEMPLATES.length}` : `${FREE_BRAND_SLUGS.size} of ${BRAND_TEMPLATES.length}`}
+            tone={isPro ? "good" : "neutral"}
+            hint={
+              isPro
+                ? "Every brand template is yours"
+                : `${BRAND_TEMPLATES.length - FREE_BRAND_SLUGS.size} more with Pro`
+            }
+          />
+          <Stat
             label="Saved receipts"
             value={String(usage.receiptCount)}
             hint={usage.receiptCount === 0 ? "Nothing saved yet" : "Stored on your account"}
@@ -249,8 +261,8 @@ export default async function AccountPage() {
           <div className="mt-4 rounded-2xl border border-indigo-100 bg-indigo-50/60 p-5">
             <h3 className="text-sm font-semibold text-indigo-950">Pro removes all three limits</h3>
             <ul className="mt-3 grid gap-2 text-sm text-indigo-900 sm:grid-cols-2">
-              {PLANS.pro_monthly.features
-                .filter((f) => f !== "Everything in Free")
+              {[`All ${BRAND_TEMPLATES.length} brand templates`, "All 32 fonts and paper styles"]
+                .concat(PLANS.pro_monthly.features.filter((f) => f !== "Everything in Free"))
                 .map((f) => (
                   <li key={f} className="flex gap-2">
                     <span aria-hidden className="font-bold text-indigo-500">

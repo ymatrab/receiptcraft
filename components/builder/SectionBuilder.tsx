@@ -213,11 +213,14 @@ export default function SectionBuilder() {
     /** This template is outside the free-brand list, so a free export always
      *  carries the watermark however many credits are left. */
     brandLocked: boolean;
+    /** AI generations left this month; null for Pro (unlimited). */
+    aiRemaining: number | null;
   }>({
     loggedIn: false,
     willWatermark: false,
     remaining: FREE_LIMITS.freeReceiptDownloads,
     brandLocked: false,
+    aiRemaining: FREE_LIMITS.aiGenerationsPerMonth,
   });
   // Pins the watermark during a capture so the exported image matches the
   // claim result exactly; null means "follow the preview".
@@ -363,6 +366,7 @@ export default function SectionBuilder() {
             willWatermark: Boolean(s.willWatermark),
             remaining: s.remaining ?? null,
             brandLocked: Boolean(s.brandLocked),
+            aiRemaining: s.aiRemaining ?? null,
           });
         }
       })
@@ -564,6 +568,11 @@ export default function SectionBuilder() {
         return;
       }
       analytics.aiGenerate("success", activeTemplate || undefined);
+      // Spend one from the visible allowance. The status effect only refetches
+      // when the receipt or the account changes, and a generation changes
+      // neither — so without this the counter would still read "3 of 3" after
+      // using one, which is worse than showing no number at all.
+      setDl((d) => (d.aiRemaining === null ? d : { ...d, aiRemaining: Math.max(0, d.aiRemaining - 1) }));
       applyAi(data.receipt as AiReceiptResult);
       setAiPrompt("");
     } catch {
@@ -1019,10 +1028,34 @@ export default function SectionBuilder() {
         <div className="flex items-center gap-2">
           <span aria-hidden="true">✨</span>
           <span className="text-sm font-semibold text-slate-900">Generate with AI</span>
+          {/* The download credits were always counted out loud; the AI
+              allowance said only "limited per month", so the only way to learn
+              how many were left was to run out and read the error. */}
           {!account.isPro && (
-            <span className="rounded-full bg-white px-2 py-0.5 text-[11px] font-medium text-indigo-600">
-              {account.isLoggedIn ? "Free: limited per month" : "Free to try"}
+            <span
+              className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${
+                account.isLoggedIn && dl.aiRemaining === 0
+                  ? "bg-amber-100 text-amber-800"
+                  : "bg-white text-indigo-600"
+              }`}
+            >
+              {!account.isLoggedIn
+                ? "Free to try"
+                : dl.aiRemaining === null
+                  ? `${FREE_LIMITS.aiGenerationsPerMonth} a month free`
+                  : dl.aiRemaining === 0
+                    ? "None left this month"
+                    : `${dl.aiRemaining} of ${FREE_LIMITS.aiGenerationsPerMonth} left this month`}
             </span>
+          )}
+          {!account.isPro && account.isLoggedIn && dl.aiRemaining === 0 && (
+            <Link
+              href="/pricing"
+              onClick={() => analytics.upgradeClick("builder_ai_counter")}
+              className="text-[11px] font-semibold text-indigo-600 hover:text-indigo-700"
+            >
+              Go unlimited
+            </Link>
           )}
         </div>
         <div className="mt-3 flex flex-col gap-2 sm:flex-row">
