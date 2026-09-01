@@ -5375,7 +5375,7 @@ const PRO_DESC_VARIANTS: ((n: string) => string)[] = [
 
 const TITLE_VARIANTS: ((n: string) => string)[] = [
   (n) => `Free ${n} Receipt Generator — Make a ${n} Receipt`,
-  (n) => `${n} Receipt Generator — Create a Realistic ${n} Receipt`,
+  (n) => `${n} Receipt Generator — Create an Editable ${n} Receipt`,
   (n) => `Make a ${n} Receipt — Free ${n} Receipt Generator`,
   (n) => `${n} Receipt Maker — Free Online ${n} Receipt`,
   (n) => `Create a ${n} Receipt Online — Free ${n} Receipt Generator`,
