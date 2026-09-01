@@ -1,10 +1,16 @@
 "use client";
 
+import { isMirroredEvent } from "@/lib/analytics-events";
+
 /**
- * Lightweight analytics dispatcher. Fires a custom event to both GA4 (gtag)
- * and Microsoft Clarity (as a Clarity event + smart tags for segmentation).
- * Safe to call anywhere on the client — it no-ops on the server and when the
- * trackers haven't loaded yet.
+ * Lightweight analytics dispatcher. Fires a custom event to GA4 (gtag),
+ * Microsoft Clarity (as a Clarity event + smart tags for segmentation), and
+ * our own `events` table via /api/events. Safe to call anywhere on the client
+ * — it no-ops on the server and when the trackers haven't loaded yet.
+ *
+ * The first-party copy is what the admin dashboard reads. GA4 and Clarity
+ * answer "how many"; only our own table can answer "which member", because it
+ * is the one store where an event sits next to the account that produced it.
  */
 
 type EventParams = Record<string, string | number | boolean | undefined | null>;
@@ -79,6 +85,41 @@ function sessionAiSource(): string | null {
   }
 }
 
+/**
+ * Copy one event into our own `events` table.
+ *
+ * sendBeacon rather than fetch: it is queued by the browser and survives the
+ * page being unloaded, which matters for the events that fire on a click that
+ * navigates away (upgrade_click, begin_checkout, download_click). A plain
+ * fetch from a page that is already tearing down is routinely cancelled, and
+ * the events lost would be precisely the ones at the decision points.
+ *
+ * Entirely best-effort. Analytics must never break a page, so every failure
+ * path here is a silent no-op.
+ */
+function sendFirstParty(event: string, params: Record<string, string | number | boolean>): void {
+  // Events a server route already records are skipped here to avoid storing
+  // the same action twice — see lib/analytics-events.ts.
+  if (!isMirroredEvent(event)) return;
+
+  try {
+    const body = JSON.stringify({ name: event, props: params });
+    const blob = new Blob([body], { type: "application/json" });
+    if (navigator.sendBeacon?.("/api/events", blob)) return;
+
+    // sendBeacon refuses when its queue is full (and doesn't exist on older
+    // Safari). keepalive gives the fetch the same survive-unload behaviour.
+    void fetch("/api/events", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body,
+      keepalive: true,
+    }).catch(() => {});
+  } catch {
+    /* never let a measurement failure surface to the user */
+  }
+}
+
 export function track(event: string, params: EventParams = {}): void {
   if (typeof window === "undefined") return;
 
@@ -92,6 +133,10 @@ export function track(event: string, params: EventParams = {}): void {
   // downloads and upgrades can be split by AI source rather than only pageviews.
   const aiSource = sessionAiSource();
   if (aiSource) clean.ai_source = aiSource;
+
+  // Our own table first — it is the only sink that can be joined to a member,
+  // and the only one that keeps working when a visitor declines cookies.
+  sendFirstParty(event, clean);
 
   // GA4 custom event.
   window.gtag?.("event", event, clean);

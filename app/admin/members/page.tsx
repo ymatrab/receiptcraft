@@ -1,5 +1,6 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 import { isProEntitled } from "@/lib/plans";
+import { startOfUsageMonth } from "@/lib/usage";
 import { grantPro, revokePro } from "./actions";
 
 export const dynamic = "force-dynamic";
@@ -68,12 +69,34 @@ async function getMembers() {
     if (e.user_id) downloadsByUser.set(e.user_id, (downloadsByUser.get(e.user_id) ?? 0) + 1);
   }
 
+  // Per-user AI generations: one ai_usage row per generation, split into the
+  // current allowance month and all time. Pro generations are in here too since
+  // migration 0005 — before that the column showed 0 for every paying member,
+  // which is the opposite of the truth.
+  const monthStart = startOfUsageMonth().getTime();
+  const aiByUser = new Map<string, { month: number; total: number }>();
+  const { data: aiRows } = await admin
+    .from("ai_usage")
+    .select("user_id, created_at")
+    .not("user_id", "is", null)
+    .limit(10000);
+  for (const r of aiRows ?? []) {
+    if (!r.user_id) continue;
+    const entry = aiByUser.get(r.user_id) ?? { month: 0, total: 0 };
+    entry.total++;
+    // Parsed rather than string-compared — Postgres timestamps come back with a
+    // "+00:00" offset, which does not sort against a "Z" suffix.
+    if (Date.parse(r.created_at) >= monthStart) entry.month++;
+    aiByUser.set(r.user_id, entry);
+  }
+
   return (profiles ?? []).map((p) => ({
     ...p,
     sub: subByUser.get(p.id) ?? null,
     provider: providerByUser.get(p.id) ?? null,
     confirmed: confirmedByUser.get(p.id) ?? false,
     downloads: downloadsByUser.get(p.id) ?? 0,
+    ai: aiByUser.get(p.id) ?? { month: 0, total: 0 },
   }));
 }
 
@@ -95,6 +118,7 @@ export default async function AdminMembers() {
               <th className="px-4 py-3">Signup</th>
               <th className="px-4 py-3">Plan</th>
               <th className="px-4 py-3">Downloads</th>
+              <th className="px-4 py-3">AI gens</th>
               <th className="px-4 py-3">Joined</th>
               <th className="px-4 py-3">Membership</th>
             </tr>
@@ -150,6 +174,14 @@ export default async function AdminMembers() {
                   </td>
                   <td className="px-4 py-3 font-medium text-slate-600 tabular-nums">
                     {m.downloads}
+                  </td>
+                  <td className="px-4 py-3 font-medium text-slate-600 tabular-nums">
+                    {m.ai.month}
+                    {m.ai.total !== m.ai.month && (
+                      <span className="ml-1 text-xs font-normal text-slate-400">
+                        / {m.ai.total}
+                      </span>
+                    )}
                   </td>
                   <td className="px-4 py-3 text-slate-500">
                     {new Date(m.created_at).toLocaleDateString()}

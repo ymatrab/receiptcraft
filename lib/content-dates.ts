@@ -33,6 +33,12 @@ export const CONTENT_UPDATED = "2026-08-29";
 // own constant because CONTENT_UPDATED also stamps the two calculators, and
 // neither of them changed.
 export const TOOLS_INDEX_UPDATED = "2026-08-31";
+// 2026-09-01: /privacy gained a paragraph on first-party product analytics —
+// the events the site now records in our own database (sign-ups, downloads, AI
+// generations) and links to a signed-in account. Its own constant because
+// STATIC_UPDATED also stamps /about, /contact, /terms and /blog, none of which
+// changed; a policy page is the last place to be vague about when it changed.
+export const PRIVACY_UPDATED = "2026-09-01";
 export const TEMPLATES_UPDATED = "2026-07-20";
 export const TEMPLATES_CITED_UPDATED = "2026-08-20";
 export const TEMPLATES_FIGURE_UPDATED = "2026-08-21";

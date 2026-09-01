@@ -15,7 +15,7 @@ export default function PrivacyPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
       <h1 className="text-4xl font-bold tracking-tight text-slate-900">Privacy Policy</h1>
-      <p className="mt-3 text-sm text-slate-500">Last updated: July 2, 2026</p>
+      <p className="mt-3 text-sm text-slate-500">Last updated: September 1, 2026</p>
 
       <div className="mt-8 space-y-5 leading-relaxed text-slate-600">
         <H2>The short version</H2>
@@ -79,6 +79,14 @@ export default function PrivacyPage() {
           which is cookieless and only counts page views in aggregate. None of this is linked to
           your receipt contents. If you subscribe to our newsletter, we store your email address
           to send you product updates; every email includes an unsubscribe option.
+        </p>
+        <p>
+          We also keep our own record of product events in our database — a sign-up, a template
+          being picked, a download, an AI generation, an upgrade click and similar — together with
+          simple details such as which template or file format was involved. No cookie is set for
+          this, and it is not shared with a third party. When you are signed in these events are
+          linked to your account, so we can see how the product is really used and help you if
+          something goes wrong; they never include the contents of your receipts.
         </p>
 
         <H2>Service providers</H2>

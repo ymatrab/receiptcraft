@@ -28,22 +28,38 @@ export const maxDuration = 30;
 const ROUTING_BUDGET_MS = 26_000;
 
 /**
- * Logged-in free users: count this month's rows in ai_usage.
+ * Logged-in free users: count this month's free rows in ai_usage.
  *
  * The day boundary comes from lib/usage.ts because the account page now shows
  * the user how many generations they have left. Two definitions of "today"
  * would mean the page says "1 left" and this function then refuses the request.
+ *
+ * `pro = false` matters because ai_usage now records Pro generations too (see
+ * the insert below). Without the filter, someone whose subscription lapsed
+ * mid-month would come back to a free allowance already spent by the
+ * generations they made while paying.
  */
 async function checkUserLimit(userId: string): Promise<boolean> {
   if (!supabaseConfigured) return true;
   const admin = createAdminClient();
   const since = startOfUsageMonth();
-  const { count } = await admin
-    .from("ai_usage")
-    .select("*", { count: "exact", head: true })
-    .eq("user_id", userId)
-    .gte("created_at", since.toISOString());
-  return (count ?? 0) < FREE_LIMITS.aiGenerationsPerMonth;
+  const query = () =>
+    admin
+      .from("ai_usage")
+      .select("*", { count: "exact", head: true })
+      .eq("user_id", userId)
+      .gte("created_at", since.toISOString());
+
+  const { count, error } = await query().eq("pro", false);
+  if (!error) return (count ?? 0) < FREE_LIMITS.aiGenerationsPerMonth;
+
+  // The `pro` column arrives with migration 0005. If it is missing, filtering on
+  // it errors and supabase-js returns a null count — which would read as "0 used"
+  // and hand every free account unlimited generations. Fall back to counting
+  // every row instead: on a database without the column, none of them are Pro.
+  console.error("[ai] usage limit query failed", error.message);
+  const { count: fallback } = await query();
+  return (fallback ?? 0) < FREE_LIMITS.aiGenerationsPerMonth;
 }
 
 export async function POST(req: Request) {
@@ -148,9 +164,23 @@ export async function POST(req: Request) {
   // should not pay a settings write (or even a read) for nothing.
   if (servedBy && cooling[servedBy]) await clearAiCooldown(servedBy).catch(() => {});
 
-  // Record usage for rate limiting (free accounts only).
-  if (!account.isPro && supabaseConfigured) {
-    await createAdminClient().from("ai_usage").insert({ user_id: account.userId });
+  // Record the generation. Every one of them, not just the free-tier ones the
+  // limiter cares about: this table is also where "AI generations per user" on
+  // the admin dashboard comes from, and while Pro was excluded that figure read
+  // zero for the members who generate most — and nothing anywhere recorded what
+  // unlimited actually costs us in provider calls.
+  //
+  // `pro` keeps the two uses apart: checkUserLimit above counts free rows only.
+  if (supabaseConfigured) {
+    const usage = createAdminClient().from("ai_usage");
+    const { error } = await usage.insert({ user_id: account.userId, pro: account.isPro });
+    if (error) {
+      // Same missing-column case as above. Record the generation regardless —
+      // supabase-js returns errors rather than throwing, so a silently dropped
+      // insert would take the free monthly limit down with it.
+      console.error("[ai] usage insert failed", error.message);
+      await usage.insert({ user_id: account.userId });
+    }
   }
 
   return NextResponse.json({ receipt: result });

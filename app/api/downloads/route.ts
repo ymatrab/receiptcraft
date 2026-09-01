@@ -17,13 +17,15 @@ const LIMIT = FREE_LIMITS.freeReceiptDownloads;
  * Reads the same startOfUsageMonth() boundary the limiter in
  * app/api/ai/generate uses. Recomputing the window here would let the builder
  * show "2 left" while the next request is refused, which is the exact drift
- * lib/usage.ts exists to prevent.
+ * lib/usage.ts exists to prevent. Free rows only — ai_usage records Pro
+ * generations too, and those never count against an allowance.
  */
 async function aiUsedThisMonth(userId: string): Promise<number> {
   const { count } = await createAdminClient()
     .from("ai_usage")
     .select("*", { count: "exact", head: true })
     .eq("user_id", userId)
+    .eq("pro", false)
     .gte("created_at", startOfUsageMonth().toISOString());
   return count ?? 0;
 }

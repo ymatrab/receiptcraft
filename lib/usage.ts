@@ -41,7 +41,7 @@ export interface AccountUsage {
   /** Watermark-free downloads claimed, and how many of the free allowance are left. */
   downloadsUsed: number;
   downloadsLeft: number;
-  /** AI generations used since startOfUsageMonth(), and how many remain. */
+  /** Free AI generations used since startOfUsageMonth(), and how many remain. */
   aiUsedThisMonth: number;
   aiLeftThisMonth: number;
   /** Receipts saved to the account. */
@@ -66,10 +66,14 @@ export async function getAccountUsage(
       .from("download_credits")
       .select("*", { count: "exact", head: true })
       .eq("user_id", userId),
+    // Free rows only: ai_usage records Pro generations as well, and those are
+    // unlimited — counting them would make "3 of 3 used" appear on an account
+    // that has no allowance to spend.
     supabase
       .from("ai_usage")
       .select("*", { count: "exact", head: true })
       .eq("user_id", userId)
+      .eq("pro", false)
       .gte("created_at", startOfUsageMonth().toISOString()),
     supabase.from("receipts").select("*", { count: "exact", head: true }).eq("user_id", userId),
   ]);
