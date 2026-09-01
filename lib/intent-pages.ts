@@ -112,53 +112,40 @@ export interface IntentPage {
 }
 
 /**
- * Two guides per brand, not three.
+ * Three guides per brand: lost-receipt, receipt-copy, and a policy guide
+ * (return-policy for product brands, refund-policy for the rest).
  *
- * The third kind — return-policy for product brands, refund-policy for the
- * rest — was retired on 2026-08-31. Search Console for 1–30 Aug 2026:
+ * The policy guides were retired on 2026-08-31 and restored on 2026-09-01. The
+ * numbers behind the retirement were real — 64 URLs, 5,086 impressions and 4
+ * clicks over 1–30 Aug — but the conclusion drawn from them was wrong.
  *
- *   return-policy   29 URLs   3,615 impressions   3 clicks   avg pos 9.3
- *   refund-policy   35 URLs   1,471 impressions   1 click    avg pos 9.7
+ * The reading was "these queries belong to the retailer, so we can never win
+ * the click". The better reading is that page-one rankings on 64 brand policy
+ * queries are an asset we are wasting: zara-return-policy holds position 8.4 on
+ * 2,117 impressions a month, and answers a question nobody asked. The title
+ * ("Zara Returns: Do You Need a Receipt?") is a receipt maker's angle on
+ * "zara return policy". Demand is already reaching the page. The content is
+ * what fails, and content is fixable — deleting the page throws away the
+ * ranking that took months to earn.
  *
- * 64 URLs, 5,086 impressions, 4 clicks. 60 of the 64 never earned a single
- * click. zara-return-policy alone took 2,117 impressions at position 8.4 and
- * got none.
+ * So these stay, and get rewritten to answer the query they actually rank for:
+ * the real return window, what counts as proof of purchase, what to do without
+ * a receipt, sourced to the retailer's own policy — with the builder offered
+ * afterwards for recreating a receipt for your records, not as the lead.
  *
- * That is not a snippet problem to be rewritten out of. The pages rank on page
- * one and still lose, because "zara return policy" is a query Zara owns: the
- * searcher wants the policy itself, and a receipt maker is never the better
- * answer. Ranking well for a query you cannot satisfy is a cost, not an asset.
- *
- * lost-receipt and receipt-copy stay — same position, ~0.73% CTR, and a real
- * reason for a receipt tool to be the answer.
+ * The rule this encodes: fix the page before removing it. A URL earning
+ * impressions at position 9 is a rewrite candidate, not dead weight.
  */
-const LIVE_KINDS: IntentKind[] = ["lost-receipt", "receipt-copy"];
-
-export const INTENT_PAGES: IntentPage[] = BRANDS.flatMap((b) =>
-  LIVE_KINDS.map((kind) => ({
+export const INTENT_PAGES: IntentPage[] = BRANDS.flatMap((b) => {
+  const kinds: IntentKind[] = ["lost-receipt", "receipt-copy", thirdKind(b.category)];
+  return kinds.map((kind) => ({
     slug: `${b.slug}-${SUFFIX[kind]}`,
     brandSlug: b.slug,
     brandName: b.name,
     category: b.category,
     kind,
-  }))
-);
-
-/**
- * The retired third-kind slugs, mapped to where their traffic should go.
- *
- * Kept as data rather than deleted so the route can serve a 301 instead of a
- * 404: these URLs are indexed and still earn impressions, and dropping them
- * cold would throw away the one thing they are good for — a signal pointing at
- * the guide that can actually help. Target is the same brand's lost-receipt
- * guide, which is the nearest intent we can genuinely answer.
- */
-export const RETIRED_INTENT_REDIRECTS: ReadonlyMap<string, string> = new Map(
-  BRANDS.map((b) => [
-    `${b.slug}-${SUFFIX[thirdKind(b.category)]}`,
-    `${b.slug}-${SUFFIX["lost-receipt"]}`,
-  ])
-);
+  }));
+});
 
 export const INTENT_SLUGS = INTENT_PAGES.map((p) => p.slug);
 

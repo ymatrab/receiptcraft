@@ -70,7 +70,10 @@ export const BRANDS_UPDATED = "2026-08-31";
 // longer says "Use This Template — Free" on templates that need Pro.
 export const BRANDS_INDEX_UPDATED = "2026-08-31";
 // 2026-08-31: the CTA names a Pro template before the click.
-export const INTENT_UPDATED = "2026-08-31";
+// 2026-09-01: the 73 policy guides are restored after a day away. They go back
+// with their original content, so this is the date the URL became reachable
+// again rather than a content review — the rewrite is queued separately.
+export const INTENT_UPDATED = "2026-09-01";
 // 2026-08-31: the CTA names a Pro template before the click.
 export const INTENT_CITED_UPDATED = "2026-08-31";
 // 2026-08-31: every example page's meta description changed with the
