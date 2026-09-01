@@ -43,6 +43,23 @@ export const TEMPLATES_FIGURE_UPDATED = "2026-08-21";
 // constants above keeps the other 23 on their real review dates; a template
 // whose copy did not change must not claim it did.
 export const TEMPLATES_COPY_UPDATED = "2026-08-31";
+
+/**
+ * The five templates whose seoDescription promised "watermark-free on your
+ * first three" when FREE_LIMITS.freeReceiptDownloads has been 1. The claim was
+ * live on /templates/bar and four others; three of them were also long enough
+ * that fitSeoDescription truncated the promise mid-clause ("watermark-free
+ * on…"). Their own constant so the corrected pages are submitted without
+ * restamping the other 37 templates, which did not change.
+ */
+const TEMPLATES_DOWNLOAD_CLAIM_FIXED: ReadonlySet<string> = new Set([
+  "bar",
+  "handyman-receipt",
+  "electronics-store-receipt",
+  "airline-receipt",
+  "spa-receipt",
+]);
+export const TEMPLATES_CLAIM_UPDATED = "2026-09-01";
 const TEMPLATES_DEREALISTICISED: ReadonlySet<string> = new Set([
   "airline-receipt", "barber-receipt", "car-rental-receipt", "catering-receipt",
   "clothing-store-receipt", "dental-receipt", "dry-cleaning-receipt",
@@ -69,13 +86,72 @@ export const BRANDS_UPDATED = "2026-08-31";
 // 2026-08-31 (2): the explorer marks Pro templates, and the brand page CTA no
 // longer says "Use This Template — Free" on templates that need Pro.
 export const BRANDS_INDEX_UPDATED = "2026-08-31";
+
+/**
+ * The 36 brands whose visible copy changed with the article fix on 2026-09-01.
+ *
+ * The generated intro, use-cases and FAQ answers all said "a ${name}", which is
+ * wrong for any brand starting with a vowel or "The": "Make a Applebee's
+ * receipt", "a ASDA", "a Olive Garden", "a The Cheesecake Factory receipt". The
+ * helpers in lib/brands.ts now pick the article, so only these pages' text
+ * moved — the other 312 render byte-identical copy and keep their old date.
+ *
+ * Listed rather than computed because the sitemap must not import the article
+ * rule: this is the set that changed on one day, not a rule that re-derives.
+ */
+const BRANDS_ARTICLE_FIXED: ReadonlySet<string> = new Set([
+  "el-pollo-loco",
+  "applebees",
+  "outback-steakhouse",
+  "cheesecake-factory",
+  "ihop",
+  "olive-garden",
+  "the-coffee-bean",
+  "einstein-bros-bagels",
+  "albertsons",
+  "asda",
+  "edeka",
+  "albert-heijn",
+  "old-navy",
+  "urban-outfitters",
+  "american-eagle",
+  "adidas",
+  "ace-hardware",
+  "office-depot",
+  "academy-sports",
+  "advance-auto-parts",
+  "arco",
+  "alaska-airlines",
+  "emirates",
+  "air-canada",
+  "ritz-carlton",
+  "alamo",
+  "ola",
+  "apple-tv-plus",
+  "amazon-prime",
+  "audible",
+  "epic-games",
+  "vitamin-shoppe",
+  "the-ups-store",
+  "equinox",
+  "orangetheory",
+  "anytime-fitness",
+]);
+export const BRANDS_ARTICLE_UPDATED = "2026-09-01";
+
+/** When a brand page was last reviewed. */
+export function brandReviewedAt(slug: string): string {
+  return BRANDS_ARTICLE_FIXED.has(slug) ? BRANDS_ARTICLE_UPDATED : BRANDS_UPDATED;
+}
 // 2026-08-31: the CTA names a Pro template before the click.
 // 2026-09-01: the 73 policy guides are restored after a day away. They go back
 // with their original content, so this is the date the URL became reachable
 // again rather than a content review — the rewrite is queued separately.
 export const INTENT_UPDATED = "2026-09-01";
 // 2026-08-31: the CTA names a Pro template before the click.
-export const INTENT_CITED_UPDATED = "2026-08-31";
+// 2026-09-01: the builder offer moves up under the first answer on every guide
+// — it previously appeared only in the closing CTA, ~650 words down.
+export const INTENT_CITED_UPDATED = "2026-09-01";
 // 2026-08-31: every example page's meta description changed with the
 // "realistic" removal, and a third of them use the intro variant that carried
 // the word in visible copy. All 293 plus the paginated index genuinely moved,
@@ -160,6 +236,7 @@ export const COMPARISONS_UPDATED = LAST_UPDATED;
  * the most recently worked, then one carrying a sourced figure, then the rest.
  */
 export function templateReviewedAt(t: ReceiptTemplate): string {
+  if (TEMPLATES_DOWNLOAD_CLAIM_FIXED.has(t.slug)) return TEMPLATES_CLAIM_UPDATED;
   if (TEMPLATES_DEREALISTICISED.has(t.slug)) return TEMPLATES_COPY_UPDATED;
   if (t.sources?.length) return TEMPLATES_CITED_UPDATED;
   if (sourcedFigure(t)) return TEMPLATES_FIGURE_UPDATED;

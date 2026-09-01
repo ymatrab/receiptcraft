@@ -85,11 +85,45 @@ Docs, plans and tooling stay on `dev`. Don't merge them to `main` just to tidy
 up; they change nothing for visitors and each merge spends a production deploy.
 
 **Bump the sitemap date for any page whose visible content you changed.**
-`app/sitemap.ts` uses hand-maintained per-section constants, and the IndexNow
-cron only submits URLs whose `lastModified` is newer than its last run — so a
+`lib/content-dates.ts` holds hand-maintained per-section constants and
+`app/sitemap/` renders them. The IndexNow cron only submits URLs whose
+`lastModified` is newer than its last run — so a
 rewritten page that keeps its old date is silently never sent to Bing or Yandex.
 Move the page onto a fresh constant rather than restamping a shared one:
 false dates on untouched pages are what IndexNow treats as spam.
+
+## Check search intent before writing content
+
+Before committing to a keyword, decide which of three kinds it is. Two of them
+cannot make money no matter how well the page ranks, and the site is currently
+full of both.
+
+- **Retrieval** — "walmart receipt lookup", "zara recover my receipt". The
+  searcher wants *their own* receipt from the merchant. We cannot supply it, so
+  they do not click, and the rare click cannot convert. Measured Sept 2026: 23
+  pages ranking in the top 10 held 9,820 impressions and produced 11 clicks.
+- **Definition** — "amount tendered meaning", "customer copy receipt". The SERP
+  answers it outright. `/blog/amount-tendered-meaning` ranks **position 3.7 with
+  0 of 118 clicks**.
+- **Creation** — "starbucks receipt template", "gas station receipt maker". The
+  searcher wants to make one. This is the product, and it is the only kind that
+  converts: `/brands` earns **3.53% CTR at position 20.5** while `/receipt-help`
+  earns **0.63% at position 9.5** — five and a half times the yield from eleven
+  positions worse.
+
+Confirmed on two engines: Bing shows the same zero-click pattern on retrieval
+queries ("walmart receipt lookup", 464 impressions, position 8, no clicks), so
+this is intent, not an AI Overview taking the click.
+
+Write for creation intent. A retrieval or definition page earns rankings that
+flatter the dashboard and sell nothing.
+
+**One standing exception: receipt-scanning content.** `/blog/best-receipt-scanning-apps`
+and the "receipt scanner app" cluster (pos ~76, ~250 impressions/mo) describe a
+product we do not sell yet. The owner's call on 2026-09-01 is to leave the page
+alone and let it keep ranking, because a scanning feature is planned and the page
+becomes the link target when it ships. Do not rewrite, retarget or retire it on
+intent-gate grounds — it is a deliberate placeholder, not an oversight.
 
 ## Syncing
 
@@ -132,7 +166,7 @@ it is deliberately waiting.
 dropping 60 posts in one day performs worse than two a day for a month, so never
 publish a batch all at once. But the way to spread them is *not* to run 30
 sessions: set a future `publishedAt` on each post in Sanity in a single session.
-`app/sitemap.ts` revalidates hourly, so scheduled posts enter the sitemap as
+The sitemap revalidates hourly, so scheduled posts enter it as
 they go live, and the IndexNow cron picks each one up on the day. That is how the
 July 2026 batch of 132 posts was released.
 

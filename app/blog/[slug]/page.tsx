@@ -103,8 +103,17 @@ export async function generateMetadata({
   const ogImage = post.mainImage
     ? urlForImage(post.mainImage).width(1200).height(630).url()
     : absoluteUrl("/opengraph-image");
+  // Blog headlines are already long and self-describing, and the root layout
+  // appends " | Makecepeit" (13 chars) to every one. On 15 posts that pushed the
+  // title past 70 characters — where Google truncates and drops the suffix
+  // anyway, so the brand cost 13 characters of headline and returned nothing.
+  // Keep the suffix where it fits; drop it where it would only cause a trim.
+  const rawTitle = post.seoTitle ?? post.title;
+  const title =
+    `${rawTitle} | ${SITE.name}`.length > 60 ? { absolute: rawTitle } : rawTitle;
+
   return {
-    title: post.seoTitle ?? post.title,
+    title,
     description,
     alternates: { canonical: `/blog/${post.slug}` },
     openGraph: {

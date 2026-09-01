@@ -115,7 +115,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
       "Set the restaurant name, address and phone; put the server's name in the cashier field and the table number in the register field.",
       "Add each dish and drink as its own line with quantity and price — the subtotal updates as you type.",
       "Set your local sales-tax rate, then enter the tip (or an auto-gratuity amount for a large party).",
-      "Sign in with a free account to download a print-ready PDF or high-resolution PNG — your first three receipts are watermark-free.",
+      "Sign in with a free account to download a print-ready PDF or high-resolution PNG — your first download is watermark-free.",
     ],
     guidance: [
       {
@@ -442,7 +442,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "🍺",
     seoTitle: "Free Bar Receipt Generator — Pub Tab Receipt Maker",
     seoDescription:
-      "Create a bar tab receipt with drinks, tax and tip. Free bar receipt maker with live preview — download as PDF or PNG, watermark-free on your first three.",
+      "Create a bar tab receipt with drinks, tax and tip. Free bar receipt maker with live preview — download as PDF or PNG, watermark-free on your first one.",
     heading: "Bar & Pub Receipt Generator",
     intro:
       "Recreate a bar tab with drinks, appetizers, tax and gratuity. Useful for client entertainment expense claims and team outing reimbursements.",
@@ -1004,7 +1004,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "🔨",
     seoTitle: "Free Handyman Receipt Generator — Contractor Receipt Maker",
     seoDescription:
-      "Create a handyman or contractor receipt with labor, materials and tax. Free receipt maker for home services — download as PDF or PNG, watermark-free on your first three.",
+      "Create a handyman receipt with labor, materials and tax. Free receipt maker for home services — download as PDF or PNG, watermark-free on your first one.",
     heading: "Handyman & Contractor Receipt Generator",
     intro:
       "Create a handyman or contractor receipt that separates labor, materials and tax. Ideal for independent tradespeople giving customers a professional record and for homeowners tracking home-improvement costs.",
@@ -1238,7 +1238,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "📱",
     seoTitle: "Free Electronics Store Receipt Generator — Tech Receipts",
     seoDescription:
-      "Create an editable electronics store receipt with devices, accessories, warranties and sales tax. Download as PDF or PNG instantly. Free, watermark-free on your first three.",
+      "Create an editable electronics store receipt with devices, accessories, warranties and sales tax. Download as PDF or PNG. Free, watermark-free on your first.",
     heading: "Electronics Store Receipt Generator",
     intro:
       "Make an editable electronics or tech store receipt with devices, accessories, protection plans and sales tax. Ideal for warranty claims, insurance documentation, expense reports or props.",
@@ -1425,7 +1425,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "✈️",
     seoTitle: "Free Airline Receipt Generator — Flight Ticket Receipts",
     seoDescription:
-      "Make an editable airline ticket receipt with fare, taxes, baggage and seat fees. Download as PDF or PNG. Free flight receipt maker, watermark-free on your first three.",
+      "Make an editable airline receipt with fare, taxes, baggage and seat fees. Download as PDF or PNG. Free flight receipt maker, watermark-free on your first one.",
     heading: "Airline Ticket Receipt Generator",
     intro:
       "Create an editable airline or flight ticket receipt with base fare, taxes, baggage, seat selection and booking fees. Perfect for travel expense reports and reimbursement.",
@@ -1615,7 +1615,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "💆",
     seoTitle: "Free Spa Receipt Generator — Massage & Spa Receipts",
     seoDescription:
-      "Create an editable spa or massage receipt with treatments, add-ons and gratuity. Download as PDF or PNG. Free spa receipt maker, watermark-free on your first three.",
+      "Create an editable spa or massage receipt with treatments, add-ons and gratuity. Download as PDF or PNG. Free spa receipt maker, watermark-free on your first.",
     heading: "Spa Receipt Generator",
     intro:
       "Make an editable spa, massage or wellness receipt with treatments, add-ons, packages and gratuity. Useful for gift documentation, reimbursement or records.",

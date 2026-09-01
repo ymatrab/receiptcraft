@@ -740,7 +740,10 @@ export function intentContent(p: IntentPage): IntentContent {
   const cite = officialCite(p.brandSlug, n, p.kind);
   if (p.kind === "lost-receipt") {
     return {
-      title: `How to Find a Lost ${n} Receipt (2026 Guide)`,
+      // No year in the title: it was a hardcoded "(2026 Guide)", which costs 13
+      // characters, pushed the longest brands past the SERP truncation point,
+      // and turns into a staleness signal the moment the year turns.
+      title: `How to Find a Lost ${n} Receipt`,
       description: composeDescription(
         `Lost your ${n} receipt? Check your email, the ${n} app and your card statement first.`,
         [
@@ -834,9 +837,9 @@ export function intentContent(p: IntentPage): IntentContent {
   }
   if (p.kind === "refund-policy") {
     return {
-      title: `${n} Refunds: Do You Need a Receipt?`,
+      title: `${n} Refunds & Lost Receipts: What to Do`,
       description: composeDescription(
-        `Getting a refund from ${n}? Here's whether you actually need the receipt.`,
+        `Getting a refund from ${n} without the receipt? Here's where you stand.`,
         [
           `What ${n} accepts as proof of purchase, where to find your order confirmation, and how refunds work without one.`,
           `What counts as proof of purchase, where to find your order confirmation, and how refunds work without one.`,
@@ -845,7 +848,7 @@ export function intentContent(p: IntentPage): IntentContent {
           `What counts as proof of purchase without one.`,
         ]
       ),
-      h1: `${n} Refunds & Receipts`,
+      h1: `${n} Refunds & Lost Receipts`,
       lead: `Requesting a refund or cancellation from ${n}? Here's how your receipt or order confirmation fits in — and what to do if you can't find it.`,
       sections: [
         {
@@ -879,10 +882,20 @@ export function intentContent(p: IntentPage): IntentContent {
   }
 
   // return-policy
+  //
+  // Titled for the query it actually ranks for, not the one it was written for.
+  // The 2026-09-01 note above assumed these pages hold their positions on
+  // "<brand> return policy"; GSC query data says otherwise —
+  // /receipt-help/zara-return-policy took 1,155 impressions in Aug 2026 and its
+  // top queries were "zara receipt", "zara recover my receipt" and "zara receipt
+  // finder", every one of them receipt retrieval. It ranked page 1 on all of
+  // them and earned zero clicks, because the title answered a different
+  // question. Naming both jobs is accurate — the page does cover the return
+  // window *and* what to do when the receipt is gone.
   return {
-    title: `${n} Returns: Do You Need a Receipt?`,
+    title: `${n} Returns & Lost Receipts: What to Do`,
     description: composeDescription(
-      `Returning something to ${n}? Here's whether you need the receipt at all.`,
+      `Returning something to ${n} without the receipt? Here's where you stand.`,
       [
         `What ${n} accepts as proof of purchase, the return window to watch, and your options when the receipt is gone.`,
         `What counts as proof of purchase, the return window to watch, and your options when the receipt is gone.`,
@@ -891,7 +904,7 @@ export function intentContent(p: IntentPage): IntentContent {
         `What to bring when the receipt is gone.`,
       ]
     ),
-    h1: `${n} Returns: Do You Need a Receipt?`,
+    h1: `${n} Returns & Lost Receipts: What to Do`,
     lead: `Planning a return at ${n}? Here's how receipts and proof of purchase typically factor into returns — and what to do if you've lost yours.`,
     sections: [
       {

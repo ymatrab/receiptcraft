@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { isFreeBrand } from "@/lib/brand-access";
 import Reviewed from "@/components/Reviewed";
-import { BRANDS_UPDATED } from "@/lib/content-dates";
+import { brandReviewedAt } from "@/lib/content-dates";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BRAND_TEMPLATES, brandCategoryFor } from "@/lib/brands";
@@ -354,7 +354,7 @@ export default async function BrandTemplatePage({ params }: Props) {
           categories={["Basics", "How-To", "Lost Receipts"]}
         />
 
-        <Reviewed date={BRANDS_UPDATED} />
+        <Reviewed date={brandReviewedAt(template.slug)} />
       </div>
     </>
   );

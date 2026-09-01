@@ -180,7 +180,7 @@ export default function AlternativesPage() {
               A free, AI-powered receipt maker with {BRAND_COUNT} named-brand
               templates (Walmart, Target, Starbucks and more), live preview, and PDF plus
               high-resolution PNG export. You can build and preview with no
-              signup; your first three HD downloads are free, and Pro removes the
+              signup; your first HD download is free, and Pro removes the
               watermark with unlimited AI generation and saved history.
             </p>
             <p className="mt-3 text-sm font-medium text-slate-500">

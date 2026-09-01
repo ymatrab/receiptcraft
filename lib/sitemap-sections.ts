@@ -95,7 +95,9 @@ export async function sectionUrls(id: SectionId): Promise<MetadataRoute.Sitemap>
         { url: `${SITE.url}/brands`, lastModified: d(C.BRANDS_INDEX_UPDATED) },
         ...BRAND_TEMPLATES.map((t) => ({
           url: `${SITE.url}/brands/${t.slug}`,
-          lastModified: d(C.BRANDS_UPDATED),
+          // Per-brand, same reason as templates: only the 36 pages the article
+          // fix actually rewrote should carry a new date.
+          lastModified: d(C.brandReviewedAt(t.slug)),
         })),
       ];
 

@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import type { Metadata } from "next";
 import Reviewed from "@/components/Reviewed";
 import { intentReviewedAt } from "@/lib/content-dates";
@@ -150,8 +151,40 @@ export default async function IntentPage({
       <h1 className="mt-3 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">{c.h1}</h1>
       <p className="mt-4 text-lg leading-relaxed text-slate-600">{c.lead}</p>
 
-      {c.sections.map((s) => (
-        <section key={s.heading} className="mt-8">
+      {c.sections.map((s, si) => (
+        <Fragment key={s.heading}>
+        {/* The offer, moved up to sit directly under the first answer.
+            It used to live only in the closing CTA ~650 words down, below the
+            fold: 23 of these pages held 9,820 impressions and produced 11
+            clicks in Aug 2026. It stays *after* the first section on purpose —
+            lib/intent-pages.ts settled on 2026-09-01 that these pages answer
+            the query first and offer the builder afterwards, not as the lead.
+            The closing CTA stays too, as the exit for anyone who reads on. */}
+        {si === 1 && (
+          <div className="mt-8 rounded-2xl border border-indigo-200 bg-indigo-50/60 px-5 py-4">
+            <p className="leading-relaxed text-slate-700">
+              <strong className="font-semibold text-slate-900">
+                Need a copy for your own records?
+              </strong>{" "}
+              If {page.brandName} cannot retrieve the original, you can rebuild one from
+              what you remember — items, prices, date and store details.{" "}
+              <Link
+                href={`/create?template=${encodeURIComponent(page.brandSlug)}`}
+                className="font-medium text-indigo-700 underline decoration-indigo-300 underline-offset-2 hover:decoration-indigo-700"
+              >
+                Open the {page.brandName} receipt builder
+              </Link>
+              .
+            </p>
+            {!isFreeBrand(page.brandSlug) && (
+              <p className="mt-2 text-sm text-slate-500">
+                The {page.brandName} template is one of our Pro layouts. The builder itself
+                is free to use with no sign-up.
+              </p>
+            )}
+          </div>
+        )}
+        <section className="mt-8">
           <h2 className="text-xl font-bold text-slate-900">{s.heading}</h2>
           {s.body && <p className="mt-2 leading-relaxed text-slate-600">{s.body}</p>}
           {s.steps && (
@@ -192,6 +225,7 @@ export default async function IntentPage({
             </p>
           )}
         </section>
+        </Fragment>
       ))}
 
       {/* CTA */}

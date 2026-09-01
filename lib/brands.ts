@@ -5326,14 +5326,14 @@ function pickDistinct<T>(arr: T[], n: number, seed: number): T[] {
 // so pages without a city just render the city-free half of the sentence.
 const INTRO_VARIANTS: ((n: string, noun: string, city?: string) => string)[] = [
   (n, noun) => `Create an editable ${n} receipt with ${noun}. Perfect for replacing a lost ${n} receipt, expense reports, bookkeeping records or design mockups.`,
-  (n, noun) => `Need a ${n} receipt fast? Build one with ${noun}, then sign in free to download a clean PDF or PNG. Your first download is watermark-free.`,
-  (n, noun) => `Recreate a ${n} receipt that matches the real thing, complete with ${noun}. Adjust the totals and export it for expenses, reimbursements or your own records.`,
-  (n, noun) => `Make a ${n} receipt online in seconds. Lay it out with ${noun} — subtotal, tax and total included — ready to print or save.`,
-  (n, noun, city) => `Build a ${n} receipt${city ? ` for a visit to the ${city} location` : ""} with ${noun}. Edit the totals, then download it for expenses or your own records.`,
-  (n, noun) => `Rebuild a ${n} receipt from memory — add ${noun}, set the tax and total, then export a clean PDF or PNG in under a minute.`,
-  (n, noun, city) => `Whether you're replacing a receipt from a ${n}${city ? ` in ${city}` : ""} or issuing one yourself, this generator handles ${noun}, tax and totals in one editable layout.`,
+  (n, noun) => `Need ${anBrand(n)} receipt fast? Build one with ${noun}, then sign in free to download a clean PDF or PNG. Your first download is watermark-free.`,
+  (n, noun) => `Recreate ${anBrand(n)} receipt that matches the real thing, complete with ${noun}. Adjust the totals and export it for expenses, reimbursements or your own records.`,
+  (n, noun) => `Make ${anBrand(n)} receipt online in seconds. Lay it out with ${noun} — subtotal, tax and total included — ready to print or save.`,
+  (n, noun, city) => `Build ${anBrand(n)} receipt${city ? ` for a visit to the ${city} location` : ""} with ${noun}. Edit the totals, then download it for expenses or your own records.`,
+  (n, noun) => `Rebuild ${anBrand(n)} receipt from memory — add ${noun}, set the tax and total, then export a clean PDF or PNG in under a minute.`,
+  (n, noun, city) => `Whether you're replacing a receipt from ${anBrand(n)}${city ? ` in ${city}` : ""} or issuing one yourself, this generator handles ${noun}, tax and totals in one editable layout.`,
   (n, noun) => `A ${n} receipt template with ${noun} already laid out — change the items, prices and date to match your own purchase, then download.`,
-  (n, noun) => `Generate a ${n} receipt with ${noun} in the format the real thing uses. Free to build, with a live preview as you edit.`,
+  (n, noun) => `Generate ${anBrand(n)} receipt with ${noun} in the format the real thing uses. Free to build, with a live preview as you edit.`,
   (n, noun, city) => `This ${n} receipt generator lays out ${noun}${city ? `, styled after the ${city} store` : ""} — edit every field, then export as PDF or PNG.`,
 ];
 
@@ -5345,12 +5345,12 @@ const INTRO_VARIANTS: ((n: string, noun: string, city?: string) => string)[] = [
 // /create were corrected to use, and it still earns the "free" click.
 const SEO_DESC_VARIANTS: ((n: string, noun: string) => string)[] = [
   (n, noun) => `Create an editable ${n} receipt online in seconds. Add ${noun}, preview it free, then sign in to download as a PDF or PNG.`,
-  (n, noun) => `Make a ${n} receipt with ${noun} and download a print-ready PDF or PNG. Free ${n} receipt generator — free account to download.`,
-  (n, noun) => `Generate a ${n} receipt online, complete with ${noun}. Set the totals, preview free, then export with a free account.`,
-  (n, noun) => `Build a ${n} receipt online with ${noun}, editable totals and tax. Free live preview — sign in to download as a PDF or PNG.`,
+  (n, noun) => `Make ${anBrand(n)} receipt with ${noun} and download a print-ready PDF or PNG. Free ${n} receipt generator — free account to download.`,
+  (n, noun) => `Generate ${anBrand(n)} receipt online, complete with ${noun}. Set the totals, preview free, then export with a free account.`,
+  (n, noun) => `Build ${anBrand(n)} receipt online with ${noun}, editable totals and tax. Free live preview — sign in to download as a PDF or PNG.`,
   (n, noun) => `Free ${n} receipt maker: add ${noun}, set the date and totals, then export a clean PDF or PNG with a free account.`,
   (n, noun) => `${n} receipt generator: lay out ${noun}, edit the totals and tax, then export a PDF or PNG. Free to build and preview.`,
-  (n, noun) => `Recreate a ${n} receipt with ${noun} in a couple of clicks. Free live preview, download as PDF or PNG once you sign in.`,
+  (n, noun) => `Recreate ${anBrand(n)} receipt with ${noun} in a couple of clicks. Free live preview, download as PDF or PNG once you sign in.`,
   (n, noun) => `Build an editable ${n} receipt — ${noun}, custom tax and totals — and export it free as a PDF or PNG.`,
   (n, noun) => `A free ${n} receipt template with ${noun} pre-filled. Adjust the details and download a print-ready PDF or PNG.`,
   (n, noun) => `Fast, free ${n} receipt generator. Add ${noun}, set the tax rate, preview live, then export as a PDF or PNG.`,
@@ -5370,31 +5370,64 @@ const PRO_DESC_VARIANTS: ((n: string) => string)[] = [
   (n) =>
     `${n} receipt generator: lay out your items, edit the totals, tax and store details, then export a clean PDF or PNG. One of our Pro brand templates.`,
   (n) =>
-    `Build a ${n} receipt with your own items, editable totals and tax. A Pro layout — Makecepeit Pro exports it as a print-ready PDF or high-resolution PNG.`,
+    `Build ${anBrand(n)} receipt with your own items, editable totals and tax. A Pro layout — Makecepeit Pro exports it as a print-ready PDF or high-resolution PNG.`,
 ];
 
+/**
+ * "a Target", "an IKEA", "The Cheesecake Factory".
+ *
+ * The title variants hardcoded "a ${n}", which reads wrong for a tenth of the
+ * catalogue: "Make a Applebee's Receipt", "a ASDA", "a Olive Garden", and —
+ * worst — "Generate a The Cheesecake Factory Receipt Online". Nine of these
+ * were live in a 227-page sample of brand titles.
+ *
+ * A vowel LETTER is not a vowel SOUND, so the "yoo" words are listed out:
+ * "an Uber" but "a United Airlines", "a UPS", "a Uniqlo".
+ */
+const YOO_SOUND = /^(UPS|USPS|United|Uniqlo|UO|Universal|Euro)\b/;
+
+function withArticle(n: string): string {
+  if (/^The\s/i.test(n)) return n;
+  if (YOO_SOUND.test(n)) return `a ${n}`;
+  return /^[aeiou]/i.test(n) ? `an ${n}` : `a ${n}`;
+}
+
+/**
+ * The same article, for running copy: "a Target receipt", "an IKEA receipt".
+ *
+ * Differs from withArticle in one way — a leading "The" is dropped rather than
+ * kept, because "Recreate a The Cheesecake Factory receipt" is not English and
+ * "Recreate The Cheesecake Factory receipt" names one specific receipt rather
+ * than the kind. "a Cheesecake Factory receipt" is what a person would say.
+ */
+function anBrand(n: string): string {
+  const bare = n.replace(/^The\s+/i, "");
+  if (YOO_SOUND.test(bare)) return `a ${bare}`;
+  return /^[aeiou]/i.test(bare) ? `an ${bare}` : `a ${bare}`;
+}
+
 const TITLE_VARIANTS: ((n: string) => string)[] = [
-  (n) => `Free ${n} Receipt Generator — Make a ${n} Receipt`,
+  (n) => `Free ${n} Receipt Generator — Make ${withArticle(n)} Receipt`,
   (n) => `${n} Receipt Generator — Create an Editable ${n} Receipt`,
-  (n) => `Make a ${n} Receipt — Free ${n} Receipt Generator`,
+  (n) => `Make ${withArticle(n)} Receipt — Free ${n} Receipt Generator`,
   (n) => `${n} Receipt Maker — Free Online ${n} Receipt`,
-  (n) => `Create a ${n} Receipt Online — Free ${n} Receipt Generator`,
+  (n) => `Create ${withArticle(n)} Receipt Online — Free ${n} Receipt Generator`,
   (n) => `Free ${n} Receipt Maker — Editable PDF & PNG`,
-  (n) => `${n} Receipt Maker — Build & Download a ${n} Receipt Free`,
-  (n) => `Generate a ${n} Receipt Online — Free ${n} Receipt Maker`,
+  (n) => `${n} Receipt Maker — Build & Download ${withArticle(n)} Receipt Free`,
+  (n) => `Generate ${withArticle(n)} Receipt Online — Free ${n} Receipt Maker`,
   (n) => `${n} Receipt Template — Free Online Generator`,
-  (n) => `Build a ${n} Receipt Free — ${n} Receipt Generator & Maker`,
+  (n) => `Build ${withArticle(n)} Receipt Free — ${n} Receipt Generator & Maker`,
 ];
 
 const USECASE_VARIANTS: ((n: string) => string[])[] = [
   (n) => [`Replace a lost ${n} receipt`, "Expense reports and reimbursement", "Personal bookkeeping and records", "Props and design mockups"],
   (n) => [`Recover a misplaced ${n} receipt`, "Business travel expense claims", "Budgeting and spend tracking", "Mockups for design or film"],
-  (n) => [`Reprint a ${n} receipt you lost`, "Submit for reimbursement at work", "Records for taxes and bookkeeping", "Sample receipts for testing or demos"],
+  (n) => [`Reprint ${anBrand(n)} receipt you lost`, "Submit for reimbursement at work", "Records for taxes and bookkeeping", "Sample receipts for testing or demos"],
   (n) => [`Rebuild a faded ${n} receipt`, "Attach proof of purchase to a claim", "Keep a personal spending log", "App or website screenshot mockups"],
-  (n) => [`Document a ${n} purchase after the fact`, "Freelance and small-business invoicing", "Tax-season bookkeeping records", "Stage or screen props"],
-  (n) => [`Get a copy of a ${n} receipt you never printed`, "Corporate expense-report backup", "Household budgeting records", "Presentation or portfolio mockups"],
+  (n) => [`Document ${anBrand(n)} purchase after the fact`, "Freelance and small-business invoicing", "Tax-season bookkeeping records", "Stage or screen props"],
+  (n) => [`Get a copy of ${anBrand(n)} receipt you never printed`, "Corporate expense-report backup", "Household budgeting records", "Presentation or portfolio mockups"],
   (n) => [`Stand in for a thermal ${n} receipt that faded`, "Reimbursement paperwork for work trips", "Everyday bookkeeping and record-keeping", "Design comps that need a real-looking receipt"],
-  (n) => [`Recreate a ${n} receipt for a return`, "Freelancer client expense summaries", "Personal finance tracking", "Film, theatre or app-demo props"],
+  (n) => [`Recreate ${anBrand(n)} receipt for a return`, "Freelancer client expense summaries", "Personal finance tracking", "Film, theatre or app-demo props"],
 ];
 
 const FOOTER_VARIANTS: ((n: string, city?: string) => string)[] = [
@@ -5427,7 +5460,7 @@ type FaqVariant = (n: string, slug: string) => { question: string; answer: strin
 // "How do I make…" is the primary search intent, so it always leads; two more
 // are rotated in from the pool below for variety.
 const FAQ_ANCHOR: FaqVariant = (n) => ({
-  question: `How do I make a ${n} receipt?`,
+  question: `How do I make ${anBrand(n)} receipt?`,
   answer: `Open the ${n} template, edit the store details, add your items and prices, set the tax rate, then sign in free to download as a PDF or PNG. It takes about a minute.`,
 });
 
@@ -5435,21 +5468,21 @@ const FAQ_POOL: FaqVariant[] = [
   (n, slug) => ({
     question: `Is the ${n} receipt generator free?`,
     answer: isFreeBrand(slug)
-      ? `Yes. Building a ${n} receipt is free. Downloading uses a free account — your first is watermark-free, then a small watermark applies unless you upgrade to Pro, which also unlocks unlimited AI generation.`
+      ? `Yes. Building ${anBrand(n)} receipt is free. Downloading uses a free account — your first is watermark-free, then a small watermark applies unless you upgrade to Pro, which also unlocks unlimited AI generation.`
       : `The ${n} template is one of our Pro layouts, so it needs Makecepeit Pro. Around fifty brand templates are free to use, and the generic receipt builder is free for everyone with no sign-up.`,
   }),
-  (n) => ({ question: `Can I edit the items and prices on a ${n} receipt?`, answer: `Every line, quantity, price and the tax rate is fully editable, so your ${n} receipt matches exactly what you need.` }),
-  (n) => ({ question: `Can I download a ${n} receipt as a PDF?`, answer: `Yes — export your ${n} receipt as a high-resolution PDF or PNG, ready to print or attach to an expense report.` }),
+  (n) => ({ question: `Can I edit the items and prices on ${anBrand(n)} receipt?`, answer: `Every line, quantity, price and the tax rate is fully editable, so your ${n} receipt matches exactly what you need.` }),
+  (n) => ({ question: `Can I download ${anBrand(n)} receipt as a PDF?`, answer: `Yes — export your ${n} receipt as a high-resolution PDF or PNG, ready to print or attach to an expense report.` }),
   (n) => ({ question: `Does it look like a real ${n} receipt?`, answer: `The layout mirrors a genuine ${n} receipt — logo, itemized lines, subtotal, tax and total — so it reads as authentic at a glance.` }),
   (n, slug) => ({
-    question: `Do I need an account to make a ${n} receipt?`,
+    question: `Do I need an account to make ${anBrand(n)} receipt?`,
     answer: isFreeBrand(slug)
       ? `You can build and preview with no sign-up. Downloading uses a free account — your first ${n} receipt is watermark-free, then a small watermark applies unless you go Pro.`
       : `The ${n} template is one of our Pro layouts, so it needs a Makecepeit Pro account. The generic receipt builder is free to use with no sign-up at all.`,
   }),
-  (n) => ({ question: `Can I change the date and store details on a ${n} receipt?`, answer: `Yes. Set the date, store address, register or order number and cashier so your ${n} receipt reflects the right visit.` }),
-  (n) => ({ question: `What can I use a ${n} receipt for?`, answer: `People recreate ${n} receipts to replace a lost original, document purchases for expense and reimbursement claims, keep bookkeeping records, or use them as props and mockups.` }),
-  (n) => ({ question: `Can I add my own items to a ${n} receipt?`, answer: `Yes — add, remove or reorder line items freely. The template starts with sample ${n} items, but every field is yours to change.` }),
+  (n) => ({ question: `Can I change the date and store details on ${anBrand(n)} receipt?`, answer: `Yes. Set the date, store address, register or order number and cashier so your ${n} receipt reflects the right visit.` }),
+  (n) => ({ question: `What can I use ${anBrand(n)} receipt for?`, answer: `People recreate ${n} receipts to replace a lost original, document purchases for expense and reimbursement claims, keep bookkeeping records, or use them as props and mockups.` }),
+  (n) => ({ question: `Can I add my own items to ${anBrand(n)} receipt?`, answer: `Yes — add, remove or reorder line items freely. The template starts with sample ${n} items, but every field is yours to change.` }),
   (n) => ({ question: `What file formats does the ${n} receipt export to?`, answer: `PDF (fitted or print-ready A4), PNG and JPG, all rendered at 3x resolution so they stay sharp when printed or attached to an email.` }),
   (n, slug) => ({
     question: `Will a recreated ${n} receipt have a watermark?`,
@@ -5457,8 +5490,8 @@ const FAQ_POOL: FaqVariant[] = [
       ? `Your first download on a free account is watermark-free HD. After that, free downloads include a small watermark unless you upgrade to Pro.`
       : `The ${n} template is one of our Pro layouts. Opening and exporting it needs Makecepeit Pro, which also removes the watermark everywhere and unlocks unlimited AI generation.`,
   }),
-  (n) => ({ question: `Can I set a different currency or tax rate on a ${n} receipt?`, answer: `Yes. Switch between 10 currencies and set any tax label and rate — the totals recalculate instantly.` }),
-  (n) => ({ question: `Is my information saved when I make a ${n} receipt?`, answer: `Only if you ask for it. The builder runs in your browser, so what you type stays on your device unless you save the receipt to your account.` }),
+  (n) => ({ question: `Can I set a different currency or tax rate on ${anBrand(n)} receipt?`, answer: `Yes. Switch between 10 currencies and set any tax label and rate — the totals recalculate instantly.` }),
+  (n) => ({ question: `Is my information saved when I make ${anBrand(n)} receipt?`, answer: `Only if you ask for it. The builder runs in your browser, so what you type stays on your device unless you save the receipt to your account.` }),
 ];
 
 // Real, brand-appropriate items for seeds that would otherwise fall back to
@@ -5932,12 +5965,42 @@ function stripFree(title: string): string {
     .trim();
 }
 
+/** Longest title that survives Google's SERP truncation intact. */
+const TITLE_MAX = 70;
+
+/**
+ * Drop a brand's second mention from an overlong title.
+ *
+ * Four of the ten TITLE_VARIANTS name the brand in both clauses ("Urban
+ * Outfitters Receipt Generator — Create an Editable Urban Outfitters Receipt",
+ * 80 chars). That reads fine for "Gap" and truncates for anything longer, and
+ * it hit eight brand pages plus an unknown share of the 118 hand-written
+ * titles. Applied at assembly for the same reason stripFree is: the generated
+ * and hand-written titles are two sources of one value, and fixing one of them
+ * is the failure this file keeps repeating.
+ *
+ * Surgical — the first clause still carries the brand, so only the redundant
+ * repeat is removed: the example above becomes "Urban Outfitters Receipt
+ * Generator — Create an Editable Receipt" (63).
+ */
+function fitBrandTitle(title: string, brand: string): string {
+  if (title.length <= TITLE_MAX) return title;
+  const first = title.indexOf(brand);
+  if (first === -1) return title;
+  const second = title.indexOf(brand, first + brand.length);
+  if (second === -1) return title;
+  return (title.slice(0, second) + title.slice(second + brand.length))
+    .replace(/\s{2,}/g, " ")
+    .replace(/\s+—\s*$/, "")
+    .trim();
+}
+
 export const BRAND_TEMPLATES: ReceiptTemplate[] = [...HAND_BRANDS, ...GENERATED_BRANDS].map((t) => {
   // Descriptions are replaced outright rather than stripped: they say "free" in
   // too many different grammars ("preview it free", "with a free account") to
   // edit safely, and none of them is true once the template needs Pro to open.
   const pro = !isFreeBrand(t.slug);
-  const seoTitle = pro ? stripFree(t.seoTitle) : t.seoTitle;
+  const seoTitle = fitBrandTitle(pro ? stripFree(t.seoTitle) : t.seoTitle, t.shortName);
   const rawDescription = pro
     ? pick(PRO_DESC_VARIANTS, hashSlug(t.slug) >>> 2)(t.shortName)
     : t.seoDescription;

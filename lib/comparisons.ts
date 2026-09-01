@@ -20,7 +20,7 @@ import { BRAND_COUNT } from "./counts";
 // named-brand and no-signup rows were both wrong, and the ExpressExpense price
 // was unsourced. A genuine review of the whole set, so the shared date moves
 // rather than a per-competitor one. Stamped 08-23, the day the copy shipped.
-export const LAST_UPDATED = "2026-08-31"; // ISO — shown as the page "last reviewed" date
+export const LAST_UPDATED = "2026-09-01"; // ISO — shown as the page "last reviewed" date
 export const PRICING_AS_OF = "August 2026"; // human-readable disclaimer on pricing tables
 
 /* -------------------------------------------------------------------------- */
@@ -184,7 +184,7 @@ export const COMPETITORS: Competitor[] = [
       {
         question: "Is Makecepeit a free alternative to MakeReceipt?",
         answer:
-          "Yes. Building and previewing a receipt on Makecepeit needs no account at all, and a free account then gets your first three HD downloads clean. MakeReceipt lets you make free receipts too, but they stay watermarked until you buy a membership.",
+          "Yes. Building and previewing a receipt on Makecepeit needs no account at all, and a free account then gets your first HD download clean. MakeReceipt lets you make free receipts too, but they stay watermarked until you buy a membership.",
       },
       {
         question: "How much does MakeReceipt cost?",
@@ -260,7 +260,7 @@ export const COMPETITORS: Competitor[] = [
       {
         question: "Is ReceiptFaker free?",
         answer:
-          "Yes for basic use — it still offers a free generator with no sign-up. Since our previous review it has also added subscriptions ($6.50/week, $13.50/month or $60/year) whose selling points are removing watermarks and unlimited downloads. Makecepeit is also free to build and preview, with your first three HD downloads free before Pro.",
+          "Yes for basic use — it still offers a free generator with no sign-up. Since our previous review it has also added subscriptions ($6.50/week, $13.50/month or $60/year) whose selling points are removing watermarks and unlimited downloads. Makecepeit is also free to build and preview, with your first HD download free before Pro.",
       },
       {
         question: "Are these receipts legal?",

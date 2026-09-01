@@ -1,6 +1,6 @@
 import { SITE } from "@/lib/site";
 import { BRAND_COUNT, TEMPLATE_COUNT } from "@/lib/counts";
-import { FREE_LIMITS } from "@/lib/plans";
+import { firstDownloadsPhrase } from "@/lib/plans";
 
 export const revalidate = 3600;
 
@@ -21,7 +21,7 @@ export function GET() {
 
 Full reference with all templates, pricing, FAQs and guides: /llms-full.txt
 
-> ${SITE.name} is a free online receipt maker. Users build professional receipts with a live preview and download them as PDF or PNG. Building and previewing need no account; downloading uses a free account, and the first ${FREE_LIMITS.freeReceiptDownloads} downloads are watermark-free. An optional Pro plan removes the watermark and unlocks unlimited AI generation and saved history. Manual receipt building is processed entirely in the browser; only the optional AI generator and account saving send data to a server.
+> ${SITE.name} is a free online receipt maker. Users build professional receipts with a live preview and download them as PDF or PNG. Building and previewing need no account; downloading uses a free account, and your first ${firstDownloadsPhrase()} is watermark-free. An optional Pro plan removes the watermark and unlocks unlimited AI generation and saved history. Manual receipt building is processed entirely in the browser; only the optional AI generator and account saving send data to a server.
 
 ${SITE.name} offers ${TEMPLATE_COUNT} receipt templates and ${BRAND_COUNT} brand-style layouts pre-filled with sample items and tax rates: grocery store, restaurant, coffee shop, gas station, taxi & rideshare, hotel, retail store, pharmacy, bar & pub, salon & spa, auto repair, and parking. An AI receipt generator turns a plain-English description into a complete receipt. Each receipt supports custom business details, unlimited line items, tax (any label and rate, e.g. Sales Tax, VAT, GST), discounts, tips, split payments, 10 currencies (USD, EUR, GBP, CAD, AUD, INR, JPY, AED, SAR, MAD), four paper styles (thermal, clean white, invoice, digital email), and optional barcode and QR sections.
 
@@ -47,7 +47,7 @@ Typical legitimate uses: replacing lost or faded receipts for real purchases, ex
 
 ## Key facts
 
-- Price: free to build; the first ${FREE_LIMITS.freeReceiptDownloads} downloads are watermark-free HD, after which free downloads carry a small watermark. Pro removes the watermark, with weekly, monthly and yearly options
+- Price: free to build; your first ${firstDownloadsPhrase()} is watermark-free HD, after which free downloads carry a small watermark. Pro removes the watermark, with weekly, monthly and yearly options
 - Account: none required to build and preview; a free account is required to download
 - Privacy: manual receipt building is client-side in the browser; only the optional AI generator and account saving send data
 - Output: PDF document or 3x-resolution PNG image
