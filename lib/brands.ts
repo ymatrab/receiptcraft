@@ -35,10 +35,10 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🛒",
     seoTitle: "Free Walmart Receipt Generator — Itemized Walmart Receipt Maker",
     seoDescription:
-      "Generate a realistic Walmart receipt online in seconds. Add your items, prices and tax, edit the store details and purchase date, then get a free PDF or PNG.",
+      "Generate an editable Walmart receipt online in seconds. Add your items, prices and tax, edit the store details and purchase date, then get a free PDF or PNG.",
     heading: "Walmart Receipt Generator",
     intro:
-      "Create a realistic Walmart receipt with itemized products, quantities, tax and payment details. Perfect for replacing lost receipts or keeping track of expenses.",
+      "Create an editable Walmart receipt with itemized products, quantities, tax and payment details. Perfect for replacing lost receipts or keeping track of expenses.",
     useCases: [
       "Replace a lost Walmart receipt",
       "Expense reports and reimbursement",
@@ -118,7 +118,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🎯",
     seoTitle: "Free Target Receipt Generator — Store Receipt Maker",
     seoDescription:
-      "Make a realistic Target store receipt online in seconds. Itemize your purchases, tax and totals, edit the store details and date, then get a free PDF or PNG.",
+      "Make an editable Target store receipt online in seconds. Itemize your purchases, tax and totals, edit the store details and date, then get a free PDF or PNG.",
     heading: "Target Receipt Generator",
     intro:
       "Create a department store receipt for Target. Add household goods, apparel, groceries, and more for expense tracking or replacements.",
@@ -131,7 +131,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Does it look like a real Target receipt?",
         answer:
-          "By choosing the 'Thermal' paper style and adding your items, it generates a very realistic retail receipt structure.",
+          "By choosing the 'Thermal' paper style and adding your items, it generates an accurate retail receipt structure.",
       },
     ],
     defaults: {
@@ -273,7 +273,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       "Create a Burger King receipt online. Add your Whoppers, fries and drinks, edit the prices, tax and order date, then download a free print-ready PDF or PNG.",
     heading: "Burger King Receipt Generator",
     intro:
-      "Generate a realistic Burger King receipt for your flame-grilled meal. Perfect for per-diem travel meals and reimbursable expenses.",
+      "Generate an editable Burger King receipt for your flame-grilled meal. Perfect for per-diem travel meals and reimbursable expenses.",
     useCases: [
       "Business and travel expense claims",
       "Replace lost meal receipts",
@@ -283,7 +283,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Burger King receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -324,7 +324,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Wendy's receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -365,7 +365,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Subway receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -407,7 +407,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Taco Bell receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -449,7 +449,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the KFC receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -491,7 +491,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Chipotle receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -538,7 +538,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Domino's Pizza receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -580,7 +580,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Pizza Hut receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -622,7 +622,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Papa John's receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -665,7 +665,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Chick-fil-A receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -709,7 +709,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Panera Bread receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -752,7 +752,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Five Guys receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -794,7 +794,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the In-N-Out Burger receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -837,7 +837,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Shake Shack receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -880,7 +880,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Panda Express receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -924,7 +924,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Sonic Drive-In receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -966,7 +966,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Dairy Queen receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -1007,7 +1007,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Arby's receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -1050,7 +1050,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Jack in the Box receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -1092,7 +1092,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Popeyes receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -1134,7 +1134,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Dunkin' receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -1178,7 +1178,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Tim Hortons receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -1221,7 +1221,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Peet's Coffee receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -1263,7 +1263,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Caribou Coffee receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -1305,7 +1305,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Dutch Bros receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -1347,7 +1347,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Jamba Juice receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -1388,7 +1388,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Boba Guys receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -1429,7 +1429,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Costco receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -1473,7 +1473,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Sam's Club receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -1516,7 +1516,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Whole Foods receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -1560,7 +1560,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Trader Joe's receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -1603,7 +1603,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Kroger receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -1649,7 +1649,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Publix receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -1699,7 +1699,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Safeway receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -1748,7 +1748,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Aldi receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -1790,7 +1790,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Walgreens receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -1833,7 +1833,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the CVS Pharmacy receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -1877,7 +1877,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Home Depot receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -1920,7 +1920,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Lowe's receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -1963,7 +1963,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the IKEA receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -2006,7 +2006,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Best Buy receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -2050,7 +2050,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Macy's receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -2109,7 +2109,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Nordstrom receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -2158,7 +2158,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Sephora receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -2201,7 +2201,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Ulta Beauty receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -2243,7 +2243,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the GameStop receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -2286,7 +2286,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Apple Store receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -2327,7 +2327,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the TJ Maxx receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -2368,7 +2368,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Marshalls receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -2411,7 +2411,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
         question:
           "Can I customize the items on the Dick's Sporting Goods receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -2453,7 +2453,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Petco receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -2494,7 +2494,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the PetSmart receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -2536,7 +2536,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the AutoZone receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -2579,7 +2579,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
         question:
           "Can I customize the items on the O'Reilly Auto Parts receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -2620,7 +2620,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Amazon receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -2689,7 +2689,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the eBay receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -2748,7 +2748,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Netflix receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -2786,7 +2786,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Spotify receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -2824,7 +2824,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Hulu receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -2862,7 +2862,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Disney+ receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -2901,7 +2901,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Apple Services receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -2961,7 +2961,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Google Play receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -3023,7 +3023,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Microsoft Store receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -3062,7 +3062,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Steam receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -3102,7 +3102,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the PlayStation Store receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -3142,7 +3142,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Xbox Store receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -3181,7 +3181,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Adobe receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -3240,7 +3240,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Zoom receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -3279,7 +3279,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Lyft receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -3340,7 +3340,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the DoorDash receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -3414,7 +3414,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Uber Eats receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -3457,7 +3457,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Grubhub receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -3523,7 +3523,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Postmates receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -3583,7 +3583,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Instacart receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -3626,7 +3626,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Airbnb receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -3666,7 +3666,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Expedia receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -3706,7 +3706,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Booking.com receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -3746,7 +3746,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Delta Airlines receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -3787,7 +3787,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the American Airlines receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -3828,7 +3828,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the United Airlines receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -3870,7 +3870,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
         question:
           "Can I customize the items on the Southwest Airlines receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -3909,7 +3909,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Marriott receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -3951,7 +3951,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Hilton receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -3992,7 +3992,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Hyatt receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -4033,7 +4033,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Hertz receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -4074,7 +4074,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Enterprise receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -4114,7 +4114,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Avis receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -4154,7 +4154,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the 7-Eleven receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -4204,7 +4204,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Shell receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -4244,7 +4244,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Chevron receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -4284,7 +4284,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Exxon receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -4325,7 +4325,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Mobil receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -4365,7 +4365,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the BP receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -4416,7 +4416,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Speedway receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -4457,7 +4457,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Wawa receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -4498,7 +4498,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the QuikTrip receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -4546,7 +4546,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Sheetz receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -4588,7 +4588,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Barnes & Noble receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -4630,7 +4630,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Michaels receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -4671,7 +4671,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Joann receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -4712,7 +4712,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the Zara receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -4762,7 +4762,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the items on the H&M receipt?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a highly realistic PDF or image file.",
+          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
       },
     ],
     defaults: {
@@ -4964,7 +4964,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I customize the Gucci receipt?",
         answer:
-          "Yes. Edit the boutique, items and prices, then download a realistic PDF or PNG.",
+          "Yes. Edit the boutique, items and prices, then download a print-ready PDF or PNG.",
       },
     ],
     defaults: {
@@ -5004,7 +5004,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     faqs: [
       {
         question: "Can I edit the Rolex receipt?",
-        answer: "Yes. Edit the dealer, model and price, then download a realistic PDF or PNG.",
+        answer: "Yes. Edit the dealer, model and price, then download a print-ready PDF or PNG.",
       },
     ],
     defaults: {
@@ -5053,7 +5053,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     faqs: [
       {
         question: "Can I customize the receipt?",
-        answer: "Yes. Edit the store, items and prices, then download a realistic PDF or PNG.",
+        answer: "Yes. Edit the store, items and prices, then download a print-ready PDF or PNG.",
       },
     ],
     defaults: {
@@ -5325,7 +5325,7 @@ function pickDistinct<T>(arr: T[], n: number, seed: number): T[] {
 // `city` is optional (BrandSeed) — every variant either uses it or ignores it,
 // so pages without a city just render the city-free half of the sentence.
 const INTRO_VARIANTS: ((n: string, noun: string, city?: string) => string)[] = [
-  (n, noun) => `Create a realistic ${n} receipt with ${noun}. Perfect for replacing a lost ${n} receipt, expense reports, bookkeeping records or design mockups.`,
+  (n, noun) => `Create an editable ${n} receipt with ${noun}. Perfect for replacing a lost ${n} receipt, expense reports, bookkeeping records or design mockups.`,
   (n, noun) => `Need a ${n} receipt fast? Build one with ${noun}, then sign in free to download a clean PDF or PNG. Your first download is watermark-free.`,
   (n, noun) => `Recreate a ${n} receipt that matches the real thing, complete with ${noun}. Adjust the totals and export it for expenses, reimbursements or your own records.`,
   (n, noun) => `Make a ${n} receipt online in seconds. Lay it out with ${noun} — subtotal, tax and total included — ready to print or save.`,
@@ -5344,7 +5344,7 @@ const INTRO_VARIANTS: ((n: string, noun: string, city?: string) => string)[] = [
 // "free to build, account to download" is the accurate framing the hero and
 // /create were corrected to use, and it still earns the "free" click.
 const SEO_DESC_VARIANTS: ((n: string, noun: string) => string)[] = [
-  (n, noun) => `Create a realistic ${n} receipt online in seconds. Add ${noun}, preview it free, then sign in to download as a PDF or PNG.`,
+  (n, noun) => `Create an editable ${n} receipt online in seconds. Add ${noun}, preview it free, then sign in to download as a PDF or PNG.`,
   (n, noun) => `Make a ${n} receipt with ${noun} and download a print-ready PDF or PNG. Free ${n} receipt generator — free account to download.`,
   (n, noun) => `Generate a ${n} receipt online, complete with ${noun}. Set the totals, preview free, then export with a free account.`,
   (n, noun) => `Build a ${n} receipt online with ${noun}, editable totals and tax. Free live preview — sign in to download as a PDF or PNG.`,
@@ -5366,7 +5366,7 @@ const SEO_DESC_VARIANTS: ((n: string, noun: string) => string)[] = [
  */
 const PRO_DESC_VARIANTS: ((n: string) => string)[] = [
   (n) =>
-    `Create a realistic ${n} receipt online. Add your items, set the totals, tax and date, then download a print-ready PDF or PNG. A Makecepeit Pro template.`,
+    `Create an editable ${n} receipt online. Add your items, set the totals, tax and date, then download a print-ready PDF or PNG. A Makecepeit Pro template.`,
   (n) =>
     `${n} receipt generator: lay out your items, edit the totals, tax and store details, then export a clean PDF or PNG. One of our Pro brand templates.`,
   (n) =>
@@ -5375,7 +5375,7 @@ const PRO_DESC_VARIANTS: ((n: string) => string)[] = [
 
 const TITLE_VARIANTS: ((n: string) => string)[] = [
   (n) => `Free ${n} Receipt Generator — Make a ${n} Receipt`,
-  (n) => `${n} Receipt Generator — Create a Realistic ${n} Receipt`,
+  (n) => `${n} Receipt Generator — Create an Editable ${n} Receipt`,
   (n) => `Make a ${n} Receipt — Free ${n} Receipt Generator`,
   (n) => `${n} Receipt Maker — Free Online ${n} Receipt`,
   (n) => `Create a ${n} Receipt Online — Free ${n} Receipt Generator`,
@@ -5449,7 +5449,7 @@ const FAQ_POOL: FaqVariant[] = [
   }),
   (n) => ({ question: `Can I change the date and store details on a ${n} receipt?`, answer: `Yes. Set the date, store address, register or order number and cashier so your ${n} receipt reflects the right visit.` }),
   (n) => ({ question: `What can I use a ${n} receipt for?`, answer: `People recreate ${n} receipts to replace a lost original, document purchases for expense and reimbursement claims, keep bookkeeping records, or use them as props and mockups.` }),
-  (n) => ({ question: `Can I add my own items to a ${n} receipt?`, answer: `Yes — add, remove or reorder line items freely. The template starts with realistic ${n} items, but every field is yours to change.` }),
+  (n) => ({ question: `Can I add my own items to a ${n} receipt?`, answer: `Yes — add, remove or reorder line items freely. The template starts with sample ${n} items, but every field is yours to change.` }),
   (n) => ({ question: `What file formats does the ${n} receipt export to?`, answer: `PDF (fitted or print-ready A4), PNG and JPG, all rendered at 3x resolution so they stay sharp when printed or attached to an email.` }),
   (n, slug) => ({
     question: `Will a recreated ${n} receipt have a watermark?`,

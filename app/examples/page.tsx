@@ -5,7 +5,7 @@ import { absoluteUrl } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Receipt Examples — Real Samples by Brand",
   description:
-    "Browse realistic receipt examples by brand — coffee shops, restaurants, grocery, retail, gas and hotels. See what each looks like, then make your own.",
+    "Browse receipt examples by brand — coffee shops, restaurants, grocery, retail, gas and hotels. See what each one looks like, then make your own editable copy.",
   alternates: { canonical: "/examples" },
 };
 

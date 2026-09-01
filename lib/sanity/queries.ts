@@ -1,5 +1,6 @@
 import { groq } from "next-sanity";
 import { sanityClient } from "./client";
+import { CONSOLIDATED_POSTS, withoutConsolidated } from "../consolidated-posts";
 import { sanityConfigured } from "./config";
 
 export interface BlogPostStub {
@@ -44,10 +45,18 @@ const POST_QUERY = groq`*[${PUBLISHED} && slug.current == $slug][0]{
   "authorName": author->name, "authorSlug": author->slug.current, "authorJobTitle": author->jobTitle
 }`;
 
+/**
+ * Every live post, consolidated ones removed.
+ *
+ * Filtered here rather than at each call site because this one helper feeds the
+ * blog index, the sitemap, llms-full.txt, the author pages and the related-post
+ * picker. A post folded into another page must not keep appearing in listings
+ * or get submitted for indexing — see lib/consolidated-posts.ts.
+ */
 export async function getAllPosts(): Promise<BlogPostStub[]> {
   if (!sanityConfigured) return [];
   try {
-    return await sanityClient.fetch(LIST_QUERY);
+    return withoutConsolidated<BlogPostStub>(await sanityClient.fetch(LIST_QUERY));
   } catch {
     return [];
   }
@@ -56,7 +65,10 @@ export async function getAllPosts(): Promise<BlogPostStub[]> {
 export async function getPostSlugs(): Promise<string[]> {
   if (!sanityConfigured) return [];
   try {
-    return await sanityClient.fetch(SLUGS_QUERY);
+    const slugs: string[] = await sanityClient.fetch(SLUGS_QUERY);
+    // Consolidated posts are redirected, so pre-rendering them would build a
+    // page nobody can reach.
+    return slugs.filter((s) => !CONSOLIDATED_POSTS.has(s));
   } catch {
     return [];
   }

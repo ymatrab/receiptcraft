@@ -130,7 +130,7 @@ const INTRO_VARIANTS: ((brand: string, summary: string, total: string) => string
   (brand, summary, total) =>
     `Here's what a ${brand} receipt looks like: ${summary}, totalling ${total}. Copy the layout and swap in your own items, prices, date and store details to make one that matches your purchase.`,
   (brand, summary, total) =>
-    `A realistic ${brand} receipt example — ${summary} — coming to ${total}. Use it as a starting point, then edit the items, prices, date and store details to match what you actually bought.`,
+    `An editable ${brand} receipt example — ${summary} — coming to ${total}. Use it as a starting point, then edit the items, prices, date and store details to match what you actually bought.`,
   (brand, summary, total) =>
     `Wondering what a ${brand} receipt should look like? This example shows ${summary} for a total of ${total}. Build your own version with your real items, prices, date and store details below.`,
 ];

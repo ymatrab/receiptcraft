@@ -1,4 +1,5 @@
 import { getAllPosts, type BlogPostStub } from "./sanity/queries";
+import { CONSOLIDATED_POSTS } from "./consolidated-posts";
 
 export interface RelatedPost {
   slug: string;
@@ -15,11 +16,6 @@ const POSTS_BY_HUB: Record<string, RelatedPost[]> = {
   "/create": [
     { slug: "how-to-make-a-receipt", title: "How to Make a Receipt" },
     { slug: "how-to-make-a-receipt-of-payment", title: "How to Make a Receipt of Payment" },
-    { slug: "receipt-generator-free", title: "Receipt Generator Free" },
-    { slug: "receipt-maker-free", title: "Receipt Maker Free" },
-    { slug: "create-a-receipt", title: "Create a Receipt" },
-    { slug: "online-receipt-maker", title: "Online Receipt Maker" },
-    { slug: "make-a-receipt", title: "Make a Receipt" },
     { slug: "photography-receipt-generator", title: "Photography Receipt Generator" },
     { slug: "veterinary-receipt-generator", title: "Veterinary Receipt Generator" },
     { slug: "florist-receipt-generator-custom-logo", title: "Florist Receipt Generator" },
@@ -129,7 +125,14 @@ export async function relatedPostsForHub(
   hub: string,
   categories: readonly string[] = []
 ): Promise<RelatedPost[]> {
-  const curated = (POSTS_BY_HUB[hub] ?? []).slice(-MAX_RELATED).reverse();
+  // The curated map is hand-maintained alongside the ledger, so a consolidated
+  // post can be re-added to it by accident. Filtering here means the widget
+  // cannot link at a URL that 301s away; the derived lists come from
+  // getAllPosts, which already excludes them.
+  const curated = (POSTS_BY_HUB[hub] ?? [])
+    .filter((p) => !CONSOLIDATED_POSTS.has(p.slug))
+    .slice(-MAX_RELATED)
+    .reverse();
   const brand = BRAND_HUB.exec(hub);
 
   let brandPosts: RelatedPost[] = [];

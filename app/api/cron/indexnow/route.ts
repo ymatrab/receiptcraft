@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import sitemap from "@/app/sitemap";
+import { allSitemapUrls } from "@/lib/sitemap-sections";
 import { submitToIndexNow } from "@/lib/indexnow";
 import { getIndexNowLastRun, setIndexNowLastRun } from "@/lib/settings";
 
@@ -33,7 +33,7 @@ async function run(req: Request) {
     ? new Date(lastRunIso)
     : new Date(now.getTime() - 2 * 24 * 60 * 60 * 1000);
 
-  const entries = await sitemap();
+  const entries = await allSitemapUrls();
   const changed = entries
     .filter((e) => {
       const lm = e.lastModified ? new Date(e.lastModified).getTime() : 0;

@@ -20,7 +20,7 @@ const ALTERNATIVE_COUNT =
   1 + COMPETITORS.length + OTHER_ALTERNATIVES.length; // Makecepeit + tracked + other
 const TITLE = `${ALTERNATIVE_COUNT} Best Receipt Generators in 2026 (Free & Paid), Compared`;
 const DESCRIPTION =
-  "The best receipt makers and Makecepeit alternatives in 2026, compared on price, templates, AI generation and PDF/PNG export — including MakeReceipt, ReceiptFaker and ReceiptBaker.";
+  "The best receipt makers and Makecepeit alternatives in 2026, compared on price, templates, AI generation and export — including MakeReceipt and ReceiptFaker.";
 
 export const metadata: Metadata = {
   title: { absolute: TITLE },

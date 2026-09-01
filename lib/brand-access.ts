@@ -92,3 +92,14 @@ export function isFreeBrand(slug: string | null | undefined): boolean {
   if (!slug) return true; // not a brand template at all — the generic builder stays free
   return FREE_BRAND_SLUGS.has(slug);
 }
+
+/**
+ * How many brands download clean on a free account.
+ *
+ * Derived, not typed into copy — for the same reason lib/counts.ts derives
+ * BRAND_COUNT. The /brands index used to advertise "348 free brand receipt
+ * templates … a free account downloads your first one", which read as though
+ * every brand exported clean. Only these fifty do; the other 298 always carry
+ * the watermark for a free account. Re-cutting the list now updates the claim.
+ */
+export const FREE_BRAND_COUNT = FREE_BRAND_SLUGS.size;

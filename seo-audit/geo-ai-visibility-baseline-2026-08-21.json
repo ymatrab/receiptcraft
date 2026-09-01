@@ -1,0 +1,76 @@
+{
+  "run_date": "2026-08-21",
+  "prompt_set": "seo-audit/geo-prompt-set-v1.json",
+  "_readme": [
+    "First GEO visibility reading. PARTIAL — see 'not_yet_measured'.",
+    "",
+    "One run is a reading, not a baseline. The second run is what makes this one",
+    "mean anything, so re-run against the same frozen prompt set and locale."
+  ],
+
+  "gsc": {
+    "source": "Google Search Console API, sc-domain:makecepeit.com",
+    "window": { "start": "2026-05-22", "end": "2026-08-18", "days": 90 },
+
+    "branded_demand": {
+      "headline": "ZERO branded search demand.",
+      "queries_containing": {
+        "makecepeit": { "distinct_queries": 0, "impressions": 0, "clicks": 0 },
+        "make cepeit": { "distinct_queries": 0, "impressions": 0, "clicks": 0 },
+        "cepeit": { "distinct_queries": 0, "impressions": 0, "clicks": 0 },
+        "makecepeit.com": { "distinct_queries": 0, "impressions": 0, "clicks": 0 }
+      },
+      "interpretation": [
+        "Checked across four spellings to rule out a matching artefact. It is real: in 90 days nobody searched for this brand by name.",
+        "This is the cleanest single GEO KPI available and its baseline is 0, which makes it unusually sensitive — the first branded searches will be visible immediately rather than lost in noise.",
+        "It also sets expectations. If AI assistants were recommending Makecepeit by name at any volume, some of those people would search the name afterwards. Zero is consistent with essentially no AI mention-driven demand today, which is the thing the GEO work is meant to change.",
+        "Caveat: GSC withholds very-low-volume queries for privacy. A handful of branded searches could exist below the reporting threshold. Zero means 'below the threshold', not provably none."
+      ]
+    },
+
+    "site_totals": {
+      "impressions": 53734,
+      "clicks": 407,
+      "ctr": 0.0076,
+      "average_position": 21.6
+    },
+
+    "monthly": [
+      { "month": "2026-06", "impressions": 585, "clicks": 3, "ctr": 0.0051, "note": "site effectively pre-launch" },
+      { "month": "2026-07", "impressions": 29162, "clicks": 251, "ctr": 0.0086, "note": "blog rollout lands; full month" },
+      { "month": "2026-08", "impressions": 23987, "clicks": 153, "ctr": 0.0064, "note": "PARTIAL month, 1st-18th only — do not compare totals to July directly" }
+    ],
+
+    "trend_note": [
+      "August looks like a decline on raw totals but is not: normalised per day it is 1,333 impressions/day against July's 941, roughly +42%.",
+      "Clicks per day are flat (8.5 vs 8.1). Impressions growing while clicks do not is the CTR problem, not a ranking problem."
+    ]
+  },
+
+  "instrumentation": {
+    "ai_referrer_tracking": {
+      "shipped": "2026-08-21",
+      "commit": "a9852c1",
+      "what": "Every analytics event now carries ai_source (chatgpt, perplexity, gemini, copilot, claude, you, phind), resolved once per session from document.referrer and held in sessionStorage.",
+      "note": "GA4 data starts accruing from the deploy date. There is no backfill — any AI referral before this is unrecoverable, which is why this shipped before the content work."
+    }
+  },
+
+  "not_yet_measured": {
+    "ai_mention_run": {
+      "status": "NOT RUN",
+      "why": "Executing the 25-prompt set across ChatGPT, Perplexity, Gemini, Copilot and AI Overviews needs either the DataForSEO LLM-mention endpoints (the MCP server disconnected mid-session) or a manual pass across five surfaces. Neither was available.",
+      "blocking": "This is the half of the task that measures mentions rather than traffic. Until it runs, we know AI is sending no measurable branded demand, but not whether the assistants name us at all."
+    },
+    "ga4_ai_referral_traffic": {
+      "status": "NO DATA YET",
+      "why": "The referrer dimension shipped today; it needs a week of traffic before the first reading."
+    }
+  },
+
+  "next_run": {
+    "when": "2026-08-28 or later",
+    "must_match": ["same prompt set (v1)", "same locale (en-US)", "same competitor list"],
+    "add": ["GA4 ai_source breakdown once a week of data exists", "the AI mention run once DataForSEO or a manual pass is available"]
+  }
+}

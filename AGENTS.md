@@ -16,8 +16,8 @@ exist rather than assuming — more will be added as the product grows.
 Reach Notion with its official MCP. Not Zapier: Zapier spends a task credit on
 every read and write and the account runs dry mid-job.
 
-Two boards exist today. Check both before asking what to work on — they hold
-different kinds of work and neither supersedes the other.
+Three boards exist today. Check all of them before asking what to work on —
+they hold different kinds of work and none supersedes the others.
 
 "GEO Citations — Task Board":
 
@@ -34,6 +34,22 @@ different kinds of work and neither supersedes the other.
   revenue leak → automate fulfilment → build trust → grow. Growth work pours
   traffic into a funnel that loses buyers invisibly if the earlier phases are
   skipped, so don't pull a Later task forward just because it looks appealing
+
+"Design & UX — Task Board" (added 2026-08-29):
+
+- database `f0b3e1da-38d0-416b-97d1-e788a49c8138`
+- data source `collection://a46b8dc3-6276-47cd-9a0c-727034e53a02`
+- this board owns **the screen** — what people see, tap and understand. The
+  Marketing board owns the offer and the trust around it; this one owns whether
+  the interface actually works. When a task is about copy, price or proof it
+  belongs on Marketing; when it is about layout, interaction, accessibility or
+  the events that measure them, it belongs here
+- `Area` is the kind of problem, not the section of the site: Conversion,
+  Accessibility, Measurement, Polish
+- seeded 2026-08-29 from a UI/UX and conversion audit of /pricing, /login and
+  sign-up. The measurements behind every task are in
+  `docs/conversion-audit-2026-08-29.html` — but each task body stands alone, so
+  that file is background, not a dependency
 
 ## Starting work
 
