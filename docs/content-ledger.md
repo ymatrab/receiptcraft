@@ -58,6 +58,40 @@
 | 45 | Aug 31 | receipt generator for craft fair vendors | [receipt-generator-craft-fair-vendors](https://www.makecepeit.com/blog/receipt-generator-craft-fair-vendors) | — | — | /create | industry | hero + inline | doc-supplied (images 45-1/45-2, hero/inline reversed); 2 tables + blockquote + 10 FAQs; links to /create |
 | 46 | Aug 31 | receipt maker for farmers market sellers | [receipt-maker-farmers-market-sellers](https://www.makecepeit.com/blog/receipt-maker-farmers-market-sellers) | — | — | /create | industry | hero + inline | doc-supplied (images 46-1/46-2); 2 tables + blockquote + 10 FAQs; Instapaper stripped; links to /create |
 
+## Corrections — 2026-09-01
+
+**13 posts said "your first three HD downloads are free". The real limit is one.**
+`FREE_LIMITS.freeReceiptDownloads` dropped from 3 to 1 when the free tier was
+tightened; the code was updated and the CMS was not. 38 span edits across:
+
+`receipt-maker-custom-logo-no-watermark`, `photography-receipt-generator`,
+`make-a-receipt`, `online-receipt-maker`, `create-a-receipt`, `receipt-maker-free`,
+`receipt-generator-free`, `receiptbaker-alternative`, `expressexpense-alternative`,
+`receiptfaker-alternative`, `receiptmakerly-alternative`,
+`best-free-receipt-generator`, `makereceipt-alternative`.
+
+Four of those are consolidated (above) and redirect, so nine were reader-facing.
+All 13 fixed anyway, so nothing is wrong if a redirect is ever removed. Verified
+live on all 13 after triggering `/api/revalidate`; a site-wide re-scan of 186
+posts finds no surviving claim.
+
+The phrasings varied more than expected — "first three HD downloads", "first
+three free-account downloads", "three free HD downloads", "(three HD downloads
+to start)". A post-check that fails on any surviving match caught two variants
+the first pass missed. Worth reusing for the next claim sweep.
+
+**Separately, #3 `best-free-receipt-generator` had a false competitor claim:** it
+listed "ReceiptBaker — free tier plus AI", while our own sourced record (read
+2026-08-30, `lib/comparisons.ts`) says *"No free tier appears on the pricing
+page."* Corrected to state the three paid tiers and no free tier.
+
+**#3 was also retargeted.** It ranked 60–85 for "free receipt maker" variants but
+**11.5 for "best free ai receipt generator"** — its only click. Title and
+description now lead with AI, and a new sourced section answers "Which of these
+actually have AI?": of the five tools, only Makecepeit (3/month free) and
+ReceiptBaker (paid only) have one — `ai_generator: no()` for MakeReceipt and
+ReceiptFaker.
+
 ## Consolidated — 2026-09-01
 
 Five posts folded into the page that should own their query. The documents are
