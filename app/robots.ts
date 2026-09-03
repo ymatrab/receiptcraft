@@ -31,7 +31,19 @@ export default function robots(): MetadataRoute.Robots {
   // too. An explicit rule replaces the wildcard for a named agent rather than
   // adding to it, so these must be repeated, not omitted.
   const allow = ["/", "/api/logo"];
-  const disallow = ["/admin", "/account", "/api/"];
+  // `/login?` blocks the parameterised variants only — bare /login has no "?"
+  // and stays crawlable, so the branded "makecepeit login" query is unaffected
+  // (longest match wins, so this beats `Allow: /` for the variants alone).
+  //
+  // The header appends ?next=<current-path> to the log-in link on every page,
+  // which spawns one crawlable login URL per page on the site. Those variants
+  // are already noindex (see app/login/page.tsx), but noindex only takes effect
+  // *after* a crawl, so Googlebot was still spending budget fetching them —
+  // Search Console logged five on 26–27 Aug 2026. rel="nofollow" on the link
+  // does not prevent this: Google has treated nofollow as a hint rather than a
+  // directive since 2019. robots.txt is the only mechanism that actually stops
+  // the fetch, whichever way the URL is discovered.
+  const disallow = ["/admin", "/account", "/api/", "/login?"];
 
   return {
     rules: [
@@ -41,8 +53,9 @@ export default function robots(): MetadataRoute.Robots {
         // match wins, so /api/logo stays crawlable while the rest of /api/ and
         // the private routes stay out of the index.
         allow,
-        // /login is deliberately crawlable: it's in the sitemap and indexable
-        // for the branded "makecepeit login" query.
+        // Bare /login is deliberately crawlable: it's in the sitemap and
+        // indexable for the branded "makecepeit login" query. Only its
+        // ?next=/?signup= variants are blocked — see the note above.
         disallow,
       },
       ...AI_RETRIEVAL_AGENTS.map((userAgent) => ({ userAgent, allow, disallow })),

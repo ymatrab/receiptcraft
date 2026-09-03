@@ -21,6 +21,16 @@ import { getCurrentUser } from "@/lib/auth";
 // variant at the homepage. Nothing is lost by not consolidating: link equity
 // from a log-in link is worth nothing, and /login is indexed off its own
 // sitemap entry.
+//
+// Since 2026-09-03 app/robots.ts also carries `Disallow: /login?`, because
+// noindex only applies *after* a crawl and Googlebot was still fetching these
+// variants (five logged in Search Console on 26–27 Aug 2026). The two are
+// layered on purpose and the noindex stays: robots.txt stops the crawl, and
+// the noindex still governs any variant a crawler reached before the rule
+// existed, or that ignores robots.txt. Expect the affected URLs to move from
+// "Excluded by 'noindex' tag" to "Blocked by robots.txt" in Search Console —
+// both are non-indexed states, so that shift is the fix working, not a
+// regression.
 export async function generateMetadata({
   searchParams,
 }: {
