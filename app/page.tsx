@@ -281,7 +281,14 @@ const DIRECTORIES: {
   {
     name: "Findly.tools",
     href: "https://findly.tools/makecepeit?utm_source=makecepeit",
-    badge: "https://findly.tools/badges/findly-tools-badge-light.svg",
+    // Self-hosted copy. The upstream badge is a 139x44 SVG whose 20x20 logo is
+    // a 4000x4000 PNG embedded as base64 — 195 KB, more than every other badge
+    // and every JS chunk on the page combined. This is the same markup with the
+    // logo resized to 60x60 (3x its display size): 3 KB, visually identical.
+    // The badge is static artwork, so a local copy cannot go stale — unlike
+    // Fazier and FrogDR below, which render live launch/DR values and are
+    // therefore deliberately still hotlinked.
+    badge: "/badges/findly-tools.svg",
     width: 175,
     height: 55,
   },
