@@ -218,4 +218,13 @@ export const analytics = {
   // download-attempt drop by which gate the user then hits.
   downloadClick: (format: string, state: "pro" | "free" | "anon") =>
     track("download_click", { format, state }),
+
+  // ---- reviews ----
+  // The post-download review card. shown/clicked/dismissed together give the
+  // click-through rate on the ask. The reviews themselves land on a third-party
+  // profile we cannot read back, so this is the only part of that funnel we can
+  // measure. See components/builder/ReviewPrompt.tsx.
+  reviewPromptShown: () => track("review_prompt_shown", {}),
+  reviewPromptClicked: () => track("review_prompt_clicked", {}),
+  reviewPromptDismissed: () => track("review_prompt_dismissed", {}),
 };

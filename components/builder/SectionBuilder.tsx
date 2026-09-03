@@ -48,6 +48,7 @@ import type { ReceiptData } from "@/lib/types";
 import type { AiReceiptResult } from "@/lib/ai-receipt";
 import { downloadPng, downloadJpg, downloadPdf, exportFilename } from "@/lib/download";
 import { analytics } from "@/lib/analytics";
+import ReviewPrompt, { reviewAlreadyAsked } from "./ReviewPrompt";
 import { useAccount } from "@/lib/useAccount";
 import { FREE_LIMITS, FREE_FONTS, FREE_PAPER_STYLE, PLANS, freeDownloadsPhrase, firstDownloadsPhrase } from "@/lib/plans";
 import { createClient } from "@/lib/supabase/client";
@@ -251,6 +252,9 @@ export default function SectionBuilder() {
   // After returning from login with a pending export, offer to finish it in one
   // tap (a real click keeps the browser download reliable).
   const [resumeExport, setResumeExport] = useState<ExportKind | null>(null);
+  // The post-download review ask. Raised only by a clean download — see the
+  // conditions in handleExport and the reasoning in ReviewPrompt.tsx.
+  const [showReview, setShowReview] = useState(false);
   // Transient status message. Replaces the window.alert() calls this used to
   // make: a native dialog blocks the page, can't be styled, is easy to miss on
   // mobile, and says nothing to assistive tech until dismissed. Rendered in a
@@ -641,6 +645,21 @@ export default function SectionBuilder() {
             watermark: useWatermark,
           }),
         }).catch(() => {});
+      }
+      // Ask for a public review — but only off a clean download by a logged-in
+      // free user, and only once. A free user is watermarked precisely when
+      // their credits have run out, so asking on that export would be asking
+      // someone the moment they hit a limit. Pro is excluded by the owner's
+      // call: don't nag people who already pay. Renders nothing until
+      // SITE.reviewUrl is set, so this is inert on first deploy.
+      if (
+        SITE.reviewUrl &&
+        account.isLoggedIn &&
+        !account.isPro &&
+        !useWatermark &&
+        !reviewAlreadyAsked()
+      ) {
+        setShowReview(true);
       }
     } catch {
       notify("error", "The download failed. Your receipt is safe — press Download to try again.");
@@ -1595,6 +1614,8 @@ export default function SectionBuilder() {
           </div>
         </div>
       )}
+
+      {showReview && <ReviewPrompt onClose={() => setShowReview(false)} />}
 
       {/* Status messages. Anchored top-centre because the bottom of the screen
           already carries the mobile tab bar and the resume banner. role=alert

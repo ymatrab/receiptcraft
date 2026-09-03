@@ -38,6 +38,10 @@ export const EVENT_NAMES = [
   // engagement
   "newsletter_signup",
   "scroll_depth",
+  // reviews
+  "review_prompt_shown",
+  "review_prompt_clicked",
+  "review_prompt_dismissed",
 ] as const;
 
 export type EventName = (typeof EVENT_NAMES)[number];
