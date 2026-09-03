@@ -67,8 +67,12 @@ export default function Header() {
           <Link
             href={accountHref}
             // The logged-out link is /login?next=<current-path>, so this link
-            // alone spawns a unique crawlable URL on every page. nofollow keeps
-            // Googlebot from crawling that endless set of login duplicates.
+            // alone spawns a unique URL on every page. nofollow only *hints*
+            // that Google should not follow it — it has not been a directive
+            // since 2019, and Search Console caught five of these crawled on
+            // 26–27 Aug 2026. What actually stops the crawl is the
+            // `Disallow: /login?` rule in app/robots.ts; this stays as a
+            // secondary signal for crawlers that still honour it.
             rel={account.isLoggedIn ? undefined : "nofollow"}
             className="text-sm font-medium text-slate-600 transition-colors hover:text-slate-900"
           >
