@@ -175,6 +175,18 @@ const ENTRY_MODES = [
   { value: "Swipe", label: "Swipe" },
   { value: "Manual", label: "Manual / keyed" },
 ];
+/**
+ * Shown when the free-download allowance cannot be checked — the network is
+ * down, or the server reached the database and got an error back.
+ *
+ * One string for both because they are one thing to the person downloading: we
+ * could not check, so this export is watermarked and it is not their fault.
+ * Never silently watermark instead; a clean first download is a promise the
+ * pricing page makes by name.
+ */
+const QUOTA_UNREACHABLE =
+  "We couldn't check your free downloads just now, so this one carries a watermark. Try again in a moment for a clean copy.";
+
 const DEFAULT_COLS = { item: "Item", qty: "Qty", price: "Price", total: "Total" };
 const COLS = ["item", "qty", "price", "total"] as const;
 type ExportKind = "png" | "jpg" | "pdf" | "pdf-print";
@@ -711,16 +723,23 @@ export default function SectionBuilder() {
       const data = await res.json().catch(() => ({}));
       clean = Boolean(data.clean);
       remaining = data.remaining ?? null;
+      // The server reached its database and could not read the answer (503 with
+      // `unavailable`). Same user-visible outcome as a network failure and the
+      // same message, because from here they are the same event: we could not
+      // check, so nothing is given away. Previously this path was invisible —
+      // the route answered 200 with clean:true whatever the database said, so
+      // there was nothing to report.
+      if (data.unavailable) {
+        clean = false;
+        notify("error", QUOTA_UNREACHABLE);
+      }
     } catch {
       // Network/API failure → fail safe to watermarked (don't give away clean).
       // Say so: silently handing back a watermarked file when the user expected
       // a clean one reads as the product cheating them rather than as the
       // transient network error it actually is.
       clean = false;
-      notify(
-        "error",
-        "We couldn't reach the server to check your free downloads, so this one carries a watermark. Check your connection and try again for a clean copy."
-      );
+      notify("error", QUOTA_UNREACHABLE);
     }
 
     setDl((d) => ({ ...d, loggedIn: true, remaining, willWatermark: !clean }));

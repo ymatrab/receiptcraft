@@ -214,28 +214,50 @@ export default async function AccountPage() {
           {isPro ? "Your usage" : "What's left"}
         </h2>
         <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {/* Each of these three reads can come back null, meaning the count
+              failed rather than that it was zero — see lib/usage.ts. "—" is the
+              honest answer there. The previous version printed `null ?? 0`
+              dressed up as a real figure, which is how an account page went on
+              telling free users their allowance was untouched for months while
+              the table behind it did not exist. */}
           <Stat
             label="Watermark-free downloads"
-            value={isPro ? "Unlimited" : `${usage.downloadsLeft} of ${FREE_LIMITS.freeReceiptDownloads}`}
+            value={
+              isPro
+                ? "Unlimited"
+                : usage.downloadsLeft === null
+                  ? "—"
+                  : `${usage.downloadsLeft} of ${FREE_LIMITS.freeReceiptDownloads}`
+            }
             tone={isPro ? "good" : usage.downloadsLeft === 0 ? "spent" : "neutral"}
             hint={
               isPro
                 ? "Every download exports clean"
-                : usage.downloadsLeft === 0
-                  ? "New downloads carry a watermark"
-                  : "Counted per receipt — re-downloading one is free"
+                : usage.downloadsLeft === null
+                  ? "We couldn't load this just now — refresh to try again"
+                  : usage.downloadsLeft === 0
+                    ? "New downloads carry a watermark"
+                    : "Counted per receipt — re-downloading one is free"
             }
           />
           <Stat
             label="AI generations this month"
-            value={isPro ? "Unlimited" : `${usage.aiLeftThisMonth} of ${FREE_LIMITS.aiGenerationsPerMonth}`}
+            value={
+              isPro
+                ? "Unlimited"
+                : usage.aiLeftThisMonth === null
+                  ? "—"
+                  : `${usage.aiLeftThisMonth} of ${FREE_LIMITS.aiGenerationsPerMonth}`
+            }
             tone={isPro ? "good" : usage.aiLeftThisMonth === 0 ? "spent" : "neutral"}
             hint={
               isPro
                 ? "No monthly cap"
-                : usage.aiLeftThisMonth === 0
-                  ? "Resets on the 1st"
-                  : `Used ${usage.aiUsedThisMonth} this month`
+                : usage.aiLeftThisMonth === null
+                  ? "We couldn't load this just now — refresh to try again"
+                  : usage.aiLeftThisMonth === 0
+                    ? "Resets on the 1st"
+                    : `Used ${usage.aiUsedThisMonth} this month`
             }
           />
           <Stat
@@ -250,8 +272,14 @@ export default async function AccountPage() {
           />
           <Stat
             label="Saved receipts"
-            value={String(usage.receiptCount)}
-            hint={usage.receiptCount === 0 ? "Nothing saved yet" : "Stored on your account"}
+            value={usage.receiptCount === null ? "—" : String(usage.receiptCount)}
+            hint={
+              usage.receiptCount === null
+                ? "We couldn't load this just now — refresh to try again"
+                : usage.receiptCount === 0
+                  ? "Nothing saved yet"
+                  : "Stored on your account"
+            }
           />
         </div>
 
@@ -289,7 +317,7 @@ export default async function AccountPage() {
           <h2 id="receipts-heading" className="text-lg font-semibold text-slate-900">
             Recent receipts
           </h2>
-          {usage.receiptCount > RECENT_LIMIT && (
+          {usage.receiptCount !== null && usage.receiptCount > RECENT_LIMIT && (
             <Link
               href="/account/receipts"
               className="text-sm font-medium text-indigo-600 hover:text-indigo-700"

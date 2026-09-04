@@ -38,14 +38,27 @@ export function startOfUsageMonth(): Date {
 }
 
 export interface AccountUsage {
-  /** Watermark-free downloads claimed, and how many of the free allowance are left. */
-  downloadsUsed: number;
-  downloadsLeft: number;
+  /**
+   * Watermark-free downloads claimed, and how many of the free allowance are
+   * left. `null` means the count could not be read.
+   *
+   * Nullable because the alternative is the failure this whole area was built
+   * around: `count ?? 0` turned an unreadable table into "you have used
+   * nothing", so the account page told everyone they had their full allowance
+   * intact while the API was handing out unlimited clean downloads on the same
+   * bad assumption. See app/api/downloads/route.ts and
+   * supabase/migrations/0006_download_credits_repair.sql.
+   *
+   * A page that says "we can't tell you right now" is worth having; one that
+   * confidently says the wrong number is not.
+   */
+  downloadsUsed: number | null;
+  downloadsLeft: number | null;
   /** Free AI generations used since startOfUsageMonth(), and how many remain. */
-  aiUsedThisMonth: number;
-  aiLeftThisMonth: number;
+  aiUsedThisMonth: number | null;
+  aiLeftThisMonth: number | null;
   /** Receipts saved to the account. */
-  receiptCount: number;
+  receiptCount: number | null;
 }
 
 /**
@@ -78,14 +91,28 @@ export async function getAccountUsage(
     supabase.from("receipts").select("*", { count: "exact", head: true }).eq("user_id", userId),
   ]);
 
-  const downloadsUsed = downloads.count ?? 0;
-  const aiUsedThisMonth = ai.count ?? 0;
+  // `error ? null : count` rather than `count ?? 0`. A query that failed and a
+  // query that found nothing are different answers, and only one of them is a
+  // number.
+  const countOf = (r: { count: number | null; error: unknown }): number | null =>
+    r.error ? null : r.count;
+
+  const downloadsUsed = countOf(downloads);
+  const aiUsedThisMonth = countOf(ai);
+  const left = (limit: number, used: number | null) =>
+    used === null ? null : Math.max(0, limit - used);
+
+  if (downloads.error) {
+    // Silent otherwise: this is the read that was failing in production for
+    // months without a single line in a log.
+    console.error("[usage] download_credits count failed:", downloads.error.message);
+  }
 
   return {
     downloadsUsed,
-    downloadsLeft: Math.max(0, FREE_LIMITS.freeReceiptDownloads - downloadsUsed),
+    downloadsLeft: left(FREE_LIMITS.freeReceiptDownloads, downloadsUsed),
     aiUsedThisMonth,
-    aiLeftThisMonth: Math.max(0, FREE_LIMITS.aiGenerationsPerMonth - aiUsedThisMonth),
-    receiptCount: receipts.count ?? 0,
+    aiLeftThisMonth: left(FREE_LIMITS.aiGenerationsPerMonth, aiUsedThisMonth),
+    receiptCount: countOf(receipts),
   };
 }
