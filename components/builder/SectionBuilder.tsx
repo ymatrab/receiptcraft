@@ -790,13 +790,20 @@ export default function SectionBuilder() {
    * Completion is the three things a receipt has to have to be worth anything:
    * a merchant, something priced on it, and a total.
    *
+   * Gated on editTracked, the same "this was a person, not a template load"
+   * signal edit_started uses — and the whole reason this needs a gate. A brand
+   * template arrives with a merchant, priced items and a total already on it,
+   * so without this the event would fire the instant a Starbucks template
+   * loaded and "finished a receipt" would just be a slower way of counting
+   * template opens.
+   *
    * Once per receipt id, held in a ref rather than state so re-firing cannot
    * cause a render. Editing on after completion does not fire it again;
    * starting a *different* receipt does, which is what makes a second distinct
    * receipt countable.
    */
   useEffect(() => {
-    if (!doc.id || completedRef.current === doc.id) return;
+    if (!doc.id || !editTracked.current || completedRef.current === doc.id) return;
     const header = doc.sections.find((s) => s.type === "header") as HeaderSection | undefined;
     const named = Boolean(header?.storeName?.trim());
     const priced = doc.sections.some(

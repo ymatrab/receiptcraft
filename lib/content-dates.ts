@@ -38,7 +38,13 @@ export const TOOLS_INDEX_UPDATED = "2026-08-31";
 // generations) and links to a signed-in account. Its own constant because
 // STATIC_UPDATED also stamps /about, /contact, /terms and /blog, none of which
 // changed; a policy page is the last place to be vague about when it changed.
-export const PRIVACY_UPDATED = "2026-09-01";
+// 2026-09-04: the analytics section now discloses the two random identifiers
+// kept in local storage — one per browser, one per 30-minute visit — that let
+// product events be counted as people instead of as clicks, plus the random
+// receipt id events carry. Stating what is stored is the whole point of the
+// page; adding an identifier without saying so is the thing it exists to
+// prevent.
+export const PRIVACY_UPDATED = "2026-09-04";
 // 2026-09-04: sections 3 and 4 now describe the billing model that actually
 // runs. The old text said a plan "continues for successive periods until
 // cancelled" and that you "authorize the recurring charge until you cancel",
