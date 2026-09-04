@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { getAccountStatus } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { supabaseConfigured } from "@/lib/supabase/config";
-import { normalizeEventName, sanitizeProps } from "@/lib/analytics-events";
+import { normalizeEventName, normalizeId, sanitizeProps } from "@/lib/analytics-events";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -34,7 +34,13 @@ export async function POST(req: Request) {
   if (!supabaseConfigured) return NextResponse.json({ ok: false });
 
   const body = (await req.json().catch(() => null)) as
-    | { name?: unknown; props?: unknown }
+    | {
+        name?: unknown;
+        props?: unknown;
+        anonymous_id?: unknown;
+        session_id?: unknown;
+        receipt_id?: unknown;
+      }
     | null;
 
   const name = normalizeEventName(body?.name);
@@ -47,9 +53,25 @@ export async function POST(req: Request) {
   const props = sanitizeProps(body?.props);
   const account = await getAccountStatus();
 
-  const { error } = await createAdminClient()
-    .from("events")
-    .insert({ user_id: account.userId ?? null, name, props });
+  // Grouping keys, validated to a short safe shape by normalizeId. Unlike the
+  // user, these come from the body — they are minted in the browser and there
+  // is no server-side copy to check them against. That is acceptable because
+  // they carry no authority: the worst a forged id does is merge or split rows
+  // in an internal count, whereas taking the *user* from the body would let
+  // anyone attribute an event to somebody else's account. Hence one from the
+  // cookie and three from the body.
+  const anonymousId = normalizeId(body?.anonymous_id);
+  const sessionId = normalizeId(body?.session_id);
+  const receiptId = normalizeId(body?.receipt_id);
+
+  const { error } = await createAdminClient().from("events").insert({
+    user_id: account.userId ?? null,
+    name,
+    props,
+    anonymous_id: anonymousId,
+    session_id: sessionId,
+    receipt_id: receiptId,
+  });
 
   if (error) {
     // Worth a server log — a broken analytics write is otherwise completely

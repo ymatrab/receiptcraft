@@ -9,6 +9,7 @@ import { absoluteUrl, SITE } from "@/lib/site";
 import PricingCta from "./PricingCta";
 import FreePlanCta from "./FreePlanCta";
 import NewAccountBanner from "./NewAccountBanner";
+import PricingViewed from "./PricingViewed";
 import CheckoutNotice from "./CheckoutNotice";
 
 const PRICING_TITLE = `Pricing — Remove the Watermark with ${SITE.name} Pro`;
@@ -292,6 +293,7 @@ export default function PricingPage() {
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
+      <PricingViewed />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppJsonLd) }}

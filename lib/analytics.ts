@@ -85,6 +85,109 @@ function sessionAiSource(): string | null {
   }
 }
 
+/* -------------------------------------------------------------------------
+ * Visitor and session identity
+ *
+ * Two random values, so the events table can answer questions about people
+ * instead of only about rows. Until these existed every funnel figure was a
+ * raw event count: "139 builder opens" could have been 139 visitors or one
+ * visitor and a stuck component, and nothing in the data could tell the
+ * difference. `user_id` does not help — building and previewing need no
+ * account, so it is null for the whole top of the funnel.
+ *
+ * Neither identifies a person. They are random, minted in the browser, never
+ * derived from anything about the visitor, and never sent anywhere but our own
+ * ingest. No email, no receipt contents.
+ * ---------------------------------------------------------------------------- */
+
+const VISITOR_KEY = "mkc_aid";
+const SESSION_KEY = "mkc_sid";
+/**
+ * Idle gap that ends a session. 30 minutes, matching GA4, so our own session
+ * count and the GA4 one are comparable rather than two different numbers that
+ * both claim to be sessions.
+ */
+const SESSION_IDLE_MS = 30 * 60_000;
+
+/** A random id. `randomUUID` needs a secure context and older Safari lacks it. */
+function randomId(): string {
+  try {
+    if (crypto?.randomUUID) return crypto.randomUUID();
+    const bytes = crypto.getRandomValues(new Uint8Array(16));
+    return Array.from(bytes, (b) => b.toString(16).padStart(2, "0")).join("");
+  } catch {
+    return `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 10)}`;
+  }
+}
+
+/**
+ * Ids for a browser where storage cannot be written — private mode, or a
+ * browser set to block site data.
+ *
+ * Held for the life of the page instead. That degrades honestly: the events
+ * still group together within one page view, they just cannot be joined across
+ * navigations, so such a visitor reads as several short sessions rather than
+ * being silently dropped or, worse, merged with everyone else under one shared
+ * id.
+ */
+let fallbackVisitor: string | null = null;
+let fallbackSession: string | null = null;
+
+/** Stable per browser, for as long as the visitor keeps their local storage. */
+function visitorId(): string {
+  try {
+    const existing = localStorage.getItem(VISITOR_KEY);
+    if (existing) return existing;
+    const fresh = randomId();
+    localStorage.setItem(VISITOR_KEY, fresh);
+    return fresh;
+  } catch {
+    return (fallbackVisitor ??= randomId());
+  }
+}
+
+/**
+ * The current session, rotated after SESSION_IDLE_MS of inactivity.
+ *
+ * localStorage rather than sessionStorage, deliberately: sessionStorage is
+ * per-tab and dies with it, so someone who opens a receipt in a second tab
+ * would count as two sessions, and closing the tab for two minutes would start
+ * a third. The stored timestamp is what actually ends a session, which is both
+ * the GA4 definition and the one that makes "did they come back?" answerable.
+ */
+function currentSessionId(): string {
+  const now = Date.now();
+  try {
+    const raw = localStorage.getItem(SESSION_KEY);
+    if (raw) {
+      const [id, seenAt] = raw.split(":");
+      if (id && now - Number(seenAt) < SESSION_IDLE_MS) {
+        localStorage.setItem(SESSION_KEY, `${id}:${now}`);
+        return id;
+      }
+    }
+    const fresh = randomId();
+    localStorage.setItem(SESSION_KEY, `${fresh}:${now}`);
+    return fresh;
+  } catch {
+    return (fallbackSession ??= randomId());
+  }
+}
+
+/**
+ * The current visitor and session ids, for the server routes that write to
+ * `events` themselves rather than through track().
+ *
+ * app/api/downloads/track records the confirmed download — the one event that
+ * has to be right, because it is the only one written after the file actually
+ * left. It cannot mint these itself: they live in the browser. Without them
+ * that row would be the single most important event in the funnel and the only
+ * one that could not be grouped with the session that produced it.
+ */
+export function eventIdentity(): { anonymous_id: string; session_id: string } {
+  return { anonymous_id: visitorId(), session_id: currentSessionId() };
+}
+
 /**
  * Copy one event into our own `events` table.
  *
@@ -103,7 +206,18 @@ function sendFirstParty(event: string, params: Record<string, string | number | 
   if (!isMirroredEvent(event)) return;
 
   try {
-    const body = JSON.stringify({ name: event, props: params });
+    // The three ids travel as top-level fields, not inside props: they become
+    // real columns the dashboard groups by, and props is jsonb that gets
+    // truncated to twelve keys. An identifier that can be dropped by a prop cap
+    // is not an identifier.
+    const body = JSON.stringify({
+      name: event,
+      props: params,
+      anonymous_id: visitorId(),
+      session_id: currentSessionId(),
+      // Only the events that are about a particular receipt carry one.
+      receipt_id: typeof params.receipt_id === "string" ? params.receipt_id : undefined,
+    });
     const blob = new Blob([body], { type: "application/json" });
     if (navigator.sendBeacon?.("/api/events", blob)) return;
 
@@ -182,7 +296,72 @@ export const analytics = {
   // Which worked example a visitor opened. Tells us whether the hero demo is
   // doing any work now that AI itself needs an account.
   aiDemoOpened: (example: string) => track("ai_demo_opened", { example }),
+  /**
+   * Someone clicked something that asks for money.
+   *
+   * The one number that says whether pricing works, which is why what does
+   * *not* belong in it matters as much as what does. Three call sites were
+   * firing this for things nobody chose: declining the plans on /pricing, being
+   * refused a Pro-only template, and clicking "log in" at the download gate.
+   * All three are now their own events below. A gate closing on someone is not
+   * them reaching for their card, and counting it that way makes the funnel
+   * look healthiest exactly where it is failing.
+   */
   upgradeClick: (location: string) => track("upgrade_click", { location }),
+  /**
+   * The plans were seen. Once per session, so it is a denominator rather than
+   * a count of how often people refresh.
+   *
+   * Nothing recorded a /pricing view in our own table before this, so "reached
+   * the plans and chose nothing" — the largest group on the page, and the one
+   * worth understanding — could not be counted at all.
+   */
+  pricingViewed: (source: string) => track("pricing_viewed", { source }),
+  /**
+   * A free user was refused a Pro-only template.
+   *
+   * Was upgrade_click{builder_pro_template}. Opening a template is how you find
+   * out it is locked; the click that follows *in the modal* is the intent, and
+   * that one still fires upgrade_click{pro_template_modal}.
+   */
+  proTemplateBlocked: (template: string) => track("pro_template_blocked", { template }),
+  /**
+   * A download was asked for and refused, and why.
+   *
+   * `login` (no account), `watermark` (out of credits), `brand` (Pro-only
+   * template) or `unavailable` (we could not check). download_click already
+   * counts the attempt; this counts the wall it hit, which is the difference
+   * between "nobody wants to download" and "everybody wants to and can't".
+   */
+  downloadBlocked: (
+    reason: "login" | "watermark" | "brand" | "unavailable",
+    format: string,
+    receiptId?: string
+  ) => track("download_blocked", { reason, format, receipt_id: receiptId }),
+  /**
+   * Left for the sign-up form, and what sent them.
+   *
+   * `download_gate`, `ai_gate` or a plain CTA. The pair signup_started →
+   * sign_up is what answers the plan's question "does sign-up fail after the
+   * download gate?" — previously the download gate's own button counted as
+   * upgrade_click, so a person turned away at it looked like a shopper.
+   */
+  signupStarted: (entry: string) => track("signup_started", { entry }),
+  /**
+   * The receipt is actually finished: a merchant name, at least one priced
+   * item, and a total above zero.
+   *
+   * builder_opened and edit_started both fire for someone who typed one
+   * character and left. This is the first event in the funnel that means a real
+   * receipt exists, which makes it the honest denominator for every download
+   * ratio. Fires once per receipt — `receipt_id` is what keeps it once.
+   */
+  receiptCompleted: (receiptId: string, template?: string) =>
+    track("receipt_completed", {
+      receipt_id: receiptId,
+      template,
+      template_type: template ? "brand" : "generic",
+    }),
   // Took the free plan from /pricing. The counterpart to begin_checkout: with
   // every new account landing on the plans, these two and the people who leave
   // without touching either are the whole outcome of that page.

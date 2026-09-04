@@ -19,10 +19,14 @@ export const EVENT_NAMES = [
   "watermark_prompt",
   "builder_opened",
   "edit_started",
+  "receipt_completed",
+  "download_blocked",
+  "pro_template_blocked",
   "select_template",
   "save_receipt",
   "ai_demo_opened",
   // revenue funnel
+  "pricing_viewed",
   "begin_checkout",
   "purchase_landed",
   "pro_activated",
@@ -32,6 +36,7 @@ export const EVENT_NAMES = [
   "login_attempt",
   "login_error",
   "sign_up",
+  "signup_started",
   "sign_up_error",
   "welcome_shown",
   "new_account_pricing_shown",
@@ -142,6 +147,31 @@ export function sanitizeProps(input: unknown): EventProps | null {
   }
 
   return kept > 0 ? out : null;
+}
+
+/**
+ * Longest identifier we will store, and the only characters allowed in one.
+ *
+ * The ingest is a public endpoint, so an id is attacker-supplied text that ends
+ * up in an indexed column and on an admin screen. Hex, dashes and underscores
+ * cover everything lib/analytics.ts mints (a UUID, a hex string, a base-36
+ * fallback) and the builder's own document ids, and nothing that needs
+ * escaping later.
+ */
+const MAX_ID = 64;
+const ID_SHAPE = /^[A-Za-z0-9_-]+$/;
+
+/**
+ * Trim and validate one of the identifier columns (anonymous_id, session_id,
+ * receipt_id). Returns null for anything we will not store, so a malformed id
+ * becomes an event with no id rather than a rejected event — losing the row
+ * would cost more than losing the grouping.
+ */
+export function normalizeId(input: unknown): string | null {
+  if (typeof input !== "string") return null;
+  const id = input.trim();
+  if (!id || id.length > MAX_ID || !ID_SHAPE.test(id)) return null;
+  return id;
 }
 
 /** Trim and validate an incoming event name. Returns null if we won't store it. */
