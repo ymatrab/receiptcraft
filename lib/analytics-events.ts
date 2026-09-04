@@ -35,6 +35,8 @@ export const EVENT_NAMES = [
   "sign_up_error",
   "welcome_shown",
   "new_account_pricing_shown",
+  "new_account_pricing_skip",
+  "select_free_plan",
   // engagement
   "newsletter_signup",
   "scroll_depth",

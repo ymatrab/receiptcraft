@@ -53,12 +53,12 @@ function Stat({
 export default async function AccountPage() {
   if (!supabaseConfigured) {
     return (
-      <main className="mx-auto max-w-2xl px-4 py-20 text-center">
+      <div className="mx-auto max-w-2xl px-4 py-20 text-center">
         <h1 className="text-2xl font-bold text-slate-900">Accounts coming soon</h1>
         <p className="mt-3 text-slate-600">
           The backend isn&apos;t connected yet. Add your Supabase keys to enable accounts.
         </p>
-      </main>
+      </div>
     );
   }
 
@@ -102,7 +102,7 @@ export default async function AccountPage() {
   );
 
   return (
-    <main className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
+    <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
       <h1 className="text-3xl font-bold text-slate-900">Your account</h1>
       <p className="mt-1 text-slate-600">
         {user.email}
@@ -359,6 +359,6 @@ export default async function AccountPage() {
           </button>
         </form>
       </div>
-    </main>
+    </div>
   );
 }

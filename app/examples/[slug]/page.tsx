@@ -18,6 +18,7 @@ import { docFromReceiptData } from "@/lib/sections";
 import { fitSeoDescription } from "@/lib/seo-description";
 import { formatMoney, formatDisplayDate } from "@/lib/format";
 import { SITE, absoluteUrl } from "@/lib/site";
+import { creativeWorkJsonLd } from "@/lib/schema";
 import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
 
 export function generateStaticParams() {
@@ -88,8 +89,8 @@ export default async function ExamplePage({
   const sameBase = EXAMPLES.filter((e) => e.slug !== ex.slug && e.base === ex.base);
   const related = (sameBase.length ? sameBase : EXAMPLES.filter((e) => e.slug !== ex.slug)).slice(0, 6);
 
-  // BreadcrumbList only. The former ItemList of receipt line items had no per-item
-  // URLs, so it was ineligible for any Google rich result — dropped as noise.
+  // The former ItemList of receipt line items had no per-item URLs, so it was
+  // ineligible for any Google rich result — dropped as noise, and not revived.
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -100,9 +101,20 @@ export default async function ExamplePage({
     ],
   };
 
+  // The subject entity the breadcrumb alone could not supply: what this page
+  // is, and which brand's receipts it shows.
+  const workJsonLd = creativeWorkJsonLd({
+    name: `${ex.brand} Receipt Example (${totalStr})`,
+    description: `A worked ${ex.brand} receipt example: ${exampleSummary(ex)}, totalling ${totalStr}.`,
+    path: `/examples/${ex.slug}`,
+    about: ex.brand,
+    dateModified: EXAMPLES_UPDATED,
+  });
+
   return (
-    <main className="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(workJsonLd) }} />
       <nav className="text-sm text-slate-500">
         <Link href="/examples" className="hover:text-slate-700">Examples</Link>
         <span className="px-1">/</span>
@@ -192,6 +204,6 @@ export default async function ExamplePage({
         </section>
       )}
       <Reviewed date={EXAMPLES_UPDATED} />
-    </main>
+    </div>
   );
 }

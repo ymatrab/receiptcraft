@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { supabaseConfigured } from "@/lib/supabase/config";
 import { analytics } from "@/lib/analytics";
+import { newAccountDestination } from "@/lib/new-account";
 import { EyeIcon, EyeOffIcon, SpinnerIcon } from "@/components/Icons";
 import {
   authFieldClass,
@@ -14,22 +15,6 @@ import {
 
 type Mode = "login" | "signup" | "forgot";
 const MIN_PASSWORD = 8;
-
-/**
- * Where a brand-new account lands when nothing is waiting for them.
- *
- * A signup that began at a gate has work to finish — a stashed AI prompt, a
- * download to resume — and must go back to it. Everyone else arrived to make an
- * account and nothing more, so they get the plans.
- *
- * `new=1`, deliberately not `welcome=1`: the welcome sheet is a modal, and a
- * modal covering the price table is the opposite of showing someone the plans.
- * /pricing renders an inline banner off this flag instead — see
- * app/pricing/NewAccountBanner.tsx. app/auth/callback/route.ts repeats this
- * destination for the email and Google routes, the same way `welcome=1` is
- * already repeated across the three files that know about it.
- */
-const NEW_ACCOUNT_DESTINATION = "/pricing?new=1";
 
 // Show "Continue with Google" only once the provider is actually configured in
 // Supabase. Flip NEXT_PUBLIC_GOOGLE_AUTH_ENABLED="true" in Vercel to enable it —
@@ -126,20 +111,6 @@ export default function LoginForm({
   // Default back to the builder (not the profile page) so a user who logged in
   // mid-build lands on /create, where their autosaved draft is restored.
   const next = nextParam ?? "/create";
-  /**
-   * Where a brand-new account lands: their original destination, flagged so the
-   * welcome sheet fires once there. Built with URL so a `next` that already
-   * carries a query string keeps it instead of being truncated.
-   */
-  function withWelcome(dest: string): string {
-    try {
-      const url = new URL(dest, window.location.origin);
-      url.searchParams.set("welcome", "1");
-      return `${url.pathname}${url.search}${url.hash}`;
-    } catch {
-      return dest;
-    }
-  }
   const hadError = authError;
   const errorDetail = authErrorDetail;
 
@@ -171,10 +142,11 @@ export default function LoginForm({
   const passwordRef = useRef<HTMLInputElement>(null);
   const verifyPanelRef = useRef<HTMLDivElement>(null);
 
-  // `signup` rides along so /auth/callback can make the same "was a gate
-  // involved?" decision this component makes below. Without it, the email-
-  // confirmation and Google routes have no way to tell a gated signup from a
-  // plain one and would send everybody to the same place.
+  // `signup` still rides along, though the callback no longer branches on it:
+  // since 2026-09-01 every new account goes to the plans whether or not a gate
+  // started the sign-up, so there is nothing left for it to decide. Kept
+  // because it is the only marker that a gate was involved, and reversing that
+  // decision would need it back.
   //
   // `m` rides along too, so the callback can name the method in the event it
   // fires. It cannot infer that: Supabase returns a `code` for Google *and* for
@@ -314,21 +286,11 @@ export default function LoginForm({
       // session — the user is already signed in, so showing them a "check your
       // inbox" wall would strand them on a screen they cannot clear.
       if (data.session) {
-        // Never `mode` (the state) — that is only which form is on screen. What
-        // decides the destination is whether anything is actually waiting:
-        //
-        //  - a gate set signup=1, so there is a stashed prompt or a download to
-        //    resume. Its `next` is "/create", the default, so the flag is the
-        //    only thing that can tell us; or
-        //  - the caller supplied a real `next`, meaning this person was already
-        //    mid-journey. The header appends the current path to its log-in link
-        //    and never sets signup=1, so someone reading a brand guide who
-        //    toggled over to "Create an account" was dumped on the price list
-        //    and lost their place — logging in kept it, signing up didn't.
-        //
-        // Only a visitor with nowhere to go back to gets the plans.
-        const workIsWaiting = signup || (nextParam !== null && nextParam !== "/create");
-        window.location.assign(workIsWaiting ? withWelcome(next) : NEW_ACCOUNT_DESTINATION);
+        // Every new account sees the plans, including one that started at a
+        // gate. Whatever they were doing travels with them as `next`, so the
+        // banner on /pricing can offer a real way back to it — see
+        // lib/new-account.ts.
+        window.location.assign(newAccountDestination(nextParam));
         return;
       }
       setVerifyEmail(cleanEmail);

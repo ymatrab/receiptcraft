@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { PLANS, FREE_LIMITS, monthlyEquivalent, freeDownloadsPhrase, firstDownloadsPhrase } from "@/lib/plans";
 import { FREE_BRAND_SLUGS } from "@/lib/brand-access";
 import { docFromReceiptData } from "@/lib/sections";
@@ -8,6 +7,7 @@ import Watermark from "@/components/receipt/Watermark";
 import type { ReceiptData } from "@/lib/types";
 import { absoluteUrl, SITE } from "@/lib/site";
 import PricingCta from "./PricingCta";
+import FreePlanCta from "./FreePlanCta";
 import NewAccountBanner from "./NewAccountBanner";
 import CheckoutNotice from "./CheckoutNotice";
 
@@ -193,7 +193,7 @@ const FAQ = [
   },
   {
     q: "Can I cancel anytime?",
-    a: `Pro is a pass that runs for the period you bought, and your access ends on the date shown on your account page — so there's nothing to cancel to stay in control. There's no self-serve billing portal yet: to cancel, stop any future charge or ask for a refund, email ${SITE.email} and we'll sort it within one business day.`,
+    a: `Yes — and in most cases there is nothing to cancel. Pro is a pass that runs for the period you bought and then stops on its own: there is no auto-renewal and no recurring charge, so you are never locked in. Your end date is shown on your account page. If you subscribed through a card subscription rather than a one-off pass, Manage billing on that page opens the billing portal, where you can end it yourself at any time. For anything else — stopping a future charge or asking for a refund — email ${SITE.email} and we'll sort it within one business day.`,
   },
   {
     q: "Do I need an account to use the free tier?",
@@ -291,7 +291,7 @@ export default function PricingPage() {
   };
 
   return (
-    <main className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppJsonLd) }}
@@ -406,12 +406,10 @@ export default function PricingPage() {
               </ul>
 
               {row.id === "free" ? (
-                <Link
-                  href="/create"
+                <FreePlanCta
+                  label={row.cta}
                   className="mt-6 flex min-h-11 items-center justify-center rounded-full border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50"
-                >
-                  {row.cta}
-                </Link>
+                />
               ) : (
                 <PricingCta
                   planId={row.id}
@@ -422,6 +420,19 @@ export default function PricingPage() {
                   }`}
                   label={row.cta}
                 />
+              )}
+
+              {/* Sits under the CTA because that is where the "am I locking
+                  myself in?" question actually gets asked — the FAQ answer for
+                  it was nine entries down the page, long past the click.
+                  "No auto-renewal" is the accurate half: a Pro pass runs for
+                  the period bought and then stops on its own, so there is no
+                  recurring charge to stop. See app/terms/page.tsx, which states
+                  the same thing. */}
+              {row.id !== "free" && (
+                <p className="mt-3 text-center text-xs text-slate-500">
+                  Cancel anytime — no auto-renewal
+                </p>
               )}
             </div>
           );
@@ -606,6 +617,6 @@ export default function PricingPage() {
           }),
         }}
       />
-    </main>
+    </div>
   );
 }

@@ -95,7 +95,7 @@ export default function HomeAiGenerator() {
           onChange={(e) => setPrompt(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && generate()}
           placeholder="Describe a receipt — e.g. 'Uber ride downtown, $18.40'"
-          className="min-w-0 flex-1 bg-transparent px-1 py-2 text-base text-slate-800 placeholder:text-slate-500 focus:outline-none sm:text-sm"
+          className="min-h-11 min-w-0 flex-1 bg-transparent px-1 py-2 text-base text-slate-800 placeholder:text-slate-500 focus:outline-none sm:text-sm"
           aria-label="Describe your receipt"
           aria-invalid={error ? true : undefined}
           aria-describedby={error ? "home-ai-error" : undefined}
@@ -105,7 +105,7 @@ export default function HomeAiGenerator() {
           onClick={generate}
           disabled={loading || !prompt.trim()}
           aria-busy={loading}
-          className="flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-xl bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
+          className="flex min-h-11 shrink-0 cursor-pointer items-center justify-center gap-2 rounded-xl bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
         >
           {loading && <SpinnerIcon className="h-4 w-4" />}
           {loading ? "Generating…" : "Generate"}

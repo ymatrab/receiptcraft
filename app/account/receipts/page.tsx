@@ -38,7 +38,7 @@ export default async function SavedReceiptsPage() {
   const total = count ?? receipts?.length ?? 0;
 
   return (
-    <main className="mx-auto max-w-2xl px-4 py-16 sm:px-6">
+    <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6">
       <Link
         href="/account"
         className="inline-flex h-11 items-center text-sm text-slate-600 hover:text-slate-900"
@@ -98,6 +98,6 @@ export default async function SavedReceiptsPage() {
           ))}
         </ul>
       )}
-    </main>
+    </div>
   );
 }

@@ -71,7 +71,7 @@ function core(): MetadataRoute.Sitemap {
     { url: `${SITE.url}/authors`, lastModified: d(C.STATIC_UPDATED) },
     { url: `${SITE.url}/editorial-policy`, lastModified: d(C.POLICY_UPDATED) },
     { url: `${SITE.url}/privacy`, lastModified: d(C.PRIVACY_UPDATED) },
-    { url: `${SITE.url}/terms`, lastModified: d(C.STATIC_UPDATED) },
+    { url: `${SITE.url}/terms`, lastModified: d(C.TERMS_UPDATED) },
     { url: `${SITE.url}/cookies`, lastModified: d(C.COOKIES_UPDATED) },
   ];
 }

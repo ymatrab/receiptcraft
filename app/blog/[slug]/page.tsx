@@ -217,7 +217,7 @@ export default async function BlogPostPage({
       : null;
 
   return (
-    <main className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
+    <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
@@ -326,6 +326,6 @@ export default async function BlogPostPage({
           Open the receipt maker
         </Link>
       </div>
-    </main>
+    </div>
   );
 }

@@ -24,7 +24,7 @@ export default async function AuthorsPage() {
   const authors = await getAuthors();
 
   return (
-    <main className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
@@ -112,6 +112,6 @@ export default async function AuthorsPage() {
           Read our guides
         </Link>
       </div>
-    </main>
+    </div>
   );
 }

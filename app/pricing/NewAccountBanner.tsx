@@ -3,15 +3,16 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { analytics } from "@/lib/analytics";
+import { DEFAULT_NEXT, safeInternalPath } from "@/lib/new-account";
 import { FREE_LIMITS, freeDownloadsPhrase } from "@/lib/plans";
 
 /**
  * Shown once at the top of /pricing, immediately after a new account is created.
  *
- * Sign-up sends people here when nothing was waiting for them — see
- * NEW_ACCOUNT_DESTINATION in app/login/LoginForm.tsx. A gated sign-up (the
- * download wall, a stashed AI prompt) never reaches this page; it goes back to
- * finish the job, with the welcome sheet.
+ * Every sign-up lands here now — see lib/new-account.ts. That includes one that
+ * started at a gate (the download wall, a stashed AI prompt), so the way out
+ * has to return to whatever was waiting rather than always to the builder: the
+ * `next` parameter carries it, and the button below uses it.
  *
  * Why a banner and not the welcome sheet: the sheet is a modal, and a modal
  * covering the price table is the opposite of showing someone the plans. It
@@ -30,14 +31,22 @@ import { FREE_LIMITS, freeDownloadsPhrase } from "@/lib/plans";
  */
 export default function NewAccountBanner() {
   const [show, setShow] = useState(false);
+  const [back, setBack] = useState(DEFAULT_NEXT);
 
   useEffect(() => {
     const url = new URL(window.location.href);
     if (url.searchParams.get("new") !== "1") return;
     setShow(true);
+    // Sanitised, because `next` arrives in the query string and this becomes a
+    // link — an unchecked value here is an open redirect off our own pricing
+    // page.
+    setBack(safeInternalPath(url.searchParams.get("next")) ?? DEFAULT_NEXT);
     analytics.newAccountPricingShown();
-    // Drop the flag so a refresh, a back navigation or a shared link cannot
-    // show this to someone who did not just sign up.
+    // Drop `new` so a refresh, a back navigation or a shared link cannot show
+    // this to someone who did not just sign up. `next` deliberately stays: the
+    // Free plan button reads it too, and it mounts independently of this —
+    // stripping it here would win that race often enough to send people to the
+    // builder instead of back to what they were doing, at random.
     url.searchParams.delete("new");
     window.history.replaceState({}, "", url.toString());
   }, []);
@@ -68,9 +77,14 @@ export default function NewAccountBanner() {
         <p className="text-sm text-emerald-900">
           Want no watermark at all and unlimited AI? The plans are below.
         </p>
+        {/* Declining the plans is not an upgrade click. This fired
+            upgrade_click{new_account_pricing_skip}, which put every new account
+            that walked past the price list into the count of people who showed
+            buying intent — inflating the one number that says whether pricing
+            works. It has its own event now. */}
         <Link
-          href="/create"
-          onClick={() => analytics.upgradeClick("new_account_pricing_skip")}
+          href={back}
+          onClick={() => analytics.newAccountPricingSkip(back)}
           className="shrink-0 rounded-full bg-white px-5 py-2.5 text-center text-sm font-semibold text-emerald-900 shadow-sm ring-1 ring-emerald-300 transition-colors hover:bg-emerald-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600"
         >
           Skip — start making receipts

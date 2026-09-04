@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import type { EmailOtpType } from "@supabase/supabase-js";
 import { createClient } from "@/lib/supabase/server";
 import { supabaseConfigured } from "@/lib/supabase/config";
+import { newAccountDestination } from "@/lib/new-account";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -17,9 +18,6 @@ export async function GET(request: Request) {
   const tokenHash = searchParams.get("token_hash");
   const type = searchParams.get("type") as EmailOtpType | null;
   const next = searchParams.get("next") ?? "/create";
-  // Set by LoginForm when a gate started this signup (the download wall, the AI
-  // prompt). It means work is waiting at `next`, so the plans have to wait.
-  const fromGate = searchParams.get("signup") === "1";
   // Which form the person actually used. Supabase returns a `code` for Google
   // and for a PKCE email link alike, so this cannot be inferred from the params
   // — LoginForm has to say.
@@ -48,18 +46,16 @@ export async function GET(request: Request) {
    * LoginForm. Covers the two routes that land here instead: a verified email
    * link, and Google sign-in by someone who has never used the site.
    *
-   * A signup goes back to `next` with the welcome sheet whenever anything is
-   * waiting there — either a gate set signup=1, or the caller supplied a real
-   * destination. Only someone with nowhere to return to gets the plans; they
-   * came to make an account and nothing else, so nothing is lost by leading
-   * with pricing.
+   * Every new account is shown the plans — see lib/new-account.ts. Whatever
+   * they were doing travels along as `next` so the banner there can offer a way
+   * back to it.
    *
    * "New" is judged by how recently the account was created, because that is
    * the only signal available here — `last_sign_in_at` is already stamped by
    * the exchange itself, so it cannot distinguish first visit from tenth. The
-   * window is generous on purpose: showing a one-time welcome twice is a
-   * trivial cost, never showing it to a real new user is not. Returning users
-   * are unaffected either way and go straight to `next`.
+   * window is generous on purpose: showing the plans to a new account twice is
+   * a trivial cost, never showing them to a real new user is not. Returning
+   * users are unaffected either way and go straight to `next`.
    */
   const destinationFor = (createdAt: string | undefined): string => {
     const isNew = (() => {
@@ -82,15 +78,7 @@ export async function GET(request: Request) {
 
     if (!isNew) return withEvent(next);
 
-    // A real `next` means this person was mid-journey, so send them back to it
-    // even without a gate flag — matching the same rule in LoginForm. Only
-    // someone with nowhere to return to gets the plans.
-    const workIsWaiting = fromGate || (next !== "/create" && next !== "/");
-    if (!workIsWaiting) return withEvent("/pricing?new=1");
-
-    const url = new URL(next, origin);
-    url.searchParams.set("welcome", "1");
-    return withEvent(`${url.pathname}${url.search}${url.hash}`);
+    return withEvent(newAccountDestination(next));
   };
 
   if (supabaseConfigured) {

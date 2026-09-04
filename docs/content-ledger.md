@@ -2,7 +2,7 @@
 
 **Running record of every published post. Update this after each publish** (append the row, set status ✅, note hero/inline images and any caveats). Companion to the [reconciled calendar](./august-2026-content-plan-RECONCILED.md) (the *plan*); this file is the *log* of what actually shipped, with live URLs and image status.
 
-- **Published:** 46 / 53
+- **Published:** 52 / 53
 - **Combined target volume (live):** ~16,190 searches/mo
 - **All live on** https://www.makecepeit.com/blog/
 - **Images:** every post has a hero; #3 onward also have one inline body image (#1–#2 are hero-only — candidates for inline backfill).
@@ -57,6 +57,12 @@
 | 44 | Aug 30 | receipt maker with custom logo and no watermark | [receipt-maker-custom-logo-no-watermark](https://www.makecepeit.com/blog/receipt-maker-custom-logo-no-watermark) | — | — | /create | industry | hero + inline | doc-supplied (images 44-1/44-2, hero/inline reversed); 2 tables + blockquote + 10 FAQs; links to /templates |
 | 45 | Aug 31 | receipt generator for craft fair vendors | [receipt-generator-craft-fair-vendors](https://www.makecepeit.com/blog/receipt-generator-craft-fair-vendors) | — | — | /create | industry | hero + inline | doc-supplied (images 45-1/45-2, hero/inline reversed); 2 tables + blockquote + 10 FAQs; links to /create |
 | 46 | Aug 31 | receipt maker for farmers market sellers | [receipt-maker-farmers-market-sellers](https://www.makecepeit.com/blog/receipt-maker-farmers-market-sellers) | — | — | /create | industry | hero + inline | doc-supplied (images 46-1/46-2); 2 tables + blockquote + 10 FAQs; Instapaper stripped; links to /create |
+| 47 | Sep 02 | receipt generator for personal trainers | [receipt-generator-personal-trainers](https://www.makecepeit.com/blog/receipt-generator-personal-trainers) | — | — | /create | industry | hero + inline | doc-supplied (images 47-1/47-2, hero/inline reversed); 1 table + blockquote + 10 FAQs; Instapaper stripped; links to /create |
+| 48 | Sep 02 | transaction id on a receipt | [transaction-id-on-receipt](https://www.makecepeit.com/blog/transaction-id-on-receipt) | — | — | /create | basics/definition | hero + inline | doc-supplied (images 48-1/48-2); 1 table + blockquote + 10 FAQs; links to /create. ⚠️ definition-intent per AGENTS.md |
+| 49 | Sep 02 | receipt number vs order number vs authorization code | [receipt-number-vs-order-number-vs-authorization-code](https://www.makecepeit.com/blog/receipt-number-vs-order-number-vs-authorization-code) | — | — | /create | basics/definition | hero + inline | doc-supplied (images 49-1/49-2, hero/inline reversed); 1 table + blockquote + 10 FAQs; includes a Sources section; links to /create. ⚠️ definition-intent |
+| 50 | Sep 02 | what does batch number mean on a card receipt | [batch-number-on-card-receipt](https://www.makecepeit.com/blog/batch-number-on-card-receipt) | — | — | /create | basics/definition | hero + inline | doc-supplied (images 50-1/50-2); 1 table + blockquote + 10 FAQs; Instapaper stripped; links to /create. ⚠️ definition-intent |
+| 51 | Sep 04 | aid, tvr & tsi on an emv receipt | [aid-tvr-tsi-on-emv-receipt](https://www.makecepeit.com/blog/aid-tvr-tsi-on-emv-receipt) | — | — | /create | basics/definition | hero + inline | doc-supplied (images 51-1/51-2); 1 table + 3 code blockquotes + 10 FAQs; links to /create. ⚠️ definition-intent |
+| 52 | Sep 04 | what does contactless mean on a receipt | [what-does-contactless-mean-on-receipt](https://www.makecepeit.com/blog/what-does-contactless-mean-on-receipt) | — | — | /create | basics/definition | hero + inline | doc-supplied (images 52-1/52-2, hero/inline reversed); 1 table + blockquote + 10 FAQs; links to /create. ⚠️ definition-intent |
 
 ## Corrections — 2026-09-01
 

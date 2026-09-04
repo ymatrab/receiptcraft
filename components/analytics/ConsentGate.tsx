@@ -93,14 +93,14 @@ gtag('config', '${SITE.gaId}');`}
             <button
               type="button"
               onClick={() => decide("granted")}
-              className="flex-1 rounded-full bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-indigo-700"
+              className="min-h-11 flex-1 rounded-full bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-indigo-700"
             >
               Accept
             </button>
             <button
               type="button"
               onClick={() => decide("denied")}
-              className="flex-1 rounded-full border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+              className="min-h-11 flex-1 rounded-full border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50"
             >
               Decline
             </button>

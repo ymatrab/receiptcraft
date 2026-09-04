@@ -166,18 +166,27 @@ export const analytics = {
   // activation page — with fulfilment done by hand, this is the only measure of
   // how long that actually takes.
   proActivated: (seconds: number) => track("pro_activated", { seconds }),
-  // The post-signup welcome sheet was shown. Pairs with sign_up to confirm the
-  // flag survives the redirect, and with upgrade_click{welcome_sheet}.
+  // The post-signup welcome sheet was shown. Currently unreachable: since
+  // 2026-09-01 every new account goes to /pricing instead, so nothing sets the
+  // `welcome=1` flag this depends on. Kept so the sheet can be put back — see
+  // lib/new-account.ts — but expect a flat zero until then.
   welcomeShown: () => track("welcome_shown", {}),
-  // A new account landed on /pricing instead of the welcome sheet — the
-  // ungated signup path. The two are mutually exclusive, so welcome_shown and
-  // this one together should account for every sign_up, and comparing the
-  // purchase rate after each is the whole point of splitting them.
+  // A new account landed on /pricing. Since 2026-09-01 this is every sign-up,
+  // gated or not, so it should track sign_up one for one — a gap between them
+  // means the redirect is losing people.
   newAccountPricingShown: () => track("new_account_pricing_shown", {}),
+  // ...and walked past the plans, back to whatever they were doing. Its own
+  // event because it used to fire upgrade_click, which counted everyone who
+  // declined as someone who showed buying intent.
+  newAccountPricingSkip: (dest: string) => track("new_account_pricing_skip", { dest }),
   // Which worked example a visitor opened. Tells us whether the hero demo is
   // doing any work now that AI itself needs an account.
   aiDemoOpened: (example: string) => track("ai_demo_opened", { example }),
   upgradeClick: (location: string) => track("upgrade_click", { location }),
+  // Took the free plan from /pricing. The counterpart to begin_checkout: with
+  // every new account landing on the plans, these two and the people who leave
+  // without touching either are the whole outcome of that page.
+  selectFreePlan: (dest: string) => track("select_free_plan", { dest }),
   // Both fire only on a confirmed session. Google and email-confirmation links
   // resolve server-side, so app/auth/callback/route.ts marks its redirect and
   // components/AuthEventBeacon.tsx fires these from the destination — otherwise

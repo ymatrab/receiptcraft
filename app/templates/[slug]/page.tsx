@@ -8,6 +8,7 @@ import { previewFromTemplate } from "@/lib/receipt";
 import { docFromReceiptData } from "@/lib/sections";
 import { fitSeoDescription } from "@/lib/seo-description";
 import { SITE, absoluteUrl } from "@/lib/site";
+import { creativeWorkJsonLd } from "@/lib/schema";
 import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
 import { CitedText, SourceList } from "@/components/Sources";
 import { citationJsonLd } from "@/lib/sources";
@@ -97,11 +98,24 @@ export default async function TemplatePage({ params }: Props) {
     ],
   };
 
+  // The page's subject. The FAQ and breadcrumb blocks describe what it answers
+  // and where it sits; neither says what the page is.
+  const workJsonLd = creativeWorkJsonLd({
+    name: template.name,
+    description: template.seoDescription,
+    path: `/templates/${template.slug}`,
+    dateModified: templateReviewedAt(template),
+  });
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(workJsonLd) }}
       />
       <script
         type="application/ld+json"
