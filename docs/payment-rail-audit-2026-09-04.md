@@ -60,9 +60,21 @@ fulfilled by hand — an admin writes a `subscriptions` row with
 already documents, and it is why `pro_activated` measures a wait in seconds:
 with fulfilment manual, that wait is a human being noticing.
 
+This was not an oversight. An `orders/paid` webhook, `lib/shopify.ts`, an
+`/admin/orders` queue and a `subscriptions.source` migration were all written and
+then **deliberately removed** in commit `d4feaf8` on 2026-08-28 — they lived only
+on `dev`, never reached production, and the decision recorded in that commit was
+to abandon automatic fulfilment rather than finish it.
+
+Two leftovers survive that removal and now have no reader in the code: the
+`shopify_variant_plans` row in `app_settings`, and `SHOPIFY_WEBHOOK_SECRET` if it
+is still set on Vercel. `lib/ga4.ts` is also unreferenced — the removed webhook
+was its only caller.
+
 This is the plan's "webhook موثوق للتفعيل" item and the single largest piece of
 work remaining on the payment side. It is out of scope here, but it is the thing
-that turns a sale into access without somebody watching an inbox.
+that turns a sale into access without somebody watching an inbox — and picking it
+back up means reversing a decision made three weeks ago, not filling a gap.
 
 ## Finding worth a decision: a paid customer may lose access early
 
@@ -92,6 +104,17 @@ is why this is a finding and not a fix:
 The two cases need different columns, not different opinions, and the
 distinction cannot be recovered from the data. Worth resolving before the
 webhook is written, because the webhook will have to pick one.
+
+## Unverified: the yearly price may not match the product
+
+A session note from the 2026-08-28 store migration records the Shopify yearly
+variant (`53072343073049`) at **$39.00**. `lib/plans.ts` and /pricing advertise
+**$49**, and the $39 → $49 change is documented in `lib/content-dates.ts`.
+
+If the Shopify product was never repriced, the site is advertising a price the
+checkout does not charge. This could not be checked from here — it needs the
+Shopify admin — and it is the first thing to confirm, because it is either
+nothing or it is the site quoting the wrong price on every plan card.
 
 ## Recommendation
 
