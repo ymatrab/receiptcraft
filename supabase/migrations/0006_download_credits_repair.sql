@@ -75,6 +75,84 @@ create policy "download_credits_insert_own" on public.download_credits
   for insert with check (auth.uid() = user_id);
 
 -- ---------------------------------------------------------------------------
+-- claim_download_credit: check the allowance and spend it in one step
+-- ---------------------------------------------------------------------------
+-- The unique index above makes claiming the SAME receipt twice idempotent, and
+-- that is the race the original code reasoned about. It does not cover the
+-- other one: two downloads of two DIFFERENT receipts, fired together. Both read
+-- "0 used", both see room under a limit of 1, both insert, and the account gets
+-- two clean exports out of one credit. Nothing about that is visible
+-- afterwards — the rows look exactly like a legitimate pair.
+--
+-- Read-then-write cannot be made safe in the application: the gap between the
+-- count and the insert is the bug, and it exists however carefully the two
+-- statements are written. So both happen here, under a per-user advisory lock
+-- held for the transaction. PostgREST wraps each request in one, so the lock is
+-- released when the request ends, including when it fails.
+--
+-- Locking per user, not globally: two different accounts downloading at the
+-- same instant have nothing to serialise, and a single global lock would put
+-- every download on the site behind one queue.
+--
+-- Returns `granted` (may this export be clean) and `used` (credits spent after
+-- this call), so the caller never has to count again to answer "how many left".
+create or replace function public.claim_download_credit(
+  p_user_id     uuid,
+  p_receipt_key text,
+  p_limit       int
+)
+returns table (granted boolean, used int)
+language plpgsql
+set search_path = public
+as $$
+declare
+  v_used   int;
+  v_exists boolean;
+begin
+  perform pg_advisory_xact_lock(hashtextextended(p_user_id::text, 0));
+
+  select exists (
+    select 1 from public.download_credits
+     where user_id = p_user_id and receipt_key = p_receipt_key
+  ) into v_exists;
+
+  select count(*) into v_used
+    from public.download_credits
+   where user_id = p_user_id;
+
+  -- Already paid for: re-downloading it, or taking another format of it, is
+  -- free and stays clean however many credits remain.
+  if v_exists then
+    return query select true, v_used;
+    return;
+  end if;
+
+  if v_used >= p_limit then
+    return query select false, v_used;
+    return;
+  end if;
+
+  insert into public.download_credits (user_id, receipt_key)
+  values (p_user_id, p_receipt_key)
+  on conflict (user_id, receipt_key) do nothing;
+
+  select count(*) into v_used
+    from public.download_credits
+   where user_id = p_user_id;
+
+  return query select true, v_used;
+end;
+$$;
+
+-- Called only by the service-role client in app/api/downloads, which already
+-- bypasses RLS. Postgres grants EXECUTE to PUBLIC on every new function, so the
+-- revoke has to come first: without it any signed-in user could call this
+-- directly and spend their own credits on receipts they never made.
+revoke execute on function public.claim_download_credit(uuid, text, int) from public;
+revoke execute on function public.claim_download_credit(uuid, text, int) from anon, authenticated;
+grant execute on function public.claim_download_credit(uuid, text, int) to service_role;
+
+-- ---------------------------------------------------------------------------
 -- Schema cache
 -- ---------------------------------------------------------------------------
 -- PostgREST answers from a cached introspection of the schema and does not

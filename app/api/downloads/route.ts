@@ -108,33 +108,41 @@ async function alreadyClaimed(userId: string, key: string): Promise<Answer<boole
 }
 
 /**
- * Spend one credit on this receipt.
+ * Check the allowance and spend it, atomically.
  *
- * Returns true only when the row is actually there afterwards. The old code
- * awaited the insert and discarded its result, then returned `clean: true`
- * unconditionally — so a rejected insert produced a clean export *and* no
- * record of it, which is the same unlimited free tier by a second route.
+ * Delegated to claim_download_credit in Postgres rather than done here as a
+ * count followed by an insert, because the gap between those two statements is
+ * itself the bug: two downloads of two *different* receipts fired together both
+ * read "0 used", both see room under a limit of 1, and both export clean. The
+ * unique index only covers the same receipt twice. No amount of care in
+ * JavaScript closes that window — it needs one transaction and a lock, which is
+ * what the function does.
  *
- * A unique violation is the one error that still means success: two downloads
- * of the same receipt raced and the other one won. Even then the row is
- * re-read rather than assumed, because 23505 only proves *some* conflicting row
- * exists — under a corrupted or differently-shaped constraint that is not
- * necessarily this user's.
+ * The old code did neither. It awaited the insert, discarded the result and
+ * returned `clean: true` regardless, so a rejected insert produced a clean
+ * export and no record of it — repeatable without limit.
  */
-async function claim(userId: string, key: string): Promise<Answer<true>> {
-  const { error } = await createAdminClient()
-    .from("download_credits")
-    .insert({ user_id: userId, receipt_key: key });
+async function claim(
+  userId: string,
+  key: string
+): Promise<Answer<{ granted: boolean; used: number }>> {
+  const { data, error } = await createAdminClient().rpc("claim_download_credit", {
+    p_user_id: userId,
+    p_receipt_key: key,
+    p_limit: LIMIT,
+  });
 
-  if (!error) return known(true);
+  if (error) return fail("claim", error);
 
-  if (error.code === "23505") {
-    const confirmed = await alreadyClaimed(userId, key);
-    if (confirmed.ok && confirmed.value) return known(true);
-    return fail("claim race", { code: "23505_unconfirmed", message: "duplicate key, row not found" });
+  // `returns table` arrives as an array of rows. No row means the function
+  // answered nothing, which is not the same as answering "no" — treat it as
+  // unknown so it fails closed rather than silently refusing a paid-for export.
+  const row = Array.isArray(data) ? data[0] : data;
+  if (!row || typeof row.granted !== "boolean" || typeof row.used !== "number") {
+    return fail("claim", { code: "empty_result", message: "claim_download_credit returned no row" });
   }
 
-  return fail("claim insert", error);
+  return known({ granted: row.granted, used: row.used });
 }
 
 /**
@@ -290,18 +298,14 @@ export async function POST(req: Request) {
     });
   }
 
-  const used = await usedCount(userId);
-  if (!used.ok) return unavailable();
+  // One call decides and records. `used` comes back from the same transaction
+  // that spent the credit, so "how many left" needs no second count that could
+  // disagree with the answer just given.
+  const spent = await claim(userId, key);
+  if (!spent.ok) return unavailable();
 
-  if (used.value < LIMIT) {
-    // The credit is spent only if the row lands. Before this check a rejected
-    // insert still returned `clean: true`, so the export was free *and*
-    // unrecorded — repeatable without limit.
-    const spent = await claim(userId, key);
-    if (!spent.ok) return unavailable();
-    return NextResponse.json({ clean: true, remaining: Math.max(0, LIMIT - (used.value + 1)) });
-  }
-
-  // Out of free receipts → watermarked fallback.
-  return NextResponse.json({ clean: false, remaining: 0 });
+  return NextResponse.json({
+    clean: spent.value.granted,
+    remaining: Math.max(0, LIMIT - spent.value.used),
+  });
 }
