@@ -1,6 +1,15 @@
 import type { Metadata } from "next";
-import { PLANS, FREE_LIMITS, monthlyEquivalent, freeDownloadsPhrase, firstDownloadsPhrase } from "@/lib/plans";
+import {
+  PLANS,
+  FREE_LIMITS,
+  monthlyEquivalent,
+  freeDownloadsNoun,
+  firstDownloadsPhrase,
+  freeAiPhrase,
+  freeStylingPhrase,
+} from "@/lib/plans";
 import { FREE_BRAND_SLUGS } from "@/lib/brand-access";
+import { BRAND_TEMPLATES } from "@/lib/brands";
 import { docFromReceiptData } from "@/lib/sections";
 import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
 import Watermark from "@/components/receipt/Watermark";
@@ -14,7 +23,7 @@ import CheckoutNotice from "./CheckoutNotice";
 
 const PRICING_TITLE = `Pricing — Remove the Watermark with ${SITE.name} Pro`;
 const PRICING_DESCRIPTION =
-  "Create receipts free with a watermark, or go Pro for watermark-free HD downloads, unlimited AI receipt generation and saved history. Monthly or yearly.";
+  "Create receipts free with a watermark, or go Pro for watermark-free HD downloads, unlimited AI receipt generation and saved history. Weekly, monthly or yearly.";
 
 export const metadata: Metadata = {
   title: PRICING_TITLE,
@@ -101,7 +110,10 @@ type PlanRow = {
   access: string;
   cta: string;
   /** Free-tier caps read as text; unlimited plans say so. */
+  /** The bolded quantity: "1", "Unlimited". */
   downloads: string;
+  /** The noun after it, already singular or plural to match. */
+  downloadsNoun: string;
   ai: string;
   brands: string;
   styling: string;
@@ -130,10 +142,15 @@ const PLAN_ROWS: PlanRow[] = [
     unit: "forever",
     access: "Forever",
     cta: "Start free",
-    downloads: freeDownloadsPhrase("watermark-free"),
+    // Split into quantity and noun so the two agree. They did not: the row held
+    // freeDownloadsPhrase("watermark-free") — "1 watermark-free" — and the card
+    // appended a hardcoded "downloads", so the live pricing page read
+    // "1 watermark-free downloads".
+    downloads: String(FREE_LIMITS.freeReceiptDownloads),
+    downloadsNoun: freeDownloadsNoun("watermark-free download"),
     ai: `${FREE_LIMITS.aiGenerationsPerMonth} a month`,
     brands: FREE_BRANDS_LABEL,
-    styling: "3 fonts · 1 paper style",
+    styling: freeStylingPhrase(),
     saveTemplates: false,
     support: false,
   },
@@ -144,6 +161,7 @@ const PLAN_ROWS: PlanRow[] = [
     access: "7 days",
     cta: "Get 7 days",
     downloads: "Unlimited",
+    downloadsNoun: "watermark-free downloads",
     ai: "Unlimited",
     brands: BRANDS_LABEL,
     styling: "All 32 fonts · 3 paper styles",
@@ -157,6 +175,7 @@ const PLAN_ROWS: PlanRow[] = [
     access: "30 days",
     cta: "Go monthly",
     downloads: "Unlimited",
+    downloadsNoun: "watermark-free downloads",
     ai: "Unlimited",
     brands: BRANDS_LABEL,
     styling: "All 32 fonts · 3 paper styles",
@@ -170,6 +189,7 @@ const PLAN_ROWS: PlanRow[] = [
     access: "12 months",
     cta: "Go yearly",
     downloads: "Unlimited",
+    downloadsNoun: "watermark-free downloads",
     ai: "Unlimited",
     brands: BRANDS_LABEL,
     styling: "All 32 fonts · 3 paper styles",
@@ -190,7 +210,12 @@ const SHARED_FEATURES = [
 const FAQ = [
   {
     q: "What's the difference between Free and Pro?",
-    a: "Free gives you the generic receipt builder with no sign-up, plus 50 of the brand templates. On a free account your first download is watermark-free HD; after that downloads carry a small watermark. Free also includes 3 AI generations a month, 3 fonts and one paper style, and 50 of the brand templates; the other 298 need Pro. Pro removes the watermark on every download and unlocks unlimited HD exports, unlimited AI generation, all 32 fonts, all three paper styles and your own saved templates.",
+    // Every number here is read from the same constants the plan table reads,
+    // rather than typed out. The old version said "3 AI generations a month, 3
+    // fonts and one paper style, and 50 of the brand templates; the other 298
+    // need Pro" — four counts hand-written into one sentence, in the answer
+    // that exists specifically to state them accurately.
+    a: `Free gives you the generic receipt builder with no sign-up, plus ${FREE_BRAND_SLUGS.size} of the brand templates. On a free account your first download is watermark-free HD; after that downloads carry a small watermark. Free also includes ${freeAiPhrase()}, ${freeStylingPhrase().replace(" · ", " and ")}; the other ${BRAND_TEMPLATES.length - FREE_BRAND_SLUGS.size} brand templates need Pro. Pro removes the watermark on every download and unlocks unlimited HD exports, unlimited AI generation, all 32 fonts, all three paper styles and your own saved templates.`,
   },
   {
     q: "Can I cancel anytime?",
@@ -349,7 +374,7 @@ export default function PricingPage() {
 
           The table underneath is the other half — cards to decide from, a grid
           to compare in. Every price carries its monthly equivalent, so $3 /
-          $7.99 / $39 do not read as a rising ladder when per month they fall. */}
+          $7.99 / $49 do not read as a rising ladder when per month they fall. */}
       <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {PLAN_ROWS.map((row) => {
           const plan = row.id === "free" ? PLANS.free : PLANS[row.id];
@@ -386,7 +411,7 @@ export default function PricingPage() {
               <ul className="mt-5 flex-1 space-y-2.5 text-sm text-slate-600">
                 <Feature yes>
                   <strong className="font-semibold text-slate-900">{row.downloads}</strong>{" "}
-                  {row.downloads === "Unlimited" ? "watermark-free downloads" : "downloads"}
+                  {row.downloadsNoun}
                 </Feature>
                 <Feature yes>
                   <strong className="font-semibold text-slate-900">{row.ai}</strong> AI generations

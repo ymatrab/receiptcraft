@@ -228,6 +228,11 @@ export const LOGIN_UPDATED = "2026-08-31";
 // past the point where the question gets asked. The FAQ answer itself was
 // rewritten to lead with the answer and to name Manage billing for the card
 // subscriptions that do renew.
+// 2026-09-04 (2): the free plan row read "1 watermark-free downloads" — the
+// count is singular and the noun was hardcoded plural. The "difference between
+// Free and Pro" answer now derives its four counts from lib/plans.ts and
+// lib/brands.ts instead of stating them by hand, and the meta description names
+// the weekly pass, which has been on sale throughout and was not mentioned.
 export const PRICING_UPDATED = "2026-09-04";
 // 2026-08-23: the hero grid no longer stretches to the 380px receipt, so the
 // primary CTA is reachable again on phones under 412px — a visible change to

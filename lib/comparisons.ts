@@ -15,12 +15,17 @@
 
 import { SITE } from "./site";
 import { BRAND_COUNT } from "./counts";
+import { FREE_LIMITS, PLANS, formatPlanPrice, freeDownloadsPhrase } from "./plans";
 
 // Rivals re-fetched live and the table re-verified on 2026-08-22 — ReceiptBaker's
 // named-brand and no-signup rows were both wrong, and the ExpressExpense price
 // was unsourced. A genuine review of the whole set, so the shared date moves
 // rather than a per-competitor one. Stamped 08-23, the day the copy shipped.
-export const LAST_UPDATED = "2026-09-01"; // ISO — shown as the page "last reviewed" date
+// 2026-09-04: the Makecepeit row now reads its own figures from lib/plans.ts.
+// It had been claiming "3/day free" AI generations since the allowance became
+// 3 a month — a visible, wrong claim about our own free tier on the pages that
+// exist to be trusted about who offers what.
+export const LAST_UPDATED = "2026-09-04"; // ISO — shown as the page "last reviewed" date
 export const PRICING_AS_OF = "August 2026"; // human-readable disclaimer on pricing tables
 
 /* -------------------------------------------------------------------------- */
@@ -75,10 +80,16 @@ export const MAKECEPEIT = {
     brand_templates: yes(`${BRAND_COUNT} brands`),
     pdf_export: yes(),
     image_export: yes("PNG at 3× resolution"),
-    ai_generator: yes("3/day free, unlimited on Pro"),
+    // Derived, not typed. This said "3/day free" for weeks after the free
+    // allowance became 3 a *month* — an overstatement of our own free tier by
+    // roughly thirty times, on the one page whose value depends entirely on
+    // being accurate about who offers what.
+    ai_generator: yes(`${FREE_LIMITS.aiGenerationsPerMonth}/month free, unlimited on Pro`),
     saved_history: yes("Pro"),
-    watermark_free: partial("1 free, then Pro from $3/wk"),
-    transparent_pricing: yes("$3/wk · $7.99/mo · $49/yr"),
+    watermark_free: partial(`${freeDownloadsPhrase()} free, then Pro from $${PLANS.pro_weekly.price}/wk`),
+    transparent_pricing: yes(
+      `${formatPlanPrice(PLANS.pro_weekly)}/wk · ${formatPlanPrice(PLANS.pro_monthly)}/mo · ${formatPlanPrice(PLANS.pro_yearly)}/yr`
+    ),
   } as Cells,
 } as const;
 
