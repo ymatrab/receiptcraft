@@ -48,12 +48,14 @@ export const metadata: Metadata = {
     title: SITE.tagline,
     description: SITE_DESCRIPTION,
   },
-  // Proves host ownership to Bing Webmaster Tools, which is also what feeds
-  // Microsoft Copilot's citations. Public by design — it identifies the site,
-  // it does not grant access to it.
+  // Proves host ownership to the platforms that need it: Bing Webmaster Tools,
+  // which is also what feeds Microsoft Copilot's citations, and Pinterest, which
+  // needs a claimed domain before Pins can carry our attribution. Both are public
+  // by design — they identify the site, they do not grant access to it.
   verification: {
     other: {
       "msvalidate.01": "3A3CD96A324801E10FE17EF579BD3073",
+      "p:domain_verify": "429322499f78d824d1e5358ab7923c5e",
     },
   },
   robots: {
