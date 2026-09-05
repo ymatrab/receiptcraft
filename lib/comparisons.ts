@@ -26,6 +26,18 @@ import { FREE_LIMITS, PLANS, formatPlanPrice, freeDownloadsPhrase } from "./plan
 // 3 a month — a visible, wrong claim about our own free tier on the pages that
 // exist to be trusted about who offers what.
 export const LAST_UPDATED = "2026-09-04"; // ISO — shown as the page "last reviewed" date
+
+/**
+ * A per-entry review date, for when one competitor is re-checked on its own.
+ *
+ * MakeReceipt, 2026-09-05: this entry said its membership prices were not
+ * published while the same page's FAQ quoted them, dated and sourced — so the
+ * page contradicted itself, and five blog posts repeated the wrong half. The
+ * prices now appear in the overview, the pricing block and the gaps list.
+ * Nothing else on the page changed, so only this entry moves: restamping the
+ * comparisons that were not re-read is what IndexNow reads as spam.
+ */
+const MAKERECEIPT_UPDATED = "2026-09-05";
 export const PRICING_AS_OF = "August 2026"; // human-readable disclaimer on pricing tables
 
 /* -------------------------------------------------------------------------- */
@@ -153,7 +165,7 @@ export const COMPETITORS: Competitor[] = [
     intro:
       `MakeReceipt is one of the oldest online receipt makers, with a broad template library and a membership model that removes watermarks. Makecepeit is a newer, AI-powered receipt maker with ${BRAND_COUNT} named-brand templates, transparent low pricing, and no signup to start building. Here is an honest, field-by-field comparison.`,
     overview:
-      "MakeReceipt bills itself as the original online receipt maker. It offers 60+ category templates (restaurant, retail, gas, pharmacy, parking, taxi and more), multi-currency and multi-language support, and lets you create free receipts that carry a watermark until you join a paid membership. Its Standard, Pro and Enterprise tiers are referenced on the site but exact prices are not published publicly.",
+      "MakeReceipt bills itself as the original online receipt maker. It offers 60+ category templates (restaurant, retail, gas, pharmacy, parking, taxi and more), multi-currency and multi-language support, and lets you create free receipts that carry a watermark until you join a paid membership. Its Standard, Pro and Enterprise tiers are priced on its sign-up page rather than a pricing page — $7.99, $12.79 and $39.99 a month when we read it on 2026-08-30.",
     strengths: [
       "One of the longest-running receipt makers, with strong brand recognition",
       "Multi-currency and multi-language (English, Spanish, Chinese, Hindi, Portuguese, French, Italian, German)",
@@ -162,11 +174,11 @@ export const COMPETITORS: Competitor[] = [
     gaps: [
       "No AI receipt generator — every field is filled in by hand",
       `Fewer named-brand templates (Walmart, Target, CVS…) than Makecepeit's ${BRAND_COUNT}`,
-      "Exact membership prices are not listed publicly; Makecepeit publishes $3/wk, $7.99/mo, $49/yr",
+      "Membership prices sit on the sign-up page, not a pricing page — its /pricing redirects away; Makecepeit publishes $3/wk, $7.99/mo, $49/yr up front",
     ],
     pricing: {
       free: "Free receipts available, but they carry a watermark until you upgrade.",
-      paid: "Standard / Pro / Enterprise membership removes the watermark. Exact tier prices are not published publicly on the site (membership required to view).",
+      paid: "Standard / Pro / Enterprise membership removes the watermark. Read on its sign-up page 2026-08-30: $7.99, $12.79 and $39.99 a month (list $9.99, $15.99, $49.99), with annual billing about 38% cheaper. Its /pricing and /membership paths redirect to the homepage.",
     },
     cells: {
       free_start: yes("Free, watermarked"),
@@ -178,7 +190,7 @@ export const COMPETITORS: Competitor[] = [
       ai_generator: no(),
       saved_history: partial("Not stated"),
       watermark_free: partial("Paid membership only"),
-      transparent_pricing: no("Tiers not listed publicly"),
+      transparent_pricing: partial("Priced on the sign-up page, not a pricing page"),
     },
     verdict:
       `If you want a long-established tool with deep multi-language support, MakeReceipt is a proven option. But if you want AI-assisted receipts, ${BRAND_COUNT} specific brand templates, both PDF and PNG export, and pricing you can see before you commit, Makecepeit is the stronger, more transparent choice — and you can build a full receipt for free before spending anything.`,
@@ -205,10 +217,10 @@ export const COMPETITORS: Competitor[] = [
       {
         question: "Does MakeReceipt have an AI receipt generator?",
         answer:
-          "No. MakeReceipt receipts are filled in by hand. Makecepeit includes an AI generator that drafts a receipt from a short text description — three a day on a free account, unlimited on Pro.",
+          "No. MakeReceipt receipts are filled in by hand. Makecepeit includes an AI generator that drafts a receipt from a short text description — three a month on a free account, unlimited on Pro.",
       },
     ],
-    updated: LAST_UPDATED,
+    updated: MAKERECEIPT_UPDATED,
   },
   {
     slug: "receiptfaker",

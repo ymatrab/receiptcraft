@@ -9,6 +9,12 @@ export interface BlogPostStub {
   slug: string;
   excerpt?: string;
   publishedAt?: string;
+  /**
+   * When the document last changed in Sanity. Carried on the stub, not just the
+   * full post, because the sitemap is built from the list — and a sitemap that
+   * only knows publishedAt cannot tell IndexNow that a post was corrected.
+   */
+  _updatedAt?: string;
   mainImage?: import("@sanity/image-url/lib/types/types").SanityImageSource;
   category?: string;
 }
@@ -33,7 +39,7 @@ export interface BlogPost extends BlogPostStub {
 const PUBLISHED = `_type == "post" && !(_id in path("drafts.**")) && publishedAt <= now()`;
 
 const LIST_QUERY = groq`*[${PUBLISHED}] | order(publishedAt desc){
-  _id, title, "slug": slug.current, excerpt, publishedAt, mainImage,
+  _id, _updatedAt, title, "slug": slug.current, excerpt, publishedAt, mainImage,
   "category": category->title
 }`;
 

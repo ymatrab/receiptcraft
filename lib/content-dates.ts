@@ -1,7 +1,7 @@
 import type { ReceiptTemplate } from "./types";
 import { sourcedFigure } from "./templates";
 import { hasOfficialSource } from "./intent-pages";
-import { LAST_UPDATED } from "./comparisons";
+import { COMPETITORS, LAST_UPDATED } from "./comparisons";
 
 /**
  * When each section of the site was last genuinely reviewed.
@@ -260,6 +260,28 @@ export const HOME_UPDATED = "2026-09-01";
 // 2026-08-31: free-tier limits changed — see STATIC_UPDATED above.
 export const TEMPLATES_INDEX_UPDATED = "2026-08-31";
 export const COMPARISONS_UPDATED = LAST_UPDATED;
+
+/**
+ * When one comparison page was last reviewed.
+ *
+ * Read off the entry itself rather than kept in step by hand: re-checking a
+ * single competitor should move that one page's sitemap date and no other, and
+ * a shared constant cannot express that — it either restamps every comparison
+ * or leaves the re-read one looking untouched. See brandReviewedAt, same rule.
+ */
+export function compareReviewedAt(slug: string): string {
+  return COMPETITORS.find((c) => c.slug === slug)?.updated ?? COMPARISONS_UPDATED;
+}
+
+/**
+ * /alternatives renders every competitor's overview and pricing, so it is as
+ * fresh as the most recently reviewed entry on it.
+ */
+export function alternativesUpdated(): string {
+  // ISO dates sort lexicographically, so the last one is the newest.
+  const reviewed = COMPETITORS.map((c) => c.updated).sort();
+  return reviewed[reviewed.length - 1] ?? COMPARISONS_UPDATED;
+}
 
 /**
  * When a template page was last reviewed.

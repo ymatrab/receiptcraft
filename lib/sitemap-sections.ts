@@ -62,7 +62,7 @@ function core(): MetadataRoute.Sitemap {
     { url: `${SITE.url}/templates`, lastModified: d(C.TEMPLATES_INDEX_UPDATED) },
     { url: `${SITE.url}/examples`, lastModified: d(C.EXAMPLES_UPDATED) },
     { url: `${SITE.url}/receipt-help`, lastModified: d(C.INTENT_UPDATED) },
-    { url: `${SITE.url}/alternatives`, lastModified: d(C.COMPARISONS_UPDATED) },
+    { url: `${SITE.url}/alternatives`, lastModified: d(C.alternativesUpdated()) },
     { url: `${SITE.url}/pricing`, lastModified: d(C.PRICING_UPDATED) },
     { url: `${SITE.url}/login`, lastModified: d(C.LOGIN_UPDATED) },
     { url: `${SITE.url}/blog`, lastModified: d(C.STATIC_UPDATED) },
@@ -74,6 +74,20 @@ function core(): MetadataRoute.Sitemap {
     { url: `${SITE.url}/terms`, lastModified: d(C.TERMS_UPDATED) },
     { url: `${SITE.url}/cookies`, lastModified: d(C.COOKIES_UPDATED) },
   ];
+}
+
+/**
+ * When a post last changed, for the sitemap: its publish date, or its Sanity
+ * update date when that is genuinely later. Mirrors the dateModified rule in
+ * app/blog/[slug]/page.tsx — the sitemap and the page must not disagree about
+ * when a post was last touched.
+ */
+function lastTouched(p: { publishedAt?: string; _updatedAt?: string }): Date {
+  const published = p.publishedAt ? new Date(p.publishedAt) : null;
+  const updated = p._updatedAt ? new Date(p._updatedAt) : null;
+  if (published && updated && updated.getTime() > published.getTime()) return updated;
+  if (published) return published;
+  return d(C.STATIC_UPDATED);
 }
 
 /** URLs for one section. Async only because the blog reads from Sanity. */
@@ -123,14 +137,24 @@ export async function sectionUrls(id: SectionId): Promise<MetadataRoute.Sitemap>
     case "compare":
       return COMPETITORS.map((c) => ({
         url: `${SITE.url}/compare/${c.slug}`,
-        lastModified: d(C.COMPARISONS_UPDATED),
+        // Per-entry, so re-checking one competitor doesn't restamp the rest.
+        lastModified: d(C.compareReviewedAt(c.slug)),
       }));
 
     case "blog": {
       const posts = await getAllPosts();
       return posts.map((p) => ({
         url: `${SITE.url}/blog/${p.slug}`,
-        lastModified: p.publishedAt ? new Date(p.publishedAt) : d(C.STATIC_UPDATED),
+        // publishedAt alone made a corrected post invisible to search engines:
+        // the IndexNow cron only submits URLs whose lastModified is newer than
+        // its last run, so rewriting a 2026-08 post left it stamped 2026-08 and
+        // it was never resubmitted — while the post's own BlogPosting schema
+        // already reported the new dateModified. The two now agree.
+        //
+        // Same guard as app/blog/[slug]/page.tsx: bulk-authored posts carry an
+        // _updatedAt from before their scheduled publish date, so _updatedAt is
+        // only trusted when it is genuinely later than publication.
+        lastModified: lastTouched(p),
       }));
     }
   }
