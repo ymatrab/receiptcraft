@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/client";
 import { supabaseConfigured } from "@/lib/supabase/config";
 import { analytics } from "@/lib/analytics";
 import { newAccountDestination } from "@/lib/new-account";
+import { SITE } from "@/lib/site";
 import { EyeIcon, EyeOffIcon, SpinnerIcon } from "@/components/Icons";
 import {
   authFieldClass,
@@ -214,6 +215,32 @@ export default function LoginForm({
     return true;
   }
 
+  /**
+   * The address already has an account. Don't just say so — move the form to
+   * log in, and say that we moved it.
+   *
+   * "Try logging in instead" under a heading still reading "Create your free
+   * account", beside a link offering to create one, sends the visitor hunting
+   * for a switch that has already been flipped. The heading now follows `mode`
+   * (see `heading` below), so this one call re-labels the whole card.
+   *
+   * The password is cleared with it. It was typed to open a *new* account, so
+   * it is the real password only by coincidence; leaving it in place invites
+   * one confident click straight into "Wrong email or password" — a second,
+   * vaguer error stacked on the first.
+   */
+  function switchToLogin() {
+    analytics.signUpError("already_registered");
+    setMode("login");
+    setPassword("");
+    setShowPassword(false);
+    setPwError(null);
+    setError(
+      "That email is already registered — we’ve switched you to log in. Enter your password to continue, or use “Forgot password?” below if you’ve lost it.",
+    );
+    passwordRef.current?.focus();
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (busy) return;
@@ -265,6 +292,13 @@ export default function LoginForm({
       setBusy(false);
       if (error) {
         const failure = classifyAuthError(error);
+        // Same outcome, different shape: with email confirmation off Supabase
+        // reports a taken address as a real error rather than as a user with no
+        // identities. Both land the visitor on the log-in form.
+        if (failure.reason === "already_registered") {
+          switchToLogin();
+          return;
+        }
         analytics.signUpError(failure.reason);
         setError(failure.message);
         emailRef.current?.focus();
@@ -275,10 +309,7 @@ export default function LoginForm({
       // `error`, so it has to be counted separately — and it is the single most
       // common way a sign-up fails.
       if (data.user && data.user.identities?.length === 0) {
-        analytics.signUpError("already_registered");
-        setError("That email is already registered. Try logging in instead.");
-        setMode("login");
-        passwordRef.current?.focus();
+        switchToLogin();
         return;
       }
       analytics.signUp("password");
@@ -362,63 +393,108 @@ export default function LoginForm({
     // On success the browser is redirected to the provider.
   }
 
+  /**
+   * The card's heading and standfirst.
+   *
+   * These used to live in app/login/page.tsx, chosen once on the server from
+   * `?signup=1`. But which form this *is* is client state that changes after
+   * that: the visitor toggles it, or a taken address switches it for them. The
+   * heading never followed, so the card could read "Create your free account"
+   * above a "Log in" button and a "New here? Create an account" link — three
+   * different answers to the same question, and no visible way to reconcile
+   * them.
+   *
+   * `signup` (the caller's `?signup=1`) still picks the sign-up standfirst:
+   * only a visitor sent here by a gate has a receipt waiting, so only they are
+   * promised it back.
+   */
+  const heading = verifyEmail
+    ? { title: "Check your email", blurb: null }
+    : mode === "forgot"
+      ? { title: "Reset your password", blurb: null }
+      : mode === "signup"
+        ? {
+            title: "Create your free account",
+            blurb: signup
+              ? "It takes about ten seconds, and your receipt is saved right where you left it. Your first HD download is watermark-free."
+              : "It takes about ten seconds, and your receipts stay in your account. Your first HD download is watermark-free.",
+          }
+        : {
+            title: `Welcome to ${SITE.name}`,
+            blurb:
+              "Log in to save your receipts and pick up where you left off. The free builder works without an account.",
+          };
+
+  const header = (
+    <>
+      <h1 className="text-2xl font-bold text-slate-900">{heading.title}</h1>
+      {heading.blurb && <p className="mt-2 text-sm text-slate-500">{heading.blurb}</p>}
+    </>
+  );
+
   if (!supabaseConfigured) {
     return (
-      <p role="alert" className="mt-8 rounded-xl bg-amber-50 px-4 py-3 text-sm text-amber-900">
-        Login isn&apos;t enabled yet — the backend keys haven&apos;t been added.
-      </p>
+      <>
+        {header}
+        <p role="alert" className="mt-8 rounded-xl bg-amber-50 px-4 py-3 text-sm text-amber-900">
+          Login isn&apos;t enabled yet — the backend keys haven&apos;t been added.
+        </p>
+      </>
     );
   }
 
   // Post-signup: ask the user to confirm their email.
   if (verifyEmail) {
     return (
-      <div className="mt-8 space-y-3">
-        <div
-          ref={verifyPanelRef}
-          tabIndex={-1}
-          role="status"
-          className="rounded-xl bg-emerald-50 px-4 py-3 text-sm text-emerald-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
-        >
-          Almost there — we sent a verification link to <strong>{verifyEmail}</strong>.
-          Click it and we&apos;ll sign you in automatically — no need to come back here.
-          <span className="mt-2 block">
-            Open it in <strong>this same browser</strong> so the receipt you were working on
-            is still waiting for you.
-          </span>
+      <>
+        {header}
+        <div className="mt-8 space-y-3">
+          <div
+            ref={verifyPanelRef}
+            tabIndex={-1}
+            role="status"
+            className="rounded-xl bg-emerald-50 px-4 py-3 text-sm text-emerald-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+          >
+            Almost there — we sent a verification link to <strong>{verifyEmail}</strong>.
+            Click it and we&apos;ll sign you in automatically — no need to come back here.
+            <span className="mt-2 block">
+              Open it in <strong>this same browser</strong> so the receipt you were working on
+              is still waiting for you.
+            </span>
+          </div>
+          {notice && (
+            <p role="status" className="rounded-xl bg-slate-50 px-4 py-3 text-sm text-slate-700">
+              {notice}
+            </p>
+          )}
+          {error && (
+            <p role="alert" className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">
+              {error}
+            </p>
+          )}
+          <button
+            type="button"
+            onClick={resendVerification}
+            disabled={resendBusy}
+            aria-busy={resendBusy}
+            className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            {resendBusy && <SpinnerIcon className="h-4 w-4" />}
+            {resendBusy ? "Sending…" : "Resend verification email"}
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setVerifyEmail(null);
+              setMode("login");
+              clearMessages();
+            }}
+            className="w-full cursor-pointer rounded-full py-2 text-center text-sm font-medium text-indigo-700 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+          >
+            Back to log in
+          </button>
         </div>
-        {notice && (
-          <p role="status" className="rounded-xl bg-slate-50 px-4 py-3 text-sm text-slate-700">
-            {notice}
-          </p>
-        )}
-        {error && (
-          <p role="alert" className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">
-            {error}
-          </p>
-        )}
-        <button
-          type="button"
-          onClick={resendVerification}
-          disabled={resendBusy}
-          aria-busy={resendBusy}
-          className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-60"
-        >
-          {resendBusy && <SpinnerIcon className="h-4 w-4" />}
-          {resendBusy ? "Sending…" : "Resend verification email"}
-        </button>
-        <button
-          type="button"
-          onClick={() => {
-            setVerifyEmail(null);
-            setMode("login");
-            clearMessages();
-          }}
-          className="w-full cursor-pointer rounded-full py-2 text-center text-sm font-medium text-indigo-700 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
-        >
-          Back to log in
-        </button>
-      </div>
+      </>
     );
   }
 
@@ -435,196 +511,199 @@ export default function LoginForm({
         : "Log in";
 
   return (
-    <div className="mt-8 space-y-3">
-      {hadError && (
-        <p role="alert" className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">
-          Sign-in didn&apos;t complete. Please try again.
-          {errorDetail && (
-            <span className="mt-1 block text-xs text-red-600">{errorDetail}</span>
-          )}
-        </p>
-      )}
+    <>
+      {header}
+      <div className="mt-8 space-y-3">
+        {hadError && (
+          <p role="alert" className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">
+            Sign-in didn&apos;t complete. Please try again.
+            {errorDetail && (
+              <span className="mt-1 block text-xs text-red-600">{errorDetail}</span>
+            )}
+          </p>
+        )}
 
-      {/* Google leads.
-          It is the one-tap path and it used to sit fourth on the screen — under
-          the email field, the password field, the submit button and the mode
-          toggle — which read as the fallback rather than the fast way in. The
-          divider goes beneath it so the email form still reads as a complete
-          alternative, and the whole block disappears when the provider is off,
-          leaving the email field first with no orphaned "or". */}
-      {mode !== "forgot" && googleEnabled && (
-        <>
-          <button
-            type="button"
-            onClick={signInWithGoogle}
-            disabled={googleBusy}
-            aria-busy={googleBusy}
-            className="flex w-full cursor-pointer items-center justify-center gap-3 rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            {googleBusy ? <SpinnerIcon className="h-5 w-5" /> : <GoogleIcon />}
-            {googleBusy ? "Redirecting…" : "Continue with Google"}
-          </button>
+        {/* Google leads.
+            It is the one-tap path and it used to sit fourth on the screen — under
+            the email field, the password field, the submit button and the mode
+            toggle — which read as the fallback rather than the fast way in. The
+            divider goes beneath it so the email form still reads as a complete
+            alternative, and the whole block disappears when the provider is off,
+            leaving the email field first with no orphaned "or". */}
+        {mode !== "forgot" && googleEnabled && (
+          <>
+            <button
+              type="button"
+              onClick={signInWithGoogle}
+              disabled={googleBusy}
+              aria-busy={googleBusy}
+              className="flex w-full cursor-pointer items-center justify-center gap-3 rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {googleBusy ? <SpinnerIcon className="h-5 w-5" /> : <GoogleIcon />}
+              {googleBusy ? "Redirecting…" : "Continue with Google"}
+            </button>
 
-          <div className="flex items-center gap-3 py-1">
-            <span className="h-px flex-1 bg-slate-200" />
-            <span className="text-xs uppercase tracking-wide text-slate-500">
-              or use your email
-            </span>
-            <span className="h-px flex-1 bg-slate-200" />
+            <div className="flex items-center gap-3 py-1">
+              <span className="h-px flex-1 bg-slate-200" />
+              <span className="text-xs uppercase tracking-wide text-slate-500">
+                or use your email
+              </span>
+              <span className="h-px flex-1 bg-slate-200" />
+            </div>
+          </>
+        )}
+
+        {/* Email + password */}
+        <form onSubmit={handleSubmit} className="space-y-3" noValidate>
+          <div>
+            <label htmlFor="login-email" className={authLabelClass}>
+              Email address
+            </label>
+            <input
+              id="login-email"
+              ref={emailRef}
+              type="email"
+              required
+              autoComplete="email"
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                if (emailError) setEmailError(null);
+              }}
+              onBlur={validateEmail}
+              aria-invalid={emailError ? true : undefined}
+              aria-describedby={emailError ? "login-email-error" : undefined}
+              placeholder="you@example.com"
+              className={authFieldClass}
+            />
+            {emailError && (
+              <p id="login-email-error" role="alert" className="mt-1.5 px-1 text-xs font-medium text-red-700">
+                {emailError}
+              </p>
+            )}
           </div>
-        </>
-      )}
 
-      {/* Email + password */}
-      <form onSubmit={handleSubmit} className="space-y-3" noValidate>
-        <div>
-          <label htmlFor="login-email" className={authLabelClass}>
-            Email address
-          </label>
-          <input
-            id="login-email"
-            ref={emailRef}
-            type="email"
-            required
-            autoComplete="email"
-            value={email}
-            onChange={(e) => {
-              setEmail(e.target.value);
-              if (emailError) setEmailError(null);
-            }}
-            onBlur={validateEmail}
-            aria-invalid={emailError ? true : undefined}
-            aria-describedby={emailError ? "login-email-error" : undefined}
-            placeholder="you@example.com"
-            className={authFieldClass}
-          />
-          {emailError && (
-            <p id="login-email-error" role="alert" className="mt-1.5 px-1 text-xs font-medium text-red-700">
-              {emailError}
+          {mode === "forgot" ? (
+            <p className="px-1 text-xs text-slate-600">
+              Enter your account email and we&apos;ll send you a link to set a new password.
+            </p>
+          ) : (
+            <div>
+              <label htmlFor="login-password" className={authLabelClass}>
+                Password
+              </label>
+              <div className="relative">
+                <input
+                  id="login-password"
+                  ref={passwordRef}
+                  type={showPassword ? "text" : "password"}
+                  required
+                  minLength={MIN_PASSWORD}
+                  autoComplete={mode === "signup" ? "new-password" : "current-password"}
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    if (pwError) setPwError(null);
+                  }}
+                  onBlur={validatePassword}
+                  aria-invalid={pwError ? true : undefined}
+                  aria-describedby={
+                    pwError ? "login-password-error" : mode === "signup" ? "login-password-hint" : undefined
+                  }
+                  placeholder={mode === "signup" ? "At least 8 characters" : "Your password"}
+                  className={`${authFieldClass} pr-14`}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((s) => !s)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  aria-pressed={showPassword}
+                  className={authRevealClass}
+                >
+                  {showPassword ? <EyeOffIcon className="h-5 w-5" /> : <EyeIcon className="h-5 w-5" />}
+                </button>
+              </div>
+              {pwError ? (
+                <p id="login-password-error" role="alert" className="mt-1.5 px-1 text-xs font-medium text-red-700">
+                  {pwError}
+                </p>
+              ) : mode === "signup" ? (
+                <p id="login-password-hint" className="mt-1.5 px-1 text-xs text-slate-600">
+                  Use {MIN_PASSWORD} characters or more.
+                </p>
+              ) : null}
+            </div>
+          )}
+
+          {error && (
+            <p role="alert" className="rounded-xl bg-red-50 px-4 py-2.5 text-sm text-red-700">
+              {error}
             </p>
           )}
-        </div>
+          {notice && (
+            <p role="status" className="rounded-xl bg-emerald-50 px-4 py-2.5 text-sm text-emerald-900">
+              {notice}
+            </p>
+          )}
+
+          <button
+            type="submit"
+            disabled={busy}
+            aria-busy={busy}
+            className={authSubmitClass}
+          >
+            {busy && <SpinnerIcon className="h-4 w-4" />}
+            {submitLabel}
+          </button>
+        </form>
 
         {mode === "forgot" ? (
-          <p className="px-1 text-xs text-slate-600">
-            Enter your account email and we&apos;ll send you a link to set a new password.
-          </p>
-        ) : (
-          <div>
-            <label htmlFor="login-password" className={authLabelClass}>
-              Password
-            </label>
-            <div className="relative">
-              <input
-                id="login-password"
-                ref={passwordRef}
-                type={showPassword ? "text" : "password"}
-                required
-                minLength={MIN_PASSWORD}
-                autoComplete={mode === "signup" ? "new-password" : "current-password"}
-                value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                  if (pwError) setPwError(null);
-                }}
-                onBlur={validatePassword}
-                aria-invalid={pwError ? true : undefined}
-                aria-describedby={
-                  pwError ? "login-password-error" : mode === "signup" ? "login-password-hint" : undefined
-                }
-                placeholder={mode === "signup" ? "At least 8 characters" : "Your password"}
-                className={`${authFieldClass} pr-14`}
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword((s) => !s)}
-                aria-label={showPassword ? "Hide password" : "Show password"}
-                aria-pressed={showPassword}
-                className={authRevealClass}
-              >
-                {showPassword ? <EyeOffIcon className="h-5 w-5" /> : <EyeIcon className="h-5 w-5" />}
-              </button>
-            </div>
-            {pwError ? (
-              <p id="login-password-error" role="alert" className="mt-1.5 px-1 text-xs font-medium text-red-700">
-                {pwError}
-              </p>
-            ) : mode === "signup" ? (
-              <p id="login-password-hint" className="mt-1.5 px-1 text-xs text-slate-600">
-                Use {MIN_PASSWORD} characters or more.
-              </p>
-            ) : null}
-          </div>
-        )}
-
-        {error && (
-          <p role="alert" className="rounded-xl bg-red-50 px-4 py-2.5 text-sm text-red-700">
-            {error}
-          </p>
-        )}
-        {notice && (
-          <p role="status" className="rounded-xl bg-emerald-50 px-4 py-2.5 text-sm text-emerald-900">
-            {notice}
-          </p>
-        )}
-
-        <button
-          type="submit"
-          disabled={busy}
-          aria-busy={busy}
-          className={authSubmitClass}
-        >
-          {busy && <SpinnerIcon className="h-4 w-4" />}
-          {submitLabel}
-        </button>
-      </form>
-
-      {mode === "forgot" ? (
-        <button
-          type="button"
-          onClick={() => {
-            setMode("login");
-            clearMessages();
-          }}
-          className="block w-full cursor-pointer rounded-full py-2 text-center text-sm font-medium text-indigo-700 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
-        >
-          ← Back to log in
-        </button>
-      ) : (
-        <div className="flex items-center justify-between gap-2 text-sm">
           <button
             type="button"
             onClick={() => {
-              setMode((m) => (m === "login" ? "signup" : "login"));
+              setMode("login");
               clearMessages();
             }}
-            className="cursor-pointer rounded-full px-1 py-2 font-medium text-indigo-700 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+            className="block w-full cursor-pointer rounded-full py-2 text-center text-sm font-medium text-indigo-700 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
           >
-            {mode === "login" ? "New here? Create an account" : "Have an account? Log in"}
+            ← Back to log in
           </button>
-          {mode === "login" && (
+        ) : (
+          <div className="flex items-center justify-between gap-2 text-sm">
             <button
               type="button"
               onClick={() => {
-                setMode("forgot");
+                setMode((m) => (m === "login" ? "signup" : "login"));
                 clearMessages();
               }}
-              className="cursor-pointer rounded-full px-1 py-2 text-slate-600 hover:text-slate-900 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+              className="cursor-pointer rounded-full px-1 py-2 font-medium text-indigo-700 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
             >
-              Forgot password?
+              {mode === "login" ? "New here? Create an account" : "Have an account? Log in"}
             </button>
-          )}
-        </div>
-      )}
+            {mode === "login" && (
+              <button
+                type="button"
+                onClick={() => {
+                  setMode("forgot");
+                  clearMessages();
+                }}
+                className="cursor-pointer rounded-full px-1 py-2 text-slate-600 hover:text-slate-900 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+              >
+                Forgot password?
+              </button>
+            )}
+          </div>
+        )}
 
-      {mode !== "forgot" && (
-        <p className="pt-2 text-center text-xs leading-relaxed text-slate-600">
-          By continuing you agree to our{" "}
-          <a href="/terms" className="underline hover:text-slate-900">Terms</a> and{" "}
-          <a href="/privacy" className="underline hover:text-slate-900">Privacy Policy</a>.
-        </p>
-      )}
-    </div>
+        {mode !== "forgot" && (
+          <p className="pt-2 text-center text-xs leading-relaxed text-slate-600">
+            By continuing you agree to our{" "}
+            <a href="/terms" className="underline hover:text-slate-900">Terms</a> and{" "}
+            <a href="/privacy" className="underline hover:text-slate-900">Privacy Policy</a>.
+          </p>
+        )}
+      </div>
+    </>
   );
 }
 

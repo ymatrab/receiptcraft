@@ -94,15 +94,12 @@ export default async function LoginPage({
 
   return (
     <div className="mx-auto flex min-h-[70dvh] max-w-md flex-col justify-center px-4 py-16">
+      {/* The heading lives inside LoginForm, not here. It has to change when the
+          form does — a visitor who toggles to log in, or who is switched there
+          because their address is already registered, was otherwise left under
+          a "Create your free account" title with a "Log in" button beneath it.
+          A server component cannot see that state; the form can. */}
       <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
-        <h1 className="text-2xl font-bold text-slate-900">
-          {fromGate ? "Create your free account" : `Welcome to ${SITE.name}`}
-        </h1>
-        <p className="mt-2 text-sm text-slate-500">
-          {fromGate
-            ? "It takes about ten seconds, and your receipt is saved right where you left it. Your first HD download is watermark-free."
-            : "Log in to save your receipts and pick up where you left off. The free builder works without an account."}
-        </p>
         <LoginForm
           next={typeof next === "string" && next.length > 0 ? next : null}
           signup={fromGate}
