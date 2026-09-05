@@ -1,5 +1,19 @@
 # Document modes and trust copy — proposal, 4 September 2026
 
+> **Owner's decision, 5 September 2026: deferred. Do not implement.**
+>
+> Asked directly, the owner declined the three-mode model for now, on the
+> grounds that the plan itself frames it as future work. Nothing in this
+> document has been built, and nothing should be picked up from it without
+> asking again — it is a design that is ready, not a queued task.
+>
+> One piece is separable and still available on its own: the three overclaiming
+> lines on the homepage (§ "The five claims"). They are simple accuracy
+> corrections with no interaction risk and no dependency on the mode selector.
+> They were **not** shipped, because the decision above was about "this model"
+> and it would be presumptuous to read a copy change out of a deferral. Offer
+> them separately.
+
 Section 11 of the implementation plan proposes splitting what the builder
 produces into three declared document types, and softening five specific claims.
 The plan ends that section with a mandatory stop: **present the wireflow, the

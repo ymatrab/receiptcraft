@@ -113,8 +113,18 @@ of what the cancellation was for; and a lapsed cancelled pass now gets the
 ## Settled: the Shopify yearly price
 
 An earlier session note recorded the Shopify yearly variant at $39.00 against
-the site's $49. **The owner confirmed on 2026-09-04 that the Shopify price is
-correct.** Nothing to do.
+the site's $49. **The owner confirmed on 2026-09-05 that the Shopify price is
+correct.** A false alarm from a stale note; the note has been corrected so this
+does not get re-opened. Nothing to do.
+
+## Settled: manual fulfilment is acceptable for now
+
+Asked whether the missing webhook was worth treating as urgent, the owner's
+answer on 2026-09-05 was that hand-granting Pro is manageable at current volume.
+So `payment_completed` stays unprovable from the provider by choice, not by
+oversight — the funnel reports `purchase_landed` and stops short of calling it a
+payment, which is the correct behaviour under that constraint rather than a gap
+to be papered over.
 
 ## Recommendation
 
