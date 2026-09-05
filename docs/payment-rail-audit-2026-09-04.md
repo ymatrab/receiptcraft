@@ -76,45 +76,45 @@ work remaining on the payment side. It is out of scope here, but it is the thing
 that turns a sale into access without somebody watching an inbox — and picking it
 back up means reversing a decision made three weeks ago, not filling a gap.
 
-## Finding worth a decision: a paid customer may lose access early
+## Resolved: a cancelled pass now runs to its end date
 
-`isProEntitled` (lib/plans.ts) requires `status` to be `active` or `trialing`.
-A row that is `canceled` grants nothing, **even when its period end is in the
-future**. Live data, 2026-09-04:
+`isProEntitled` required `status` to be `active` or `trialing`, so a `canceled`
+row granted nothing **even with a future period end**. Live data, 2026-09-04:
 
-| plan | status | current_period_end | created |
-| --- | --- | --- | --- |
-| pro_yearly | active | 2027-06-29 | 2026-06-29 |
-| pro_weekly | canceled | 2026-07-22 | 2026-07-15 |
-| pro_monthly | canceled | **2026-09-28** | 2026-08-28 |
+| plan | status | current_period_end | entitled before | after |
+| --- | --- | --- | --- | --- |
+| pro_yearly | active | 2027-06-29 | yes | yes |
+| pro_weekly | canceled | 2026-07-22 | no | no |
+| pro_monthly | canceled | **2026-09-28** | **no** | **yes** |
 
-The third row is the one to look at. Somebody paid for a month on 28 August. The
-period runs to 28 September. The row is `canceled`, so they are not Pro today —
-a month they paid for, cut short.
+**The owner's answer (2026-09-04):** cancelling is deliberate and is about
+*billing*, not access. Nothing on this product auto-renews — every plan is a
+pass bought for a period — and a row is marked cancelled so the buyer can see
+for themselves that they will not be charged again. It is a trust signal.
 
-Whether that is wrong depends on what "canceled" was meant to record here, which
-is why this is a finding and not a fix:
+So treating it as a revocation was a bug, and it had a victim: the third row is
+somebody who bought a month on 28 August running to 28 September, had it
+cancelled the same day so no charge could recur, and lost three weeks of what
+they paid for. Silently — the account page had no state for it and showed them
+as Free.
 
-- If it means *the customer cancelled and should keep access until the period
-  ends* — the standard subscription meaning — then `isProEntitled` is wrong, and
-  the fix is to let a canceled row entitle until `current_period_end`.
-- If it means *refunded, charged back, or written off* — access ending
-  immediately is correct, and the field is doing its job.
+Fixed: `canEntitle()` admits `canceled`, and `isProEntitled` grants it **only
+while the period is still running and only when that period is actually
+visible** — a cancelled row with no end date, or an unparseable one, still gets
+nothing, since granting there would make cancellation meaningless. Active rows
+are untouched, including the documented case of an active Stripe row with no
+period end never expiring.
 
-The two cases need different columns, not different opinions, and the
-distinction cannot be recovered from the data. Worth resolving before the
-webhook is written, because the webhook will have to pick one.
+Two follow-ons in the same change: `/account` says "Pro access until …" rather
+than "Renews on …" for a cancelled pass, which would have promised the opposite
+of what the cancellation was for; and a lapsed cancelled pass now gets the
+"Your Pro access ended on …" line instead of silently reading as Free.
 
-## Unverified: the yearly price may not match the product
+## Settled: the Shopify yearly price
 
-A session note from the 2026-08-28 store migration records the Shopify yearly
-variant (`53072343073049`) at **$39.00**. `lib/plans.ts` and /pricing advertise
-**$49**, and the $39 → $49 change is documented in `lib/content-dates.ts`.
-
-If the Shopify product was never repriced, the site is advertising a price the
-checkout does not charge. This could not be checked from here — it needs the
-Shopify admin — and it is the first thing to confirm, because it is either
-nothing or it is the site quoting the wrong price on every plan card.
+An earlier session note recorded the Shopify yearly variant at $39.00 against
+the site's $49. **The owner confirmed on 2026-09-04 that the Shopify price is
+correct.** Nothing to do.
 
 ## Recommendation
 
@@ -129,7 +129,7 @@ nothing or it is the site quoting the wrong price on every plan card.
    `purchase_landed` is deliberately named for a return and not a purchase.
    Note the webhook secret follows the store: it changed when the store moved to
    burokrafts.store.
-3. **Settle the `canceled` question above** first, since the webhook has to
-   encode the answer.
+3. **Keep the cancelled-pass rule** the webhook now has to honour: cancelling
+   stops the next charge and never removes access before the period ends.
 4. **Rename `stripe_link_*` only as part of that work**, with a migration for the
    `app_settings` rows — not as a tidy-up.

@@ -249,6 +249,27 @@ export function isProStatus(status: string | null | undefined): boolean {
 }
 
 /**
+ * Statuses that can still entitle the holder, given an unexpired period.
+ *
+ * `canceled` belongs here, and that is the whole point. Nothing on this product
+ * auto-renews: every plan is a pass bought for a period. A row is marked
+ * cancelled so the buyer can see for themselves that they will not be charged
+ * again — it is a trust signal about *billing*, not a revocation of *access*.
+ *
+ * Treating it as a revocation is what the code did, and it cost a real
+ * customer: someone bought a month on 2026-08-28 running to 2026-09-28, the row
+ * was marked cancelled the same day so no charge could recur, and they lost
+ * three weeks of the month they had paid for. Silently — the account page had
+ * no state for it and simply showed them as Free.
+ *
+ * This is the same rule Stripe applies to `cancel_at_period_end`: cancelling
+ * stops the next charge and nothing else.
+ */
+export function canEntitle(status: string | null | undefined): boolean {
+  return isProStatus(status) || status === "canceled";
+}
+
+/**
  * Whether a subscription row still entitles the holder to Pro *right now*.
  *
  * Status alone is not enough: on a Shopify-only rail every customer is a manual
@@ -264,9 +285,25 @@ export function isProEntitled(
   status: string | null | undefined,
   currentPeriodEnd: string | null | undefined
 ): boolean {
-  if (!isProStatus(status)) return false;
-  if (!currentPeriodEnd) return true;
-  const endsAt = new Date(currentPeriodEnd).getTime();
-  // An unparseable date is treated as non-expiring, matching the null case.
-  return Number.isNaN(endsAt) || endsAt > Date.now();
+  if (!canEntitle(status)) return false;
+
+  // true / false when there is a usable date, null when there is not — an
+  // absent date and an unparseable one are the same thing here: we cannot say
+  // when this ends.
+  const unexpired = (() => {
+    if (!currentPeriodEnd) return null;
+    const endsAt = new Date(currentPeriodEnd).getTime();
+    return Number.isNaN(endsAt) ? null : endsAt > Date.now();
+  })();
+
+  // A cancelled pass entitles only while the period it paid for is still
+  // running, and only when we can actually see that period. No end date on a
+  // cancelled row means the thing ended at an unknown time — the one case where
+  // refusing is right, since granting would make cancellation meaningless.
+  if (!isProStatus(status)) return unexpired === true;
+
+  // An active row with no period end never expires. Stripe rows can legitimately
+  // land without one, and locking out a real payer is worse than a rare
+  // open-ended grant. Manual grants always set it.
+  return unexpired === null || unexpired;
 }
