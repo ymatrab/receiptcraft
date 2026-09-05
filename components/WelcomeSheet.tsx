@@ -26,7 +26,12 @@ import { FREE_LIMITS, PLANS, freeDownloadsPhrase } from "@/lib/plans";
  * moments that genuinely sell Pro are already built and fire on a real limit:
  * the watermark modal and the AI daily cap.
  *
- * Triggered by ?welcome=1, which the sign-up flow appends to its destination.
+ * Triggered by ?welcome=1.
+ *
+ * Nothing sets that flag today: since 2026-09-01 every new account is sent to
+ * /pricing instead (lib/new-account.ts), so this sheet does not currently
+ * appear and `welcome_shown` reads zero by design. It stays mounted so the
+ * decision can be reversed in one line if the plans-first funnel converts worse.
  * Read from window.location rather than useSearchParams so mounting this in the
  * root layout does not force the whole tree into a client-side bailout.
  */

@@ -28,7 +28,7 @@ function H2({ children }: { children: React.ReactNode }) {
 
 export default function EditorialPolicyPage() {
   return (
-    <main className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
@@ -159,6 +159,6 @@ export default function EditorialPolicyPage() {
           for the full policy.
         </p>
       </div>
-    </main>
+    </div>
   );
 }

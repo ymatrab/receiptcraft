@@ -1,19 +1,29 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { PLANS, FREE_LIMITS, monthlyEquivalent, freeDownloadsPhrase, firstDownloadsPhrase } from "@/lib/plans";
+import {
+  PLANS,
+  FREE_LIMITS,
+  monthlyEquivalent,
+  freeDownloadsNoun,
+  firstDownloadsPhrase,
+  freeAiPhrase,
+  freeStylingPhrase,
+} from "@/lib/plans";
 import { FREE_BRAND_SLUGS } from "@/lib/brand-access";
+import { BRAND_TEMPLATES } from "@/lib/brands";
 import { docFromReceiptData } from "@/lib/sections";
 import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
 import Watermark from "@/components/receipt/Watermark";
 import type { ReceiptData } from "@/lib/types";
 import { absoluteUrl, SITE } from "@/lib/site";
 import PricingCta from "./PricingCta";
+import FreePlanCta from "./FreePlanCta";
 import NewAccountBanner from "./NewAccountBanner";
+import PricingViewed from "./PricingViewed";
 import CheckoutNotice from "./CheckoutNotice";
 
 const PRICING_TITLE = `Pricing — Remove the Watermark with ${SITE.name} Pro`;
 const PRICING_DESCRIPTION =
-  "Create receipts free with a watermark, or go Pro for watermark-free HD downloads, unlimited AI receipt generation and saved history. Monthly or yearly.";
+  "Create receipts free with a watermark, or go Pro for watermark-free HD downloads, unlimited AI receipt generation and saved history. Weekly, monthly or yearly.";
 
 export const metadata: Metadata = {
   title: PRICING_TITLE,
@@ -100,7 +110,10 @@ type PlanRow = {
   access: string;
   cta: string;
   /** Free-tier caps read as text; unlimited plans say so. */
+  /** The bolded quantity: "1", "Unlimited". */
   downloads: string;
+  /** The noun after it, already singular or plural to match. */
+  downloadsNoun: string;
   ai: string;
   brands: string;
   styling: string;
@@ -129,10 +142,15 @@ const PLAN_ROWS: PlanRow[] = [
     unit: "forever",
     access: "Forever",
     cta: "Start free",
-    downloads: freeDownloadsPhrase("watermark-free"),
+    // Split into quantity and noun so the two agree. They did not: the row held
+    // freeDownloadsPhrase("watermark-free") — "1 watermark-free" — and the card
+    // appended a hardcoded "downloads", so the live pricing page read
+    // "1 watermark-free downloads".
+    downloads: String(FREE_LIMITS.freeReceiptDownloads),
+    downloadsNoun: freeDownloadsNoun("watermark-free download"),
     ai: `${FREE_LIMITS.aiGenerationsPerMonth} a month`,
     brands: FREE_BRANDS_LABEL,
-    styling: "3 fonts · 1 paper style",
+    styling: freeStylingPhrase(),
     saveTemplates: false,
     support: false,
   },
@@ -143,6 +161,7 @@ const PLAN_ROWS: PlanRow[] = [
     access: "7 days",
     cta: "Get 7 days",
     downloads: "Unlimited",
+    downloadsNoun: "watermark-free downloads",
     ai: "Unlimited",
     brands: BRANDS_LABEL,
     styling: "All 32 fonts · 3 paper styles",
@@ -156,6 +175,7 @@ const PLAN_ROWS: PlanRow[] = [
     access: "30 days",
     cta: "Go monthly",
     downloads: "Unlimited",
+    downloadsNoun: "watermark-free downloads",
     ai: "Unlimited",
     brands: BRANDS_LABEL,
     styling: "All 32 fonts · 3 paper styles",
@@ -169,6 +189,7 @@ const PLAN_ROWS: PlanRow[] = [
     access: "12 months",
     cta: "Go yearly",
     downloads: "Unlimited",
+    downloadsNoun: "watermark-free downloads",
     ai: "Unlimited",
     brands: BRANDS_LABEL,
     styling: "All 32 fonts · 3 paper styles",
@@ -189,11 +210,16 @@ const SHARED_FEATURES = [
 const FAQ = [
   {
     q: "What's the difference between Free and Pro?",
-    a: "Free gives you the generic receipt builder with no sign-up, plus 50 of the brand templates. On a free account your first download is watermark-free HD; after that downloads carry a small watermark. Free also includes 3 AI generations a month, 3 fonts and one paper style, and 50 of the brand templates; the other 298 need Pro. Pro removes the watermark on every download and unlocks unlimited HD exports, unlimited AI generation, all 32 fonts, all three paper styles and your own saved templates.",
+    // Every number here is read from the same constants the plan table reads,
+    // rather than typed out. The old version said "3 AI generations a month, 3
+    // fonts and one paper style, and 50 of the brand templates; the other 298
+    // need Pro" — four counts hand-written into one sentence, in the answer
+    // that exists specifically to state them accurately.
+    a: `Free gives you the generic receipt builder with no sign-up, plus ${FREE_BRAND_SLUGS.size} of the brand templates. On a free account your first download is watermark-free HD; after that downloads carry a small watermark. Free also includes ${freeAiPhrase()}, ${freeStylingPhrase().replace(" · ", " and ")}; the other ${BRAND_TEMPLATES.length - FREE_BRAND_SLUGS.size} brand templates need Pro. Pro removes the watermark on every download and unlocks unlimited HD exports, unlimited AI generation, all 32 fonts, all three paper styles and your own saved templates.`,
   },
   {
     q: "Can I cancel anytime?",
-    a: `Pro is a pass that runs for the period you bought, and your access ends on the date shown on your account page — so there's nothing to cancel to stay in control. There's no self-serve billing portal yet: to cancel, stop any future charge or ask for a refund, email ${SITE.email} and we'll sort it within one business day.`,
+    a: `Yes — and in most cases there is nothing to cancel. Pro is a pass that runs for the period you bought and then stops on its own: there is no auto-renewal and no recurring charge, so you are never locked in. Your end date is shown on your account page. If you subscribed through a card subscription rather than a one-off pass, Manage billing on that page opens the billing portal, where you can end it yourself at any time. For anything else — stopping a future charge or asking for a refund — email ${SITE.email} and we'll sort it within one business day.`,
   },
   {
     q: "Do I need an account to use the free tier?",
@@ -291,7 +317,8 @@ export default function PricingPage() {
   };
 
   return (
-    <main className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
+      <PricingViewed />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppJsonLd) }}
@@ -347,7 +374,7 @@ export default function PricingPage() {
 
           The table underneath is the other half — cards to decide from, a grid
           to compare in. Every price carries its monthly equivalent, so $3 /
-          $7.99 / $39 do not read as a rising ladder when per month they fall. */}
+          $7.99 / $49 do not read as a rising ladder when per month they fall. */}
       <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {PLAN_ROWS.map((row) => {
           const plan = row.id === "free" ? PLANS.free : PLANS[row.id];
@@ -384,7 +411,7 @@ export default function PricingPage() {
               <ul className="mt-5 flex-1 space-y-2.5 text-sm text-slate-600">
                 <Feature yes>
                   <strong className="font-semibold text-slate-900">{row.downloads}</strong>{" "}
-                  {row.downloads === "Unlimited" ? "watermark-free downloads" : "downloads"}
+                  {row.downloadsNoun}
                 </Feature>
                 <Feature yes>
                   <strong className="font-semibold text-slate-900">{row.ai}</strong> AI generations
@@ -406,12 +433,10 @@ export default function PricingPage() {
               </ul>
 
               {row.id === "free" ? (
-                <Link
-                  href="/create"
+                <FreePlanCta
+                  label={row.cta}
                   className="mt-6 flex min-h-11 items-center justify-center rounded-full border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50"
-                >
-                  {row.cta}
-                </Link>
+                />
               ) : (
                 <PricingCta
                   planId={row.id}
@@ -422,6 +447,19 @@ export default function PricingPage() {
                   }`}
                   label={row.cta}
                 />
+              )}
+
+              {/* Sits under the CTA because that is where the "am I locking
+                  myself in?" question actually gets asked — the FAQ answer for
+                  it was nine entries down the page, long past the click.
+                  "No auto-renewal" is the accurate half: a Pro pass runs for
+                  the period bought and then stops on its own, so there is no
+                  recurring charge to stop. See app/terms/page.tsx, which states
+                  the same thing. */}
+              {row.id !== "free" && (
+                <p className="mt-3 text-center text-xs text-slate-500">
+                  Cancel anytime — no auto-renewal
+                </p>
               )}
             </div>
           );
@@ -606,6 +644,6 @@ export default function PricingPage() {
           }),
         }}
       />
-    </main>
+    </div>
   );
 }

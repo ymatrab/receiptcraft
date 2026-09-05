@@ -93,7 +93,7 @@ export default async function LoginPage({
   const fromGate = signup === "1";
 
   return (
-    <main className="mx-auto flex min-h-[70dvh] max-w-md flex-col justify-center px-4 py-16">
+    <div className="mx-auto flex min-h-[70dvh] max-w-md flex-col justify-center px-4 py-16">
       <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
         <h1 className="text-2xl font-bold text-slate-900">
           {fromGate ? "Create your free account" : `Welcome to ${SITE.name}`}
@@ -110,6 +110,6 @@ export default async function LoginPage({
           authErrorDetail={typeof errorDetail === "string" ? errorDetail : null}
         />
       </div>
-    </main>
+    </div>
   );
 }

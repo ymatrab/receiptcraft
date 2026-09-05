@@ -11,12 +11,14 @@ export const dynamic = "force-dynamic";
 
 const NAV = [
   { href: "/admin", label: "Overview" },
+  { href: "/admin/funnel", label: "Funnel" },
   { href: "/admin/members", label: "Members" },
   { href: "/admin/subscribers", label: "Subscribers" },
   { href: "/admin/subscriptions", label: "Payments" },
   { href: "/admin/chat", label: "Chat" },
   { href: "/admin/ai", label: "AI" },
   { href: "/admin/settings", label: "Settings" },
+  { href: "/admin/health", label: "Health" },
 ];
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {

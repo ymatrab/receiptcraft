@@ -12,8 +12,8 @@ export const dynamic = "force-dynamic";
 
 export default function ProActivatingPage() {
   return (
-    <main className="mx-auto max-w-xl px-4 py-16 sm:px-6 sm:py-24">
+    <div className="mx-auto max-w-xl px-4 py-16 sm:px-6 sm:py-24">
       <ProActivating />
-    </main>
+    </div>
   );
 }

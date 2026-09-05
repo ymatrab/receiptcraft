@@ -3,7 +3,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { supabaseConfigured } from "@/lib/supabase/config";
-import { isProEntitled, isProStatus, PLANS, FREE_LIMITS } from "@/lib/plans";
+import { isProEntitled, canEntitle, PLANS, FREE_LIMITS } from "@/lib/plans";
 import { getAccountUsage } from "@/lib/usage";
 import { SITE } from "@/lib/site";
 import { FREE_BRAND_SLUGS } from "@/lib/brand-access";
@@ -53,12 +53,12 @@ function Stat({
 export default async function AccountPage() {
   if (!supabaseConfigured) {
     return (
-      <main className="mx-auto max-w-2xl px-4 py-20 text-center">
+      <div className="mx-auto max-w-2xl px-4 py-20 text-center">
         <h1 className="text-2xl font-bold text-slate-900">Accounts coming soon</h1>
         <p className="mt-3 text-slate-600">
           The backend isn&apos;t connected yet. Add your Supabase keys to enable accounts.
         </p>
-      </main>
+      </div>
     );
   }
 
@@ -88,9 +88,12 @@ export default async function AccountPage() {
   ]);
 
   const isPro = isProEntitled(sub?.status, sub?.current_period_end);
-  // A grant that has run out: still marked active in the table, but past its
-  // period end. Worth naming on the page rather than silently showing "Free".
-  const hasLapsed = !isPro && isProStatus(sub?.status) && Boolean(sub?.current_period_end);
+  // A pass that has run out — whether it was still marked active or had been
+  // cancelled so no charge could recur. Worth naming on the page rather than
+  // silently showing "Free": canEntitle rather than isProStatus, because a
+  // cancelled pass now runs to its end date, so its expiry is the same event
+  // and deserves the same sentence.
+  const hasLapsed = !isPro && canEntitle(sub?.status) && Boolean(sub?.current_period_end);
   const plan = isPro && sub?.plan ? PLANS[sub.plan as keyof typeof PLANS] : null;
   const planName = plan?.name ?? (isPro ? sub?.plan ?? "Pro" : "Free");
 
@@ -102,7 +105,7 @@ export default async function AccountPage() {
   );
 
   return (
-    <main className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
+    <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
       <h1 className="text-3xl font-bold text-slate-900">Your account</h1>
       <p className="mt-1 text-slate-600">
         {user.email}
@@ -147,9 +150,16 @@ export default async function AccountPage() {
 
           {isPro && sub?.current_period_end && (
             <p className="mt-4 text-sm text-slate-600">
-              {isSelfServeBilling
-                ? `${sub.cancel_at_period_end ? "Cancels" : "Renews"} on `
-                : "Pro access until "}
+              {/* Never "Renews" for a cancelled row: the whole reason a pass is
+                  marked cancelled here is that nothing will be charged again,
+                  and telling that buyer their plan renews would say the exact
+                  opposite of the thing the cancellation was meant to reassure
+                  them about. */}
+              {isSelfServeBilling && !sub.cancel_at_period_end && sub.status !== "canceled"
+                ? "Renews on "
+                : isSelfServeBilling
+                  ? "Cancels on "
+                  : "Pro access until "}
               <LocalDate iso={sub.current_period_end} className="font-medium text-slate-900" />
             </p>
           )}
@@ -214,28 +224,50 @@ export default async function AccountPage() {
           {isPro ? "Your usage" : "What's left"}
         </h2>
         <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {/* Each of these three reads can come back null, meaning the count
+              failed rather than that it was zero — see lib/usage.ts. "—" is the
+              honest answer there. The previous version printed `null ?? 0`
+              dressed up as a real figure, which is how an account page went on
+              telling free users their allowance was untouched for months while
+              the table behind it did not exist. */}
           <Stat
             label="Watermark-free downloads"
-            value={isPro ? "Unlimited" : `${usage.downloadsLeft} of ${FREE_LIMITS.freeReceiptDownloads}`}
+            value={
+              isPro
+                ? "Unlimited"
+                : usage.downloadsLeft === null
+                  ? "—"
+                  : `${usage.downloadsLeft} of ${FREE_LIMITS.freeReceiptDownloads}`
+            }
             tone={isPro ? "good" : usage.downloadsLeft === 0 ? "spent" : "neutral"}
             hint={
               isPro
                 ? "Every download exports clean"
-                : usage.downloadsLeft === 0
-                  ? "New downloads carry a watermark"
-                  : "Counted per receipt — re-downloading one is free"
+                : usage.downloadsLeft === null
+                  ? "We couldn't load this just now — refresh to try again"
+                  : usage.downloadsLeft === 0
+                    ? "New downloads carry a watermark"
+                    : "Counted per receipt — re-downloading one is free"
             }
           />
           <Stat
             label="AI generations this month"
-            value={isPro ? "Unlimited" : `${usage.aiLeftThisMonth} of ${FREE_LIMITS.aiGenerationsPerMonth}`}
+            value={
+              isPro
+                ? "Unlimited"
+                : usage.aiLeftThisMonth === null
+                  ? "—"
+                  : `${usage.aiLeftThisMonth} of ${FREE_LIMITS.aiGenerationsPerMonth}`
+            }
             tone={isPro ? "good" : usage.aiLeftThisMonth === 0 ? "spent" : "neutral"}
             hint={
               isPro
                 ? "No monthly cap"
-                : usage.aiLeftThisMonth === 0
-                  ? "Resets on the 1st"
-                  : `Used ${usage.aiUsedThisMonth} this month`
+                : usage.aiLeftThisMonth === null
+                  ? "We couldn't load this just now — refresh to try again"
+                  : usage.aiLeftThisMonth === 0
+                    ? "Resets on the 1st"
+                    : `Used ${usage.aiUsedThisMonth} this month`
             }
           />
           <Stat
@@ -250,8 +282,14 @@ export default async function AccountPage() {
           />
           <Stat
             label="Saved receipts"
-            value={String(usage.receiptCount)}
-            hint={usage.receiptCount === 0 ? "Nothing saved yet" : "Stored on your account"}
+            value={usage.receiptCount === null ? "—" : String(usage.receiptCount)}
+            hint={
+              usage.receiptCount === null
+                ? "We couldn't load this just now — refresh to try again"
+                : usage.receiptCount === 0
+                  ? "Nothing saved yet"
+                  : "Stored on your account"
+            }
           />
         </div>
 
@@ -289,7 +327,7 @@ export default async function AccountPage() {
           <h2 id="receipts-heading" className="text-lg font-semibold text-slate-900">
             Recent receipts
           </h2>
-          {usage.receiptCount > RECENT_LIMIT && (
+          {usage.receiptCount !== null && usage.receiptCount > RECENT_LIMIT && (
             <Link
               href="/account/receipts"
               className="text-sm font-medium text-indigo-600 hover:text-indigo-700"
@@ -359,6 +397,6 @@ export default async function AccountPage() {
           </button>
         </form>
       </div>
-    </main>
+    </div>
   );
 }

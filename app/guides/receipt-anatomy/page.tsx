@@ -306,7 +306,7 @@ const breadcrumbJsonLd = {
 
 export default function ReceiptAnatomyPage() {
   return (
-    <main className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(definedTermSetJsonLd) }}
@@ -437,6 +437,6 @@ export default function ReceiptAnatomyPage() {
           </li>
         </ul>
       </section>
-    </main>
+    </div>
   );
 }

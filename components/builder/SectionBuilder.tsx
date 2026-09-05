@@ -47,7 +47,7 @@ import { SITE } from "@/lib/site";
 import type { ReceiptData } from "@/lib/types";
 import type { AiReceiptResult } from "@/lib/ai-receipt";
 import { downloadPng, downloadJpg, downloadPdf, exportFilename } from "@/lib/download";
-import { analytics } from "@/lib/analytics";
+import { analytics, eventIdentity } from "@/lib/analytics";
 import ReviewPrompt, { reviewAlreadyAsked } from "./ReviewPrompt";
 import { useAccount } from "@/lib/useAccount";
 import { FREE_LIMITS, FREE_FONTS, FREE_PAPER_STYLE, PLANS, freeDownloadsPhrase, firstDownloadsPhrase } from "@/lib/plans";
@@ -175,6 +175,18 @@ const ENTRY_MODES = [
   { value: "Swipe", label: "Swipe" },
   { value: "Manual", label: "Manual / keyed" },
 ];
+/**
+ * Shown when the free-download allowance cannot be checked — the network is
+ * down, or the server reached the database and got an error back.
+ *
+ * One string for both because they are one thing to the person downloading: we
+ * could not check, so this export is watermarked and it is not their fault.
+ * Never silently watermark instead; a clean first download is a promise the
+ * pricing page makes by name.
+ */
+const QUOTA_UNREACHABLE =
+  "We couldn't check your free downloads just now, so this one carries a watermark. Try again in a moment for a clean copy.";
+
 const DEFAULT_COLS = { item: "Item", qty: "Qty", price: "Price", total: "Total" };
 const COLS = ["item", "qty", "price", "total"] as const;
 type ExportKind = "png" | "jpg" | "pdf" | "pdf-print";
@@ -203,6 +215,8 @@ export default function SectionBuilder() {
   const [pendingTemplate, setPendingTemplate] = useState<string | null>(null);
   const dragIndex = useRef<number | null>(null);
   const receiptRef = useRef<HTMLDivElement>(null);
+  /** Receipt id that has already fired receipt_completed, so it fires once. */
+  const completedRef = useRef<string | null>(null);
   const { account, loading: accountLoading } = useAccount();
   // Download-quota state (from /api/downloads). A logged-in free account gets
   // FREE_LIMITS.freeReceiptDownloads clean receipts, then downloads are
@@ -491,7 +505,9 @@ export default function SectionBuilder() {
     if (!t) return;
     if (!account.isPro && templateNeedsPro(slug)) {
       setProTemplate(slug);
-      analytics.upgradeClick("builder_pro_template");
+      // Being refused a template is not an upgrade click — see
+      // analytics.upgradeClick. The click in the modal that follows still is.
+      analytics.proTemplateBlocked(slug);
       return;
     }
     setDoc(keepId(docFromReceiptData(receiptFromTemplate(t))));
@@ -643,6 +659,12 @@ export default function SectionBuilder() {
           body: JSON.stringify({
             format: kind === "pdf-print" ? "pdf" : kind,
             watermark: useWatermark,
+            // Which receipt, which template, and whose session — so a second
+            // download can be told apart from a second *receipt*, and a brand
+            // page's traffic can be followed to a finished file.
+            receiptKey: doc.id,
+            template: activeTemplate || undefined,
+            ...eventIdentity(),
           }),
         }).catch(() => {});
       }
@@ -684,7 +706,10 @@ export default function SectionBuilder() {
 
     if (account.isPro) return handleExport(kind, false);
 
+    const fmt = kind === "pdf-print" ? "pdf" : kind;
+
     if (!account.isLoggedIn) {
+      analytics.downloadBlocked("login", fmt, doc.id || undefined);
       setLoginPrompt(kind);
       return;
     }
@@ -698,6 +723,8 @@ export default function SectionBuilder() {
 
     let clean = false;
     let remaining: number | null = dl.remaining;
+    /** Why the clean export was refused, for download_blocked. */
+    let blocked: "watermark" | "brand" | "unavailable" | null = null;
     try {
       const res = await fetch("/api/downloads", {
         method: "POST",
@@ -705,22 +732,36 @@ export default function SectionBuilder() {
         body: JSON.stringify({ receiptKey: key, brand: activeTemplate || undefined }),
       });
       if (res.status === 401) {
+        analytics.downloadBlocked("login", fmt, key);
         setLoginPrompt(kind);
         return;
       }
       const data = await res.json().catch(() => ({}));
       clean = Boolean(data.clean);
       remaining = data.remaining ?? null;
+      // The server reached its database and could not read the answer (503 with
+      // `unavailable`). Same user-visible outcome as a network failure and the
+      // same message, because from here they are the same event: we could not
+      // check, so nothing is given away. Previously this path was invisible —
+      // the route answered 200 with clean:true whatever the database said, so
+      // there was nothing to report.
+      if (data.unavailable) {
+        clean = false;
+        blocked = "unavailable";
+        notify("error", QUOTA_UNREACHABLE);
+      } else if (!clean) {
+        // Which wall: the brand list, or a spent allowance. They lead to
+        // different fixes and used to be the same silent non-event.
+        blocked = data.brandLocked ? "brand" : "watermark";
+      }
     } catch {
       // Network/API failure → fail safe to watermarked (don't give away clean).
       // Say so: silently handing back a watermarked file when the user expected
       // a clean one reads as the product cheating them rather than as the
       // transient network error it actually is.
       clean = false;
-      notify(
-        "error",
-        "We couldn't reach the server to check your free downloads, so this one carries a watermark. Check your connection and try again for a clean copy."
-      );
+      blocked = "unavailable";
+      notify("error", QUOTA_UNREACHABLE);
     }
 
     setDl((d) => ({ ...d, loggedIn: true, remaining, willWatermark: !clean }));
@@ -728,7 +769,8 @@ export default function SectionBuilder() {
     if (clean) {
       handleExport(kind, false);
     } else {
-      analytics.watermarkPrompt(kind === "pdf-print" ? "pdf" : kind);
+      if (blocked) analytics.downloadBlocked(blocked, fmt, key);
+      analytics.watermarkPrompt(fmt);
       setPendingExport(kind);
     }
   };
@@ -737,6 +779,40 @@ export default function SectionBuilder() {
     (sum, s) => (s.type === "items" ? sum + itemsTotals(s).total : sum),
     0
   );
+
+  /**
+   * The first moment this receipt is genuinely finished.
+   *
+   * builder_opened and edit_started both fire for someone who typed one
+   * character into a blank template and closed the tab, so neither can be the
+   * denominator for "what share of receipts get downloaded" — the answer comes
+   * out looking like a catastrophe because most of the numerator never existed.
+   * Completion is the three things a receipt has to have to be worth anything:
+   * a merchant, something priced on it, and a total.
+   *
+   * Gated on editTracked, the same "this was a person, not a template load"
+   * signal edit_started uses — and the whole reason this needs a gate. A brand
+   * template arrives with a merchant, priced items and a total already on it,
+   * so without this the event would fire the instant a Starbucks template
+   * loaded and "finished a receipt" would just be a slower way of counting
+   * template opens.
+   *
+   * Once per receipt id, held in a ref rather than state so re-firing cannot
+   * cause a render. Editing on after completion does not fire it again;
+   * starting a *different* receipt does, which is what makes a second distinct
+   * receipt countable.
+   */
+  useEffect(() => {
+    if (!doc.id || !editTracked.current || completedRef.current === doc.id) return;
+    const header = doc.sections.find((s) => s.type === "header") as HeaderSection | undefined;
+    const named = Boolean(header?.storeName?.trim());
+    const priced = doc.sections.some(
+      (s) => s.type === "items" && s.items.some((i) => (i.price || 0) > 0)
+    );
+    if (!named || !priced || grandTotal <= 0) return;
+    completedRef.current = doc.id;
+    analytics.receiptCompleted(doc.id, activeTemplate || undefined);
+  }, [doc, grandTotal, activeTemplate]);
 
   // ---- per-section item helpers ----
   const updateItem = (sec: ItemsSection, itemId: string, patch: Record<string, unknown>) =>
@@ -1556,7 +1632,8 @@ export default function SectionBuilder() {
                   } catch {
                     /* localStorage unavailable — draft autosave still applies */
                   }
-                  analytics.upgradeClick("login_to_download");
+                  // A sign-up starting at the download gate, not a purchase.
+                  analytics.signupStarted("download_gate");
                 }}
                 className="rounded-full bg-indigo-600 px-5 py-3 text-center text-sm font-semibold text-white hover:bg-indigo-700"
               >

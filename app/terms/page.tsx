@@ -39,21 +39,27 @@ export default function TermsPage() {
           The free plan lets you create and download receipts with a small {SITE.name} watermark,
           subject to reasonable usage limits (including limits on AI generations). Paid
           (&ldquo;Pro&rdquo;) plans remove the watermark and unlock additional features and higher limits,
-          and are offered on a monthly or yearly basis.
+          and are offered on a weekly, monthly or yearly basis.
         </p>
         <p>
           Payments are processed by a third-party payment provider. We do not receive or store
           your full card details. Prices are shown at checkout and may be exclusive of taxes,
-          which are added where required. Where a plan renews automatically, it continues for
-          successive periods until cancelled, and you authorize the recurring charge until you cancel.
+          which are added where required. A Pro plan is sold as a pass for the period you buy:
+          it grants access until the end date shown on your account page and then ends on its
+          own. It does not renew automatically and there is no recurring charge, unless the
+          checkout you used states otherwise at the point of purchase and you expressly
+          authorize it.
         </p>
 
         <H2>4. Cancellation &amp; refunds</H2>
         <p>
-          You can cancel a recurring plan at any time; access continues until the end of the
-          current paid period and is not renewed thereafter. Except where required by law,
-          payments are non-refundable, and cancelling does not entitle you to a refund for the
-          current period. If you believe you were charged in error, contact us at{" "}
+          Because a Pro pass does not renew automatically, there is normally nothing to cancel —
+          it simply ends on its date and you are not charged again. Where you did take out a
+          plan that renews, you can cancel it at any time from{" "}
+          <strong>Manage billing</strong> on your account page; access continues until the end
+          of the current paid period and is not renewed thereafter. Except where required by
+          law, payments are non-refundable, and cancelling does not entitle you to a refund for
+          the current period. If you believe you were charged in error, contact us at{" "}
           <a href={`mailto:${SITE.email}`} className="text-indigo-600 underline">{SITE.email}</a>{" "}
           and we will review it in good faith.
         </p>

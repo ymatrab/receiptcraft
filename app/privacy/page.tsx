@@ -88,6 +88,15 @@ export default function PrivacyPage() {
           linked to your account, so we can see how the product is really used and help you if
           something goes wrong; they never include the contents of your receipts.
         </p>
+        <p>
+          So that these events can be counted as people rather than as clicks, we store two
+          randomly generated identifiers in your browser&apos;s local storage: one for the browser
+          and one for the current visit, which expires after 30 minutes of inactivity. They are
+          random values with no connection to your name, email or anything else about you, they are
+          never sent to a third party, and they are not used to track you across other websites.
+          Clearing your site data removes them. Receipt events also carry the random id of the
+          receipt they were about — never its contents.
+        </p>
 
         <H2>Service providers</H2>
         <p>

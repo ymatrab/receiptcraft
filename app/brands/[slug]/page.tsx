@@ -11,6 +11,7 @@ import { previewFromTemplate } from "@/lib/receipt";
 import { docFromReceiptData } from "@/lib/sections";
 import { calcTotals, formatMoney } from "@/lib/format";
 import { SITE, absoluteUrl } from "@/lib/site";
+import { creativeWorkJsonLd } from "@/lib/schema";
 import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
 import RelatedPosts from "@/components/RelatedPosts";
 
@@ -97,6 +98,19 @@ export default async function BrandTemplatePage({ params }: Props) {
     ],
   };
 
+  // What the page is, not just where it sits. `about` names the brand as a
+  // plain Thing — the page is about their receipts, and says nothing about who
+  // published it.
+  const workJsonLd = creativeWorkJsonLd({
+    name: template.name,
+    description: template.seoDescription,
+    path: `/brands/${template.slug}`,
+    // shortName, not name: `about` takes the real-world entity ("Walmart"),
+    // while name is the page's own title ("Walmart Receipt").
+    about: template.shortName,
+    dateModified: brandReviewedAt(template.slug),
+  });
+
   return (
     <>
       {template.faqs.length > 0 && (
@@ -108,6 +122,10 @@ export default async function BrandTemplatePage({ params }: Props) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(workJsonLd) }}
       />
 
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">

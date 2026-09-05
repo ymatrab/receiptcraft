@@ -38,7 +38,23 @@ export const TOOLS_INDEX_UPDATED = "2026-08-31";
 // generations) and links to a signed-in account. Its own constant because
 // STATIC_UPDATED also stamps /about, /contact, /terms and /blog, none of which
 // changed; a policy page is the last place to be vague about when it changed.
-export const PRIVACY_UPDATED = "2026-09-01";
+// 2026-09-04: the analytics section now discloses the two random identifiers
+// kept in local storage — one per browser, one per 30-minute visit — that let
+// product events be counted as people instead of as clicks, plus the random
+// receipt id events carry. Stating what is stored is the whole point of the
+// page; adding an identifier without saying so is the thing it exists to
+// prevent.
+export const PRIVACY_UPDATED = "2026-09-04";
+// 2026-09-04: sections 3 and 4 now describe the billing model that actually
+// runs. The old text said a plan "continues for successive periods until
+// cancelled" and that you "authorize the recurring charge until you cancel",
+// which describes a subscription; a Pro pass is bought for a period and then
+// stops on its own. Section 3 also said plans are "monthly or yearly" when a
+// weekly pass has been on sale throughout. Its own constant for the same reason
+// as PRIVACY_UPDATED: STATIC_UPDATED also stamps /about, /contact, /authors and
+// /blog, none of which changed, and a terms page is the last place to be vague
+// about when it changed.
+export const TERMS_UPDATED = "2026-09-04";
 export const TEMPLATES_UPDATED = "2026-07-20";
 export const TEMPLATES_CITED_UPDATED = "2026-08-20";
 export const TEMPLATES_FIGURE_UPDATED = "2026-08-21";
@@ -213,7 +229,17 @@ export const LOGIN_UPDATED = "2026-08-31";
 // 2026-08-31 (2): yearly is $49, and the 7-day pass now lists priority support —
 // it was the only plan without it, which was copy drift rather than a real
 // distinction.
-export const PRICING_UPDATED = "2026-08-31";
+// 2026-09-04: every Pro card now carries "Cancel anytime — no auto-renewal"
+// under its CTA. The answer existed only as the ninth FAQ entry, which is long
+// past the point where the question gets asked. The FAQ answer itself was
+// rewritten to lead with the answer and to name Manage billing for the card
+// subscriptions that do renew.
+// 2026-09-04 (2): the free plan row read "1 watermark-free downloads" — the
+// count is singular and the noun was hardcoded plural. The "difference between
+// Free and Pro" answer now derives its four counts from lib/plans.ts and
+// lib/brands.ts instead of stating them by hand, and the meta description names
+// the weekly pass, which has been on sale throughout and was not mentioned.
+export const PRICING_UPDATED = "2026-09-04";
 // 2026-08-23: the hero grid no longer stretches to the 380px receipt, so the
 // primary CTA is reachable again on phones under 412px — a visible change to
 // the page's most important element.

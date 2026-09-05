@@ -12,7 +12,7 @@ function Block({ className }: { className: string }) {
 
 export default function AccountLoading() {
   return (
-    <main className="mx-auto max-w-3xl px-4 py-16 sm:px-6" aria-busy="true">
+    <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6" aria-busy="true">
       <span className="sr-only" role="status">
         Loading your account
       </span>
@@ -58,6 +58,6 @@ export default function AccountLoading() {
           </div>
         ))}
       </div>
-    </main>
+    </div>
   );
 }

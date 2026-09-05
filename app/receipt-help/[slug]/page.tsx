@@ -129,7 +129,7 @@ export default async function IntentPage({
   };
 
   return (
-    <main className="mx-auto max-w-3xl px-4 py-14 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-3xl px-4 py-14 sm:px-6 lg:px-8">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       {howToJsonLd && (
@@ -299,6 +299,6 @@ export default async function IntentPage({
         categories={RELATED_CATEGORIES[page.kind]}
       />
       <Reviewed date={intentReviewedAt(page.brandSlug)} />
-    </main>
+    </div>
   );
 }
