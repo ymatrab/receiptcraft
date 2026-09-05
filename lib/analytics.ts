@@ -234,6 +234,37 @@ function sendFirstParty(event: string, params: Record<string, string | number | 
   }
 }
 
+/**
+ * Properties that must not leave for a third party.
+ *
+ * `receipt_id` is unique per receipt, and sending it to GA4 is wrong twice
+ * over.
+ *
+ * The privacy reason: /privacy says the identifiers we mint stay with us, and a
+ * per-document id handed to Google is exactly the kind of thing that sentence
+ * exists to rule out.
+ *
+ * The measurement reason, which bites even if you do not care about the first:
+ * GA4 custom dimensions have a cardinality ceiling, and a dimension with a new
+ * value on every event blows straight through it. Google's response is to bucket
+ * the overflow into a row literally labelled "(other)" — and it does that at the
+ * *property* level, degrading unrelated reports. A high-cardinality id is the
+ * one thing you should never register as a custom dimension.
+ *
+ * It stays in the first-party payload, where it is a real column with an index
+ * and answers "did they make a second, different receipt".
+ */
+const FIRST_PARTY_ONLY = new Set(["receipt_id"]);
+
+/** The subset of an event's properties we are willing to send off-site. */
+function shareable(params: Record<string, string | number | boolean>) {
+  const out: Record<string, string | number | boolean> = {};
+  for (const [k, v] of Object.entries(params)) {
+    if (!FIRST_PARTY_ONLY.has(k)) out[k] = v;
+  }
+  return out;
+}
+
 export function track(event: string, params: EventParams = {}): void {
   if (typeof window === "undefined") return;
 
@@ -252,12 +283,15 @@ export function track(event: string, params: EventParams = {}): void {
   // and the only one that keeps working when a visitor declines cookies.
   sendFirstParty(event, clean);
 
+  // GA4 and Clarity get everything except the identifiers. See shareable().
+  const external = shareable(clean);
+
   // GA4 custom event.
-  window.gtag?.("event", event, clean);
+  window.gtag?.("event", event, external);
 
   // Clarity: record the event and tag the session for filtering/segmentation.
   window.clarity?.("event", event);
-  for (const [k, v] of Object.entries(clean)) {
+  for (const [k, v] of Object.entries(external)) {
     window.clarity?.("set", k, String(v));
   }
 }
