@@ -2,6 +2,7 @@ import { NextResponse, after } from "next/server";
 import { getAccountStatus } from "@/lib/auth";
 import { notify } from "@/lib/telegram";
 import { getPaymentLinks } from "@/lib/settings";
+import { PLANS, formatPlanPrice } from "@/lib/plans";
 import { absoluteUrl } from "@/lib/site";
 
 export const runtime = "nodejs";
@@ -99,9 +100,16 @@ export async function GET(request: Request) {
    * the grant is manual (Members tab), so an order that nobody is told about
    * sits unfulfilled until the buyer complains.
    */
+  const chosen = PLANS[plan];
+
   after(() =>
     notify("🛒 Checkout started", {
-      Plan: plan,
+      // Named the way it is named on /pricing, with the price the buyer just
+      // saw — "Pro Monthly ($7.99)", not the `pro_monthly` query param. The
+      // point of the alert is to be readable on a phone in one glance, and
+      // both halves come from lib/plans.ts so a price change cannot leave the
+      // alert quoting a figure the site no longer charges.
+      Plan: `${chosen.name} (${formatPlanPrice(chosen)})`,
       Email: account.email,
       Rail: rail,
       User: account.userId,
