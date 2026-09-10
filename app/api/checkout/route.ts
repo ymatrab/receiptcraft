@@ -1,5 +1,6 @@
-import { NextResponse } from "next/server";
+import { NextResponse, after } from "next/server";
 import { getAccountStatus } from "@/lib/auth";
+import { notify } from "@/lib/telegram";
 import { getPaymentLinks } from "@/lib/settings";
 import { absoluteUrl } from "@/lib/site";
 
@@ -78,7 +79,9 @@ export async function GET(request: Request) {
     return go(absoluteUrl("/pricing?checkout=unavailable"));
   }
 
-  if (url.hostname.includes("stripe.com")) {
+  const rail = url.hostname.includes("stripe.com") ? "Stripe" : "Shopify";
+
+  if (rail === "Stripe") {
     // Stripe maps the payment to the account via webhook on this field.
     url.searchParams.set("client_reference_id", account.userId!);
   } else {
@@ -89,6 +92,21 @@ export async function GET(request: Request) {
     url.searchParams.set("attributes[user_id]", account.userId!);
     if (account.email) url.searchParams.set("checkout[email]", account.email);
   }
+
+  /**
+   * Tell the owner someone is buying, in `after()` so the redirect is not held
+   * up by Telegram. This is the alert that pays for the others: with Shopify
+   * the grant is manual (Members tab), so an order that nobody is told about
+   * sits unfulfilled until the buyer complains.
+   */
+  after(() =>
+    notify("🛒 Checkout started", {
+      Plan: plan,
+      Email: account.email,
+      Rail: rail,
+      User: account.userId,
+    })
+  );
 
   return go(url.toString());
 }

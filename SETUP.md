@@ -48,6 +48,25 @@ Supabase → Authentication → **Providers**:
 Set `ANTHROPIC_API_KEY` (https://console.anthropic.com). Free users get
 3 generations/day (configurable in `lib/plans.ts`); Pro is unlimited.
 
+## 2f. Telegram alerts (optional)
+Pushes a message to a Telegram bot when someone starts checkout, pays, signs up,
+sends a support message, or joins the newsletter. Leave the two variables unset
+and every alert is silently skipped — nothing else changes.
+
+1. **Create the bot.** In Telegram, message **@BotFather** → `/newbot` → pick a
+   name and a username ending in `bot`. Copy the token it returns →
+   `TELEGRAM_BOT_TOKEN`.
+2. **Find the chat id.** Message your new bot once (a bot cannot open a chat
+   first), then open `https://api.telegram.org/bot<TOKEN>/getUpdates` in a
+   browser and read `result[].message.chat.id` → `TELEGRAM_CHAT_ID`.
+   For a group: add the bot to it, post there, and use that chat's id — group
+   ids are negative, and the minus sign is part of the id.
+   Several ids can be listed comma-separated to alert more than one chat.
+3. **Verify.** After deploying, `/admin/settings` → **Telegram alerts** →
+   *Send test message*. A failure shows Telegram's own wording, which is what
+   distinguishes a bad token (`Unauthorized`) from a bad id (`chat not found`)
+   from a blocked bot.
+
 ## 3. Vercel (hosting)
 1. Import the GitHub repo at https://vercel.com (framework auto-detects Next.js).
 2. Add every variable from `.env.local` under Project → Settings → **Environment Variables**.

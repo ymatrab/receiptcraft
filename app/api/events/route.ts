@@ -1,8 +1,9 @@
-import { NextResponse } from "next/server";
+import { NextResponse, after } from "next/server";
 import { getAccountStatus } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { supabaseConfigured } from "@/lib/supabase/config";
 import { normalizeEventName, normalizeId, sanitizeProps } from "@/lib/analytics-events";
+import { EVENT_ALERTS, notify } from "@/lib/telegram";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -78,6 +79,55 @@ export async function POST(req: Request) {
     // silent, which is how the dashboard came to be empty in the first place.
     console.error("[events] insert failed", error.message);
     return NextResponse.json({ ok: false });
+  }
+
+  /**
+   * Telegram alert for the handful of events in EVENT_ALERTS.
+   *
+   * Sign-up is only observable here. It happens in three different flows — a
+   * password form, a Google redirect and an emailed link — and the two redirect
+   * flows finish on a page, not in a route, so this ingest is the one place all
+   * three pass through.
+   *
+   * That makes it a public endpoint deciding when to ring someone's phone, so
+   * two conditions guard it:
+   *
+   * 1. A session user is required. The name is attacker-controlled, but the
+   *    user is not — it comes from the cookie — so an anonymous client cannot
+   *    post `{name:"sign_up"}` in a loop and buzz the owner all night.
+   * 2. It must be the first event of that name for that account. The same
+   *    signup can be reported twice by a remount or a back-button, and a
+   *    logged-in user could replay it deliberately; either way the second one
+   *    is not news. The row we just wrote is included in the count, so "first"
+   *    means exactly one.
+   */
+  const alertTitle = EVENT_ALERTS[name];
+  if (alertTitle && account.userId) {
+    // "email" / "google" / "password", when the tracker sent one.
+    const rawMethod = props ? props.method : undefined;
+    const method = typeof rawMethod === "string" ? rawMethod : undefined;
+
+    after(async () => {
+      try {
+        const { count } = await createAdminClient()
+          .from("events")
+          .select("id", { count: "exact", head: true })
+          .eq("user_id", account.userId!)
+          .eq("name", name);
+
+        if (count !== 1) return;
+
+        await notify(alertTitle, {
+          Email: account.email,
+          Plan: account.plan,
+          Method: method,
+          User: account.userId,
+        });
+      } catch (err) {
+        // An alert is never worth an unhandled rejection in the log.
+        console.error("[events] alert failed", err);
+      }
+    });
   }
 
   return NextResponse.json({ ok: true });

@@ -1,8 +1,9 @@
-import { NextResponse } from "next/server";
+import { NextResponse, after } from "next/server";
 import type Stripe from "stripe";
 import { getStripe, stripeConfigured, planFromPriceId } from "@/lib/stripe";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { supabaseConfigured } from "@/lib/supabase/config";
+import { notify } from "@/lib/telegram";
 
 // Stripe needs the raw body for signature verification — force the Node runtime.
 export const runtime = "nodejs";
@@ -86,12 +87,38 @@ export async function POST(req: Request) {
           const sub = await stripe.subscriptions.retrieve(String(session.subscription));
           await syncSubscription(sub, userId);
         }
+        // Money actually arrived. Stripe has already verified the signature
+        // above, so unlike the client-side funnel events this one cannot be
+        // faked — it is the most trustworthy alert the site sends.
+        after(() =>
+          notify("💰 Payment received", {
+            Email: session.customer_details?.email ?? session.customer_email,
+            Amount: session.amount_total
+              ? `${(session.amount_total / 100).toFixed(2)} ${(
+                  session.currency ?? ""
+                ).toUpperCase()}`
+              : null,
+            User: userId,
+          })
+        );
         break;
       }
       case "customer.subscription.created":
-      case "customer.subscription.updated":
-      case "customer.subscription.deleted": {
+      case "customer.subscription.updated": {
         await syncSubscription(event.data.object as Stripe.Subscription, null);
+        break;
+      }
+      case "customer.subscription.deleted": {
+        const sub = event.data.object as Stripe.Subscription;
+        await syncSubscription(sub, null);
+        // A cancellation is the one piece of bad news worth pushing: it is the
+        // only chance to ask why while the person still remembers.
+        after(() =>
+          notify("⚠️ Subscription cancelled", {
+            Subscription: sub.id,
+            Plan: planFromPriceId(sub.items.data[0]?.price.id ?? null),
+          })
+        );
         break;
       }
     }

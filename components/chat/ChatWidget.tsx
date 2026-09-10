@@ -127,6 +127,19 @@ export default function ChatWidget() {
       body: text,
     });
     if (error) setDraft(text);
+    else {
+      // Nudge the owner's phone. Deliberately not awaited and never surfaced:
+      // the message is already saved and on screen, so a failed alert is the
+      // owner's problem to see in the logs, not something to show the person
+      // who just asked for help. The route reads the message back from the
+      // database itself — nothing about it is trusted from here.
+      void fetch("/api/chat/notify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ conversation_id: id }),
+        keepalive: true,
+      }).catch(() => {});
+    }
     setSending(false);
   }
 

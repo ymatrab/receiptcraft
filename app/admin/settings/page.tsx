@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { getPaymentLinks } from "@/lib/settings";
+import { telegramChatCount, telegramConfigured } from "@/lib/telegram";
 import { saveLinksAction } from "./actions";
+import TelegramTester from "./TelegramTester";
 
 export const dynamic = "force-dynamic";
 
@@ -55,6 +57,30 @@ export default async function AdminSettings() {
             Save payment links
           </button>
         </form>
+      </section>
+
+      {/* Telegram alerts */}
+      <section className="mt-6 rounded-2xl border border-slate-200 bg-white p-6">
+        <h2 className="text-lg font-semibold text-slate-900">Telegram alerts</h2>
+        <p className="mt-1 text-sm text-slate-500">
+          Pushes a message to your bot when someone starts checkout, pays, signs up, sends a
+          support message, or joins the newsletter. Credentials live in the environment, not
+          here — set <code className="rounded bg-slate-100 px-1">TELEGRAM_BOT_TOKEN</code> and{" "}
+          <code className="rounded bg-slate-100 px-1">TELEGRAM_CHAT_ID</code> in Vercel, then
+          redeploy.
+        </p>
+        <p className="mt-3 text-sm">
+          {telegramConfigured ? (
+            <span className="font-medium text-emerald-700">
+              Configured · {telegramChatCount} {telegramChatCount === 1 ? "chat" : "chats"}
+            </span>
+          ) : (
+            <span className="font-medium text-amber-700">
+              Not configured — alerts are silently skipped.
+            </span>
+          )}
+        </p>
+        <TelegramTester />
       </section>
     </div>
   );
