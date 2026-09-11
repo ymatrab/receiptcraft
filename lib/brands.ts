@@ -5965,8 +5965,23 @@ function stripFree(title: string): string {
     .trim();
 }
 
-/** Longest title that survives Google's SERP truncation intact. */
-const TITLE_MAX = 70;
+/**
+ * Longest title that survives Google's SERP truncation intact.
+ *
+ * 60, not 70. Google cuts the title near 60 characters, so a 70 ceiling let the
+ * whole 61–70 band through untouched. Measured on the assembled titles — after
+ * stripFree, which is what actually ships — 2026-09-11:
+ *
+ *             over 60 chars      before → after
+ *   generated    69 / 231            69 → 14
+ *   hand-written 21 / 117            21 →  7
+ *   total        90 / 348            90 → 21   (69 titles change)
+ *
+ * The residual 21 are titles fitBrandTitle cannot help: they run long without
+ * naming the brand twice, so there is no redundant mention to drop. Shortening
+ * those means rewriting the variants, not moving this number.
+ */
+const TITLE_MAX = 60;
 
 /**
  * Drop a brand's second mention from an overlong title.
@@ -5982,6 +5997,12 @@ const TITLE_MAX = 70;
  * Surgical — the first clause still carries the brand, so only the redundant
  * repeat is removed: the example above becomes "Urban Outfitters Receipt
  * Generator — Create an Editable Receipt" (63).
+ *
+ * Cutting the brand can strand the article in front of it. withArticle() picks
+ * "a" or "an" to agree with the *brand* — "Make an Applebee's Receipt" — so
+ * removing the brand leaves "Make an Receipt". At the old 70 ceiling no title in
+ * that shape was long enough to be cut; at 60 it reaches six of them, so the
+ * article has to be re-agreed with whatever word now follows it.
  */
 function fitBrandTitle(title: string, brand: string): string {
   if (title.length <= TITLE_MAX) return title;
@@ -5992,6 +6013,15 @@ function fitBrandTitle(title: string, brand: string): string {
   return (title.slice(0, second) + title.slice(second + brand.length))
     .replace(/\s{2,}/g, " ")
     .replace(/\s+—\s*$/, "")
+    // Re-agree any indefinite article with the word it now sits in front of.
+    // Safe to run over the whole title: where the brand survives, the article
+    // already agrees with it and this rewrites it to itself — including the
+    // YOO_SOUND brands, which take "a" despite the vowel ("a UPS Store").
+    .replace(
+      /\b(?:a|an)(\s+)([A-Za-z][\w'’&.+-]*)/g,
+      (_m, gap: string, word: string) =>
+        (YOO_SOUND.test(word) || !/^[aeiou]/i.test(word) ? "a" : "an") + gap + word
+    )
     .trim();
 }
 

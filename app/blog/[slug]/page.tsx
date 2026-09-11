@@ -7,6 +7,35 @@ import { consolidationTarget } from "@/lib/consolidated-posts";
 import { urlForImage } from "@/lib/sanity/client";
 import { fitSeoDescription } from "@/lib/seo-description";
 import { absoluteUrl, SITE } from "@/lib/site";
+import { firstDownloadsPhrase } from "@/lib/plans";
+
+/**
+ * Posts where the builder is what the visitor came for, not a footnote.
+ *
+ * `best-free-receipt-generator` held **zero** ranking keywords on 2026-08-17.
+ * By 2026-09-09 it held 45, worth 24,770 searches a month, and it now carries
+ * the site's best positions for the terms the product actually sells —
+ * "receipt maker" at 60 and "receipt generator" at 63, against /create at 92
+ * for the same queries. It outranks the money page on the money terms.
+ *
+ * Every one of those visitors met the builder only in the closing CTA, roughly
+ * 1,500 words below the fold. This puts the offer where they are.
+ *
+ * Listed rather than derived from `post.category`: this is about which queries
+ * a post wins, which is not something the post's own metadata knows. Add a slug
+ * here when Search Console shows it ranking for creation intent.
+ */
+const BUILDER_OFFER_POSTS: ReadonlySet<string> = new Set(["best-free-receipt-generator"]);
+
+/**
+ * How much of the article runs before the offer.
+ *
+ * Two blocks, not zero. `app/receipt-help/[slug]/page.tsx` settled the same
+ * question on 2026-09-01 and landed on answering first and offering second —
+ * and a roundup that opens by recommending its own author reads as a
+ * bait-and-switch, which is a worse trade than a slightly later CTA.
+ */
+const OFFER_AFTER_BLOCKS = 2;
 
 // Inline body images (![alt](…) authored in the seeder) preserve their natural
 // aspect ratio — hero crops to 16:9, but in-content visuals can be any shape.
@@ -203,6 +232,19 @@ export default async function BlogPostPage({
   };
 
   const faqs = post.faqs ?? [];
+
+  // Split the body so the builder offer can sit inside the article rather than
+  // after it. Null unless this post is one of BUILDER_OFFER_POSTS and has more
+  // blocks than the lead — a two-block post would put the offer at the end,
+  // which is where it already is.
+  const bodyBlocks: unknown[] = Array.isArray(post.body) ? post.body : [];
+  const offerBody =
+    BUILDER_OFFER_POSTS.has(slug) && bodyBlocks.length > OFFER_AFTER_BLOCKS
+      ? {
+          lead: bodyBlocks.slice(0, OFFER_AFTER_BLOCKS),
+          rest: bodyBlocks.slice(OFFER_AFTER_BLOCKS),
+        }
+      : null;
   const faqJsonLd =
     faqs.length > 0
       ? {
@@ -293,7 +335,38 @@ export default async function BlogPostPage({
 
         <div className="prose prose-slate mt-8 max-w-none prose-headings:font-bold prose-a:text-indigo-600">
           {post.body ? (
-            <PortableText value={post.body as never} components={portableComponents} />
+            offerBody ? (
+              <>
+                <PortableText value={offerBody.lead as never} components={portableComponents} />
+                <aside className="not-prose my-8 rounded-2xl border border-indigo-200 bg-indigo-50/60 px-5 py-4">
+                  <p className="leading-relaxed text-slate-700">
+                    <strong className="font-semibold text-slate-900">
+                      Want to skip the comparison?
+                    </strong>{" "}
+                    {SITE.name} is the generator we build. Fill in the shop, items and
+                    totals and watch it build as you type —{" "}
+                    <Link
+                      href="/create"
+                      className="font-medium text-indigo-700 underline decoration-indigo-300 underline-offset-2 hover:decoration-indigo-700"
+                    >
+                      open the receipt maker
+                    </Link>
+                    . The rest of this guide covers the alternatives.
+                  </p>
+                  {/* The allowance comes from lib/plans.ts rather than a number
+                      written here: nine live pages once promised "your first
+                      three" when the real limit was one, and every one of them
+                      was a hand-written claim. */}
+                  <p className="mt-2 text-sm text-slate-500">
+                    No sign-up to build or preview. Downloading uses a free account, and your
+                    first {firstDownloadsPhrase()} is watermark-free.
+                  </p>
+                </aside>
+                <PortableText value={offerBody.rest as never} components={portableComponents} />
+              </>
+            ) : (
+              <PortableText value={post.body as never} components={portableComponents} />
+            )
           ) : (
             <p className="text-slate-500">This article has no content yet.</p>
           )}
