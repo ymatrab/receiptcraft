@@ -44,6 +44,23 @@ export const CONSOLIDATED_POSTS: ReadonlyMap<string, string> = new Map([
   // Same how-to, different phrasing. The ledger already marked these as
   // overlapping each other.
   ["make-a-receipt", "/blog/how-to-make-a-receipt"],
+  // The Amazon retrieval pair. Measured on the Semrush positions export of
+  // 2026-09-09: four queries worth 3,220 searches a month where both pages
+  // rank, and the guide wins every head-to-head.
+  //
+  //                                        help   blog
+  //   how to get a receipt from amazon       52     61   (1,900/mo)
+  //   how do i get a receipt from amazon     39     45   (1,000/mo)
+  //   how to get receipts from amazon        50     60   (  210/mo)
+  //   where to find amazon receipt           35      -   (  110/mo)
+  //
+  // Worth being clear about what this does and does not buy. These are
+  // retrieval queries — someone wants their own Amazon receipt, which we cannot
+  // give them — so consolidating earns no revenue. It is here because two of
+  // our pages were splitting one signal for free, not because the traffic
+  // converts. The guide is the right owner: it answers with Amazon's own
+  // invoice route, which is what the searcher actually needs.
+  ["amazon-receipt-download", "/receipt-help/amazon-receipt-copy"],
 ]);
 
 /** Where a consolidated post's URL should send readers, or null if it is live. */

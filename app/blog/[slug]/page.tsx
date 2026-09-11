@@ -12,11 +12,18 @@ import { firstDownloadsPhrase } from "@/lib/plans";
 /**
  * Posts where the builder is what the visitor came for, not a footnote.
  *
- * `best-free-receipt-generator` held **zero** ranking keywords on 2026-08-17.
- * By 2026-09-09 it held 45, worth 24,770 searches a month, and it now carries
- * the site's best positions for the terms the product actually sells —
- * "receipt maker" at 60 and "receipt generator" at 63, against /create at 92
- * for the same queries. It outranks the money page on the money terms.
+ * `best-free-receipt-generator` outranks /create on the terms the product
+ * actually sells. Semrush, 2026-09-09: "receipt maker" at 60 against /create at
+ * 92, "receipt generator" at 63 with /create absent from the SERP, across 45
+ * ranking keywords worth 24,770 searches a month.
+ *
+ * It is not a new arrival, and an earlier draft of this comment said it was.
+ * Semrush listed no keywords for the URL on 2026-08-17 and 45 on 09-09, but
+ * that is Semrush's coverage catching up, not the page appearing from nothing:
+ * lib/consolidated-posts.ts already recorded it at 543 impressions and position
+ * 67.8 for "receipt maker" from Search Console on 2026-09-01, which is why that
+ * file deliberately does not fold it into /create. Two sources, ~68 then ~60 —
+ * a page that has been beating the money page for weeks and is improving.
  *
  * Every one of those visitors met the builder only in the closing CTA, roughly
  * 1,500 words below the fold. This puts the offer where they are.
