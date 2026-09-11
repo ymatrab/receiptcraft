@@ -161,8 +161,107 @@ const BRANDS_ARTICLE_FIXED: ReadonlySet<string> = new Set([
 ]);
 export const BRANDS_ARTICLE_UPDATED = "2026-09-01";
 
-/** When a brand page was last reviewed. */
+/**
+ * The 69 brands whose title changed when TITLE_MAX dropped to 60 on 2026-09-11.
+ *
+ * fitBrandTitle() only trims a title that exceeds the ceiling, so raising the
+ * bar from 70 to 60 pulled a new band of titles into the cut: 90 of the 348
+ * assembled titles were over 60 and truncating in the SERP, and 69 of them had
+ * a redundant second brand mention to drop. "Free Burger King Receipt Generator
+ * — Burger King Receipt Maker" (62) became "Free Burger King Receipt Generator
+ * — Receipt Maker" (50).
+ *
+ * The title is the page's visible content in the one place that decides a
+ * click, so these move; the other 279 render the same title as before and keep
+ * their old date.
+ *
+ * Listed rather than computed, for the same reason as BRANDS_ARTICLE_FIXED: the
+ * sitemap must not import the length rule. This is the set that changed on one
+ * day, not a rule that re-derives on every build — and it must not silently
+ * re-stamp pages the next time a variant is edited.
+ */
+const BRANDS_TITLE_TRIMMED: ReadonlySet<string> = new Set([
+  "air-canada",
+  "alaska-airlines",
+  "american-eagle",
+  "anytime-fitness",
+  "apple-store",
+  "apple-tv-plus",
+  "audible",
+  "balenciaga",
+  "barnes-noble",
+  "bass-pro-shops",
+  "bath-body-works",
+  "bed-bath-beyond",
+  "burger-king",
+  "burlington",
+  "caffe-nero",
+  "caribou-coffee",
+  "carrefour",
+  "chanel",
+  "checkers",
+  "chick-fil-a",
+  "church-s-chicken",
+  "comfort-inn",
+  "culvers",
+  "enterprise",
+  "epic-games",
+  "food-lion",
+  "giant-food",
+  "godaddy",
+  "golden-corral",
+  "holiday-inn",
+  "hollister",
+  "jack-in-the-box",
+  "jimmy-john-s",
+  "just-eat",
+  "kate-spade",
+  "kwik-trip",
+  "la-fitness",
+  "la-quinta",
+  "little-caesars",
+  "lululemon",
+  "marco-s-pizza",
+  "marriott",
+  "michael-kors",
+  "microsoft-365",
+  "mod-pizza",
+  "morrisons",
+  "nintendo-eshop",
+  "noodles-company",
+  "office-depot",
+  "old-navy",
+  "olive-garden",
+  "panda-express",
+  "paramount-plus",
+  "party-city",
+  "peet-s-coffee",
+  "phillips-66",
+  "potbelly",
+  "priceline",
+  "red-robin",
+  "sheraton",
+  "tgi-fridays",
+  "tim-hortons",
+  "trader-joe-s",
+  "walmart",
+  "whataburger",
+  "whole-foods",
+  "winco-foods",
+  "youtube-premium",
+  "youtube-tv",
+]);
+export const BRANDS_TITLE_UPDATED = "2026-09-11";
+
+/**
+ * When a brand page was last reviewed.
+ *
+ * Newest change wins: a page whose title moved on 09-11 reports that date even
+ * if its body copy also moved on 09-01, because <lastmod> answers "when did
+ * this page last change", not "when did each part of it change".
+ */
 export function brandReviewedAt(slug: string): string {
+  if (BRANDS_TITLE_TRIMMED.has(slug)) return BRANDS_TITLE_UPDATED;
   return BRANDS_ARTICLE_FIXED.has(slug) ? BRANDS_ARTICLE_UPDATED : BRANDS_UPDATED;
 }
 // 2026-08-31: the CTA names a Pro template before the click.
