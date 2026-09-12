@@ -57,3 +57,56 @@ export function creativeWorkJsonLd({
     ...(dateModified ? { dateModified } : {}),
   };
 }
+
+/**
+ * The procedure a tool page documents, as `HowTo`.
+ *
+ * Read the CreativeWork note above first — this is here for the same reason and
+ * earns the same thing. Be clear about what that is: Google **retired HowTo
+ * rich results in 2023**, so this will not put numbered steps on the blue link
+ * and is not a SERP feature play. It is machine-readable structure for
+ * retrieval — the AI crawlers in app/robots.ts read JSON-LD to decide what a
+ * page does before deciding whether to cite it, and "fill these six fields,
+ * then download" is the single most citable thing a builder page asserts.
+ *
+ * Steps must describe what the page actually lets someone do, in the order the
+ * interface does it. A step the UI does not support is a false claim in a
+ * machine-readable wrapper, which is worse than no markup at all.
+ */
+export function howToJsonLd({
+  name,
+  description,
+  path,
+  steps,
+  dateModified,
+}: {
+  name: string;
+  description: string;
+  /** Site-relative canonical path of the page documenting the procedure. */
+  path: string;
+  /** Ordered steps. Each is a self-contained instruction. */
+  steps: readonly { name: string; text: string }[];
+  dateModified?: string;
+}) {
+  const url = absoluteUrl(path);
+  return {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name,
+    description,
+    url,
+    inLanguage: "en",
+    // The builder is free to use; the tool itself is the only "supply" needed.
+    // No estimatedCost or totalTime: we do not measure either, and inventing
+    // them is the padding the CreativeWork note rules out.
+    tool: [{ "@type": "HowToTool", name: `${SITE.name} receipt builder` }],
+    step: steps.map((s, i) => ({
+      "@type": "HowToStep",
+      position: i + 1,
+      name: s.name,
+      text: s.text,
+      url: `${url}#step-${i + 1}`,
+    })),
+    ...(dateModified ? { dateModified } : {}),
+  };
+}

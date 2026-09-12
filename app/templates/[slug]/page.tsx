@@ -8,7 +8,7 @@ import { previewFromTemplate } from "@/lib/receipt";
 import { docFromReceiptData } from "@/lib/sections";
 import { fitSeoDescription } from "@/lib/seo-description";
 import { SITE, absoluteUrl } from "@/lib/site";
-import { creativeWorkJsonLd } from "@/lib/schema";
+import { creativeWorkJsonLd, howToJsonLd } from "@/lib/schema";
 import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
 import { CitedText, SourceList } from "@/components/Sources";
 import { citationJsonLd } from "@/lib/sources";
@@ -98,6 +98,45 @@ export default async function TemplatePage({ params }: Props) {
     ],
   };
 
+  // The procedure the page documents. Only one of the 42 templates carries
+  // hand-written `howToSteps`, so the rest get the builder's actual order of
+  // operations with the vertical's name in it — true of every template,
+  // because every template opens the same builder pre-filled.
+  const howTo = howToJsonLd({
+    name: `How to make a ${template.shortName.toLowerCase()} receipt`,
+    description: template.seoDescription,
+    path: `/templates/${template.slug}`,
+    steps: template.howToSteps?.length
+      ? template.howToSteps.map((text, i) => ({ name: `Step ${i + 1}`, text }))
+      : [
+          {
+            name: "Open the template",
+            text: `Open the ${template.name} in the builder — it loads pre-filled with the fields this kind of receipt normally carries.`,
+          },
+          {
+            name: "Enter the business details",
+            text: "Replace the placeholder merchant name, address and phone with the details that belong in the header.",
+          },
+          {
+            name: "Add the line items",
+            text: "List each item or service with its quantity and unit price. The subtotal recalculates as you type.",
+          },
+          {
+            name: "Set tax and totals",
+            text: "Apply the tax rate, plus any discount, tip or service charge. Tax stays on its own line so the receipt can support a claim.",
+          },
+          {
+            name: "Record the payment",
+            text: "Choose how it was paid and, for a card sale, add the last four digits and any change given.",
+          },
+          {
+            name: "Download it",
+            text: "Check the live preview, then sign in to download the receipt as a PDF or PNG.",
+          },
+        ],
+    dateModified: templateReviewedAt(template),
+  });
+
   // The page's subject. The FAQ and breadcrumb blocks describe what it answers
   // and where it sits; neither says what the page is.
   const workJsonLd = creativeWorkJsonLd({
@@ -116,6 +155,10 @@ export default async function TemplatePage({ params }: Props) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(workJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(howTo) }}
       />
       <script
         type="application/ld+json"
