@@ -55,6 +55,7 @@ const KEY_LINK_WEEKLY = "stripe_link_weekly";
 const KEY_LINK_MONTHLY = "stripe_link_monthly";
 const KEY_LINK_YEARLY = "stripe_link_yearly";
 const KEY_INDEXNOW_LAST_RUN = "indexnow_last_run";
+const KEY_ALERT_SENT = "alert_last_sent";
 
 /** Sensible default model per provider. */
 export const DEFAULT_MODELS: Record<AiProvider, string> = {
@@ -250,6 +251,58 @@ export async function setAiCooldown(id: string, until: Date): Promise<void> {
   }
   next[id] = until.toISOString();
   await setSetting(KEY_AI_COOLDOWNS, next);
+}
+
+/**
+ * Entries older than this are dropped from the throttle map on the next write,
+ * so it cannot grow without bound.
+ */
+const ALERT_PRUNE_MS = 7 * 24 * 60 * 60 * 1000;
+
+/**
+ * Claim the right to send one throttled alert, or report that it is too soon.
+ *
+ * Operational alerts arrive in bursts by their nature: when the AI generator is
+ * down, it is down for *everyone*, so every visitor who tries produces the same
+ * news. Sending each one would empty the owner's attention in minutes and end
+ * with the bot muted — which would silently take the checkout alerts down with
+ * it. One message per window is the version someone keeps notifications on for.
+ *
+ * The stamp lives in app_settings rather than in memory because there is no
+ * single process here: every serverless instance would keep its own copy and
+ * throttle nothing. Two instances can still race and both send; that costs one
+ * duplicate message, which is the right side of the trade against a store that
+ * needs locking.
+ */
+export async function claimAlertSlot(key: string, windowMs: number): Promise<boolean> {
+  if (!supabaseConfigured) return false;
+  const now = Date.now();
+
+  let sent: Record<string, string>;
+  try {
+    sent = (await getSetting<Record<string, string>>(KEY_ALERT_SENT)) ?? {};
+  } catch {
+    // Unreadable store. Send rather than swallow: a missed outage alert is the
+    // failure that matters, a repeat is merely annoying.
+    return true;
+  }
+
+  const last = Date.parse(sent[key] ?? "");
+  if (Number.isFinite(last) && now - last < windowMs) return false;
+
+  const next: Record<string, string> = { [key]: new Date(now).toISOString() };
+  for (const [k, v] of Object.entries(sent)) {
+    const t = Date.parse(v);
+    if (k !== key && Number.isFinite(t) && now - t < ALERT_PRUNE_MS) next[k] = v;
+  }
+
+  try {
+    await setSetting(KEY_ALERT_SENT, next);
+  } catch {
+    // Could not record the send. Allow it anyway — worst case the next one is
+    // not throttled either.
+  }
+  return true;
 }
 
 /** Called after a success, so a recovered provider is used again immediately. */

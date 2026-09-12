@@ -1,8 +1,14 @@
-import { NextResponse } from "next/server";
+import { NextResponse, after } from "next/server";
 import { getAccountStatus } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { supabaseConfigured } from "@/lib/supabase/config";
-import { getRoutableAiConnections, setAiCooldown, clearAiCooldown } from "@/lib/settings";
+import {
+  getRoutableAiConnections,
+  setAiCooldown,
+  clearAiCooldown,
+  claimAlertSlot,
+} from "@/lib/settings";
+import { notify } from "@/lib/telegram";
 import { generateJson, AiProviderError, AI_ATTEMPT_TIMEOUT_MS } from "@/lib/ai-providers";
 import { FREE_LIMITS } from "@/lib/plans";
 import { startOfUsageMonth } from "@/lib/usage";
@@ -26,6 +32,61 @@ export const maxDuration = 30;
  * the honest "try again" below.
  */
 const ROUTING_BUDGET_MS = 26_000;
+
+/**
+ * How long to stay quiet after each kind of operational alert.
+ *
+ * An outage produces one failure per visitor, so these windows are what decide
+ * whether the bot stays useful or gets muted. Long enough that a bad afternoon
+ * is a handful of messages; short enough that a new outage the next morning
+ * still announces itself.
+ */
+const OUTAGE_ALERT_WINDOW_MS = 30 * 60 * 1000;
+const EXHAUSTED_ALERT_WINDOW_MS = 6 * 60 * 60 * 1000;
+
+/**
+ * Tell the owner a free account has spent its monthly AI allowance.
+ *
+ * Not a fault — this is the moment someone wanted a fourth receipt and could
+ * not have one, which is the warmest upgrade signal the product produces. It
+ * is worth a message for the same reason a started checkout is.
+ *
+ * Recorded in `events` as well as sent, and the row is what keeps it to one
+ * message per account per month: the 429 fires on *every* attempt once the cap
+ * is reached, so a determined user would otherwise send an alert a minute. The
+ * event is useful on its own too — the admin funnel can now show how many
+ * people hit the ceiling, which nothing measured before.
+ */
+async function announceLimitReached(userId: string, email: string | null) {
+  try {
+    const admin = createAdminClient();
+    const since = startOfUsageMonth().toISOString();
+
+    const { count } = await admin
+      .from("events")
+      .select("id", { count: "exact", head: true })
+      .eq("user_id", userId)
+      .eq("name", "ai_limit_reached")
+      .gte("created_at", since);
+
+    if ((count ?? 0) > 0) return;
+
+    await admin.from("events").insert({
+      user_id: userId,
+      name: "ai_limit_reached",
+      props: { limit: FREE_LIMITS.aiGenerationsPerMonth },
+    });
+
+    await notify("🎯 Free AI limit reached", {
+      Email: email,
+      Used: `${FREE_LIMITS.aiGenerationsPerMonth} of ${FREE_LIMITS.aiGenerationsPerMonth} this month`,
+      Meaning: "They wanted another receipt and could not have one.",
+      User: userId,
+    });
+  } catch (err) {
+    console.error("[ai] limit alert failed", err);
+  }
+}
 
 /**
  * Logged-in free users: count this month's free rows in ai_usage.
@@ -65,6 +126,17 @@ async function checkUserLimit(userId: string): Promise<boolean> {
 export async function POST(req: Request) {
   const { ordered: connections, cooling } = await getRoutableAiConnections();
   if (connections.length === 0) {
+    // No connection is even eligible — every one is disabled, deleted, or
+    // parked in cooldown at the same time. The headline feature is offline and
+    // only an admin can bring it back, so this is the loudest case of all.
+    after(async () => {
+      if (await claimAlertSlot("ai_unconfigured", OUTAGE_ALERT_WINDOW_MS)) {
+        await notify("🔴 AI generator is offline", {
+          Cause: "No usable provider — all disabled, deleted, or resting.",
+          Fix: "Add or re-enable a connection at /admin/ai.",
+        });
+      }
+    });
     return NextResponse.json({ error: "AI is not configured yet." }, { status: 503 });
   }
 
@@ -94,6 +166,7 @@ export async function POST(req: Request) {
   if (!account.isPro) {
     const ok = await checkUserLimit(account.userId);
     if (!ok) {
+      after(() => announceLimitReached(account.userId!, account.email));
       return NextResponse.json(
         { error: "You've used your free AI generations for this month. Upgrade for unlimited." },
         { status: 429 }
@@ -113,6 +186,7 @@ export async function POST(req: Request) {
   let servedBy: string | null = null;
   let failures = 0;
   let transientFailures = 0;
+  let lastFailure: string | null = null;
   const startedAt = Date.now();
   for (const connection of connections) {
     if (Date.now() - startedAt + AI_ATTEMPT_TIMEOUT_MS > ROUTING_BUDGET_MS) {
@@ -136,15 +210,63 @@ export async function POST(req: Request) {
           const until = err.cooldownUntil();
           await setAiCooldown(connection.id, until).catch(() => {});
           console.warn(`[ai] ${connection.label} exhausted — resting until ${until.toISOString()}`);
+          // Worth knowing before it becomes an outage: the stack is designed to
+          // absorb one spent free tier, but each one parked is a layer of cover
+          // gone, and topping up is only possible if somebody is told.
+          after(async () => {
+            if (await claimAlertSlot(`ai_exhausted:${connection.id}`, EXHAUSTED_ALERT_WINDOW_MS)) {
+              await notify("🪫 AI provider out of credits", {
+                Provider: connection.label,
+                Resting: `until ${until.toISOString().slice(0, 16).replace("T", " ")} UTC`,
+                Detail: err.message,
+                Meaning: "Requests now fall through to the next provider.",
+              });
+            }
+          });
         }
       }
-      // The only place the real cause is recorded — the response below is
-      // deliberately vague, and /admin/ai re-runs this on demand to show it.
+      // Kept so the alert below can carry the real cause. Until now this was
+      // recorded only in a server log nobody reads until the feature has been
+      // dark for days — which is exactly how the August 2026 outage lasted six.
+      lastFailure = `${connection.label}: ${err instanceof Error ? err.message : String(err)}`;
+      // The response below is deliberately vague, and /admin/ai re-runs this on
+      // demand to show the detail.
       console.error(`[ai] ${connection.label} (${connection.provider}) failed`, err);
     }
   }
 
   if (!result) {
+    /**
+     * Nobody served this request, so the visitor saw the generator fail.
+     *
+     * Throttled hard: an outage hits every visitor alike, and one message per
+     * half hour is the difference between an alert that gets read and a bot
+     * that gets muted — taking the checkout alerts with it.
+     *
+     * `Cause` is the part that matters. The provider's own error text is what
+     * distinguishes a retired model from an expired key from a spent quota, and
+     * those have nothing in common except the symptom.
+     */
+    after(async () => {
+      if (await claimAlertSlot("ai_outage", OUTAGE_ALERT_WINDOW_MS)) {
+        await notify("🔴 AI generator is failing", {
+          Tried: `${connections.length} ${connections.length === 1 ? "provider" : "providers"}, all failed`,
+          // `failures === 0` is its own case: the routing budget ran out before
+          // any provider was even tried, so nothing is broken and nothing is
+          // rate-limited — the request was simply too slow to start.
+          Kind:
+            failures === 0
+              ? "ran out of time before any provider was tried"
+              : transientFailures === failures
+                ? "rate-limited or down"
+                : "needs an admin fix",
+          Cause: lastFailure,
+          Affected: account.email,
+          Fix: "Open /admin/ai and press Test on each connection.",
+        });
+      }
+    });
+
     // Everything we tried is rate-limited or down → it's worth coming back.
     // Anything else is a misconfiguration only an admin can fix, so say less.
     if (failures > 0 && transientFailures === failures) {

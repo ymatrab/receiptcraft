@@ -88,9 +88,17 @@ export function isMirroredEvent(name: string): boolean {
  *
  * `receipt_downloaded` comes from app/api/downloads/track (the same action the
  * browser calls `download_receipt`); `subscription_synced` from the Stripe
- * webhook.
+ * webhook; `ai_limit_reached` from app/api/ai/generate when a free account is
+ * refused a generation it has run out of allowance for.
+ *
+ * Being absent from EVENT_NAMES is what keeps them server-only: the public
+ * ingest checks that list, so none of these can be posted from a browser.
  */
-export const SERVER_ONLY_EVENT_NAMES = ["receipt_downloaded", "subscription_synced"] as const;
+export const SERVER_ONLY_EVENT_NAMES = [
+  "receipt_downloaded",
+  "subscription_synced",
+  "ai_limit_reached",
+] as const;
 
 /**
  * Every name that can appear in the `events` table, in funnel order.

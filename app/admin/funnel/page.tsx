@@ -53,6 +53,7 @@ const STAGES: { event: string; label: string; note: string }[] = [
 const WALLS: { event: string; label: string }[] = [
   { event: "download_blocked", label: "Download refused" },
   { event: "watermark_prompt", label: "Hit the watermark wall" },
+  { event: "ai_limit_reached", label: "Out of free AI generations" },
   { event: "pro_template_blocked", label: "Refused a Pro template" },
   { event: "sign_up_error", label: "Sign-up failed" },
   { event: "login_error", label: "Log-in failed" },
