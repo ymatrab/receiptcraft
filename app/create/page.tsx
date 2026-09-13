@@ -3,6 +3,7 @@ import { SITE, absoluteUrl } from "@/lib/site";
 import { fitSeoDescription } from "@/lib/seo-description";
 import { firstDownloadsPhrase } from "@/lib/plans";
 import { HOMEPAGE_FAQS } from "@/lib/faqs";
+import { howToJsonLd } from "@/lib/schema";
 import SectionBuilder from "@/components/builder/SectionBuilder";
 import RelatedPosts from "@/components/RelatedPosts";
 
@@ -66,6 +67,26 @@ const appJsonLd = {
   isPartOf: { "@type": "WebSite", name: SITE.name, url: SITE.url },
 };
 
+// The builder's real order of operations — the six sections SectionBuilder
+// renders, then the download. "Sign in to download" rather than "download":
+// the builder is open to everyone, a watermark-free download is not, and the
+// page's own metadata says so.
+const howToJsonLd_ = howToJsonLd({
+  name: "How to create a receipt online",
+  description:
+    "Build a receipt section by section in the browser — header, transaction identifiers, line items, totals, payment and footer — then download it as a PDF or PNG.",
+  path: "/create",
+  steps: [
+    { name: "Fill in the header", text: "Enter the merchant name, address and phone number that should appear at the top of the receipt." },
+    { name: "Add the transaction identifiers", text: "Set the receipt number, date and time, plus register and cashier if the receipt should carry them." },
+    { name: "Enter the line items", text: "Add each product or service with its quantity and unit price. The subtotal recalculates as you type." },
+    { name: "Check the totals", text: "Set the tax rate and any discount or tip. Tax appears on its own line so the receipt can support a sales-tax claim." },
+    { name: "Record the payment", text: "Choose the payment method and, for a card sale, the last four digits and any change given." },
+    { name: "Finish the footer", text: "Add the barcode, return policy and thank-you message that close the receipt." },
+    { name: "Download the receipt", text: "Preview the finished receipt, then sign in to download it as a PDF or PNG." },
+  ],
+});
+
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -87,6 +108,10 @@ export default function CreatePage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd_) }}
       />
       {/* Real H1 for the flagship tool page. Visually compact so it doesn't
           push the builder below the fold, but present in the SSR DOM. */}
