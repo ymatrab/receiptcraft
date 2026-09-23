@@ -1,401 +1,425 @@
 /**
- * Oct-sprint — Day 2026-09-23 (2 posts). Notion board Order 5 and 6, donation cluster.
- *   5. "goodwill donation receipt template"  90/mo · Low    -> /templates/donation-receipt
- *   6. "church donation receipt template"    50/mo · Medium -> /templates/donation-receipt
+ * Oct-sprint — Day 2026-09-23 (2 posts). Notion board Order 3 and 4, donation cluster.
+ *   3. "501c3 donation receipt template"   210/mo · CPC $5.92 · High   -> /templates/donation-receipt
+ *   4. "charity donation receipt template" 110/mo · CPC $4.85 · Medium -> /templates/donation-receipt
  *
- * GUARDRAIL on #5: Goodwill is a real organization. This post is written for the DONOR
- * documenting their own drop-off — the itemized list the donor prepares and keeps — and
- * explicitly warns against fabricating any organization's acknowledgment. It never offers
- * to produce a document that impersonates Goodwill or any named charity. The brand is
- * named descriptively only.
+ * Cannibalization guard: #3 overlaps the live /blog/donation-receipt-requirements
+ * ("What Must a 501(c)(3) Donation Receipt Include?"). That post owns the IRS wording
+ * and thresholds; this one owns the template — exempt status, EIN, what a registered
+ * charity's receipt carries that a generic one does not — and links there for the rules.
+ * #4 is angled at events, campaigns and quid pro quo so it does not restate #3.
  *
- * #6 is angled at tithes, offerings, designated funds and annual giving statements so it
- * does not restate #3 (501c3) or #4 (charity events).
+ * Facts from lib/templates.ts -> donation-receipt guidance (IRS Pub 1771, $250 written
+ * acknowledgement, goods-or-services statement). Authorities named in prose, never linked.
+ * Images: house-style Nano Banana banners — see the prompts issued with this batch.
  */
 
 export const SEP_23 = [
   {
-    slug: "goodwill-donation-receipt-template",
-    image: "assets/goodwill-donation-receipt-template.jpeg",
+    slug: "501c3-donation-receipt-template",
+    image: "assets/501c3-donation-receipt-template.jpeg",
     category: "small-business",
     publishedAt: "2026-09-23T09:30:00Z",
-    title: "Goodwill Donation Receipt Template: How It Works",
-    seoTitle: "Goodwill Donation Receipt Template: How It Works",
+    title: "501(c)(3) Donation Receipt Template Guide",
+    seoTitle: "501(c)(3) Donation Receipt Template Guide",
     seoDescription:
-      "Learn how a goodwill donation receipt template works, what the donor itemizes, who assigns value, and how to keep a clean record with makecepeit.",
+      "Learn what a 501(c)(3) donation receipt template should carry, from the EIN and exempt status to the goods-or-services line, with makecepeit.",
     excerpt:
-      "A goodwill donation receipt template is the donor's itemized list, not the charity's acknowledgment. The organization confirms the drop-off; you describe and value what you actually gave.",
-    body: `A **goodwill donation receipt template** is the itemized list a donor prepares to record what they dropped off at a thrift or charity shop, and understanding who fills in what is the whole point. The receiving organization generally confirms that a donation was made. The donor is the one who describes the items and determines what they were worth.
+      "A 501(c)(3) donation receipt template carries what a generic one does not: the organization's EIN, its recognized exempt status, and the statement a donor needs at $250 and above.",
+    body: `A **501(c)(3) donation receipt template** is the acknowledgment format used by an organization that holds recognized tax-exempt status, and it carries two things a generic donation receipt often leaves out: the organization's employer identification number and a clear statement of what, if anything, the donor received in return. Everything else on it is ordinary receipt structure.
 
-Across the United States, that split catches people out every filing season. A blank slip handed over a counter in Chicago or Phoenix is not a complete record of anything until somebody writes down what was in the bags. Makecepeit lets you [build an itemized record](/create) of what you donated so the list exists in a readable form rather than on a fading paper stub.
+Across the United States, that difference matters because the donor's paperwork depends on it. Makecepeit lets you [create a donation receipt](/create) from a fixed layout, so the exempt-status details are entered once and repeat on every acknowledgment your organization sends.
 
-## What Is a Goodwill Donation Receipt Template?
+## What Is a 501(c)(3) Donation Receipt Template?
 
-**It is a donor-side form for listing donated goods by category, quantity and condition, kept alongside whatever acknowledgment the organization provided.**
+**It is a reusable acknowledgment format for a registered tax-exempt organization, holding the EIN, legal name and required statements constant while the gift details change.**
 
-Thrift and charity shops receive far too many drop-offs to inventory each one. Most hand over a dated slip confirming a donation occurred and leave the itemization to the donor, which is standard practice rather than an oversight. The template is simply a structured place to do that itemizing while you still remember what was in the boxes.
+The 501(c)(3) designation refers to a section of the tax code covering organizations recognized as exempt, including charitable, religious and educational bodies. A nonprofit in Chicago that has received a determination letter is describing something specific when it puts that on a receipt, and it should only appear where the status genuinely applies.
 
-### What the organization provides
+### Why the template differs from a generic one
 
-Typically a dated receipt with the organization's name and location, sometimes a reference number, and space for the donor to complete. It confirms the transaction. It does not usually confirm contents or value, because staff did not count the items.
+A generic donation receipt records a gift. A 501(c)(3) template also identifies the recipient in a way a donor can verify — legal name as registered, EIN, and address. Those fields rarely change, which is exactly why they belong in a template rather than being retyped each time.
 
-### What the donor provides
+### Who can put the label on a receipt
 
-A description of what was given, the quantity, the condition, and a value the donor has determined. That last part is the donor's responsibility and nobody else's.
+Only an organization that actually holds the recognition should describe itself that way. A group that has applied but not yet received a determination may be operating in good faith and still have no business printing the status on an acknowledgment. Where an application is pending, the honest course is to say so, issue a plain receipt recording the gift, and reissue later if the status is granted.
 
-## An Important Limit Worth Stating Plainly
+## What Should a 501(c)(3) Donation Receipt Include?
 
-**Document what you actually donated. Never create a document that appears to come from an organization you do not represent.**
+- **Legal organization name** as it appears on the determination letter
+- **Employer identification number**, commonly labelled EIN
+- **Organization address** and, optionally, a contact line
+- **Donor name**, and address where records are kept
+- **Date the contribution was received**
+- **Amount** for cash, or a **description** of donated property
+- **A goods-or-services statement** covering what the donor got back
+- **Receipt or acknowledgment number** for internal tracking
+- **An authorized name or signature line**
 
-There is a real difference between keeping your own itemized record of a genuine drop-off, which is ordinary and sensible, and producing something designed to look like a charity's official acknowledgment. The first is record-keeping. The second misrepresents an organization that has not agreed to it, and no template should be used that way.
+> Most receipts that cause a donor trouble are not missing the amount — they are missing the sentence about whether anything was provided in exchange for the gift.
 
-> If an acknowledgment from the receiving organization is missing, the fix is to contact the organization and ask, not to reconstruct one on their behalf.
+### Fields that are optional but useful
 
-## What Should the Itemized List Include?
+A fund or campaign designation helps both sides later, and may matter a great deal for organizations running several appeals at once. A short note on the method of payment is similarly cheap to include and saves reconciliation work in the new year.
 
-- **Organization name and location** where the donation was made
-- **Date of the drop-off**, which fixes the tax year
-- **Category of goods** — clothing, housewares, furniture, electronics
-- **Quantity** in each category, counted rather than estimated
-- **Condition**, described honestly
-- **Your own valuation**, with the method you used
-- **A reference** to the slip the organization gave you
-- **Photographs**, where the donation was substantial
+## Why 501(c)(3) Receipts Matter in the United States
 
-### Why condition matters more than people expect
+**For a single contribution of $250 or more, the donor generally needs a written acknowledgment from the organization, and it needs to address goods or services.**
 
-Guidance on donated household goods generally turns on whether items are in good used condition or better. "Eight men's dress shirts, good used condition" is a record. "Bag of clothes" is not, and it tells you nothing a year later when you are trying to reconstruct what you gave.
+IRS Publication 1771 sets out that threshold and the content of the acknowledgment. The statement about whether the organization provided anything in return is the part that is most often skipped and most often needed. A receipt that records $400 but says nothing on that point is incomplete for a donor who intends to claim it.
 
-## Who Assigns the Value?
+Below $250 a written acknowledgment is generally not required, though most organizations send one anyway. Nonprofits in New York, Texas and Florida also answer to state charity regulators whose registration and reporting rules vary, so confirm what your own state expects rather than assuming the federal picture covers everything.
 
-| Element | Donor's role | Organization's role |
-|---|---|---|
-| Confirming the drop-off | Keeps the slip | Issues the dated slip |
-| Listing the items | Writes the itemized list | Generally does not itemize |
-| Describing condition | Records it honestly | Rarely inspects individually |
-| Assigning a value | Determines it | Does not value donated goods |
-| Supporting the figure | Keeps the method on file | Not involved |
+A receipt documents what the organization received. It does not establish that any particular donor can deduct the gift, which depends on their circumstances and is properly a question for their tax professional.
 
-The pattern is consistent: the charity documents that it received something; the donor documents what that something was and what it was worth. A charity that started assigning values to strangers' used furniture would be making judgments it has no basis for.
+## EIN, Exempt Status and What You Can Safely State
 
-## Why Donated-Goods Records Matter in the United States
+**State your status and your EIN; avoid stating the donor's tax outcome.**
 
-**Non-cash donations are recorded differently from cash, and the paperwork expectations rise with the amount.**
+The safe construction names the organization, its EIN, and the facts of the gift. The unsafe one tells the donor the contribution is deductible, because deductibility turns on facts the organization does not hold. Accuracy here is what keeps an acknowledgment credible.
 
-IRS guidance treats contributions of property differently from cash gifts, and the documentation generally expected increases at higher values — a written acknowledgment becomes relevant at $250, and additional substantiation may apply for larger non-cash contributions. Where a single item or group of similar items is valued highly, a qualified appraisal may come into play.
+| Safe to state | Better left off |
+|---|---|
+| Legal name and EIN | "This gift is tax deductible" |
+| Date the gift was received | A value you assigned to donated goods |
+| Cash amount received | A promise about the donor's return |
+| Description of donated property | Status the organization has not been granted |
+| Whether goods or services were given | Language implying an audit will pass |
 
-Those thresholds and the methods for valuing used goods are exactly the kind of detail that varies by situation. Donors in California, Texas and New York face the same federal framework but very different state pictures, and a tax professional is better placed than any template to say what applies to a particular donation.
+## How to Build the Template
 
-The template's job is narrower and more useful: make sure that when the question is asked, you can answer it from a record you wrote at the time rather than from memory.
+1. **Confirm your legal name** against the determination letter, not the website.
+2. **Enter the EIN** once, and check it digit by digit.
+3. **Add the organization address** and contact details.
+4. **Create labelled fields** for donor, date and amount.
+5. **Add a description field** for non-cash gifts, with no value box.
+6. **Print the goods-or-services statement** in the footer by default.
+7. **Add a numbering scheme** you can follow for a full year.
+8. **Test it on a real past gift** before sending anything new.
 
-## How to Use the Template at Drop-Off
+![A 501(c)(3) donation receipt template shown as a clean banner layout, with the organization legal name and EIN in the header, labelled donor and gift date rows, a highlighted total received line, and a footer statement confirming that no goods or services were provided in exchange for the contribution.](assets/501c3-donation-receipt-template-2.jpeg)
 
-1. **Sort into categories** before you leave the house.
-2. **Count each category** and write the numbers down.
-3. **Note the condition** honestly, category by category.
-4. **Photograph anything substantial** before it goes in the car.
-5. **Get the organization's slip** and keep it with your list.
-6. **Record the date and location** exactly as on the slip.
-7. **Determine values** using a consistent, documented method.
-8. **File both documents together** where you can find them.
+Building it from a [donation receipt generator](/templates/donation-receipt) removes the retyping, which is where the EIN and the legal name most often drift.
 
-![A goodwill donation receipt template shown as a clean banner layout, with the receiving organization and drop-off date in the header, itemized rows listing clothing, housewares and furniture with quantities and condition, and a donor-determined total value in a highlighted row.](assets/goodwill-donation-receipt-template-2.jpeg)
+## Cash Gifts vs Donated Property
 
-A [donation receipt generator](/templates/donation-receipt) gives that list a consistent layout, which matters if you donate several times a year and want the records to look alike.
+A cash gift is straightforward: the receipt states the amount. Donated property is where organizations overstep, usually with good intentions.
 
-## Valuing Used Goods Without Guessing
+- **Describe the item** — quantity, type and condition
+- **Do not assign a dollar value** on the organization's behalf
+- **Record the date received**, which fixes the tax year
+- **Note any conditions** attached to the gift
 
-**Pick a method, apply it consistently, and write down which one you used.**
+A food bank in Houston receiving a pallet of canned goods can accurately say what arrived and when. What it is generally not positioned to say is what that pallet was worth, and the donor is the one who determines that.
 
-Most donors work from what comparable used items sell for in the local second-hand market. Some organizations publish general valuation ranges for common categories as a convenience. Either approach may be reasonable; the failure is using one method for shirts, another for furniture, and remembering neither.
+## Recurring, Designated and Restricted Gifts
 
-- **Use the same basis** across the whole donation
-- **Record the basis** alongside the list
-- **Do not use original purchase price** as the value of used goods
-- **Be conservative** where condition is uncertain
-- **Keep comparables** if you looked any up
+**A template that handles only one-off gifts will struggle the first time a donor gives monthly or restricts a gift to a particular program.**
 
-## Clothing and Household Goods in Detail
+Recurring giving raises a design question worth settling early: does each charge produce its own acknowledgment, or does the donor receive a periodic summary? Many organizations do both, sending an automated receipt per charge and a consolidated statement in January.
 
-**Most drop-offs are clothing and housewares, and most vague records are too.**
+Designated gifts add a second field. Where a donor specifies that a contribution supports a particular program, the acknowledgment should record that designation, because it is part of what the organization agreed to.
 
-Categories are worth agreeing with yourself in advance, because consistency across the year is what makes the records usable. The categories below cover the large majority of what people actually donate.
+- **Name the fund or program** the gift was directed to
+- **Record any conditions** the donor attached in writing
+- **Keep the designation** consistent with your internal accounting
+- **Flag restricted gifts** so they are not spent generally
 
-| Category | Record this | Common error |
-|---|---|---|
-| Clothing | Item type, count, adult or child | "Two bags" with no count |
-| Shoes | Pairs, type, condition | Counting items instead of pairs |
-| Housewares | Item type and count | Lumping crockery as miscellaneous |
-| Small appliances | Item, working or not | Omitting whether it functions |
-| Furniture | Piece, material, condition | No note of damage |
-| Books and media | Count, hardback or paperback | Estimating by box size |
-| Electronics | Item, age, working state | Treating obsolete as current |
+### When a donor asks for a replacement
 
-### Bundling similar items sensibly
+Requests for duplicates arrive constantly, usually in filing season. A template with sequential numbering makes this a lookup rather than a reconstruction. Reissue the original details rather than writing a fresh acknowledgment with today's date, and mark the copy as a duplicate so two versions of one gift do not circulate.
 
-Listing forty individual t-shirts helps nobody. Grouping them as "40 adult t-shirts, good used condition" is both accurate and readable. The rule of thumb is to bundle items that share a category, a condition and a rough value, and to separate anything that differs materially on any of those three.
+## Quid Pro Quo Gifts and the $75 Line
 
-### Items a charity may not accept
+A quid pro quo contribution is part gift and part purchase — a benefit dinner being the standard example. Where such a payment exceeds $75, the organization generally provides a written disclosure with a good-faith estimate of the value of the benefit.
 
-Not everything left at a donation point is accepted, and goods that are rejected were never donated. Damaged upholstered furniture, recalled equipment and certain electronics are frequently turned away. If part of a load is refused, the record should reflect what the organization actually took rather than what left the house, which is another reason to write the list at the point of drop-off rather than beforehand.
+### Estimating the benefit honestly
 
-## Multiple Donations Across the Year
+The estimate is based on what the benefit would cost in the open market, not what the organization paid. A dinner donated by a restaurant in Miami is still valued at roughly what that dinner sells for. Template a benefits line once and these events stop being a scramble.
 
-Donors who drop off regularly need the records to aggregate cleanly. Keep one list per drop-off rather than one running list for the year, because the dates matter and a single combined document obscures them. A simple folder, physical or digital, holding paired slips and lists in date order is enough.
+## Year-End Statements for 501(c)(3) Organizations
 
-### When a year-end summary helps
+**A year-end statement summarizes a donor's giving; it does not replace acknowledgments for individual large gifts.**
 
-Building a summary in January from individual records is straightforward. Building individual records in January from a year-old memory is not. The summary is a convenience layered on top of contemporaneous records, never a substitute for them.
+List each gift by date and amount rather than presenting one annual figure, because the $250 threshold applies per contribution. A donor who gave $100 monthly and $300 once in October needs to see that October gift identified separately.
 
-## What Happens If You Are Asked About a Donation
+## Keeping Records the Template Depends On
 
-**The question is rarely dramatic. It is usually a request to show how a figure was arrived at.**
+**An acknowledgment is only as good as the record behind it.**
 
-Donors sometimes imagine that supporting a non-cash contribution means producing a document stamped by the charity. In practice what is generally wanted is the reasoning: what was given, when, in what condition, and on what basis a value was reached. A contemporaneous itemized list answers all four, which is precisely why writing it at drop-off matters more than any particular format.
+The receipt is the document the donor sees; the organization's own log is what makes it defensible later. Those two should agree on every gift, and the quickest way to guarantee they do not is to let them be maintained by different people in different places.
 
-A record written months later has a structural weakness even when it is entirely honest, because it was reconstructed rather than observed. Somebody trying to remember in March what they gave in September will generalize, round and forget, and the resulting list may understate as easily as overstate. The list written in the car park is better evidence than the one written from memory, and it takes less effort.
+- **Log every acknowledgment** with its number, donor, date and amount
+- **Reconcile the log** against bank deposits at least monthly
+- **Store copies** in a format still readable in several years
+- **Record who issued** each acknowledgment where several people can
+- **Keep good-faith estimates** for benefit events alongside the event file
 
-Where a donation is substantial, the supporting material generally expands. Photographs help. So does a note of where valuations came from, whether that was a published guide, observed second-hand prices, or comparable listings. None of this needs to be elaborate. It needs to exist and to be consistent with what the organization's slip says about the date and location.
+Retention periods vary by organization and by state, and a professional can advise on what applies. As a practical floor, an organization that cannot produce a copy of an acknowledgment a donor received two years ago has a records problem rather than a template problem.
 
-The one thing that does not help is a document that overstates its own authority. A donor-prepared list presented as a donor-prepared list is straightforward and credible. The same information dressed up to look like it came from the charity raises a question about everything else in the file, and there is no version of that trade which favours the donor.
+## Why Use makecepeit for 501(c)(3) Receipts?
 
-## Why Use makecepeit for Donation Records?
+- **Reusable organization details**, so the EIN and legal name are typed once
+- **Donation-specific fields** instead of a retail sales form
+- **A footer statement** for the goods-or-services line by default
+- **Consistent layout** across every acknowledgment you issue
+- **PDF and PNG output** for emailing or printing
+- **In-browser editing** with nothing to install
 
-- **Itemized line structure** built for listing goods by category
-- **Consistent layout** across every drop-off you record
-- **Editable in the browser**, with nothing to install
-- **PDF and PNG output** to file alongside the organization's slip
-- **Reusable details** so repeat donations take a minute
-- **Clear, readable records** that survive better than a paper stub
+The tool documents contributions your organization actually received. It is a record-keeping aid, not a way to produce an acknowledgment for a gift that did not happen, and the accuracy of the name, date and amount is what gives the document any value.
 
-Makecepeit is for documenting donations you genuinely made. It is not a way to manufacture a charity's acknowledgment, and the value of the record comes entirely from it being accurate about what left your house and when.
+### Numbering that survives a year
 
-## Tips Before Your Next Drop-Off
+Sequential numbering sounds trivial until two people issue acknowledgments in the same week. Pick a scheme that encodes the year, run it from a single source, and never reuse a number even after a correction. An organization issuing a few hundred acknowledgments annually will thank itself the first time a donor calls about a gift from eighteen months ago.
 
-- **List items before you go**, not from memory afterwards
-- **Photograph larger donations** while they are still together
-- **Keep the organization's slip** attached to your list
-- **Record the location**, not just the organization name
-- **Apply one valuation method** across the whole donation
-- **Describe condition honestly**, including where it is poor
-- **File immediately** rather than in a pile for later
+## Tips Before Sending
+
+- **Verify the EIN** on the template once a year against your records
+- **Match the legal name** to the determination letter exactly
+- **Send within a few weeks** of receiving the gift
+- **Use the date received**, not the date you processed it
+- **Keep a retrievable copy** of everything sent
+- **Mask payment details** — no full card numbers on an acknowledgment
+- **Review wording annually** against current guidance
 
 ## Common Mistakes to Avoid
 
-- **Recreating an organization's acknowledgment** rather than requesting one
-- **Writing "bag of clothes"** instead of counting items
-- **Using original purchase prices** for used goods
-- **Valuing items the organization should not value** and attributing it to them
-- **Losing the slip** and reconstructing the date approximately
-- **Combining several drop-offs** into one undated list
-- **Overstating condition** on items that were worn out
-- **Leaving it until filing season** to write anything down
+- **Omitting the goods-or-services statement** on gifts of $250 or more
+- **Printing "tax deductible"** as though the organization could certify it
+- **Valuing donated property** for the donor
+- **Using a trading name** where the legal name belongs
+- **Transposing EIN digits**, which is easy and quietly damaging
+- **Skipping the $75 disclosure** on benefit events
+- **Letting volunteers keep private copies** of the template
+- **Dating the receipt** to the deposit rather than the gift
 
 ## Final Takeaway
 
-A goodwill donation receipt template works because it puts the donor's half of the record somewhere durable. The organization confirms a donation happened; you describe what it was and what it was worth, at the time, honestly. Keep the two documents together, apply one valuation method, and never produce something that purports to come from a charity you do not represent. Rules on non-cash contributions vary with amount and circumstance, so confirm the specifics with a tax professional. For the organization's side of the same transaction, see the [donation receipt template](/blog/donation-receipt-template) guide.
+A 501(c)(3) donation receipt template earns its place by making the unchanging parts unchanging: legal name, EIN, and the sentence about goods and services. Get those fixed, record the date the gift actually arrived, describe property rather than pricing it, and leave the donor's tax conclusion to the donor. Requirements vary by state and by organization, so confirm specifics with a tax professional. For the exact wording and thresholds, the companion piece on [501(c)(3) receipt requirements](/blog/donation-receipt-requirements) goes deeper on the rules themselves.
 
-## Record Your Donation With makecepeit
+## Create 501(c)(3) Receipts With makecepeit
 
-List what you gave while you still remember it, in a layout that reads the same every time. Open the [itemized record builder](/create) and keep a clean copy alongside the organization's slip.`,
+Set your legal name, EIN and address once, then enter each gift as it arrives. Open the [donation receipt generator](/create) and keep every acknowledgment consistent from the first gift of the year to the last.`,
     faqs: [
-      { q: "What is a goodwill donation receipt template?", a: "It is the donor's itemized list of goods dropped off at a thrift or charity shop, kept alongside the dated slip the organization provides." },
-      { q: "Does the charity itemize my donation?", a: "Usually not. Most organizations confirm that a donation was made and leave the itemization and valuation to the donor." },
-      { q: "Who decides what donated goods are worth?", a: "The donor does, generally based on what comparable used items sell for locally, and ideally with the method recorded alongside the list." },
-      { q: "Can I create a receipt from the charity myself?", a: "No. Document your own donation, but never produce a document that appears to come from an organization you do not represent. Request a copy instead." },
-      { q: "What if I lost the organization's slip?", a: "Contact the organization and ask whether a copy is available. Reconstructing their acknowledgment yourself is not an appropriate substitute." },
-      { q: "How detailed should the item list be?", a: "Detailed enough to be meaningful later. Count items by category and note condition, rather than writing a general description like bag of clothes." },
-      { q: "Does condition affect a donated-goods record?", a: "Yes. Guidance on household goods generally turns on items being in good used condition or better, so describe condition honestly, category by category." },
-      { q: "Should I photograph donated items?", a: "For substantial donations it is worth doing. Photographs taken before drop-off support the list far better than a recollection months afterwards." },
-      { q: "Can I combine several drop-offs into one list?", a: "Better not to. Keep one list per drop-off, since the individual dates matter and a combined document obscures them." },
-      { q: "Can makecepeit record donated goods?", a: "Yes. The itemized layout suits listing goods by category, quantity and condition, for documenting donations you genuinely made." },
+      { q: "What is a 501(c)(3) donation receipt template?", a: "It is a reusable acknowledgment format for a recognized tax-exempt organization, holding the legal name, EIN and required statements constant while donor and gift details change." },
+      { q: "Does a donation receipt need an EIN?", a: "Including the EIN is common practice and helps a donor identify the organization. Requirements vary, so confirm what applies to your organization and state." },
+      { q: "What is the $250 acknowledgment rule?", a: "For a single contribution of $250 or more, a donor generally needs a written acknowledgment stating whether the organization provided goods or services in return." },
+      { q: "Can a receipt say a gift is tax deductible?", a: "Better not to. Deductibility depends on the donor's circumstances and the organization's status, neither of which a receipt establishes on its own." },
+      { q: "Should the receipt value donated goods?", a: "Generally no. The organization describes the property and the donor determines its value, usually with their own tax adviser." },
+      { q: "What is the $75 quid pro quo rule?", a: "Where a payment is part gift and part purchase and exceeds $75, the organization generally provides a written disclosure estimating the value of the benefit received." },
+      { q: "Do small gifts need acknowledgments?", a: "A written acknowledgment is generally not required below $250, though many organizations send one so donors have a clear record." },
+      { q: "Is a year-end statement enough on its own?", a: "It helps, but it should itemize each gift by date and amount, because the $250 threshold applies per contribution rather than to the annual total." },
+      { q: "Which name goes on the receipt?", a: "The legal name as it appears on the determination letter, rather than a trading name, informal shorthand or campaign branding." },
+      { q: "Can makecepeit produce 501(c)(3) receipts?", a: "Yes. It stores your organization details, uses donation-specific fields and prints the goods-or-services footer, for documenting gifts your organization genuinely received." },
     ],
   },
   {
-    slug: "church-donation-receipt-template",
-    image: "assets/church-donation-receipt-template.jpeg",
+    slug: "charity-donation-receipt-template",
+    image: "assets/charity-donation-receipt-template.jpeg",
     category: "small-business",
     publishedAt: "2026-09-23T14:00:00Z",
-    title: "Church Donation Receipt Template: What to Include",
-    seoTitle: "Church Donation Receipt Template: What to Include",
+    title: "Charity Donation Receipt Template Essentials",
+    seoTitle: "Charity Donation Receipt Template Essentials",
     seoDescription:
-      "Learn what a church donation receipt template needs for tithes, offerings, designated funds and annual giving statements, with makecepeit tools.",
+      "Learn what a charity donation receipt template needs for events, appeals and in-kind gifts, including benefit disclosures, with makecepeit tools.",
     excerpt:
-      "A church donation receipt template has to cover weekly offerings, designated funds and non-cash gifts, then roll them into an annual statement each member can actually use.",
-    body: `A **church donation receipt template** is the acknowledgment format a congregation uses for tithes, offerings and designated gifts, and it differs from a general charity template in one practical way: most giving is recurring and small, while the document members actually rely on arrives once a year.
+      "A charity donation receipt template has to survive more than simple cash gifts: benefit dinners, sponsorships, auctions and donated goods each change what the acknowledgment must say.",
+    body: `A **charity donation receipt template** is the acknowledgment format a charitable organization reuses across everything it receives, and the reason it needs designing carefully is that charities rarely receive only straightforward cash. Appeals, benefit events, sponsorships, auctions and donated goods each change what the receipt has to say.
 
-Across the United States, congregations from small rural chapels to large city churches in Atlanta and Dallas face the same pattern — dozens of small gifts per giver per year, and one annual statement that has to account for all of them. Makecepeit lets you [create a donation receipt](/create) from a consistent layout so both the individual acknowledgment and the year-end summary come from the same set of fields.
+Across the United States, a template that handles only the simple case quietly fails at the moments that matter most — the gala, the auction, the truckload of donated stock. Makecepeit lets you [build a donation receipt](/create) from a consistent layout so those cases are handled the same way every time.
 
-## What Is a Church Donation Receipt Template?
+## What Is a Charity Donation Receipt Template?
 
-**It is a reusable acknowledgment format covering regular offerings, one-off gifts and designated contributions, built so the annual statement can be assembled from the same records.**
+**It is a reusable acknowledgment layout that records who gave, what was given, when, and what the donor received in return, if anything.**
 
-Churches generally receive money in several distinct streams: the weekly general offering, gifts designated to a building fund or mission, and occasional larger contributions. A template that treats all three identically loses information the congregation needs for its own accounting.
+The last clause is what separates a charity template from a generic receipt. Charities routinely give something back — a meal, a ticket, a tote bag — and the acknowledgment has to reflect that honestly rather than treating every payment as a pure gift.
 
-### Why the annual statement drives the design
+### One template, several gift types
 
-Most members never look closely at a weekly acknowledgment. They look very closely at the January statement. Designing the template backwards from that statement — making sure every field it needs is captured at the time of the gift — saves a great deal of reconstruction later.
+Rather than maintaining separate documents, most organizations build one template with optional sections: a description field that stays blank for cash, a benefits line that stays blank for pure gifts. A charity in Seattle running both a mail appeal and an annual dinner can then use a single format across both.
 
-## What Should a Church Donation Receipt Include?
+## What Should a Charity Donation Receipt Include?
 
-- **Church legal name** as registered, and its address
-- **Tax identification number** where the congregation has one
-- **Giver's name**, and envelope or member number if used
+- **Charity name and address** as registered
+- **Tax identification number** where applicable
+- **Donor name** and contact details on file
 - **Date the gift was received**
-- **Amount** for cash and cheque gifts
-- **Fund designation** — general, building, mission, benevolence
-- **Description of any non-cash gift**, without a stated value
-- **A goods-or-services statement** covering anything given in return
-- **Reference number** for the congregation's own records
+- **Amount** for cash gifts, in figures
+- **Description of donated property**, with no value assigned
+- **Benefit received**, where the donor got something back
+- **Fund or appeal designation**, where several are running
+- **Receipt number** for internal reconciliation
 
-> Designating a gift is not a formality — money given to a building fund is money the congregation has agreed to use for that purpose, and the acknowledgment is where that agreement gets recorded.
+> A receipt that describes a $200 gala ticket as a $200 donation overstates the gift, and the fix is a single extra line naming what the donor received.
 
-## Tithes, Offerings and Designated Funds
+## Cash, In-Kind and Benefit Gifts Compared
 
-| Gift type | How it is usually given | What the receipt records |
+| Gift type | What the receipt states | What it must avoid |
 |---|---|---|
-| Regular tithe | Weekly or monthly, often recurring | Amount, date, general fund |
-| Loose offering | Cash in the plate, often anonymous | Generally not individually receipted |
-| Designated gift | Written instruction or marked envelope | Amount, date, named fund |
-| Building campaign | Pledged and paid over time | Each payment as it arrives |
-| Non-cash gift | Property, equipment, supplies | Description, not value |
+| Cash appeal gift | Exact amount and date | Nothing unusual |
+| In-kind goods | Description and condition | Assigning a dollar value |
+| Benefit event | Payment and benefit estimate | Treating the whole sum as a gift |
+| Sponsorship | Amount and what was provided | Ignoring advertising value |
+| Auction purchase | Amount paid for the item | Calling the full price a donation |
 
-### The loose-offering problem
+### Where charities most often slip
 
-Anonymous cash in the plate cannot be acknowledged to anybody, and that is fine. It is recorded in the congregation's books as undesignated offering income, not attributed to a giver who cannot be identified. Churches occasionally try to allocate loose cash to regular members, which makes the annual statements wrong for everyone involved.
+Auctions and sponsorships. A winning bid is largely a purchase, and a sponsorship that buys logo placement is partly advertising. Both are legitimate and both need describing accurately rather than being recorded as clean gifts.
 
-## Why Church Giving Records Matter in the United States
+## Why Charity Receipts Matter in the United States
 
-**A congregation's acknowledgment is what a member relies on when documenting their giving.**
+**In the U.S., the acknowledgment is what connects the charity's record to whatever the donor does next.**
 
-IRS Publication 1771 describes a written acknowledgment for single contributions of $250 or more, including a statement about whether goods or services were provided in return. A member who gives $50 weekly has made many separate gifts, none crossing that line individually, while a single $1,000 gift at Christmas does. The annual statement should make that distinction visible rather than presenting one total.
+IRS Publication 1771 describes a written acknowledgment for single contributions of $250 or more, carrying a statement about goods or services provided in return. Separately, where a payment is part gift and part purchase and exceeds $75, a written disclosure with a good-faith estimate of the benefit generally applies. Those two thresholds cover most of what a charity issues.
 
-Churches also occupy a particular position in U.S. tax law regarding recognition and filing obligations, and the specifics vary with how a congregation is organized. State requirements differ again. A congregation in Texas and one in New York may reach quite different answers, so confirm the position with a professional rather than inferring it from another church's practice.
+State oversight adds another layer. Charities operating in California, New York and Florida register and report under rules that vary, and a template does not satisfy those obligations by itself. Treatment differs by organization and by state, and a professional is better placed than any template to confirm the specifics.
 
-A receipt records what the congregation received. It does not determine what any member may claim, which depends on their own circumstances.
+## How to Handle a Benefit Event on the Receipt
 
-## How to Build the Annual Giving Statement
+1. **Set the ticket price** and record it as the amount paid.
+2. **Estimate the benefit** at open-market value, not cost to you.
+3. **State both figures** clearly on the acknowledgment.
+4. **Name the benefit** — dinner, entertainment, merchandise.
+5. **Issue the disclosure** where the payment exceeds $75.
+6. **Keep the estimate** on file with the event records.
+7. **Use the same method** for every ticket sold that year.
 
-1. **Confirm the giver's identity** against envelope or member numbers.
-2. **List each gift by date** rather than presenting a single total.
-3. **Show the fund** each gift was directed to.
-4. **Separate non-cash gifts**, described but not valued.
-5. **Identify gifts of $250 or more** individually.
-6. **Include the goods-or-services statement** where relevant.
-7. **Total the cash gifts** clearly at the end.
-8. **Issue in January**, while the year is still fresh.
+![A charity donation receipt template displayed as a clean banner layout, showing the charity name and address in the header, donor and gift date rows, an amount received line highlighted in green, and a separate line naming the benefit the donor received at the event.](assets/charity-donation-receipt-template-2.jpeg)
 
-![A church donation receipt template shown as a clean banner layout, with the congregation name and address in the header, giver and gift date rows, a fund designation line reading general offering, and a highlighted total received figure above a goods-or-services footer statement.](assets/church-donation-receipt-template-2.jpeg)
+A [donation receipt generator](/templates/donation-receipt) keeps the charity details constant so only the gift and benefit lines change between attendees.
 
-Building both the individual acknowledgments and the statement from a [donation receipt generator](/templates/donation-receipt) keeps the congregation's details identical across every document a member receives.
+### Handling partially refunded events
 
-## Non-Cash Gifts to a Congregation
+Cancelled events complicate acknowledgments more than most organizations expect. Where a ticket is refunded, the acknowledgment for that payment should be corrected rather than left standing, since nothing was ultimately given or received. Where a ticket holder declines the refund and lets the charity keep the payment, the picture changes again: the benefit was never delivered, so more of the payment may now be a gift. Both cases are ordinary, and both are easier when the template numbers its receipts.
 
-Churches receive property more often than most charities — instruments, equipment, vehicles, building materials, sometimes land.
+## Sponsorships and Corporate Gifts
 
-- **Describe the item** in enough detail to identify it later
-- **Record the date** it was actually received
-- **Do not assign a value** on the giver's behalf
-- **Note any conditions** attached to the gift
-- **Keep it separate** from cash totals on the annual statement
+A corporate sponsorship sits awkwardly between a gift and a purchase. Where the sponsor receives meaningful advertising, part of the payment may be something other than a contribution.
 
-### Volunteered time and services
+- **Describe what the sponsor received** — signage, listing, placement
+- **Avoid characterizing the whole payment** as a donation
+- **Keep the agreement** alongside the acknowledgment
+- **Be consistent** across sponsors at the same level
 
-Members contribute labour constantly — building work, music, childcare, administration. Donated time is generally treated differently from donated property, so a congregation acknowledging a volunteer builder is usually better served by a letter of appreciation than by a receipt implying a deductible contribution.
+A community charity in Austin listing sponsors in a program is providing something of value, and saying so costs nothing while making the record defensible.
 
-## Recurring Giving and Online Platforms
+## Pledges, Matching Gifts and Payroll Giving
 
-**Congregations now receive a large share of giving electronically, and the records have to reconcile back to named members.**
+**A pledge is a promise; the receipt belongs to the payment, not the promise.**
 
-Standing bank orders, card subscriptions, church apps and text giving each deposit money differently, and each presents its own reconciliation problem. The annual statement is only as good as the link between a deposit and a member.
+Charities routinely record pledges in their fundraising systems and then acknowledge each payment as it arrives. Issuing an acknowledgment when the pledge is made, rather than when money changes hands, misstates what the organization has actually received.
 
-| Giving method | How it arrives | Reconciliation risk |
+Matching gifts introduce a second donor. Where an employer matches an employee's contribution, there are two separate gifts from two separate givers, and generally two separate acknowledgments.
+
+| Arrangement | Who gets the receipt | What it records |
 |---|---|---|
-| Envelope or cheque | Weekly, with a name | Low |
-| Standing bank order | Monthly, with a reference | Reference may be unclear |
-| Card subscription | Monthly, via a processor | Name may differ from member |
-| Church app | Batched, with member IDs | Usually low |
-| Text giving | Batched, often minimal detail | Attribution can be impossible |
-| Loose cash | Anonymous | Not attributable at all |
+| Direct gift | The individual donor | Amount and date received |
+| Pledge payment | The donor, per payment | Each payment as it arrives |
+| Employer match | The employer | The employer's own contribution |
+| Payroll deduction | Usually the employee | Amounts actually deducted |
+| Donor-advised fund | The sponsoring organization | The grant as received |
 
-### Text and app-based giving
+### Payroll giving in practice
 
-Platforms that batch many small gifts into one deposit need a report showing the split before the congregation can acknowledge anyone individually. Where the platform provides that report, reconciliation is straightforward. Where it does not, the honest position is that the congregation received a batched sum it cannot attribute, and members rely on their own records instead.
+Workplace giving programs deliver one aggregated payment covering many employees, and the charity often cannot see the split. Where the employer supplies a schedule, individual acknowledgments become possible. Where it does not, acknowledging the employer for the payment received is generally the accurate option, and the employees rely on their own payroll records.
 
-Processing fees create a second wrinkle. A member who gives $100 through a processor that deducts a fee has given $100, even though a smaller sum reaches the account. The statement generally records what the member gave, with the fee tracked separately in the congregation's books.
+## In-Kind Gifts: Describe, Don't Price
 
-### Correcting a statement after it is sent
+**The charity describes the property; the donor determines what it was worth.**
 
-Statement season generates corrections, and most are small — a missing gift, a wrong fund, a transposed figure. Reissue the statement with the corrected detail, mark it clearly as a replacement, and reference the original so nobody files two versions as two years of giving. Note the correction in the congregation's own records at the same time, because the next question is usually why the two versions differ.
+This holds whether the gift is a box of coats or a used vehicle. The acknowledgment records quantity, type, condition and date received. Anything beyond that is a valuation the organization is generally not positioned to make and does not need to.
 
-## Benefit Events and the $75 Line
+### Recording condition honestly
 
-Church suppers, concerts and fundraising banquets put congregations in the same position as any other charity. Where a payment is part gift and part purchase and exceeds $75, a written disclosure with a good-faith estimate of the benefit generally applies.
+"Twelve winter coats, new and unused" is a better record than "clothing donation". It is also more useful to the donor, because it describes what actually changed hands.
 
-The estimate is based on open-market value rather than what the event cost the church. A dinner prepared by volunteers is still valued at roughly what a comparable dinner sells for, which surprises congregations that assume donated labour reduces the benefit.
+## Donations Through Platforms and Third Parties
 
-## Who Should Hold the Giving Records
+**When money arrives through a platform, the question is who actually received the gift and who should acknowledge it.**
 
-**Giving records are among the most sensitive information a congregation holds, and access should be deliberately narrow.**
+Charities now receive contributions through payment processors, crowdfunding pages, workplace portals and donor-advised funds, and each routes the money differently. The acknowledgment should follow the money rather than the marketing.
 
-Members generally expect that what they give is known to very few people. A congregation that lets giving data circulate freely, whether through shared spreadsheets, forwarded statements or casual conversation, damages trust in a way that is hard to repair and has nothing to do with tax compliance.
+- **Direct processor payments** are generally gifts from the named donor
+- **Crowdfunding campaigns** may pass through an intermediary before reaching you
+- **Donor-advised fund grants** come from the sponsoring organization, not the individual
+- **Anonymous platform gifts** may arrive without donor details at all
+- **Processing fees** reduce what you receive but not necessarily what was given
 
-The usual arrangement is that one or two people maintain the records, a treasurer reconciles them against bank deposits, and leadership sees aggregate figures rather than individual giving. Congregations differ on whether clergy should see individual records at all, and that is a legitimate question to settle explicitly rather than by default. What matters is that the decision is made, written down, and followed consistently as volunteers change.
+### Fees and the amount you acknowledge
 
-Practical safeguards are mostly unglamorous. Keep the records in one place rather than several. Restrict who can open them. Send statements individually rather than in bulk attachments where one member can see another's figures. Avoid printing giving totals on anything that circulates. When a volunteer steps down, remove their access the same week rather than eventually.
+A donor who gives $100 through a processor that deducts a fee has still given $100, even though roughly $97 lands in the account. The acknowledgment generally records what the donor contributed rather than the net deposit, while the organization's books track the fee separately. Getting this backwards is a common and quietly annoying error, because donors compare the acknowledgment against their own card statement.
 
-There is also a retention question. Records need to be kept long enough to answer reasonable queries and to support the congregation's own accounts, and periods vary by organization and state. Keeping everything forever in an unsecured location is not caution, and a professional can advise on what the congregation should actually hold and for how long.
+### Gifts that arrive without a donor name
 
-## Why Use makecepeit for Church Receipts?
+Anonymous and platform-obscured gifts still need recording, they simply cannot be acknowledged to anybody. Log them, note the source, and keep them out of the donor file rather than guessing at an attribution. A charity in Denver receiving an unattributed transfer is better served by an honest internal record than by an acknowledgment addressed to someone who may not have given it.
 
-- **Stored congregation details**, so the header is typed once
-- **A fund designation line** for building, mission and benevolence gifts
-- **Donation-specific fields** rather than a retail sales form
+## Correcting a Receipt After It Is Sent
+
+Mistakes reach donors. The recovery is straightforward if the template supports it: reissue the acknowledgment with the original gift details corrected, mark it clearly as a replacement, and reference the original number so two documents for one gift cannot be mistaken for two gifts.
+
+1. **Identify the original** by its receipt number.
+2. **Confirm what was actually received** against the bank record.
+3. **Reissue with corrected details** and today's issue date.
+4. **Mark it a replacement** and cite the original number.
+5. **Note the correction** in your internal log.
+6. **Tell the donor** briefly what changed and why.
+
+## Why Use makecepeit for Charity Receipts?
+
+- **One layout** covering cash, in-kind and benefit gifts
+- **Stored charity details**, so the header is typed once
 - **A footer statement** for the goods-or-services line
-- **PDF and PNG output** for post, email or printing
-- **Consistent layout** across weekly receipts and annual statements
+- **Room for a benefit line** on event acknowledgments
+- **PDF and PNG output** for post or email
+- **No software to install** — it runs in the browser
 
-Makecepeit is for documenting gifts a congregation genuinely received. Accurate names, real dates and true amounts are what make an annual statement worth sending, and no template should be used to record giving that did not occur.
+Makecepeit is for documenting gifts a charity genuinely received. An accurate donor name, a real date and a true amount are what make the acknowledgment worth issuing, and fabricating any of them defeats the purpose.
 
-## Tips Before Statement Season
+### Training whoever issues them
 
-- **Reconcile the giving records** against bank deposits monthly, not in January
-- **Confirm addresses** before the statement run
-- **Agree the fund names** and use them consistently all year
-- **Flag large single gifts** as they arrive rather than retrospectively
-- **Keep good-faith estimates** from any benefit events on file
-- **Decide who signs** the statements before you need to know
-- **Send a sample** to one trusted member before the full run
+The template carries the rules, but a volunteer who does not know why the goods-or-services line exists will delete it to make room. A short written note kept with the template, explaining which lines are required and why, prevents most of the damage. It also survives staff turnover better than an explanation given once in a meeting.
+
+Charities that run seasonal campaigns with temporary help should assume the template will be edited by someone unfamiliar with it, and design accordingly: lock what matters, label what is optional, and keep the master copy somewhere edits cannot overwrite it.
+
+## Tips Before Your Next Appeal
+
+- **Decide the benefit language** before tickets go on sale
+- **Agree who signs off** on good-faith estimates
+- **Number receipts** sequentially from the start of the year
+- **Describe property** rather than valuing it
+- **Send promptly** while the gift is fresh for the donor
+- **Store copies** somewhere retrievable a year later
+- **Review the template** at the start of each campaign
 
 ## Common Mistakes to Avoid
 
-- **Presenting one annual total** with no individual gift dates
-- **Allocating loose cash offerings** to identifiable members
-- **Valuing donated property** on the giver's behalf
-- **Receipting volunteered time** as though it were property
-- **Ignoring fund designations** and pooling everything as general
-- **Omitting the goods-or-services statement** on larger gifts
-- **Skipping the $75 disclosure** at fundraising dinners
-- **Leaving reconciliation** until statements are already due
+- **Recording a full ticket price** as a charitable gift
+- **Skipping the benefit disclosure** above $75
+- **Assigning values** to donated goods
+- **Treating auction wins** as straightforward donations
+- **Ignoring sponsorship benefits** in the acknowledgment
+- **Using inconsistent estimates** across the same event
+- **Dating to the deposit** rather than the gift
+- **Implying deductibility** the charity cannot certify
 
 ## Final Takeaway
 
-A church donation receipt template works when it is designed backwards from the annual statement. Capture the giver, the date, the amount and the fund at the moment of the gift, describe property without pricing it, keep loose offerings unattributed, and identify larger single gifts individually. The tax position of congregations varies with how they are organized and where, so confirm the specifics with a professional. For the broader charity picture, including events and sponsorships, see the [charity donation receipt template](/blog/charity-donation-receipt-template) guide.
+A charity donation receipt template is worth building around the hard cases rather than the easy ones. Cash gifts look after themselves; dinners, auctions, sponsorships and donated goods are where the acknowledgment either holds up or does not. Name the benefit, describe property without pricing it, use the date the gift arrived, and let the donor's adviser handle the tax conclusion. Rules differ by state and organization, so confirm the specifics professionally. If your organization holds recognized exempt status, the companion guide to the [501(c)(3) donation receipt template](/blog/501c3-donation-receipt-template) covers the EIN and status fields in detail.
 
-## Create Church Receipts With makecepeit
+## Create Charity Receipts With makecepeit
 
-Set the congregation's details once, record each gift with its fund, and build January's statements from the same records. Open the [donation receipt generator](/create) and keep every acknowledgment consistent from the first offering of the year.`,
+Set your charity details once and handle every gift type from one layout. Open the [donation receipt generator](/create) and send acknowledgments your donors can actually file.`,
     faqs: [
-      { q: "What is a church donation receipt template?", a: "A reusable acknowledgment format for tithes, offerings and designated gifts, built so the annual giving statement can be assembled from the same records." },
-      { q: "Should churches receipt every weekly offering?", a: "Many record each gift and issue one annual statement. Individual acknowledgments matter most for single gifts of two hundred fifty dollars or more." },
-      { q: "How are loose cash offerings handled?", a: "Anonymous cash cannot be acknowledged to anyone. It is recorded as undesignated offering income rather than allocated to identifiable members." },
-      { q: "What is a designated gift?", a: "A contribution the giver directs to a specific purpose, such as a building fund or mission. The acknowledgment should record that designation." },
-      { q: "Can a church value donated property?", a: "Generally not. The congregation describes the item and the date received, and the giver determines its value with their own adviser." },
-      { q: "How should volunteered time be acknowledged?", a: "Donated time is generally treated differently from property. A letter of appreciation usually fits better than a receipt implying a deduction." },
-      { q: "What should an annual giving statement show?", a: "Each gift by date, amount and fund, with larger single gifts identified individually, rather than a single combined figure for the year." },
-      { q: "Do church fundraising dinners need disclosures?", a: "Where a payment is part gift and part purchase and exceeds seventy-five dollars, a written disclosure estimating the benefit generally applies." },
-      { q: "Does volunteer labour reduce the benefit value?", a: "Usually not. The estimate is based on what a comparable meal or event would sell for, rather than what it cost the congregation to provide." },
-      { q: "Can makecepeit produce church receipts?", a: "Yes. It stores the congregation's details, records fund designations and prints the goods-or-services footer, for documenting gifts genuinely received." },
+      { q: "What is a charity donation receipt template?", a: "A reusable acknowledgment layout a charity uses for every gift it receives, recording the donor, the date, what was given, and any benefit provided in return." },
+      { q: "How do I receipt a benefit dinner ticket?", a: "Record the amount paid, then state a good-faith estimate of the benefit received. Above seventy-five dollars, a written disclosure generally applies." },
+      { q: "Is an auction purchase a donation?", a: "Largely not. A winning bid is mostly a purchase, so the acknowledgment should describe what was bought rather than treating the full price as a gift." },
+      { q: "How should sponsorships be acknowledged?", a: "Describe what the sponsor received, such as signage or a program listing, instead of characterizing the whole payment as a charitable contribution." },
+      { q: "Can a charity value donated goods?", a: "Generally not. The charity describes the property, its quantity and condition, and the donor determines its value with their own adviser." },
+      { q: "What does the goods-or-services line do?", a: "It states whether the donor received anything in return. It is the part donors most need on single gifts of two hundred fifty dollars or more." },
+      { q: "Do charities need to register with states?", a: "Many do. Registration and reporting requirements vary by state, so confirm what applies where your charity solicits rather than assuming." },
+      { q: "When should acknowledgments be sent?", a: "Generally within a few weeks of receiving the gift. Prompt acknowledgment also spares donors from reconstructing gifts from bank records later." },
+      { q: "Should each appeal have its own template?", a: "Usually not. One template with optional description and benefit lines handles appeals, events and in-kind gifts more consistently than separate documents." },
+      { q: "Can makecepeit handle event receipts?", a: "Yes. The donation layout has room for the amount received and a separate benefit line, for documenting gifts and events your charity genuinely ran." },
     ],
   },
 ];

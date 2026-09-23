@@ -1,5 +1,5 @@
 /**
- * Oct-sprint — Day 2026-09-24 (2 posts). Notion board Order 7 and 8.
+ * Oct-sprint — Day 2026-09-27 (2 posts). Notion board Order 7 and 8.
  *   7. "itemized receipt template" 390/mo · CPC $5.38 · Medium · pos 56 -> /create
  *   8. "business receipt template" 320/mo · CPC $8.50 · High   · pos 66 -> /create
  *
@@ -12,12 +12,12 @@
  * cross-links it. #8 is angled at B2B and expense documentation, not at itemization.
  */
 
-export const SEP_24 = [
+export const SEP_27 = [
   {
     slug: "itemized-receipt-template",
     image: "assets/itemized-receipt-template.jpeg",
     category: "small-business",
-    publishedAt: "2026-09-24T09:30:00Z",
+    publishedAt: "2026-09-27T09:30:00Z",
     title: "Itemized Receipt Template for Small Business",
     seoTitle: "Itemized Receipt Template for Small Business",
     seoDescription:
@@ -194,7 +194,7 @@ Enter your lines, set the tax rate once, and let the totals follow. Open the [re
     slug: "business-receipt-template",
     image: "assets/business-receipt-template.jpeg",
     category: "small-business",
-    publishedAt: "2026-09-24T14:00:00Z",
+    publishedAt: "2026-09-27T14:00:00Z",
     title: "Business Receipt Template: What Yours Needs",
     seoTitle: "Business Receipt Template: What Yours Needs",
     seoDescription:

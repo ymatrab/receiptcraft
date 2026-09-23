@@ -1,386 +1,401 @@
 /**
- * Oct-sprint — Day 2026-09-25 (2 posts). Notion board Order 9 and 10.
- *   9.  "cash receipt generator"   170/mo · CPC $6.94 · Medium -> /templates/cash-receipt
- *   10. "simple receipt generator" 170/mo · CPC $7.80 · Medium -> /create
+ * Oct-sprint — Day 2026-09-25 (2 posts). Notion board Order 5 and 6, donation cluster.
+ *   5. "goodwill donation receipt template"  90/mo · Low    -> /templates/donation-receipt
+ *   6. "church donation receipt template"    50/mo · Medium -> /templates/donation-receipt
  *
- * ⚠️ #10 conflicts with a standing decision. docs/content-ledger.md records that on
- * 2026-08-17 the /create synonyms `online receipt generator` and `receipt creator free`
- * were DROPPED to stop cannibalization, ruling those head terms belong on /create itself.
- * "simple receipt generator" is the same pattern. Written here with a deliberately narrow
- * angle — minimal-field receipts as a design choice, not a generic "make a receipt" page —
- * and flagged in the ledger. Worth reviewing whether it should run at all.
+ * GUARDRAIL on #5: Goodwill is a real organization. This post is written for the DONOR
+ * documenting their own drop-off — the itemized list the donor prepares and keeps — and
+ * explicitly warns against fabricating any organization's acknowledgment. It never offers
+ * to produce a document that impersonates Goodwill or any named charity. The brand is
+ * named descriptively only.
+ *
+ * #6 is angled at tithes, offerings, designated funds and annual giving statements so it
+ * does not restate #3 (501c3) or #4 (charity events).
  */
 
 export const SEP_25 = [
   {
-    slug: "cash-receipt-generator",
-    image: "assets/cash-receipt-generator.jpeg",
+    slug: "goodwill-donation-receipt-template",
+    image: "assets/goodwill-donation-receipt-template.jpeg",
     category: "small-business",
     publishedAt: "2026-09-25T09:30:00Z",
-    title: "Cash Receipt Generator: How and When to Use",
-    seoTitle: "Cash Receipt Generator: How and When to Use",
+    title: "Goodwill Donation Receipt Template: How It Works",
+    seoTitle: "Goodwill Donation Receipt Template: How It Works",
     seoDescription:
-      "Learn when a cash receipt generator matters, what a cash payment record must show, and how to document payments with no card trail, with makecepeit.",
+      "Learn how a goodwill donation receipt template works, what the donor itemizes, who assigns value, and how to keep a clean record with makecepeit.",
     excerpt:
-      "A cash receipt generator matters because cash leaves no trail of its own. Without a written record, a paid transaction is a conversation between two memories.",
-    body: `A **cash receipt generator** produces a written record of a payment made in cash, and it matters for a reason that card payments make easy to forget: cash leaves no trail behind it. A card payment is recorded by a bank whether or not anyone issues a receipt. A cash payment is recorded by nobody unless somebody writes it down.
+      "A goodwill donation receipt template is the donor's itemized list, not the charity's acknowledgment. The organization confirms the drop-off; you describe and value what you actually gave.",
+    body: `A **goodwill donation receipt template** is the itemized list a donor prepares to record what they dropped off at a thrift or charity shop, and understanding who fills in what is the whole point. The receiving organization generally confirms that a donation was made. The donor is the one who describes the items and determines what they were worth.
 
-Across the United States, that gap causes disputes every day — rent paid in cash to a private landlord in Chicago, a contractor paid on completion in Texas, a private sale between two people who will never meet again. Makecepeit lets you [create a cash receipt](/create) at the moment of payment, which is the only moment when both parties agree on what happened.
+Across the United States, that split catches people out every filing season. A blank slip handed over a counter in Chicago or Phoenix is not a complete record of anything until somebody writes down what was in the bags. Makecepeit lets you [build an itemized record](/create) of what you donated so the list exists in a readable form rather than on a fading paper stub.
 
-## What Is a Cash Receipt Generator?
+## What Is a Goodwill Donation Receipt Template?
 
-**It is a tool that produces a dated, written confirmation that a specific sum of cash passed from one named party to another for a stated reason.**
+**It is a donor-side form for listing donated goods by category, quantity and condition, kept alongside whatever acknowledgment the organization provided.**
 
-The document does a narrow job very well. It does not prove that the underlying agreement was fair, or that the goods were as described. It establishes that a payment of a stated amount was made on a stated date and acknowledged by the person receiving it, which is usually the fact in dispute.
+Thrift and charity shops receive far too many drop-offs to inventory each one. Most hand over a dated slip confirming a donation occurred and leave the itemization to the donor, which is standard practice rather than an oversight. The template is simply a structured place to do that itemizing while you still remember what was in the boxes.
 
-### Why cash needs a receipt more than card does
+### What the organization provides
 
-With a card payment, both parties can reconstruct the transaction from independent records weeks later. With cash, neither can. The receipt is not a formality layered on top of other evidence; it is generally the only evidence that will exist.
+Typically a dated receipt with the organization's name and location, sometimes a reference number, and space for the donor to complete. It confirms the transaction. It does not usually confirm contents or value, because staff did not count the items.
 
-## When Cash Receipts Matter Most
+### What the donor provides
 
-- **Rent paid in cash** to a private landlord with no property manager
-- **Contractor and trade payments** settled on completion
-- **Private sales** of vehicles, equipment or furniture
-- **Deposits** held against work not yet done
-- **Services paid on the day** — cleaning, tutoring, repairs, care
-- **Petty cash** disbursed within a business
-- **Market and event trading**, where card acceptance is limited
+A description of what was given, the quantity, the condition, and a value the donor has determined. That last part is the donor's responsibility and nobody else's.
 
-> A tenant who has paid cash rent for three years and holds no receipts has, in practical terms, no record of having paid rent at all.
+## An Important Limit Worth Stating Plainly
 
-### The deposit problem
+**Document what you actually donated. Never create a document that appears to come from an organization you do not represent.**
 
-Deposits generate more disputes than almost any other cash payment, because the money changes hands long before the obligation is discharged. A receipt that records a deposit as a deposit — naming the total agreed and the balance outstanding — prevents the later argument about whether the sum was a part payment or the whole of it.
+There is a real difference between keeping your own itemized record of a genuine drop-off, which is ordinary and sensible, and producing something designed to look like a charity's official acknowledgment. The first is record-keeping. The second misrepresents an organization that has not agreed to it, and no template should be used that way.
 
-## What Should a Cash Receipt Include?
+> If an acknowledgment from the receiving organization is missing, the fix is to contact the organization and ask, not to reconstruct one on their behalf.
 
-- **Date** the payment was made, not the date of the agreement
-- **Amount** in figures, and in words where the sum is significant
-- **Payer's name**, written out rather than initialled
-- **Recipient's name**, and business name where applicable
-- **What the payment is for**, specifically
-- **Whether it is partial or in full**, with any balance stated
-- **Payment method noted as cash**, explicitly
-- **Receipt number**, where the recipient issues several
-- **Signature or acknowledgment** from whoever received the money
+## What Should the Itemized List Include?
 
-### Writing the amount twice
+- **Organization name and location** where the donation was made
+- **Date of the drop-off**, which fixes the tax year
+- **Category of goods** — clothing, housewares, furniture, electronics
+- **Quantity** in each category, counted rather than estimated
+- **Condition**, described honestly
+- **Your own valuation**, with the method you used
+- **A reference** to the slip the organization gave you
+- **Photographs**, where the donation was substantial
 
-Recording "$450.00" alongside "four hundred and fifty dollars" is an old convention with a practical purpose: figures can be altered or misread, and two independent statements of the same sum are much harder to dispute. For larger cash payments it remains worth doing.
+### Why condition matters more than people expect
 
-## Cash Receipt vs Card Receipt
+Guidance on donated household goods generally turns on whether items are in good used condition or better. "Eight men's dress shirts, good used condition" is a record. "Bag of clothes" is not, and it tells you nothing a year later when you are trying to reconstruct what you gave.
 
-| Feature | Cash receipt | Card receipt |
+## Who Assigns the Value?
+
+| Element | Donor's role | Organization's role |
 |---|---|---|
-| Independent record exists | No | Yes, with the bank |
-| Who can confirm it | Only the two parties | Bank and processor |
-| Reversal possible | No | Chargeback may apply |
-| Proof if lost | Generally none | Statement may substitute |
-| Importance of the document | Critical | Useful but not sole evidence |
+| Confirming the drop-off | Keeps the slip | Issues the dated slip |
+| Listing the items | Writes the itemized list | Generally does not itemize |
+| Describing condition | Records it honestly | Rarely inspects individually |
+| Assigning a value | Determines it | Does not value donated goods |
+| Supporting the figure | Keeps the method on file | Not involved |
 
-The column that matters is the last one. Losing a card receipt is inconvenient. Losing the only cash receipt may mean the payment cannot be evidenced at all.
+The pattern is consistent: the charity documents that it received something; the donor documents what that something was and what it was worth. A charity that started assigning values to strangers' used furniture would be making judgments it has no basis for.
 
-## Why Cash Payment Records Matter in the United States
+## Why Donated-Goods Records Matter in the United States
 
-**Cash is legal and ordinary, and it carries a documentation burden the payer usually bears.**
+**Non-cash donations are recorded differently from cash, and the paperwork expectations rise with the amount.**
 
-Businesses receiving cash are generally expected to record it as income like any other receipt, and the absence of a processor statement does not reduce that expectation. General guidance expects records adequate to support what a business reports, which for cash-heavy operations means the business's own contemporaneous records are doing all the work.
+IRS guidance treats contributions of property differently from cash gifts, and the documentation generally expected increases at higher values — a written acknowledgment becomes relevant at $250, and additional substantiation may apply for larger non-cash contributions. Where a single item or group of similar items is valued highly, a qualified appraisal may come into play.
 
-On the paying side, someone claiming a cash expense without documentation is in a weaker position than someone with a card statement, simply because there is nothing else to point at. Landlord-tenant rules on rent receipts vary considerably — some states require a receipt for cash rent on request, others say nothing — so a tenant in New York and one in Florida may face quite different positions. Confirm what applies locally rather than assuming.
+Those thresholds and the methods for valuing used goods are exactly the kind of detail that varies by situation. Donors in California, Texas and New York face the same federal framework but very different state pictures, and a tax professional is better placed than any template to say what applies to a particular donation.
 
-Large cash transactions can also trigger separate reporting obligations for businesses. Thresholds and mechanics vary, and a professional can confirm whether a particular transaction is affected.
+The template's job is narrower and more useful: make sure that when the question is asked, you can answer it from a record you wrote at the time rather than from memory.
 
-## How to Issue a Cash Receipt Properly
+## How to Use the Template at Drop-Off
 
-1. **Write it at the moment** the money changes hands.
-2. **Name both parties** in full.
-3. **State the amount** in figures and, for larger sums, in words.
-4. **Describe what the payment covers**, specifically.
-5. **Say whether it settles the obligation** or part of it.
-6. **State the remaining balance**, where one exists.
-7. **Have the recipient sign** or otherwise acknowledge it.
-8. **Give a copy to the payer** and keep one yourself.
+1. **Sort into categories** before you leave the house.
+2. **Count each category** and write the numbers down.
+3. **Note the condition** honestly, category by category.
+4. **Photograph anything substantial** before it goes in the car.
+5. **Get the organization's slip** and keep it with your list.
+6. **Record the date and location** exactly as on the slip.
+7. **Determine values** using a consistent, documented method.
+8. **File both documents together** where you can find them.
 
-![A cash receipt shown as a clean banner layout, with payer and recipient names in the header, the payment date and purpose beneath, the amount received highlighted in a total row, and a signature line confirming the cash was acknowledged at the time of payment.](assets/cash-receipt-generator-2.jpeg)
+![A goodwill donation receipt template shown as a clean banner layout, with the receiving organization and drop-off date in the header, itemized rows listing clothing, housewares and furniture with quantities and condition, and a donor-determined total value in a highlighted row.](assets/goodwill-donation-receipt-template-2.jpeg)
 
-Producing it from a [cash receipt template](/templates/cash-receipt) keeps the structure consistent, which matters when the same two parties transact repeatedly and the records need to sequence.
+A [donation receipt generator](/templates/donation-receipt) gives that list a consistent layout, which matters if you donate several times a year and want the records to look alike.
 
-## Recurring Cash Payments
+## Valuing Used Goods Without Guessing
 
-**Where cash changes hands on a schedule, the records only work if they are complete.**
+**Pick a method, apply it consistently, and write down which one you used.**
 
-Weekly or monthly cash arrangements — rent, regular cleaning, ongoing care — produce a long series of small payments where a single gap becomes the focus of any later dispute. Nobody questions the twenty receipts that exist; everyone questions the month that is missing.
+Most donors work from what comparable used items sell for in the local second-hand market. Some organizations publish general valuation ranges for common categories as a convenience. Either approach may be reasonable; the failure is using one method for shirts, another for furniture, and remembering neither.
 
-- **Number receipts sequentially** across the arrangement
-- **State the period** each payment covers
-- **Keep them together**, in date order
-- **Photograph each one** so a lost paper copy is not the end of it
-- **Reconcile periodically** rather than at the end
+- **Use the same basis** across the whole donation
+- **Record the basis** alongside the list
+- **Do not use original purchase price** as the value of used goods
+- **Be conservative** where condition is uncertain
+- **Keep comparables** if you looked any up
 
-### Photographing as you go
+## Clothing and Household Goods in Detail
 
-A paper receipt in a kitchen drawer is one spill away from being unreadable, and thermal paper fades regardless. Photographing each receipt when it is issued takes seconds and converts a fragile record into a durable one. It also produces a timestamp, which is a quiet secondary benefit.
+**Most drop-offs are clothing and housewares, and most vague records are too.**
 
-## Petty Cash Inside a Business
+Categories are worth agreeing with yourself in advance, because consistency across the year is what makes the records usable. The categories below cover the large majority of what people actually donate.
 
-Petty cash is where otherwise organised businesses keep the worst records, largely because the individual sums feel too small to bother with. The float is nonetheless real money, and the usual failure is a tin containing less cash than expected and a handful of unlabelled slips.
+| Category | Record this | Common error |
+|---|---|---|
+| Clothing | Item type, count, adult or child | "Two bags" with no count |
+| Shoes | Pairs, type, condition | Counting items instead of pairs |
+| Housewares | Item type and count | Lumping crockery as miscellaneous |
+| Small appliances | Item, working or not | Omitting whether it functions |
+| Furniture | Piece, material, condition | No note of damage |
+| Books and media | Count, hardback or paperback | Estimating by box size |
+| Electronics | Item, age, working state | Treating obsolete as current |
 
-A workable system is unglamorous: a receipt for every disbursement regardless of size, each stating what it was for and who took it, reconciled against the float on a fixed schedule. Where a purchase produced its own supplier receipt, the two are stapled together. The discipline is what makes it work, not the paperwork design.
+### Bundling similar items sensibly
 
-## When a Cash Receipt Is Challenged
+Listing forty individual t-shirts helps nobody. Grouping them as "40 adult t-shirts, good used condition" is both accurate and readable. The rule of thumb is to bundle items that share a category, a condition and a rough value, and to separate anything that differs materially on any of those three.
 
-**Challenges to cash payments almost always turn on the same question: can you show the money moved, and when.**
+### Items a charity may not accept
 
-The classic case is a tenant and a landlord who disagree about whether a month was paid. Neither has a bank record, because the point of the arrangement was that none would exist. Whichever party holds a dated, signed receipt is in a dramatically stronger position, and the party holding nothing is reduced to asserting that the payment happened.
+Not everything left at a donation point is accepted, and goods that are rejected were never donated. Damaged upholstered furniture, recalled equipment and certain electronics are frequently turned away. If part of a load is refused, the record should reflect what the organization actually took rather than what left the house, which is another reason to write the list at the point of drop-off rather than beforehand.
 
-What makes a cash receipt persuasive is not formality but contemporaneity. A document written at the time, signed by the person who took the money, describing what it was for, is hard to argue with. A document produced afterwards — even an entirely honest one — invites the response that it was written to suit the argument. That is why the advice to write it in front of the payer is not fussiness; it is the whole substance of the protection.
+## Multiple Donations Across the Year
 
-The second factor is consistency. A series of twenty receipts in the same format, sequentially numbered, with one gap, tells a coherent story about a single missed month. Twenty receipts in five different formats with inconsistent dates tells a story about records nobody maintained, and it weakens even the payments that were properly documented.
+Donors who drop off regularly need the records to aggregate cleanly. Keep one list per drop-off rather than one running list for the year, because the dates matter and a single combined document obscures them. A simple folder, physical or digital, holding paired slips and lists in date order is enough.
 
-### What to do if a receipt was never issued
+### When a year-end summary helps
 
-Sometimes the payment happened and nothing was written. The honest options are limited but real: ask the recipient to acknowledge it in writing now, note the surrounding circumstances while they are fresh, and keep any indirect evidence such as messages arranging the handover or a withdrawal of a matching sum. What is not an option is producing a document backdated to look contemporaneous. That converts a weak position into a dishonest one, and it is a far worse place to be than simply having no receipt.
+Building a summary in January from individual records is straightforward. Building individual records in January from a year-old memory is not. The summary is a convenience layered on top of contemporaneous records, never a substitute for them.
 
-## Why Use makecepeit for Cash Receipts?
+## What Happens If You Are Asked About a Donation
 
-- **A cash-specific layout** rather than a card-sale form bent to fit
-- **Fields for both parties**, which private transactions need
-- **Space to state partial payment** and any remaining balance
-- **Consistent structure** across a repeating arrangement
-- **PDF and PNG output** for printing or sending immediately
-- **Browser-based**, so a receipt can be produced on the spot
+**The question is rarely dramatic. It is usually a request to show how a figure was arrived at.**
 
-Makecepeit documents payments that genuinely took place. It is a record-keeping tool, not a way to evidence a payment that was never made, and a cash receipt is only worth anything if both parties recognize it as accurate.
+Donors sometimes imagine that supporting a non-cash contribution means producing a document stamped by the charity. In practice what is generally wanted is the reasoning: what was given, when, in what condition, and on what basis a value was reached. A contemporaneous itemized list answers all four, which is precisely why writing it at drop-off matters more than any particular format.
 
-## Tips Before You Take Cash
+A record written months later has a structural weakness even when it is entirely honest, because it was reconstructed rather than observed. Somebody trying to remember in March what they gave in September will generalize, round and forget, and the resulting list may understate as easily as overstate. The list written in the car park is better evidence than the one written from memory, and it takes less effort.
 
-- **Agree the amount aloud** before anything is handed over
-- **Write the receipt in front of the payer**, not afterwards
-- **Give the copy immediately**, rather than promising to send it
-- **State partial payments as partial**, every time
-- **Photograph the receipt** before it goes in a pocket
-- **Keep a running sequence** for repeating arrangements
-- **Never leave the purpose blank**, however obvious it seems
+Where a donation is substantial, the supporting material generally expands. Photographs help. So does a note of where valuations came from, whether that was a published guide, observed second-hand prices, or comparable listings. None of this needs to be elaborate. It needs to exist and to be consistent with what the organization's slip says about the date and location.
+
+The one thing that does not help is a document that overstates its own authority. A donor-prepared list presented as a donor-prepared list is straightforward and credible. The same information dressed up to look like it came from the charity raises a question about everything else in the file, and there is no version of that trade which favours the donor.
+
+## Why Use makecepeit for Donation Records?
+
+- **Itemized line structure** built for listing goods by category
+- **Consistent layout** across every drop-off you record
+- **Editable in the browser**, with nothing to install
+- **PDF and PNG output** to file alongside the organization's slip
+- **Reusable details** so repeat donations take a minute
+- **Clear, readable records** that survive better than a paper stub
+
+Makecepeit is for documenting donations you genuinely made. It is not a way to manufacture a charity's acknowledgment, and the value of the record comes entirely from it being accurate about what left your house and when.
+
+## Tips Before Your Next Drop-Off
+
+- **List items before you go**, not from memory afterwards
+- **Photograph larger donations** while they are still together
+- **Keep the organization's slip** attached to your list
+- **Record the location**, not just the organization name
+- **Apply one valuation method** across the whole donation
+- **Describe condition honestly**, including where it is poor
+- **File immediately** rather than in a pile for later
 
 ## Common Mistakes to Avoid
 
-- **Issuing nothing at all** because the parties know each other
-- **Writing the receipt later** from memory
-- **Omitting the payer's name**, which makes the document generic
-- **Failing to mark a deposit** as a part payment
-- **Leaving the balance unstated** on an instalment
-- **Using the agreement date** instead of the payment date
-- **Relying on a single paper copy** of a faded slip
-- **Skipping small petty-cash sums** until the float stops reconciling
+- **Recreating an organization's acknowledgment** rather than requesting one
+- **Writing "bag of clothes"** instead of counting items
+- **Using original purchase prices** for used goods
+- **Valuing items the organization should not value** and attributing it to them
+- **Losing the slip** and reconstructing the date approximately
+- **Combining several drop-offs** into one undated list
+- **Overstating condition** on items that were worn out
+- **Leaving it until filing season** to write anything down
 
 ## Final Takeaway
 
-A cash receipt generator earns its place because cash generates no record of its own. Write the receipt at the moment of payment, name both parties, state precisely what the money covers, mark partial payments as partial, and keep a durable copy. Local requirements on cash rent receipts and large-transaction reporting vary, so confirm the specifics for your situation with a professional. Where payments come with line-by-line detail, the [itemized receipt template](/blog/itemized-receipt-template) guide covers that structure.
+A goodwill donation receipt template works because it puts the donor's half of the record somewhere durable. The organization confirms a donation happened; you describe what it was and what it was worth, at the time, honestly. Keep the two documents together, apply one valuation method, and never produce something that purports to come from a charity you do not represent. Rules on non-cash contributions vary with amount and circumstance, so confirm the specifics with a tax professional. For the organization's side of the same transaction, see the [donation receipt template](/blog/donation-receipt-template) guide.
 
-## Create Cash Receipts With makecepeit
+## Record Your Donation With makecepeit
 
-Produce a clear, dated record the moment cash changes hands. Open the [receipt generator](/create) and give both sides something better than a shared memory.`,
+List what you gave while you still remember it, in a layout that reads the same every time. Open the [itemized record builder](/create) and keep a clean copy alongside the organization's slip.`,
     faqs: [
-      { q: "What is a cash receipt generator?", a: "A tool that produces a written record confirming a stated sum of cash passed from one named party to another on a specific date for a stated purpose." },
-      { q: "Why does cash need a receipt more than card?", a: "A card payment is recorded independently by a bank. A cash payment is recorded by nobody, so the receipt is usually the only evidence that will exist." },
-      { q: "What must a cash receipt show?", a: "The date, the amount, both parties by name, what the payment covers, whether it is partial or in full, and an acknowledgment from the recipient." },
-      { q: "Should the amount be written in words?", a: "For larger sums it is worth doing. Two independent statements of the same figure are considerably harder to alter or misread than one." },
-      { q: "How do I receipt a deposit?", a: "State the amount received, name the total agreed and show the remaining balance, so the payment cannot later be read as full settlement." },
-      { q: "Are landlords required to give cash rent receipts?", a: "It varies by state. Some require a receipt for cash rent on request and others do not, so confirm the rule that applies where the property is." },
-      { q: "Do businesses have to record cash income?", a: "Generally yes. The absence of a processor statement does not change the expectation that income is recorded and supportable from the business's own records." },
-      { q: "How should recurring cash payments be tracked?", a: "Number them sequentially, state the period each covers, keep them in date order, and photograph each one so a lost paper copy is recoverable." },
-      { q: "What about petty cash inside a business?", a: "Issue a receipt for every disbursement regardless of size, note what it was for and who took it, and reconcile against the float on a fixed schedule." },
-      { q: "Can makecepeit produce cash receipts?", a: "Yes. The cash layout has fields for both parties, the purpose and any remaining balance, for documenting payments that genuinely took place." },
+      { q: "What is a goodwill donation receipt template?", a: "It is the donor's itemized list of goods dropped off at a thrift or charity shop, kept alongside the dated slip the organization provides." },
+      { q: "Does the charity itemize my donation?", a: "Usually not. Most organizations confirm that a donation was made and leave the itemization and valuation to the donor." },
+      { q: "Who decides what donated goods are worth?", a: "The donor does, generally based on what comparable used items sell for locally, and ideally with the method recorded alongside the list." },
+      { q: "Can I create a receipt from the charity myself?", a: "No. Document your own donation, but never produce a document that appears to come from an organization you do not represent. Request a copy instead." },
+      { q: "What if I lost the organization's slip?", a: "Contact the organization and ask whether a copy is available. Reconstructing their acknowledgment yourself is not an appropriate substitute." },
+      { q: "How detailed should the item list be?", a: "Detailed enough to be meaningful later. Count items by category and note condition, rather than writing a general description like bag of clothes." },
+      { q: "Does condition affect a donated-goods record?", a: "Yes. Guidance on household goods generally turns on items being in good used condition or better, so describe condition honestly, category by category." },
+      { q: "Should I photograph donated items?", a: "For substantial donations it is worth doing. Photographs taken before drop-off support the list far better than a recollection months afterwards." },
+      { q: "Can I combine several drop-offs into one list?", a: "Better not to. Keep one list per drop-off, since the individual dates matter and a combined document obscures them." },
+      { q: "Can makecepeit record donated goods?", a: "Yes. The itemized layout suits listing goods by category, quantity and condition, for documenting donations you genuinely made." },
     ],
   },
   {
-    slug: "simple-receipt-generator",
-    image: "assets/simple-receipt-generator.jpeg",
+    slug: "church-donation-receipt-template",
+    image: "assets/church-donation-receipt-template.jpeg",
     category: "small-business",
     publishedAt: "2026-09-25T14:00:00Z",
-    title: "Simple Receipt Generator for Quick Sales",
-    seoTitle: "Simple Receipt Generator for Quick Sales",
+    title: "Church Donation Receipt Template: What to Include",
+    seoTitle: "Church Donation Receipt Template: What to Include",
     seoDescription:
-      "Learn when a simple receipt generator is the right choice, the minimum fields a receipt needs, and when to itemize instead, with makecepeit.",
+      "Learn what a church donation receipt template needs for tithes, offerings, designated funds and annual giving statements, with makecepeit tools.",
     excerpt:
-      "A simple receipt generator is the right tool when detail would be noise. The skill is knowing the minimum a receipt still needs, and when that minimum stops being enough.",
-    body: `A **simple receipt generator** produces a short, plain record of a sale without line-by-line breakdown, and choosing one is a deliberate decision rather than a shortcut. Some transactions genuinely do not need itemizing, and forcing detail onto them produces a document nobody reads and everyone has to file.
+      "A church donation receipt template has to cover weekly offerings, designated funds and non-cash gifts, then roll them into an annual statement each member can actually use.",
+    body: `A **church donation receipt template** is the acknowledgment format a congregation uses for tithes, offerings and designated gifts, and it differs from a general charity template in one practical way: most giving is recurring and small, while the document members actually rely on arrives once a year.
 
-Across the United States, market traders, independent instructors, private sellers and one-person service businesses issue thousands of these every day. Makecepeit lets you [create a receipt](/create) with as few or as many fields as the transaction warrants, which means the choice is yours rather than the template's.
+Across the United States, congregations from small rural chapels to large city churches in Atlanta and Dallas face the same pattern — dozens of small gifts per giver per year, and one annual statement that has to account for all of them. Makecepeit lets you [create a donation receipt](/create) from a consistent layout so both the individual acknowledgment and the year-end summary come from the same set of fields.
 
-## What Is a Simple Receipt Generator?
+## What Is a Church Donation Receipt Template?
 
-**It is a tool producing a minimal but complete receipt: who sold, who paid, what for, how much, when, and by what method.**
+**It is a reusable acknowledgment format covering regular offerings, one-off gifts and designated contributions, built so the annual statement can be assembled from the same records.**
 
-"Simple" describes the level of detail, not the level of care. Every field above still has to be right. What is absent is the line structure — quantities, unit prices, per-line totals — which a single-item or single-service transaction does not need.
+Churches generally receive money in several distinct streams: the weekly general offering, gifts designated to a building fund or mission, and occasional larger contributions. A template that treats all three identically loses information the congregation needs for its own accounting.
 
-### Simple is not the same as incomplete
+### Why the annual statement drives the design
 
-A receipt missing the seller's name is not simple, it is defective. The distinction matters because the appeal of simplicity tempts people to drop fields that were doing real work. The test is whether a stranger reading the document in a year could tell what happened.
+Most members never look closely at a weekly acknowledgment. They look very closely at the January statement. Designing the template backwards from that statement — making sure every field it needs is captured at the time of the gift — saves a great deal of reconstruction later.
 
-## When a Simple Receipt Is the Right Choice
+## What Should a Church Donation Receipt Include?
 
-- **Single-item sales** where one line would restate the total
-- **Flat-fee services** with no breakdown to give
-- **Private sales** between individuals
-- **Market and craft-fair trading**, where speed matters
-- **Deposits and holding payments** against a larger agreement
-- **Tuition and class fees** charged at a standard rate
-- **Small repeat transactions** with an established customer
+- **Church legal name** as registered, and its address
+- **Tax identification number** where the congregation has one
+- **Giver's name**, and envelope or member number if used
+- **Date the gift was received**
+- **Amount** for cash and cheque gifts
+- **Fund designation** — general, building, mission, benevolence
+- **Description of any non-cash gift**, without a stated value
+- **A goods-or-services statement** covering anything given in return
+- **Reference number** for the congregation's own records
 
-> A yoga instructor charging a flat $20 for a drop-in class has nothing to itemize, and a receipt pretending otherwise adds nothing but length.
+> Designating a gift is not a formality — money given to a building fund is money the congregation has agreed to use for that purpose, and the acknowledgment is where that agreement gets recorded.
 
-## When You Should Itemize Instead
+## Tithes, Offerings and Designated Funds
 
-**The moment somebody other than the buyer needs to understand the purchase, simplicity stops being an advantage.**
-
-- **Expense reimbursement** — an approver needs to see what was bought
-- **Business-to-business sales** — their accounts team will ask
-- **Mixed tax treatment** — taxable and exempt items need separating
-- **Multiple items** at different prices
-- **Insurance or warranty claims** — the item must be identifiable
-- **Anything disputed**, where the detail settles the argument
-
-### The reimbursement test
-
-A useful rule: if the buyer is spending someone else's money, itemize. Employers refuse simple receipts routinely, not out of pedantry but because a total tells an approver nothing about whether the spending was within policy. A restaurant in Los Angeles issuing a simple receipt to a business traveller has handed them a document their employer will bounce.
-
-## Simple vs Itemized Receipts
-
-| Factor | Simple receipt | Itemized receipt |
+| Gift type | How it is usually given | What the receipt records |
 |---|---|---|
-| Detail shown | Total and description | Every line, quantity and price |
-| Time to issue | Seconds | Longer |
-| Accepted for expenses | Often refused | Generally accepted |
-| Suits | Single items, flat fees | Multi-item, B2B, claims |
-| Risk | Too little detail later | None worth naming |
+| Regular tithe | Weekly or monthly, often recurring | Amount, date, general fund |
+| Loose offering | Cash in the plate, often anonymous | Generally not individually receipted |
+| Designated gift | Written instruction or marked envelope | Amount, date, named fund |
+| Building campaign | Pledged and paid over time | Each payment as it arrives |
+| Non-cash gift | Property, equipment, supplies | Description, not value |
 
-The asymmetry is worth noticing. The cost of over-itemizing is a slightly longer document. The cost of under-itemizing is a receipt that fails when it is needed, which is a worse failure and arrives later.
+### The loose-offering problem
 
-## What Even a Simple Receipt Must Include
+Anonymous cash in the plate cannot be acknowledged to anybody, and that is fine. It is recorded in the congregation's books as undesignated offering income, not attributed to a giver who cannot be identified. Churches occasionally try to allocate loose cash to regular members, which makes the annual statements wrong for everyone involved.
 
-- **Seller name**, and business name where there is one
-- **Date** of the transaction
-- **Description** of what was sold, however brief
-- **Amount paid**, clearly stated
-- **Payment method**, with card details masked
-- **Tax**, where it applies, shown separately
-- **Receipt number**, if you issue more than a handful
+## Why Church Giving Records Matter in the United States
 
-### The field most often dropped
+**A congregation's acknowledgment is what a member relies on when documenting their giving.**
 
-Tax. A seller who folds sales tax into a round number because it is tidier has made the receipt unusable for any buyer who needs to know what was charged. Where tax applies, show it, even on the simplest document.
+IRS Publication 1771 describes a written acknowledgment for single contributions of $250 or more, including a statement about whether goods or services were provided in return. A member who gives $50 weekly has made many separate gifts, none crossing that line individually, while a single $1,000 gift at Christmas does. The annual statement should make that distinction visible rather than presenting one total.
 
-## Why Simple Receipts Still Matter in the United States
+Churches also occupy a particular position in U.S. tax law regarding recognition and filing obligations, and the specifics vary with how a congregation is organized. State requirements differ again. A congregation in Texas and one in New York may reach quite different answers, so confirm the position with a professional rather than inferring it from another church's practice.
 
-**A short receipt is still a business record, and the obligations attached to it do not shrink with the document.**
+A receipt records what the congregation received. It does not determine what any member may claim, which depends on their own circumstances.
 
-A business selling at a craft fair in Austin is expected to record income and account for sales tax in the same way as a shop with a POS system. General guidance expects records adequate to support what a business reports, and a stack of receipts that omit the date or the tax is not adequate, however quick they were to write.
+## How to Build the Annual Giving Statement
 
-Sales tax deserves particular attention because rates vary between states and within them, and a trader working several markets may apply different rates in different counties. A simple receipt can carry that information in one line, and a seller who cannot say afterwards which rate was charged where has a reconstruction problem at filing time.
+1. **Confirm the giver's identity** against envelope or member numbers.
+2. **List each gift by date** rather than presenting a single total.
+3. **Show the fund** each gift was directed to.
+4. **Separate non-cash gifts**, described but not valued.
+5. **Identify gifts of $250 or more** individually.
+6. **Include the goods-or-services statement** where relevant.
+7. **Total the cash gifts** clearly at the end.
+8. **Issue in January**, while the year is still fresh.
 
-Requirements vary by state and by business type, and a professional can confirm what applies to a particular operation.
+![A church donation receipt template shown as a clean banner layout, with the congregation name and address in the header, giver and gift date rows, a fund designation line reading general offering, and a highlighted total received figure above a goods-or-services footer statement.](assets/church-donation-receipt-template-2.jpeg)
 
-## How to Issue One Quickly Without Cutting Corners
+Building both the individual acknowledgments and the statement from a [donation receipt generator](/templates/donation-receipt) keeps the congregation's details identical across every document a member receives.
 
-1. **Set the seller details once** so they never need retyping.
-2. **Enter the date**, or let it default to today.
-3. **Write a short description** that identifies what was sold.
-4. **Enter the amount** and confirm the tax treatment.
-5. **Record the payment method** used.
-6. **Number it** from your running sequence.
-7. **Hand or send the copy** immediately.
-8. **Keep your own copy** in the same place as the rest.
+## Non-Cash Gifts to a Congregation
 
-![A simple receipt shown as a clean banner layout, with the seller name in the header, a single short description line, the date and payment method beneath, and the amount paid displayed in a highlighted total row with tax shown separately.](assets/simple-receipt-generator-2.jpeg)
+Churches receive property more often than most charities — instruments, equipment, vehicles, building materials, sometimes land.
 
-The speed comes from stored details rather than from omitting fields, which is the distinction a [receipt generator](/create) is built around.
+- **Describe the item** in enough detail to identify it later
+- **Record the date** it was actually received
+- **Do not assign a value** on the giver's behalf
+- **Note any conditions** attached to the gift
+- **Keep it separate** from cash totals on the annual statement
 
-## Keeping Simple Receipts Usable Later
+### Volunteered time and services
 
-**The weakness of a short receipt is that it carries little context, so the filing has to do more work.**
+Members contribute labour constantly — building work, music, childcare, administration. Donated time is generally treated differently from donated property, so a congregation acknowledging a volunteer builder is usually better served by a letter of appreciation than by a receipt implying a deductible contribution.
 
-A receipt reading "Services — $120" is fine at the point of sale and close to meaningless eighteen months later. Where you expect to need the record, one extra clause in the description costs nothing: "Services — garden clearance, rear property" answers the question the bare version cannot.
+## Recurring Giving and Online Platforms
 
-- **Add a customer name** where the sale is not anonymous
-- **Describe the item or service** in a few more words than feel necessary
-- **Keep numbering continuous** across a season or year
-- **Store them with the rest**, not in a separate pile
-- **Review a sample** occasionally to see if they still make sense
+**Congregations now receive a large share of giving electronically, and the records have to reconcile back to named members.**
 
-### When simple stops being appropriate
+Standing bank orders, card subscriptions, church apps and text giving each deposit money differently, and each presents its own reconciliation problem. The annual statement is only as good as the link between a deposit and a member.
 
-Businesses outgrow simple receipts gradually and usually notice late. The signals are consistent: customers start asking for more detail, expense claims get returned, or you find yourself explaining old receipts by email. Any of those means the transactions have become more complex than the document, and the answer is to itemize rather than to keep explaining.
+| Giving method | How it arrives | Reconciliation risk |
+|---|---|---|
+| Envelope or cheque | Weekly, with a name | Low |
+| Standing bank order | Monthly, with a reference | Reference may be unclear |
+| Card subscription | Monthly, via a processor | Name may differ from member |
+| Church app | Batched, with member IDs | Usually low |
+| Text giving | Batched, often minimal detail | Attribution can be impossible |
+| Loose cash | Anonymous | Not attributable at all |
 
-## Sales Tax on Short Receipts
+### Text and app-based giving
 
-**Brevity is a layout decision; sales tax is not, and the two get confused surprisingly often.**
+Platforms that batch many small gifts into one deposit need a report showing the split before the congregation can acknowledge anyone individually. Where the platform provides that report, reconciliation is straightforward. Where it does not, the honest position is that the congregation received a batched sum it cannot attribute, and members rely on their own records instead.
 
-Sellers working quickly gravitate toward round numbers — twenty dollars, forty dollars — because they are fast to take and fast to give change for. The temptation is then to treat that round figure as the whole story and leave tax implicitly inside it. The buyer cannot tell what was charged, and neither can the seller three months later.
+Processing fees create a second wrinkle. A member who gives $100 through a processor that deducts a fee has given $100, even though a smaller sum reaches the account. The statement generally records what the member gave, with the fee tracked separately in the congregation's books.
 
-Rates differ enough to make this a real problem rather than a theoretical one. A trader working markets in Chicago, then in a neighbouring county, then in a state with no sales tax at all, may apply three different treatments in a fortnight. IRS guidance expects businesses to keep records adequate to support what they report, and state revenue departments take their own view of sales tax records. Neither is well served by a drawer of receipts showing round totals and nothing else.
+### Correcting a statement after it is sent
 
-The fix costs one line. Show the pre-tax amount, the rate, and the tax charged. A receipt can still be short with those present — it is three figures, not a restructure — and it remains usable for both the buyer and the seller afterwards.
+Statement season generates corrections, and most are small — a missing gift, a wrong fund, a transposed figure. Reissue the statement with the corrected detail, mark it clearly as a replacement, and reference the original so nobody files two versions as two years of giving. Note the correction in the congregation's own records at the same time, because the next question is usually why the two versions differ.
 
-### Pricing inclusive of tax
+## Benefit Events and the $75 Line
 
-Some sellers prefer to quote tax-inclusive prices, which is legitimate and often sensible for cash trading. It does not remove the need to show the breakdown; it changes where the arithmetic starts. The receipt shows the inclusive price charged, then works backwards to the pre-tax figure and the tax component, so both the customer and the seller's own records can see the split.
+Church suppers, concerts and fundraising banquets put congregations in the same position as any other charity. Where a payment is part gift and part purchase and exceeds $75, a written disclosure with a good-faith estimate of the benefit generally applies.
 
-### Trading across jurisdictions
+The estimate is based on open-market value rather than what the event cost the church. A dinner prepared by volunteers is still valued at roughly what a comparable dinner sells for, which surprises congregations that assume donated labour reduces the benefit.
 
-Traders who move between locations should record where each sale happened, not only what was charged. A seller covering events across Texas and Florida in a season will otherwise be unable to allocate sales by jurisdiction at filing time, and reconstructing that from memory or a calendar is far harder than noting the location on the receipt at the time.
+## Who Should Hold the Giving Records
 
-## Why Use makecepeit for Simple Receipts?
+**Giving records are among the most sensitive information a congregation holds, and access should be deliberately narrow.**
 
-- **As few fields as the sale needs**, without dropping the essential ones
-- **Stored seller details**, so issuing one takes seconds
-- **Automatic tax calculation** where it applies
-- **The same tool scales up** to itemized receipts when you need them
-- **PDF and PNG output** for immediate sending or printing
-- **Runs in the browser**, which suits issuing on the spot
+Members generally expect that what they give is known to very few people. A congregation that lets giving data circulate freely, whether through shared spreadsheets, forwarded statements or casual conversation, damages trust in a way that is hard to repair and has nothing to do with tax compliance.
 
-Makecepeit documents sales that genuinely happened. A simple receipt is still a business record, and the accuracy of the date, amount and description is what gives it any value.
+The usual arrangement is that one or two people maintain the records, a treasurer reconciles them against bank deposits, and leadership sees aggregate figures rather than individual giving. Congregations differ on whether clergy should see individual records at all, and that is a legitimate question to settle explicitly rather than by default. What matters is that the decision is made, written down, and followed consistently as volunteers change.
 
-## Tips Before You Standardize on Simple
+Practical safeguards are mostly unglamorous. Keep the records in one place rather than several. Restrict who can open them. Send statements individually rather than in bulk attachments where one member can see another's figures. Avoid printing giving totals on anything that circulates. When a volunteer steps down, remove their access the same week rather than eventually.
 
-- **Check whether your buyers claim expenses** before choosing brevity
-- **Never drop the date** or the seller name to save space
-- **Show tax separately** even on a one-line receipt
-- **Write descriptions** you will understand next year
-- **Number them**, even if you issue only a few a week
-- **Mask card details** on anything you send
-- **Revisit the decision** when your sales get more complex
+There is also a retention question. Records need to be kept long enough to answer reasonable queries and to support the congregation's own accounts, and periods vary by organization and state. Keeping everything forever in an unsecured location is not caution, and a professional can advise on what the congregation should actually hold and for how long.
+
+## Why Use makecepeit for Church Receipts?
+
+- **Stored congregation details**, so the header is typed once
+- **A fund designation line** for building, mission and benevolence gifts
+- **Donation-specific fields** rather than a retail sales form
+- **A footer statement** for the goods-or-services line
+- **PDF and PNG output** for post, email or printing
+- **Consistent layout** across weekly receipts and annual statements
+
+Makecepeit is for documenting gifts a congregation genuinely received. Accurate names, real dates and true amounts are what make an annual statement worth sending, and no template should be used to record giving that did not occur.
+
+## Tips Before Statement Season
+
+- **Reconcile the giving records** against bank deposits monthly, not in January
+- **Confirm addresses** before the statement run
+- **Agree the fund names** and use them consistently all year
+- **Flag large single gifts** as they arrive rather than retrospectively
+- **Keep good-faith estimates** from any benefit events on file
+- **Decide who signs** the statements before you need to know
+- **Send a sample** to one trusted member before the full run
 
 ## Common Mistakes to Avoid
 
-- **Confusing simple with incomplete** and dropping required fields
-- **Folding tax into a round total**
-- **Writing "services" or "goods"** as the entire description
-- **Issuing simple receipts** to customers claiming expenses
-- **Skipping numbering** because the volume feels low
-- **Leaving the customer unnamed** on a non-anonymous sale
-- **Keeping them separately** from your other records
-- **Staying simple** long after the transactions stopped being so
+- **Presenting one annual total** with no individual gift dates
+- **Allocating loose cash offerings** to identifiable members
+- **Valuing donated property** on the giver's behalf
+- **Receipting volunteered time** as though it were property
+- **Ignoring fund designations** and pooling everything as general
+- **Omitting the goods-or-services statement** on larger gifts
+- **Skipping the $75 disclosure** at fundraising dinners
+- **Leaving reconciliation** until statements are already due
 
 ## Final Takeaway
 
-A simple receipt generator is the right tool when the detail would genuinely be noise — a single item, a flat fee, a private sale. Keep the seller name, the date, the description, the amount and the tax, because those are not the parts that make a receipt long. Switch to itemizing the moment somebody other than the buyer needs to understand the purchase. Requirements vary by state and business type, so confirm specifics with a professional. For the fuller structure, see the [itemized receipt template](/blog/itemized-receipt-template) guide.
+A church donation receipt template works when it is designed backwards from the annual statement. Capture the giver, the date, the amount and the fund at the moment of the gift, describe property without pricing it, keep loose offerings unattributed, and identify larger single gifts individually. The tax position of congregations varies with how they are organized and where, so confirm the specifics with a professional. For the broader charity picture, including events and sponsorships, see the [charity donation receipt template](/blog/charity-donation-receipt-template) guide.
 
-## Create a Receipt With makecepeit
+## Create Church Receipts With makecepeit
 
-Issue a clean, complete receipt in seconds, and add detail when the sale calls for it. Open the [receipt generator](/create) and keep the record right whichever way you go.`,
+Set the congregation's details once, record each gift with its fund, and build January's statements from the same records. Open the [donation receipt generator](/create) and keep every acknowledgment consistent from the first offering of the year.`,
     faqs: [
-      { q: "What is a simple receipt generator?", a: "A tool producing a short receipt without line-by-line breakdown, showing the seller, date, a brief description, the amount paid and the payment method." },
-      { q: "When is a simple receipt enough?", a: "For single items, flat-fee services, private sales and market trading, where itemizing would only restate the total in more words." },
-      { q: "When should I itemize instead?", a: "Whenever someone other than the buyer needs to understand the purchase, such as expense approvers, business customers, or insurers handling a claim." },
-      { q: "Is simple the same as incomplete?", a: "No. A simple receipt still needs the seller name, date, description, amount and tax. Dropping those makes it defective rather than simple." },
-      { q: "Should tax appear on a simple receipt?", a: "Yes, wherever it applies. Folding sales tax into a round total leaves the buyer unable to see what was actually charged." },
-      { q: "Will employers accept simple receipts?", a: "Often not. A total tells an approver nothing about what was bought, which is why itemization is usually required for reimbursement." },
-      { q: "Do I need receipt numbers at low volume?", a: "It helps. Numbering makes a specific transaction findable later, and it costs nothing to start even if you issue only a few each week." },
-      { q: "How detailed should the description be?", a: "Detailed enough to make sense in a year. A few extra words naming the item or the work done costs nothing and answers the later question." },
-      { q: "How do I know when to stop using simple receipts?", a: "When customers start asking for more detail, expense claims get returned, or you find yourself explaining old receipts by email." },
-      { q: "Can makecepeit do both simple and itemized?", a: "Yes. The same tool issues a short receipt in seconds and scales up to full line items when a transaction needs the detail." },
+      { q: "What is a church donation receipt template?", a: "A reusable acknowledgment format for tithes, offerings and designated gifts, built so the annual giving statement can be assembled from the same records." },
+      { q: "Should churches receipt every weekly offering?", a: "Many record each gift and issue one annual statement. Individual acknowledgments matter most for single gifts of two hundred fifty dollars or more." },
+      { q: "How are loose cash offerings handled?", a: "Anonymous cash cannot be acknowledged to anyone. It is recorded as undesignated offering income rather than allocated to identifiable members." },
+      { q: "What is a designated gift?", a: "A contribution the giver directs to a specific purpose, such as a building fund or mission. The acknowledgment should record that designation." },
+      { q: "Can a church value donated property?", a: "Generally not. The congregation describes the item and the date received, and the giver determines its value with their own adviser." },
+      { q: "How should volunteered time be acknowledged?", a: "Donated time is generally treated differently from property. A letter of appreciation usually fits better than a receipt implying a deduction." },
+      { q: "What should an annual giving statement show?", a: "Each gift by date, amount and fund, with larger single gifts identified individually, rather than a single combined figure for the year." },
+      { q: "Do church fundraising dinners need disclosures?", a: "Where a payment is part gift and part purchase and exceeds seventy-five dollars, a written disclosure estimating the benefit generally applies." },
+      { q: "Does volunteer labour reduce the benefit value?", a: "Usually not. The estimate is based on what a comparable meal or event would sell for, rather than what it cost the congregation to provide." },
+      { q: "Can makecepeit produce church receipts?", a: "Yes. It stores the congregation's details, records fund designations and prints the goods-or-services footer, for documenting gifts genuinely received." },
     ],
   },
 ];
