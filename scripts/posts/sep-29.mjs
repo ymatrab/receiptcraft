@@ -338,6 +338,8 @@ Traders who move between locations should record where each sale happened, not o
 - **Automatic tax calculation** where it applies
 - **The same tool scales up** to itemized receipts when you need them
 - **PDF and PNG output** for immediate sending or printing
+
+Makecepeit documents sales that genuinely happened. A short receipt is still a record of a real transaction, not a way to evidence a sale that never took place, and masking card details on anything you send is basic hygiene.
 - **Runs in the browser**, which suits issuing on the spot
 
 Makecepeit documents sales that genuinely happened. A simple receipt is still a business record, and the accuracy of the date, amount and description is what gives it any value.

@@ -244,7 +244,7 @@ Enter the materials, the units and the quantities, and let the line totals and t
     title: "Editable Home Depot Receipt Template Guide",
     seoTitle: "Editable Home Depot Receipt Template Guide",
     seoDescription:
-      "Learn how an editable Home Depot receipt template handles changed quantities, returned materials and corrections while keeping every total accurate.",
+      "Learn how an editable Home Depot receipt template handles changed quantities, returns and corrections while keeping totals accurate, with Makecepeit.",
     excerpt:
       "An editable Home Depot receipt template lets you change a quantity, price or line and have every total recalculate, which is what keeps a corrected record honest. Here's how to use one.",
     body: `An **editable Home Depot receipt template** is a materials receipt layout whose fields can be changed after the first draft, with the totals recalculating instead of being retyped. It suits contractors adjusting an order, bookkeepers correcting a mistyped price and anyone whose supply run changed between the aisle and the register.

@@ -28,7 +28,7 @@ export const OCT_9 = [
     title: "Lowe's Receipt Template for Renovation Costs",
     seoTitle: "Lowe's Receipt Template for Renovation Costs",
     seoDescription:
-      "Learn how a Lowe's receipt template keeps renovation spending in one shape, room by room, so a remodel totals itself instead of being reconstructed later.",
+      "Learn how a Lowe's receipt template keeps renovation spending in one shape, room by room, so a remodel totals itself, with Makecepeit.",
     excerpt:
       "A Lowe's receipt template keeps every renovation purchase in one shape and tags it to a room, so a remodel adds itself up instead of being reconstructed from a drawer of paper. Here's how.",
     body: `A **Lowe's receipt template** is a reusable receipt layout for home improvement spending, filled in trip after trip so a renovation accumulates as a set of matching records. It suits homeowners running a remodel, DIY builders working weekends and landlords refreshing a property between tenancies.
