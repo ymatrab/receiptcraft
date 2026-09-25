@@ -18,8 +18,9 @@ import { CONSENT_KEY, useConsent, writeConsent } from "@/lib/consent";
  * Microsoft Clarity records sessions, so it loads only after explicit accept.
  * Vercel Analytics is cookieless by design and lives in the layout.
  *
- * /admin is never measured in GA: the owner's own dashboard visits would
- * otherwise inflate traffic and pollute the funnel.
+ * /admin is never measured in GA or Clarity: the owner's own dashboard
+ * visits would otherwise inflate traffic, pollute the funnel and fill
+ * Clarity with recordings of member data.
  */
 export default function ConsentGate() {
   // null until we've read localStorage, so SSR/first paint renders nothing
@@ -39,6 +40,15 @@ export default function ConsentGate() {
   if (typeof window !== "undefined" && SITE.gaId) {
     (window as unknown as Record<string, unknown>)[`ga-disable-${SITE.gaId}`] =
       isAdmin;
+  }
+
+  // Clarity has no per-hit kill switch, so entering /admin with it already
+  // loaded stops it outright (also during render, before the admin DOM is
+  // committed and recorded). It is not restarted on the way out: only the
+  // owner reaches /admin, so the rest of that session is the owner's too.
+  // If the tag is still loading, the stub queues "stop" behind its "start".
+  if (typeof window !== "undefined" && isAdmin) {
+    window.clarity?.("stop");
   }
 
   const decide = (value: "granted" | "denied") => {
@@ -82,7 +92,7 @@ gtag('config', '${SITE.gaId}');`}
         </>
       ) : null}
 
-      {consent === "granted" && SITE.clarityId ? (
+      {consent === "granted" && SITE.clarityId && !isAdmin ? (
         <Script id="clarity-init" strategy="lazyOnload">
           {`(function(c,l,a,r,i,t,y){
         c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
