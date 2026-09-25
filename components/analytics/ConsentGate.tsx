@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Script from "next/script";
+import { usePathname } from "next/navigation";
 import { SITE } from "@/lib/site";
 import { CONSENT_KEY, useConsent, writeConsent } from "@/lib/consent";
 
@@ -16,6 +17,9 @@ import { CONSENT_KEY, useConsent, writeConsent } from "@/lib/consent";
  *
  * Microsoft Clarity records sessions, so it loads only after explicit accept.
  * Vercel Analytics is cookieless by design and lives in the layout.
+ *
+ * /admin is never measured in GA: the owner's own dashboard visits would
+ * otherwise inflate traffic and pollute the funnel.
  */
 export default function ConsentGate() {
   // null until we've read localStorage, so SSR/first paint renders nothing
@@ -23,6 +27,19 @@ export default function ConsentGate() {
   // lib/consent.ts because the chat launcher needs to know too — it shares this
   // corner of the screen and used to sit on top of the Decline button.
   const consent = useConsent();
+  const pathname = usePathname();
+  const isAdmin = pathname === "/admin" || pathname.startsWith("/admin/");
+
+  // A direct load of /admin never renders the GA scripts below. But gtag.js
+  // stays loaded after a client-side hop from a public page, and GA4's
+  // enhanced measurement turns that history change into a page_view. The
+  // `ga-disable-<id>` flag is Google's documented kill switch and is checked
+  // on every hit. It is set during render, not in an effect, because the
+  // router pushes the new URL during commit — before any effect would run.
+  if (typeof window !== "undefined" && SITE.gaId) {
+    (window as unknown as Record<string, unknown>)[`ga-disable-${SITE.gaId}`] =
+      isAdmin;
+  }
 
   const decide = (value: "granted" | "denied") => {
     writeConsent(value);
@@ -33,7 +50,7 @@ export default function ConsentGate() {
 
   return (
     <>
-      {SITE.gaId ? (
+      {SITE.gaId && !isAdmin ? (
         <>
           {/* Consent default MUST be queued before config — gtag.js replays the
               dataLayer in order, so this inline script defines the queue first. */}
