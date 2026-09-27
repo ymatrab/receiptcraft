@@ -1,461 +1,452 @@
 /**
- * Oct-sprint — Day 2026-10-17 (2 posts). Notion board Order 27 and 28, fuel cluster.
- *   27. "fuel receipt generator"  210/mo · CPC $4.12 · Low -> /templates/gas-station  (currently pos 13)
- *   28. "fuel receipt maker"      170/mo · CPC $3.34 · Low -> /templates/gas-station
+ * Oct-sprint — Day 2026-10-17 (2 posts). Notion board Order 29 and 30, closes the auto run.
+ *   29. "gas station receipt generator"  90/mo  · CPC $5.98 · Low -> /templates/gas-station
+ *   30. "autozone receipt generator"     140/mo · CPC $2.18 · Low -> /brands/autozone
  *
- * Cannibalization guard: three fuel spokes run Oct 17-19 beside a live how-to.
- * #27 owns the single fill-up and the mileage or expense claim built on it.
- * #28 owns volume: fleets, several drivers, fuel cards and monthly reporting.
- * #29 owns the forecourt itself — pay at pump versus prepay inside, and store items.
- * Live overlap: /blog/how-to-make-a-gas-receipt is the step-by-step and is linked,
- * /blog/gas-station-receipt-copy is the retrieval answer for a receipt driven off from.
+ * Cannibalization guard: #29 owns the forecourt transaction itself — pay at pump
+ * versus prepay inside, change refunded, and the store items that ride along on one
+ * receipt. It does not restate #27 (a single fill-up for an expense claim) or #28
+ * (fleet volume), and it defers the step-by-step to the live how-to.
+ * #30 moves to parts retail: part numbers, core charges, warranty length and the
+ * DIY repair record a home mechanic builds from them.
  *
- * NOTE #27 already ranks position 13 for its head term, so this post must be the
- * stronger answer rather than a near-duplicate: keep it specific to gallons, price
- * per gallon and what an expense reviewer checks.
+ * Live overlap: /blog/how-to-make-a-gas-receipt (step-by-step) and
+ * /blog/gas-station-receipt-copy (retrieval). Both linked, neither competed with.
+ * Targets verified live 2026-09-24, including /brands/autozone.
  *
- * Legitimacy: records of fuel actually bought; mileage and business-use claims are
- * hedged as depending on circumstances, never stated as universal entitlements.
+ * Legitimacy: records of purchases that happened; core charges and warranties
+ * described accurately; no invented store codes or branding.
  */
 
 export const OCT_17 = [
   {
-    slug: "fuel-receipt-generator",
-    image: "assets/fuel-receipt-generator.jpeg",
+    slug: "gas-station-receipt-generator",
+    image: "assets/gas-station-receipt-generator.jpeg",
     category: "small-business",
     publishedAt: "2026-10-17T09:30:00Z",
-    title: "Fuel Receipt Generator: Gallons, Price, Total",
-    seoTitle: "Fuel Receipt Generator: Gallons, Price, Total",
+    title: "Gas Station Receipt Generator: Pump or Inside",
+    seoTitle: "Gas Station Receipt Generator: Pump or Inside",
     seoDescription:
-      "Learn what a fuel receipt generator records, from gallons and price per gallon to the pump and card details an expense reviewer checks, with Makecepeit.",
+      "Learn how a gas station receipt generator handles pay at pump, prepay inside, change refunded and store items on one forecourt record, with Makecepeit.",
     excerpt:
-      "A fuel receipt generator records the gallons, the price per gallon and the total of a single fill-up, which is what a mileage log or an expense reviewer actually needs. Here's what belongs on one.",
-    body: `A **fuel receipt generator** is a receipt builder for a single fill-up, used by drivers keeping mileage logs, contractors claiming vehicle costs and anyone whose forecourt slip faded before the expense claim was filed. It records the gallons pumped, the price per gallon, the grade and the total paid.
+      "A gas station receipt generator has to handle two different transactions: paying at the pump and prepaying inside, where change comes back. Here's what each record should show.",
+    body: `A **gas station receipt generator** is a receipt builder for forecourt purchases, used by drivers rebuilding a faded slip, commuters filing expense claims and small operators recording fuel bought on the road. It covers both ways a forecourt takes money: the card authorised at the pump, and the cash or card handed over inside before the nozzle is lifted.
 
-Fuel receipts are short documents where the small numbers matter. Three decimal places on the gallons, three on the price, and a total that reconciles to the card statement. Makecepeit lets you [create a fuel receipt](/create) from a fixed layout, so a fill-up in Phoenix and one outside Chicago produce records an expense reviewer can check in seconds.
+Those two paths produce different documents, and most people only notice when a prepay receipt refuses to reconcile. Makecepeit lets you [create a receipt](/create) from a fixed layout, so a pay-at-pump fill in Dallas and a prepaid twenty dollars outside Atlanta both end up as records that add up.
 
-## What Is a Fuel Receipt Generator?
+## What Is a Gas Station Receipt Generator?
 
-**It is a builder that arranges the details of one fill-up into the layout a forecourt printer uses.**
+**It is a builder that records a forecourt transaction, including the parts a pump printer leaves out.**
 
-You supply the station, the date, the grade, the gallons, the price per gallon and the payment method. The tool structures them, and the result is your own record of fuel you actually bought. It carries no station branding and no link to the retailer's systems.
+The core fields are the same as any fuel record: station, date, pump, grade, gallons, price per gallon and total. What changes is how the payment resolves. A pump transaction authorises an amount and settles at the pumped total. A prepay takes a fixed sum first and returns the difference, which means the receipt has two numbers most people forget to record.
 
-Our guide on [how to make a gas station receipt](/blog/how-to-make-a-gas-receipt) covers the build step by step. This post is about what the finished record needs to satisfy the person who reads it.
+Our guide on [how to make a gas station receipt](/blog/how-to-make-a-gas-receipt) covers building one step by step; this post is about the two payment paths and what each needs.
 
-### Why fuel receipts fade first
+### Why it is not the same as a fuel record
 
-Forecourt printers use thermal paper and the slip usually lives in a door pocket or a wallet in direct sunlight. A receipt from July is often unreadable by September, which is why fuel is the expense category most commonly claimed without documentation and most commonly queried.
+A fuel record answers what was bought. A forecourt record may also have to answer what was paid, what was refunded and what else was in the bag. On a busy road trip the second category is often larger than the first.
 
-## What Should a Fuel Receipt Include?
+## Pay at Pump vs. Prepay Inside
 
-- **Station name and location**, at least the city and state
-- **Date**, and the time where you have it
-- **Pump number**, which appears on almost every forecourt printout
-- **Grade**, such as regular, midgrade, premium or diesel
-- **Gallons**, to three decimal places
-- **Price per gallon**, also to three decimals
-- **Fuel total**, being gallons multiplied by the price
-- **Any additional items** bought at the same time, listed separately
-- **Total paid**, matching the card statement
-- **Payment method**, masked to the last four digits
-- **Odometer reading**, if you keep a mileage log
+**One settles at the amount pumped; the other starts with a fixed sum and returns change.**
 
-### Why three decimals matter
-
-Fuel is priced in tenths of a cent, and gallons are measured to thousandths. Rounding either one produces a total that does not reconcile, and a reviewer who spots a fuel receipt that does not multiply out correctly will generally look harder at everything else in the claim.
-
-## Gallons, Price and the Arithmetic a Reviewer Checks
-
-**The first thing anybody does with a fuel receipt is multiply.**
-
-| Field | Example | What it proves |
+| Aspect | Pay at pump | Prepay inside |
 |---|---|---|
-| Gallons | 12.418 | Volume actually dispensed |
-| Price per gallon | 3.459 | Rate charged that day |
-| Fuel total | 42.95 | The product of the two |
-| Grade | Regular | Explains a price difference |
-| Pump | 07 | Ties the sale to a dispenser |
-| Card last four | 4321 | Links the receipt to the statement |
+| Amount taken first | An authorisation hold | The full prepaid sum |
+| Final charge | The fuel actually dispensed | The fuel dispensed, after change |
+| Change | Not applicable | Cash back, or an adjusted card charge |
+| Receipt printed at | The pump | The counter |
+| Common failure | Printer out of paper | Change never recorded |
+| Statement appearance | One settled amount | One amount, sometimes two entries |
 
-Where the receipt covers fuel and a purchase inside the store, keep them on separate lines. Snacks and fuel are different categories for anybody reviewing a claim, and in many states they are taxed differently too.
+The authorisation hold confuses more drivers than anything else on a forecourt. A station may authorise a round figure against a card before dispensing, then settle at the real total a day or two later. The receipt shows the real figure, and the statement eventually agrees.
 
-## Why Fuel Records Matter in the United States
+## Change, Refunds and Partial Fills
 
-**Because vehicle expenses are among the most scrutinised claims a small business makes.**
+**If money came back, the record has to say how much.**
 
-Self-employed drivers and small businesses generally choose between a standard mileage method and an actual expense method, and the records each requires differ. The IRS publishes the rules and updates the standard rate, and which approach suits a given business depends on the vehicle, the mileage and the circumstances. A tax professional is the right person to ask which applies to you, and what documentation your method expects.
+A driver who prepays twenty dollars and pumps eighteen dollars and change is owed the difference, and the receipt should show three numbers: the amount prepaid, the fuel dispensed and the change returned. Recording only the fuel total leaves a card statement that disagrees, and recording only the prepaid sum overstates the expense.
 
-Employers add a second layer. Reimbursement policies in California, Texas and Florida vary by company rather than by state, but they usually require the receipt rather than the card statement, because the statement does not show what was bought.
+Partial fills work the same way. A tank that fills before the prepaid amount runs out is the normal case, not an exception, and a record that handles it cleanly is one nobody has to query later.
 
-> **Important:** a fuel receipt records a purchase that genuinely happened. Creating receipts for fuel never bought, or inflating gallons to increase a claim, is fraud.
+### When the pump stops early
 
-## How to Record a Fill-Up
+Nozzle shut-offs, card declines and pumps that stop at a station limit all produce a fill smaller than intended. Record what was actually dispensed rather than what was planned, which sounds obvious and is exactly where reconstructed records tend to go wrong.
 
-1. **Check the statement line** for the date and the exact total.
-2. **Enter the station** city and state, with the pump number if you noted it.
-3. **Record the grade** you bought.
-4. **Enter gallons and price per gallon**, both to three decimals.
-5. **Confirm the multiplication** matches the total charged.
-6. **List store purchases separately**, if any were made.
-7. **Add your odometer reading**, if you keep a mileage log.
-8. **Mask the card** to its last four digits and save the record.
+## Why Forecourt Records Matter in the United States
 
-![A fuel receipt generator shown as a clean banner layout, with a station name and pump number in the header, grade, gallons and price per gallon rows beneath, a highlighted fuel total and a masked card line at the foot.](assets/fuel-receipt-generator-2.jpeg)
+**Because fuel is claimed constantly and documented carelessly.**
 
-## Receipts You Never Got
+Expense reviewers see more fuel receipts than any other kind, and they see the same faults repeatedly: no gallons, no station, a total that does not match the statement. For a self-employed driver the stakes are higher, since the IRS expects records supporting what a return claims and the choice between mileage and actual expense methods changes what documentation is needed. That choice depends on your circumstances, so ask a tax professional.
 
-**A slip that never printed still needs a record, and the honest route is to say so.**
+State taxes complicate the store side. Fuel is taxed under its own regime, while snacks, drinks and car care items fall under ordinary sales tax rules that vary by state and locality. A single blended total hides both, which is why the split matters even on a small purchase.
 
-Forecourt printers fail constantly. When one does, the options are the cashier's reprint inside, a photograph of the pump display, or a record built from the card statement the same day. Each is legitimate, and each is better than an empty line in a claim.
+> **Important:** a forecourt receipt records fuel and goods genuinely bought. Creating a record for fuel never purchased, or overstating gallons, is fraud.
 
-Where the receipt is genuinely gone, asking the station is worth a call while the transaction is recent, because many forecourts can reprint from the same day's records. A record you build afterwards should reflect only what you can verify: the date and total from the statement, the station from the descriptor, and the gallons only if you noted them.
+## How to Record a Forecourt Purchase
 
-### Say which parts were reconstructed
+1. **Identify the path** — paid at the pump, or prepaid inside.
+2. **Enter the station**, with city, state and the pump number.
+3. **Record the grade**, gallons and price per gallon.
+4. **Confirm the fuel total** multiplies out correctly.
+5. **Add the prepaid amount and change**, if you paid inside.
+6. **List store items separately**, with their own tax line.
+7. **Check the final figure** against the card statement.
+8. **Mask the card** to four digits and save the record.
 
-A short note stating that a record was rebuilt from a statement is not a weakness. It tells a reviewer what they are looking at, and it is far better than a confident invention of a pump number nobody wrote down.
+![A gas station receipt generator shown as a clean banner layout, with a narrow forecourt receipt emerging from a stylised fuel pump, showing pump number, grade, gallons and price per gallon above a highlighted fuel total and a change refunded line.](assets/gas-station-receipt-generator-2.jpeg)
 
-## Storing Fuel Receipts So They Survive
+## Accuracy on a Reconstructed Forecourt Record
 
-**Photograph or file the record the same day, because the paper will not last.**
+**Rebuild only what you can check, and mark anything you could not.**
 
-Thermal slips in a truck cab are gone within months. A photograph taken at the pump, or a file saved the same evening, survives indefinitely and costs nothing. Drivers in Texas and Florida see the fastest fading, though a dashboard anywhere in summer does the same job.
+Accuracy on a forecourt record means the date and total come from the statement, the station comes from the card descriptor, and the gallons come from something you actually noted. Where a figure is unavailable, an empty field is honest and a confident invention is not.
 
-Name the file by date and vehicle so a folder sorts itself. At claim time, the difference between an organised folder and a bag of slips is usually an hour of somebody's evening.
+Drivers in Texas, California and Florida filing mileage-heavy claims usually keep a photograph habit for this reason: one picture of the pump display costs nothing and removes the guesswork entirely. A reviewer who sees consistent, checkable records rarely queries the occasional gap.
 
-## Fuel Receipts Inside a Mileage Log
+### Two fills on one day
 
-**A fuel receipt supports a mileage log; it does not replace one.**
+Long-distance driving produces two or three stops in a day, sometimes at the same chain. Record each separately with its own time and pump, because a single combined entry cannot be matched to the statement lines and loses the route as well.
 
-A mileage log records trips: date, purpose, start and end points, and miles driven. A fuel receipt records a purchase. Claims built on the standard mileage method rest on the log, while claims built on actual expenses rest on receipts, and a driver keeping both has the flexibility to decide later which method suits.
+## Store Purchases on the Same Receipt
 
-Writing the odometer on the fuel receipt is the small habit that links the two. It costs a few seconds at the pump and turns a loose receipt into a dated point in the vehicle's usage history.
+**Coffee and a car wash are not fuel, and they should not hide inside the fuel total.**
 
-### Personal and business fill-ups
+Most forecourt visits are mixed. A driver buys fuel, a drink and occasionally a wash or an air top-up, and the station prints it all on one slip. A record that itemises them keeps the expense categories clean, which matters both for a claim and for anybody comparing fuel costs across months.
 
-Where one vehicle serves both, mark which fill-ups were business. Doing it at the time is accurate; doing it in April is an estimate, and estimates are exactly what a reviewer probes first.
+Car washes deserve their own line for a second reason: many operators sell them as a discounted add-on with the fuel, and the discount only makes sense if the item is visible.
 
-## Diesel, DEF and Other Forecourt Purchases
+Items that commonly appear alongside fuel:
 
-**Different products on one visit belong on different lines.**
+- Coffee, drinks and food from the store
+- Car wash, often discounted with a fill
+- Air, vacuum or screenwash
+- Oil, coolant or washer fluid
+- Ice, firewood or propane exchange
+- Lottery tickets, which belong nowhere near an expense claim
+- Restroom or shower fees at truck stops
 
-A diesel fill often comes with diesel exhaust fluid, and a truck stop visit may add oil, a shower or parking. Each is a separate product with its own tax treatment and its own relevance to a claim. One blended total obscures all of it.
+### Loyalty discounts and cents-off
 
-Where a fuel card restricts what may be bought, an itemized record also protects the driver, because it demonstrates that the card was used within policy rather than leaving a total that could be anything.
+Forecourt loyalty schemes commonly knock a few cents off the price per gallon. Record the price you actually paid rather than the posted price, and note the discount if your record has room. A price per gallon that does not match the sign is otherwise the sort of small oddity that prompts a question.
 
-### What an expense reviewer actually checks
+## When the Station Can Still Help
 
-Three things, in order: does the date fall inside the claim period, does the total match the statement line, and does the receipt show fuel rather than an unexplained forecourt total. A record answering all three rarely gets a second look, and one failing any of them usually comes back.
+**If the slip never printed, ask before rebuilding anything.**
 
-## Business Trips and Long Routes
+Stations can often reprint a receipt from the same day, and card transactions are frequently retrievable for longer through the retailer's system. Bring the date, the approximate time, the pump number if you have it and the card used, which is usually enough for a station to locate the sale.
 
-**A long trip produces several fill-ups, and each is its own record.**
+Rebuild a record yourself only when the original is genuinely unavailable, and build it from what you can verify: the statement line, the station descriptor and any figures you noted at the time.
 
-Driving from Atlanta to Dallas over two days may mean three stops, and the temptation is to record the trip rather than the stops. Resist it: three receipts with three odometer readings tell the story accurately, while one combined figure loses the route, the rates and the ability to check anything.
+## Diesel, Truck Stops and Larger Fills
 
-Where a trip crosses state lines, the price per gallon changes with it, and keeping the stops separate is what makes an unusually high total explainable later.
+**Commercial fills carry extras a car receipt never shows.**
 
-## Why Use makecepeit for Fuel Receipts?
+A truck stop visit may include diesel, exhaust fluid, a reefer fill, parking or a shower, each on the same slip. The fuel line is the one an expense system cares about, and the rest need to be visible rather than buried, particularly where a company reimburses some categories and not others.
 
-**Because the fields are the ones a forecourt slip carries, and the math does not drift.**
+Where a fill exceeds the tank capacity of a single vehicle, say what else was filled. Auxiliary tanks and approved containers are ordinary, and an unexplained volume is the kind of thing that prompts a difficult question later.
 
-- Gallons and price per gallon to three decimal places
-- Fuel total calculated from the two, so it always reconciles
-- Separate lines for store purchases made at the same stop
-- Room for the pump number, the grade and an odometer reading
-- Clean files you can attach to an expense claim
+## Why Use makecepeit for Forecourt Receipts?
+
+**Because prepay, change and store items all have somewhere to go.**
+
+- Pump, grade, gallons and price per gallon in the expected order
+- A fuel total that multiplies out from the two figures
+- Prepaid and change-returned lines for inside payments
+- Separate store item lines with their own tax
+- Records that reconcile to a card statement to the cent
 - Free to start, with nothing to install
 
-## Tips for Accurate Fuel Records
+## Rental Cars and Fuel Policies
 
-- Build the record the same day, while the pump number is fresh
-- Photograph the pump display if the printer is out of paper
-- Record the odometer at every fill-up
-- Keep fuel and store purchases apart
-- Mark business fill-ups as you go
-- Check that gallons times price equals the total
+**A rental return with a fuel charge needs two records, not one.**
+
+Rental companies commonly charge for fuel at a premium rate when a car comes back short, and that charge lands on the rental invoice rather than a forecourt receipt. Keeping the fill-up receipt from the station near the airport is what lets a traveller in Atlanta or Los Angeles challenge a refuelling charge they believe was wrong.
+
+Where a prepaid fuel option was taken at the counter, the receipt for it is part of the rental agreement rather than a forecourt document. Filing both together is the only way the trip's fuel cost makes sense afterwards.
+
+### Fuel on a business trip
+
+Travel policies differ on whether fuel or mileage is reimbursed for a rental. Find out before the trip rather than after, because the records each approach needs are different and reconstructing the wrong one is rarely possible.
+
+## Tips for Forecourt Records
+
+- Note whether you paid at the pump or inside
+- Photograph the pump display if the printer fails
+- Record change returned on prepaid fills
+- Keep fuel and store items on separate lines
+- Use the price you actually paid, after any loyalty discount
+- Build the record the same day
 - Mask the card to four digits
 
 ## Common Mistakes to Avoid
 
-- **Rounding the gallons.** The total stops multiplying out, and reviewers notice.
-- **Omitting the grade.** A premium price on a regular receipt looks like an error.
-- **Blending fuel and snacks.** Two categories, two lines.
-- **Relying on the card statement.** It shows a total, not what was bought.
-- **Marking business use from memory.** Later guesses are what a reviewer challenges.
-- **Skipping the odometer.** The receipt loses its link to the mileage log.
-- **Inflating a claim.** That is fraud, not aggressive bookkeeping.
+- **Recording the prepaid amount as the expense.** The fuel dispensed is what you spent.
+- **Omitting change returned.** The record then disagrees with the statement.
+- **Blending a car wash into the fuel total.** Two products, two lines, two tax treatments.
+- **Using the posted price.** Loyalty discounts change what you actually paid.
+- **Ignoring the authorisation hold.** It is temporary; the settled figure is the real one.
+- **Rebuilding before asking the station.** The original may still be available.
+- **Guessing gallons.** If you did not note them, say so rather than inventing a figure.
 
 ## Final Takeaway
 
-A fuel receipt generator is useful because fuel receipts are short, fade fast and are checked closely. Record the gallons and the price to three decimals, keep the grade, name the station, and make sure the arithmetic lands on the amount your statement shows.
+A gas station receipt generator has to handle two transactions rather than one. At the pump, the record settles at what was dispensed. Inside, it starts with a prepaid sum and has to show the change. Keep store items on their own lines, use the price you actually paid, and check the result against the statement.
 
-For the step-by-step build, see our guide on [how to make a gas station receipt](/blog/how-to-make-a-gas-receipt).
+For the field-by-field build, our guide on [how to make a gas station receipt](/blog/how-to-make-a-gas-receipt) covers it.
 
-## Create Your Fuel Receipt With makecepeit
+## Create Your Forecourt Receipt With makecepeit
 
-Enter the gallons, the price and the grade, and let the total land where your statement says it should. [Build your fuel receipt](/create) and file it with the mileage log.`,
+Enter the gallons, the price and whatever came back as change, and end up with a record that reconciles. [Build your receipt](/create) before the slip fades.`,
     faqs: [
       {
-        q: "What is a fuel receipt generator?",
-        a: "It is a builder that records one fill-up you actually made, arranging the station, grade, gallons, price per gallon and total into a forecourt-style layout.",
+        q: "What is a gas station receipt generator?",
+        a: "It is a builder for forecourt purchases, covering both paying at the pump and prepaying inside, where change has to be recorded alongside the fuel.",
       },
       {
-        q: "Why record gallons to three decimals?",
-        a: "Because pumps measure to thousandths and price to tenths of a cent. Rounding either produces a total that no longer multiplies out correctly.",
+        q: "How does a prepay receipt differ?",
+        a: "It carries three figures rather than one: the amount prepaid, the fuel actually dispensed, and the change returned to the customer.",
       },
       {
-        q: "Does a fuel receipt replace a mileage log?",
-        a: "No. A log records trips and miles driven; a receipt records a purchase. Claims under the standard mileage method rest on the log.",
+        q: "What is the authorisation hold?",
+        a: "A temporary amount a station may hold against a card before dispensing. It settles later at the real total, which is the figure the receipt shows.",
       },
       {
-        q: "Should I write the odometer on it?",
-        a: "Yes, if you keep a mileage log. It takes seconds at the pump and links the purchase to a dated point in the vehicle's usage.",
+        q: "Should a car wash share the fuel line?",
+        a: "No. It is a separate product with its own tax treatment, and any discount tied to the fuel purchase only makes sense when the item is visible.",
       },
       {
-        q: "Can fuel and snacks share a line?",
-        a: "Better not. They are different expense categories for a reviewer and are often taxed differently, so each belongs on its own line.",
+        q: "Which price per gallon should I record?",
+        a: "The one you actually paid after any loyalty discount, not the posted price, since a mismatch with the sign usually prompts a question.",
       },
       {
-        q: "Is a card statement enough for a claim?",
-        a: "Usually not. Employers and reviewers generally want the receipt, because a statement shows a total without showing what was bought.",
+        q: "What if the pump stopped early?",
+        a: "Record what was actually dispensed rather than what you intended to buy. Short fills are normal and the record should reflect the real amount.",
       },
       {
-        q: "Which expense method should I use?",
-        a: "The standard mileage and actual expense methods suit different situations, and the choice depends on your vehicle and circumstances. Ask a tax professional.",
+        q: "Can the station reprint a receipt?",
+        a: "Often on the same day, and sometimes longer for card transactions. Ask before rebuilding a record yourself, since the original is better.",
       },
       {
-        q: "How do I mark business fill-ups?",
-        a: "At the time, on the record itself. Deciding months later which tanks were business is an estimate, and estimates attract the most scrutiny.",
+        q: "Why keep store items separate?",
+        a: "Fuel is taxed under its own regime while snacks and car care items fall under ordinary sales tax, and expense reviewers treat them as different categories.",
       },
       {
-        q: "What if the pump printer is empty?",
-        a: "Photograph the pump display before driving off, then build the record from the photograph and your statement line the same day.",
+        q: "What if I never noted the gallons?",
+        a: "Record what you can verify from the statement and say the gallons were not captured. An honest gap is better than an invented figure.",
       },
       {
-        q: "Is generating a fuel receipt legal?",
-        a: "Recording fuel you genuinely bought is ordinary record-keeping. Creating receipts for fuel never purchased, or inflating gallons, is fraud.",
+        q: "Is building a forecourt receipt legal?",
+        a: "Recording a purchase you genuinely made is ordinary record-keeping. Creating a record for fuel never bought, or overstating gallons, is fraud.",
       },
     ],
   },
   {
-    slug: "fuel-receipt-maker",
-    image: "assets/fuel-receipt-maker.jpeg",
+    slug: "autozone-receipt-generator",
+    image: "assets/autozone-receipt-generator.jpeg",
     category: "small-business",
     publishedAt: "2026-10-17T14:00:00Z",
-    title: "Fuel Receipt Maker for Fleets and Drivers",
-    seoTitle: "Fuel Receipt Maker for Fleets and Drivers",
+    title: "AutoZone Receipt Generator for Parts Records",
+    seoTitle: "AutoZone Receipt Generator for Parts Records",
     seoDescription:
-      "Learn how a fuel receipt maker handles several drivers, fuel cards and monthly reporting, so a fleet's fuel spend reconciles cleanly, with Makecepeit.",
+      "Learn how an AutoZone receipt generator records part numbers, core charges and warranty terms, so a DIY repair has paperwork behind it, with Makecepeit.",
     excerpt:
-      "A fuel receipt maker suits the operation filling several vehicles a week, where the job is not one receipt but a month of them that has to reconcile. Here's how to run it.",
-    body: `A **fuel receipt maker** is a receipt tool used where fuel is bought repeatedly rather than occasionally, by small fleets, delivery operators, contractors running crew trucks and drivers filling company vehicles. The task is not documenting one fill-up but producing a month of records that reconcile against a card statement and a set of vehicles.
+      "An AutoZone receipt generator records the part numbers, core charges and warranty terms behind a parts purchase, which is what a DIY repair record actually needs. Here's what belongs on one.",
+    body: `An **AutoZone receipt generator** is a receipt builder for auto parts purchases, used by home mechanics documenting their own repairs, small shops buying over the counter and fleet operators tracking what went into which vehicle. It records the part numbers, the prices, any core charge and the warranty that came with each component.
 
-One missing receipt in a folder of forty is a small problem. Ten missing receipts is a month nobody can close. Makecepeit lets you [create a fuel receipt](/create) from a fixed layout, so every driver in a fleet in Dallas or Atlanta produces the same document rather than five different ones.
+Parts receipts are warranty documents as much as purchase records. A lifetime-warranty brake pad is worth nothing without the paperwork. Makecepeit lets you [create a receipt](/create) from a fixed layout, so a weekend brake job in Phoenix and a fleet parts run in Chicago both leave a record that holds up.
 
-## What Is a Fuel Receipt Maker?
+## What Is an AutoZone Receipt Generator?
 
-**It is the same fuel record used at volume, with vehicle and driver fields so a month of them can be sorted.**
+**It is a builder that arranges a real parts purchase into a layout carrying part numbers, core charges and warranty terms.**
 
-A single fill-up needs the station, the gallons, the price and the total. A fleet fill-up needs those plus two more: which vehicle was filled and who filled it. Without them, a folder of receipts is a total rather than a dataset, and cost per vehicle becomes impossible to calculate.
+You supply what you bought, the tool structures it, and the result is your own record. It connects to no retailer's systems, carries no store branding, and makes no claim to be their document. Where you need the store's own copy — for a return or a warranty claim at the counter — the retailer's records are what count, and our [AutoZone brand page](/brands/autozone) covers the wider picture.
 
-Our companion post on the [fuel receipt generator](/blog/fuel-receipt-generator) covers the single fill-up in detail. This one is about running the same record at scale.
+### Why parts receipts outlive most receipts
 
-### Where fleet fuel records break down
+A grocery receipt matters for a week. A parts receipt may matter for as long as the component is fitted, because that is how long the warranty runs. Many parts carry limited lifetime warranties, and the receipt is the proof of purchase date that any claim starts from.
 
-Almost always at capture, not at reporting. Drivers lose slips, printers run out of paper and receipts go through the wash. A rule that the record is built at the pump, before the truck moves, fixes more of this than any amount of chasing at month end.
+## What Should a Parts Receipt Include?
 
-## What Fleet Fuel Records Should Carry
+- **Store location**, at least the city and state
+- **Purchase date**, which starts every warranty period
+- **Part description**, in plain language
+- **Part number**, as printed on the box
+- **Quantity and unit price**
+- **Core charge**, where one applies, on its own line
+- **Warranty length** for each part that carries one
+- **Sales tax**, applied as your state requires
+- **Total paid**, matching the card statement
+- **Payment method**, masked to four digits
+- **Vehicle the parts were for**, if you keep repair records
 
-- **Vehicle identifier**, by unit number as well as plate
-- **Driver name** or employee number
-- **Date and time** of the fill-up
-- **Station name and location**
-- **Grade and gallons**, to three decimals
-- **Price per gallon**, to three decimals
-- **Fuel total**, reconciling to the card line
-- **Odometer reading** at the fill
-- **Fuel card last four digits**, never the full number
-- **Any non-fuel items**, on separate lines
-- **Purchase order or job reference**, where fuel is billed to a job
+### Part numbers do the heavy lifting
 
-### The odometer is the whole point
+A line reading "sensor" helps nobody. The same line with a part number lets you reorder the identical component, check a warranty, or tell a mechanic exactly what was fitted two years ago. It is the single most useful field on a parts receipt and the one most often skipped.
 
-Cost per mile is the number a fleet actually manages, and it cannot be calculated without odometer readings at each fill. A folder of fuel receipts without them tells an operator what fuel cost and nothing about whether a vehicle is using more than it should.
+## Core Charges: How They Work on a Receipt
 
-## Fuel Cards, Statements and Reconciliation
+**A core charge is a deposit on the old unit, refunded when you bring it back.**
 
-**Reconcile every card line to a receipt, and investigate the ones that do not match.**
+| Stage | What appears | Where it shows |
+|---|---|---|
+| Purchase | Part price plus core charge | Two lines on the receipt |
+| Card statement | The combined total | One charge |
+| Core returned | Refund of the core charge | A separate refund |
+| Statement again | A credit, often days later | A second entry |
+| Your record | Purchase and refund kept apart | Two documents |
 
-| Check | What it catches |
-|---|---|
-| Card line with no receipt | Missing capture, or a purchase nobody can explain |
-| Receipt with no card line | A personal card used, awaiting reimbursement |
-| Gallons exceeding tank capacity | A fill into a container, or a misread |
-| Two fills hours apart | A shared vehicle, or a card used by another driver |
-| Non-fuel items on a fuel card | A policy question worth asking early |
-| Odometer lower than last time | A transposed digit, or the wrong vehicle recorded |
+Netting the two into one figure is the common mistake. The statement carries two entries, so the records should too, and a home mechanic who nets them usually cannot explain the difference three months later.
 
-None of these findings is necessarily a problem. Each is a question, and asking it in the same week is straightforward while asking it in February is an investigation.
+Alternators, starters, batteries and brake calipers are the parts most likely to carry one. The deposit is not a fee, and it comes back in full when the old unit is returned in acceptable condition.
 
-## Why Fleet Fuel Records Matter in the United States
+## Why Parts Records Matter in the United States
 
-**Because fuel is usually the largest controllable cost a small fleet has.**
+**Because a DIY repair has no shop paperwork behind it, so the parts receipt is the entire record.**
 
-An operator running eight vans in Houston may spend more on fuel than on insurance, and the difference between a well-run fleet and a poorly-run one often shows up here first. Accurate records reveal the vehicle drinking more than its peers, the route that costs double, and the card being used at odd hours.
+When a professional shop replaces an alternator, the shop's invoice records the part, the labor and the warranty. When an owner in Houston does it on a Saturday, nothing exists unless they keep the receipt. That matters twice: when the part fails inside its warranty, and when the vehicle is sold and a buyer asks what has been replaced.
 
-There is a compliance side as well. The IRS expects records that support what a return claims, and state and local fuel taxes vary in ways that may matter for operators crossing state lines. Both depend on your operation, so a tax professional is the right person to ask about your own circumstances.
+For a business buying parts, these are also tax records, and the IRS expects records supporting what a return claims. Your state department of revenue governs the sales tax treatment, which varies for parts, cores and shop supplies. Both depend on your circumstances, so a tax professional is the right person to ask.
 
-> **Important:** fuel records document fuel genuinely bought for the vehicles named. Creating receipts for fuel never purchased, or recording personal fill-ups as business ones, is fraud.
+> **Important:** a parts receipt records components genuinely bought. Creating a record for parts never purchased, or misstating a purchase date to extend a warranty, is fraud.
 
-## How to Run Fuel Records Across a Fleet
+## How to Record a Parts Purchase
 
-1. **Set one format** everybody uses, and share it once.
-2. **Require the record at the pump**, before the vehicle moves.
-3. **Capture the odometer** on every fill, without exception.
-4. **Name the vehicle by unit number**, not by description.
-5. **Keep non-fuel purchases** on separate lines.
-6. **Reconcile weekly** against the fuel card statement.
-7. **Query mismatches immediately**, while memories are fresh.
-8. **Total by vehicle monthly**, so cost per mile is visible.
+1. **Keep the box** until the record is built, since the part number is printed on it.
+2. **Enter the store** city and state, with the purchase date.
+3. **List each part** with its description, part number and price.
+4. **Add core charges** on their own lines, not inside the part price.
+5. **Note the warranty** length beside each part that carries one.
+6. **Apply tax** as charged at the register.
+7. **Record the vehicle** the parts were for.
+8. **File it** with your repair records rather than in a wallet.
 
-![A fuel receipt maker shown as a clean banner layout, with vehicle unit and driver fields in the header, station, grade, gallons and price rows beneath, an odometer line and a highlighted fuel total beside a masked fuel card number.](assets/fuel-receipt-maker-2.jpeg)
+![An AutoZone receipt generator shown as a clean banner layout, with a placeholder auto parts store name in the header, part lines listing part numbers and prices, a separate core charge row, a warranty note and a highlighted total.](assets/autozone-receipt-generator-2.jpeg)
 
-### Weekly beats monthly
+## Warranty Length and What Starts the Clock
 
-A weekly reconciliation takes minutes because the week is small and recent. A monthly one takes an afternoon and produces questions nobody can answer, which is why most operators who move to weekly checks never move back.
+**The purchase date on the receipt is what any warranty runs from.**
 
-## Cost Per Mile and What It Reveals
+Parts carry different terms: ninety days, one year, two years, or a limited lifetime warranty on some components. The differences are commercially significant and easy to forget, which is why writing the term beside the part is worth the few seconds it takes.
 
-**The whole point of the folder is a number no single receipt contains.**
+Where a warranty replacement is issued, the new part may carry the original purchase date rather than a fresh term, depending on the manufacturer's policy. Keeping both receipts together is the simplest way to be ready for that conversation.
 
-Fuel spend divided by miles driven gives cost per mile, and comparing it across a fleet is how an operator finds the vehicle that needs attention. A van drinking a third more than its twin is usually telling you something mechanical, and it shows up in the fuel records months before it shows up as a breakdown.
+### Lifetime warranty parts
 
-The same figure supports pricing. A contractor in Chicago quoting a job forty miles out can only price the travel honestly if the fuel cost per mile is known rather than guessed, and the guess is generally low.
+A limited lifetime warranty generally covers the part for as long as the original purchaser owns the vehicle, with conditions that vary by manufacturer and retailer. Those conditions are worth reading once rather than discovered at a counter, and the receipt is what makes any of it claimable.
 
-### Seasonal and route effects
+## Buying for a Shop Over the Counter
 
-Winter idling, heavy loads and city routes all raise consumption, so compare like with like before drawing conclusions. A vehicle that looks expensive in January may simply be the one doing short urban runs, which is worth knowing too.
+**A shop buying at retail still needs the purchase tied to a job.**
 
-## Keeping Personal and Business Fuel Apart
+Small shops buy parts over the counter constantly, usually because a job is waiting on a lift. Those purchases belong to a repair order, and noting the order number on the parts record is what keeps job costing accurate. Without it, the parts spend lands in a general pile and the job looks more profitable than it was.
 
-**One vehicle used both ways needs a rule, not a memory.**
+Shops in Texas and New York running trade accounts often receive monthly statements rather than individual receipts, which makes the per-purchase record more important rather than less. The statement proves what was spent; only the receipt says which job consumed it.
 
-Where drivers take vehicles home or use company fuel cards occasionally for personal trips, decide in advance how that is recorded and reimbursed. A clear policy applied at the pump is straightforward; an unclear one produces a year-end reconstruction that satisfies nobody.
+### Returns and exchanges of parts
 
-Recording the odometer at the start and end of personal use is usually the simplest workable approach, and it keeps the business records accurate without anybody having to remember a Saturday in March.
+Wrong part, wrong fitment or a part that arrives damaged all produce returns. Record the return separately, referencing the original purchase, so the parts cost on the job reflects what was actually consumed rather than what was first carried out of the store.
 
-## Reimbursing Drivers Who Pay Their Own Way
+## Building a DIY Repair Record
 
-**A driver using a personal card needs the same record, plus a clear claim.**
+**A parts receipt plus two lines of notes is a service record.**
 
-Reimbursement is where fuel records most often turn into disputes: a driver remembers filling up, the company has no receipt, and both sides are annoyed. A consistent record built at the pump and submitted weekly removes the argument entirely.
+Write the date, the mileage and what you did beside the parts you bought. That turns a purchase into a maintenance history, which is what a buyer wants to see and what you will want yourself when the same symptom returns in four years.
 
-State rules on expense reimbursement vary, and California in particular has requirements that differ from most other states. Because the specifics depend on where your people work, treat reimbursement policy as a question for your own state and your legal adviser rather than a general rule.
+Owners in California and Florida selling privately often find these records make the difference in a negotiation, because a documented repair history is rare on a private sale and immediately reassuring.
 
-### Per-diem and mileage alternatives
+### Keeping it with the vehicle
 
-Some operations reimburse mileage instead of fuel. Both approaches are ordinary, and the records differ: mileage reimbursement rests on a trip log, while fuel reimbursement rests on receipts. Running both at once, for the same trips, is where double-claiming quietly happens.
+Store the records where they will follow the car: a folder in the house rather than the glovebox, and a digital copy alongside. Glovebox paper is the version that fades, gets damp and disappears at exactly the wrong moment.
 
-### Who owns the reconciliation
+## Why Use makecepeit for Parts Receipts?
 
-One person should. In a small operation that is usually whoever handles the bank, and the habit only holds if it is somebody's named job rather than a task shared by everybody and therefore done by nobody. Fifteen minutes a week is the realistic cost for a fleet of ten vehicles.
+**Because part numbers, core charges and warranty notes all have a place in the layout.**
 
-## Fuel Theft and What Records Reveal
-
-**The records are the only early warning a small fleet gets.**
-
-Fuel loss rarely announces itself. It appears as a vehicle whose consumption drifts, a card used at an unusual hour, a fill larger than the tank, or two purchases the same morning a hundred miles apart. None of those proves anything on its own, and all of them are visible in a reconciled folder within a week.
-
-Operators in Texas and California running crews across wide areas usually find that simply reconciling weekly, and asking about anomalies politely and promptly, removes most of the problem without any confrontation at all.
-
-## Onboarding a New Driver
-
-**Show the record once, on the first shift, and the habit holds.**
-
-Fuel discipline is learned in the first week or not at all. A new driver shown the format at the pump, told which fields are not optional and given a reason for the odometer line will generally keep it up. One told about it by email in month two usually will not.
-
-Keep the explanation short: build it before the truck moves, unit number not description, odometer every time, non-fuel items separately. Four rules cover almost every case, and a fleet where everybody follows them produces a month that closes itself.
-
-## Why Use makecepeit for Fleet Fuel Records?
-
-**Because one layout across every driver is what makes a month of receipts add up.**
-
-- Vehicle and driver fields alongside the fuel detail
-- Gallons and price to three decimals, with a total that reconciles
-- An odometer field on every record
-- Separate lines for non-fuel purchases
-- Consistent output that sorts by vehicle or by month
+- A part number field beside every description
+- Core charges as their own lines, kept out of the part price
+- Warranty length recorded per part
+- Room for the vehicle the parts were fitted to
+- Totals and tax that recalculate as lines change
 - Free to start, with nothing to install
 
-## Tips for Fleet Fuel Discipline
+## Fluids, Consumables and Shop Supplies
 
-- Build the record before the vehicle moves
-- Use unit numbers everybody recognises
-- Photograph the pump when a printer fails
-- Keep one record per fill-up
-- Reconcile against the card statement weekly
-- Total by vehicle at month end
-- Mask card numbers to four digits
+**Oil, coolant and cleaners belong on the record even though nobody warranties them.**
+
+A brake job consumes more than pads and rotors: brake fluid, cleaner, grease, maybe a bleeder kit. None carries a warranty worth claiming, and all of it is part of what the repair cost. Recording the consumables gives an accurate figure when somebody later asks what the job came to.
+
+For a home mechanic in Chicago deciding whether the next repair is worth doing personally, that total is the only honest comparison against a shop quote, and consumables are what most DIY estimates forget.
+
+## Tips Before You File It
+
+- Keep the box until the part number is recorded
+- Write the warranty term beside each part
+- Record core charges and refunds separately
+- Note the vehicle and the mileage at fitting
+- Photograph the old part if it failed early
+- Mask card details to four digits
+- File digitally as well as on paper
 
 ## Common Mistakes to Avoid
 
-- **Chasing receipts at month end.** The capture has already failed by then.
-- **Skipping odometer readings.** Cost per mile becomes uncomputable.
-- **Describing vehicles as "the white van".** Two vans later, nobody knows which.
-- **Letting non-fuel items hide in a fuel total.** Policy questions go unasked.
-- **Reimbursing without a record.** It invites exactly the dispute it is meant to settle.
-- **Running mileage and fuel claims together.** Double claiming happens quietly.
-- **Recording personal fill-ups as business.** That is fraud, not rounding.
+- **Part descriptions without numbers.** Reordering and warranty claims both stall.
+- **Netting a core refund into the purchase.** The statement shows two entries; the records should too.
+- **Assuming you will remember the warranty.** Terms vary from ninety days to lifetime.
+- **Filing in the glovebox.** Heat and damp finish thermal paper quickly.
+- **Skipping the vehicle.** A parts receipt with no car attached is half a record.
+- **Inventing a store transaction code.** Fabricated identifiers are worse than blank fields.
+- **Changing a purchase date.** That is warranty fraud, not paperwork tidying.
 
 ## Final Takeaway
 
-A fuel receipt maker earns its place when fuel is bought weekly rather than occasionally. Standardise the record, capture it at the pump, put the odometer on every one, and reconcile against the card statement while the week is still fresh.
+An AutoZone receipt generator is worth using because a DIY repair leaves no other paperwork. Record part numbers, keep core charges on their own lines, write down the warranty term, and attach the vehicle and mileage. What you end up with is a repair history that supports a claim and reassures a buyer.
 
-For the detail of a single fill-up, our [fuel receipt generator](/blog/fuel-receipt-generator) guide covers it field by field.
+For anything needing the retailer's own record, such as a return at the counter, ask the store. For your own files, an accurate record built at the time does the job.
 
-## Create Your Fleet Fuel Records With makecepeit
+## Create Your Parts Receipt With makecepeit
 
-Give every driver the same layout, capture the odometer at the pump, and reconcile a month that actually adds up. [Start your fuel records](/create) and total them by vehicle.`,
+Enter the parts, the numbers and the core charges, and file a record your future self can actually use. [Build your parts receipt](/create) before the box goes in the bin.`,
     faqs: [
       {
-        q: "What is a fuel receipt maker?",
-        a: "It is the same fuel record used at volume, with vehicle and driver fields added so a month of fill-ups can be sorted and reconciled.",
+        q: "What is an AutoZone receipt generator?",
+        a: "It is a builder for a parts purchase you made, recording part numbers, prices, core charges and warranty terms as your own repair record.",
       },
       {
-        q: "Why capture the odometer every time?",
-        a: "Because cost per mile is the number a fleet manages, and it cannot be calculated from fuel totals alone without a reading at each fill.",
+        q: "Why record the part number?",
+        a: "Because it lets you reorder the identical component, support a warranty claim, and tell a mechanic exactly what was fitted years later.",
       },
       {
-        q: "How often should fuel records be reconciled?",
-        a: "Weekly. A small recent week takes minutes to check, while a month produces questions nobody can answer accurately.",
+        q: "What is a core charge?",
+        a: "A refundable deposit on the old unit, common on alternators, starters and batteries, returned in full when the core goes back in acceptable condition.",
       },
       {
-        q: "What does a missing card line mean?",
-        a: "Often a driver used a personal card and is awaiting reimbursement. It may also mean a receipt was captured for the wrong vehicle.",
+        q: "Should a core refund be netted off?",
+        a: "No. The card statement carries a charge and a later credit, so keeping the purchase and the refund as separate records matches what actually happened.",
       },
       {
-        q: "Should vehicles be named or numbered?",
-        a: "Numbered. Unit numbers stay unambiguous as a fleet changes, while descriptions like the white van stop identifying anything after the second one.",
+        q: "What starts a parts warranty?",
+        a: "The purchase date on the receipt. Terms range from ninety days to limited lifetime, which is why the term is worth noting beside each part.",
       },
       {
-        q: "Can non-fuel items go on a fuel card?",
-        a: "That depends on your policy, and the record should show them separately either way so the question can be asked before it becomes a habit.",
+        q: "Does a warranty replacement reset the term?",
+        a: "Often not. Many manufacturers run the replacement from the original purchase date, so keeping both receipts together is the safest approach.",
       },
       {
-        q: "How should driver reimbursement work?",
-        a: "Against a consistent record built at the pump and submitted weekly. State rules on reimbursement vary, so confirm what applies where your drivers work.",
+        q: "Should I record the vehicle?",
+        a: "Yes. A parts receipt with no vehicle attached is half a record, and the mileage at fitting turns it into part of a service history.",
       },
       {
-        q: "Can we reimburse mileage and fuel together?",
-        a: "Running both for the same trips is how double claiming happens. Pick one method per vehicle and apply it consistently.",
+        q: "Where should parts receipts be kept?",
+        a: "In a folder indoors with a digital copy, not the glovebox. Heat and damp destroy thermal paper faster than most owners expect.",
       },
       {
-        q: "What if gallons exceed the tank size?",
-        a: "Ask. It may be a fill into an approved container or a misread figure, and either answer is easier to get in the same week.",
+        q: "Can a built record be used for a return?",
+        a: "Generally not. Counter returns are verified against the retailer's own transaction records, so ask the store for the original.",
       },
       {
-        q: "Is recording personal fuel as business legal?",
-        a: "No. Fuel records should document fuel bought for the vehicles named, and recording personal fill-ups as business expenses is fraud.",
+        q: "Is recording parts purchases legal?",
+        a: "Documenting parts you genuinely bought is ordinary record-keeping. Recording parts never purchased, or altering a date to extend a warranty, is fraud.",
       },
     ],
   },

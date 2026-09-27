@@ -1,452 +1,459 @@
 /**
- * Oct-sprint — Day 2026-10-13 (2 posts). Notion board Order 23 and 24, auto cluster.
- *   23. "mechanic receipt template"       260/mo · CPC $5.54 · High -> /templates/auto-repair
- *   24. "mechanic shop receipt template"  140/mo · CPC $8.69 · High -> /templates/auto-repair
+ * Oct-sprint — Day 2026-10-13 (2 posts). Notion board Order 25 and 26, auto cluster.
+ *   25. "oil change receipt template"  140/mo · CPC $3.85 · High -> /templates/auto-repair
+ *   26. "towing receipt template"      170/mo · CPC $5.74 · High -> /blog/towing-service-receipt-generator
  *
- * Cannibalization guard: #23 is the one-person business — independent and mobile
- * mechanics working from a van or a driveway, paid on the spot, often in cash, with
- * no service adviser between them and the customer. #24 is the multi-bay shop:
- * repair order numbers, technicians, copies, sublet work and end-of-day reconciling.
- * Neither restates #21 (the document's fields) or #22 (estimate to paid sequence).
+ * Cannibalization guard: #25 closes the repair run by owning the MAINTENANCE record —
+ * mileage, oil spec, service interval and the next-service line, which is a different
+ * document from a repair (#21), a sequence (#22), an independent's receipt (#23) or a
+ * shop's repair order (#24). #26 moves to towing: pickup, drop-off, mileage, storage
+ * and the insurance or motor club claim that usually reads it.
  *
- * Link targets verified live 2026-09-24: /templates/auto-repair and the Oct 11 pair,
- * which publish two days before these.
+ * Live overlap: /blog/towing-service-receipt-generator (Aug, industry spoke) already
+ * covers running a towing business. #26 owns the receipt document itself and links it.
+ * Targets verified live 2026-09-24.
  *
- * Legitimacy: receipts for work genuinely performed; cash jobs documented rather than
- * hidden; no suggestion a receipt substitutes for the shop's own record.
+ * Legitimacy: records of services actually performed; no backdated maintenance,
+ * no invented mileage, storage charges disclosed rather than discovered.
  */
 
 export const OCT_13 = [
   {
-    slug: "mechanic-receipt-template",
-    image: "assets/mechanic-receipt-template.jpeg",
+    slug: "oil-change-receipt-template",
+    image: "assets/oil-change-receipt-template.jpeg",
     category: "small-business",
     publishedAt: "2026-10-13T09:30:00Z",
-    title: "Mechanic Receipt Template for Independents",
-    seoTitle: "Mechanic Receipt Template for Independents",
+    title: "Oil Change Receipt Template and Service History",
+    seoTitle: "Oil Change Receipt Template and Service History",
     seoDescription:
-      "Learn how a mechanic receipt template works for independent and mobile mechanics, covering cash jobs, signatures and numbering, with Makecepeit.",
+      "Learn what an oil change receipt template records, from mileage and oil specification to the next service due, and how to issue one with Makecepeit.",
     excerpt:
-      "A mechanic receipt template gives an independent or mobile mechanic one document to hand over at the roadside or the driveway, with parts, labor and payment recorded. Here's what it holds.",
-    body: `A **mechanic receipt template** is a reusable layout for a one-person repair business, used by independent mechanics, mobile technicians and weekend operators who work from a van rather than a shop floor. It produces the document handed to a customer when the job is done, showing the vehicle, the parts, the labor and how payment was made.
+      "An oil change receipt template records the mileage, the oil specification and the next service due, which is what turns a routine service into a maintenance history. Here's what belongs on it.",
+    body: `An **oil change receipt template** is a service document for routine maintenance, used by quick-lube operators, repair shops, mobile technicians and owners keeping their own records. It captures the mileage at service, the oil and filter fitted, and the point at which the next service falls due.
 
-An independent has no service adviser, no counter and often no printer. Makecepeit lets you [create a receipt](/create) from a fixed layout on a phone, so a roadside battery swap in Phoenix and a driveway brake job in Atlanta both end with a record the customer can keep.
+A repair receipt proves a fault was fixed. A maintenance receipt proves a schedule was followed, which is a different job and a longer-lived one. Makecepeit lets you [create a service receipt](/create) from a fixed layout, so a routine change in Dallas reads the same as one in Seattle two years later.
 
-## What Is a Mechanic Receipt Template?
+## What Is an Oil Change Receipt Template?
 
-**It is a fixed layout an independent mechanic fills in per job, so every customer leaves with the same clear document.**
+**It is a maintenance layout built around mileage, oil specification and the next service due.**
 
-The template holds the business identity, the vehicle fields, the parts and labor sections and the payment line. Only the job changes. For a sole operator that consistency does two things at once: it makes the business look organised to a customer deciding whether to call again, and it gives the owner records that reconcile at tax time without a reconstruction exercise.
+The fields are deliberately narrow. A routine service does not need a parts-and-labor breakdown running to twenty lines; it needs the few facts that matter later — when it happened, at what odometer reading, with what oil, and when the next one is expected. Everything else is supporting detail.
 
-It documents work genuinely performed on a vehicle, which is the only thing that makes it worth issuing.
+Those few facts are what a manufacturer, a buyer or a warranty administrator will ask for, and they are the ones most often missing from a hurried receipt.
 
-### Why independents need this more than shops do
+### Why a maintenance record outlives a repair record
 
-A shop has a system that numbers jobs whether anybody thinks about it or not. An independent has a phone, a toolbox and whatever habit they build. Without a template, the record of a busy Saturday is three text messages and a memory, and the first customer to query a charge in November will find nothing to argue with.
+A repair receipt matters until the warranty on that part expires. A maintenance record matters for as long as somebody owns the vehicle, because it is the evidence that the schedule was kept. That is why the same shop may reasonably keep a tighter grip on oil change records than on one-off repairs.
 
-## What Should a Mechanic Receipt Include?
+## What Should an Oil Change Receipt Include?
 
-- **Business name** as you trade, plus a phone number
-- **Your license or registration number**, where your state requires one
-- **Customer name** and the service location
-- **Vehicle year, make, model and mileage**
-- **Receipt number**, in a sequence you control
-- **Date of the work**
-- **Parts supplied**, each with quantity and price
-- **Labor**, as hours and rate or as a flat-rate line
-- **Any call-out or travel charge**, named plainly
-- **Sales tax** where it applies to the portion your state taxes
-- **Total**, and the amount actually received
-- **Payment method**, with cash stated as cash
+- **Business name and address**, plus a phone number
+- **Customer name**
+- **Vehicle year, make and model**
+- **Mileage at service**, taken from the odometer that day
+- **Date of service**
+- **Oil type and viscosity**, such as full synthetic 0W-20
+- **Quantity of oil**, in quarts
+- **Filter part number**, where you record it
+- **Any additional service** performed, such as a tire rotation
+- **Labor or service charge**
+- **Sales tax** on whatever portion your state taxes
+- **Total and payment method**
+- **Next service due**, by mileage and approximate date
 
-### Fields worth adding for mobile work
+### The three fields that carry the record
 
-The service location matters more than it does in a shop, because you were not at a fixed address. Note the street and city, or the yard or lot, so the job can be identified later. A short line naming what the customer reported, in their words, is also useful when a comeback happens.
+Mileage, oil specification and next service due are what make the document a maintenance record rather than a payment receipt. Without them it proves money changed hands and nothing about the vehicle's history.
 
-## Cash Jobs, Signatures and Proof of Payment
+## Oil Specification: Why the Detail Matters
 
-**Cash is legitimate and leaves no trail, which is exactly why the receipt has to carry the weight.**
+**Modern engines specify an oil grade, and the receipt is where that choice is documented.**
 
-A card payment produces a record on both sides. Cash produces nothing unless somebody writes it down, so the receipt becomes the only evidence that money changed hands. Two details make it hold up: the amount received written in words as well as figures, and a signature line the customer signs when they take the copy.
+Manufacturers publish a required viscosity and often a specification standard for each engine. A receipt that says only "oil change" leaves a later reader unable to tell whether the correct grade went in, which may matter if a warranty claim is assessed. One that records full synthetic 0W-20, five quarts, answers it permanently.
 
-| Payment | What already exists | What the receipt must add |
+| Field | Example | Why it is recorded |
 |---|---|---|
-| Card | Processor and bank records | The job detail behind the charge |
-| Bank transfer | A dated transfer record | What the payment was for |
-| Cash | Nothing | The whole record, ideally signed |
-| Partial payment | A record of one amount | The balance still outstanding |
-| Customer-supplied part | No purchase record for you | What you fitted and what you warrant |
+| Oil type | Full synthetic | Affects interval and price |
+| Viscosity | 0W-20 | Manufacturer specifies it per engine |
+| Quantity | 5 quarts | Shows a full service was performed |
+| Filter | Part number | Supports a claim if the filter fails |
+| Mileage | 48,210 | Fixes the service against the schedule |
+| Next due | 53,210 or six months | Sets the customer's expectation |
 
-Where a customer pays part now and part later, say so on the document. A balance line naming the outstanding amount and the agreed date prevents the disagreement that otherwise arrives a fortnight afterwards.
+Where a customer requests a different grade from the manufacturer's recommendation, note the request on the document. It is their vehicle and their choice, and a line recording it protects everyone if the question comes up later.
 
-## Why Independent Mechanics Need Records in the United States
+## Why Maintenance Records Matter in the United States
 
-**Because the paperwork is what separates a business from a favour.**
+**Because the service history is the part of a vehicle's paperwork that carries value.**
 
-Self-employed mechanics report income like any other sole proprietor, and the IRS expects records that support what a return claims. Parts bought for a job are business costs; cash taken for that job is business income. Neither reaches a return reliably unless a receipt exists, and a shoebox of handwritten notes is the version that falls apart under any scrutiny.
+At resale, a documented history may support the asking price, particularly on a high-mileage vehicle in a competitive market. Under warranty, a manufacturer assessing a powertrain claim will generally want evidence that scheduled maintenance was performed, and receipts are the usual evidence. Owners in Chicago, Miami and Houston all face the same question when a dealer asks for service records.
 
-State rules add a second layer. Mechanics in California, Texas and Florida may face registration, disclosure or written-estimate requirements that differ considerably, and your state department of revenue governs the sales tax side. Because both depend on where you work, treat them as questions for your own state and a tax professional.
+For the business issuing them, these are also tax records. The IRS expects records supporting what a return claims, and your state department of revenue governs how a service like this is taxed. Both depend on your circumstances, so a tax professional is the right person to ask about your own.
 
-> **Important:** a mechanic receipt records work that was actually performed and money that was actually received. Issuing a receipt for work never done, or understating cash taken, is fraud.
+> **Important:** a service receipt records work that was actually carried out at the mileage shown. Backdating a service, or recording maintenance that never happened, is fraud and may void the warranty it was meant to support.
 
-## How to Issue a Receipt on the Job
+## How to Issue an Oil Change Receipt
 
-1. **Start the record before you pack up**, while the detail is in front of you.
-2. **Enter the vehicle and mileage** from the odometer, not from memory.
-3. **List the parts** you fitted, with quantities and prices.
-4. **Add the labor**, as hours or as the flat rate you quoted.
-5. **Name any call-out or travel charge** on its own line.
-6. **Apply tax** where your state taxes the work.
-7. **Take payment** and record the method, including cash.
-8. **Have the customer sign** the copy where the payment was cash.
-9. **Send or hand over their copy** and keep yours.
+1. **Read the odometer** and record the figure before the vehicle is lifted.
+2. **Note the oil** by type, viscosity and quantity.
+3. **Record the filter** part number if you track them.
+4. **Add any extra service** performed on the same visit.
+5. **Enter the charge** and apply tax as your state requires.
+6. **Calculate the next service** by mileage and by date.
+7. **Print or send the copy** and keep your own.
+8. **File it by vehicle**, so the history builds in one place.
 
-![A mechanic receipt template shown as a clean banner layout, with an independent mechanic's business name at the top, the service location and vehicle mileage beneath, separate parts and labor lines, a cash payment row and a signature line at the foot.](assets/mechanic-receipt-template-2.jpeg)
+![An oil change receipt template shown as a clean banner layout, with a quick-lube business name in the header, mileage in and oil specification rows beneath, quantity and filter lines, a highlighted total and a next-service-due line at the foot.](assets/oil-change-receipt-template-2.jpeg)
 
-## Numbering Receipts When You Are the Whole Business
+### Next service due, by miles and months
 
-**Pick a sequence and never restart it.**
+Write both. Mileage alone fails the driver who covers 3,000 miles a year, and a date alone fails the courier who covers 3,000 a month. Giving the earlier of the two is the convention most shops follow, and it saves a phone call later.
 
-A simple year-and-number scheme works everywhere: 2026-001 onwards, one number per job, no gaps and no reuse. That single habit gives a sole operator something a shop gets from software — a way to refer to a job, find it again and prove the record is a series rather than a collection of loose documents.
+## Intervals, Severe Service and Honest Advice
 
-Where you void a receipt, keep the number and mark it void rather than reusing it. A missing number invites the question a full sequence never raises.
+**Recommend the interval the manufacturer publishes, adjusted for how the vehicle is actually used.**
 
-### Keeping a running list
+Manufacturers often define a severe service schedule for short trips, towing, dusty conditions or extended idling, and many real drivers fall into it without knowing. A receipt that records which schedule was applied, and why, gives the customer something to act on rather than a sticker in the corner of a windscreen.
 
-A one-line index per job, listing number, date, customer, vehicle and total, takes seconds to maintain and turns a folder into something searchable. At year end, it is also the fastest route to a total that matches the bank.
+Avoid intervals shorter than the manufacturer's without a stated reason. An unexplained short interval reads as a shop selling services rather than maintaining a vehicle, and customers compare notes.
 
-## Estimates Before You Start
+## Additional Services on the Same Visit
 
-**A short written quote generally prevents the only argument an independent is likely to have.**
+**A routine visit often includes small extras, and each deserves its own line.**
 
-Customers rarely dispute good work; they dispute a figure they were not expecting. A two-line message naming the expected parts cost, the labor and the call-out charge usually does the whole job, and it may be a requirement in your state once the amount passes a threshold.
+Tire rotations, cabin filters, wiper blades and fluid top-ups are commonly done while a vehicle is already on the lift. Listing them separately serves the customer, who can see what they paid for, and the shop, which can show later that a rotation happened at a particular mileage.
 
-Send it before you begin, keep it with the job, and if the work grows once the wheel is off, say so and get a yes before continuing. Most states that regulate repair disclosure care about exactly that moment, and the rules vary enough that your own state's requirements are worth reading once.
+It also keeps the maintenance record honest. A single line reading service, covering four different jobs, tells a future reader nothing about which of them was actually performed at that mileage.
 
-### When a job turns out bigger
+### Recommendations the customer declined
 
-A seized bolt, a snapped stud or a second failed component may turn a one-hour job into three. Tell the customer what you found, what it now costs and what happens if it is left, then record the answer with the time. Written at the moment, it takes seconds; reconstructed later, it usually cannot be done honestly.
+Where an inspection turns up something the customer chose not to address today, record it as a factual note: the item, the mileage and the date it was raised. That protects both sides if the component fails later, and it gives the next technician a starting point.
 
-## Warranting Your Own Work
+## Stickers, Reminders and the Next Visit
 
-**Say what you warrant, for how long, and what voids it.**
+**The windscreen sticker is a convenience; the receipt is the record.**
 
-An independent lives on repeat customers, and the warranty line is what makes a first-time caller comfortable. State it plainly: the part warranty passed through from the supplier, the labor warranty you offer yourself, and any exclusions such as customer-supplied parts.
+Most quick-lube operations fit a reminder sticker, and most customers rely on it until it falls off or fades. Because the sticker carries no proof of anything, the receipt has to carry the same figures in a form that survives, which is another reason to write the next service due in both miles and months.
 
-Where a customer brings their own component, record it on the line and say what you cover. Fitting a part you did not source is ordinary, and being explicit about the arrangement protects the relationship if the part fails.
+Where you send reminders by text or email, referencing the receipt number keeps the conversation tied to a real record rather than an approximate memory of a visit.
 
-## Getting Paid Without a Card Terminal
+## Fleet and Company Vehicle Services
 
-**Name the payment method on the document, whatever it was.**
+**Fleets need the vehicle identified their way, not yours.**
 
-Independents take payment in more ways than shops do: cash at the kerb, a bank transfer that afternoon, a payment app, or a card reader plugged into a phone. Each leaves a different trail, and the receipt is what ties the method to the job.
+A fleet operator tracks cost per unit and service compliance across dozens of vehicles. Recording the unit number alongside the plate, and keeping the mileage accurate to the odometer rather than rounded, makes your receipts usable inside their system. Rounded mileage is the single most common complaint fleet managers raise about service paperwork.
 
-A transfer that arrives the next day should show as a balance outstanding until it lands, then be updated. Marking a job paid before the money moves is how a busy week ends with two invoices nobody can account for, and reconciling weekly usually catches it while the detail is still fresh.
+### Batching several vehicles
 
-### Deposits on parts
+When a fleet brings in four vans on one day, issue one receipt per vehicle rather than one combined invoice. Each vehicle's history should stand alone, and a combined document makes every future lookup harder than it needs to be.
 
-Where a job needs an expensive component ordered up front, taking a deposit is ordinary and worth documenting properly: the amount received, what it is for, and whether it is refundable if the customer changes their mind. That one line may save a genuinely awkward conversation.
+## Why Use makecepeit for Service Receipts?
 
-## Why Use makecepeit for Mechanic Receipts?
+**Because the maintenance fields are already in the layout, and nothing has to be retyped.**
 
-**Because a template on a phone beats a notebook in a toolbox, and the math is done for you.**
-
-- Parts and labor sections that stay separate
-- Line totals and tax that calculate as you type
-- Room for the vehicle, mileage and the service location
-- A signature line for cash jobs
-- Clean file output you can text or email from the driveway
+- Mileage, oil specification and next-service fields in fixed positions
+- Space for additional services performed on the same visit
+- Totals and tax that calculate as lines change
+- Consistent output that builds into a readable service history
+- Clean files you can email to a customer or a fleet office
 - Free to start, with nothing to install
 
-The same layout scales from a roadside jump start to a two-day engine job.
+## Owner-Kept Records Between Shops
 
-## Tips for Working Without a Shop
+**A history only works if it survives a change of garage.**
 
-- Build the record before leaving the job
-- Photograph the odometer if you are rushed
-- Keep a spare charged phone or a paper pad as a fallback
-- Number every job, including free comebacks
-- Say cash on the document when the payment was cash
-- Keep supplier invoices for the parts you fitted
-- Reconcile your week against the bank every Friday
+Vehicles move between shops, and each one keeps its own files. The owner is the only person who holds the whole history, which is why the copy handed over matters as much as the copy filed. A one-page record per service, kept in a folder or a phone album, is usually enough.
+
+Drivers in Texas and California selling privately often find this is what separates a quick sale from a long negotiation, because a buyer can see the schedule rather than take a seller's word for it.
+
+### Digital copies and photographs
+
+A photographed receipt is better than a lost one, though a file emailed at the time is better still. Where a shop offers to send the record, take it, and keep the message rather than relying on the paper copy in the glovebox surviving two summers.
+
+## Tips Before You Hand It Over
+
+- Read the odometer, never estimate it
+- Record viscosity as well as oil type
+- Write the next service by both miles and months
+- Note any customer-requested deviation from the specification
+- Keep one receipt per vehicle
+- Mask card details to four digits
+- File by vehicle so the history accumulates
 
 ## Common Mistakes to Avoid
 
-- **No receipt at all on cash jobs.** The one payment with no trail is the one needing a document.
-- **Restarting the numbering.** Gaps and repeats make a series look improvised.
-- **Leaving out the service location.** On mobile work it is how a job is identified later.
-- **Bundling travel into the labor rate.** Name the call-out charge instead.
-- **Silence on customer-supplied parts.** Record what you fitted and what you warrant.
-- **Verbal warranties.** If it is not on the document, it will be remembered differently.
-- **Losing supplier invoices.** Your costs matter as much as your income at tax time.
+- **Omitting mileage.** The document stops being a maintenance record.
+- **Recording only "oil change".** The grade is what a warranty assessor asks about.
+- **Rounding the odometer.** Fleet systems and service schedules both need the real figure.
+- **Next service by date only.** A high-mileage driver will be well past due.
+- **Silent short intervals.** State the reason, or the recommendation looks like a sale.
+- **One invoice for four fleet vehicles.** Each vehicle needs its own history.
+- **Backdating a service.** It falsifies the record the customer relies on.
 
 ## Final Takeaway
 
-A mechanic receipt template gives a one-person business the paperwork discipline a shop gets from its systems. Number the jobs, record the vehicle and mileage, keep parts and labor apart, state the warranty and say plainly when a payment was cash.
+An oil change receipt template works because it captures the few facts that matter for years: the mileage, the oil, the filter and the next service due. Record those accurately and a routine visit becomes part of a history that supports a warranty claim or a resale price.
 
-For the fields the document itself should hold, our [auto repair receipt template](/blog/auto-repair-receipt-template) guide goes through them one by one, and the [auto repair template](/templates/auto-repair) gives you a layout to start from.
+For the wider repair document, our [auto repair receipt template](/blog/auto-repair-receipt-template) guide covers the parts-and-labor structure, and the [auto repair template](/templates/auto-repair) gives you a layout to start from.
 
-## Create Your Mechanic Receipt With makecepeit
+## Create Your Service Receipt With makecepeit
 
-Enter the vehicle, the parts and the labor, take payment and hand over a copy before you leave the driveway. [Build your receipt](/create) and keep the sequence running.`,
+Enter the mileage, the oil and the next service due, and hand over a record that still means something in three years. [Build your service receipt](/create) and file it by vehicle.`,
     faqs: [
       {
-        q: "What is a mechanic receipt template?",
-        a: "It is a reusable layout for a one-person repair business, holding the vehicle, parts, labor and payment details so every job ends with the same document.",
+        q: "What is an oil change receipt template?",
+        a: "It is a maintenance document built around mileage, oil specification and the next service due, rather than the parts-and-labor structure a repair receipt uses.",
       },
       {
-        q: "Do I need a receipt for a cash job?",
-        a: "Especially then. A card payment leaves records on both sides, while cash leaves nothing unless the receipt records it, ideally with a signature.",
+        q: "Why record the oil viscosity?",
+        a: "Manufacturers specify a grade for each engine, and a receipt naming only an oil change cannot show the correct specification was used if a claim is assessed.",
       },
       {
-        q: "Should a mobile mechanic record the location?",
-        a: "Yes. Without a fixed shop address, the street, city or yard where the work happened is how the job gets identified months later.",
+        q: "Should mileage be exact?",
+        a: "Yes. Service schedules and fleet systems both work from the real odometer reading, and rounding is the most common complaint fleet managers raise.",
       },
       {
-        q: "How should I number my receipts?",
-        a: "A simple year-and-number sequence works well: 2026-001 onwards, one per job, no gaps, no reuse, and voided numbers marked rather than recycled.",
+        q: "How should the next service be shown?",
+        a: "By mileage and by date, with whichever comes first. Mileage alone fails a low-mileage driver, and a date alone fails a high-mileage one.",
       },
       {
-        q: "What about parts the customer supplies?",
-        a: "Record them on the line as customer supplied, and state what you warrant. Fitting a part you did not source is normal, but the terms should be explicit.",
+        q: "What is severe service?",
+        a: "A shorter manufacturer schedule for short trips, towing, dust or heavy idling. Where it applies, record which schedule was used and why.",
       },
       {
-        q: "Should travel charges be separate?",
-        a: "Yes. A named call-out or travel line is easy to explain, while the same amount folded into an hourly rate usually prompts a question.",
+        q: "What if a customer wants a different oil?",
+        a: "Fit what they ask for if it is safe to do so, and note the request on the receipt so the deviation from the specification is documented.",
       },
       {
-        q: "What records do I keep for taxes?",
-        a: "Both sides: the receipts you issue and the supplier invoices for parts you bought. What applies to your situation is a question for a tax professional.",
+        q: "Can one receipt cover several fleet vehicles?",
+        a: "Better not. One receipt per vehicle keeps each service history complete and makes future lookups far easier for the fleet office.",
       },
       {
-        q: "How do I handle a partial payment?",
-        a: "Show the amount received and the balance outstanding with the agreed date, so both parties read the same figures a fortnight later.",
+        q: "Does a service receipt help at resale?",
+        a: "It may. A documented history is often what supports an asking price on a higher-mileage vehicle, because the buyer can see the schedule was kept.",
       },
       {
-        q: "Does a signature matter on a receipt?",
-        a: "On cash work it may be the only confirmation the customer received the document and the money changed hands, so it is worth the ten seconds.",
+        q: "Do manufacturers require receipts for warranty?",
+        a: "Claims are generally assessed with evidence that scheduled maintenance was performed, and receipts are the usual evidence. Requirements vary by manufacturer.",
       },
       {
-        q: "Is issuing my own receipts legal?",
-        a: "Yes, and it is expected of any business. Issuing receipts for work that never happened, or understating cash income, is fraud.",
+        q: "Is backdating a service record illegal?",
+        a: "Recording maintenance that did not happen, or dating it falsely, is fraud, and it may void the very warranty the record was meant to support.",
       },
     ],
   },
   {
-    slug: "mechanic-shop-receipt-template",
-    image: "assets/mechanic-shop-receipt-template.jpeg",
+    slug: "towing-receipt-template",
+    image: "assets/towing-receipt-template.jpeg",
     category: "small-business",
     publishedAt: "2026-10-13T14:00:00Z",
-    title: "Mechanic Shop Receipt Template and Repair Orders",
-    seoTitle: "Mechanic Shop Receipt Template and Repair Orders",
+    title: "Towing Receipt Template: Miles, Storage, Claims",
+    seoTitle: "Towing Receipt Template: Miles, Storage, Claims",
     seoDescription:
-      "Learn how a mechanic shop receipt template handles repair order numbers, technicians, copies and sublet work across a multi-bay shop, with Makecepeit.",
+      "Learn what a towing receipt template records, from pickup and drop-off to mileage, hook-up fees and storage, and how to issue one with Makecepeit.",
     excerpt:
-      "A mechanic shop receipt template ties a repair order to a technician, a vehicle and a final bill, so several bays and several hands still produce one consistent record. Here's how.",
-    body: `A **mechanic shop receipt template** is a repair document built for a business with more than one pair of hands, used by multi-bay shops, service departments and franchise operations. It links a repair order number to a vehicle, a technician and a final bill, so several jobs moving at once still produce records that read alike.
+      "A towing receipt template records where the vehicle was collected, where it went, how far it travelled and what was charged, which is what an insurer or motor club reads. Here's what belongs on it.",
+    body: `A **towing receipt template** is a service document for recovery work, used by tow operators, roadside assistance providers and repair shops that run their own truck. It records where the vehicle was collected, where it was taken, the distance covered and every charge that applied, from the hook-up fee to any storage that followed.
 
-A sole operator can hold a day in their head. A shop with four bays and a service adviser cannot. Makecepeit lets you [build a repair receipt](/create) from a fixed structure, so the paperwork a shop in Dallas issues on a Monday matches the paperwork it issues in December.
+Towing paperwork is read by somebody who was not there: an insurer, a motor club, a fleet manager or an owner disputing a charge. Makecepeit lets you [create a receipt](/create) from a fixed layout, so a night recovery outside Houston and a scheduled transport in Atlanta both produce records that answer the obvious questions.
 
-## What Is a Mechanic Shop Receipt Template?
+## What Is a Towing Receipt Template?
 
-**It is a standard repair layout keyed to a repair order number, so any job can be traced from booking to payment.**
+**It is a recovery layout built around two locations, a distance and a list of named charges.**
 
-The repair order is the spine. It opens when the vehicle arrives, gathers parts and labor as technicians work, and closes as the receipt the customer pays against. Everything else — the technician assignment, the sublet invoice, the warranty terms — hangs off that number.
+A retail receipt describes items. A towing receipt describes a journey and the work around it: the call, the hook-up, the miles, the wait, the drop, and sometimes the days a vehicle then sits in a yard. Because the charges are unfamiliar to most customers, naming each one plainly is the difference between a bill that is paid and one that is queried.
 
-For a shop, consistency is not a filing preference. It is what lets a service adviser answer a question about a job they did not write up, and what lets an owner see where the hours went.
+Our guide to running a [towing service receipt generator](/blog/towing-service-receipt-generator) covers the business side more widely; this post is about the document.
 
-### How this differs from a one-person receipt
+### Who actually reads it
 
-An independent mechanic issues a document at the end of a job they did themselves, which our [mechanic receipt template](/blog/mechanic-receipt-template) guide covers. A shop issues a document assembled by several people, which is why the number, the technician field and the copy discipline matter here and barely register there.
+Rarely the driver alone. Insurance adjusters, motor club claim handlers, body shops and fleet offices all read towing receipts, and each is looking for the same things: the date and time, both locations, the mileage and an itemized set of charges that add up to the total.
 
-## What Should a Shop Receipt Include?
+## What Should a Towing Receipt Include?
 
-- **Shop name, address and license number**, as your state requires
-- **Repair order number**, unique and sequential
-- **Service adviser** who wrote the job up
-- **Technician or bay** that performed the work
-- **Customer and vehicle**, with year, make, model and mileage
-- **Dates in and out**, which may differ by days
-- **Parts lines**, with part numbers where you carry them
-- **Labor lines**, by operation, with hours and rate
-- **Sublet work**, named as sublet with the supplier
-- **Shop supplies and disposal fees**, itemized
-- **Sales tax**, applied to what your state taxes
+- **Company name, address and any license or permit number** your state or city requires
+- **Truck or unit number**, and the driver
+- **Date and time** of the call and of completion
+- **Customer name**, and the vehicle owner if different
+- **Vehicle year, make, model, color and plate**
+- **Pickup location**, as precisely as you can state it
+- **Drop-off location**
+- **Loaded mileage**, and any dead miles you charge for
+- **Hook-up or service call fee**
+- **Per-mile charge and the rate applied**
+- **Waiting time, winching or recovery charges**, where they apply
+- **Storage**, with the daily rate and the days charged
+- **Sales tax** where your state applies it
 - **Total, payment method and any balance**
-- **Warranty terms**, printed rather than spoken
 
-### Why the technician field earns its place
+### Condition at pickup
 
-When a repair comes back, the first useful question is who did it. Not to apportion blame, but because that technician knows what they found and what they fitted. A record without the name sends a service adviser around the shop asking, which is exactly the delay a returning customer notices.
+Note visible damage before the vehicle is loaded, and photograph it. Recovery disputes commonly turn on whether damage existed beforehand, and a line on the receipt describing the condition at pickup is the cheapest protection an operator has.
 
-## Repair Order Numbers and Traceability
+## Mileage, Hook-Up Fees and How Charges Stack
 
-**One number should follow a job from the booking through to the accounts.**
+**Show the components, not just the total, because that is how the charge gets approved.**
 
-| Stage | What is added | Who adds it |
+| Charge | What it covers | How it is usually shown |
 |---|---|---|
-| Booking | Customer, vehicle, reported fault | Service adviser |
-| Inspection | Findings and recommended work | Technician |
-| Estimate | Expected parts and labor | Service adviser |
-| Authorization | What the customer approved, and when | Service adviser |
-| Work | Parts consumed, hours recorded | Technician |
-| Invoice | Totals, tax, payment | Front desk |
+| Hook-up or service call | Attending and securing the vehicle | Flat fee |
+| Loaded miles | Distance with the vehicle aboard | Rate per mile times miles |
+| Dead miles | Distance to reach the vehicle | Rate per mile, where charged |
+| Winching or recovery | Extracting a vehicle off-road | Flat fee or per half hour |
+| Waiting time | Time held at the scene | Per fifteen or thirty minutes |
+| After-hours | Night, weekend or holiday premium | Flat or percentage |
+| Storage | Days the vehicle occupies the yard | Daily rate times days |
 
-A shop that keeps that chain can answer almost any question about a job in under a minute. A shop that numbers estimates separately from invoices generally cannot, because the two halves of the story never meet.
+An insurer comparing this against a policy limit can approve an itemized bill quickly. A single line reading recovery, with a number beside it, generally comes back with questions, and the delay is the operator's problem rather than the customer's.
 
-## Copies: Customer, File and Accounts
+## Why Towing Records Matter in the United States
 
-**Issue one document, keep identical copies, and never let the versions drift.**
+**Because towing is one of the most regulated and most disputed services on the road.**
 
-The customer's copy goes home. The file copy supports a warranty claim and any later dispute. The accounts copy feeds the books. All three should carry the same figures, which sounds obvious until somebody adjusts a total at the counter without updating the file.
+Many states and cities set maximum rates for non-consent tows, require specific disclosures, and regulate how quickly an owner must be notified when a vehicle is taken. The rules differ sharply between jurisdictions, and what is standard practice in Texas may not be permitted in California or Florida. Because of that, your own state and city requirements are the reference, not a general article.
 
-### What stays internal
+The paperwork is also the claim. Motor clubs and insurers reimburse against it, the FTC and state consumer agencies receive complaints about it, and an operator with itemized, timed, photographed records is in a stronger position than one relying on a handwritten total. Tax treatment varies too, so ask a tax professional how your services should be recorded.
 
-Technician notes about diagnosis, internal cost prices and parts margin belong in the shop's own systems. The customer copy carries what was done, what it cost and what is warranted, with the payment card masked to four digits.
+> **Important:** a towing receipt records a recovery that was actually performed and charges that were actually incurred. Billing for miles not driven or days not stored is fraud, and in many places it is also a licensing matter.
 
-## Why Shop Records Matter in the United States
+## How to Issue a Towing Receipt
 
-**Because a shop is judged on its paperwork long after the vehicle leaves.**
+1. **Record the call time** when the job is dispatched.
+2. **Note the pickup location** precisely, including the highway and mile marker where relevant.
+3. **Photograph the vehicle** and describe visible damage before loading.
+4. **Record the odometer or GPS distance** for loaded miles.
+5. **Note the drop-off location** and the time of completion.
+6. **Itemize the charges**, each on its own named line.
+7. **Add storage separately** if the vehicle stays, with the daily rate.
+8. **Apply tax** where your state requires it.
+9. **Issue the copy** to whoever is paying, and keep your own.
 
-Warranty claims, state consumer protection complaints and payment disputes are all resolved from records. Shops in California, Texas and Florida operate under different state disclosure and estimate rules, and the IRS expects business records supporting what a return claims. Your state department of revenue governs how parts and labor are taxed, and the treatment varies more than most operators expect.
+![A towing receipt template shown as a clean banner layout, with pickup and drop-off locations beneath the header, a dotted route line between two map pins, itemized hook-up, mileage and after-hours charges, and a highlighted total.](assets/towing-receipt-template-2.jpeg)
 
-There is also the resale and fleet angle. A commercial customer in Chicago comparing two shops will usually pick the one whose invoices reconcile without phone calls, because their own bookkeeping depends on it.
+## Storage Charges and Disclosure
 
-> **Important:** shop receipts record work genuinely performed by the people named on them. Invoicing for work not carried out, or attributing hours to a technician who did not do them, is fraud.
+**Say the daily rate before the first day accrues.**
 
-## How to Run the Template Across a Shop
+Storage is where towing bills grow fastest and where complaints concentrate. An owner who learns of a daily rate on day nine, having assumed their car was simply parked, will dispute it, and in many jurisdictions disclosure and notification requirements apply specifically to this.
 
-1. **Open the repair order** when the vehicle is booked in.
-2. **Record the fault as reported**, in the customer's words.
-3. **Add inspection findings** before quoting anything.
-4. **Issue the estimate** from the same record.
-5. **Log the authorization**, with time and name, before extra work starts.
-6. **Post parts and hours** to the order as the work happens.
-7. **Close the order** as a receipt showing dates in and out.
-8. **Reconcile the day's orders** against payments taken.
+The receipt should show the rate, the date storage began, the number of days charged and the running total. Where the law in your area requires written notice to the owner or lienholder, treat that as a separate obligation the receipt does not discharge.
 
-![A mechanic shop receipt template shown as a clean banner layout, with a repair order number and technician field in the header, vehicle and mileage rows, separate parts, labor and sublet sections, and a highlighted total above a printed warranty footer.](assets/mechanic-shop-receipt-template-2.jpeg)
+### When the payer is not the owner
 
-### Reconciling at the end of the day
+An insurer, a motor club or a property owner may be paying. Record who authorized the tow and who is being billed, because those are frequently different parties and the distinction determines who can dispute what.
 
-Matching the day's closed orders against the till and the card terminal takes a few minutes and catches the errors that are cheap to fix on the day and expensive to unpick at month end. It also surfaces jobs that were completed but never invoiced, which is the quiet leak in most busy shops.
+## Private Property and Non-Consent Tows
 
-## Courtesy Cars, Storage and Other Charges
+**These are the jobs where paperwork accuracy matters most.**
 
-**Every charge that is not parts or labor needs its own named line.**
+A vehicle removed from private property at the property owner's request is not a job the driver asked for, and it is the category most closely regulated and most frequently disputed. Rules in California, Texas and Florida differ on notification, signage, maximum rates and how quickly an owner may retrieve a vehicle.
 
-Shops routinely bill for things that are neither: a courtesy vehicle, storage on a car left after completion, diagnostic time that did not lead to a repair, a disposal fee set by local rule. Each may be perfectly reasonable, and each becomes contentious when it appears inside a labor figure with no explanation.
+The receipt should record who requested the tow, the time of removal and the authority relied on. An operator who can produce that, with photographs, is in a defensible position. One relying on a total and a memory of a phone call generally is not, and consumer agencies see a steady stream of exactly those complaints.
 
-Storage in particular is worth writing down in advance. A vehicle sitting uncollected for three weeks in Houston occupies space the shop needs, and a customer who was told the daily rate at drop-off argues far less than one who meets it for the first time on the invoice.
+### Release and payment at the yard
 
-### Diagnostic charges
+When an owner collects, record the release time, who collected the vehicle and how they paid. Accurate release records close the storage period cleanly and prevent the argument about an extra day that nobody can now verify.
 
-Say whether the diagnostic fee is absorbed into the repair if the customer proceeds. Both policies are common, and the friction comes from the customer not knowing which one applies until the bill arrives.
+## Insurance and Motor Club Claims
 
-## Sublet Work and Outside Suppliers
+**Submit what the claim handler needs the first time.**
 
-**Name sublet work as sublet, and say who performed it.**
+Most reimbursements stall for the same reasons: no time recorded, the drop-off location missing, or charges bundled into a single figure. A receipt carrying the date and both times, both locations, the miles and an itemized list generally clears without a follow-up call.
 
-Machining, alignment, glass, upholstery and diagnostics sent elsewhere are all normal. The customer is entitled to see that the work went out, and the shop needs the supplier invoice attached to its own file copy to support the charge and any warranty that comes with it.
+Keep the photographs with your file copy. They are rarely needed, and when they are needed they settle the matter immediately.
 
-Marking up sublet work is ordinary business, and the line should still read plainly. A charge described accurately rarely causes friction, while one that looks like in-house labor may unravel awkwardly if the customer speaks to the supplier.
+## Why Use makecepeit for Towing Receipts?
 
-### Accuracy across several hands
+**Because the charges a recovery produces need named lines, and the layout already has them.**
 
-A record assembled by three people drifts unless somebody owns it. In most shops that is the service adviser who wrote the job up, and the habit that keeps the file accurate is simple: nothing gets added to an order without going through them, and nothing leaves the counter that they have not read.
-
-## Why Use makecepeit for Shop Receipts?
-
-**Because the layout carries the fields a multi-bay shop actually needs, and the arithmetic never drifts between copies.**
-
-- Repair order number, adviser and technician fields
-- Separate parts, labor and sublet sections
-- Totals and tax that recalculate as lines change
-- A warranty footer you set once and reuse on every job
-- Identical customer, file and accounts copies from one document
+- Pickup and drop-off fields, with room for precise locations
+- Separate lines for hook-up, mileage, waiting, recovery and after-hours
+- A storage section with a daily rate and day count
+- Totals that recalculate as charges are added
+- Clean files to send to an insurer, a motor club or a body shop
 - Free to start, with nothing to install
 
-## Fleet Accounts and Purchase Orders
+## Body Shops and Onward Movement
 
-**A commercial customer usually cannot pay an invoice that lacks their own reference.**
+**A vehicle that moves twice needs two receipts.**
 
-Fleet and municipal accounts generally issue a purchase order number before the work starts, and their accounts department matches it against the invoice that arrives. An invoice without it may sit unpaid for weeks, not because anybody disputes the work but because nobody can post it.
+Recovery to a yard followed by transport to a body shop is two jobs, even when the same truck does both. Each leg has its own miles, its own times and often a different payer, and combining them into one document makes the insurer's job harder than it needs to be.
 
-Adding a purchase order field to the repair order, and asking for the number at booking, is the whole fix. Shops in Texas and California running commercial work usually find it is the single change that most improves how quickly they are paid.
+Where a body shop in Miami is the destination, note who accepted the vehicle and when. Handover records close the chain of custody, and accurate custody records are what keep a damage dispute from becoming an argument between two businesses.
 
-### Unit numbers and per-vehicle history
+### Keys, plates and personal property
 
-Fleets identify vehicles by unit number rather than by plate. Recording both makes your invoice readable to the customer's system and keeps your own history accurate when a fleet replaces a van but keeps the unit number.
+Record whether keys were left with the vehicle, whether plates were present, and whether any personal property was removed or secured. These small lines resolve a surprising share of later complaints.
 
-## Tips for Consistent Shop Paperwork
+## Tips Before You Leave the Scene
 
-- Open the order at booking, not at invoicing
-- Use one number per job across every stage
-- Record the fault in the customer's own words
-- Assign a technician on every order
-- Attach sublet invoices to the file copy
-- Print the warranty rather than explaining it
-- Reconcile closed orders daily
+- Photograph the vehicle from several angles before loading
+- Record both times, not just the date
+- State the pickup location precisely enough to find again
+- Name every charge in words the payer will understand
+- Tell the owner the storage rate at the outset
+- Record who authorized the tow
+- Keep the file copy with the photographs attached
 
 ## Common Mistakes to Avoid
 
-- **Separate numbering for estimates and invoices.** The two halves of the job never meet.
-- **Blank technician fields.** A comeback then starts with a search rather than a conversation.
-- **Adjusting a total at the counter only.** The file and accounts copies quietly disagree.
-- **Sublet shown as in-house labor.** Accurate description costs nothing and prevents an awkward call.
-- **Unprinted warranty terms.** Spoken terms are remembered generously by both sides.
-- **Closing a day without reconciling.** Uninvoiced jobs are the leak nobody notices.
-- **Internal notes on the customer copy.** Diagnosis shorthand belongs in your own system.
+- **One line reading "towing".** An insurer cannot approve what it cannot see.
+- **No condition note at pickup.** Damage disputes then come down to memory.
+- **Vague pickup locations.** "Highway" identifies nothing three weeks later.
+- **Undisclosed storage rates.** This is where most complaints and most regulation sit.
+- **Mixing up payer and owner.** They are frequently different parties.
+- **Missing times.** Claim handlers routinely reject receipts without them.
+- **Charging dead miles silently.** Name the line if you charge it.
 
 ## Final Takeaway
 
-A mechanic shop receipt template turns a busy floor into a set of records anybody in the business can read. Key everything to the repair order number, name the technician, itemize sublet work, print the warranty and reconcile at the end of the day.
+A towing receipt template works because recovery charges are unfamiliar to the people paying them. Record both locations, both times, the miles and every charge on its own named line, disclose storage before it accrues, and photograph the vehicle before it is loaded.
 
-For the sequence from estimate through authorization to payment, our [automotive repair receipt template](/blog/automotive-repair-receipt-template) guide covers it in detail.
+For the wider view of running the paperwork side of a recovery business, our guide to a [towing service receipt generator](/blog/towing-service-receipt-generator) covers it.
 
-## Create Your Shop Receipt With makecepeit
+## Create Your Towing Receipt With makecepeit
 
-Open the order, post the parts and hours, then close it as a receipt your customer, your file and your accounts all agree on. [Start your shop receipt](/create) and keep the numbering unbroken.`,
+Enter the locations, the miles and the charges, and hand over a document an insurer can approve without a phone call. [Build your towing receipt](/create) before you leave the yard.`,
     faqs: [
       {
-        q: "What is a mechanic shop receipt template?",
-        a: "It is a repair document keyed to a repair order number, linking a vehicle, a technician and a final bill so a multi-bay shop produces consistent records.",
+        q: "What is a towing receipt template?",
+        a: "It is a recovery document recording the pickup and drop-off locations, the distance covered and each charge on its own line, from hook-up fee to storage.",
       },
       {
-        q: "Why use one number across a job?",
-        a: "So the booking, estimate, authorization, work and invoice all belong to one traceable record instead of two unrelated sets of paperwork.",
+        q: "Why itemize towing charges?",
+        a: "Because insurers and motor clubs approve against the components. A single line reading towing usually returns as a query and delays payment.",
       },
       {
-        q: "Should the technician be named?",
-        a: "Yes. When a repair comes back, the technician who did the work knows what they found, and the record saves the service adviser searching for them.",
+        q: "Should dead miles appear separately?",
+        a: "If you charge them, yes. A named line explaining the distance travelled to reach the vehicle is far easier to defend than an unexplained total.",
       },
       {
-        q: "How should sublet work appear?",
-        a: "As its own line marked sublet, naming the outside supplier. Describing it as in-house labor risks an awkward conversation if the customer follows up.",
+        q: "When should storage rates be disclosed?",
+        a: "Before the first day accrues. Late disclosure is where most complaints concentrate, and many jurisdictions regulate notification specifically.",
       },
       {
-        q: "What belongs only on the internal copy?",
-        a: "Diagnostic shorthand, internal cost prices and parts margin. The customer copy carries the work, the cost, the warranty and a masked card number.",
+        q: "Why record the vehicle condition?",
+        a: "Because recovery disputes often turn on whether damage existed before loading. A condition note and photographs settle it immediately.",
       },
       {
-        q: "Why reconcile repair orders daily?",
-        a: "Because it catches completed jobs that were never invoiced, which is the most common quiet revenue leak in a busy shop.",
+        q: "What times should be recorded?",
+        a: "The dispatch or call time and the completion time. Claim handlers routinely reject receipts that show only a date.",
       },
       {
-        q: "Should warranty terms be printed?",
-        a: "Yes. Terms explained verbally are recalled differently by each side, while a printed footer says the same thing to everyone months later.",
+        q: "Who is billed when an insurer pays?",
+        a: "Record both the party who authorized the tow and the party being billed, since they are frequently different and that determines who can dispute charges.",
       },
       {
-        q: "What dates should a shop receipt show?",
-        a: "Both the date in and the date out, since they often differ by days and the difference matters for warranty periods and courtesy car charges.",
+        q: "Are towing rates regulated?",
+        a: "In many states and cities, particularly for non-consent tows, and the rules differ sharply. Check your own jurisdiction rather than assuming a common standard.",
       },
       {
-        q: "How long should shops keep copies?",
-        a: "At least as long as the warranty offered, and usually longer for business records. State requirements vary, so confirm what applies to your shop.",
+        q: "Should photographs go to the customer?",
+        a: "Keep them with your file copy and share them when a question arises. They are rarely needed, and decisive when they are.",
       },
       {
-        q: "Is a shop receipt a legal requirement?",
-        a: "Several states require specific repair disclosures and documentation, and the rules differ. Check your own state's requirements rather than assuming a national standard.",
+        q: "Is billing for extra miles illegal?",
+        a: "Charging for miles not driven or storage days not used is fraud, and in many places it also puts an operator's license at risk.",
       },
     ],
   },

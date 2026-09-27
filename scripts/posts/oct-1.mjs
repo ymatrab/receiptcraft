@@ -1,447 +1,448 @@
 /**
- * Oct-sprint — Day 2026-10-01 (2 posts). Notion board Order 11 and 12, big-box cluster.
- *   11. "walmart receipt maker"      480/mo · CPC $3.57 · Low -> /brands/walmart
- *   12. "walmart receipt generator"  390/mo · CPC $3.13 · Low -> /brands/walmart
+ * Oct-sprint — Day 2026-10-01 (2 posts). Notion board Order 13 and 14, big-box cluster.
+ *   13. "walmart receipt template"            320/mo · CPC $3.64 · Low -> /brands/walmart
+ *   14. "printable walmart receipt generator" 140/mo · CPC $2.58 · Low -> /brands/walmart
  *
- * Cannibalization guard: four Walmart spokes run across Oct 1 and Oct 3, so each
- * owns one question. #11 owns the situation — the slip is gone and you need a
- * readable copy of a purchase you made. #12 owns the anatomy — what a supercenter
- * receipt actually prints, line by line, and how to reproduce it accurately.
- * #13 owns the reusable layout and #14 owns printing. They cross-link in that order.
+ * Cannibalization guard: second half of the four-post Walmart cluster. #13 owns the
+ * reusable layout — the fields that stay put while the purchase changes, blank versus
+ * filled, and when a template beats rebuilding from scratch. #14 owns output — paper
+ * width, PDF, scanning and filing. Neither restates #11 (the lost-slip situation) or
+ * #12 (line-by-line anatomy); all four cross-link in that order.
  *
- * Separate from the live retrieval cluster: /blog/walmart-receipt-lookup is how to
- * get the store's own copy. Both posts link there rather than competing with it —
- * that is the honest route and it keeps the retrieval query on the page built for it.
+ * /blog/walmart-receipt-lookup remains the retrieval answer and is linked, not competed with.
  *
- * Legitimacy: every section frames this as documenting a purchase you actually made.
- * No logos, no store branding, no suggestion a copy substitutes for the original.
+ * Legitimacy: a template is for recording purchases that happened. No store branding,
+ * no invented transaction codes, no suggestion the output replaces the store's own copy.
  */
 
 export const OCT_1 = [
   {
-    slug: "walmart-receipt-maker",
-    image: "assets/walmart-receipt-maker.jpeg",
+    slug: "walmart-receipt-template",
+    image: "assets/walmart-receipt-template.jpeg",
     category: "small-business",
     publishedAt: "2026-10-01T09:30:00Z",
-    title: "Walmart Receipt Maker: Rebuild Your Record",
-    seoTitle: "Walmart Receipt Maker: Rebuild Your Record",
+    title: "Walmart Receipt Template: The Reusable Layout",
+    seoTitle: "Walmart Receipt Template: The Reusable Layout",
     seoDescription:
-      "Learn how a Walmart receipt maker rebuilds a clean copy of a purchase you already made, what details to gather first, and how to do it with Makecepeit.",
+      "Learn which fields a Walmart receipt template holds constant, when a reusable layout beats rebuilding from scratch, and how to set one up with Makecepeit.",
     excerpt:
-      "A Walmart receipt maker rebuilds a readable copy of a purchase you already made, using the date, store number, items and payment details you can recover yourself. Here's how.",
-    body: `A **Walmart receipt maker** is a tool that rebuilds a readable copy of a store purchase you already made, for shoppers, contractors, freelancers and small business owners whose paper slip faded, tore or went through the wash. It produces one clear document carrying the same facts the original carried: the store, the date, the items, the tax and the method of payment.
+      "A Walmart receipt template fixes the header, the column structure and the totals rows so only the purchase details change, which is what makes repeat record-keeping fast and consistent. Here's how.",
+    body: `A **Walmart receipt template** is a reusable receipt layout that holds the header, the item columns and the totals rows in place, so that only the purchase details change from one record to the next. It serves contractors filing supply runs, bookkeepers reconciling card statements and households tracking a monthly shopping figure.
 
-Across the United States, thermal receipts fade within months, and the ones that survive a purse or a truck cab rarely survive a year. Makecepeit lets you [create a receipt](/create) from a fixed layout, so a purchase you are documenting reads the same way every time, whether it is one grocery run in Dallas or a month of supply trips in Chicago.
+Across the United States, the value of a template is consistency: twelve records that look alike can be scanned in a minute, while twelve records that look different have to be read one by one. Makecepeit lets you [build a receipt](/create) from a fixed structure, so the tenth record you file takes the same shape as the first.
 
-## What Is a Walmart Receipt Maker?
+## What Is a Walmart Receipt Template?
 
-**It is a receipt builder used to reconstruct a record of a purchase whose original slip is lost, faded or damaged.**
+**It is a fixed arrangement of receipt fields that you fill in repeatedly, rather than a document you rebuild from nothing each time.**
 
-The phrase describes the job, not a product sold by the retailer. You supply what you know about the purchase, the tool arranges it into a standard receipt layout, and you keep the result with your own records. Nothing about that process reaches the store's systems, and the output is your document rather than a reissue of theirs.
+A template separates what stays put from what changes. The store name, the column headings and the subtotal, tax and total rows stay put. The date, the items, the quantities and the amounts change with every purchase. That split is the entire idea, and it is why a template suits anybody documenting similar purchases more than once.
 
-That distinction matters more than it sounds. A rebuilt copy is a personal record, useful for budgeting, reimbursement and warranty files. It is not a replacement for the retailer's own transaction record, and it should never be presented as one.
+The output is your own record of a real purchase. It carries no connection to the retailer's systems and reproduces none of their branding.
 
-### What it is not
+### Template, generator or maker
 
-It is not a reprint service, and it does not reach into any retailer's database to find what you bought. Nothing you enter is checked against a store record, which is why the accuracy of a rebuilt copy rests entirely on the care you take with it. Treat it as a document you are signing rather than one you are requesting, and the right level of caution follows naturally.
+These three words describe one tool used three ways. A maker suits a one-off reconstruction after a slip is lost, covered in our guide to the [Walmart receipt maker](/blog/walmart-receipt-maker). A generator emphasises accuracy on a single purchase. A template emphasises repetition, which is the case where the structure earns its keep.
 
-## What Information Do You Need Before You Start?
+## Which Fields Should Stay Constant?
 
-- **Purchase date**, which your bank or card statement will confirm
-- **Store number or location**, such as the city and state you shopped in
-- **Item descriptions** for the things you actually bought
-- **Quantities and unit prices** where you can recall or verify them
-- **Subtotal** before tax
-- **Sales tax** charged on the taxable portion
-- **Total paid**, which should match the statement line exactly
-- **Payment method**, with only the last four digits of a card
-- **Time of day**, if you have it, which helps when two trips fall on one date
+- **Store name and location**, if you shop the same place each time
+- **Column headings** for item, quantity, price and line total
+- **Subtotal row**, sitting above the tax line
+- **Sales tax row**, kept visible rather than folded into the total
+- **Total row**, formatted the same way every time
+- **Tender row**, naming the payment method
+- **Any reference field** you use, such as a job name or a budget category
 
-### Where those details usually survive
+### The fields that change
 
-The total and the date are the easiest to recover, because they sit on your statement. Item detail is harder, and for a large grocery run it may be partly reconstructed from memory. A photo taken at the register, an order confirmation email or a shared household note often fills the gap.
+Date, items, quantities, unit prices, tax amount and total change with every purchase. A reference field may change too, if you file by job rather than by month. Everything else should look identical across the whole folder, because that sameness is what makes an odd record stand out.
 
-## Receipt Maker vs. Store Receipt Lookup
+## Blank Template vs. Filled Receipt
 
-**Ask the retailer first when you need the original, and rebuild a copy only when the original cannot be produced.**
+**Keep one blank copy as the master and never type over it.**
 
-| Question | Store receipt lookup | Receipt maker |
+| Aspect | Blank template | Filled record |
 |---|---|---|
-| Who produces it | The retailer, from their records | You, from what you know |
-| Typical wait | Minutes to several days | A few minutes |
-| Proof of purchase for a return | Usually accepted | Generally not accepted |
-| Works for cash purchases | Often not | Yes |
-| Useful for budgets and expense files | Yes | Yes |
-| Contains the store's own transaction codes | Yes | No |
+| Purpose | The master layout | One documented purchase |
+| Item lines | Empty placeholders | Real items and prices |
+| Totals | Empty, or zero | Calculated from the lines |
+| How often it changes | Rarely | Once per purchase |
+| Where it lives | With your working files | With the statement it matches |
 
-Our guide to [looking up a Walmart receipt](/blog/walmart-receipt-lookup) covers the app, the website and the service desk. If a return or a warranty claim is the reason you are searching, start there. A rebuilt copy earns its keep afterwards, once the original is genuinely unavailable.
+A master that gets edited becomes twelve slightly different templates within a quarter. Copy it, fill the copy, file the copy, and leave the original alone.
 
-### When each one wins
+## Why Consistent Receipt Records Matter in the United States
 
-A lookup wins whenever somebody else has to accept the document: a service desk, a manufacturer handling a warranty claim, a card issuer reviewing a dispute. A rebuilt copy wins when the reader is you, your bookkeeper or your accountant, and when the original no longer exists to be found. Cash purchases fall almost entirely into the second group, because there is often nothing for the retailer to look up in the first place.
+**Because records that look alike are records somebody can actually audit.**
 
-## Why Walmart Receipt Records Matter in the United States
+A bookkeeper in Chicago reconciling a month of purchases reads the totals row first, then the date, then the tax. When every document places those in the same spot, the work is mechanical. When each one is laid out differently, every record becomes a small puzzle, and the cost of that shows up as billable hours or as a month that never gets reconciled at all.
 
-**Because the thermal paper fades long before the reasons you might need the record do.**
+Businesses in Texas, New York and Washington keep records under state regimes that differ in detail, and the IRS expects records supporting what a return claims. What applies to your situation depends on the business you run, so a tax professional is the right person to ask. The habit of consistency, though, helps in every jurisdiction.
 
-Warranty periods on tools, appliances and electronics commonly run a year or longer. Tax records for a small business are generally kept for several years. Household budgets get reviewed monthly. The paper, meanwhile, is printed with heat-sensitive dye that fades with sunlight, heat and time, and a glovebox in Phoenix will finish a receipt in a season.
+> **Important:** a template documents purchases that actually happened. Filling one in for a purchase that never occurred, or presenting the output as the retailer's own receipt, is fraud.
 
-Businesses in New York, Texas and Florida also answer to state revenue departments whose record-keeping expectations vary. The IRS describes the general principle plainly enough: keep records that support what appears on a return. How long, and in what form, depends on your circumstances, and a tax professional is the right person to ask about your own.
+## How to Set Up a Reusable Receipt Template
 
-> **Important:** a receipt you rebuild documents a purchase that genuinely happened. Creating a document for a purchase that did not happen, or passing a recreated copy off as the retailer's original, is fraud in any state.
+1. **Decide what repeats.** Usually the store, the columns and the totals rows.
+2. **Build one clean example** with a real purchase, so you can see the structure working.
+3. **Strip the specifics** out of it to leave the master layout.
+4. **Fix the field order** and stop changing it.
+5. **Copy the master** each time you record a new purchase.
+6. **Fill only the changing fields**, letting the totals calculate.
+7. **File the finished copy** with the statement line it matches.
 
-### How long records stay useful
+![A Walmart receipt template shown as a clean banner layout, with placeholder store and date fields at the top, an empty column structure for item, quantity, price and line total, and blank subtotal, sales tax and total rows waiting to be filled in.](assets/walmart-receipt-template-2.jpeg)
 
-A grocery receipt may stop mattering the moment the card statement clears. An appliance receipt may matter in three years, when a compressor fails inside a warranty period nobody remembers the terms of. Because the paper fades on the same schedule regardless, the practical answer is to rebuild the ones attached to something durable — tools, electronics, appliances, business supplies — and let the rest go.
+### A worked example
 
-## How to Make a Walmart Receipt Copy in Five Steps
+A landscaping business in Sacramento buys materials most weeks. The master carries the store city, the four column headings and the three totals rows. Each Monday the owner copies it, enters that week's items, checks the total against the card statement and files the copy under the client's name. Building the master took twenty minutes once; each weekly record now takes about three, and a year of them sorts into client folders without any further thought.
 
-1. **Pull the statement line.** Find the transaction on your bank or card statement and note the exact date and total.
-2. **List what you bought.** Write the items out, with quantities and unit prices where you have them.
-3. **Check that the math lands.** Your item total plus tax should equal the amount the statement shows.
-4. **Enter the details once.** Open the builder, fill the store, date, items, tax and payment fields, and leave nothing guessed that you can verify.
-5. **Save and file it.** Download the finished copy and store it with the statement page it came from, so the two support each other.
+### Digital or paper masters
 
-![A Walmart receipt maker shown as a clean banner layout, with a placeholder store name and supercenter number at the top, a dated column of item lines with quantities and prices, a subtotal and sales tax row, and a highlighted total matching the shopper's own bank statement.](assets/walmart-receipt-maker-2.jpeg)
+A digital master is easier to copy and impossible to smudge, which is why most people should keep one. A printed blank has its place on a job site where a phone is inconvenient, provided the figures are entered into the digital record afterwards rather than left on the sheet. What matters is that one version is authoritative, because two masters drifting apart is the same problem as an edited master.
 
-### Checking the arithmetic
+## Reference Fields: Filing by Job or by Month
 
-Add the item lines, apply the tax, and compare the result with the statement. If the two differ by a few cents, a price was probably mis-remembered. If they differ by several dollars, an item is missing. Closing that gap before you save is what separates a copy somebody can rely on from a rough note, and the accuracy costs nothing but a second pass.
+**A reference field turns a pile of receipts into a set you can sort.**
 
-## Reading the Purchase Back From Your Bank Statement
+A remodelling contractor in Denver may file by job, so every supply run carries the job name and the whole project can be totalled later. A household may file by month. A freelancer may file by client. The field itself is small, and it may be the difference between a folder you can query and a folder you have to read.
 
-**The statement gives you the date and the total; everything else you reconstruct around those two anchors.**
+Whichever you choose, use it consistently. Half a folder tagged by job and half tagged by month sorts into nothing useful.
 
-A card statement usually shows a merchant descriptor, a city and an amount. That is enough to fix the purchase in time and to set the figure your rebuilt copy must reach. Work backwards from it: if your item lines and tax do not add up to the statement total, something is missing or mis-remembered, and the gap is worth closing before you save.
+### Keeping the structure stable
 
-Debit purchases in Los Angeles and credit purchases in Miami look much the same on a statement. Cash purchases show nothing at all, which is exactly the case where a rebuilt copy does the most work, and also the case where honesty about what you remember matters most.
+Resist the urge to improve the layout mid-year. A template that changes shape in March produces two incompatible sets of records, and the comparison you wanted at year end becomes manual work. Improvements are best saved for a clean starting point, such as the beginning of a tax year or a new project.
 
-## Household Budgets and Shared Expenses
+### Sharing a template with a team
 
-**A readable copy settles the small questions that paper receipts usually lose.**
+When several people file records, hand them the same master and say plainly which fields may change. Without that, one person adds a column, another renames the tax row, and within a quarter the folder holds three formats. A short note stored with the master, describing what to fill and what to leave alone, generally prevents the drift better than any amount of correcting afterwards.
 
-Roommates splitting a supply run, couples tracking a monthly grocery figure and parents reimbursing an adult child for a shopping trip all need the same thing: a line-by-line record both sides can read. A faded strip of thermal paper cannot do that job by February.
+## Sales Tax on a Reusable Layout
 
-For a small business, the same copy feeds bookkeeping. Supplies bought on a Saturday trip in Houston often never reach the accounts because the slip disappeared, and a rebuilt copy attached to the statement line closes that hole.
+**Leave the tax row visible on the master, even for purchases where it comes out at zero.**
 
-### Reimbursement between people
+Tax varies by state and by what you bought, and some items are exempt in some places. A row that disappears whenever the figure is zero makes it impossible to tell later whether tax was exempt, forgotten or simply not recorded. Keeping the row fixed answers that question permanently.
 
-When one person pays and another repays, the receipt is the whole conversation. A rebuilt copy showing items, tax and a total settles it without anybody relying on memory, and it may prevent the slow disagreement that starts when two people recall a figure differently. Keep it plain, send it once, and file the copy you sent.
+Enter what you were charged rather than a rate you looked up. The register applied the rules in force that day in that city, and your statement carries the result.
 
-## What a Receipt Maker Cannot Do
+## Filing the Finished Records
 
-**It cannot create proof that a purchase happened, and it cannot stand in for the retailer's record.**
+**A template produces records faster than most people file them, which is where the benefit quietly leaks away.**
 
-- It does not connect to any store's transaction system
-- It does not generate valid store transaction codes or survey invitations
-- It is generally not accepted as proof of purchase for a return
-- It does not extend or establish a manufacturer's warranty on its own
-- It cannot recover item detail you never had
+Decide where a finished record goes before you build the first one. A folder per month suits a household; a folder per client suits a freelancer in Austin invoicing several at once; a folder per job suits a builder. Whatever the scheme, the finished copy should land there the same day, next to the statement line it matches.
 
-Used for what it is — a personal record of a real purchase — it is genuinely useful. Used as a substitute for the store's own paperwork, it fails, and the failure is the point at which honest record-keeping turns into something else.
+Records that sit unfiled lose the thing that made them useful. The layout is still consistent, but nobody can find the one they need, and a year later the folder has to be read rather than searched.
 
-## Why Use makecepeit for Walmart Receipt Copies?
+### Keeping the digital and paper sets aligned
 
-**Because the layout stays fixed, so every copy you build reads the same and the math is done for you.**
+If you print as well as save, file both under the same name. A paper sheet and a digital file that disagree about which purchase they describe cost more time to untangle than either saved.
 
-- Enter the items once and the totals calculate as you type
-- A consistent structure across every receipt you rebuild
-- Fields for store, date, tax and payment method in the order a reader expects
-- Download as a clean file you can attach to a statement or an expense claim
-- Nothing to install, and no account needed to build one
+## Why Use makecepeit for Receipt Templates?
 
-The builder is [free to start](/create), and the same layout serves a grocery run, a tools purchase or a month of small supply trips.
+**Because the structure is already built, and the arithmetic updates itself when you change a line.**
 
-## Tips Before You Rebuild a Receipt
+- A consistent layout across every record you produce
+- Totals that recalculate as you edit, so the math cannot drift
+- Item, quantity, price and line total columns in the expected order
+- Clean downloads you can file beside a statement page
+- Free to start, with nothing to install
 
-- Check the statement before you type, not afterwards
-- Record the store's city and state rather than inventing a street address
-- Mask the card number down to the last four digits
-- Keep item descriptions plain and recognisable
-- Note anywhere you estimated, so a later reader knows
-- Save the copy in the same folder as the statement it matches
-- Rebuild one receipt per transaction, never a month in one document
+The same layout covers a grocery run, a tools purchase and a month of small supply trips, which is what makes it worth setting up once.
+
+### What consistency is worth
+
+The gain is small on any single record and large across a year. Fifty records in one shape can be totalled, compared and handed to an accountant without explanation. Fifty in five shapes need a covering note, and the note is usually written by somebody who has forgotten why the layouts differ.
+
+## Tips Before You Build a Template
+
+- Design it around the purchases you actually make most often
+- Keep the master blank and copy it each time
+- Fix the field order before you file the first record
+- Leave the tax row in place permanently
+- Name files by date and store so they sort themselves
+- Mask card numbers to the last four digits
+- Record the city and state rather than inventing an address
 
 ## Common Mistakes to Avoid
 
-- **Making the total match by inventing a line.** If the math is short, say so rather than padding it.
-- **Copying store branding.** A copy for your own records needs no logo, and reproducing one invites a trademark problem.
-- **Fabricating transaction codes.** Invented store codes look real and are not, which is exactly the wrong combination.
-- **Writing a full card number.** Last four digits only, on any receipt you keep or send.
-- **Using a rebuilt copy for a return.** Ask the retailer for the original instead.
-- **Rounding the tax.** Enter the taxable subtotal and let the calculation land where it lands.
-- **Backdating a purchase.** The date on the statement is the date on the receipt.
+- **Editing the master.** Copy it instead, or you will end up with a dozen variants.
+- **Adding store branding.** Your record does not need a logo, and copying one creates a trademark problem.
+- **Dropping the tax row when it is zero.** Later you will not know whether it was exempt or forgotten.
+- **Changing the layout mid-year.** Two structures in one folder defeat the point of a template.
+- **Filing by two schemes at once.** Pick job or month, and stay with it.
+- **Reusing one record's numbers for another purchase.** Each document covers one transaction.
+- **Treating a filled template as proof for a return.** Retailers verify against their own records.
+
+### When a template stops helping
+
+A template earns its keep on repetition. For a single lost receipt it may be more trouble than it saves, and a one-off reconstruction is the better tool. It also stops helping when the purchases stop resembling each other: a folder mixing grocery runs, equipment purchases and fuel may need two or three layouts rather than one stretched to cover everything.
 
 ## Final Takeaway
 
-A Walmart receipt maker earns its place in one situation: you made a purchase, the paper is gone, and you still need a readable record of what you spent. Gather the date and total from your statement, reconstruct the items honestly, and keep the result with the paperwork it supports.
+A Walmart receipt template is worth setting up when you document similar purchases more than once. Fix the header, the columns and the totals rows, keep a blank master, and fill a copy for each real purchase. The consistency is what makes a year of records readable rather than merely stored.
 
-When the original matters — a return, a warranty claim, a dispute — ask the retailer first. A rebuilt copy is for your files, and within those limits it does its job well.
+For a return, a warranty claim or a dispute, the retailer's own record is still the document that counts. Our guide to [looking up a Walmart receipt](/blog/walmart-receipt-lookup) covers how to request it.
 
-Keep the rebuilt copy honest about its own nature. A note in your folder saying where the figures came from, and which parts were reconstructed rather than recovered, costs one line and answers the only question a later reader is likely to raise.
+One more habit is worth adopting early: review the template once a year, not continuously. A yearly look lets you fix what genuinely does not work while keeping every record inside a tax year in one shape, which is the comparison most people actually want.
 
-## Create Your Receipt With makecepeit
+## Create Your Receipt Template With makecepeit
 
-Enter the store, the date, the items and the way you paid, and the totals calculate as you go. [Build your receipt](/create) and keep it filed beside the statement it matches.`,
+Set the fields once, then fill a fresh copy for each purchase and let the totals calculate. [Start your template](/create) and file each record beside the statement it matches.`,
     faqs: [
       {
-        q: "What is a Walmart receipt maker?",
-        a: "It is a receipt builder used to reconstruct a readable copy of a purchase you already made, when the original paper slip is lost, faded or damaged.",
+        q: "What is a Walmart receipt template?",
+        a: "It is a reusable layout holding the header, item columns and totals rows in place, so only the date, items and amounts change from one record to the next.",
       },
       {
-        q: "Is a rebuilt receipt accepted for a return?",
-        a: "Generally not. Retailers verify returns against their own transaction records, so ask the store to look up the original purchase instead.",
+        q: "Which fields should stay the same?",
+        a: "The store details, the column headings, and the subtotal, tax, total and tender rows. Those form the structure a reader learns to scan quickly.",
       },
       {
-        q: "What details do I need to rebuild one?",
-        a: "The date and total from your statement, the store location, the items you bought, the sales tax charged and the payment method used.",
+        q: "Should I edit my blank master template?",
+        a: "No. Copy it and fill the copy. A master that gets edited turns into several slightly different templates within a few months.",
       },
       {
-        q: "Where do I find the purchase date?",
-        a: "Your bank or card statement shows the date and the exact amount, which are the two anchors every rebuilt copy should be built around.",
+        q: "Why keep a tax row showing zero?",
+        a: "So a later reader can tell the difference between tax that was exempt and tax that was simply never recorded. A missing row answers nothing.",
       },
       {
-        q: "Can I rebuild a receipt for a cash purchase?",
-        a: "Yes, and cash is the case where it helps most, because no statement line exists. Record only what you genuinely remember buying.",
+        q: "Can I file receipts by job instead of month?",
+        a: "Yes, and contractors often should. Add a reference field for the job name, then use the same scheme across the whole folder rather than mixing two.",
       },
       {
-        q: "Should the copy carry the store logo?",
-        a: "No. A record for your own files needs no branding, and reproducing a retailer's logo on a document you created raises a trademark problem.",
+        q: "Is a filled template proof of purchase?",
+        a: "Generally not for a return. Retailers verify against their own transaction records, so ask the store to retrieve the original when that is what matters.",
       },
       {
-        q: "How long should I keep receipt records?",
-        a: "It depends on why you need them. Warranties often run a year or more, and business records are generally kept longer. Ask a tax professional about your situation.",
+        q: "Should the template carry store branding?",
+        a: "No. A record kept for your own files needs no logo, and reproducing a retailer's branding on a document you made raises a trademark problem.",
       },
       {
-        q: "Does the sales tax rate have to be exact?",
-        a: "It should reflect what you were actually charged. Rates vary by state and locality, so work from the statement total rather than a rounded guess.",
+        q: "How do I name the files?",
+        a: "By date and store, in a consistent order. Names that sort themselves save you from opening a dozen files to find one purchase.",
       },
       {
-        q: "How much card information should appear?",
-        a: "Only the last four digits. Full card numbers do not belong on any receipt you keep, print or send to somebody else.",
+        q: "What tax rate should I enter?",
+        a: "The one you were actually charged, which your statement reflects. Rates vary by state and locality, and some items may be exempt where you shopped.",
       },
       {
-        q: "Is making a receipt copy legal?",
-        a: "Documenting a purchase you genuinely made is ordinary record-keeping. Creating a receipt for a purchase that never happened, or passing a copy off as the store's original, is fraud.",
+        q: "Is using a receipt template legal?",
+        a: "Recording purchases you genuinely made is ordinary record-keeping. Filling one in for a purchase that never happened, or passing it off as the store's receipt, is fraud.",
       },
     ],
   },
   {
-    slug: "walmart-receipt-generator",
-    image: "assets/walmart-receipt-generator.jpeg",
+    slug: "printable-walmart-receipt-generator",
+    image: "assets/printable-walmart-receipt-generator.jpeg",
     category: "small-business",
     publishedAt: "2026-10-01T14:00:00Z",
-    title: "Walmart Receipt Generator: Every Line Right",
-    seoTitle: "Walmart Receipt Generator: Every Line Right",
+    title: "Printable Walmart Receipt Generator Guide",
+    seoTitle: "Printable Walmart Receipt Generator Guide",
     seoDescription:
-      "Learn what a Walmart receipt generator reproduces, from the store line and item rows to sales tax and tender, and build an accurate copy with Makecepeit.",
+      "Learn how a printable Walmart receipt generator handles paper width, PDF output, scanning and filing, so your records print cleanly, with Makecepeit.",
     excerpt:
-      "A Walmart receipt generator reproduces the structure of a supercenter slip: store details, item lines, subtotal, sales tax and how you paid, so your copy reads like the record it replaces. Here's how.",
-    body: `A **Walmart receipt generator** is a tool that lays out a supercenter-style receipt field by field, for shoppers rebuilding a lost record, bookkeepers reconciling a card statement and small business owners filing supply purchases. It produces a document whose structure matches what a big-box register prints: a header, a column of item lines, a subtotal, a tax row and a tender line.
+      "A printable Walmart receipt generator produces a record you can put on paper cleanly, at a width that suits either a narrow slip or a filed page. Here's how to choose and set it up.",
+    body: `A **printable Walmart receipt generator** produces a record of a purchase in a form that survives the trip to paper, for anyone who files hard copies, submits expense claims or keeps a physical folder for a business. It handles the parts that go wrong at the printer: page width, margins, legible type and a layout that does not break across two sheets.
 
-Getting that structure right is what makes a copy readable to somebody else. Makecepeit lets you [generate a receipt](/create) with those fields in the order a reader expects, so a purchase made in Atlanta reads the same way as one made in Seattle.
+Plenty of records are built well and print badly. Makecepeit lets you [create a receipt](/create) and download it as a clean file, so what lands in the tray in Tampa looks the way it did on screen in Portland.
 
-## What Is a Walmart Receipt Generator?
+## What Is a Printable Receipt Generator?
 
-**It is a builder that arranges the details of a real purchase into the layout a big-box store receipt uses.**
+**It is a receipt builder whose output is designed to be printed, not only viewed.**
 
-The value is in the arrangement. Anybody can write down what they spent, but a record that separates items from tax from payment is one a bookkeeper, a partner or an expense reviewer can check in seconds. A generator enforces that separation instead of leaving it to memory.
+The difference shows up in small things. Type that stays legible when scaled down. Columns that hold their alignment on paper. Margins wide enough that nothing is clipped by a printer's unprintable edge. A record that reads well on a screen may still lose its right-hand column on an inkjet, and the cost of discovering that is a wasted sheet and a reprint.
 
-It is a personal record, produced by you from facts you can verify. It carries no connection to the retailer's systems and holds no transaction codes of theirs.
+As with any receipt you build, the output documents a purchase you actually made. It is your record, not a reissue of the retailer's.
 
-### Why the arrangement matters
+### Why paper still matters
 
-Two documents may carry identical facts and still differ in how quickly somebody can check them. A reader scanning for the tax line expects it under the subtotal; a reader matching a card statement looks for the tender row at the foot. Following the conventional order is not decoration, it is what lets a reviewer confirm in seconds that the copy and the statement agree.
+Paper survives software changes, account closures and forgotten passwords. Contractors hand physical receipts to clients, some expense processes still want a printed copy stapled to a form, and a folder in a filing cabinet in Cleveland stays readable without anybody logging in. Digital-first record-keeping is sensible, but paper remains the fallback that never needs a migration.
 
-## What Does a Supercenter Receipt Actually Show?
+## Thermal Width or Full Page?
 
-- **Store identity**, usually a store number alongside the city and state
-- **Date and time** of the sale
-- **One line per item**, with a description and a price
-- **Quantities** where more than one of something was bought
-- **Subtotal** before tax is applied
-- **Sales tax**, often split by taxable category
-- **Total** paid
-- **Tender**, naming the payment method and the last four digits of a card
-- **Change given**, on cash transactions
+**A narrow slip looks like the original; a full page files and scans better.**
 
-### The fields people leave out
-
-Time of day, quantity columns and the tax line are the three most often dropped when somebody reconstructs a purchase from memory, and they are the three that make the copy checkable. A receipt with items and a total but no tax row leaves a reader unable to tell whether the numbers agree.
-
-## Item Lines: Quantities, Unit Prices and Line Totals
-
-**Each line should say what was bought, how many, at what price, and what that came to.**
-
-Three items at $6.47 is a line total of $19.41, and writing that out lets any reader verify the arithmetic without redoing it. Where a store prints a weight instead of a quantity, as it does for produce, record the weight and the price per pound in the same way.
-
-Descriptions should be recognisable rather than technical. "Printer paper, 500 sheets" tells a reviewer what they need; a register abbreviation does not. Plain descriptions also spare you from inventing product codes, which is a mistake covered further down.
-
-### Weighted items and produce
-
-Loose produce, deli counter items and anything else sold by weight print differently: a weight, a price per pound and the resulting line total. When you rebuild one of those lines, keep the same three parts rather than collapsing them into a single figure, because a reader who cannot see the weight may have no way to tell whether the price was right.
-
-## Sales Tax and Why the Line Varies
-
-**Tax on the same basket differs by state, by city and by what the basket contains.**
-
-Grocery items are treated differently from general merchandise in many states, which is why a single trip can produce two tax figures on one slip. Rates also change, and the combined state and local rate in Chicago is not the rate in Portland. A generated copy should carry the tax you were actually charged, not a national average.
-
-| Field | What to enter | Common error |
+| Consideration | Narrow slip | Letter page |
 |---|---|---|
-| Subtotal | Total of the item lines before tax | Entering the amount paid instead |
-| Tax rate | The rate applied to your taxable items | Using a rounded national figure |
-| Tax amount | What the register charged | Recalculating and getting a different number |
-| Total | The figure on your bank statement | A total that does not match the statement |
-| Tender | Method plus last four digits | Writing the full card number |
+| Resembles a store receipt | Closely | Not at all |
+| Fits a standard folder | Poorly | Yes |
+| Scans cleanly | Often crooked | Yes |
+| Room for notes | Almost none | Plenty |
+| Paper used | Minimal | One sheet |
+| Best for | Wallet copies, quick reference | Expense files, accountants, archives |
 
-If your own arithmetic disagrees with the statement, the statement wins. The difference usually means a taxable item was missed or a price was mis-remembered.
+Most people filing records should choose the page. The narrow format matters mainly when the copy sits alongside genuine slips and you want the folder to look uniform.
 
-### Mixed baskets
+### Margins and clipping
 
-A single trip that includes milk, a screwdriver and a pack of socks may produce more than one tax figure, because states treat food and general merchandise differently. Rebuilding that basket under one flat rate will usually miss the statement total by a small amount, and the mismatch is the first thing a careful reader notices.
+Nearly every printer reserves an unprintable border, and a layout that runs a column too close to the edge loses characters there. If a printed copy comes out missing the ends of its price column, the fix is usually margins rather than the generator.
 
-## Why Accurate Receipt Copies Matter in the United States
+## What Should Print on Every Copy
 
-**Because a copy that does not reconcile with the statement is worse than no copy at all.**
+- **Store name and location**, or a clear placeholder if you shopped in several
+- **Date of purchase**, matching your statement
+- **Item lines** with quantities and unit prices
+- **Subtotal**, on its own row
+- **Sales tax**, kept visible rather than folded in
+- **Total paid**, in the largest type on the document
+- **Payment method**, masked to the last four digits
+- **A short note** marking the copy as a personal record, where useful
 
-Expense reviewers, bookkeepers and tax preparers work by matching documents to bank lines. A receipt copy whose total sits a dollar away from the statement raises a question in every one of those readers, and answering it costs more time than building the copy did.
+### The total needs to be findable
 
-Businesses in California, Illinois and Georgia keep records under different state regimes, and the IRS expects records that support what a return claims. Treatment varies with circumstances, so a tax professional is the right person to ask how long to keep what. The general rule holds everywhere: the document and the money trail should agree.
+Whoever picks the sheet up looks for the total first. Keeping it visually distinct, by weight or a shaded row, spares a reader from scanning the whole column. It is a small formatting decision that may save minutes across a folder of fifty records.
 
-> **Important:** a generated receipt records a purchase that actually happened. Inventing a purchase, or presenting a copy you produced as the store's own document, is fraud.
+## Why Printed Receipt Records Matter in the United States
 
-### The reconciliation habit
+**Because a filed paper copy is the version that survives when the digital one is not accessible.**
 
-Bookkeepers reconcile because memory is unreliable and arithmetic is not. Applying the same habit to a single receipt copy takes a minute: open the statement, open the copy, confirm the date and the total agree. Anything that fails that check is worth fixing immediately, while you still remember the trip well enough to correct it.
+Small businesses in Miami, Denver and Boston keep record boxes for exactly this reason. An accountant asked for supporting documents in March generally wants them in a form they can work through quickly, and a printed set arranged by date usually is that form. The IRS expects records supporting what a return claims, and what counts for your situation depends on the business, so ask a tax professional about your own case.
 
-## How to Generate an Accurate Copy
+Warranty claims add a second reason. A manufacturer handling a claim on a tool bought two years ago may accept a legible copy alongside other evidence, while a faded thermal strip proves nothing at all.
 
-1. **Start from the statement line**, which fixes the date and the total.
-2. **Enter the store city and state**, plus a store number if you know it.
-3. **Add the item lines**, one per product, with quantities and unit prices.
-4. **Enter the taxable subtotal** and the tax you were charged.
-5. **Check the total** against the statement, to the cent.
-6. **Record the tender**, masking all but the last four digits.
-7. **Save the file** alongside the statement page it matches.
+> **Important:** printing a record of a purchase you made is ordinary bookkeeping. Printing a receipt for a purchase that did not happen, or presenting your copy as the store's original, is fraud.
 
-![A Walmart receipt generator shown as a clean banner layout, with a placeholder store name and store number in the header, a dated column of item lines with quantities and unit prices, a subtotal, a sales tax row and a highlighted total above the tender line.](assets/walmart-receipt-generator-2.jpeg)
+## How to Print a Receipt Copy Cleanly
 
-## Generator vs. Template: Which Should You Use?
+1. **Build the record first**, checking the total against your statement.
+2. **Choose the format**, narrow slip or full page, before you print.
+3. **Download the file** rather than printing from a preview window.
+4. **Check the margins** in the print dialog and disable any shrink-to-fit that alters proportions.
+5. **Print one test copy** and read the right-hand column carefully.
+6. **File the sheet** with the statement page it matches.
+7. **Keep the digital file too**, so a reprint never means rebuilding the record.
 
-**Use a generator for one purchase you are reconstructing now, and a template when you expect to do it repeatedly.**
+![A printable Walmart receipt generator shown as a clean banner layout, with a desktop printer feeding out a narrow receipt on one side and the same record laid out as a full letter page on the other, both showing item lines, a sales tax row and a highlighted total.](assets/printable-walmart-receipt-generator-2.jpeg)
 
-A generator walks you through the fields and calculates as you go, which suits a one-off reconstruction where accuracy matters more than speed. A reusable layout suits a contractor filing a supply purchase every week, where the header never changes and only the items do. Our guide to the [Walmart receipt template](/blog/walmart-receipt-template) covers that reusable side.
+### Checking accuracy before the printer
 
-Either way the fields are the same. The choice is about how often you fill them in.
+Accuracy is cheaper on screen than on paper. Compare the total with the statement line, confirm the date, and read the item column once before anything prints. A business in Texas or California filing dozens of records a month will save more time on that single check than on any other habit here, because a wrong figure discovered after filing usually means finding the sheet, reprinting it and swapping it out.
 
-## Card Data, Privacy and What to Mask
+### Batch printing a month
 
-**Keep the last four digits and nothing more.**
+When a month of records prints at once, print one test sheet first and confirm the margins hold. Then print the batch in date order, so the stack arrives in the sequence it will be filed in. Sorting fifty loose sheets by hand afterwards takes longer than the printing did, and the order is free if you ask for it up front.
 
-Card networks and the Federal Trade Commission have pushed truncation on printed receipts for years, and the reasoning applies just as well to a document you produce yourself. A receipt copy travels: it goes into shared folders, gets emailed to an accountant and is sometimes printed and left on a desk.
+## Scanning and Archiving What You Print
 
-Leave out the full card number, any expiry date and anything resembling an authorisation code. Your own records lose nothing by it, and a copy that leaks card data creates a problem nobody wants.
+**Scan the page version, not the narrow slip, whenever the copy has to go digital again.**
 
-### Where copies travel
+A letter-size sheet sits square on a scanner bed and produces a straight, croppable image. A narrow slip curls, skews and often needs three attempts. If the workflow is print, sign, scan and email — which it still is in plenty of offices — the page format saves the most time.
 
-A receipt copy rarely stays where it was made. It may be emailed to an accountant in another state, dropped into a shared folder a whole team can open, or printed and left in a tray. Masking the card number is cheap insurance against all three, and no legitimate use of the document needs the other twelve digits.
+Name scanned files the same way you name the originals, by date and store. Two naming schemes in one archive may cost more time than the scanning did.
 
-## When You Should Ask the Retailer Instead
+## Filing a Printed Receipt Where It Can Be Found
 
-**Whenever the store's own record is what the situation actually calls for.**
+**A printed copy is only as useful as the folder it lands in.**
 
-Returns, exchanges, warranty claims and payment disputes are all resolved against the retailer's transaction history. A copy you generated has no standing there, and offering one in place of the original wastes a trip to the service desk.
+Records filed by date suit a household or a sole trader reviewing a month. Records filed by job or client suit a contractor, and records filed by category suit anybody preparing a return. Any of the three works; mixing them does not, and a folder holding all three schemes usually has to be read end to end to answer a single question.
 
-Our [Walmart receipt lookup guide](/blog/walmart-receipt-lookup) sets out how to retrieve the original through the app, the website or the store. Generate a copy for your files, and go to the retailer for anything that needs their record.
+Write the reference on the sheet itself where the folder uses one. A page that falls out of its folder in an office in New York can be refiled in seconds if it says where it belongs, and is otherwise a small mystery for whoever picks it up.
 
-## Why Use makecepeit for Receipt Copies?
+### Folder discipline
 
-**Because the structure is already correct, so the only thing left to get right is the data.**
+File the sheet the day it prints. A stack of printed records waiting to be filed is the same problem as a shoebox of receipts, only with better formatting, and it tends to grow until somebody sets aside an afternoon for it.
 
-- Item lines, subtotal, tax and tender in the order a reader expects
-- Totals that recalculate as you edit, so the math cannot drift
-- The same layout every time, which makes a folder of copies easy to scan
-- A clean download you can attach to a statement or an expense report
+## Ink, Paper and Legibility
+
+**Print in black on plain white paper and keep the type large enough to read after a photocopy.**
+
+Coloured backgrounds and light grey type look refined on screen and fail on paper, particularly once a document has been photocopied or faxed by somebody else's office. Small type in a price column is the first thing to go. Plain formatting is not a compromise here; it is what keeps a record usable through the copies that follow.
+
+## Why Use makecepeit for Printable Receipts?
+
+**Because the layout is built to survive the printer, and the totals are calculated before anything reaches paper.**
+
+- Clean downloads rather than screenshots of a preview
+- A structure that holds its columns at print size
+- Totals that recalculate as you edit, so no printed copy carries stale math
+- The same layout every time, which keeps a printed folder uniform
 - Free to start, with nothing to install
 
-## Tips for an Accurate Reconstruction
+### One record, one sheet
 
-- Work from the statement, never from memory alone
-- Enter one line per item rather than grouping them
-- Record the tax you were charged, not a rate you looked up
-- Use plain item descriptions a stranger could follow
-- Note where you estimated something
-- Keep the city and state honest
-- Check the total twice before you save
+Keep each purchase on its own page. Two receipts sharing a sheet may save paper, but they cannot be filed in two places, and the second one is usually the one somebody later needs on its own. Where a record runs long, let it continue onto a second page rather than shrinking the type to force a fit.
+
+## Tips Before You Print
+
+- Check the total against the statement before printing, not after
+- Print one test copy before running a batch
+- Keep the digital file alongside the paper one
+- Use plain black type on white paper
+- Leave real margins at every edge
+- Mask card numbers to four digits
+- Write the filing reference on the sheet if your folder uses one
+
+### Reprints and corrections
+
+When a record changes after it has been printed, reprint it and destroy the old sheet rather than annotating it by hand. A corrected figure in pen raises a question that the reprint answers for free, and a folder holding both versions of one purchase is worse than a folder holding neither.
 
 ## Common Mistakes to Avoid
 
-- **Inventing store transaction codes.** They look authoritative and are fabricated, which is the worst combination on a document.
-- **Reproducing the retailer's logo.** Your record does not need it, and copying it creates a trademark problem.
-- **Letting the total drift from the statement.** A copy that does not reconcile raises questions instead of answering them.
-- **Merging two trips into one receipt.** One transaction, one document.
-- **Writing a full card number.** Mask it to four digits, always.
-- **Applying one tax rate to a mixed basket.** Groceries and general merchandise are often taxed differently.
-- **Treating the copy as proof for a return.** That is the retailer's record, not yours.
+- **Printing before reconciling.** A copy whose total disagrees with the statement wastes both the sheet and the reader's time.
+- **Screenshotting a preview.** Resolution suffers and the columns rarely survive.
+- **Using shrink-to-fit.** It rescales the layout and can make a price column unreadable.
+- **Choosing the narrow format for a filing folder.** It curls, skews and scans badly.
+- **Printing card details in full.** Paper travels, so mask to four digits.
+- **Adding store branding.** A personal record needs none, and copying a logo creates a trademark problem.
+- **Keeping only the paper copy.** Without the file, a reprint means rebuilding the record from scratch.
 
-### What good looks like
+### What a printed copy proves
 
-A well-built copy can be checked by somebody who was not there. The date matches the statement, the items are recognisable, the tax sits on its own line and the total lands to the cent. Nothing on it claims to be the retailer's document, and nothing on it was invented to make a number work.
+A printed record proves what you recorded, not that a retailer issued it. That is enough for budgeting, bookkeeping and most internal expense processes, and it is not enough for a return or a chargeback. Being clear about that line, in your own mind and on the document, is what keeps accurate record-keeping distinct from something a reviewer would rightly question.
 
 ## Final Takeaway
 
-A Walmart receipt generator is useful precisely to the degree it is accurate. Build from the statement line, list the items honestly, carry the tax you were actually charged, and mask the card. A copy that reconciles to the cent is a record anybody can rely on.
+A printable Walmart receipt generator is judged at the printer, not on screen. Reconcile the record first, pick the page format if it is going into a folder, keep the margins honest and print one test copy before a batch. Keep the digital file so a reprint is never a rebuild.
 
-For anything requiring the store's own document, ask the store. For your own files, a well-built copy does the job.
+For anything needing the retailer's own document, such as a return or a warranty dispute, request the original. Our guide to [looking up a Walmart receipt](/blog/walmart-receipt-lookup) explains how.
 
-One habit makes the whole exercise worth doing: file the copy the same day you build it. A reconstruction sitting in a downloads folder may as well not exist, and the details you relied on to build it fade from memory faster than the paper did. Attach it to the statement page, name the file after the date and the store, and the record becomes something you can find a year later without effort.
+Printing is the last step in a chain that starts with an accurate record, and it is the step that exposes any weakness in the earlier ones. A total that never reconciled, an item line nobody can read, a card number left in full: all of them become permanent the moment the sheet leaves the tray. Spending a minute on screen first is what keeps the printed set worth keeping.
 
-That is ultimately what separates a useful receipt copy from a nice-looking one. The layout matters, the arithmetic matters more, and the filing is what makes either of them count when somebody finally asks what you spent.
+Treat the paper copy as the durable version and the file as the working one. The file is what you edit, reprint and email; the sheet is what survives in the folder when everything else has moved on to another system.
 
-## Create Your Receipt Copy With makecepeit
+## Create Your Printable Receipt With makecepeit
 
-Enter the store, the items, the tax and the payment method, and watch the totals land where the statement says they should. [Generate your receipt](/create) and file it with the paperwork it supports.`,
+Build the record, check the total, then download a file that prints cleanly at the size you need. [Make your receipt](/create) and file the sheet beside the statement it supports.`,
     faqs: [
       {
-        q: "What is a Walmart receipt generator?",
-        a: "It is a builder that arranges the details of a purchase you made into the layout a big-box receipt uses, with item lines, a tax row and a tender line.",
+        q: "What is a printable receipt generator?",
+        a: "It is a receipt builder whose output is laid out for paper, with margins, type sizes and columns that stay legible once printed rather than only on screen.",
       },
       {
-        q: "What fields does a supercenter receipt print?",
-        a: "Store identity, date and time, one line per item, a subtotal, sales tax, the total paid, and the tender showing how the purchase was paid for.",
+        q: "Narrow slip or full page, which prints better?",
+        a: "A full page for anything being filed or scanned. The narrow format suits a wallet copy or a folder that also holds genuine store slips.",
       },
       {
-        q: "Why does the tax line sometimes appear twice?",
-        a: "Many states tax groceries differently from general merchandise, so a single basket containing both can produce two separate tax figures.",
+        q: "Why does my printed copy lose a column?",
+        a: "Usually margins. Printers reserve an unprintable border, so a layout running too close to the edge loses characters there.",
       },
       {
-        q: "What if my total does not match the statement?",
-        a: "The statement wins. A gap usually means an item was forgotten or a price mis-remembered, so revisit the lines before saving the copy.",
+        q: "Should I use shrink-to-fit when printing?",
+        a: "No. It rescales the layout and often makes the price column unreadable. Set proper margins and print at full size instead.",
       },
       {
-        q: "Should I include store transaction codes?",
-        a: "No. Those codes come from the retailer's systems, and inventing something that resembles one puts fabricated data on your record.",
+        q: "Can I scan a printed receipt copy?",
+        a: "Yes, and the page format scans far better. A narrow slip curls and skews on the scanner bed, often needing several attempts.",
       },
       {
-        q: "How much of the card number should show?",
-        a: "The last four digits only. Full numbers, expiry dates and authorisation codes do not belong on a receipt copy you keep or share.",
+        q: "Should I keep the digital file too?",
+        a: "Yes. Without it, a reprint means rebuilding the record from scratch, and the details you used may be harder to recover later.",
       },
       {
-        q: "Can a generated receipt be used for a return?",
-        a: "Generally not. Returns are verified against the retailer's own transaction record, so request the original through the store instead.",
+        q: "What colour should the receipt print in?",
+        a: "Plain black on white paper. Coloured backgrounds and light grey type look fine on screen and fail once a document is photocopied.",
       },
       {
-        q: "Should I list quantities on each line?",
-        a: "Yes. A description, a quantity and a unit price let any reader check the line total without recalculating the whole receipt.",
+        q: "How much card detail should be printed?",
+        a: "The last four digits only. Printed pages travel between desks and offices, so full card numbers should never appear on them.",
       },
       {
-        q: "Generator or template, which is better?",
-        a: "A generator suits a one-off reconstruction where accuracy matters most. A reusable template suits someone filing similar purchases week after week.",
+        q: "Is a printed copy valid for a return?",
+        a: "Generally not. Retailers check their own transaction records, so request the original receipt from the store when a return is the goal.",
       },
       {
-        q: "Is generating a receipt copy legal?",
-        a: "Recording a purchase you genuinely made is normal record-keeping. Creating a receipt for a purchase that never happened, or passing your copy off as the store's, is fraud.",
+        q: "Is printing a receipt copy legal?",
+        a: "Printing a record of a purchase you genuinely made is ordinary bookkeeping. Printing one for a purchase that never happened, or passing it off as the store's, is fraud.",
       },
     ],
   },

@@ -1,446 +1,454 @@
 /**
- * Oct-sprint — Day 2026-10-09 (2 posts). Notion board Order 19 and 20, big-box cluster.
- *   19. "lowes receipt template"     90/mo  · CPC $4.74 · Low -> /create (no /brands/lowes yet)
- *   20. "target receipt generator"   210/mo · CPC $5.14 · Low -> /brands/target
+ * Oct-sprint — Day 2026-10-09 (2 posts). Notion board Order 21 and 22, auto cluster.
+ *   21. "auto repair receipt template"        320/mo · CPC $6.69 · High -> /templates/auto-repair
+ *   22. "automotive repair receipt template"  320/mo · CPC $6.69 · High -> /templates/auto-repair
  *
- * Cannibalization guard: #19 closes the Lowe's pair and owns the renovation project
- * record — room-by-room and phase filing for a homeowner or DIY remodel, which is a
- * different reader from #17's contractor job costing and from #18's delivered orders.
- * #20 opens the everyday-retail angle: household purchases, gift receipts, returns
- * windows and the split between a shopper's copy and a business expense record.
+ * Cannibalization guard: the auto cluster runs five near-identical head terms across
+ * Oct 11-15, so each owns one question. #21 owns the document itself — the fields a
+ * repair receipt holds and why parts and labour sit apart. #22 owns the sequence:
+ * estimate, authorisation, added work, final paid receipt. #23 owns the independent
+ * or mobile mechanic, #24 the multi-bay shop, #25 the maintenance record.
  *
- * NOTE: lib/brands.ts has no "lowes" entry — #19 must NOT link /brands/lowes (404).
- * /brands/target exists, so #20 links it.
+ * Live overlap: /blog/how-to-make-an-auto-repair-receipt (Aug) is the step-by-step.
+ * #21 defers to it rather than restating it, and links it. All link targets verified
+ * live 2026-09-24: /templates/auto-repair, /blog/how-to-make-an-auto-repair-receipt.
  *
- * Retrieval answers already live: /blog/home-depot-lowes-receipt-reprint and
- * /blog/target-receipt-lookup. Both are linked rather than competed with.
- *
- * Legitimacy: records of purchases that happened; no branding, card data masked,
- * copies never presented as the retailer's own document.
+ * Legitimacy: records of work actually performed. Estimates and authorisations are
+ * described as records, never as a way to paper over work that did not happen.
  */
 
 export const OCT_9 = [
   {
-    slug: "lowes-receipt-template",
-    image: "assets/lowes-receipt-template.jpeg",
+    slug: "auto-repair-receipt-template",
+    image: "assets/auto-repair-receipt-template.jpeg",
     category: "small-business",
     publishedAt: "2026-10-09T09:30:00Z",
-    title: "Lowe's Receipt Template for Renovation Costs",
-    seoTitle: "Lowe's Receipt Template for Renovation Costs",
+    title: "Auto Repair Receipt Template: What It Holds",
+    seoTitle: "Auto Repair Receipt Template: What It Holds",
     seoDescription:
-      "Learn how a Lowe's receipt template keeps renovation spending in one shape, room by room, so a remodel totals itself, with Makecepeit.",
+      "Learn which fields an auto repair receipt template carries, why parts and labor sit on separate lines, and how to issue one cleanly with Makecepeit.",
     excerpt:
-      "A Lowe's receipt template keeps every renovation purchase in one shape and tags it to a room, so a remodel adds itself up instead of being reconstructed from a drawer of paper. Here's how.",
-    body: `A **Lowe's receipt template** is a reusable receipt layout for home improvement spending, filled in trip after trip so a renovation accumulates as a set of matching records. It suits homeowners running a remodel, DIY builders working weekends and landlords refreshing a property between tenancies.
+      "An auto repair receipt template holds the vehicle, the parts, the labor and the warranty in fixed positions, so every job a shop closes produces the same readable document. Here's what belongs on it.",
+    body: `An **auto repair receipt template** is a reusable layout for documenting completed vehicle work, used by repair shops, mobile mechanics, fleet maintainers and owners keeping their own service history. It holds the vehicle details, the parts, the labor and the warranty terms in fixed positions, so every job closes with the same readable document.
 
-A renovation is rarely one purchase. It is twenty small ones over six weeks, and the question at the end — what did the kitchen actually cost — is unanswerable unless the records were kept in one shape. Makecepeit lets you [build a receipt](/create) from a fixed structure, so the last trip of a bathroom remodel in Nashville files exactly like the first.
+Repair receipts carry more than a total. They record which car was worked on, what was replaced, who did the work and what happens if the part fails. Makecepeit lets you [create a repair receipt](/create) from a fixed structure, so a brake job in Tucson and a transmission service in Baltimore produce records a reader can compare.
 
-## What Is a Lowe's Receipt Template?
+## What Is an Auto Repair Receipt Template?
 
-**It is a fixed layout you reuse for every home improvement purchase, so a project's records can be totalled without rework.**
+**It is a fixed arrangement of repair fields you fill in for every job, rather than a document rebuilt from scratch each time.**
 
-The template holds the structure still: store, date, room or project reference, the item columns, and the subtotal, tax and total rows. Only the purchase changes. That consistency is what turns a drawer of paper into something you can add up, and it costs nothing after the first setup.
+The template holds what never changes: the shop identity, the column headings, the parts and labor sections, the tax row and the warranty footer. What changes is the job — the vehicle, the work performed, the parts consumed and the hours spent. Because the structure stays put, a customer who returns three times receives three documents that read the same way, and the shop's own files stay consistent enough to search.
 
-The output records purchases you genuinely made. It carries no store branding and no connection to the retailer's systems.
+For an owner keeping their own history, the same logic applies from the other side. A folder of identical records makes a service history; a drawer of mismatched slips makes a pile.
 
-### Who this is not for
+### Template versus a one-off receipt
 
-A contractor costing client work needs phase tagging and a job reference, which our guide to the [Home Depot receipt template](/blog/home-depot-receipt-template) covers. This post is aimed at the homeowner or landlord side, where the question is usually what a room cost rather than what a client should be billed.
+A one-off receipt answers today's question. A template answers it repeatedly, and it also prevents the slow drift where one job's paperwork carries the mileage and the next one does not. Our guide on [how to make an auto repair receipt](/blog/how-to-make-an-auto-repair-receipt) covers the step-by-step build; this post is about what the reusable layout should hold.
 
-## Which Fields Should the Template Hold?
+## What Should an Auto Repair Receipt Include?
 
-- **Store location**, at least the city and state
-- **Purchase date**, matching the card statement
-- **Room or area**, such as kitchen, main bathroom or garage
-- **Item description** in plain language
-- **Unit and quantity**, because paint, tile and lumber are priced by measure
-- **Unit price** and the resulting line total
-- **Subtotal**, above the tax row
-- **Sales tax**, kept visible even when zero
-- **Total**, reconciling to the statement
-- **Payment method**, masked to four digits
+- **Shop name and address**, plus a license number where your state issues one
+- **Customer name** and contact details
+- **Vehicle description**, including year, make, model and mileage at service
+- **Invoice or repair order number**, unique to the job
+- **Date the work was completed**, and the date paid if they differ
+- **Parts lines**, each with a description, quantity and price
+- **Labor lines**, with hours and the rate applied
+- **Shop supplies or disposal fees**, where charged
+- **Sales tax**, on whatever portion your state taxes
+- **Total**, and the amount actually paid
+- **Payment method**, masked to the last four digits
+- **Warranty terms**, in plain words
 
-### The room field does the work
+### The fields shops forget
 
-Tagging by room is what lets a remodel answer the only question anybody asks afterwards. Without it, a folder holds forty purchases and one grand total, which is enough for a budget and useless for deciding whether the next bathroom is affordable.
+Mileage and the completion date are the two most commonly dropped, and they are the two a warranty claim turns on two years later. A record without mileage cannot show when a service interval was met, and a record without a date cannot start a warranty clock.
 
-## Room-by-Room Totals
+## Parts and Labor: Why They Sit Apart
 
-**Tag at the till, total by room, compare against the plan.**
+**A reader needs to see what was bought and what was done as two separate figures.**
 
-| Level | What it answers | Built from |
+Parts and labor answer different questions. A customer comparing a quote wants to know how much of the bill is the component and how much is the time. A fleet manager tracking costs wants parts in one column and labor in another. And in several states the two are taxed differently, which makes a blended line impossible to verify.
+
+| Line type | What it shows | Why it is separate |
 |---|---|---|
-| One record | What did this trip cost | Item lines plus tax |
-| One room | What did the kitchen cost | Records tagged to that room |
-| One project | What did the remodel cost | Every record in the project |
-| One category | What did we spend on tile | Records filtered by item type |
+| Parts | Component, quantity, unit price | May be taxed; may carry its own warranty |
+| Labor | Hours and hourly rate | Often taxed differently or not at all |
+| Sublet work | Work sent to another shop | Priced differently from in-house labor |
+| Shop supplies | Consumables used on the job | Usually a small flat or percentage charge |
+| Disposal fees | Oil, coolant, tire disposal | Frequently set by state or local rule |
 
-A homeowner in Portland running a two-room refresh gets the most from the middle row. The kitchen may have absorbed most of the budget while the hallway came in under, and neither fact is visible from a single project total.
+Where a job is quoted as a flat rate rather than by the hour, say so on the labor line. Flat-rate pricing is normal and entirely legitimate; leaving a reader to assume an hourly figure that was never used is what causes the argument.
 
-### When the plan and the spending diverge
+## Why Repair Receipts Matter in the United States
 
-Totalling each room as it finishes, rather than at the end, is what turns a record into a decision. A kitchen running ahead of the plan in week two may still be adjustable; the same overrun discovered in week eight is simply history.
+**Because the receipt is what makes a warranty claim, a resale conversation or a dispute resolvable.**
 
-## Why Renovation Records Matter in the United States
+Parts warranties commonly run twelve months, and many run longer. A customer in Orlando whose alternator fails in month ten needs the original document, and the shop that issued it needs its own copy to honor the claim without argument. At resale, a folder of service records may support the price a seller is asking, particularly on a vehicle with high mileage.
 
-**Because home improvement spending may matter years later, when the property is sold or insured.**
+Repair shops in California, Texas and New York also work under state consumer protection rules that vary in what a customer must be given and when. Sales tax treatment of parts and labor varies too. Because both depend on where you operate and what you do, a tax professional and your own state's requirements are the right references rather than a general article.
 
-Homeowners are often advised to keep records of capital improvements, because the treatment of improvement costs may affect what happens at sale. Whether a particular project qualifies, and how it should be recorded, depends on the work and on your circumstances, so a tax professional is the right person to ask. The paperwork, though, has to exist first.
+> **Important:** a repair receipt records work that was actually performed on a vehicle. Issuing one for work that did not happen, or inflating parts and hours beyond what the job consumed, is fraud.
 
-Insurance is the second reason. Households in Florida, Texas and Colorado making claims after storm or water damage are usually asked what was installed and when. A record naming the materials, the room and the date answers that far better than a memory of a weekend in April.
+## How to Fill the Template for a Job
 
-> **Important:** a template records purchases that actually happened. Filling one in for materials never bought, or presenting your copy as the retailer's receipt, is fraud.
+1. **Open a numbered record** when the vehicle arrives, not after the work is done.
+2. **Enter the vehicle details**, including the mileage on the odometer that day.
+3. **List each part** with its quantity and price as work proceeds.
+4. **Record labor** by hours and rate, or as a flat-rate line if that is how you price.
+5. **Add fees** for shop supplies and disposal where they apply.
+6. **Apply tax** to the portions your state taxes, not to the whole total.
+7. **State the warranty** in plain words, with its length and what it covers.
+8. **Record the payment** method and mask the card to four digits.
+9. **Give the customer a copy** and keep yours in the job file.
 
-## How to Set Up a Renovation Template
+![An auto repair receipt template shown as a clean banner layout, with the shop name and repair order number in the header, vehicle and mileage lines beneath, separate parts and labor sections with quantities and rates, and a highlighted total above a plain-language warranty footer.](assets/auto-repair-receipt-template-2.jpeg)
 
-1. **List the rooms** the project touches, before the first trip.
-2. **Build one clean record** from a real purchase to prove the layout.
-3. **Strip the details** to leave a blank master.
-4. **Add the room field** and keep it near the date.
-5. **Copy the master** for every trip rather than editing it.
-6. **Fill it the same evening**, while the trip is fresh.
-7. **Total each room** as the work in it finishes.
-8. **Keep the folder** after the project closes, not just during it.
+## Vehicle Details That Make the Record Usable
 
-![A Lowe's receipt template shown as a clean banner layout, with a room reference field near the header, an empty column structure for item, unit, quantity and price, and blank subtotal, sales tax and total rows ready for the next renovation purchase.](assets/lowes-receipt-template-2.jpeg)
+**Year, make, model and mileage turn a receipt into a service record.**
 
-### Filling it the same day
+A receipt that names only the customer is a payment record. One that names the vehicle is a maintenance history, and that difference matters to the next mechanic, the next owner and any manufacturer handling a claim. Where a customer runs several vehicles, the detail also prevents the wrong car being credited with the work.
 
-The detail that disappears fastest is the one nobody writes down: which room the second box of tile was for. A record filled the evening of the trip captures it; one filled at the end of the month usually guesses, and the guess is what makes a room total unreliable.
+Recording the last six of a vehicle identification number is common practice and generally enough to distinguish two similar cars in the same household without printing the full number on a document that travels.
 
-## Returns During a Renovation
+### Mileage at service
 
-**Returns are normal on a remodel, and they belong in the folder as their own records.**
+Write the odometer reading at the time the work was done, not the reading when the customer booked. Service intervals are measured from the actual figure, and a discrepancy of a thousand miles may be the whole argument when a manufacturer asks whether a maintenance schedule was followed.
 
-Over-ordering is sensible on tile and flooring, and returning the surplus is part of the plan rather than a mistake. Record the return separately, naming the original purchase date and the materials going back, then let the room total absorb both documents.
+## Shop Supplies, Disposal Fees and Taxes
 
-Netting a return into the original purchase produces a record that matches neither statement line, and on a project with a dozen returns the folder stops reconciling altogether.
+**Charge them if you charge them, but show them as their own lines.**
 
-### Store credit and exchanges
+Shop supplies are the consumables a job swallows: cleaners, rags, lubricants, fasteners. Most shops recover them as a small flat fee or a percentage of labor, and both approaches are ordinary. Disposal fees for oil, coolant and tires may be set or capped by state or local rules, which vary considerably.
 
-Where a return produces store credit rather than a refund, note that on the record. Credit spent later on the same project is still project spending, and a folder that shows the credit arriving and being used stays honest about what the remodel actually cost.
+The rule for the receipt is the same in every case. A fee that appears as its own line with a plain name is a fee a customer can ask about and understand. The same amount folded silently into a labor rate is the sort of thing that turns into a complaint.
 
-## DIY Budgets That Hold Up
+### State rules and what they ask for
 
-**A renovation budget survives contact with reality only if the spending is recorded as it happens.**
+Repair paperwork requirements differ across the country, and shops in California, Texas and Florida each work under their own state rules about what a customer must be given and when. Sales tax treatment of parts and labor varies the same way, with some states taxing components only and others reaching further. Your state department of revenue sets the tax side and the IRS expects business records that support what a return claims, so treat both as questions for your own state and a tax professional rather than a national rule.
 
-Most remodels begin with a figure written on one page and end with a total nobody predicted. The gap is rarely one large surprise; it is twenty small purchases that were never added up. Recording each trip as it happens turns the budget into something that can be steered rather than something reviewed afterwards with regret.
+## Customer Copy and Shop Copy
 
-Homeowners in Texas, Ohio and California running weekend projects usually find the same pattern: the first two rooms track the plan, and the third drifts because nobody was totalling. A running figure, checked weekly, is the whole fix.
+**Both copies should carry the same figures, and neither should carry full card details.**
 
-### Accuracy over optimism
+The customer's copy is the one that travels into a glovebox, a filing cabinet or an insurance claim. The shop's copy stays with the job file and supports the warranty if the part fails. Keeping them identical is what prevents the awkward conversation where two versions of one job disagree.
 
-Enter what was actually paid, including the delivery charge and the second trip for more grout. A budget fed with tidied numbers looks reassuring and teaches you nothing about the next project, which is the main reason to keep these records at all.
+### What the customer copy should not carry
 
-## Shared Projects and Splitting Costs
+Internal cost prices, technician notes about the customer, and full payment card numbers all belong in the shop's own systems rather than on a document handed across a counter. Masking the card to four digits is standard practice and costs nothing.
 
-**When two people fund a renovation, the record is the agreement.**
+## Fleet and Commercial Customers
 
-Couples, siblings splitting work on a family house, and landlords sharing a duplex all need the same thing: a set of records both sides can read. A folder in one shape, tagged by room, settles a conversation that memory cannot.
+**A commercial account reads repair receipts differently from a retail customer.**
 
-Where the split is uneven, note the share on each record rather than working it out at the end. The arithmetic is trivial on the day and contentious three months later.
+A fleet manager in Atlanta running twelve vans is not comparing one bill against a quote; they are tracking cost per vehicle across a year. That reader wants the vehicle identified consistently, the mileage on every record, and parts and labor separated so the two can be totalled independently.
 
-## Keeping Paint, Tile and Fixture Details
+Adding a purchase order or unit number field makes those records sortable on the customer's side, which is often the difference between keeping a commercial account and losing it to a shop whose paperwork is easier to process. The detail costs nothing to capture at the counter.
 
-**Write down what you bought precisely enough to buy it again.**
+### Accuracy over volume
 
-Paint colour and finish, tile size and batch, fixture model and finish: each of these is easy to record on the day and genuinely hard to recover in two years, when a wall needs patching or a broken fitting needs matching. The receipt record is the natural place for it, because that is the document you will still be able to find.
+One accurate record per visit beats a stack of partial ones. Where a detail is genuinely unknown, leave the field empty rather than filling it with a plausible guess, because a guessed mileage or an invented part number may be relied on by somebody months later.
 
-A short note beneath the item line is enough. It costs seconds and may save a trip across town with a chipped tile in a bag.
+## Why Use makecepeit for Auto Repair Receipts?
 
-## Why Use makecepeit for Renovation Records?
+**Because the parts and labor structure is already built, and the totals recalculate as the job changes.**
 
-**Because the layout holds still, the math is automatic, and the room tag turns a folder into a set of answers.**
-
-- Item, unit, quantity and price columns suited to materials
-- A reference field for the room or area
-- Totals that recalculate as lines change, so no record carries stale math
-- Consistent output that makes a project folder scannable
+- Separate parts and labor sections rather than one blended list
+- Quantity, rate and line total columns that add themselves up
+- Room for vehicle details, mileage and a repair order number
+- A warranty footer you can set once and reuse
+- Clean downloads for the customer copy and your own file
 - Free to start, with nothing to install
 
-### Photographs alongside the records
+## Tips Before You Issue One
 
-Take a picture of each room before the work covers anything up, and keep it with the folder. Pipe runs, wiring and substrate all disappear behind finished surfaces, and a photograph dated the same week as the materials record answers questions that neither document could answer alone.
-
-## Tips Before You Start a Renovation Folder
-
-- Decide the room names before the first trip and keep them consistent
-- Fill each record the same day
-- Note paint colours and tile batches beneath the item line
-- Record returns as separate documents
-- Reconcile against the card statement weekly
-- Mask card details to four digits
-- Keep the folder after the project ends
+- Open the record when the vehicle arrives
+- Write the mileage from the odometer, not from the booking
+- Keep part descriptions specific enough to reorder from
+- Say whether labor is hourly or flat rate
+- Name every fee rather than folding it into the rate
+- State the warranty in words a customer will understand
+- Check the total against what was actually charged
 
 ## Common Mistakes to Avoid
 
-- **Leaving the room field blank.** The project total survives, the useful detail does not.
-- **Naming rooms three ways.** Kitchen, kitchen reno and KIT will not group together.
-- **Netting returns into the original.** Two statement lines need two documents.
-- **Waiting until month end to fill records.** The room allocation becomes a guess.
-- **Dropping the tax row.** Later you cannot tell exempt from forgotten.
-- **Throwing the folder away at completion.** Sale and insurance questions arrive years later.
-- **Treating the record as proof for a return.** The retailer checks their own system.
+- **Blending parts and labor into one line.** It hides the two figures every reader wants.
+- **Leaving mileage off.** The service history loses most of its value.
+- **Unnamed fees.** A charge nobody can identify becomes a complaint.
+- **Vague part descriptions.** "Sensor" will not help anyone reorder or claim.
+- **Warranty terms only spoken aloud.** If it is not written, it will be disputed.
+- **Full card numbers on the customer copy.** Four digits is the standard.
+- **Two copies that disagree.** Issue one document and keep an identical copy.
 
 ## Final Takeaway
 
-A Lowe's receipt template is worth setting up at the start of a renovation rather than in the middle. Fix the columns, add a room field, fill a copy after every trip and total each room as it finishes. What you get is a project that adds itself up and a folder that still answers questions years after the dust settles.
+An auto repair receipt template is worth setting up because repair documents carry more than a price. Fix the vehicle fields, keep parts and labor apart, name every fee, and write the warranty down. What you get is a record that answers the warranty question in month ten and the resale question in year four.
 
-For a return or a warranty claim, the retailer's own record is the one that counts. Our guide to a [Home Depot and Lowe's receipt reprint](/blog/home-depot-lowes-receipt-reprint) covers how to request it.
+For the step-by-step build, our guide on [how to make an auto repair receipt](/blog/how-to-make-an-auto-repair-receipt) walks through it field by field.
 
-## Create Your Renovation Template With makecepeit
+## Create Your Repair Receipt With makecepeit
 
-Set the columns and the room field once, then fill a fresh copy after each trip. [Start your template](/create) and let the remodel total itself, room by room.`,
+Enter the vehicle, the parts and the labor, and let the totals and tax calculate as the job closes. [Build your repair receipt](/create) and hand over a copy that still makes sense in two years.`,
     faqs: [
       {
-        q: "What is a Lowe's receipt template?",
-        a: "It is a reusable layout for home improvement purchases, filled in trip after trip so a renovation's records share one shape and can be totalled easily.",
+        q: "What is an auto repair receipt template?",
+        a: "It is a reusable layout holding the vehicle details, parts, labor, fees and warranty terms in fixed positions, so every completed job produces the same readable document.",
       },
       {
-        q: "Why tag records by room?",
-        a: "Because the useful question is what the kitchen cost, not what the whole remodel cost. Without the tag, only the project total survives.",
+        q: "Why separate parts from labor?",
+        a: "Because they answer different questions for a customer and a fleet manager, and several states tax components and labor differently from each other.",
       },
       {
-        q: "When should I fill in each record?",
-        a: "The same day as the trip. The detail that fades first is which room a purchase was for, and a month-end guess makes room totals unreliable.",
+        q: "Should mileage appear on the receipt?",
+        a: "Yes. The odometer reading at the time of service is what turns a payment record into a maintenance history a manufacturer or buyer can rely on.",
       },
       {
-        q: "How do I handle returned materials?",
-        a: "As a separate record naming the original purchase date and the materials going back. Netting them produces a document matching neither statement line.",
+        q: "How should flat-rate labor be shown?",
+        a: "Say plainly that the line is flat rate rather than hourly. Flat pricing is normal, but a reader assuming an hourly figure will query the bill.",
       },
       {
-        q: "What about store credit instead of a refund?",
-        a: "Note it on the record. Credit spent later on the same project is still project spending, and the folder should show it arriving and being used.",
+        q: "Do shop supplies belong on the receipt?",
+        a: "Yes, as their own named line. A recovery fee a customer can see and ask about rarely causes trouble; the same amount hidden in a rate often does.",
       },
       {
-        q: "Should I record paint colours and tile batches?",
-        a: "Yes. Both are trivial to note on the day and genuinely hard to recover two years later when something needs patching or matching.",
+        q: "What warranty details should be written?",
+        a: "The length, what it covers and any mileage limit, in plain words. Terms agreed only in conversation are the ones later disputed.",
       },
       {
-        q: "How long should I keep renovation records?",
-        a: "Often longer than the project. Sale and insurance questions arrive years afterwards, and what applies to your situation is worth asking a tax professional.",
+        q: "Should the customer copy show card details?",
+        a: "Only the last four digits. Full numbers belong in the shop's payment systems, never on a document handed across the counter.",
       },
       {
-        q: "Does the tax row matter on a small purchase?",
-        a: "Keep it visible even at zero. Otherwise a later reader cannot tell whether tax was exempt, forgotten or simply never recorded.",
+        q: "How long should a shop keep copies?",
+        a: "Generally at least as long as the warranty offered, and often longer for business records. Requirements vary by state, so confirm what applies to you.",
       },
       {
-        q: "Can I use one template for two properties?",
-        a: "Yes, provided the reference field names the property as well as the room. Two properties sharing one tag cannot be separated afterwards.",
+        q: "Can one receipt cover two vehicles?",
+        a: "Better not. One vehicle per document keeps the service history clean and prevents work being credited to the wrong car in a household.",
       },
       {
-        q: "Is using a receipt template legal?",
-        a: "Recording purchases you genuinely made is ordinary record-keeping. Filling one in for materials never bought, or presenting it as the store's receipt, is fraud.",
+        q: "Is issuing a repair receipt template legal?",
+        a: "Documenting work genuinely performed is ordinary business practice. Issuing a receipt for work that never happened, or inflating parts and hours, is fraud.",
       },
     ],
   },
   {
-    slug: "target-receipt-generator",
-    image: "assets/target-receipt-generator.jpeg",
+    slug: "automotive-repair-receipt-template",
+    image: "assets/automotive-repair-receipt-template.jpeg",
     category: "small-business",
     publishedAt: "2026-10-09T14:00:00Z",
-    title: "Target Receipt Generator for Everyday Buys",
-    seoTitle: "Target Receipt Generator for Everyday Buys",
+    title: "Automotive Repair Receipt Template: Estimate to Paid",
+    seoTitle: "Automotive Repair Receipt Template: Estimate to Paid",
     seoDescription:
-      "Learn how a Target receipt generator records household and business purchases, keeps gift and return details straight, and stays accurate, with Makecepeit.",
+      "Learn how an automotive repair receipt template moves a job from estimate through authorization to a paid receipt, with added work recorded, by Makecepeit.",
     excerpt:
-      "A Target receipt generator records everyday household and business purchases in a readable form, with item lines, tax and payment kept separate. Here's what belongs on one.",
-    body: `A **Target receipt generator** is a receipt builder used to record everyday retail purchases, for households tracking a monthly figure, freelancers separating business supplies from personal shopping and anyone whose paper slip has already faded. It produces a document with item lines, a visible tax row and a payment line, in the order a reader expects.
+      "An automotive repair receipt template tracks a job through three documents: the estimate, the authorization for added work and the paid receipt that closes it. Here's how they fit together.",
+    body: `An **automotive repair receipt template** is a layout that carries a job from its first estimate through to the document a customer pays against, used by repair shops, service advisers and fleet operators. It keeps the same fields at each stage, so the quote, any approved additions and the final receipt all describe one job in one shape.
 
-Everyday purchases are the ones least likely to be recorded and most likely to be needed later, usually for a return window or an expense claim. Makecepeit lets you [create a receipt](/create) from a fixed layout, so a household run in Minneapolis and an office supply trip in Atlanta file the same way.
+Most disputes about a repair bill are disputes about a change nobody wrote down. Makecepeit lets you [build a repair receipt](/create) from a fixed structure, so a shop in Sacramento and a mobile technician in Louisville can both show what was quoted, what was approved and what was finally charged.
 
-## What Is a Target Receipt Generator?
+## What Is an Automotive Repair Receipt Template?
 
-**It is a builder that arranges a purchase you made into a standard retail receipt layout.**
+**It is one layout used at three moments: quoting the work, recording an approval, and closing the job as paid.**
 
-You supply the details, the tool structures them, and the result is your own record. It does not connect to the retailer's systems, carries none of their branding, and makes no claim to be their document. Our guide to a [Target receipt lookup](/blog/target-receipt-lookup) covers how to ask the store for the original when that is what the situation needs.
+The estimate lists expected parts and labor. The authorization records what the customer agreed to when something extra was found. The receipt shows what was actually done and paid. Because all three share a structure, the differences between them are visible at a glance rather than buried in three unrelated documents.
 
-The value is legibility. A statement line says a total; a structured record says what was in the basket, which is the part that matters at expense time or when a household budget is reviewed.
+Our companion post on the [auto repair receipt template](/blog/auto-repair-receipt-template) covers the fields a finished receipt holds. This one is about the sequence and what happens when a job changes shape halfway through.
 
-### Personal and business in one basket
+### Why the sequence matters more than the format
 
-Mixed baskets are the norm: a pack of printer paper, a birthday card and groceries on one card. Recording the business items on their own record, or at least marking them clearly, is what keeps a freelancer's books clean. Splitting the basket at the time takes a minute; separating it in March takes an afternoon.
+A vehicle arrives for a water pump and leaves with a water pump, a thermostat and a belt. That is a normal repair, and it becomes a complaint only when the customer sees a total they were not expecting. Writing the change down at the moment it is approved costs a minute and settles the conversation permanently.
 
-## What Should an Everyday Receipt Include?
+## Estimate vs. Receipt: What Changes
 
-- **Store location**, at least the city and state
-- **Date**, and the time where two trips fall on one day
-- **Item lines** with plain descriptions
-- **Quantities**, where more than one of something was bought
-- **Unit price** and line total for each item
-- **Subtotal** before tax
-- **Sales tax**, which may differ across categories in the same basket
-- **Total paid**, matching the statement
-- **Payment method**, masked to the last four digits
-- **A note** marking which items, if any, were business purchases
+**An estimate predicts; a receipt records. They should never carry the same heading.**
 
-### Why the item lines matter most
-
-A reviewer asked to approve a claim wants to see what was bought. A total alone leaves them guessing, and a guess usually resolves as a question back to you. Item lines close that loop before it opens.
-
-## Gift Receipts and Why They Differ
-
-**A gift receipt proves the purchase without showing the price, which makes it a different document.**
-
-Retailers issue gift receipts so a recipient can exchange an item without learning what it cost. That is a store-issued document tied to their transaction record, and a receipt you build yourself is not a substitute for it. If an exchange is the purpose, the store's own paperwork is what the service desk will want.
-
-A record you build is for your side of the transaction: what you bought, what it cost you, when, and on which card. Keeping that straight is what makes a household budget or a business claim work.
-
-## Why Everyday Purchase Records Matter in the United States
-
-**Because return windows are short and the reasons to prove a purchase arrive without warning.**
-
-Most retail return policies run to a few weeks, and a faded slip inside that window is a practical problem. Beyond returns, households in California, Illinois and New York use these records to settle shared costs, reconcile a card statement and see where a month went.
-
-For anyone self-employed, the same purchases may carry a business element. The IRS expects records supporting what a return claims, and whether a given purchase qualifies depends on your circumstances, so a tax professional is the right person to ask. Accuracy matters more than volume: a small set of correct records beats a shoebox.
-
-> **Important:** a generated receipt records a purchase that genuinely happened. Creating one for a purchase that did not occur, or presenting it as the retailer's own document, is fraud.
-
-## How to Record an Everyday Purchase
-
-1. **Find the statement line**, which fixes the date and total.
-2. **List the items**, keeping descriptions plain.
-3. **Add quantities and unit prices**, letting line totals calculate.
-4. **Enter the tax** actually charged rather than a single assumed rate.
-5. **Mark any business items**, or split them onto their own record.
-6. **Check the total** against the statement, to the cent.
-7. **Mask the card** to its last four digits.
-8. **File it** where you will look for it: by month for a household, by category for a business.
-
-![A Target receipt generator shown as a clean banner layout, with a placeholder store name and store number in the header, household item lines with quantities and unit prices, a subtotal, a sales tax row and a highlighted total above a masked payment line.](assets/target-receipt-generator-2.jpeg)
-
-## Mixed Tax Rates in One Basket
-
-**Groceries and general merchandise are often taxed differently, and one basket may carry both.**
-
-| Basket contents | Typical treatment | What to record |
+| Aspect | Estimate | Paid receipt |
 |---|---|---|
-| Food items only | Often reduced or exempt | The tax charged, even if zero |
-| General merchandise | Standard state and local rate | The tax charged on those lines |
-| Mixed basket | More than one figure | Each tax line separately |
-| Item bought with a coupon | Tax usually on the reduced price | Discount on its own line |
+| Purpose | What the work is expected to cost | What the work actually cost |
+| Parts lines | Anticipated components | Components actually fitted |
+| Labor | Predicted hours or flat rate | Time actually charged |
+| Totals | Subject to change | Final and paid |
+| Signature | Customer approval to begin | Not required, though often taken |
+| Date | When quoted | When the work completed and was paid |
 
-Rules vary by state and change over time, which is why the register's figure is the one to record. Recalculating from a rate you looked up may produce a total that no longer matches the statement.
+Marking each document clearly is the simplest protection a shop has. An estimate handed over without the word estimate on it may reasonably be read as a fixed price, and that reading is hard to argue with later.
 
-### Discounts and coupons
+## Recording Additional Work
 
-Give a discount its own line beneath the subtotal rather than reducing an item price quietly. The record then shows what the item listed at, what came off, and what was paid, which is what makes the arithmetic followable by somebody else.
+**Write the approval down with what was approved, who approved it and when.**
 
-## Returns, Exchanges and the Window
+Extra work is discovered on most jobs of any size. The mechanic in Denver who finds a cracked hose during a coolant flush is doing the customer a favour by mentioning it, and the record of that conversation is what protects both sides afterwards. A single line — the part, the added cost, the name of the person who agreed and the time — is enough.
 
-**Know how long you have, and keep the record where you will find it inside that time.**
+Several states require written authorization before work exceeding an estimate by a set margin may proceed, and the thresholds and rules vary. Because requirements differ by state and change over time, check what applies where you operate rather than assuming a national standard.
 
-Return windows at large retailers commonly run a few weeks, sometimes longer for members or for particular categories, and they start from the purchase date. A record built the same week keeps the date unambiguous, which matters when an item turns out faulty on day twenty-nine.
+What a written authorization should carry:
 
-The store's own transaction record is what the service desk works from, so a copy you built does not extend or replace it. What your record does is tell you the date, the price and the card used, so you arrive knowing what to ask for.
+- The date and time the customer agreed
+- The name of the person who gave approval
+- What was found, in plain words
+- The additional parts and labor involved
+- The revised total, or the added amount
+- How the approval was given, in person, by phone or by message
+- The adviser or technician who recorded it
 
-### What to check before going back
+### Approvals given by phone
 
-Confirm the purchase date, the amount and the payment method on your record first. Most refused returns come down to a mismatch in one of those three, and knowing them in advance turns a disputed trip into a short conversation.
+A phone approval is still an approval, and it should be recorded the same way: time, name, what was described and what was agreed. Shops that note it in the job record at the moment rarely have trouble; shops that reconstruct it from memory during a dispute usually do.
 
-### Keeping the accuracy honest
+## Declined Work and Deferred Items
 
-Where you cannot recall an item exactly, describe it plainly rather than inventing a product name. An honest gap in a record is fine; a confident invention is what makes the whole document questionable.
+**Record what the customer turned down as well as what they accepted.**
 
-## Business Expenses From a Retail Trip
+A customer who declines new brake pads today may return in three months with a related problem, and the note showing the recommendation was made and declined matters to both sides. It also helps the next technician, who can see what has already been inspected.
 
-**Separate the business items, and say what they were for.**
+Keep the tone factual. A deferred items list naming the component, the date it was recommended and the reason recorded is a service record. A list written as a warning about the customer is not something to hand across a counter.
 
-A freelancer in Denver buying storage bins for a home office has a business purchase inside a household trip. A one-line note naming the purpose turns an ambiguous item into a record that stands on its own months later, when the reason has been forgotten.
+## Why Documented Repairs Matter in the United States
 
-Where the business share is substantial, build a second record for those items alone. Two clean documents are easier to defend than one mixed document with an annotation.
+**Because repair disputes are resolved by paperwork, and the paperwork is usually written before anyone knows there will be a dispute.**
 
-## Household Budgets That Someone Actually Reads
+State consumer protection agencies handle vehicle repair complaints, and the pattern is consistent: the shop with dated estimates, recorded authorizations and a clear final receipt is in a far better position than one relying on recollection. Customers in Illinois, Georgia and Arizona may have different specific protections, and the details vary by state.
 
-**A monthly figure is only useful if the records behind it can be opened.**
+There is a business reason too. A shop that can show what was quoted and approved collects more of what it bills, because fewer invoices stall at the counter. What applies to your own records and tax treatment depends on your circumstances, so ask a tax professional about the retention side.
 
-Most households track spending at the level of a bank feed, which shows totals and merchant names. That is enough to see a month went badly and not enough to see why. A handful of structured records for the larger trips fills the gap, usually revealing one or two categories doing most of the damage.
+> **Important:** these documents record work genuinely performed and approvals genuinely given. Backdating an authorization, or invoicing for work that was never carried out, is fraud.
 
-Keep it proportionate. Recording every small purchase is a project nobody sustains past February; recording the trips above a threshold you choose is a habit that survives, and it captures most of the money anyway.
+## How to Move From Estimate to Paid Receipt
 
-### Splitting shared costs
+1. **Issue the estimate** with the vehicle, the expected parts and the labor, marked clearly as an estimate.
+2. **Take approval to begin**, and note the date.
+3. **Record any discovery** the moment it is found, before the work proceeds.
+4. **Log the authorization** with the time, the name and the agreed amount.
+5. **Update the parts and labor lines** to what was actually used.
+6. **Apply tax** to the portions your state taxes.
+7. **Mark the document as a paid receipt**, not an estimate.
+8. **Issue the copy** and keep an identical one in the job file.
 
-Where two people share a household, the item lines settle the questions a total cannot: which items were joint, which were personal, and what each side actually owes. Writing that down at the time is far easier than reconstructing it from a statement weeks later.
+![An automotive repair receipt template shown as a clean banner layout, with an estimate card on one side listing anticipated parts and labor, and a final paid receipt on the other showing the same job with an added part, an approval note and a highlighted total.](assets/automotive-repair-receipt-template-2.jpeg)
 
-## Why Use makecepeit for Everyday Receipts?
+## Warranty Work and Comeback Jobs
 
-**Because the layout is already right and the totals look after themselves.**
+**A comeback still needs a document, even when nothing is charged.**
 
-- Item, quantity, price and line total columns in the expected order
-- A visible tax row, including when the figure is zero
-- Totals that recalculate as you edit, so nothing goes stale
-- Clean downloads you can attach to a claim or a budget
+When a vehicle returns because a repair did not hold, the second visit belongs in the file as much as the first. A zero-dollar receipt naming the original repair order, the work redone and the reason is what keeps the history honest, and it is what a parts supplier will ask for when the shop claims the failed component back.
+
+Shops in Texas and Florida handling warranty work for manufacturers usually have a separate claim process as well, and the internal record still matters. Where the customer pays nothing, say so plainly on the document rather than leaving a blank total that reads like an oversight.
+
+### Keeping the original reference
+
+Always carry the earlier repair order number onto the comeback document. Without it the two visits are unrelated records, and reconstructing the link a year later depends on somebody remembering a name and a month.
+
+## Parts Sourcing and How to Describe It
+
+**Say whether a part was new, remanufactured, aftermarket or used.**
+
+The distinction affects the price, the warranty and sometimes the customer's decision, and it is easy to record at the time. A remanufactured alternator and a new one are different products, and a line that says only "alternator" leaves a reader unable to tell which was fitted or why the price looked as it did.
+
+Where a customer supplies their own part, note that too, along with whatever your policy says about warranting labor on parts you did not source.
+
+### Cores and returns
+
+A core charge is a deposit on an old unit, refunded when it goes back. Show it as its own line and show the refund as its own line when it happens, rather than netting the two. Two statement entries deserve two records, and a customer looking at the bill should be able to follow both.
+
+### What accuracy is worth at the counter
+
+An accurate estimate that turns into an accurate receipt is the cheapest customer service a shop can offer. Most complaints handled by state consumer protection offices and the FTC come down to a number nobody explained, not to work done badly, and a document showing the path from quote to final total answers that before it is asked.
+
+The same applies to the business side. Invoices that reconcile are paid faster, and a repair file that a bookkeeper in California can post without phoning the service desk costs less to process.
+
+## Why Use makecepeit for Repair Documents?
+
+**Because one layout covers the estimate, the approval and the receipt, and the totals never need retyping.**
+
+- Separate parts and labor sections that survive from estimate to receipt
+- Line totals and tax that recalculate when work is added
+- Room for a repair order number, vehicle details and mileage
+- Clear headings so an estimate is never mistaken for a bill
 - Free to start, with nothing to install
 
-## Tips Before You Build the Record
+## Handing the File to an Insurer or Adjuster
 
-- Work from the statement rather than memory
-- Split business items onto their own record where you can
-- Record the tax charged, not a rate you looked up
-- Give discounts their own line
-- Keep descriptions plain enough for a reviewer
-- Mask the card to four digits
-- File it the same week
+**Insurance work is read by somebody who was never in the building.**
+
+Collision and claim-related repairs are assessed from paperwork alone, usually by an adjuster comparing the estimate against the final bill. Shops in Miami and Houston doing volume claim work generally keep the same discipline on every job for that reason: dated documents, itemized parts, labor hours shown, and a clear line where the scope changed.
+
+Photographs help, but they support the record rather than replacing it. The document is what states the scope in words, and an estimate that matches a receipt except for approved additions is the version least likely to be queried.
+
+### Supplements and scope changes
+
+Where hidden damage appears after teardown, that is a supplement rather than an amendment to the original estimate. Record it as its own document with its own approval, so the file shows three clean stages instead of one estimate that quietly grew.
+
+## Tips for a Clean Repair File
+
+- Mark every document with what it is, at the top
+- Get approval before the extra work, not after
+- Record phone approvals in the job file immediately
+- Describe parts by condition as well as by name
+- Keep declined work as a factual list
+- Show core charges and refunds separately
+- Give the customer the same document you keep
 
 ## Common Mistakes to Avoid
 
-- **Recording only the total.** It proves an amount and nothing about the basket.
-- **Applying one tax rate to a mixed basket.** Food and merchandise are often treated differently.
-- **Hiding a discount inside an item price.** Show it on its own line.
-- **Mixing business and personal without a note.** The distinction is invisible three months later.
-- **Copying store branding.** Your record needs none, and copying it creates a trademark problem.
-- **Using a built record for a return.** The retailer checks their own system.
-- **Writing a full card number.** Four digits, always.
+- **An estimate that does not say estimate.** It reads as a fixed price, and that reading usually wins.
+- **Verbal approvals never written down.** The conversation is real; the record is what survives.
+- **Adding parts without telling anybody.** Even correct work becomes a complaint.
+- **Netting a core refund into the total.** Show both movements.
+- **Describing a remanufactured part as new.** The warranty and the price both depend on it.
+- **Backdating an authorization.** That is not paperwork tidying; it is falsification.
+- **Handing over a copy that differs from your own.** One job, one version.
 
 ## Final Takeaway
 
-A Target receipt generator is most useful for the purchases nobody thinks to record: the everyday ones that turn out to matter during a return window, an expense claim or a monthly review. Build from the statement, list the items plainly, keep the tax visible and mark anything bought for business.
+An automotive repair receipt template works because it carries one job through three moments without changing shape. Quote it, record what changes, then close it as a paid receipt that shows what actually happened. Most billing disputes disappear when that trail exists.
 
-When a return or an exchange is the goal, the store's own record is the document that counts. Our guide to a [Target receipt lookup](/blog/target-receipt-lookup) explains how to retrieve it.
+For the field-by-field detail of the finished document, see our [auto repair receipt template](/blog/auto-repair-receipt-template) guide.
 
-## Create Your Receipt With makecepeit
+## Create Your Repair Documents With makecepeit
 
-Enter the items, the tax and the payment method, and let the totals land where the statement says. [Build your receipt](/create) and file it where you will look for it.`,
+Quote the job, record the approval, and close it with a receipt that matches what was done. [Start your repair receipt](/create) and keep the whole trail in one shape.`,
     faqs: [
       {
-        q: "What is a Target receipt generator?",
-        a: "It is a receipt builder used to record an everyday retail purchase you made, with item lines, quantities, a visible tax row and a masked payment line.",
+        q: "What is an automotive repair receipt template?",
+        a: "It is a layout used at three stages of a job: the estimate, the record of any approved extra work, and the final paid receipt that closes it.",
       },
       {
-        q: "Can it replace a gift receipt?",
-        a: "No. A gift receipt is issued by the retailer and tied to their transaction record, so an exchange at the service desk needs their document rather than yours.",
+        q: "How is an estimate different from a receipt?",
+        a: "An estimate predicts what work should cost and may change. A receipt records what was actually done and paid, and should be headed differently.",
       },
       {
-        q: "Why does one basket have two tax figures?",
-        a: "Because many states tax food differently from general merchandise, so a basket containing both may produce more than one tax line.",
+        q: "Do I need written approval for extra work?",
+        a: "Many states require authorization before work exceeds an estimate by a set margin, and the rules vary. Check what applies where you operate.",
       },
       {
-        q: "How should discounts be recorded?",
-        a: "On their own line beneath the subtotal, showing what came off. Reducing an item price quietly makes the arithmetic hard for anyone else to follow.",
+        q: "How should a phone approval be recorded?",
+        a: "Note the time, the person who agreed, what was described and the amount, in the job record at the moment rather than from memory later.",
       },
       {
-        q: "How do I separate business from personal items?",
-        a: "Build a second record for the business items where you can, or mark them clearly with a note naming what they were for.",
+        q: "Should declined work be written down?",
+        a: "Yes, as a factual deferred items list. It helps the next technician and shows a recommendation was made if the problem returns.",
       },
       {
-        q: "What tax rate should I enter?",
-        a: "The amount the register charged. Rates vary by state and locality and change over time, so a looked-up figure may not match your statement.",
+        q: "Why name the part condition?",
+        a: "New, remanufactured, aftermarket and used parts differ in price and warranty, and a line naming only the component hides which was fitted.",
       },
       {
-        q: "Is a built record accepted for a return?",
-        a: "Generally not. Retailers verify returns against their own transaction records, so ask the store to retrieve the original purchase instead.",
+        q: "How do core charges appear?",
+        a: "As their own line when charged, and as a separate refund line when the old unit goes back, rather than netted into one figure.",
       },
       {
-        q: "How long should I keep everyday receipts?",
-        a: "At least through the return window, and longer for anything with a business element. What applies to your situation is worth asking a tax professional.",
+        q: "What if the customer supplies the part?",
+        a: "Record that on the line, along with your policy on warranting labor for parts the shop did not source, so the terms are clear in writing.",
       },
       {
-        q: "How much card detail belongs on it?",
-        a: "Only the last four digits. Full numbers should never appear on a record you keep, print or send to somebody else.",
+        q: "Can I reuse one document for both stages?",
+        a: "Use one layout, but issue clearly separate documents. An estimate that later doubles as a bill invites exactly the dispute the paperwork exists to prevent.",
       },
       {
-        q: "Is generating an everyday receipt legal?",
-        a: "Recording a purchase you genuinely made is ordinary record-keeping. Creating one for a purchase that never happened, or passing it off as the store's, is fraud.",
+        q: "Is a repair estimate legally binding?",
+        a: "It depends on your state and on how the document is worded, which is why clear headings matter. Treat the specifics as a question for local requirements.",
       },
     ],
   },

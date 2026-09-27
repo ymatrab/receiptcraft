@@ -1,448 +1,458 @@
 /**
- * Oct-sprint — Day 2026-10-03 (2 posts). Notion board Order 13 and 14, big-box cluster.
- *   13. "walmart receipt template"            320/mo · CPC $3.64 · Low -> /brands/walmart
- *   14. "printable walmart receipt generator" 140/mo · CPC $2.58 · Low -> /brands/walmart
+ * Oct-sprint — Day 2026-10-03 (2 posts). Notion board Order 15 and 16, big-box cluster.
+ *   15. "home depot receipt generator"          480/mo · CPC $4.71 · Low -> /brands/home-depot
+ *   16. "editable home depot receipt template"  170/mo · CPC $1.02 · Low -> /brands/home-depot
  *
- * Cannibalization guard: second half of the four-post Walmart cluster. #13 owns the
- * reusable layout — the fields that stay put while the purchase changes, blank versus
- * filled, and when a template beats rebuilding from scratch. #14 owns output — paper
- * width, PDF, scanning and filing. Neither restates #11 (the lost-slip situation) or
- * #12 (line-by-line anatomy); all four cross-link in that order.
+ * Cannibalization guard: three Home Depot spokes run Oct 5 and Oct 7. #15 owns the
+ * materials purchase — units, quantities, per-unit pricing and the job reference.
+ * #16 owns editing an existing record: quantities that changed, returned materials,
+ * corrections, and keeping the arithmetic honest afterwards. #17 owns rolling many
+ * trips into one job total. They cross-link in that order.
  *
- * /blog/walmart-receipt-lookup remains the retrieval answer and is linked, not competed with.
+ * /blog/home-depot-lowes-receipt-reprint is the retrieval answer and is linked, not
+ * competed with. /blog/hardware-store-receipt-generator-itemized-materials (Aug 12)
+ * is the existing materials spoke — linked from #15 as the wider how-to.
  *
- * Legitimacy: a template is for recording purchases that happened. No store branding,
- * no invented transaction codes, no suggestion the output replaces the store's own copy.
+ * Legitimacy: records of materials actually bought. No store branding, no invented
+ * SKUs or transaction codes, no suggestion a copy replaces the retailer's receipt.
  */
 
 export const OCT_3 = [
   {
-    slug: "walmart-receipt-template",
-    image: "assets/walmart-receipt-template.jpeg",
+    slug: "home-depot-receipt-generator",
+    image: "assets/home-depot-receipt-generator.jpeg",
     category: "small-business",
     publishedAt: "2026-10-03T09:30:00Z",
-    title: "Walmart Receipt Template: The Reusable Layout",
-    seoTitle: "Walmart Receipt Template: The Reusable Layout",
+    title: "Home Depot Receipt Generator for Job Materials",
+    seoTitle: "Home Depot Receipt Generator for Job Materials",
     seoDescription:
-      "Learn which fields a Walmart receipt template holds constant, when a reusable layout beats rebuilding from scratch, and how to set one up with Makecepeit.",
+      "Learn how a Home Depot receipt generator records materials by unit and quantity, ties a purchase to a job, and keeps the totals honest, with Makecepeit.",
     excerpt:
-      "A Walmart receipt template fixes the header, the column structure and the totals rows so only the purchase details change, which is what makes repeat record-keeping fast and consistent. Here's how.",
-    body: `A **Walmart receipt template** is a reusable receipt layout that holds the header, the item columns and the totals rows in place, so that only the purchase details change from one record to the next. It serves contractors filing supply runs, bookkeepers reconciling card statements and households tracking a monthly shopping figure.
+      "A Home Depot receipt generator records a materials purchase the way a trade buyer needs it read: unit, quantity, unit price, line total, tax and the job it belongs to. Here's how.",
+    body: `A **Home Depot receipt generator** is a receipt builder used to record a materials purchase in the detail a trade buyer needs, for contractors, remodellers, handypeople and homeowners running a project. It produces one document showing what was bought, in what unit, at what price, and which job the spend belongs to.
 
-Across the United States, the value of a template is consistency: twelve records that look alike can be scanned in a minute, while twelve records that look different have to be read one by one. Makecepeit lets you [build a receipt](/create) from a fixed structure, so the tenth record you file takes the same shape as the first.
+Materials purchases are harder to record than groceries, because a single trip may mix lumber sold by the foot, fasteners sold by the pound and fixtures sold each. Makecepeit lets you [create a receipt](/create) with a column structure that holds all three, so a deck build in Raleigh and a bathroom remodel in Phoenix file the same way.
 
-## What Is a Walmart Receipt Template?
+## What Is a Home Depot Receipt Generator?
 
-**It is a fixed arrangement of receipt fields that you fill in repeatedly, rather than a document you rebuild from nothing each time.**
+**It is a builder that arranges a real materials purchase into a receipt layout with units, quantities and line totals.**
 
-A template separates what stays put from what changes. The store name, the column headings and the subtotal, tax and total rows stay put. The date, the items, the quantities and the amounts change with every purchase. That split is the entire idea, and it is why a template suits anybody documenting similar purchases more than once.
+The phrase describes a use, not a product the retailer sells. You enter what you bought, the tool structures it, and the output is your own record. Nothing connects to the store's systems, and the document is yours rather than a reissue of theirs.
 
-The output is your own record of a real purchase. It carries no connection to the retailer's systems and reproduces none of their branding.
+For trade buyers the structure is the point. A record that says "materials, $412.68" answers nothing three months later; a record listing eight line items answers the job-costing question, the client question and the tax question at once.
 
-### Template, generator or maker
+### What it is not
 
-These three words describe one tool used three ways. A maker suits a one-off reconstruction after a slip is lost, covered in our guide to the [Walmart receipt maker](/blog/walmart-receipt-maker). A generator emphasises accuracy on a single purchase. A template emphasises repetition, which is the case where the structure earns its keep.
+It is not a reprint of the store's receipt, and it does not retrieve anything from their transaction history. When the original is what you need — for a return, an exchange or a warranty claim on a tool — our guide to a [Home Depot and Lowe's receipt reprint](/blog/home-depot-lowes-receipt-reprint) covers how to ask the retailer.
 
-## Which Fields Should Stay Constant?
+## What Should a Materials Receipt Include?
 
-- **Store name and location**, if you shop the same place each time
-- **Column headings** for item, quantity, price and line total
-- **Subtotal row**, sitting above the tax line
-- **Sales tax row**, kept visible rather than folded into the total
-- **Total row**, formatted the same way every time
-- **Tender row**, naming the payment method
-- **Any reference field** you use, such as a job name or a budget category
+- **Store location**, at least the city and state you bought in
+- **Purchase date**, matching your card statement
+- **Item description** in plain language, not a register abbreviation
+- **Unit of measure**, such as each, foot, pound, box or sheet
+- **Quantity** bought in that unit
+- **Unit price** and the resulting **line total**
+- **Subtotal** before tax
+- **Sales tax** charged on the taxable portion
+- **Total paid**, matching the statement to the cent
+- **Payment method**, masked to the last four digits
+- **Job reference**, if you cost work by project
 
-### The fields that change
+### The unit column earns its place
 
-Date, items, quantities, unit prices, tax amount and total change with every purchase. A reference field may change too, if you file by job rather than by month. Everything else should look identical across the whole folder, because that sameness is what makes an odd record stand out.
+Lumber, wire, pipe and aggregate are priced by measure, and a quantity without a unit is ambiguous. "Six" of a twelve-foot board is different from six feet of it, and the difference may be the largest single error on the document. Naming the unit removes the ambiguity permanently.
 
-## Blank Template vs. Filled Receipt
+## Why Job Materials Records Matter in the United States
 
-**Keep one blank copy as the master and never type over it.**
+**Because materials are usually the largest line in a small contractor's costs, and the one most often lost.**
 
-| Aspect | Blank template | Filled record |
+A remodelling business in Austin may make three supply runs in a week, two of them on a personal card. Those trips reach the books only if a record survives, and thermal paper in a work truck generally does not. What gets lost is not just the deduction but the job cost, which is what tells the owner whether a quote was profitable.
+
+Contractors in California, Texas and Illinois also work under state rules that vary in how materials are taxed, especially where labour and materials are billed together. Treatment depends on the contract and the state, so a tax professional is the right person to ask about your own work.
+
+> **Important:** a generated receipt records materials you actually bought. Producing a document for a purchase that never happened, or passing your copy off as the retailer's receipt, is fraud.
+
+## How to Generate a Materials Receipt
+
+1. **Start from the statement line**, which fixes the date and the total.
+2. **List each material separately**, rather than grouping a trip into one line.
+3. **Name the unit** for every line — each, foot, pound, sheet or box.
+4. **Enter quantity and unit price**, and let the line total calculate.
+5. **Add the tax** you were actually charged.
+6. **Check the total** against the statement, to the cent.
+7. **Tag the job**, so the record can be rolled into a project total later.
+8. **File it** with the statement page and the job folder.
+
+![A Home Depot receipt generator shown as a clean banner layout, with a placeholder store name and store number in the header, a job reference line, and a column of building material rows listing unit, quantity and unit price above a subtotal, sales tax row and highlighted total.](assets/home-depot-receipt-generator-2.jpeg)
+
+## Units, Quantities and Waste Factors
+
+**Record what you bought, not what the job consumed.**
+
+A siding job may use 38 boards from 42 bought, and the receipt documents 42. Waste, offcuts and the spare box in the van belong to the job cost, not to a separate calculation, and a record that quietly drops them understates what the project actually cost. Our guide to an [itemized receipt template](/blog/itemized-receipt-template) covers the column discipline in more detail.
+
+Returns are the other half of this. Materials taken back change the total, and the cleanest way to handle that is a second record rather than an edit to the first, which the companion post on editable templates covers.
+
+### Reading a materials line back
+
+A line that says twelve, at four dollars and twenty-five cents, coming to fifty-one dollars, can be checked by anybody in two seconds. A line that says lumber, fifty-one dollars, cannot be checked at all. That difference is why the unit, quantity and price columns exist, and why a record built properly may still be useful to somebody a year after the job closed.
+
+## Sales Tax on Building Materials
+
+**Enter the tax the register charged rather than a rate you look up afterwards.**
+
+Materials tax varies by state, and in several states it varies again by whether the buyer is a contractor billing a client or a homeowner buying retail. Some purchases may be exempt with the right documentation, and some jurisdictions apply local rates on top of the state figure.
+
+| Field | What to enter | Why it matters |
 |---|---|---|
-| Purpose | The master layout | One documented purchase |
-| Item lines | Empty placeholders | Real items and prices |
-| Totals | Empty, or zero | Calculated from the lines |
-| How often it changes | Rarely | Once per purchase |
-| Where it lives | With your working files | With the statement it matches |
+| Unit | Each, foot, pound, sheet, box | Removes the ambiguity in a bare quantity |
+| Quantity | The amount bought in that unit | Lets a reader verify the line total |
+| Unit price | Price per single unit | Makes the arithmetic checkable |
+| Tax | The amount charged at the register | Local rates vary and change |
+| Job reference | Project or client name | Turns receipts into job costs |
 
-A master that gets edited becomes twelve slightly different templates within a quarter. Copy it, fill the copy, file the copy, and leave the original alone.
+## Pro Accounts, Bulk Buys and Volume Pricing
 
-## Why Consistent Receipt Records Matter in the United States
+**Record the price you actually paid, including any discount, rather than the shelf price.**
 
-**Because records that look alike are records somebody can actually audit.**
+Trade buyers often pay less than the posted figure, through account pricing, volume breaks or a quoted rate on a large order. A record showing the shelf price will not reconcile with the statement, and the gap grows with the size of the order.
 
-A bookkeeper in Chicago reconciling a month of purchases reads the totals row first, then the date, then the tax. When every document places those in the same spot, the work is mechanical. When each one is laid out differently, every record becomes a small puzzle, and the cost of that shows up as billable hours or as a month that never gets reconciled at all.
+Where a discount applies to the whole basket rather than a line, give it its own row beneath the subtotal so the arithmetic stays visible. A reader can then follow the path from line totals to the amount that left the account without guessing where the difference came from.
 
-Businesses in Texas, New York and Washington keep records under state regimes that differ in detail, and the IRS expects records supporting what a return claims. What applies to your situation depends on the business you run, so a tax professional is the right person to ask. The habit of consistency, though, helps in every jurisdiction.
+### Per-unit versus bulk pricing
 
-> **Important:** a template documents purchases that actually happened. Filling one in for a purchase that never occurred, or presenting the output as the retailer's own receipt, is fraud.
+A box of a hundred fasteners bought as one unit is one line at the box price. The same fasteners recorded as a hundred lines at a per-piece price will drift on rounding and take ten times as long to enter. Record the purchase the way it was priced at the till, and the arithmetic looks after itself.
 
-## How to Set Up a Reusable Receipt Template
+## Sharing Materials Records With a Client
 
-1. **Decide what repeats.** Usually the store, the columns and the totals rows.
-2. **Build one clean example** with a real purchase, so you can see the structure working.
-3. **Strip the specifics** out of it to leave the master layout.
-4. **Fix the field order** and stop changing it.
-5. **Copy the master** each time you record a new purchase.
-6. **Fill only the changing fields**, letting the totals calculate.
-7. **File the finished copy** with the statement line it matches.
+**A client reading a materials record wants to see what was bought, not how it was priced internally.**
 
-![A Walmart receipt template shown as a clean banner layout, with placeholder store and date fields at the top, an empty column structure for item, quantity, price and line total, and blank subtotal, sales tax and total rows waiting to be filled in.](assets/walmart-receipt-template-2.jpeg)
+On cost-plus work in Seattle or Denver, the materials record is part of the bill, and it will be read closely. Plain descriptions, honest quantities and a visible tax line answer most questions before they are asked. Register abbreviations and grouped lines invite the opposite.
 
-### A worked example
+Send the record as a file rather than a photograph of a screen, keep card details masked, and make sure the version the client receives is the version you filed. Two slightly different copies of one materials record is a conversation nobody enjoys.
 
-A landscaping business in Sacramento buys materials most weeks. The master carries the store city, the four column headings and the three totals rows. Each Monday the owner copies it, enters that week's items, checks the total against the card statement and files the copy under the client's name. Building the master took twenty minutes once; each weekly record now takes about three, and a year of them sorts into client folders without any further thought.
+### What clients actually read
 
-### Digital or paper masters
+In practice they read the total first, then scan for anything that looks unusual: a large single item, a quantity that seems high, a line they do not recognise. Anticipating those three questions when you write the descriptions is usually enough to keep a billing conversation short.
 
-A digital master is easier to copy and impossible to smudge, which is why most people should keep one. A printed blank has its place on a job site where a phone is inconvenient, provided the figures are entered into the digital record afterwards rather than left on the sheet. What matters is that one version is authoritative, because two masters drifting apart is the same problem as an edited master.
+## Why Use makecepeit for Materials Receipts?
 
-## Reference Fields: Filing by Job or by Month
+**Because the column structure is built for units and quantities, and the totals recalculate as you type.**
 
-**A reference field turns a pile of receipts into a set you can sort.**
-
-A remodelling contractor in Denver may file by job, so every supply run carries the job name and the whole project can be totalled later. A household may file by month. A freelancer may file by client. The field itself is small, and it may be the difference between a folder you can query and a folder you have to read.
-
-Whichever you choose, use it consistently. Half a folder tagged by job and half tagged by month sorts into nothing useful.
-
-### Keeping the structure stable
-
-Resist the urge to improve the layout mid-year. A template that changes shape in March produces two incompatible sets of records, and the comparison you wanted at year end becomes manual work. Improvements are best saved for a clean starting point, such as the beginning of a tax year or a new project.
-
-### Sharing a template with a team
-
-When several people file records, hand them the same master and say plainly which fields may change. Without that, one person adds a column, another renames the tax row, and within a quarter the folder holds three formats. A short note stored with the master, describing what to fill and what to leave alone, generally prevents the drift better than any amount of correcting afterwards.
-
-## Sales Tax on a Reusable Layout
-
-**Leave the tax row visible on the master, even for purchases where it comes out at zero.**
-
-Tax varies by state and by what you bought, and some items are exempt in some places. A row that disappears whenever the figure is zero makes it impossible to tell later whether tax was exempt, forgotten or simply not recorded. Keeping the row fixed answers that question permanently.
-
-Enter what you were charged rather than a rate you looked up. The register applied the rules in force that day in that city, and your statement carries the result.
-
-## Filing the Finished Records
-
-**A template produces records faster than most people file them, which is where the benefit quietly leaks away.**
-
-Decide where a finished record goes before you build the first one. A folder per month suits a household; a folder per client suits a freelancer in Austin invoicing several at once; a folder per job suits a builder. Whatever the scheme, the finished copy should land there the same day, next to the statement line it matches.
-
-Records that sit unfiled lose the thing that made them useful. The layout is still consistent, but nobody can find the one they need, and a year later the folder has to be read rather than searched.
-
-### Keeping the digital and paper sets aligned
-
-If you print as well as save, file both under the same name. A paper sheet and a digital file that disagree about which purchase they describe cost more time to untangle than either saved.
-
-## Why Use makecepeit for Receipt Templates?
-
-**Because the structure is already built, and the arithmetic updates itself when you change a line.**
-
-- A consistent layout across every record you produce
-- Totals that recalculate as you edit, so the math cannot drift
-- Item, quantity, price and line total columns in the expected order
-- Clean downloads you can file beside a statement page
+- Item, unit, quantity, unit price and line total in one row
+- Totals that update when a quantity changes, so the math cannot drift
+- A job or reference field for project-based filing
+- Consistent output across every trip, which makes a folder scannable
 - Free to start, with nothing to install
 
-The same layout covers a grocery run, a tools purchase and a month of small supply trips, which is what makes it worth setting up once.
+The same layout covers a single sheet of plywood and a forty-line framing order.
 
-### What consistency is worth
+## Filing Materials Receipts by Job
 
-The gain is small on any single record and large across a year. Fifty records in one shape can be totalled, compared and handed to an accountant without explanation. Fifty in five shapes need a covering note, and the note is usually written by somebody who has forgotten why the layouts differ.
+**A materials record that is not attached to a job is a cost nobody can allocate.**
 
-## Tips Before You Build a Template
+Most small contractors file one folder per project and drop every supply record into it the day it is built. At the end of the job, the folder totals to the materials figure that belongs in the final accounting, and no reconstruction is needed. Firms working several jobs at once in Nashville or Kansas City gain the most from this, because the alternative is untangling a month of mixed receipts from memory.
 
-- Design it around the purchases you actually make most often
-- Keep the master blank and copy it each time
-- Fix the field order before you file the first record
-- Leave the tax row in place permanently
-- Name files by date and store so they sort themselves
-- Mask card numbers to the last four digits
-- Record the city and state rather than inventing an address
+Where one trip serves two jobs, split it across two records rather than guessing a percentage later. The split takes a minute at the time and may be impossible to do honestly three weeks afterwards.
+
+### The end-of-job check
+
+Before closing a project, read the folder once. A missing trip usually shows up as a gap between the materials total and what the bank says left the account, and finding it then is far easier than finding it at tax time.
+
+## Tips Before You Build the Record
+
+- Photograph the pile at the truck if you cannot photograph the slip
+- Write descriptions a client would understand
+- Keep the unit column filled on every line
+- Record returns as their own document
+- Tag the job before you file, not later
+- Mask card details to four digits
+- Reconcile against the statement the same week
 
 ## Common Mistakes to Avoid
 
-- **Editing the master.** Copy it instead, or you will end up with a dozen variants.
-- **Adding store branding.** Your record does not need a logo, and copying one creates a trademark problem.
-- **Dropping the tax row when it is zero.** Later you will not know whether it was exempt or forgotten.
-- **Changing the layout mid-year.** Two structures in one folder defeat the point of a template.
-- **Filing by two schemes at once.** Pick job or month, and stay with it.
-- **Reusing one record's numbers for another purchase.** Each document covers one transaction.
-- **Treating a filled template as proof for a return.** Retailers verify against their own records.
+- **Grouping a whole trip into one line.** It saves a minute now and costs the job cost later.
+- **Dropping the unit.** A quantity without a unit may be read two ways, and usually is.
+- **Inventing SKUs or store codes.** Fabricated identifiers look authoritative and are not.
+- **Using a generic tax rate.** Enter what the register charged.
+- **Copying store branding.** Your record needs no logo, and copying one creates a trademark problem.
+- **Editing a filed record after a return.** Add a second document instead.
+- **Treating the copy as proof for a return.** The retailer verifies against their own record.
 
-### When a template stops helping
+### Mixed baskets: materials and tools
 
-A template earns its keep on repetition. For a single lost receipt it may be more trouble than it saves, and a one-off reconstruction is the better tool. It also stops helping when the purchases stop resembling each other: a folder mixing grocery runs, equipment purchases and fuel may need two or three layouts rather than one stretched to cover everything.
+One trip often carries both consumables for a job and a tool that stays in the van. They may belong in different places in your books, because a tool is generally an asset and the materials are a job cost. Recording them on one receipt is fine; noting which is which, or splitting them across two records, is what saves the sorting later.
 
 ## Final Takeaway
 
-A Walmart receipt template is worth setting up when you document similar purchases more than once. Fix the header, the columns and the totals rows, keep a blank master, and fill a copy for each real purchase. The consistency is what makes a year of records readable rather than merely stored.
+A Home Depot receipt generator is worth using when the detail matters: units, quantities, prices and the job the materials belong to. Build from the statement, keep each material on its own line, name the unit, and tag the project before filing.
 
-For a return, a warranty claim or a dispute, the retailer's own record is still the document that counts. Our guide to [looking up a Walmart receipt](/blog/walmart-receipt-lookup) covers how to request it.
+For a return or a warranty claim, ask the retailer for the original. For job costing, bookkeeping and client transparency, an accurate record you built yourself does the work.
 
-One more habit is worth adopting early: review the template once a year, not continuously. A yearly look lets you fix what genuinely does not work while keeping every record inside a tax year in one shape, which is the comparison most people actually want.
+## Create Your Materials Receipt With makecepeit
 
-## Create Your Receipt Template With makecepeit
-
-Set the fields once, then fill a fresh copy for each purchase and let the totals calculate. [Start your template](/create) and file each record beside the statement it matches.`,
+Enter the materials, the units and the quantities, and let the line totals and tax calculate as you go. [Build your receipt](/create) and file it against the job it belongs to.`,
     faqs: [
       {
-        q: "What is a Walmart receipt template?",
-        a: "It is a reusable layout holding the header, item columns and totals rows in place, so only the date, items and amounts change from one record to the next.",
+        q: "What is a Home Depot receipt generator?",
+        a: "It is a receipt builder used to record a materials purchase you made, with units, quantities, unit prices and line totals arranged the way a trade buyer reads them.",
       },
       {
-        q: "Which fields should stay the same?",
-        a: "The store details, the column headings, and the subtotal, tax, total and tender rows. Those form the structure a reader learns to scan quickly.",
+        q: "Why does the unit column matter?",
+        a: "Because lumber, wire and aggregate are priced by measure. Six boards and six feet of board are different purchases, and a bare quantity may be read either way.",
       },
       {
-        q: "Should I edit my blank master template?",
-        a: "No. Copy it and fill the copy. A master that gets edited turns into several slightly different templates within a few months.",
+        q: "Should I record materials I did not use?",
+        a: "Yes. The receipt documents what you bought, including waste and spares. What the job consumed is a separate calculation.",
       },
       {
-        q: "Why keep a tax row showing zero?",
-        a: "So a later reader can tell the difference between tax that was exempt and tax that was simply never recorded. A missing row answers nothing.",
-      },
-      {
-        q: "Can I file receipts by job instead of month?",
-        a: "Yes, and contractors often should. Add a reference field for the job name, then use the same scheme across the whole folder rather than mixing two.",
-      },
-      {
-        q: "Is a filled template proof of purchase?",
-        a: "Generally not for a return. Retailers verify against their own transaction records, so ask the store to retrieve the original when that is what matters.",
-      },
-      {
-        q: "Should the template carry store branding?",
-        a: "No. A record kept for your own files needs no logo, and reproducing a retailer's branding on a document you made raises a trademark problem.",
-      },
-      {
-        q: "How do I name the files?",
-        a: "By date and store, in a consistent order. Names that sort themselves save you from opening a dozen files to find one purchase.",
+        q: "How do I handle returned materials?",
+        a: "Record the return as its own document rather than editing the original. Two clean records are easier to follow than one that changed after filing.",
       },
       {
         q: "What tax rate should I enter?",
-        a: "The one you were actually charged, which your statement reflects. Rates vary by state and locality, and some items may be exempt where you shopped.",
+        a: "The amount the register actually charged. Materials tax varies by state, by locality and sometimes by whether you are buying as a contractor or a homeowner.",
       },
       {
-        q: "Is using a receipt template legal?",
-        a: "Recording purchases you genuinely made is ordinary record-keeping. Filling one in for a purchase that never happened, or passing it off as the store's receipt, is fraud.",
+        q: "Can I include a job reference?",
+        a: "Yes, and contractors generally should. A project or client tag is what turns a folder of receipts into a job cost you can total.",
+      },
+      {
+        q: "Should I add store SKUs to each line?",
+        a: "Only if you genuinely have them. Inventing identifiers that look like store codes puts fabricated data on a record you may rely on later.",
+      },
+      {
+        q: "Is a generated receipt valid for a return?",
+        a: "Generally not. Retailers verify returns against their own transaction records, so request the original receipt from the store instead.",
+      },
+      {
+        q: "How do I describe materials clearly?",
+        a: "In plain language a client could follow, such as pressure-treated 2x6, 12 foot. Register abbreviations save space and lose meaning.",
+      },
+      {
+        q: "Is building a materials receipt legal?",
+        a: "Recording materials you genuinely bought is ordinary bookkeeping. Creating a receipt for a purchase that never happened, or presenting it as the store's own, is fraud.",
       },
     ],
   },
   {
-    slug: "printable-walmart-receipt-generator",
-    image: "assets/printable-walmart-receipt-generator.jpeg",
+    slug: "editable-home-depot-receipt-template",
+    image: "assets/editable-home-depot-receipt-template.jpeg",
     category: "small-business",
     publishedAt: "2026-10-03T14:00:00Z",
-    title: "Printable Walmart Receipt Generator Guide",
-    seoTitle: "Printable Walmart Receipt Generator Guide",
+    title: "Editable Home Depot Receipt Template Guide",
+    seoTitle: "Editable Home Depot Receipt Template Guide",
     seoDescription:
-      "Learn how a printable Walmart receipt generator handles paper width, PDF output, scanning and filing, so your records print cleanly, with Makecepeit.",
+      "Learn how an editable Home Depot receipt template handles changed quantities, returns and corrections while keeping totals accurate, with Makecepeit.",
     excerpt:
-      "A printable Walmart receipt generator produces a record you can put on paper cleanly, at a width that suits either a narrow slip or a filed page. Here's how to choose and set it up.",
-    body: `A **printable Walmart receipt generator** produces a record of a purchase in a form that survives the trip to paper, for anyone who files hard copies, submits expense claims or keeps a physical folder for a business. It handles the parts that go wrong at the printer: page width, margins, legible type and a layout that does not break across two sheets.
+      "An editable Home Depot receipt template lets you change a quantity, price or line and have every total recalculate, which is what keeps a corrected record honest. Here's how to use one.",
+    body: `An **editable Home Depot receipt template** is a materials receipt layout whose fields can be changed after the first draft, with the totals recalculating instead of being retyped. It suits contractors adjusting an order, bookkeepers correcting a mistyped price and anyone whose supply run changed between the aisle and the register.
 
-Plenty of records are built well and print badly. Makecepeit lets you [create a receipt](/create) and download it as a clean file, so what lands in the tray in Tampa looks the way it did on screen in Portland.
+Editing is where most receipt records go wrong: a quantity changes, the line total is updated by hand, and the subtotal quietly no longer agrees. Makecepeit lets you [edit a receipt](/create) with the arithmetic handled for you, so a corrected record in Denver adds up as well as the original did.
 
-## What Is a Printable Receipt Generator?
+## What Is an Editable Receipt Template?
 
-**It is a receipt builder whose output is designed to be printed, not only viewed.**
+**It is a layout where changing one field updates every figure that depends on it.**
 
-The difference shows up in small things. Type that stays legible when scaled down. Columns that hold their alignment on paper. Margins wide enough that nothing is clipped by a printer's unprintable edge. A record that reads well on a screen may still lose its right-hand column on an inkjet, and the cost of discovering that is a wasted sheet and a reprint.
+Change a quantity from three to four and the line total, the subtotal, the tax and the grand total all move together. That is the whole difference between an editable template and a static one, and it is the reason corrected records stay trustworthy.
 
-As with any receipt you build, the output documents a purchase you actually made. It is your record, not a reissue of the retailer's.
+The output remains a record of materials you actually bought. Editing a draft to make it accurate is ordinary bookkeeping; editing a filed record to say something different about what happened is not.
 
-### Why paper still matters
+### Where hand-editing fails
 
-Paper survives software changes, account closures and forgotten passwords. Contractors hand physical receipts to clients, some expense processes still want a printed copy stapled to a form, and a folder in a filing cabinet in Cleveland stays readable without anybody logging in. Digital-first record-keeping is sensible, but paper remains the fallback that never needs a migration.
+A record edited by hand usually has two or three numbers updated and one forgotten. The forgotten one is generally the tax, because it sits furthest from the change. A reader comparing the document with a bank statement finds the mismatch immediately, and the record loses its authority over a difference of a few dollars.
 
-## Thermal Width or Full Page?
+## When Do You Need to Edit a Materials Receipt?
 
-**A narrow slip looks like the original; a full page files and scans better.**
+- **A quantity changed** between the estimate and the till
+- **A price was mistyped** when the record was first built
+- **Materials were returned** and the total needs restating
+- **An item was missed** and the record does not reconcile
+- **The job reference changed**, because the materials moved to another project
+- **A description was unclear** and a client asked what it meant
+- **Two trips were merged** by mistake and need separating
 
-| Consideration | Narrow slip | Letter page |
+### Corrections versus rewrites
+
+A correction brings a record into line with what actually happened. A rewrite changes the story the record tells. The first is required of anybody keeping books honestly; the second is what turns a record into a problem, and no template should make it feel casual.
+
+## Why Accurate Corrections Matter in the United States
+
+**Because a record that no longer reconciles is worse than no record at all.**
+
+Bookkeepers in Chicago, accountants in Miami and expense reviewers everywhere work by matching documents to bank lines. A materials receipt whose total drifted during an edit raises a question that costs more time to answer than the edit saved. The IRS expects records that support what a return claims, and what applies to your circumstances depends on your business, so ask a tax professional about your own.
+
+Contractors have a second reader: the client. A materials record handed over as part of a bill may be checked line by line, and an edit that left the subtotal stale is the kind of thing that costs trust on a job.
+
+> **Important:** edit a draft to make it accurate, never to change what happened. Restating a purchase that did not occur, or presenting your copy as the retailer's receipt, is fraud.
+
+## How to Edit a Receipt Record Safely
+
+1. **Find the source figure** — the statement line, the original slip or the order confirmation.
+2. **Change one field at a time**, so you can see what moves with it.
+3. **Let the totals recalculate** rather than typing over them.
+4. **Re-check the grand total** against the statement.
+5. **Note what changed** and why, in a line at the foot or in your folder.
+6. **Save the corrected version** over the draft, not over a filed record.
+7. **Keep returns separate**, as their own document rather than an edit.
+
+![An editable Home Depot receipt template shown as a clean banner layout, with a laptop displaying a materials receipt where one quantity field is highlighted mid-edit, and the line total, subtotal, sales tax and grand total shown updating to match the new figure.](assets/editable-home-depot-receipt-template-2.jpeg)
+
+## Returned Materials: Edit or New Record?
+
+**Write a second record for the return and leave the original alone.**
+
+| Situation | Edit the original | New record |
 |---|---|---|
-| Resembles a store receipt | Closely | Not at all |
-| Fits a standard folder | Poorly | Yes |
-| Scans cleanly | Often crooked | Yes |
-| Room for notes | Almost none | Plenty |
-| Paper used | Minimal | One sheet |
-| Best for | Wallet copies, quick reference | Expense files, accountants, archives |
+| Typo in a price, found before filing | Yes | No |
+| Quantity wrong on an unfiled draft | Yes | No |
+| Materials returned a week later | No | Yes |
+| Extra items bought on a second trip | No | Yes |
+| Job reference corrected | Yes | No |
+| Record already sent to a client | No | Yes, plus a note |
 
-Most people filing records should choose the page. The narrow format matters mainly when the copy sits alongside genuine slips and you want the folder to look uniform.
+The rule behind the table is simple: correct mistakes about what happened, and document new events separately. A return is a new event, even though it undoes part of the first one.
 
-### Margins and clipping
+### What a return record should show
 
-Nearly every printer reserves an unprintable border, and a layout that runs a column too close to the edge loses characters there. If a printed copy comes out missing the ends of its price column, the fix is usually margins rather than the generator.
+Name the original purchase date, list the materials going back with their units and quantities, show the refund amount and note the refund method. Filed beside the original, the pair tells the whole story without either document being altered.
 
-## What Should Print on Every Copy
+## Version Control for Receipt Records
 
-- **Store name and location**, or a clear placeholder if you shopped in several
-- **Date of purchase**, matching your statement
-- **Item lines** with quantities and unit prices
-- **Subtotal**, on its own row
-- **Sales tax**, kept visible rather than folded in
-- **Total paid**, in the largest type on the document
-- **Payment method**, masked to the last four digits
-- **A short note** marking the copy as a personal record, where useful
+**Keep one current version, and make it obvious which one that is.**
 
-### The total needs to be findable
+The simplest scheme works everywhere: the file name carries the purchase date and the store, and a corrected version replaces the earlier file rather than sitting beside it. Where a record has already left your hands, the corrected copy gets a short note at the foot saying what changed and when.
 
-Whoever picks the sheet up looks for the total first. Keeping it visually distinct, by weight or a shaded row, spares a reader from scanning the whole column. It is a small formatting decision that may save minutes across a folder of fifty records.
+Trouble starts when three versions of one purchase live in the same folder with names that do not say which is current. A bookkeeper in Portland opening that folder has no way to choose, and will generally pick the wrong one.
 
-## Why Printed Receipt Records Matter in the United States
+### When to keep the earlier version
 
-**Because a filed paper copy is the version that survives when the digital one is not accessible.**
+Keep it when somebody else has already acted on it — a client who paid against it, an expense claim already submitted. In those cases the pair of documents is the audit trail, and the note explaining the correction is what connects them.
 
-Small businesses in Miami, Denver and Boston keep record boxes for exactly this reason. An accountant asked for supporting documents in March generally wants them in a form they can work through quickly, and a printed set arranged by date usually is that form. The IRS expects records supporting what a return claims, and what counts for your situation depends on the business, so ask a tax professional about your own case.
+## Editing Before the Client Sees It
 
-Warranty claims add a second reason. A manufacturer handling a claim on a tool bought two years ago may accept a legible copy alongside other evidence, while a faded thermal strip proves nothing at all.
+**Corrections are cheap while a record is still a draft and expensive afterwards.**
 
-> **Important:** printing a record of a purchase you made is ordinary bookkeeping. Printing a receipt for a purchase that did not happen, or presenting your copy as the store's original, is fraud.
+Build the record, reconcile it against the statement, then send it. Reversing that order is what produces the awkward second email, and on cost-plus work it may cost more goodwill than the error was worth. Our guide to the [Home Depot receipt generator](/blog/home-depot-receipt-generator) covers building the record accurately the first time.
 
-## How to Print a Receipt Copy Cleanly
+A short review habit catches most of it: read the descriptions once as a stranger would, check the quantities against what you remember loading, and confirm the total matches the statement.
 
-1. **Build the record first**, checking the total against your statement.
-2. **Choose the format**, narrow slip or full page, before you print.
-3. **Download the file** rather than printing from a preview window.
-4. **Check the margins** in the print dialog and disable any shrink-to-fit that alters proportions.
-5. **Print one test copy** and read the right-hand column carefully.
-6. **File the sheet** with the statement page it matches.
-7. **Keep the digital file too**, so a reprint never means rebuilding the record.
+### A worked correction
 
-![A printable Walmart receipt generator shown as a clean banner layout, with a desktop printer feeding out a narrow receipt on one side and the same record laid out as a full letter page on the other, both showing item lines, a sales tax row and a highlighted total.](assets/printable-walmart-receipt-generator-2.jpeg)
+A framing order in Atlanta was entered as sixteen studs at $4.25 when twenty were bought. Editing the quantity moves the line total from $68.00 to $85.00, the subtotal by the same amount, and the tax with it. The corrected grand total then matches the statement, and the record can be filed. Nothing else needed touching, which is exactly how an edit should feel.
 
-### Checking accuracy before the printer
+## Keeping the Arithmetic Honest
 
-Accuracy is cheaper on screen than on paper. Compare the total with the statement line, confirm the date, and read the item column once before anything prints. A business in Texas or California filing dozens of records a month will save more time on that single check than on any other habit here, because a wrong figure discovered after filing usually means finding the sheet, reprinting it and swapping it out.
+**The tax line is where most edits break.**
 
-### Batch printing a month
+When a quantity or price changes, the taxable subtotal changes, and the tax must change with it. A template that recalculates does this silently; a hand-edited document usually does not. The check takes seconds: add the line totals, apply the tax, compare with the statement.
 
-When a month of records prints at once, print one test sheet first and confirm the margins hold. Then print the batch in date order, so the stack arrives in the sequence it will be filed in. Sorting fifty loose sheets by hand afterwards takes longer than the printing did, and the order is free if you ask for it up front.
+Rounding deserves the same care. Let the tool round once at the end rather than rounding each line, because rounding twice may leave a few cents that nobody can explain later.
 
-## Scanning and Archiving What You Print
+## Partial Returns and Exchanges
 
-**Scan the page version, not the narrow slip, whenever the copy has to go digital again.**
+**A partial return changes the total without changing what was originally bought.**
 
-A letter-size sheet sits square on a scanner bed and produces a straight, croppable image. A narrow slip curls, skews and often needs three attempts. If the workflow is print, sign, scan and email — which it still is in plenty of offices — the page format saves the most time.
+Twelve sheets bought and three taken back is two events, and the honest record shows both: the original purchase at twelve, and a return document for three with the refund amount. Netting them into a single nine-sheet record hides an exchange that a client, a bookkeeper or an accountant may later need to see.
 
-Name scanned files the same way you name the originals, by date and store. Two naming schemes in one archive may cost more time than the scanning did.
+Exchanges work the same way. The material going back and the material coming out are separate movements, even when no money changes hands, and recording them as a pair keeps the job cost right.
 
-## Filing a Printed Receipt Where It Can Be Found
+### Why netting causes trouble
 
-**A printed copy is only as useful as the folder it lands in.**
+A netted record disagrees with two bank lines rather than matching one. The original charge and the later refund both appear on the statement, and a single blended document reconciles against neither. Keeping the pair separate means every number on both records ties to something a reviewer can find.
 
-Records filed by date suit a household or a sole trader reviewing a month. Records filed by job or client suit a contractor, and records filed by category suit anybody preparing a return. Any of the three works; mixing them does not, and a folder holding all three schemes usually has to be read end to end to answer a single question.
+## Why Use makecepeit for Editable Receipts?
 
-Write the reference on the sheet itself where the folder uses one. A page that falls out of its folder in an office in New York can be refiled in seconds if it says where it belongs, and is otherwise a small mystery for whoever picks it up.
+**Because every total is derived, so a change in one field cannot leave a stale figure behind.**
 
-### Folder discipline
-
-File the sheet the day it prints. A stack of printed records waiting to be filed is the same problem as a shoebox of receipts, only with better formatting, and it tends to grow until somebody sets aside an afternoon for it.
-
-## Ink, Paper and Legibility
-
-**Print in black on plain white paper and keep the type large enough to read after a photocopy.**
-
-Coloured backgrounds and light grey type look refined on screen and fail on paper, particularly once a document has been photocopied or faxed by somebody else's office. Small type in a price column is the first thing to go. Plain formatting is not a compromise here; it is what keeps a record usable through the copies that follow.
-
-## Why Use makecepeit for Printable Receipts?
-
-**Because the layout is built to survive the printer, and the totals are calculated before anything reaches paper.**
-
-- Clean downloads rather than screenshots of a preview
-- A structure that holds its columns at print size
-- Totals that recalculate as you edit, so no printed copy carries stale math
-- The same layout every time, which keeps a printed folder uniform
+- Line totals, subtotal, tax and grand total all recalculate together
+- Unit and quantity columns suited to building materials
+- A job reference field that survives an edit
+- Clean re-download after a correction, with no manual retyping
 - Free to start, with nothing to install
 
-### One record, one sheet
+## Tips Before You Edit
 
-Keep each purchase on its own page. Two receipts sharing a sheet may save paper, but they cannot be filed in two places, and the second one is usually the one somebody later needs on its own. Where a record runs long, let it continue onto a second page rather than shrinking the type to force a fit.
-
-## Tips Before You Print
-
-- Check the total against the statement before printing, not after
-- Print one test copy before running a batch
-- Keep the digital file alongside the paper one
-- Use plain black type on white paper
-- Leave real margins at every edge
-- Mask card numbers to four digits
-- Write the filing reference on the sheet if your folder uses one
-
-### Reprints and corrections
-
-When a record changes after it has been printed, reprint it and destroy the old sheet rather than annotating it by hand. A corrected figure in pen raises a question that the reprint answers for free, and a folder holding both versions of one purchase is worse than a folder holding neither.
+- Find the source document before changing anything
+- Edit drafts freely, filed records rarely, sent records never
+- Change one field at a time
+- Let the tool do the arithmetic
+- Record returns separately
+- Note what changed and why
+- Reconcile against the statement after every edit
 
 ## Common Mistakes to Avoid
 
-- **Printing before reconciling.** A copy whose total disagrees with the statement wastes both the sheet and the reader's time.
-- **Screenshotting a preview.** Resolution suffers and the columns rarely survive.
-- **Using shrink-to-fit.** It rescales the layout and can make a price column unreadable.
-- **Choosing the narrow format for a filing folder.** It curls, skews and scans badly.
-- **Printing card details in full.** Paper travels, so mask to four digits.
-- **Adding store branding.** A personal record needs none, and copying a logo creates a trademark problem.
-- **Keeping only the paper copy.** Without the file, a reprint means rebuilding the record from scratch.
+- **Typing over a calculated total.** The figure stops matching the lines above it.
+- **Forgetting the tax line.** It is the number furthest from the edit and the first a reviewer checks.
+- **Editing a record already sent to a client.** Issue a corrected version with a note instead.
+- **Folding a return into the original.** Two events, two documents.
+- **Rounding every line.** Round once at the end, or the cents will not reconcile.
+- **Backdating an edit.** The purchase date belongs to the purchase, not the correction.
+- **Losing the audit trail.** A one-line note about what changed costs nothing and answers everything.
 
-### What a printed copy proves
+## Corrections on Records Shared With a Team
 
-A printed record proves what you recorded, not that a retailer issued it. That is enough for budgeting, bookkeeping and most internal expense processes, and it is not enough for a return or a chargeback. Being clear about that line, in your own mind and on the document, is what keeps accurate record-keeping distinct from something a reviewer would rightly question.
+**When several people can edit, say who owns the current version.**
+
+A small firm in Sacramento with two people entering receipts will eventually have both of them correcting the same record, in different ways, on the same afternoon. The fix is not a rule about editing; it is a rule about ownership. One person owns the folder, corrections go through them, and everybody else sends the source document rather than a revised file.
+
+That also keeps the audit trail intact. A correction made by the folder owner, with a note, reads as bookkeeping. The same change made silently by somebody else reads as a discrepancy, even when the figure is right.
+
+### Training the habit
+
+Most of this is one instruction repeated: reconcile before you file, correct before you send. Teams that follow it produce folders somebody can close a job from, and teams that do not produce folders somebody has to investigate.
 
 ## Final Takeaway
 
-A printable Walmart receipt generator is judged at the printer, not on screen. Reconcile the record first, pick the page format if it is going into a folder, keep the margins honest and print one test copy before a batch. Keep the digital file so a reprint is never a rebuild.
+An editable Home Depot receipt template is useful because materials orders change, prices get mistyped and quantities shift between the aisle and the till. Edit drafts to make them accurate, let the totals recalculate themselves, and handle returns as separate records.
 
-For anything needing the retailer's own document, such as a return or a warranty dispute, request the original. Our guide to [looking up a Walmart receipt](/blog/walmart-receipt-lookup) explains how.
+The test is always the same: does the document still agree with the money trail? If it does, the edit was a correction. If it does not, something needs another look before it is filed.
 
-Printing is the last step in a chain that starts with an accurate record, and it is the step that exposes any weakness in the earlier ones. A total that never reconciled, an item line nobody can read, a card number left in full: all of them become permanent the moment the sheet leaves the tray. Spending a minute on screen first is what keeps the printed set worth keeping.
+## Create Your Editable Receipt With makecepeit
 
-Treat the paper copy as the durable version and the file as the working one. The file is what you edit, reprint and email; the sheet is what survives in the folder when everything else has moved on to another system.
-
-## Create Your Printable Receipt With makecepeit
-
-Build the record, check the total, then download a file that prints cleanly at the size you need. [Make your receipt](/create) and file the sheet beside the statement it supports.`,
+Change a quantity, a price or a line and watch every total move with it. [Start your receipt](/create) and keep the corrected version filed beside the statement it matches.`,
     faqs: [
       {
-        q: "What is a printable receipt generator?",
-        a: "It is a receipt builder whose output is laid out for paper, with margins, type sizes and columns that stay legible once printed rather than only on screen.",
+        q: "What is an editable receipt template?",
+        a: "It is a layout where changing a field updates every figure that depends on it, so the line total, subtotal, tax and grand total stay in agreement.",
       },
       {
-        q: "Narrow slip or full page, which prints better?",
-        a: "A full page for anything being filed or scanned. The narrow format suits a wallet copy or a folder that also holds genuine store slips.",
+        q: "Is editing a receipt record allowed?",
+        a: "Correcting a draft so it matches what actually happened is ordinary bookkeeping. Changing a record to describe something that did not happen is fraud.",
       },
       {
-        q: "Why does my printed copy lose a column?",
-        a: "Usually margins. Printers reserve an unprintable border, so a layout running too close to the edge loses characters there.",
+        q: "Should a return be edited into the original?",
+        a: "No. A return is a separate event, so write a second record naming the original purchase, the materials going back and the refund amount.",
       },
       {
-        q: "Should I use shrink-to-fit when printing?",
-        a: "No. It rescales the layout and often makes the price column unreadable. Set proper margins and print at full size instead.",
+        q: "Why does the tax line break during edits?",
+        a: "Because it sits furthest from the field being changed and is the one most often forgotten when totals are updated by hand.",
       },
       {
-        q: "Can I scan a printed receipt copy?",
-        a: "Yes, and the page format scans far better. A narrow slip curls and skews on the scanner bed, often needing several attempts.",
+        q: "Can I edit a receipt already sent to a client?",
+        a: "Issue a corrected version with a short note explaining the change, rather than quietly replacing a document somebody has already read.",
       },
       {
-        q: "Should I keep the digital file too?",
-        a: "Yes. Without it, a reprint means rebuilding the record from scratch, and the details you used may be harder to recover later.",
+        q: "How should rounding be handled?",
+        a: "Round once at the end rather than on every line. Rounding twice may leave a few cents that no later reader can account for.",
       },
       {
-        q: "What colour should the receipt print in?",
-        a: "Plain black on white paper. Coloured backgrounds and light grey type look fine on screen and fail once a document is photocopied.",
+        q: "What should I note about an edit?",
+        a: "One line saying what changed and why. It costs nothing to write and answers the obvious question a reviewer would otherwise have to ask.",
       },
       {
-        q: "How much card detail should be printed?",
-        a: "The last four digits only. Printed pages travel between desks and offices, so full card numbers should never appear on them.",
+        q: "Do quantities change often on materials orders?",
+        a: "Frequently. Stock shortages, substitutions and last-minute additions mean the order that reaches the till may differ from the one planned.",
       },
       {
-        q: "Is a printed copy valid for a return?",
-        a: "Generally not. Retailers check their own transaction records, so request the original receipt from the store when a return is the goal.",
+        q: "Should the job reference be editable?",
+        a: "Yes. Materials are sometimes moved between projects, and the reference should follow the truth rather than the first guess.",
       },
       {
-        q: "Is printing a receipt copy legal?",
-        a: "Printing a record of a purchase you genuinely made is ordinary bookkeeping. Printing one for a purchase that never happened, or passing it off as the store's, is fraud.",
+        q: "Does an edited copy work for a return?",
+        a: "Generally not. Retailers check their own transaction records, so ask the store for the original receipt when a return is the goal.",
       },
     ],
   },

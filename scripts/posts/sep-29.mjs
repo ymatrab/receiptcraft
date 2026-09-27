@@ -1,388 +1,448 @@
 /**
- * Oct-sprint — Day 2026-09-29 (2 posts). Notion board Order 9 and 10.
- *   9.  "cash receipt generator"   170/mo · CPC $6.94 · Medium -> /templates/cash-receipt
- *   10. "simple receipt generator" 170/mo · CPC $7.80 · Medium -> /create
+ * Oct-sprint — Day 2026-09-29 (2 posts). Notion board Order 11 and 12, big-box cluster.
+ *   11. "walmart receipt maker"      480/mo · CPC $3.57 · Low -> /brands/walmart
+ *   12. "walmart receipt generator"  390/mo · CPC $3.13 · Low -> /brands/walmart
  *
- * ⚠️ #10 conflicts with a standing decision. docs/content-ledger.md records that on
- * 2026-08-17 the /create synonyms `online receipt generator` and `receipt creator free`
- * were DROPPED to stop cannibalization, ruling those head terms belong on /create itself.
- * "simple receipt generator" is the same pattern. Written here with a deliberately narrow
- * angle — minimal-field receipts as a design choice, not a generic "make a receipt" page —
- * and flagged in the ledger. Worth reviewing whether it should run at all.
+ * Cannibalization guard: four Walmart spokes run across Oct 1 and Oct 3, so each
+ * owns one question. #11 owns the situation — the slip is gone and you need a
+ * readable copy of a purchase you made. #12 owns the anatomy — what a supercenter
+ * receipt actually prints, line by line, and how to reproduce it accurately.
+ * #13 owns the reusable layout and #14 owns printing. They cross-link in that order.
+ *
+ * Separate from the live retrieval cluster: /blog/walmart-receipt-lookup is how to
+ * get the store's own copy. Both posts link there rather than competing with it —
+ * that is the honest route and it keeps the retrieval query on the page built for it.
+ *
+ * Legitimacy: every section frames this as documenting a purchase you actually made.
+ * No logos, no store branding, no suggestion a copy substitutes for the original.
  */
 
 export const SEP_29 = [
   {
-    slug: "cash-receipt-generator",
-    image: "assets/cash-receipt-generator.jpeg",
+    slug: "walmart-receipt-maker",
+    image: "assets/walmart-receipt-maker.jpeg",
     category: "small-business",
     publishedAt: "2026-09-29T09:30:00Z",
-    title: "Cash Receipt Generator: How and When to Use",
-    seoTitle: "Cash Receipt Generator: How and When to Use",
+    title: "Walmart Receipt Maker: Rebuild Your Record",
+    seoTitle: "Walmart Receipt Maker: Rebuild Your Record",
     seoDescription:
-      "Learn when a cash receipt generator matters, what a cash payment record must show, and how to document payments with no card trail, with makecepeit.",
+      "Learn how a Walmart receipt maker rebuilds a clean copy of a purchase you already made, what details to gather first, and how to do it with Makecepeit.",
     excerpt:
-      "A cash receipt generator matters because cash leaves no trail of its own. Without a written record, a paid transaction is a conversation between two memories.",
-    body: `A **cash receipt generator** produces a written record of a payment made in cash, and it matters for a reason that card payments make easy to forget: cash leaves no trail behind it. A card payment is recorded by a bank whether or not anyone issues a receipt. A cash payment is recorded by nobody unless somebody writes it down.
+      "A Walmart receipt maker rebuilds a readable copy of a purchase you already made, using the date, store number, items and payment details you can recover yourself. Here's how.",
+    body: `A **Walmart receipt maker** is a tool that rebuilds a readable copy of a store purchase you already made, for shoppers, contractors, freelancers and small business owners whose paper slip faded, tore or went through the wash. It produces one clear document carrying the same facts the original carried: the store, the date, the items, the tax and the method of payment.
 
-Across the United States, that gap causes disputes every day — rent paid in cash to a private landlord in Chicago, a contractor paid on completion in Texas, a private sale between two people who will never meet again. Makecepeit lets you [create a cash receipt](/create) at the moment of payment, which is the only moment when both parties agree on what happened.
+Across the United States, thermal receipts fade within months, and the ones that survive a purse or a truck cab rarely survive a year. Makecepeit lets you [create a receipt](/create) from a fixed layout, so a purchase you are documenting reads the same way every time, whether it is one grocery run in Dallas or a month of supply trips in Chicago.
 
-## What Is a Cash Receipt Generator?
+## What Is a Walmart Receipt Maker?
 
-**It is a tool that produces a dated, written confirmation that a specific sum of cash passed from one named party to another for a stated reason.**
+**It is a receipt builder used to reconstruct a record of a purchase whose original slip is lost, faded or damaged.**
 
-The document does a narrow job very well. It does not prove that the underlying agreement was fair, or that the goods were as described. It establishes that a payment of a stated amount was made on a stated date and acknowledged by the person receiving it, which is usually the fact in dispute.
+The phrase describes the job, not a product sold by the retailer. You supply what you know about the purchase, the tool arranges it into a standard receipt layout, and you keep the result with your own records. Nothing about that process reaches the store's systems, and the output is your document rather than a reissue of theirs.
 
-### Why cash needs a receipt more than card does
+That distinction matters more than it sounds. A rebuilt copy is a personal record, useful for budgeting, reimbursement and warranty files. It is not a replacement for the retailer's own transaction record, and it should never be presented as one.
 
-With a card payment, both parties can reconstruct the transaction from independent records weeks later. With cash, neither can. The receipt is not a formality layered on top of other evidence; it is generally the only evidence that will exist.
+### What it is not
 
-## When Cash Receipts Matter Most
+It is not a reprint service, and it does not reach into any retailer's database to find what you bought. Nothing you enter is checked against a store record, which is why the accuracy of a rebuilt copy rests entirely on the care you take with it. Treat it as a document you are signing rather than one you are requesting, and the right level of caution follows naturally.
 
-- **Rent paid in cash** to a private landlord with no property manager
-- **Contractor and trade payments** settled on completion
-- **Private sales** of vehicles, equipment or furniture
-- **Deposits** held against work not yet done
-- **Services paid on the day** — cleaning, tutoring, repairs, care
-- **Petty cash** disbursed within a business
-- **Market and event trading**, where card acceptance is limited
+## What Information Do You Need Before You Start?
 
-> A tenant who has paid cash rent for three years and holds no receipts has, in practical terms, no record of having paid rent at all.
+- **Purchase date**, which your bank or card statement will confirm
+- **Store number or location**, such as the city and state you shopped in
+- **Item descriptions** for the things you actually bought
+- **Quantities and unit prices** where you can recall or verify them
+- **Subtotal** before tax
+- **Sales tax** charged on the taxable portion
+- **Total paid**, which should match the statement line exactly
+- **Payment method**, with only the last four digits of a card
+- **Time of day**, if you have it, which helps when two trips fall on one date
 
-### The deposit problem
+### Where those details usually survive
 
-Deposits generate more disputes than almost any other cash payment, because the money changes hands long before the obligation is discharged. A receipt that records a deposit as a deposit — naming the total agreed and the balance outstanding — prevents the later argument about whether the sum was a part payment or the whole of it.
+The total and the date are the easiest to recover, because they sit on your statement. Item detail is harder, and for a large grocery run it may be partly reconstructed from memory. A photo taken at the register, an order confirmation email or a shared household note often fills the gap.
 
-## What Should a Cash Receipt Include?
+## Receipt Maker vs. Store Receipt Lookup
 
-- **Date** the payment was made, not the date of the agreement
-- **Amount** in figures, and in words where the sum is significant
-- **Payer's name**, written out rather than initialled
-- **Recipient's name**, and business name where applicable
-- **What the payment is for**, specifically
-- **Whether it is partial or in full**, with any balance stated
-- **Payment method noted as cash**, explicitly
-- **Receipt number**, where the recipient issues several
-- **Signature or acknowledgment** from whoever received the money
+**Ask the retailer first when you need the original, and rebuild a copy only when the original cannot be produced.**
 
-### Writing the amount twice
-
-Recording "$450.00" alongside "four hundred and fifty dollars" is an old convention with a practical purpose: figures can be altered or misread, and two independent statements of the same sum are much harder to dispute. For larger cash payments it remains worth doing.
-
-## Cash Receipt vs Card Receipt
-
-| Feature | Cash receipt | Card receipt |
+| Question | Store receipt lookup | Receipt maker |
 |---|---|---|
-| Independent record exists | No | Yes, with the bank |
-| Who can confirm it | Only the two parties | Bank and processor |
-| Reversal possible | No | Chargeback may apply |
-| Proof if lost | Generally none | Statement may substitute |
-| Importance of the document | Critical | Useful but not sole evidence |
+| Who produces it | The retailer, from their records | You, from what you know |
+| Typical wait | Minutes to several days | A few minutes |
+| Proof of purchase for a return | Usually accepted | Generally not accepted |
+| Works for cash purchases | Often not | Yes |
+| Useful for budgets and expense files | Yes | Yes |
+| Contains the store's own transaction codes | Yes | No |
 
-The column that matters is the last one. Losing a card receipt is inconvenient. Losing the only cash receipt may mean the payment cannot be evidenced at all.
+Our guide to [looking up a Walmart receipt](/blog/walmart-receipt-lookup) covers the app, the website and the service desk. If a return or a warranty claim is the reason you are searching, start there. A rebuilt copy earns its keep afterwards, once the original is genuinely unavailable.
 
-## Why Cash Payment Records Matter in the United States
+### When each one wins
 
-**Cash is legal and ordinary, and it carries a documentation burden the payer usually bears.**
+A lookup wins whenever somebody else has to accept the document: a service desk, a manufacturer handling a warranty claim, a card issuer reviewing a dispute. A rebuilt copy wins when the reader is you, your bookkeeper or your accountant, and when the original no longer exists to be found. Cash purchases fall almost entirely into the second group, because there is often nothing for the retailer to look up in the first place.
 
-Businesses receiving cash are generally expected to record it as income like any other receipt, and the absence of a processor statement does not reduce that expectation. General guidance expects records adequate to support what a business reports, which for cash-heavy operations means the business's own contemporaneous records are doing all the work.
+## Why Walmart Receipt Records Matter in the United States
 
-On the paying side, someone claiming a cash expense without documentation is in a weaker position than someone with a card statement, simply because there is nothing else to point at. Landlord-tenant rules on rent receipts vary considerably — some states require a receipt for cash rent on request, others say nothing — so a tenant in New York and one in Florida may face quite different positions. Confirm what applies locally rather than assuming.
+**Because the thermal paper fades long before the reasons you might need the record do.**
 
-Large cash transactions can also trigger separate reporting obligations for businesses. Thresholds and mechanics vary, and a professional can confirm whether a particular transaction is affected.
+Warranty periods on tools, appliances and electronics commonly run a year or longer. Tax records for a small business are generally kept for several years. Household budgets get reviewed monthly. The paper, meanwhile, is printed with heat-sensitive dye that fades with sunlight, heat and time, and a glovebox in Phoenix will finish a receipt in a season.
 
-## How to Issue a Cash Receipt Properly
+Businesses in New York, Texas and Florida also answer to state revenue departments whose record-keeping expectations vary. The IRS describes the general principle plainly enough: keep records that support what appears on a return. How long, and in what form, depends on your circumstances, and a tax professional is the right person to ask about your own.
 
-1. **Write it at the moment** the money changes hands.
-2. **Name both parties** in full.
-3. **State the amount** in figures and, for larger sums, in words.
-4. **Describe what the payment covers**, specifically.
-5. **Say whether it settles the obligation** or part of it.
-6. **State the remaining balance**, where one exists.
-7. **Have the recipient sign** or otherwise acknowledge it.
-8. **Give a copy to the payer** and keep one yourself.
+> **Important:** a receipt you rebuild documents a purchase that genuinely happened. Creating a document for a purchase that did not happen, or passing a recreated copy off as the retailer's original, is fraud in any state.
 
-![A cash receipt shown as a clean banner layout, with payer and recipient names in the header, the payment date and purpose beneath, the amount received highlighted in a total row, and a signature line confirming the cash was acknowledged at the time of payment.](assets/cash-receipt-generator-2.jpeg)
+### How long records stay useful
 
-Producing it from a [cash receipt template](/templates/cash-receipt) keeps the structure consistent, which matters when the same two parties transact repeatedly and the records need to sequence.
+A grocery receipt may stop mattering the moment the card statement clears. An appliance receipt may matter in three years, when a compressor fails inside a warranty period nobody remembers the terms of. Because the paper fades on the same schedule regardless, the practical answer is to rebuild the ones attached to something durable — tools, electronics, appliances, business supplies — and let the rest go.
 
-## Recurring Cash Payments
+## How to Make a Walmart Receipt Copy in Five Steps
 
-**Where cash changes hands on a schedule, the records only work if they are complete.**
+1. **Pull the statement line.** Find the transaction on your bank or card statement and note the exact date and total.
+2. **List what you bought.** Write the items out, with quantities and unit prices where you have them.
+3. **Check that the math lands.** Your item total plus tax should equal the amount the statement shows.
+4. **Enter the details once.** Open the builder, fill the store, date, items, tax and payment fields, and leave nothing guessed that you can verify.
+5. **Save and file it.** Download the finished copy and store it with the statement page it came from, so the two support each other.
 
-Weekly or monthly cash arrangements — rent, regular cleaning, ongoing care — produce a long series of small payments where a single gap becomes the focus of any later dispute. Nobody questions the twenty receipts that exist; everyone questions the month that is missing.
+![A Walmart receipt maker shown as a clean banner layout, with a placeholder store name and supercenter number at the top, a dated column of item lines with quantities and prices, a subtotal and sales tax row, and a highlighted total matching the shopper's own bank statement.](assets/walmart-receipt-maker-2.jpeg)
 
-- **Number receipts sequentially** across the arrangement
-- **State the period** each payment covers
-- **Keep them together**, in date order
-- **Photograph each one** so a lost paper copy is not the end of it
-- **Reconcile periodically** rather than at the end
+### Checking the arithmetic
 
-### Photographing as you go
+Add the item lines, apply the tax, and compare the result with the statement. If the two differ by a few cents, a price was probably mis-remembered. If they differ by several dollars, an item is missing. Closing that gap before you save is what separates a copy somebody can rely on from a rough note, and the accuracy costs nothing but a second pass.
 
-A paper receipt in a kitchen drawer is one spill away from being unreadable, and thermal paper fades regardless. Photographing each receipt when it is issued takes seconds and converts a fragile record into a durable one. It also produces a timestamp, which is a quiet secondary benefit.
+## Reading the Purchase Back From Your Bank Statement
 
-## Petty Cash Inside a Business
+**The statement gives you the date and the total; everything else you reconstruct around those two anchors.**
 
-Petty cash is where otherwise organised businesses keep the worst records, largely because the individual sums feel too small to bother with. The float is nonetheless real money, and the usual failure is a tin containing less cash than expected and a handful of unlabelled slips.
+A card statement usually shows a merchant descriptor, a city and an amount. That is enough to fix the purchase in time and to set the figure your rebuilt copy must reach. Work backwards from it: if your item lines and tax do not add up to the statement total, something is missing or mis-remembered, and the gap is worth closing before you save.
 
-A workable system is unglamorous: a receipt for every disbursement regardless of size, each stating what it was for and who took it, reconciled against the float on a fixed schedule. Where a purchase produced its own supplier receipt, the two are stapled together. The discipline is what makes it work, not the paperwork design.
+Debit purchases in Los Angeles and credit purchases in Miami look much the same on a statement. Cash purchases show nothing at all, which is exactly the case where a rebuilt copy does the most work, and also the case where honesty about what you remember matters most.
 
-## When a Cash Receipt Is Challenged
+## Household Budgets and Shared Expenses
 
-**Challenges to cash payments almost always turn on the same question: can you show the money moved, and when.**
+**A readable copy settles the small questions that paper receipts usually lose.**
 
-The classic case is a tenant and a landlord who disagree about whether a month was paid. Neither has a bank record, because the point of the arrangement was that none would exist. Whichever party holds a dated, signed receipt is in a dramatically stronger position, and the party holding nothing is reduced to asserting that the payment happened.
+Roommates splitting a supply run, couples tracking a monthly grocery figure and parents reimbursing an adult child for a shopping trip all need the same thing: a line-by-line record both sides can read. A faded strip of thermal paper cannot do that job by February.
 
-What makes a cash receipt persuasive is not formality but contemporaneity. A document written at the time, signed by the person who took the money, describing what it was for, is hard to argue with. A document produced afterwards — even an entirely honest one — invites the response that it was written to suit the argument. That is why the advice to write it in front of the payer is not fussiness; it is the whole substance of the protection.
+For a small business, the same copy feeds bookkeeping. Supplies bought on a Saturday trip in Houston often never reach the accounts because the slip disappeared, and a rebuilt copy attached to the statement line closes that hole.
 
-The second factor is consistency. A series of twenty receipts in the same format, sequentially numbered, with one gap, tells a coherent story about a single missed month. Twenty receipts in five different formats with inconsistent dates tells a story about records nobody maintained, and it weakens even the payments that were properly documented.
+### Reimbursement between people
 
-### What to do if a receipt was never issued
+When one person pays and another repays, the receipt is the whole conversation. A rebuilt copy showing items, tax and a total settles it without anybody relying on memory, and it may prevent the slow disagreement that starts when two people recall a figure differently. Keep it plain, send it once, and file the copy you sent.
 
-Sometimes the payment happened and nothing was written. The honest options are limited but real: ask the recipient to acknowledge it in writing now, note the surrounding circumstances while they are fresh, and keep any indirect evidence such as messages arranging the handover or a withdrawal of a matching sum. What is not an option is producing a document backdated to look contemporaneous. That converts a weak position into a dishonest one, and it is a far worse place to be than simply having no receipt.
+## What a Receipt Maker Cannot Do
 
-## Why Use makecepeit for Cash Receipts?
+**It cannot create proof that a purchase happened, and it cannot stand in for the retailer's record.**
 
-- **A cash-specific layout** rather than a card-sale form bent to fit
-- **Fields for both parties**, which private transactions need
-- **Space to state partial payment** and any remaining balance
-- **Consistent structure** across a repeating arrangement
-- **PDF and PNG output** for printing or sending immediately
-- **Browser-based**, so a receipt can be produced on the spot
+- It does not connect to any store's transaction system
+- It does not generate valid store transaction codes or survey invitations
+- It is generally not accepted as proof of purchase for a return
+- It does not extend or establish a manufacturer's warranty on its own
+- It cannot recover item detail you never had
 
-Makecepeit documents payments that genuinely took place. It is a record-keeping tool, not a way to evidence a payment that was never made, and a cash receipt is only worth anything if both parties recognize it as accurate.
+Used for what it is — a personal record of a real purchase — it is genuinely useful. Used as a substitute for the store's own paperwork, it fails, and the failure is the point at which honest record-keeping turns into something else.
 
-## Tips Before You Take Cash
+## Why Use makecepeit for Walmart Receipt Copies?
 
-- **Agree the amount aloud** before anything is handed over
-- **Write the receipt in front of the payer**, not afterwards
-- **Give the copy immediately**, rather than promising to send it
-- **State partial payments as partial**, every time
-- **Photograph the receipt** before it goes in a pocket
-- **Keep a running sequence** for repeating arrangements
-- **Never leave the purpose blank**, however obvious it seems
+**Because the layout stays fixed, so every copy you build reads the same and the math is done for you.**
+
+- Enter the items once and the totals calculate as you type
+- A consistent structure across every receipt you rebuild
+- Fields for store, date, tax and payment method in the order a reader expects
+- Download as a clean file you can attach to a statement or an expense claim
+- Nothing to install, and no account needed to build one
+
+The builder is [free to start](/create), and the same layout serves a grocery run, a tools purchase or a month of small supply trips.
+
+## Tips Before You Rebuild a Receipt
+
+- Check the statement before you type, not afterwards
+- Record the store's city and state rather than inventing a street address
+- Mask the card number down to the last four digits
+- Keep item descriptions plain and recognisable
+- Note anywhere you estimated, so a later reader knows
+- Save the copy in the same folder as the statement it matches
+- Rebuild one receipt per transaction, never a month in one document
 
 ## Common Mistakes to Avoid
 
-- **Issuing nothing at all** because the parties know each other
-- **Writing the receipt later** from memory
-- **Omitting the payer's name**, which makes the document generic
-- **Failing to mark a deposit** as a part payment
-- **Leaving the balance unstated** on an instalment
-- **Using the agreement date** instead of the payment date
-- **Relying on a single paper copy** of a faded slip
-- **Skipping small petty-cash sums** until the float stops reconciling
+- **Making the total match by inventing a line.** If the math is short, say so rather than padding it.
+- **Copying store branding.** A copy for your own records needs no logo, and reproducing one invites a trademark problem.
+- **Fabricating transaction codes.** Invented store codes look real and are not, which is exactly the wrong combination.
+- **Writing a full card number.** Last four digits only, on any receipt you keep or send.
+- **Using a rebuilt copy for a return.** Ask the retailer for the original instead.
+- **Rounding the tax.** Enter the taxable subtotal and let the calculation land where it lands.
+- **Backdating a purchase.** The date on the statement is the date on the receipt.
 
 ## Final Takeaway
 
-A cash receipt generator earns its place because cash generates no record of its own. Write the receipt at the moment of payment, name both parties, state precisely what the money covers, mark partial payments as partial, and keep a durable copy. Local requirements on cash rent receipts and large-transaction reporting vary, so confirm the specifics for your situation with a professional. Where payments come with line-by-line detail, the [itemized receipt template](/blog/itemized-receipt-template) guide covers that structure.
+A Walmart receipt maker earns its place in one situation: you made a purchase, the paper is gone, and you still need a readable record of what you spent. Gather the date and total from your statement, reconstruct the items honestly, and keep the result with the paperwork it supports.
 
-## Create Cash Receipts With makecepeit
+When the original matters — a return, a warranty claim, a dispute — ask the retailer first. A rebuilt copy is for your files, and within those limits it does its job well.
 
-Produce a clear, dated record the moment cash changes hands. Open the [receipt generator](/create) and give both sides something better than a shared memory.`,
+Keep the rebuilt copy honest about its own nature. A note in your folder saying where the figures came from, and which parts were reconstructed rather than recovered, costs one line and answers the only question a later reader is likely to raise.
+
+## Create Your Receipt With makecepeit
+
+Enter the store, the date, the items and the way you paid, and the totals calculate as you go. [Build your receipt](/create) and keep it filed beside the statement it matches.`,
     faqs: [
-      { q: "What is a cash receipt generator?", a: "A tool that produces a written record confirming a stated sum of cash passed from one named party to another on a specific date for a stated purpose." },
-      { q: "Why does cash need a receipt more than card?", a: "A card payment is recorded independently by a bank. A cash payment is recorded by nobody, so the receipt is usually the only evidence that will exist." },
-      { q: "What must a cash receipt show?", a: "The date, the amount, both parties by name, what the payment covers, whether it is partial or in full, and an acknowledgment from the recipient." },
-      { q: "Should the amount be written in words?", a: "For larger sums it is worth doing. Two independent statements of the same figure are considerably harder to alter or misread than one." },
-      { q: "How do I receipt a deposit?", a: "State the amount received, name the total agreed and show the remaining balance, so the payment cannot later be read as full settlement." },
-      { q: "Are landlords required to give cash rent receipts?", a: "It varies by state. Some require a receipt for cash rent on request and others do not, so confirm the rule that applies where the property is." },
-      { q: "Do businesses have to record cash income?", a: "Generally yes. The absence of a processor statement does not change the expectation that income is recorded and supportable from the business's own records." },
-      { q: "How should recurring cash payments be tracked?", a: "Number them sequentially, state the period each covers, keep them in date order, and photograph each one so a lost paper copy is recoverable." },
-      { q: "What about petty cash inside a business?", a: "Issue a receipt for every disbursement regardless of size, note what it was for and who took it, and reconcile against the float on a fixed schedule." },
-      { q: "Can makecepeit produce cash receipts?", a: "Yes. The cash layout has fields for both parties, the purpose and any remaining balance, for documenting payments that genuinely took place." },
+      {
+        q: "What is a Walmart receipt maker?",
+        a: "It is a receipt builder used to reconstruct a readable copy of a purchase you already made, when the original paper slip is lost, faded or damaged.",
+      },
+      {
+        q: "Is a rebuilt receipt accepted for a return?",
+        a: "Generally not. Retailers verify returns against their own transaction records, so ask the store to look up the original purchase instead.",
+      },
+      {
+        q: "What details do I need to rebuild one?",
+        a: "The date and total from your statement, the store location, the items you bought, the sales tax charged and the payment method used.",
+      },
+      {
+        q: "Where do I find the purchase date?",
+        a: "Your bank or card statement shows the date and the exact amount, which are the two anchors every rebuilt copy should be built around.",
+      },
+      {
+        q: "Can I rebuild a receipt for a cash purchase?",
+        a: "Yes, and cash is the case where it helps most, because no statement line exists. Record only what you genuinely remember buying.",
+      },
+      {
+        q: "Should the copy carry the store logo?",
+        a: "No. A record for your own files needs no branding, and reproducing a retailer's logo on a document you created raises a trademark problem.",
+      },
+      {
+        q: "How long should I keep receipt records?",
+        a: "It depends on why you need them. Warranties often run a year or more, and business records are generally kept longer. Ask a tax professional about your situation.",
+      },
+      {
+        q: "Does the sales tax rate have to be exact?",
+        a: "It should reflect what you were actually charged. Rates vary by state and locality, so work from the statement total rather than a rounded guess.",
+      },
+      {
+        q: "How much card information should appear?",
+        a: "Only the last four digits. Full card numbers do not belong on any receipt you keep, print or send to somebody else.",
+      },
+      {
+        q: "Is making a receipt copy legal?",
+        a: "Documenting a purchase you genuinely made is ordinary record-keeping. Creating a receipt for a purchase that never happened, or passing a copy off as the store's original, is fraud.",
+      },
     ],
   },
   {
-    slug: "simple-receipt-generator",
-    image: "assets/simple-receipt-generator.jpeg",
+    slug: "walmart-receipt-generator",
+    image: "assets/walmart-receipt-generator.jpeg",
     category: "small-business",
     publishedAt: "2026-09-29T14:00:00Z",
-    title: "Simple Receipt Generator for Quick Sales",
-    seoTitle: "Simple Receipt Generator for Quick Sales",
+    title: "Walmart Receipt Generator: Every Line Right",
+    seoTitle: "Walmart Receipt Generator: Every Line Right",
     seoDescription:
-      "Learn when a simple receipt generator is the right choice, the minimum fields a receipt needs, and when to itemize instead, with makecepeit.",
+      "Learn what a Walmart receipt generator reproduces, from the store line and item rows to sales tax and tender, and build an accurate copy with Makecepeit.",
     excerpt:
-      "A simple receipt generator is the right tool when detail would be noise. The skill is knowing the minimum a receipt still needs, and when that minimum stops being enough.",
-    body: `A **simple receipt generator** produces a short, plain record of a sale without line-by-line breakdown, and choosing one is a deliberate decision rather than a shortcut. Some transactions genuinely do not need itemizing, and forcing detail onto them produces a document nobody reads and everyone has to file.
+      "A Walmart receipt generator reproduces the structure of a supercenter slip: store details, item lines, subtotal, sales tax and how you paid, so your copy reads like the record it replaces. Here's how.",
+    body: `A **Walmart receipt generator** is a tool that lays out a supercenter-style receipt field by field, for shoppers rebuilding a lost record, bookkeepers reconciling a card statement and small business owners filing supply purchases. It produces a document whose structure matches what a big-box register prints: a header, a column of item lines, a subtotal, a tax row and a tender line.
 
-Across the United States, market traders, independent instructors, private sellers and one-person service businesses issue thousands of these every day. Makecepeit lets you [create a receipt](/create) with as few or as many fields as the transaction warrants, which means the choice is yours rather than the template's.
+Getting that structure right is what makes a copy readable to somebody else. Makecepeit lets you [generate a receipt](/create) with those fields in the order a reader expects, so a purchase made in Atlanta reads the same way as one made in Seattle.
 
-## What Is a Simple Receipt Generator?
+## What Is a Walmart Receipt Generator?
 
-**It is a tool producing a minimal but complete receipt: who sold, who paid, what for, how much, when, and by what method.**
+**It is a builder that arranges the details of a real purchase into the layout a big-box store receipt uses.**
 
-"Simple" describes the level of detail, not the level of care. Every field above still has to be right. What is absent is the line structure — quantities, unit prices, per-line totals — which a single-item or single-service transaction does not need.
+The value is in the arrangement. Anybody can write down what they spent, but a record that separates items from tax from payment is one a bookkeeper, a partner or an expense reviewer can check in seconds. A generator enforces that separation instead of leaving it to memory.
 
-### Simple is not the same as incomplete
+It is a personal record, produced by you from facts you can verify. It carries no connection to the retailer's systems and holds no transaction codes of theirs.
 
-A receipt missing the seller's name is not simple, it is defective. The distinction matters because the appeal of simplicity tempts people to drop fields that were doing real work. The test is whether a stranger reading the document in a year could tell what happened.
+### Why the arrangement matters
 
-## When a Simple Receipt Is the Right Choice
+Two documents may carry identical facts and still differ in how quickly somebody can check them. A reader scanning for the tax line expects it under the subtotal; a reader matching a card statement looks for the tender row at the foot. Following the conventional order is not decoration, it is what lets a reviewer confirm in seconds that the copy and the statement agree.
 
-- **Single-item sales** where one line would restate the total
-- **Flat-fee services** with no breakdown to give
-- **Private sales** between individuals
-- **Market and craft-fair trading**, where speed matters
-- **Deposits and holding payments** against a larger agreement
-- **Tuition and class fees** charged at a standard rate
-- **Small repeat transactions** with an established customer
+## What Does a Supercenter Receipt Actually Show?
 
-> A yoga instructor charging a flat $20 for a drop-in class has nothing to itemize, and a receipt pretending otherwise adds nothing but length.
+- **Store identity**, usually a store number alongside the city and state
+- **Date and time** of the sale
+- **One line per item**, with a description and a price
+- **Quantities** where more than one of something was bought
+- **Subtotal** before tax is applied
+- **Sales tax**, often split by taxable category
+- **Total** paid
+- **Tender**, naming the payment method and the last four digits of a card
+- **Change given**, on cash transactions
 
-## When You Should Itemize Instead
+### The fields people leave out
 
-**The moment somebody other than the buyer needs to understand the purchase, simplicity stops being an advantage.**
+Time of day, quantity columns and the tax line are the three most often dropped when somebody reconstructs a purchase from memory, and they are the three that make the copy checkable. A receipt with items and a total but no tax row leaves a reader unable to tell whether the numbers agree.
 
-- **Expense reimbursement** — an approver needs to see what was bought
-- **Business-to-business sales** — their accounts team will ask
-- **Mixed tax treatment** — taxable and exempt items need separating
-- **Multiple items** at different prices
-- **Insurance or warranty claims** — the item must be identifiable
-- **Anything disputed**, where the detail settles the argument
+## Item Lines: Quantities, Unit Prices and Line Totals
 
-### The reimbursement test
+**Each line should say what was bought, how many, at what price, and what that came to.**
 
-A useful rule: if the buyer is spending someone else's money, itemize. Employers refuse simple receipts routinely, not out of pedantry but because a total tells an approver nothing about whether the spending was within policy. A restaurant in Los Angeles issuing a simple receipt to a business traveller has handed them a document their employer will bounce.
+Three items at $6.47 is a line total of $19.41, and writing that out lets any reader verify the arithmetic without redoing it. Where a store prints a weight instead of a quantity, as it does for produce, record the weight and the price per pound in the same way.
 
-## Simple vs Itemized Receipts
+Descriptions should be recognisable rather than technical. "Printer paper, 500 sheets" tells a reviewer what they need; a register abbreviation does not. Plain descriptions also spare you from inventing product codes, which is a mistake covered further down.
 
-| Factor | Simple receipt | Itemized receipt |
+### Weighted items and produce
+
+Loose produce, deli counter items and anything else sold by weight print differently: a weight, a price per pound and the resulting line total. When you rebuild one of those lines, keep the same three parts rather than collapsing them into a single figure, because a reader who cannot see the weight may have no way to tell whether the price was right.
+
+## Sales Tax and Why the Line Varies
+
+**Tax on the same basket differs by state, by city and by what the basket contains.**
+
+Grocery items are treated differently from general merchandise in many states, which is why a single trip can produce two tax figures on one slip. Rates also change, and the combined state and local rate in Chicago is not the rate in Portland. A generated copy should carry the tax you were actually charged, not a national average.
+
+| Field | What to enter | Common error |
 |---|---|---|
-| Detail shown | Total and description | Every line, quantity and price |
-| Time to issue | Seconds | Longer |
-| Accepted for expenses | Often refused | Generally accepted |
-| Suits | Single items, flat fees | Multi-item, B2B, claims |
-| Risk | Too little detail later | None worth naming |
+| Subtotal | Total of the item lines before tax | Entering the amount paid instead |
+| Tax rate | The rate applied to your taxable items | Using a rounded national figure |
+| Tax amount | What the register charged | Recalculating and getting a different number |
+| Total | The figure on your bank statement | A total that does not match the statement |
+| Tender | Method plus last four digits | Writing the full card number |
 
-The asymmetry is worth noticing. The cost of over-itemizing is a slightly longer document. The cost of under-itemizing is a receipt that fails when it is needed, which is a worse failure and arrives later.
+If your own arithmetic disagrees with the statement, the statement wins. The difference usually means a taxable item was missed or a price was mis-remembered.
 
-## What Even a Simple Receipt Must Include
+### Mixed baskets
 
-- **Seller name**, and business name where there is one
-- **Date** of the transaction
-- **Description** of what was sold, however brief
-- **Amount paid**, clearly stated
-- **Payment method**, with card details masked
-- **Tax**, where it applies, shown separately
-- **Receipt number**, if you issue more than a handful
+A single trip that includes milk, a screwdriver and a pack of socks may produce more than one tax figure, because states treat food and general merchandise differently. Rebuilding that basket under one flat rate will usually miss the statement total by a small amount, and the mismatch is the first thing a careful reader notices.
 
-### The field most often dropped
+## Why Accurate Receipt Copies Matter in the United States
 
-Tax. A seller who folds sales tax into a round number because it is tidier has made the receipt unusable for any buyer who needs to know what was charged. Where tax applies, show it, even on the simplest document.
+**Because a copy that does not reconcile with the statement is worse than no copy at all.**
 
-## Why Simple Receipts Still Matter in the United States
+Expense reviewers, bookkeepers and tax preparers work by matching documents to bank lines. A receipt copy whose total sits a dollar away from the statement raises a question in every one of those readers, and answering it costs more time than building the copy did.
 
-**A short receipt is still a business record, and the obligations attached to it do not shrink with the document.**
+Businesses in California, Illinois and Georgia keep records under different state regimes, and the IRS expects records that support what a return claims. Treatment varies with circumstances, so a tax professional is the right person to ask how long to keep what. The general rule holds everywhere: the document and the money trail should agree.
 
-A business selling at a craft fair in Austin is expected to record income and account for sales tax in the same way as a shop with a POS system. General guidance expects records adequate to support what a business reports, and a stack of receipts that omit the date or the tax is not adequate, however quick they were to write.
+> **Important:** a generated receipt records a purchase that actually happened. Inventing a purchase, or presenting a copy you produced as the store's own document, is fraud.
 
-Sales tax deserves particular attention because rates vary between states and within them, and a trader working several markets may apply different rates in different counties. A simple receipt can carry that information in one line, and a seller who cannot say afterwards which rate was charged where has a reconstruction problem at filing time.
+### The reconciliation habit
 
-Requirements vary by state and by business type, and a professional can confirm what applies to a particular operation.
+Bookkeepers reconcile because memory is unreliable and arithmetic is not. Applying the same habit to a single receipt copy takes a minute: open the statement, open the copy, confirm the date and the total agree. Anything that fails that check is worth fixing immediately, while you still remember the trip well enough to correct it.
 
-## How to Issue One Quickly Without Cutting Corners
+## How to Generate an Accurate Copy
 
-1. **Set the seller details once** so they never need retyping.
-2. **Enter the date**, or let it default to today.
-3. **Write a short description** that identifies what was sold.
-4. **Enter the amount** and confirm the tax treatment.
-5. **Record the payment method** used.
-6. **Number it** from your running sequence.
-7. **Hand or send the copy** immediately.
-8. **Keep your own copy** in the same place as the rest.
+1. **Start from the statement line**, which fixes the date and the total.
+2. **Enter the store city and state**, plus a store number if you know it.
+3. **Add the item lines**, one per product, with quantities and unit prices.
+4. **Enter the taxable subtotal** and the tax you were charged.
+5. **Check the total** against the statement, to the cent.
+6. **Record the tender**, masking all but the last four digits.
+7. **Save the file** alongside the statement page it matches.
 
-![A simple receipt shown as a clean banner layout, with the seller name in the header, a single short description line, the date and payment method beneath, and the amount paid displayed in a highlighted total row with tax shown separately.](assets/simple-receipt-generator-2.jpeg)
+![A Walmart receipt generator shown as a clean banner layout, with a placeholder store name and store number in the header, a dated column of item lines with quantities and unit prices, a subtotal, a sales tax row and a highlighted total above the tender line.](assets/walmart-receipt-generator-2.jpeg)
 
-The speed comes from stored details rather than from omitting fields, which is the distinction a [receipt generator](/create) is built around.
+## Generator vs. Template: Which Should You Use?
 
-## Keeping Simple Receipts Usable Later
+**Use a generator for one purchase you are reconstructing now, and a template when you expect to do it repeatedly.**
 
-**The weakness of a short receipt is that it carries little context, so the filing has to do more work.**
+A generator walks you through the fields and calculates as you go, which suits a one-off reconstruction where accuracy matters more than speed. A reusable layout suits a contractor filing a supply purchase every week, where the header never changes and only the items do. Our guide to the [Walmart receipt template](/blog/walmart-receipt-template) covers that reusable side.
 
-A receipt reading "Services — $120" is fine at the point of sale and close to meaningless eighteen months later. Where you expect to need the record, one extra clause in the description costs nothing: "Services — garden clearance, rear property" answers the question the bare version cannot.
+Either way the fields are the same. The choice is about how often you fill them in.
 
-- **Add a customer name** where the sale is not anonymous
-- **Describe the item or service** in a few more words than feel necessary
-- **Keep numbering continuous** across a season or year
-- **Store them with the rest**, not in a separate pile
-- **Review a sample** occasionally to see if they still make sense
+## Card Data, Privacy and What to Mask
 
-### When simple stops being appropriate
+**Keep the last four digits and nothing more.**
 
-Businesses outgrow simple receipts gradually and usually notice late. The signals are consistent: customers start asking for more detail, expense claims get returned, or you find yourself explaining old receipts by email. Any of those means the transactions have become more complex than the document, and the answer is to itemize rather than to keep explaining.
+Card networks and the Federal Trade Commission have pushed truncation on printed receipts for years, and the reasoning applies just as well to a document you produce yourself. A receipt copy travels: it goes into shared folders, gets emailed to an accountant and is sometimes printed and left on a desk.
 
-## Sales Tax on Short Receipts
+Leave out the full card number, any expiry date and anything resembling an authorisation code. Your own records lose nothing by it, and a copy that leaks card data creates a problem nobody wants.
 
-**Brevity is a layout decision; sales tax is not, and the two get confused surprisingly often.**
+### Where copies travel
 
-Sellers working quickly gravitate toward round numbers — twenty dollars, forty dollars — because they are fast to take and fast to give change for. The temptation is then to treat that round figure as the whole story and leave tax implicitly inside it. The buyer cannot tell what was charged, and neither can the seller three months later.
+A receipt copy rarely stays where it was made. It may be emailed to an accountant in another state, dropped into a shared folder a whole team can open, or printed and left in a tray. Masking the card number is cheap insurance against all three, and no legitimate use of the document needs the other twelve digits.
 
-Rates differ enough to make this a real problem rather than a theoretical one. A trader working markets in Chicago, then in a neighbouring county, then in a state with no sales tax at all, may apply three different treatments in a fortnight. IRS guidance expects businesses to keep records adequate to support what they report, and state revenue departments take their own view of sales tax records. Neither is well served by a drawer of receipts showing round totals and nothing else.
+## When You Should Ask the Retailer Instead
 
-The fix costs one line. Show the pre-tax amount, the rate, and the tax charged. A receipt can still be short with those present — it is three figures, not a restructure — and it remains usable for both the buyer and the seller afterwards.
+**Whenever the store's own record is what the situation actually calls for.**
 
-### Pricing inclusive of tax
+Returns, exchanges, warranty claims and payment disputes are all resolved against the retailer's transaction history. A copy you generated has no standing there, and offering one in place of the original wastes a trip to the service desk.
 
-Some sellers prefer to quote tax-inclusive prices, which is legitimate and often sensible for cash trading. It does not remove the need to show the breakdown; it changes where the arithmetic starts. The receipt shows the inclusive price charged, then works backwards to the pre-tax figure and the tax component, so both the customer and the seller's own records can see the split.
+Our [Walmart receipt lookup guide](/blog/walmart-receipt-lookup) sets out how to retrieve the original through the app, the website or the store. Generate a copy for your files, and go to the retailer for anything that needs their record.
 
-### Trading across jurisdictions
+## Why Use makecepeit for Receipt Copies?
 
-Traders who move between locations should record where each sale happened, not only what was charged. A seller covering events across Texas and Florida in a season will otherwise be unable to allocate sales by jurisdiction at filing time, and reconstructing that from memory or a calendar is far harder than noting the location on the receipt at the time.
+**Because the structure is already correct, so the only thing left to get right is the data.**
 
-## Why Use makecepeit for Simple Receipts?
+- Item lines, subtotal, tax and tender in the order a reader expects
+- Totals that recalculate as you edit, so the math cannot drift
+- The same layout every time, which makes a folder of copies easy to scan
+- A clean download you can attach to a statement or an expense report
+- Free to start, with nothing to install
 
-- **As few fields as the sale needs**, without dropping the essential ones
-- **Stored seller details**, so issuing one takes seconds
-- **Automatic tax calculation** where it applies
-- **The same tool scales up** to itemized receipts when you need them
-- **PDF and PNG output** for immediate sending or printing
+## Tips for an Accurate Reconstruction
 
-Makecepeit documents sales that genuinely happened. A short receipt is still a record of a real transaction, not a way to evidence a sale that never took place, and masking card details on anything you send is basic hygiene.
-- **Runs in the browser**, which suits issuing on the spot
-
-Makecepeit documents sales that genuinely happened. A simple receipt is still a business record, and the accuracy of the date, amount and description is what gives it any value.
-
-## Tips Before You Standardize on Simple
-
-- **Check whether your buyers claim expenses** before choosing brevity
-- **Never drop the date** or the seller name to save space
-- **Show tax separately** even on a one-line receipt
-- **Write descriptions** you will understand next year
-- **Number them**, even if you issue only a few a week
-- **Mask card details** on anything you send
-- **Revisit the decision** when your sales get more complex
+- Work from the statement, never from memory alone
+- Enter one line per item rather than grouping them
+- Record the tax you were charged, not a rate you looked up
+- Use plain item descriptions a stranger could follow
+- Note where you estimated something
+- Keep the city and state honest
+- Check the total twice before you save
 
 ## Common Mistakes to Avoid
 
-- **Confusing simple with incomplete** and dropping required fields
-- **Folding tax into a round total**
-- **Writing "services" or "goods"** as the entire description
-- **Issuing simple receipts** to customers claiming expenses
-- **Skipping numbering** because the volume feels low
-- **Leaving the customer unnamed** on a non-anonymous sale
-- **Keeping them separately** from your other records
-- **Staying simple** long after the transactions stopped being so
+- **Inventing store transaction codes.** They look authoritative and are fabricated, which is the worst combination on a document.
+- **Reproducing the retailer's logo.** Your record does not need it, and copying it creates a trademark problem.
+- **Letting the total drift from the statement.** A copy that does not reconcile raises questions instead of answering them.
+- **Merging two trips into one receipt.** One transaction, one document.
+- **Writing a full card number.** Mask it to four digits, always.
+- **Applying one tax rate to a mixed basket.** Groceries and general merchandise are often taxed differently.
+- **Treating the copy as proof for a return.** That is the retailer's record, not yours.
+
+### What good looks like
+
+A well-built copy can be checked by somebody who was not there. The date matches the statement, the items are recognisable, the tax sits on its own line and the total lands to the cent. Nothing on it claims to be the retailer's document, and nothing on it was invented to make a number work.
 
 ## Final Takeaway
 
-A simple receipt generator is the right tool when the detail would genuinely be noise — a single item, a flat fee, a private sale. Keep the seller name, the date, the description, the amount and the tax, because those are not the parts that make a receipt long. Switch to itemizing the moment somebody other than the buyer needs to understand the purchase. Requirements vary by state and business type, so confirm specifics with a professional. For the fuller structure, see the [itemized receipt template](/blog/itemized-receipt-template) guide.
+A Walmart receipt generator is useful precisely to the degree it is accurate. Build from the statement line, list the items honestly, carry the tax you were actually charged, and mask the card. A copy that reconciles to the cent is a record anybody can rely on.
 
-## Create a Receipt With makecepeit
+For anything requiring the store's own document, ask the store. For your own files, a well-built copy does the job.
 
-Issue a clean, complete receipt in seconds, and add detail when the sale calls for it. Open the [receipt generator](/create) and keep the record right whichever way you go.`,
+One habit makes the whole exercise worth doing: file the copy the same day you build it. A reconstruction sitting in a downloads folder may as well not exist, and the details you relied on to build it fade from memory faster than the paper did. Attach it to the statement page, name the file after the date and the store, and the record becomes something you can find a year later without effort.
+
+That is ultimately what separates a useful receipt copy from a nice-looking one. The layout matters, the arithmetic matters more, and the filing is what makes either of them count when somebody finally asks what you spent.
+
+## Create Your Receipt Copy With makecepeit
+
+Enter the store, the items, the tax and the payment method, and watch the totals land where the statement says they should. [Generate your receipt](/create) and file it with the paperwork it supports.`,
     faqs: [
-      { q: "What is a simple receipt generator?", a: "A tool producing a short receipt without line-by-line breakdown, showing the seller, date, a brief description, the amount paid and the payment method." },
-      { q: "When is a simple receipt enough?", a: "For single items, flat-fee services, private sales and market trading, where itemizing would only restate the total in more words." },
-      { q: "When should I itemize instead?", a: "Whenever someone other than the buyer needs to understand the purchase, such as expense approvers, business customers, or insurers handling a claim." },
-      { q: "Is simple the same as incomplete?", a: "No. A simple receipt still needs the seller name, date, description, amount and tax. Dropping those makes it defective rather than simple." },
-      { q: "Should tax appear on a simple receipt?", a: "Yes, wherever it applies. Folding sales tax into a round total leaves the buyer unable to see what was actually charged." },
-      { q: "Will employers accept simple receipts?", a: "Often not. A total tells an approver nothing about what was bought, which is why itemization is usually required for reimbursement." },
-      { q: "Do I need receipt numbers at low volume?", a: "It helps. Numbering makes a specific transaction findable later, and it costs nothing to start even if you issue only a few each week." },
-      { q: "How detailed should the description be?", a: "Detailed enough to make sense in a year. A few extra words naming the item or the work done costs nothing and answers the later question." },
-      { q: "How do I know when to stop using simple receipts?", a: "When customers start asking for more detail, expense claims get returned, or you find yourself explaining old receipts by email." },
-      { q: "Can makecepeit do both simple and itemized?", a: "Yes. The same tool issues a short receipt in seconds and scales up to full line items when a transaction needs the detail." },
+      {
+        q: "What is a Walmart receipt generator?",
+        a: "It is a builder that arranges the details of a purchase you made into the layout a big-box receipt uses, with item lines, a tax row and a tender line.",
+      },
+      {
+        q: "What fields does a supercenter receipt print?",
+        a: "Store identity, date and time, one line per item, a subtotal, sales tax, the total paid, and the tender showing how the purchase was paid for.",
+      },
+      {
+        q: "Why does the tax line sometimes appear twice?",
+        a: "Many states tax groceries differently from general merchandise, so a single basket containing both can produce two separate tax figures.",
+      },
+      {
+        q: "What if my total does not match the statement?",
+        a: "The statement wins. A gap usually means an item was forgotten or a price mis-remembered, so revisit the lines before saving the copy.",
+      },
+      {
+        q: "Should I include store transaction codes?",
+        a: "No. Those codes come from the retailer's systems, and inventing something that resembles one puts fabricated data on your record.",
+      },
+      {
+        q: "How much of the card number should show?",
+        a: "The last four digits only. Full numbers, expiry dates and authorisation codes do not belong on a receipt copy you keep or share.",
+      },
+      {
+        q: "Can a generated receipt be used for a return?",
+        a: "Generally not. Returns are verified against the retailer's own transaction record, so request the original through the store instead.",
+      },
+      {
+        q: "Should I list quantities on each line?",
+        a: "Yes. A description, a quantity and a unit price let any reader check the line total without recalculating the whole receipt.",
+      },
+      {
+        q: "Generator or template, which is better?",
+        a: "A generator suits a one-off reconstruction where accuracy matters most. A reusable template suits someone filing similar purchases week after week.",
+      },
+      {
+        q: "Is generating a receipt copy legal?",
+        a: "Recording a purchase you genuinely made is normal record-keeping. Creating a receipt for a purchase that never happened, or passing your copy off as the store's, is fraud.",
+      },
     ],
   },
 ];

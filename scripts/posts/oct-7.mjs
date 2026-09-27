@@ -1,440 +1,446 @@
 /**
- * Oct-sprint — Day 2026-10-07 (2 posts). Notion board Order 17 and 18, big-box cluster.
- *   17. "home depot receipt template"  90/mo  · CPC $3.96 · Low -> /brands/home-depot
- *   18. "lowes receipt generator"      210/mo · CPC $3.78 · Low -> /create (no /brands/lowes yet)
+ * Oct-sprint — Day 2026-10-07 (2 posts). Notion board Order 19 and 20, big-box cluster.
+ *   19. "lowes receipt template"     90/mo  · CPC $4.74 · Low -> /create (no /brands/lowes yet)
+ *   20. "target receipt generator"   210/mo · CPC $5.14 · Low -> /brands/target
  *
- * Cannibalization guard: #17 closes the Home Depot trio and owns job costing across
- * many trips — the reusable record, phases, and rolling a folder into one project
- * total. It does not restate #15 (one materials purchase) or #16 (editing one).
- * #18 opens the Lowe's pair and owns delivered and special-order purchases:
- * delivery fees, haul-away, appliances, deposits and staged fulfilment.
+ * Cannibalization guard: #19 closes the Lowe's pair and owns the renovation project
+ * record — room-by-room and phase filing for a homeowner or DIY remodel, which is a
+ * different reader from #17's contractor job costing and from #18's delivered orders.
+ * #20 opens the everyday-retail angle: household purchases, gift receipts, returns
+ * windows and the split between a shopper's copy and a business expense record.
  *
- * NOTE: lib/brands.ts has no "lowes" entry, so #18 and #19 must NOT link to
- * /brands/lowes — it would 404. They link /create and the reprint guide instead.
+ * NOTE: lib/brands.ts has no "lowes" entry — #19 must NOT link /brands/lowes (404).
+ * /brands/target exists, so #20 links it.
  *
- * /blog/home-depot-lowes-receipt-reprint is the retrieval answer for both chains.
+ * Retrieval answers already live: /blog/home-depot-lowes-receipt-reprint and
+ * /blog/target-receipt-lookup. Both are linked rather than competed with.
  *
- * Legitimacy: records of purchases that happened; no branding, no invented order
- * numbers, card details masked, copies never presented as the retailer's document.
+ * Legitimacy: records of purchases that happened; no branding, card data masked,
+ * copies never presented as the retailer's own document.
  */
 
 export const OCT_7 = [
   {
-    slug: "home-depot-receipt-template",
-    image: "assets/home-depot-receipt-template.jpeg",
+    slug: "lowes-receipt-template",
+    image: "assets/lowes-receipt-template.jpeg",
     category: "small-business",
     publishedAt: "2026-10-07T09:30:00Z",
-    title: "Home Depot Receipt Template for Job Costing",
-    seoTitle: "Home Depot Receipt Template for Job Costing",
+    title: "Lowe's Receipt Template for Renovation Costs",
+    seoTitle: "Lowe's Receipt Template for Renovation Costs",
     seoDescription:
-      "Learn how a Home Depot receipt template keeps supply runs in one shape, ties trips to a job, and rolls a folder into a project total, with Makecepeit.",
+      "Learn how a Lowe's receipt template keeps renovation spending in one shape, room by room, so a remodel totals itself, with Makecepeit.",
     excerpt:
-      "A Home Depot receipt template keeps every supply run in the same shape, so a folder of trips adds up to a job total instead of a pile somebody has to reconstruct. Here's how.",
-    body: `A **Home Depot receipt template** is a reusable materials receipt layout used across many trips to the same supplier, so that a project's spending accumulates in one consistent shape. It serves contractors, remodellers, property managers and homeowners running a job that takes more than a single visit to the store.
+      "A Lowe's receipt template keeps every renovation purchase in one shape and tags it to a room, so a remodel adds itself up instead of being reconstructed from a drawer of paper. Here's how.",
+    body: `A **Lowe's receipt template** is a reusable receipt layout for home improvement spending, filled in trip after trip so a renovation accumulates as a set of matching records. It suits homeowners running a remodel, DIY builders working weekends and landlords refreshing a property between tenancies.
 
-One purchase needs a record. A job needs a set of records that agree with each other, because the question at the end is never what one trip cost. Makecepeit lets you [build a receipt](/create) from a fixed layout, so the twelfth supply run of a kitchen remodel in Columbus files exactly like the first.
+A renovation is rarely one purchase. It is twenty small ones over six weeks, and the question at the end — what did the kitchen actually cost — is unanswerable unless the records were kept in one shape. Makecepeit lets you [build a receipt](/create) from a fixed structure, so the last trip of a bathroom remodel in Nashville files exactly like the first.
 
-## What Is a Home Depot Receipt Template?
+## What Is a Lowe's Receipt Template?
 
-**It is a fixed materials layout you fill in repeatedly, so a folder of supply runs can be totalled without rework.**
+**It is a fixed layout you reuse for every home improvement purchase, so a project's records can be totalled without rework.**
 
-The template holds the structure: store, date, job reference, the item columns with their unit and quantity fields, and the subtotal, tax and total rows. What changes each time is the purchase itself. Because the shape never moves, a reader can scan twenty records in the time it takes to read three that were each laid out differently.
+The template holds the structure still: store, date, room or project reference, the item columns, and the subtotal, tax and total rows. Only the purchase changes. That consistency is what turns a drawer of paper into something you can add up, and it costs nothing after the first setup.
 
-Like any receipt you build, the output records materials you genuinely bought. It carries no store branding, no connection to the retailer's systems, and no claim to be their document.
+The output records purchases you genuinely made. It carries no store branding and no connection to the retailer's systems.
 
-### Template, generator or edit
+### Who this is not for
 
-Three related jobs, three posts. Recording one purchase in detail is covered in our guide to the [Home Depot receipt generator](/blog/home-depot-receipt-generator). Changing a record after the fact is covered by the companion post on editable templates. This one is about the repetition: the same layout, trip after trip, for a job that runs for weeks.
+A contractor costing client work needs phase tagging and a job reference, which our guide to the [Home Depot receipt template](/blog/home-depot-receipt-template) covers. This post is aimed at the homeowner or landlord side, where the question is usually what a room cost rather than what a client should be billed.
 
-## Which Fields Stay Fixed Across Trips?
+## Which Fields Should the Template Hold?
 
-- **Store name and location**, where you buy from the same branch
-- **Job or project reference**, the field that makes the roll-up possible
-- **Phase or stage**, if you cost work in stages such as framing or finishing
-- **Column headings** for item, unit, quantity, unit price and line total
-- **Subtotal row**, above the tax line
-- **Sales tax row**, always visible even when it comes out at zero
-- **Total row**, formatted identically every time
-- **Payment method row**, masked to the last four digits
+- **Store location**, at least the city and state
+- **Purchase date**, matching the card statement
+- **Room or area**, such as kitchen, main bathroom or garage
+- **Item description** in plain language
+- **Unit and quantity**, because paint, tile and lumber are priced by measure
+- **Unit price** and the resulting line total
+- **Subtotal**, above the tax row
+- **Sales tax**, kept visible even when zero
+- **Total**, reconciling to the statement
+- **Payment method**, masked to four digits
 
-### What changes every trip
+### The room field does the work
 
-The date, the materials, the quantities, the prices, the tax and the total. On a long job the phase changes too, perhaps three or four times across the project. Everything else should look identical, because sameness is what lets an unusual record stand out at a glance.
+Tagging by room is what lets a remodel answer the only question anybody asks afterwards. Without it, a folder holds forty purchases and one grand total, which is enough for a budget and useless for deciding whether the next bathroom is affordable.
 
-## Rolling a Folder Into One Job Total
+## Room-by-Room Totals
 
-**The point of a template is not the single record; it is the sum of them.**
-
-At the end of a job, a folder of consistent records adds up without interpretation. A framing phase of four trips, a rough-in phase of three and a finishing phase of six become three subtotals and one project figure. That number is what tells an owner whether the quote held, and it is the number most small contractors cannot produce on demand.
+**Tag at the till, total by room, compare against the plan.**
 
 | Level | What it answers | Built from |
 |---|---|---|
 | One record | What did this trip cost | Item lines plus tax |
-| One phase | What did framing cost | Records tagged to that phase |
-| One job | What did materials cost overall | Every record with that job reference |
-| One month | What did materials cost across jobs | All records in the date range |
+| One room | What did the kitchen cost | Records tagged to that room |
+| One project | What did the remodel cost | Every record in the project |
+| One category | What did we spend on tile | Records filtered by item type |
 
-The same folder answers all four questions, provided the reference fields were filled at the time. Filling them afterwards is guesswork, and the guess is usually generous to whichever job is being reviewed.
+A homeowner in Portland running a two-room refresh gets the most from the middle row. The kitchen may have absorbed most of the budget while the hallway came in under, and neither fact is visible from a single project total.
 
-### Phases worth separating
+### When the plan and the spending diverge
 
-Most residential jobs divide naturally into demolition, structural work, rough-in, finishing and punch list. Tagging to those five is enough for a small firm in Tampa or Des Moines to see where a project drifted, without the overhead of a full cost-code system. Anything finer tends to be abandoned by the third week.
+Totalling each room as it finishes, rather than at the end, is what turns a record into a decision. A kitchen running ahead of the plan in week two may still be adjustable; the same overrun discovered in week eight is simply history.
 
-## Why Consistent Job Records Matter in the United States
+## Why Renovation Records Matter in the United States
 
-**Because materials are the cost most likely to be underestimated on the next quote.**
+**Because home improvement spending may matter years later, when the property is sold or insured.**
 
-A contractor who cannot say what materials cost on the last three bathrooms is quoting the next one from memory, and memory is generous. Consistent records turn that into a number. They also matter when somebody else reads the books: a bookkeeper in Chicago closing a year, an accountant preparing a return, a client questioning a bill.
+Homeowners are often advised to keep records of capital improvements, because the treatment of improvement costs may affect what happens at sale. Whether a particular project qualifies, and how it should be recorded, depends on the work and on your circumstances, so a tax professional is the right person to ask. The paperwork, though, has to exist first.
 
-Businesses in New York, Texas and Oregon operate under state rules that differ in how materials and labour are taxed, especially on contracts that bundle both. The IRS expects records supporting what a return claims, and what applies to your work depends on your contracts, so a tax professional is the right person to ask.
+Insurance is the second reason. Households in Florida, Texas and Colorado making claims after storm or water damage are usually asked what was installed and when. A record naming the materials, the room and the date answers that far better than a memory of a weekend in April.
 
-> **Important:** a template records purchases that actually happened. Filling one in for materials that were never bought, or presenting your copy as the retailer's receipt, is fraud.
+> **Important:** a template records purchases that actually happened. Filling one in for materials never bought, or presenting your copy as the retailer's receipt, is fraud.
 
-## How to Set Up a Job-Costing Template
+## How to Set Up a Renovation Template
 
-1. **Build one clean record** from a real supply run, so the structure is proven.
-2. **Strip the purchase details** out to leave the master layout.
-3. **Add the reference fields** for job and phase, and keep them adjacent.
-4. **Fix the column order** and stop changing it mid-project.
+1. **List the rooms** the project touches, before the first trip.
+2. **Build one clean record** from a real purchase to prove the layout.
+3. **Strip the details** to leave a blank master.
+4. **Add the room field** and keep it near the date.
 5. **Copy the master** for every trip rather than editing it.
-6. **Fill it the same day**, while the trip is still fresh.
-7. **File by job**, not by month, if you cost work by project.
-8. **Total the folder** at the end of each phase rather than at the end of the job.
+6. **Fill it the same evening**, while the trip is fresh.
+7. **Total each room** as the work in it finishes.
+8. **Keep the folder** after the project closes, not just during it.
 
-![A Home Depot receipt template shown as a clean banner layout, with a job reference and phase field near the header, an empty column structure for item, unit, quantity and price, and blank subtotal, sales tax and total rows ready for the next supply run.](assets/home-depot-receipt-template-2.jpeg)
+![A Lowe's receipt template shown as a clean banner layout, with a room reference field near the header, an empty column structure for item, unit, quantity and price, and blank subtotal, sales tax and total rows ready for the next renovation purchase.](assets/lowes-receipt-template-2.jpeg)
 
-### Totalling as you go
+### Filling it the same day
 
-Waiting until the end of a job to add everything up is how overruns are discovered too late to act on. A phase total at the end of each stage takes five minutes and may show a materials figure running ahead of the estimate while there is still a decision to be made about it.
+The detail that disappears fastest is the one nobody writes down: which room the second box of tile was for. A record filled the evening of the trip captures it; one filled at the end of the month usually guesses, and the guess is what makes a room total unreliable.
 
-## Handing a Job Folder to a Bookkeeper
+## Returns During a Renovation
 
-**A folder that needs explaining is a folder that costs money to process.**
+**Returns are normal on a remodel, and they belong in the folder as their own records.**
 
-Bookkeepers charge for time, and most of that time on a construction client goes into working out which receipt belongs where. A set of records in one shape, each tagged to a job and reconciled against the card statement, can be posted in a fraction of that. Firms in Sacramento and Columbus that tighten this usually see the effect on the invoice within a quarter.
+Over-ordering is sensible on tile and flooring, and returning the surplus is part of the plan rather than a mistake. Record the return separately, naming the original purchase date and the materials going back, then let the room total absorb both documents.
 
-Hand over the digital files rather than a box, name them by date and job, and include a short note describing the phase tags. Nothing else is needed, and anything more tends to go unread.
+Netting a return into the original purchase produces a record that matches neither statement line, and on a project with a dozen returns the folder stops reconciling altogether.
 
-### What the accountant asks for at year end
+### Store credit and exchanges
 
-Usually three things: the total materials figure, the records behind it, and an explanation of anything unusual. A job-tagged folder answers all three without a reconstruction exercise in March, which is the real argument for filling the reference field at the time.
+Where a return produces store credit rather than a refund, note that on the record. Credit spent later on the same project is still project spending, and a folder that shows the credit arriving and being used stays honest about what the remodel actually cost.
 
-## Splitting One Trip Across Two Jobs
+## DIY Budgets That Hold Up
 
-**Split at the till, not at tax time.**
+**A renovation budget survives contact with reality only if the spending is recorded as it happens.**
 
-Buying for two jobs on one card is normal and recording it honestly is easy at the time: two records, each listing the materials that went to that job, each referencing its own project. A week later the same split is guesswork, and the guess tends to follow whichever job is over budget.
+Most remodels begin with a figure written on one page and end with a total nobody predicted. The gap is rarely one large surprise; it is twenty small purchases that were never added up. Recording each trip as it happens turns the budget into something that can be steered rather than something reviewed afterwards with regret.
 
-Where a single item genuinely serves two projects, such as a box of screws half used on each, put it on the job that consumed most of it and note the sharing. Precision beyond that costs more than the accuracy is worth.
+Homeowners in Texas, Ohio and California running weekend projects usually find the same pattern: the first two rooms track the plan, and the third drifts because nobody was totalling. A running figure, checked weekly, is the whole fix.
 
-## Keeping the Template Stable Across a Year
+### Accuracy over optimism
 
-**Improve the layout between projects, never during one.**
+Enter what was actually paid, including the delivery charge and the second trip for more grout. A budget fed with tidied numbers looks reassuring and teaches you nothing about the next project, which is the main reason to keep these records at all.
 
-A template that gains a column in week six produces a folder with two shapes in it, and the roll-up stops being automatic. If a field is genuinely missing, note it and add it when the job closes, so every record inside a project shares one structure.
+## Shared Projects and Splitting Costs
 
-The same applies across a tax year where you compare jobs to each other. Two projects recorded differently can still be totalled, but they cannot be compared line for line, and comparison is usually the reason anybody looks.
+**When two people fund a renovation, the record is the agreement.**
 
-### Accuracy beats completeness
+Couples, siblings splitting work on a family house, and landlords sharing a duplex all need the same thing: a set of records both sides can read. A folder in one shape, tagged by room, settles a conversation that memory cannot.
 
-A record with five honest lines is worth more than one with fifteen where several were guessed. Where you did not capture a detail, leave the field empty rather than filling it with something plausible. An empty field is a known gap; an invented one is a number somebody may later rely on.
+Where the split is uneven, note the share on each record rather than working it out at the end. The arithmetic is trivial on the day and contentious three months later.
 
-## Why Use makecepeit for Job Records?
+## Keeping Paint, Tile and Fixture Details
 
-**Because the layout holds still while the purchases change, and the arithmetic is never yours to redo.**
+**Write down what you bought precisely enough to buy it again.**
 
-- Item, unit, quantity, unit price and line total in a fixed column order
-- Job and phase fields that make a folder sortable
-- Totals that recalculate as you edit, so no record carries stale math
-- Identical output across every trip, which makes a project folder scannable
+Paint colour and finish, tile size and batch, fixture model and finish: each of these is easy to record on the day and genuinely hard to recover in two years, when a wall needs patching or a broken fitting needs matching. The receipt record is the natural place for it, because that is the document you will still be able to find.
+
+A short note beneath the item line is enough. It costs seconds and may save a trip across town with a chipped tile in a bag.
+
+## Why Use makecepeit for Renovation Records?
+
+**Because the layout holds still, the math is automatic, and the room tag turns a folder into a set of answers.**
+
+- Item, unit, quantity and price columns suited to materials
+- A reference field for the room or area
+- Totals that recalculate as lines change, so no record carries stale math
+- Consistent output that makes a project folder scannable
 - Free to start, with nothing to install
 
-## Tips Before You Start a Job Folder
+### Photographs alongside the records
 
-- Set the template up before the first supply run, not during the third
-- Use one job name everywhere, spelled the same way
-- Tag the phase while you remember which one you were in
-- File the record the day of the trip
-- Keep returns as separate documents
-- Reconcile each record against the card statement weekly
-- Total each phase as it closes
+Take a picture of each room before the work covers anything up, and keep it with the folder. Pipe runs, wiring and substrate all disappear behind finished surfaces, and a photograph dated the same week as the materials record answers questions that neither document could answer alone.
+
+## Tips Before You Start a Renovation Folder
+
+- Decide the room names before the first trip and keep them consistent
+- Fill each record the same day
+- Note paint colours and tile batches beneath the item line
+- Record returns as separate documents
+- Reconcile against the card statement weekly
+- Mask card details to four digits
+- Keep the folder after the project ends
 
 ## Common Mistakes to Avoid
 
-- **Changing the layout mid-job.** Two structures in one folder defeat the roll-up.
-- **Leaving the job field blank.** An untagged record is a cost nobody can allocate.
-- **Spelling the job name three ways.** Sorting fails silently, and the total comes out short.
-- **Grouping a trip into one line.** The job total survives; the detail behind it does not.
-- **Filing by month when you cost by job.** Pick one scheme and hold it.
-- **Splitting a shared trip from memory later.** Split it the same day instead.
-- **Treating a filled template as proof for a return.** Ask the retailer for the original.
+- **Leaving the room field blank.** The project total survives, the useful detail does not.
+- **Naming rooms three ways.** Kitchen, kitchen reno and KIT will not group together.
+- **Netting returns into the original.** Two statement lines need two documents.
+- **Waiting until month end to fill records.** The room allocation becomes a guess.
+- **Dropping the tax row.** Later you cannot tell exempt from forgotten.
+- **Throwing the folder away at completion.** Sale and insurance questions arrive years later.
+- **Treating the record as proof for a return.** The retailer checks their own system.
 
 ## Final Takeaway
 
-A Home Depot receipt template earns its place on jobs that take many trips. Fix the columns, add job and phase references, copy the master for each supply run, and file the record the day you make it. The payoff is a folder that totals itself, phase by phase, into a materials figure you can quote from next time.
+A Lowe's receipt template is worth setting up at the start of a renovation rather than in the middle. Fix the columns, add a room field, fill a copy after every trip and total each room as it finishes. What you get is a project that adds itself up and a folder that still answers questions years after the dust settles.
 
-For returns, exchanges and warranty claims, the retailer's own record is still the one that counts. Our guide to a [Home Depot and Lowe's receipt reprint](/blog/home-depot-lowes-receipt-reprint) covers how to request it.
+For a return or a warranty claim, the retailer's own record is the one that counts. Our guide to a [Home Depot and Lowe's receipt reprint](/blog/home-depot-lowes-receipt-reprint) covers how to request it.
 
-## Create Your Job Template With makecepeit
+## Create Your Renovation Template With makecepeit
 
-Set the columns and reference fields once, then fill a fresh copy after every supply run. [Start your template](/create) and let the job folder add itself up.`,
+Set the columns and the room field once, then fill a fresh copy after each trip. [Start your template](/create) and let the remodel total itself, room by room.`,
     faqs: [
       {
-        q: "What is a Home Depot receipt template?",
-        a: "It is a reusable materials layout used across many supply runs, so a project's records share one shape and can be totalled without rework.",
+        q: "What is a Lowe's receipt template?",
+        a: "It is a reusable layout for home improvement purchases, filled in trip after trip so a renovation's records share one shape and can be totalled easily.",
       },
       {
-        q: "Why add a job reference field?",
-        a: "Because it turns a folder of receipts into a job cost. Without it, records cannot be allocated to a project except by guesswork later.",
+        q: "Why tag records by room?",
+        a: "Because the useful question is what the kitchen cost, not what the whole remodel cost. Without the tag, only the project total survives.",
       },
       {
-        q: "What are phases used for?",
-        a: "They split a long job into stages such as framing or finishing, so a contractor can see which part of the work consumed the materials budget.",
+        q: "When should I fill in each record?",
+        a: "The same day as the trip. The detail that fades first is which room a purchase was for, and a month-end guess makes room totals unreliable.",
       },
       {
-        q: "Should I file by job or by month?",
-        a: "By job if you cost work by project. Mixing both schemes in one folder usually means reading every record to answer a single question.",
+        q: "How do I handle returned materials?",
+        a: "As a separate record naming the original purchase date and the materials going back. Netting them produces a document matching neither statement line.",
       },
       {
-        q: "How do I handle one trip serving two jobs?",
-        a: "Write two records the same day, each listing the materials that went to that job. Splitting from memory a week later is guesswork.",
+        q: "What about store credit instead of a refund?",
+        a: "Note it on the record. Credit spent later on the same project is still project spending, and the folder should show it arriving and being used.",
       },
       {
-        q: "When should I total a job folder?",
-        a: "At the end of each phase rather than the end of the job, so a materials overrun surfaces while there is still a decision to make.",
+        q: "Should I record paint colours and tile batches?",
+        a: "Yes. Both are trivial to note on the day and genuinely hard to recover two years later when something needs patching or matching.",
       },
       {
-        q: "Can I change the layout during a project?",
-        a: "It is better not to. Two structures inside one job folder make the roll-up manual, which is exactly what the template was meant to avoid.",
+        q: "How long should I keep renovation records?",
+        a: "Often longer than the project. Sale and insurance questions arrive years afterwards, and what applies to your situation is worth asking a tax professional.",
       },
       {
-        q: "What if the job name is spelled differently?",
-        a: "Sorting fails quietly and the project total comes out short. Use one spelling everywhere, and fix variants as soon as you spot them.",
+        q: "Does the tax row matter on a small purchase?",
+        a: "Keep it visible even at zero. Otherwise a later reader cannot tell whether tax was exempt, forgotten or simply never recorded.",
       },
       {
-        q: "Do returns belong in the job folder?",
-        a: "Yes, as their own documents. A return changes the materials cost, so the record belongs with the job it came from.",
+        q: "Can I use one template for two properties?",
+        a: "Yes, provided the reference field names the property as well as the room. Two properties sharing one tag cannot be separated afterwards.",
       },
       {
         q: "Is using a receipt template legal?",
-        a: "Recording purchases you genuinely made is ordinary bookkeeping. Filling a template in for materials never bought, or passing it off as the store's receipt, is fraud.",
+        a: "Recording purchases you genuinely made is ordinary record-keeping. Filling one in for materials never bought, or presenting it as the store's receipt, is fraud.",
       },
     ],
   },
   {
-    slug: "lowes-receipt-generator",
-    image: "assets/lowes-receipt-generator.jpeg",
+    slug: "target-receipt-generator",
+    image: "assets/target-receipt-generator.jpeg",
     category: "small-business",
     publishedAt: "2026-10-07T14:00:00Z",
-    title: "Lowe's Receipt Generator for Delivered Orders",
-    seoTitle: "Lowe's Receipt Generator for Delivered Orders",
+    title: "Target Receipt Generator for Everyday Buys",
+    seoTitle: "Target Receipt Generator for Everyday Buys",
     seoDescription:
-      "Learn how a Lowe's receipt generator records delivered and special orders, with delivery fees, haul-away, deposits and appliance details, using Makecepeit.",
+      "Learn how a Target receipt generator records household and business purchases, keeps gift and return details straight, and stays accurate, with Makecepeit.",
     excerpt:
-      "A Lowe's receipt generator records the purchases that arrive by truck: appliances, special orders and delivered materials, with fees, deposits and dates on their own lines. Here's how.",
-    body: `A **Lowe's receipt generator** is a receipt builder used to record purchases that do not simply leave the store in a cart, for homeowners buying appliances, contractors ordering materials for delivery and property managers replacing fittings across several units. It handles the lines a delivered order adds: freight, haul-away, install and the deposit paid up front.
+      "A Target receipt generator records everyday household and business purchases in a readable form, with item lines, tax and payment kept separate. Here's what belongs on one.",
+    body: `A **Target receipt generator** is a receipt builder used to record everyday retail purchases, for households tracking a monthly figure, freelancers separating business supplies from personal shopping and anyone whose paper slip has already faded. It produces a document with item lines, a visible tax row and a payment line, in the order a reader expects.
 
-A carried-out purchase is one moment. A delivered order is several, sometimes across weeks. Makecepeit lets you [create a receipt](/create) with room for those extra lines, so a washer delivered in Cleveland and a pallet of tile delivered in Mesa both file cleanly.
+Everyday purchases are the ones least likely to be recorded and most likely to be needed later, usually for a return window or an expense claim. Makecepeit lets you [create a receipt](/create) from a fixed layout, so a household run in Minneapolis and an office supply trip in Atlanta file the same way.
 
-## What Is a Lowe's Receipt Generator?
+## What Is a Target Receipt Generator?
 
-**It is a builder that records a real purchase from a home improvement retailer, including the delivery and service lines that come with it.**
+**It is a builder that arranges a purchase you made into a standard retail receipt layout.**
 
-The core is the same as any receipt: items, quantities, prices, tax and total. What a delivered order adds is the surrounding detail — the delivery fee, the removal of the old appliance, the installation charge, the date the goods actually arrived. Leaving those out produces a record that will not reconcile with the card statement.
+You supply the details, the tool structures them, and the result is your own record. It does not connect to the retailer's systems, carries none of their branding, and makes no claim to be their document. Our guide to a [Target receipt lookup](/blog/target-receipt-lookup) covers how to ask the store for the original when that is what the situation needs.
 
-It is your own record of a purchase you made, with no store branding and no link to the retailer's systems.
+The value is legibility. A statement line says a total; a structured record says what was in the basket, which is the part that matters at expense time or when a household budget is reviewed.
 
-### What it cannot do
+### Personal and business in one basket
 
-It cannot reproduce the store's order documentation, and it will generally not be accepted in place of it for a return, a warranty claim or a delivery dispute. Our guide to a [Home Depot and Lowe's receipt reprint](/blog/home-depot-lowes-receipt-reprint) covers how to ask the retailer for the original.
+Mixed baskets are the norm: a pack of printer paper, a birthday card and groceries on one card. Recording the business items on their own record, or at least marking them clearly, is what keeps a freelancer's books clean. Splitting the basket at the time takes a minute; separating it in March takes an afternoon.
 
-## What Should a Delivered-Order Receipt Include?
+## What Should an Everyday Receipt Include?
 
-- **Store location** the order was placed through
-- **Order date** and, separately, the **delivery date**
-- **Item lines** for the goods themselves, with model or size details
-- **Delivery or freight fee**, on its own line
-- **Haul-away or disposal charge**, where old goods were taken
-- **Installation or assembly charge**, if the retailer performed it
-- **Deposit paid**, where the order was staged
-- **Balance paid on delivery**, if the payment was split
-- **Sales tax**, which may apply differently to goods and services
-- **Total**, reconciling to the statement lines
-- **Payment method**, masked to four digits
+- **Store location**, at least the city and state
+- **Date**, and the time where two trips fall on one day
+- **Item lines** with plain descriptions
+- **Quantities**, where more than one of something was bought
+- **Unit price** and line total for each item
+- **Subtotal** before tax
+- **Sales tax**, which may differ across categories in the same basket
+- **Total paid**, matching the statement
+- **Payment method**, masked to the last four digits
+- **A note** marking which items, if any, were business purchases
 
-### Two dates, not one
+### Why the item lines matter most
 
-An order placed on the fourth and delivered on the eleventh has two dates that both matter. The order date explains the charge on the statement; the delivery date starts the clock on a warranty and matters to a contractor scheduling work around the arrival. A record carrying only one of them usually carries the wrong one.
+A reviewer asked to approve a claim wants to see what was bought. A total alone leaves them guessing, and a guess usually resolves as a question back to you. Item lines close that loop before it opens.
 
-## Deposits, Staged Payments and Split Charges
+## Gift Receipts and Why They Differ
 
-**A staged order produces more than one statement line, and the record should show both.**
+**A gift receipt proves the purchase without showing the price, which makes it a different document.**
 
-Appliance and special orders are frequently taken with a deposit up front and the balance on delivery. Two charges appear on the card, sometimes weeks apart, and a receipt showing only the total reconciles against neither. Showing the deposit and the balance as separate lines, each with its date, makes the document match reality.
+Retailers issue gift receipts so a recipient can exchange an item without learning what it cost. That is a store-issued document tied to their transaction record, and a receipt you build yourself is not a substitute for it. If an exchange is the purpose, the store's own paperwork is what the service desk will want.
 
-| Line | When it is charged | Why it belongs on the record |
+A record you build is for your side of the transaction: what you bought, what it cost you, when, and on which card. Keeping that straight is what makes a household budget or a business claim work.
+
+## Why Everyday Purchase Records Matter in the United States
+
+**Because return windows are short and the reasons to prove a purchase arrive without warning.**
+
+Most retail return policies run to a few weeks, and a faded slip inside that window is a practical problem. Beyond returns, households in California, Illinois and New York use these records to settle shared costs, reconcile a card statement and see where a month went.
+
+For anyone self-employed, the same purchases may carry a business element. The IRS expects records supporting what a return claims, and whether a given purchase qualifies depends on your circumstances, so a tax professional is the right person to ask. Accuracy matters more than volume: a small set of correct records beats a shoebox.
+
+> **Important:** a generated receipt records a purchase that genuinely happened. Creating one for a purchase that did not occur, or presenting it as the retailer's own document, is fraud.
+
+## How to Record an Everyday Purchase
+
+1. **Find the statement line**, which fixes the date and total.
+2. **List the items**, keeping descriptions plain.
+3. **Add quantities and unit prices**, letting line totals calculate.
+4. **Enter the tax** actually charged rather than a single assumed rate.
+5. **Mark any business items**, or split them onto their own record.
+6. **Check the total** against the statement, to the cent.
+7. **Mask the card** to its last four digits.
+8. **File it** where you will look for it: by month for a household, by category for a business.
+
+![A Target receipt generator shown as a clean banner layout, with a placeholder store name and store number in the header, household item lines with quantities and unit prices, a subtotal, a sales tax row and a highlighted total above a masked payment line.](assets/target-receipt-generator-2.jpeg)
+
+## Mixed Tax Rates in One Basket
+
+**Groceries and general merchandise are often taxed differently, and one basket may carry both.**
+
+| Basket contents | Typical treatment | What to record |
 |---|---|---|
-| Deposit | At order | Explains the first statement charge |
-| Balance | At or after delivery | Explains the second charge |
-| Delivery fee | Usually with the balance | Separates freight from goods |
-| Haul-away | With delivery | A service, not part of the item price |
-| Installation | After the work | May be taxed differently from goods |
-| Tax | Split across goods and services | Rules vary by state |
+| Food items only | Often reduced or exempt | The tax charged, even if zero |
+| General merchandise | Standard state and local rate | The tax charged on those lines |
+| Mixed basket | More than one figure | Each tax line separately |
+| Item bought with a coupon | Tax usually on the reduced price | Discount on its own line |
 
-### When an order is cancelled or changed
+Rules vary by state and change over time, which is why the register's figure is the one to record. Recalculating from a rate you looked up may produce a total that no longer matches the statement.
 
-A special order that changes size, colour or model mid-stream usually produces a refund and a new charge rather than a neat adjustment. Record the pair rather than netting them, so both statement lines have a document behind them.
+### Discounts and coupons
 
-## Why Delivered-Order Records Matter in the United States
+Give a discount its own line beneath the subtotal rather than reducing an item price quietly. The record then shows what the item listed at, what came off, and what was paid, which is what makes the arithmetic followable by somebody else.
 
-**Because appliances carry warranties measured in years, and the paperwork is what makes a claim possible.**
+## Returns, Exchanges and the Window
 
-A dishwasher failing in month fourteen is a warranty question, and the first thing a manufacturer asks for is the purchase date. Households in Phoenix, Charlotte and Minneapolis keep those records for exactly this reason, and a faded slip in a kitchen drawer generally cannot answer it.
+**Know how long you have, and keep the record where you will find it inside that time.**
 
-Contractors have a scheduling reason as well. A delivery that slipped by a week may explain a job that finished late, and a record carrying the actual delivery date is the only version of that story anybody can check afterwards. Tax treatment of delivery and installation charges varies by state, so ask a tax professional how your own purchases should be recorded.
+Return windows at large retailers commonly run a few weeks, sometimes longer for members or for particular categories, and they start from the purchase date. A record built the same week keeps the date unambiguous, which matters when an item turns out faulty on day twenty-nine.
 
-> **Important:** a generated receipt documents an order that was genuinely placed and delivered. Creating a record for goods never bought, or presenting it as the retailer's own document, is fraud.
+The store's own transaction record is what the service desk works from, so a copy you built does not extend or replace it. What your record does is tell you the date, the price and the card used, so you arrive knowing what to ask for.
 
-## How to Record a Delivered Order
+### What to check before going back
 
-1. **Collect both statement lines**, the deposit and the balance.
-2. **Enter the goods** with model, size or finish details a reader would recognise.
-3. **Add each service line separately** — delivery, haul-away, installation.
-4. **Record both dates**, order and delivery.
-5. **Enter the tax** actually charged rather than a single assumed rate.
-6. **Check the sum** of your lines against the two statement charges together.
-7. **Note the delivery condition**, if anything arrived damaged or short.
-8. **File it** where a warranty claim would look for it.
+Confirm the purchase date, the amount and the payment method on your record first. Most refused returns come down to a mismatch in one of those three, and knowing them in advance turns a disputed trip into a short conversation.
 
-![A Lowe's receipt generator shown as a clean banner layout, with an order date and a separate delivery date in the header, appliance and material item lines, and delivery, haul-away and installation charges listed above a sales tax row and a highlighted total.](assets/lowes-receipt-generator-2.jpeg)
+### Keeping the accuracy honest
 
-## Install Services and Who Performed Them
+Where you cannot recall an item exactly, describe it plainly rather than inventing a product name. An honest gap in a record is fine; a confident invention is what makes the whole document questionable.
 
-**Name who did the work, because the warranty on an installation may sit with them rather than the manufacturer.**
+## Business Expenses From a Retail Trip
 
-Retail installation is often carried out by a contracted crew rather than the store's own staff, and the paperwork that arrives on the day may be the only record of who was in the house. Writing the company name and the install date on your record costs one line and answers the first question anybody asks when a connection leaks in Denver six months later.
+**Separate the business items, and say what they were for.**
 
-Where installation is quoted separately from the goods, keep it on its own line. Several states treat labour differently from merchandise for tax, and an accurate split is far easier to make at the time than to reconstruct afterwards.
+A freelancer in Denver buying storage bins for a home office has a business purchase inside a household trip. A one-line note naming the purpose turns an ambiguous item into a record that stands on its own months later, when the reason has been forgotten.
 
-### Permits and inspections
+Where the business share is substantial, build a second record for those items alone. Two clean documents are easier to defend than one mixed document with an annotation.
 
-Some installations, particularly gas appliances and electrical work, involve a permit or an inspection. A note on the record naming the permit number, where one exists, keeps the whole history of the appliance in one place rather than in three folders.
+## Household Budgets That Someone Actually Reads
 
-## Appliance Details Worth Recording
+**A monthly figure is only useful if the records behind it can be opened.**
 
-**Model and serial details turn a receipt into a warranty document.**
+Most households track spending at the level of a bank feed, which shows totals and merchant names. That is enough to see a month went badly and not enough to see why. A handful of structured records for the larger trips fills the gap, usually revealing one or two categories doing most of the damage.
 
-For a major appliance, the item line should carry more than a category. The model number identifies what was bought, the finish distinguishes it from three similar units, and the serial number, if you have it from the delivery paperwork, ties the record to the machine in your kitchen.
+Keep it proportionate. Recording every small purchase is a project nobody sustains past February; recording the trips above a threshold you choose is a habit that survives, and it captures most of the money anyway.
 
-Note the warranty period in plain words as well. A manufacturer's term is easy to find on the day of purchase and surprisingly hard to establish two years later, when the question has become urgent.
+### Splitting shared costs
 
-### Short deliveries and damage
+Where two people share a household, the item lines settle the questions a total cannot: which items were joint, which were personal, and what each side actually owes. Writing that down at the time is far easier than reconstructing it from a statement weeks later.
 
-Record what arrived, not what was ordered, and note the difference. A pallet short by two boxes, or a panel that arrived scratched, becomes a claim, and the claim is far easier to support when the record made at the time says so plainly.
+## Why Use makecepeit for Everyday Receipts?
 
-## Reconciling an Order That Spans Weeks
+**Because the layout is already right and the totals look after themselves.**
 
-**Check the record once when the deposit posts and again when the balance does.**
-
-An order placed in Tucson in March and delivered in April touches two statement periods. Reconciling only at the end usually means hunting for the earlier charge, and the hunt is worse when a refund or a price adjustment sits between the two.
-
-The habit that works is small: when a charge appears, open the record and confirm it matches. Accuracy checked twice at five seconds each beats an afternoon spent reconstructing a staged order that nobody documented properly.
-
-### Keeping the order confirmation
-
-Hold on to the retailer's confirmation email until your own record is complete and reconciled. It carries the order number, the model details and the scheduled date, and all three are far harder to recover once the message has been deleted.
-
-## Why Use makecepeit for Delivered Orders?
-
-**Because service lines, deposits and two dates fit into the layout without improvisation.**
-
-- Separate lines for delivery, haul-away and installation charges
-- Room for order and delivery dates rather than one blended date
-- Totals that recalculate as lines change, so a staged order still adds up
-- Consistent output you can file beside a warranty document
+- Item, quantity, price and line total columns in the expected order
+- A visible tax row, including when the figure is zero
+- Totals that recalculate as you edit, so nothing goes stale
+- Clean downloads you can attach to a claim or a budget
 - Free to start, with nothing to install
 
-## Multi-Unit and Property Manager Orders
+## Tips Before You Build the Record
 
-**When one order supplies several addresses, the record should say which goods went where.**
-
-A property manager in Texas replacing appliances across four units, or a landlord in California refitting two kitchens, will receive one invoice covering all of it. Split the record by unit, or add a column naming the address, so each property carries its own cost rather than a quarter share of a blended figure.
-
-The same applies to buildings in New York where costs are recovered from different accounts. An accurate allocation made on delivery day is straightforward; the same allocation attempted at year end is an estimate dressed up as a record.
-
-### One order, several records
-
-Where the split is clean, write one record per address and note the shared order number on each. Every document then stands alone, and the set still reconciles to the single charge on the statement.
-
-## Tips Before You Record a Delivery
-
-- Keep the order confirmation until the record is built
-- Note the delivery date on the day it arrives
-- Photograph anything damaged before it is unloaded
-- Record model and serial details while the appliance is accessible
-- Split goods from services on separate lines
-- Mask card details to four digits
-- Reconcile against both statement charges, not one
+- Work from the statement rather than memory
+- Split business items onto their own record where you can
+- Record the tax charged, not a rate you looked up
+- Give discounts their own line
+- Keep descriptions plain enough for a reviewer
+- Mask the card to four digits
+- File it the same week
 
 ## Common Mistakes to Avoid
 
-- **Recording one date for a staged order.** The order date and the delivery date answer different questions.
-- **Folding delivery into the item price.** The fee is a separate charge and may be taxed differently.
-- **Netting a refund against a new charge.** Two statement lines need two documents.
-- **Omitting model numbers.** A warranty claim generally starts with the model.
+- **Recording only the total.** It proves an amount and nothing about the basket.
+- **Applying one tax rate to a mixed basket.** Food and merchandise are often treated differently.
+- **Hiding a discount inside an item price.** Show it on its own line.
+- **Mixing business and personal without a note.** The distinction is invisible three months later.
 - **Copying store branding.** Your record needs none, and copying it creates a trademark problem.
-- **Inventing an order number.** A fabricated reference is worse than no reference.
-- **Using the record for a return.** The retailer verifies against their own system.
+- **Using a built record for a return.** The retailer checks their own system.
+- **Writing a full card number.** Four digits, always.
 
 ## Final Takeaway
 
-A Lowe's receipt generator is most useful on the orders that arrive by truck. Record the goods with their model details, give delivery, haul-away and installation their own lines, keep both dates, and reconcile against every statement charge the order produced.
+A Target receipt generator is most useful for the purchases nobody thinks to record: the everyday ones that turn out to matter during a return window, an expense claim or a monthly review. Build from the statement, list the items plainly, keep the tax visible and mark anything bought for business.
 
-For a return, a warranty claim or a delivery dispute, ask the retailer for their documentation. For your own files, a record built this way answers the questions that come up years later.
+When a return or an exchange is the goal, the store's own record is the document that counts. Our guide to a [Target receipt lookup](/blog/target-receipt-lookup) explains how to retrieve it.
 
-## Create Your Delivery Receipt With makecepeit
+## Create Your Receipt With makecepeit
 
-Enter the goods, the service charges and both dates, and let the totals reconcile to the statement. [Build your receipt](/create) and file it where a warranty claim would look for it.`,
+Enter the items, the tax and the payment method, and let the totals land where the statement says. [Build your receipt](/create) and file it where you will look for it.`,
     faqs: [
       {
-        q: "What is a Lowe's receipt generator?",
-        a: "It is a receipt builder for purchases from a home improvement retailer, including delivered and special orders with their delivery, haul-away and installation lines.",
+        q: "What is a Target receipt generator?",
+        a: "It is a receipt builder used to record an everyday retail purchase you made, with item lines, quantities, a visible tax row and a masked payment line.",
       },
       {
-        q: "Why record two dates on one order?",
-        a: "The order date explains the charge on your statement, while the delivery date starts a warranty period and matters to anyone scheduling work around the arrival.",
+        q: "Can it replace a gift receipt?",
+        a: "No. A gift receipt is issued by the retailer and tied to their transaction record, so an exchange at the service desk needs their document rather than yours.",
       },
       {
-        q: "How do I handle a deposit and balance?",
-        a: "Show them as separate lines with their own dates, because the card statement carries two charges and a single total reconciles against neither.",
+        q: "Why does one basket have two tax figures?",
+        a: "Because many states tax food differently from general merchandise, so a basket containing both may produce more than one tax line.",
       },
       {
-        q: "Should delivery fees sit on their own line?",
-        a: "Yes. Freight is a separate charge from the goods, and several states tax delivery and installation differently from the items themselves.",
+        q: "How should discounts be recorded?",
+        a: "On their own line beneath the subtotal, showing what came off. Reducing an item price quietly makes the arithmetic hard for anyone else to follow.",
       },
       {
-        q: "What appliance details should I record?",
-        a: "Model number, finish and, where the delivery paperwork gives it, the serial number. A warranty claim generally starts with the model.",
+        q: "How do I separate business from personal items?",
+        a: "Build a second record for the business items where you can, or mark them clearly with a note naming what they were for.",
       },
       {
-        q: "What if part of an order arrives damaged?",
-        a: "Record what actually arrived and note the damage or shortfall. A claim is far easier to support when the record made that day says so.",
+        q: "What tax rate should I enter?",
+        a: "The amount the register charged. Rates vary by state and locality and change over time, so a looked-up figure may not match your statement.",
       },
       {
-        q: "Can I net a refund against a replacement?",
-        a: "Better not to. A refund and a new charge appear separately on the statement, so each should have its own document behind it.",
+        q: "Is a built record accepted for a return?",
+        a: "Generally not. Retailers verify returns against their own transaction records, so ask the store to retrieve the original purchase instead.",
       },
       {
-        q: "Is a generated record valid for a return?",
-        a: "Generally not. Retailers verify returns against their own order systems, so request the store's documentation when a return is the aim.",
+        q: "How long should I keep everyday receipts?",
+        a: "At least through the return window, and longer for anything with a business element. What applies to your situation is worth asking a tax professional.",
       },
       {
-        q: "Should I invent an order number?",
-        a: "No. A fabricated reference looks authoritative and is not, which makes it worse than leaving the field empty.",
+        q: "How much card detail belongs on it?",
+        a: "Only the last four digits. Full numbers should never appear on a record you keep, print or send to somebody else.",
       },
       {
-        q: "Is recording a delivered order legal?",
-        a: "Documenting an order you genuinely placed and received is ordinary record-keeping. Recording goods never bought, or passing the copy off as the store's, is fraud.",
+        q: "Is generating an everyday receipt legal?",
+        a: "Recording a purchase you genuinely made is ordinary record-keeping. Creating one for a purchase that never happened, or passing it off as the store's, is fraud.",
       },
     ],
   },
