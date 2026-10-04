@@ -174,7 +174,14 @@ export default async function IntentPage({
               >
                 Open the {page.brandName} receipt builder
               </Link>
-              .
+              , or see what the{" "}
+              <Link
+                href={`/brands/${page.brandSlug}`}
+                className="font-medium text-indigo-700 underline decoration-indigo-300 underline-offset-2 hover:decoration-indigo-700"
+              >
+                {page.brandName} receipt generator
+              </Link>{" "}
+              template includes first.
             </p>
             {!isFreeBrand(page.brandSlug) && (
               <p className="mt-2 text-sm text-slate-500">
@@ -262,34 +269,34 @@ export default async function IntentPage({
         </dl>
       </section>
 
-      {/* Related */}
-      {siblings.length > 0 && (
-        <section className="mt-12">
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500">
-            More {page.brandName} receipt help
-          </h2>
-          <ul className="mt-3 flex flex-wrap gap-2">
-            {siblings.map((s) => (
-              <li key={s.slug}>
-                <Link
-                  href={`/receipt-help/${s.slug}`}
-                  className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-600 hover:border-indigo-300 hover:text-indigo-600"
-                >
-                  {intentContent(s).h1}
-                </Link>
-              </li>
-            ))}
-            <li>
+      {/* Related. Always rendered: the brand-page chip is this guide's one
+          link to the page that should own "{brand} receipt generator", and it
+          used to vanish on brands with a single guide. */}
+      <section className="mt-12">
+        <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500">
+          More {page.brandName} receipt help
+        </h2>
+        <ul className="mt-3 flex flex-wrap gap-2">
+          {siblings.map((s) => (
+            <li key={s.slug}>
               <Link
-                href={`/brands/${page.brandSlug}`}
+                href={`/receipt-help/${s.slug}`}
                 className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-600 hover:border-indigo-300 hover:text-indigo-600"
               >
-                {page.brandName} receipt template
+                {intentContent(s).h1}
               </Link>
             </li>
-          </ul>
-        </section>
-      )}
+          ))}
+          <li>
+            <Link
+              href={`/brands/${page.brandSlug}`}
+              className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-600 hover:border-indigo-300 hover:text-indigo-600"
+            >
+              {page.brandName} receipt template
+            </Link>
+          </li>
+        </ul>
+      </section>
 
       {/* Articles about this brand. Keyed off the brand hub so a guide and the
           brand's own template page surface the same reading, with a topical

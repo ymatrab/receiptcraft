@@ -59,7 +59,17 @@ export default async function BrandTemplatePage({ params }: Props) {
   if (!template) notFound();
 
   const preview = previewFromTemplate(template);
-  const related = BRAND_TEMPLATES.filter((t) => t.slug !== template.slug).slice(0, 4);
+  // The next four brands in the same category, wrapping round. This used to be
+  // the first four brands sitewide, so ~344 pages linked Walmart, Uber, Target
+  // and McDonald's by name — and Google ranked /brands/petsmart for "target
+  // receipt generator" ahead of /brands/target. Neighbours spread the links
+  // evenly and keep each page's outbound anchors on its own topic.
+  const category = brandCategoryFor(template.slug);
+  const siblings = BRAND_TEMPLATES.filter((t) => brandCategoryFor(t.slug) === category);
+  const at = siblings.findIndex((t) => t.slug === template.slug);
+  const related = Array.from({ length: Math.min(4, siblings.length - 1) }, (_, i) =>
+    siblings[(at + 1 + i) % siblings.length],
+  );
   // Same-brand "receipt help" guides (lost receipt, get a copy, returns) — a
   // real intra-entity link so the brand/help pages read as one cluster.
   const helpPages = INTENT_PAGES.filter((p) => p.brandSlug === template.slug);
@@ -67,7 +77,6 @@ export default async function BrandTemplatePage({ params }: Props) {
   // Per-brand content derived from the template's own data — unique per page
   // (items, address, tax and totals all differ), not boilerplate.
   const totals = calcTotals(preview);
-  const category = brandCategoryFor(template.slug);
   const d = template.defaults;
   const money = (n: number) => formatMoney(n, preview.currency);
   const addr = [d.addressLine1, d.addressLine2].filter(Boolean).join(", ");
@@ -314,6 +323,7 @@ export default async function BrandTemplatePage({ params }: Props) {
         )}
 
         {/* Related templates */}
+        {related.length > 0 && (
         <section className="mt-20" aria-labelledby="related-heading">
           <h2 id="related-heading" className="text-2xl font-bold text-slate-900">
             Other brand templates
@@ -346,6 +356,7 @@ export default async function BrandTemplatePage({ params }: Props) {
             ))}
           </ul>
         </section>
+        )}
 
         {/* Curated and brand-named posts first; the topical fallback keeps the
             ~337 brands with no post of their own from being dead ends. */}

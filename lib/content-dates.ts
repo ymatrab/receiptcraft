@@ -1,6 +1,5 @@
 import type { ReceiptTemplate } from "./types";
 import { sourcedFigure } from "./templates";
-import { hasOfficialSource } from "./intent-pages";
 import { LAST_UPDATED } from "./comparisons";
 
 /**
@@ -145,9 +144,14 @@ const BRANDS_ARTICLE_FIXED: ReadonlySet<string> = new Set([
 ]);
 export const BRANDS_ARTICLE_UPDATED = "2026-09-01";
 
+// 2026-10-04: "Other brand templates" lists four same-category neighbours
+// instead of the same first four brands on every page, so every brand page's
+// visible links changed. Supersedes the two dates above for the brand pages.
+export const BRANDS_LINKS_UPDATED = "2026-10-04";
+
 /** When a brand page was last reviewed. */
-export function brandReviewedAt(slug: string): string {
-  return BRANDS_ARTICLE_FIXED.has(slug) ? BRANDS_ARTICLE_UPDATED : BRANDS_UPDATED;
+export function brandReviewedAt(_slug: string): string {
+  return BRANDS_LINKS_UPDATED;
 }
 // 2026-08-31: the CTA names a Pro template before the click.
 // 2026-09-01: the 73 policy guides are restored after a day away. They go back
@@ -249,9 +253,15 @@ export function templateReviewedAt(t: ReceiptTemplate): string {
   return TEMPLATES_UPDATED;
 }
 
+// 2026-10-04: every guide links its brand's template page in the body
+// ("{Brand} receipt generator"), and the brand chip no longer disappears on
+// brands with a single guide. Supersedes the two guide dates for the guides
+// themselves; the /receipt-help index keeps INTENT_UPDATED.
+export const INTENT_LINKS_UPDATED = "2026-10-04";
+
 /** When a receipt-help guide was last reviewed. */
-export function intentReviewedAt(brandSlug: string): string {
-  return hasOfficialSource(brandSlug) ? INTENT_CITED_UPDATED : INTENT_UPDATED;
+export function intentReviewedAt(_brandSlug: string): string {
+  return INTENT_LINKS_UPDATED;
 }
 
 /** Human-readable form for the visible line. */
