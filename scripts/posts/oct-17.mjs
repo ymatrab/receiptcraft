@@ -23,7 +23,7 @@ export const OCT_17 = [
     slug: "gas-station-receipt-generator",
     image: "assets/gas-station-receipt-generator.jpeg",
     category: "small-business",
-    publishedAt: "2026-10-17T09:30:00Z",
+    publishedAt: "2099-01-01T00:00:00Z",
     title: "Gas Station Receipt Generator: Pump or Inside",
     seoTitle: "Gas Station Receipt Generator: Pump or Inside",
     seoDescription:
@@ -245,7 +245,7 @@ Enter the gallons, the price and whatever came back as change, and end up with a
     slug: "autozone-receipt-generator",
     image: "assets/autozone-receipt-generator.jpeg",
     category: "small-business",
-    publishedAt: "2026-10-17T14:00:00Z",
+    publishedAt: "2099-01-01T00:00:00Z",
     title: "AutoZone Receipt Generator for Parts Records",
     seoTitle: "AutoZone Receipt Generator for Parts Records",
     seoDescription:

@@ -19,17 +19,19 @@
 
 export const OCT_13 = [
   {
-    slug: "oil-change-receipt-template",
+    slug: "oil-change-receipt",
     image: "assets/oil-change-receipt-template.jpeg",
     category: "small-business",
-    publishedAt: "2026-10-13T09:30:00Z",
-    title: "Oil Change Receipt Template and Service History",
-    seoTitle: "Oil Change Receipt Template and Service History",
+    publishedAt: "2026-10-09T09:30:00Z",
+    title: "Oil Change Receipt: What It Shows and How to Make One",
+    seoTitle: "Oil Change Receipt: What It Shows and How to Make One",
     seoDescription:
-      "Learn what an oil change receipt template records, from mileage and oil specification to the next service due, and how to issue one with Makecepeit.",
+      "What an oil change receipt shows (mileage, oil grade, filter and next service due), why it matters for warranty and resale, and how to make one.",
     excerpt:
-      "An oil change receipt template records the mileage, the oil specification and the next service due, which is what turns a routine service into a maintenance history. Here's what belongs on it.",
-    body: `An **oil change receipt template** is a service document for routine maintenance, used by quick-lube operators, repair shops, mobile technicians and owners keeping their own records. It captures the mileage at service, the oil and filter fitted, and the point at which the next service falls due.
+      "An oil change receipt records the mileage, the oil and filter used, and when the next service is due. That is what keeps a warranty claim and a resale history intact. Here's what belongs on one.",
+    body: `An **oil change receipt** shows the service date, the odometer reading, the oil grade and quantity, the filter, the price paid and when the next change is due. Keep every one: together they are the maintenance history a warranty claim or a used-car buyer will ask to see. To issue one, start from the [auto repair receipt template](/templates/auto-repair) and fill in those fields.
+
+An **oil change receipt template** is a service document for routine maintenance, used by quick-lube operators, repair shops, mobile technicians and owners keeping their own records. It captures the mileage at service, the oil and filter fitted, and the point at which the next service falls due.
 
 A repair receipt proves a fault was fixed. A maintenance receipt proves a schedule was followed, which is a different job and a longer-lived one. Makecepeit lets you [create a service receipt](/create) from a fixed layout, so a routine change in Dallas reads the same as one in Seattle two years later.
 
@@ -194,7 +196,7 @@ A photographed receipt is better than a lost one, though a file emailed at the t
 
 An oil change receipt template works because it captures the few facts that matter for years: the mileage, the oil, the filter and the next service due. Record those accurately and a routine visit becomes part of a history that supports a warranty claim or a resale price.
 
-For the wider repair document, our [auto repair receipt template](/blog/auto-repair-receipt-template) guide covers the parts-and-labor structure, and the [auto repair template](/templates/auto-repair) gives you a layout to start from.
+For a full repair job with parts and labor, our guide on [how to make a mechanic receipt](/blog/how-to-make-a-mechanic-receipt) covers the structure, and the [auto repair template](/templates/auto-repair) gives you a layout to start from.
 
 ## Create Your Service Receipt With makecepeit
 
@@ -246,7 +248,7 @@ Enter the mileage, the oil and the next service due, and hand over a record that
     slug: "towing-receipt-template",
     image: "assets/towing-receipt-template.jpeg",
     category: "small-business",
-    publishedAt: "2026-10-13T14:00:00Z",
+    publishedAt: "2099-01-01T00:00:00Z",
     title: "Towing Receipt Template: Miles, Storage, Claims",
     seoTitle: "Towing Receipt Template: Miles, Storage, Claims",
     seoDescription:

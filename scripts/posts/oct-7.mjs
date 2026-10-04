@@ -24,7 +24,7 @@ export const OCT_7 = [
     slug: "lowes-receipt-template",
     image: "assets/lowes-receipt-template.jpeg",
     category: "small-business",
-    publishedAt: "2026-10-07T09:30:00Z",
+    publishedAt: "2099-01-01T00:00:00Z",
     title: "Lowe's Receipt Template for Renovation Costs",
     seoTitle: "Lowe's Receipt Template for Renovation Costs",
     seoDescription:
@@ -238,7 +238,7 @@ Set the columns and the room field once, then fill a fresh copy after each trip.
     slug: "target-receipt-generator",
     image: "assets/target-receipt-generator.jpeg",
     category: "small-business",
-    publishedAt: "2026-10-07T14:00:00Z",
+    publishedAt: "2099-01-01T00:00:00Z",
     title: "Target Receipt Generator for Everyday Buys",
     seoTitle: "Target Receipt Generator for Everyday Buys",
     seoDescription:

@@ -170,6 +170,31 @@ consolidate it).
 The published count above is unchanged: these posts shipped, and this records
 what happened to them afterwards.
 
+## 2026-10-04: October sprint re-planned (posts 17–60)
+
+Twelve of the fourteen written posts are **held** (publishedAt moved to
+2099-01-01 in Sanity and in `scripts/posts/oct-*.mjs`; nothing deleted, and
+moving the date back republishes them). Each targeted a keyword an existing
+/brands or /templates page already owns, and Google's top 10 for these terms
+holds template pages, Etsy and Pinterest, with no blog posts:
+
+`home-depot-receipt-template`, `lowes-receipt-generator`, `lowes-receipt-template`,
+`target-receipt-generator`, `auto-repair-receipt-template`,
+`automotive-repair-receipt-template`, `mechanic-shop-receipt-template`,
+`towing-receipt-template`, `fuel-receipt-generator`, `fuel-receipt-maker`,
+`gas-station-receipt-generator`, `autozone-receipt-generator`.
+
+Two are **reworked** under new slugs (the old slugs are held too), each with a
+direct answer in the opening lines and a link to `/templates/auto-repair`:
+
+| Date | New slug | Was | Why |
+|---|---|---|---|
+| Oct 7 | `how-to-make-a-mechanic-receipt` | `mechanic-receipt-template` | People Also Ask on the "mechanic receipt template" SERP; how-to posts are what AI Overviews cite |
+| Oct 9 | `oil-change-receipt` | `oil-change-receipt-template` | "oil change receipt" 720/mo vs 140 for the template variant; no owner page |
+
+Posts 31–60 (not yet written) are replaced by the plan on the Notion Content
+Pipeline board, dated 2026-10-04. Evidence: `seo-audit/geo-ai-citations-2026-10-04.json` (dev).
+
 ## Watch list
 
 - **`/create` synonym cluster** — #2, #10, #12, #13, #14, #16 all target near-identical "make/create a receipt online free" intent. Differentiated by angle + cross-linked; **watch Search Console** for two URLs trading impressions on one query and merge/canonicalize if it happens. Coming `online receipt generator` and `receipt creator free` add two more.

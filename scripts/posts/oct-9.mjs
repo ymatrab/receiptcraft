@@ -22,7 +22,7 @@ export const OCT_9 = [
     slug: "auto-repair-receipt-template",
     image: "assets/auto-repair-receipt-template.jpeg",
     category: "small-business",
-    publishedAt: "2026-10-09T09:30:00Z",
+    publishedAt: "2099-01-01T00:00:00Z",
     title: "Auto Repair Receipt Template: What It Holds",
     seoTitle: "Auto Repair Receipt Template: What It Holds",
     seoDescription:
@@ -237,7 +237,7 @@ Enter the vehicle, the parts and the labor, and let the totals and tax calculate
     slug: "automotive-repair-receipt-template",
     image: "assets/automotive-repair-receipt-template.jpeg",
     category: "small-business",
-    publishedAt: "2026-10-09T14:00:00Z",
+    publishedAt: "2099-01-01T00:00:00Z",
     title: "Automotive Repair Receipt Template: Estimate to Paid",
     seoTitle: "Automotive Repair Receipt Template: Estimate to Paid",
     seoDescription:

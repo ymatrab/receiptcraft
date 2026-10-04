@@ -23,7 +23,7 @@ export const OCT_5 = [
     slug: "home-depot-receipt-template",
     image: "assets/home-depot-receipt-template.jpeg",
     category: "small-business",
-    publishedAt: "2026-10-05T09:30:00Z",
+    publishedAt: "2099-01-01T00:00:00Z",
     title: "Home Depot Receipt Template for Job Costing",
     seoTitle: "Home Depot Receipt Template for Job Costing",
     seoDescription:
@@ -225,7 +225,7 @@ Set the columns and reference fields once, then fill a fresh copy after every su
     slug: "lowes-receipt-generator",
     image: "assets/lowes-receipt-generator.jpeg",
     category: "small-business",
-    publishedAt: "2026-10-05T14:00:00Z",
+    publishedAt: "2099-01-01T00:00:00Z",
     title: "Lowe's Receipt Generator for Delivered Orders",
     seoTitle: "Lowe's Receipt Generator for Delivered Orders",
     seoDescription:

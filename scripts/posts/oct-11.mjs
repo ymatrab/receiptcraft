@@ -18,17 +18,19 @@
 
 export const OCT_11 = [
   {
-    slug: "mechanic-receipt-template",
+    slug: "how-to-make-a-mechanic-receipt",
     image: "assets/mechanic-receipt-template.jpeg",
     category: "small-business",
-    publishedAt: "2026-10-11T09:30:00Z",
-    title: "Mechanic Receipt Template for Independents",
-    seoTitle: "Mechanic Receipt Template for Independents",
+    publishedAt: "2026-10-07T09:30:00Z",
+    title: "How to Make a Mechanic Receipt: Parts, Labor, Payment",
+    seoTitle: "How to Make a Mechanic Receipt: Parts, Labor, Payment",
     seoDescription:
-      "Learn how a mechanic receipt template works for independent and mobile mechanics, covering cash jobs, signatures and numbering, with Makecepeit.",
+      "How to make a mechanic receipt that holds up: the fields to include, how to record cash jobs and part payments, and a template to start from.",
     excerpt:
-      "A mechanic receipt template gives an independent or mobile mechanic one document to hand over at the roadside or the driveway, with parts, labor and payment recorded. Here's what it holds.",
-    body: `A **mechanic receipt template** is a reusable layout for a one-person repair business, used by independent mechanics, mobile technicians and weekend operators who work from a van rather than a shop floor. It produces the document handed to a customer when the job is done, showing the vehicle, the parts, the labor and how payment was made.
+      "To make a mechanic receipt, record the vehicle and mileage, list parts and labor separately, state how the customer paid, and number every receipt. Here's each field and why it matters.",
+    body: `**To make a mechanic receipt**, write your business name and contact details, the customer and the vehicle (year, make, model and mileage), each part with its price, the labor as hours and rate or a flat charge, sales tax where your state applies it, the total and the payment method. Number it, date it and give the customer a copy. The [auto repair receipt template](/templates/auto-repair) opens with those fields already laid out.
+
+A **mechanic receipt template** is a reusable layout for a one-person repair business, used by independent mechanics, mobile technicians and weekend operators who work from a van rather than a shop floor. It produces the document handed to a customer when the job is done, showing the vehicle, the parts, the labor and how payment was made.
 
 An independent has no service adviser, no counter and often no printer. Makecepeit lets you [create a receipt](/create) from a fixed layout on a phone, so a roadside battery swap in Phoenix and a driveway brake job in Atlanta both end with a record the customer can keep.
 
@@ -184,7 +186,7 @@ The same layout scales from a roadside jump start to a two-day engine job.
 
 A mechanic receipt template gives a one-person business the paperwork discipline a shop gets from its systems. Number the jobs, record the vehicle and mileage, keep parts and labor apart, state the warranty and say plainly when a payment was cash.
 
-For the fields the document itself should hold, our [auto repair receipt template](/blog/auto-repair-receipt-template) guide goes through them one by one, and the [auto repair template](/templates/auto-repair) gives you a layout to start from.
+The [auto repair receipt template](/templates/auto-repair) has every field above already in place, so a job can be written up in the driveway before you leave.
 
 ## Create Your Mechanic Receipt With makecepeit
 
@@ -236,7 +238,7 @@ Enter the vehicle, the parts and the labor, take payment and hand over a copy be
     slug: "mechanic-shop-receipt-template",
     image: "assets/mechanic-shop-receipt-template.jpeg",
     category: "small-business",
-    publishedAt: "2026-10-11T14:00:00Z",
+    publishedAt: "2099-01-01T00:00:00Z",
     title: "Mechanic Shop Receipt Template and Repair Orders",
     seoTitle: "Mechanic Shop Receipt Template and Repair Orders",
     seoDescription:

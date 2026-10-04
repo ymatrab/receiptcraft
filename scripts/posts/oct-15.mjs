@@ -23,7 +23,7 @@ export const OCT_15 = [
     slug: "fuel-receipt-generator",
     image: "assets/fuel-receipt-generator.jpeg",
     category: "small-business",
-    publishedAt: "2026-10-15T09:30:00Z",
+    publishedAt: "2099-01-01T00:00:00Z",
     title: "Fuel Receipt Generator: Gallons, Price, Total",
     seoTitle: "Fuel Receipt Generator: Gallons, Price, Total",
     seoDescription:
@@ -241,7 +241,7 @@ Enter the gallons, the price and the grade, and let the total land where your st
     slug: "fuel-receipt-maker",
     image: "assets/fuel-receipt-maker.jpeg",
     category: "small-business",
-    publishedAt: "2026-10-15T14:00:00Z",
+    publishedAt: "2099-01-01T00:00:00Z",
     title: "Fuel Receipt Maker for Fleets and Drivers",
     seoTitle: "Fuel Receipt Maker for Fleets and Drivers",
     seoDescription:
