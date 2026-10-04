@@ -1,0 +1,1264 @@
+{
+ "captured": "2026-10-04",
+ "source": "DataForSEO AI Optimization LLM Mentions, United States, en",
+ "summary": {
+  "google_ai_overview_answers_citing_us": 72,
+  "chatgpt_answers_retrieving_us": 6,
+  "chatgpt_answers_citing_us_as_source": 1,
+  "cited_page_types_aio": {
+   "receipt-help": 42,
+   "templates": 14,
+   "brands": 11,
+   "blog": 8,
+   "create": 2,
+   "examples": 1,
+   "blog_reddit_titled": 0
+  },
+  "top_co_cited_domains_aio": {
+   "www.reddit.com": 41,
+   "www.makemyreceipt.com": 27,
+   "www.youtube.com": 25,
+   "www.facebook.com": 21,
+   "makereceipt.com": 18
+  }
+ },
+ "google_ai_overview": [
+  {
+   "question": "downloadable grab receipt template",
+   "ai_search_volume": 210,
+   "our_pages": [
+    "/examples/grab-receipt-ride-singapore"
+   ],
+   "our_rank": 7,
+   "sources": [
+    "www.scribd.com",
+    "www.scribd.com",
+    "www.scribd.com",
+    "www.scribd.com",
+    "www.scribd.com",
+    "www.scribd.com",
+    "www.makecepeit.com",
+    "www.scribd.com",
+    "www.tiktok.com"
+   ]
+  },
+  {
+   "question": "gas receipt generator",
+   "ai_search_volume": 210,
+   "our_pages": [
+    "/templates/gas-station"
+   ],
+   "our_rank": 2,
+   "sources": [
+    "www.makemyreceipt.com",
+    "www.makecepeit.com",
+    "www.makemyreceipt.com",
+    "makereceipt.com",
+    "makereceipt.com",
+    "www.receiptbuilder.com"
+   ]
+  },
+  {
+   "question": "pharmacy receipt",
+   "ai_search_volume": 210,
+   "our_pages": [
+    "/templates/pharmacy"
+   ],
+   "our_rank": 5,
+   "sources": [
+    "www.cvs.com",
+    "makereceipt.com",
+    "www.makemyreceipt.com",
+    "www.abbyy.com",
+    "www.makecepeit.com",
+    "www.instagram.com"
+   ]
+  },
+  {
+   "question": "dominos receipt 2019",
+   "ai_search_volume": 170,
+   "our_pages": [
+    "/brands",
+    "/receipt-help/domino-s-pizza-lost-receipt"
+   ],
+   "our_rank": 1,
+   "sources": [
+    "www.makecepeit.com",
+    "www.makemyreceipt.com",
+    "www.dominos.no",
+    "www.reddit.com",
+    "www.dominos.com.au",
+    "www.quora.com",
+    "www.makecepeit.com"
+   ]
+  },
+  {
+   "question": "domino's pizza receipt",
+   "ai_search_volume": 170,
+   "our_pages": [
+    "/receipt-help/domino-s-pizza-lost-receipt"
+   ],
+   "our_rank": 4,
+   "sources": [
+    "www.dominos.no",
+    "www.reddit.com",
+    "www.dominos.com.au",
+    "www.makecepeit.com"
+   ]
+  },
+  {
+   "question": "chipotle receipt lookup",
+   "ai_search_volume": 140,
+   "our_pages": [
+    "/receipt-help/chipotle-receipt-copy"
+   ],
+   "our_rank": 4,
+   "sources": [
+    "www.chipotle.com",
+    "www.reddit.com",
+    "www.chipotle.com",
+    "www.makecepeit.com"
+   ]
+  },
+  {
+   "question": "clothing receipts",
+   "ai_search_volume": 140,
+   "our_pages": [
+    "/templates/clothing-store-receipt"
+   ],
+   "our_rank": 3,
+   "sources": [
+    "receiptsapps.com",
+    "www.makemyreceipt.com",
+    "www.makecepeit.com",
+    "www.scribd.com"
+   ]
+  },
+  {
+   "question": "domino's receipt lookup",
+   "ai_search_volume": 140,
+   "our_pages": [
+    "/receipt-help/domino-s-pizza-lost-receipt"
+   ],
+   "our_rank": 4,
+   "sources": [
+    "www.dominos.com",
+    "www.dominos.com",
+    "www.reddit.com",
+    "www.makecepeit.com",
+    "biz.dominos.com"
+   ]
+  },
+  {
+   "question": "dominos receipt lookup",
+   "ai_search_volume": 140,
+   "our_pages": [
+    "/receipt-help/domino-s-pizza-lost-receipt"
+   ],
+   "our_rank": 4,
+   "sources": [
+    "www.dominos.com",
+    "www.dominos.com",
+    "www.reddit.com",
+    "www.makecepeit.com",
+    "biz.dominos.com"
+   ]
+  },
+  {
+   "question": "dominos receipt 2020",
+   "ai_search_volume": 140,
+   "our_pages": [
+    "/receipt-help/domino-s-pizza-lost-receipt"
+   ],
+   "our_rank": 7,
+   "sources": [
+    "www.dominos.com",
+    "www.makemyreceipt.com",
+    "www.dominos.no",
+    "www.reddit.com",
+    "www.dominos.com.au",
+    "www.quora.com",
+    "www.makecepeit.com",
+    "www.scribd.com",
+    "invoicewriter.com"
+   ]
+  },
+  {
+   "question": "kroger receipt 2020",
+   "ai_search_volume": 140,
+   "our_pages": [
+    "/receipt-help/kroger-receipt-copy"
+   ],
+   "our_rank": 2,
+   "sources": [
+    "www.kroger.com",
+    "www.makecepeit.com",
+    "www.makemyreceipt.com",
+    "www.reddit.com",
+    "www.pinterest.com",
+    "files.blogs.baruch.cuny.edu"
+   ]
+  },
+  {
+   "question": "mcdonald's receipt lookup",
+   "ai_search_volume": 140,
+   "our_pages": [
+    "/receipt-help/mcdonalds-receipt-copy"
+   ],
+   "our_rank": 7,
+   "sources": [
+    "www.mcdonalds.com",
+    "www.reddit.com",
+    "www.mcdonalds.com",
+    "www.mcdonalds.com",
+    "www.reddit.com",
+    "www.reddit.com",
+    "www.makecepeit.com",
+    "www.reddit.com",
+    "customerservices.mcdonalds.co.uk",
+    "www.mcdonalds.com"
+   ]
+  },
+  {
+   "question": "mcdonalds receipt lookup",
+   "ai_search_volume": 140,
+   "our_pages": [
+    "/receipt-help/mcdonalds-receipt-copy"
+   ],
+   "our_rank": 7,
+   "sources": [
+    "www.mcdonalds.com",
+    "www.reddit.com",
+    "www.mcdonalds.com",
+    "www.mcdonalds.com",
+    "www.reddit.com",
+    "www.reddit.com",
+    "www.makecepeit.com",
+    "www.reddit.com",
+    "customerservices.mcdonalds.co.uk",
+    "www.mcdonalds.com"
+   ]
+  },
+  {
+   "question": "bp receipt",
+   "ai_search_volume": 110,
+   "our_pages": [
+    "/receipt-help/bp-lost-receipt"
+   ],
+   "our_rank": 4,
+   "sources": [
+    "www.bp.com",
+    "www.bp.com",
+    "www.reddit.com",
+    "www.makecepeit.com",
+    "support.shell.us"
+   ]
+  },
+  {
+   "question": "chipotle receipt number",
+   "ai_search_volume": 110,
+   "our_pages": [
+    "/receipt-help/chipotle-receipt-copy"
+   ],
+   "our_rank": 5,
+   "sources": [
+    "www.chipotle.com",
+    "catering.chipotle.com",
+    "www.chipotle.com",
+    "www.reddit.com",
+    "www.makecepeit.com"
+   ]
+  },
+  {
+   "question": "fast food receipts",
+   "ai_search_volume": 110,
+   "our_pages": [
+    "/templates/fast-food-receipt"
+   ],
+   "our_rank": 3,
+   "sources": [
+    "receiptsapps.com",
+    "www.allrecipes.com",
+    "www.makecepeit.com",
+    "www.makemyreceipt.com"
+   ]
+  },
+  {
+   "question": "what does merchant copy mean",
+   "ai_search_volume": 110,
+   "our_pages": [
+    "/blog/customer-copy-receipt-meaning"
+   ],
+   "our_rank": 3,
+   "sources": [
+    "www.thrillist.com",
+    "www.linkedin.com",
+    "www.makecepeit.com",
+    "www.quora.com",
+    "www.facebook.com",
+    "www.facebook.com"
+   ]
+  },
+  {
+   "question": "bar receipt",
+   "ai_search_volume": 90,
+   "our_pages": [
+    "/templates/bar"
+   ],
+   "our_rank": 4,
+   "sources": [
+    "makereceipt.com",
+    "www.robsonforensic.com",
+    "www.facebook.com",
+    "www.makecepeit.com",
+    "www.facebook.com",
+    "simplereceiptmaker.com",
+    "orderable.com",
+    "www.reddit.com"
+   ]
+  },
+  {
+   "question": "bp gas receipt",
+   "ai_search_volume": 90,
+   "our_pages": [
+    "/receipt-help/bp-lost-receipt"
+   ],
+   "our_rank": 3,
+   "sources": [
+    "www.bp.com",
+    "www.bp.com",
+    "www.makecepeit.com"
+   ]
+  },
+  {
+   "question": "chipotle receipt 2025",
+   "ai_search_volume": 90,
+   "our_pages": [
+    "/receipt-help/chipotle-receipt-copy"
+   ],
+   "our_rank": 3,
+   "sources": [
+    "www.reddit.com",
+    "www.chipotle.com",
+    "www.makecepeit.com"
+   ]
+  },
+  {
+   "question": "mcdonald's mobile order receipt",
+   "ai_search_volume": 90,
+   "our_pages": [
+    "/receipt-help/mcdonalds-receipt-copy"
+   ],
+   "our_rank": 3,
+   "sources": [
+    "www.reddit.com",
+    "www.mcdonalds.com",
+    "www.makecepeit.com"
+   ]
+  },
+  {
+   "question": "pizza order receipt",
+   "ai_search_volume": 90,
+   "our_pages": [
+    "/receipt-help/domino-s-pizza-lost-receipt"
+   ],
+   "our_rank": 5,
+   "sources": [
+    "www.reddit.com",
+    "pizzahut-helpdesk.zendesk.com",
+    "www.dominos.no",
+    "help.pizzahut.co.nz",
+    "www.makecepeit.com",
+    "clickymenu.com"
+   ]
+  },
+  {
+   "question": "restaurant receipts maker",
+   "ai_search_volume": 90,
+   "our_pages": [
+    "/templates/restaurant"
+   ],
+   "our_rank": 3,
+   "sources": [
+    "makereceipt.com",
+    "simplereceiptmaker.com",
+    "www.makecepeit.com"
+   ]
+  },
+  {
+   "question": "restaurant receipt maker",
+   "ai_search_volume": 90,
+   "our_pages": [
+    "/templates/restaurant"
+   ],
+   "our_rank": 3,
+   "sources": [
+    "makereceipt.com",
+    "simplereceiptmaker.com",
+    "www.makecepeit.com"
+   ]
+  },
+  {
+   "question": "can sephora look up my receipt",
+   "ai_search_volume": 70,
+   "our_pages": [
+    "/receipt-help/sephora-lost-receipt"
+   ],
+   "our_rank": 4,
+   "sources": [
+    "www.sephora.com",
+    "www.sephora.com",
+    "www.reddit.com",
+    "www.makecepeit.com",
+    "www.youtube.com"
+   ]
+  },
+  {
+   "question": "chipotle check number on receipt",
+   "ai_search_volume": 70,
+   "our_pages": [
+    "/receipt-help/chipotle-receipt-copy"
+   ],
+   "our_rank": 2,
+   "sources": [
+    "catering.chipotle.com",
+    "www.makecepeit.com"
+   ]
+  },
+  {
+   "question": "costco receipt generator",
+   "ai_search_volume": 70,
+   "our_pages": [
+    "/brands/costco"
+   ],
+   "our_rank": 3,
+   "sources": [
+    "www.makemyreceipt.com",
+    "makereceipt.com",
+    "www.makecepeit.com",
+    "www.myreceiptmaker.com",
+    "customerservice.costco.com",
+    "www.shoeboxed.com"
+   ]
+  },
+  {
+   "question": "create walmart receipt",
+   "ai_search_volume": 70,
+   "our_pages": [
+    "/brands/walmart"
+   ],
+   "our_rank": 4,
+   "sources": [
+    "www.makemyreceipt.com",
+    "makereceipt.com",
+    "www.youtube.com",
+    "www.makecepeit.com",
+    "receiptsfaker.com",
+    "receiptsfaker.com",
+    "www.reddit.com",
+    "www.walmart.com",
+    "www.google.com",
+    "www.google.com",
+    "www.google.com"
+   ]
+  },
+  {
+   "question": "customer receipt copy",
+   "ai_search_volume": 70,
+   "our_pages": [
+    "/blog/customer-copy-receipt-meaning"
+   ],
+   "our_rank": 4,
+   "sources": [
+    "www.thrillist.com",
+    "www.youtube.com",
+    "invoicehome.com",
+    "www.makecepeit.com",
+    "www.invoicesimple.com",
+    "www.youtube.com",
+    "eforms.com",
+    "www.collinsdictionary.com",
+    "www.google.com"
+   ]
+  },
+  {
+   "question": "is merchant copy for customer",
+   "ai_search_volume": 70,
+   "our_pages": [
+    "/blog/customer-copy-receipt-meaning"
+   ],
+   "our_rank": 2,
+   "sources": [
+    "www.thrillist.com",
+    "www.makecepeit.com",
+    "www.huffpost.com"
+   ]
+  },
+  {
+   "question": "lost my receipt",
+   "ai_search_volume": 70,
+   "our_pages": [
+    "/blog/how-to-replace-a-lost-receipt"
+   ],
+   "our_rank": 5,
+   "sources": [
+    "filecabinet10.eschoolview.com",
+    "www.facebook.com",
+    "www.andrews.edu",
+    "receiptsync.net",
+    "www.makecepeit.com"
+   ]
+  },
+  {
+   "question": "order confirmation number chipotle receipt",
+   "ai_search_volume": 70,
+   "our_pages": [
+    "/receipt-help/chipotle-receipt-copy"
+   ],
+   "our_rank": 1,
+   "sources": [
+    "www.makecepeit.com",
+    "www.scribd.com"
+   ]
+  },
+  {
+   "question": "retail receipt",
+   "ai_search_volume": 70,
+   "our_pages": [
+    "/templates/retail-store"
+   ],
+   "our_rank": 3,
+   "sources": [
+    "www.retaildogma.com",
+    "makereceipt.com",
+    "www.makecepeit.com",
+    "receiptmaker.io",
+    "www.template.net",
+    "www.bill.com"
+   ]
+  },
+  {
+   "question": "sephora receipt lookup",
+   "ai_search_volume": 70,
+   "our_pages": [
+    "/receipt-help/sephora-lost-receipt"
+   ],
+   "our_rank": 7,
+   "sources": [
+    "www.sephora.com",
+    "www.sephora.com",
+    "www.reddit.com",
+    "www.reddit.com",
+    "www.reddit.com",
+    "www.sephora.com",
+    "www.makecepeit.com",
+    "www.youtube.com"
+   ]
+  },
+  {
+   "question": "sephora online receipt",
+   "ai_search_volume": 70,
+   "our_pages": [
+    "/receipt-help/sephora-lost-receipt"
+   ],
+   "our_rank": 3,
+   "sources": [
+    "www.sephora.com",
+    "www.sephora.com",
+    "www.makecepeit.com",
+    "www.youtube.com"
+   ]
+  },
+  {
+   "question": "sephora receipt online",
+   "ai_search_volume": 70,
+   "our_pages": [
+    "/receipt-help/sephora-lost-receipt"
+   ],
+   "our_rank": 3,
+   "sources": [
+    "www.sephora.com",
+    "www.sephora.com",
+    "www.makecepeit.com",
+    "www.youtube.com"
+   ]
+  },
+  {
+   "question": "store receipt generator",
+   "ai_search_volume": 70,
+   "our_pages": [
+    "/templates/grocery-store",
+    "/templates/retail-store"
+   ],
+   "our_rank": 3,
+   "sources": [
+    "makereceipt.com",
+    "www.makemyreceipt.com",
+    "www.makecepeit.com",
+    "www.makecepeit.com",
+    "expressexpense.com",
+    "receiptsapps.com"
+   ]
+  },
+  {
+   "question": "bp gas station receipt",
+   "ai_search_volume": 50,
+   "our_pages": [
+    "/receipt-help/bp-lost-receipt"
+   ],
+   "our_rank": 3,
+   "sources": [
+    "www.bp.com",
+    "www.bp.com",
+    "www.makecepeit.com",
+    "www.facebook.com",
+    "www.youtube.com",
+    "www.justanswer.com"
+   ]
+  },
+  {
+   "question": "bp fuel receipt",
+   "ai_search_volume": 50,
+   "our_pages": [
+    "/receipt-help/bp-lost-receipt"
+   ],
+   "our_rank": 3,
+   "sources": [
+    "www.bp.com",
+    "www.bp.com",
+    "www.makecepeit.com",
+    "www.facebook.com",
+    "www.youtube.com",
+    "www.justanswer.com"
+   ]
+  },
+  {
+   "question": "bp receipt lookup",
+   "ai_search_volume": 50,
+   "our_pages": [
+    "/receipt-help/bp-lost-receipt"
+   ],
+   "our_rank": 4,
+   "sources": [
+    "www.bp.com",
+    "www.bp.com",
+    "www.bp.com",
+    "www.makecepeit.com",
+    "www.facebook.com"
+   ]
+  },
+  {
+   "question": "chick fil-a receipt generator",
+   "ai_search_volume": 50,
+   "our_pages": [
+    "/brands/chick-fil-a",
+    "/create"
+   ],
+   "our_rank": 4,
+   "sources": [
+    "www.receiptfaker.com",
+    "www.receipt.dev",
+    "receipt.dev",
+    "www.makecepeit.com",
+    "www.makereceipt.ai",
+    "www.chick-fil-a.com",
+    "www.makemyreceipt.com",
+    "www.receiptfaker.com",
+    "expensefast.com",
+    "www.makecepeit.com"
+   ]
+  },
+  {
+   "question": "chick-fil a receipt generator",
+   "ai_search_volume": 50,
+   "our_pages": [
+    "/brands/chick-fil-a",
+    "/create"
+   ],
+   "our_rank": 3,
+   "sources": [
+    "www.receiptfaker.com",
+    "www.receipt.dev",
+    "www.makecepeit.com",
+    "receiptedit.com",
+    "www.makereceipt.ai",
+    "www.chick-fil-a.com",
+    "www.chick-fil-a.com",
+    "www.receiptfaker.com",
+    "expensefast.com",
+    "www.makecepeit.com"
+   ]
+  },
+  {
+   "question": "chipotle order confirmation number on receipt",
+   "ai_search_volume": 50,
+   "our_pages": [
+    "/receipt-help/chipotle-receipt-copy"
+   ],
+   "our_rank": 3,
+   "sources": [
+    "www.reddit.com",
+    "catering.chipotle.com",
+    "www.makecepeit.com",
+    "www.tiktok.com",
+    "www.facebook.com",
+    "www.tiktok.com"
+   ]
+  },
+  {
+   "question": "chipotle online receipt",
+   "ai_search_volume": 50,
+   "our_pages": [
+    "/receipt-help/chipotle-receipt-copy"
+   ],
+   "our_rank": 4,
+   "sources": [
+    "www.reddit.com",
+    "catering.chipotle.com",
+    "www.reddit.com",
+    "www.makecepeit.com",
+    "www.facebook.com"
+   ]
+  },
+  {
+   "question": "dominos receipt online",
+   "ai_search_volume": 50,
+   "our_pages": [
+    "/receipt-help/domino-s-pizza-lost-receipt"
+   ],
+   "our_rank": 4,
+   "sources": [
+    "www.reddit.com",
+    "www.youtube.com",
+    "www.dominos.com.au",
+    "www.makecepeit.com",
+    "www.facebook.com"
+   ]
+  },
+  {
+   "question": "dollar tree receipt lookup",
+   "ai_search_volume": 50,
+   "our_pages": [
+    "/receipt-help/dollar-tree-receipt-copy"
+   ],
+   "our_rank": 5,
+   "sources": [
+    "www.dollartree.com",
+    "www.dollartree.com",
+    "www.reddit.com",
+    "www.dollartree.com",
+    "www.makecepeit.com"
+   ]
+  },
+  {
+   "question": "domino's receipt online",
+   "ai_search_volume": 50,
+   "our_pages": [
+    "/receipt-help/domino-s-pizza-lost-receipt"
+   ],
+   "our_rank": 4,
+   "sources": [
+    "www.reddit.com",
+    "www.youtube.com",
+    "www.dominos.com.au",
+    "www.makecepeit.com",
+    "www.facebook.com"
+   ]
+  },
+  {
+   "question": "domino's pizza invoice",
+   "ai_search_volume": 50,
+   "our_pages": [
+    "/receipt-help/domino-s-pizza-lost-receipt"
+   ],
+   "our_rank": 3,
+   "sources": [
+    "www.reddit.com",
+    "www.reddit.com",
+    "www.makecepeit.com",
+    "www.dominos.com.au",
+    "www.youtube.com",
+    "www.facebook.com",
+    "www.instagram.com"
+   ]
+  },
+  {
+   "question": "dominos invoice",
+   "ai_search_volume": 50,
+   "our_pages": [
+    "/receipt-help/domino-s-pizza-lost-receipt"
+   ],
+   "our_rank": 3,
+   "sources": [
+    "www.dominos.com.au",
+    "www.youtube.com",
+    "www.makecepeit.com",
+    "www.facebook.com"
+   ]
+  },
+  {
+   "question": "fake gas receipt",
+   "ai_search_volume": 50,
+   "our_pages": [
+    "/templates/gas-station"
+   ],
+   "our_rank": 7,
+   "sources": [
+    "expensesreceipt.com",
+    "makereceipt.com",
+    "receiptsapps.com",
+    "www.makemyreceipt.com",
+    "www.makemyreceipt.com",
+    "expressexpense.com",
+    "www.makecepeit.com",
+    "makereceipt.com",
+    "simplereceiptmaker.com",
+    "www.eonebill.ai",
+    "resistant.ai"
+   ]
+  },
+  {
+   "question": "fake fuel receipts",
+   "ai_search_volume": 50,
+   "our_pages": [
+    "/templates/gas-station"
+   ],
+   "our_rank": 4,
+   "sources": [
+    "www.receiptfaker.com",
+    "www.eonebill.ai",
+    "www.makemyreceipt.com",
+    "www.makecepeit.com",
+    "simplereceiptmaker.com",
+    "resistant.ai",
+    "support.asda.com",
+    "www.justanswer.com"
+   ]
+  },
+  {
+   "question": "mcdonalds receipt template",
+   "ai_search_volume": 50,
+   "our_pages": [
+    "/brands/mcdonalds"
+   ],
+   "our_rank": 6,
+   "sources": [
+    "www.createreceipt.com",
+    "www.receiptfaker.com",
+    "www.makemyreceipt.com",
+    "www.mcdonalds.com",
+    "www.receipt.dev",
+    "www.makecepeit.com",
+    "receipt.dev"
+   ]
+  },
+  {
+   "question": "order confirmation number chipotle",
+   "ai_search_volume": 50,
+   "our_pages": [
+    "/receipt-help/chipotle-receipt-copy"
+   ],
+   "our_rank": 1,
+   "sources": [
+    "www.makecepeit.com",
+    "www.justanswer.com",
+    "www.restaurantbusinessonline.com",
+    "www.facebook.com"
+   ]
+  },
+  {
+   "question": "panda express receipt lookup",
+   "ai_search_volume": 50,
+   "our_pages": [
+    "/receipt-help/panda-express-receipt-copy"
+   ],
+   "our_rank": 3,
+   "sources": [
+    "www.reddit.com",
+    "www.pandaexpress.com",
+    "www.makecepeit.com",
+    "www.17track.net",
+    "www.facebook.com",
+    "pandaguestexperience.com"
+   ]
+  },
+  {
+   "question": "receipt aldi",
+   "ai_search_volume": 50,
+   "our_pages": [
+    "/receipt-help/aldi-lost-receipt"
+   ],
+   "our_rank": 7,
+   "sources": [
+    "help.aldi.us",
+    "help.aldi.us",
+    "help.aldi.us",
+    "www.facebook.com",
+    "help.aldi.com.au",
+    "www.facebook.com",
+    "www.makecepeit.com"
+   ]
+  },
+  {
+   "question": "restaurant itemized receipt",
+   "ai_search_volume": 50,
+   "our_pages": [
+    "/templates/restaurant"
+   ],
+   "our_rank": 3,
+   "sources": [
+    "www.makemyreceipt.com",
+    "simplereceiptmaker.com",
+    "www.makecepeit.com",
+    "www.adobe.com",
+    "www.youtube.com"
+   ]
+  },
+  {
+   "question": "chipotle doordash receipt",
+   "ai_search_volume": 40,
+   "our_pages": [
+    "/receipt-help/chipotle-receipt-copy"
+   ],
+   "our_rank": 3,
+   "sources": [
+    "help.doordash.com",
+    "www.facebook.com",
+    "www.makecepeit.com"
+   ]
+  },
+  {
+   "question": "chipotle online order receipt",
+   "ai_search_volume": 40,
+   "our_pages": [
+    "/receipt-help/chipotle-receipt-copy"
+   ],
+   "our_rank": 3,
+   "sources": [
+    "www.reddit.com",
+    "catering.chipotle.com",
+    "www.makecepeit.com",
+    "www.facebook.com"
+   ]
+  },
+  {
+   "question": "fake mcdonalds receipt",
+   "ai_search_volume": 40,
+   "our_pages": [
+    "/receipt-help/mcdonalds-receipt-copy"
+   ],
+   "our_rank": 5,
+   "sources": [
+    "www.receiptfaker.com",
+    "makereceipt.com",
+    "www.makemyreceipt.com",
+    "www.makemyreceipt.com",
+    "www.makecepeit.com",
+    "www.youtube.com"
+   ]
+  },
+  {
+   "question": "free walmart receipt generator",
+   "ai_search_volume": 40,
+   "our_pages": [
+    "/brands/walmart"
+   ],
+   "our_rank": 4,
+   "sources": [
+    "www.makemyreceipt.com",
+    "makereceipt.com",
+    "receiptsfaker.com",
+    "www.makecepeit.com",
+    "receiptsfaker.com",
+    "www.pinterest.com",
+    "www.walmart.com",
+    "www.makemyreceipt.com"
+   ]
+  },
+  {
+   "question": "how to get chipotle receipt from app",
+   "ai_search_volume": 40,
+   "our_pages": [
+    "/receipt-help/chipotle-receipt-copy"
+   ],
+   "our_rank": 4,
+   "sources": [
+    "www.reddit.com",
+    "www.reddit.com",
+    "www.reddit.com",
+    "www.makecepeit.com",
+    "www.facebook.com",
+    "www.shoprite.com",
+    "receiptedit.com"
+   ]
+  },
+  {
+   "question": "how to make a receipt for small business",
+   "ai_search_volume": 40,
+   "our_pages": [
+    "/blog/business-receipt-template"
+   ],
+   "our_rank": 7,
+   "sources": [
+    "www.youtube.com",
+    "www.youtube.com",
+    "www.youtube.com",
+    "www.youtube.com",
+    "bookipi.com",
+    "invoicefly.com",
+    "www.makecepeit.com",
+    "conta.com",
+    "www.shopify.com",
+    "www.youtube.com"
+   ]
+  },
+  {
+   "question": "how to make a walmart receipt",
+   "ai_search_volume": 40,
+   "our_pages": [
+    "/blog/walmart-receipt-generator",
+    "/brands/walmart"
+   ],
+   "our_rank": 6,
+   "sources": [
+    "www.makemyreceipt.com",
+    "makereceipt.com",
+    "www.youtube.com",
+    "www.createreceipt.com",
+    "receiptsfaker.com",
+    "www.makecepeit.com",
+    "www.makecepeit.com",
+    "receiptsfaker.com",
+    "www.reddit.com",
+    "www.youtube.com",
+    "m.youtube.com"
+   ]
+  },
+  {
+   "question": "no receipt picture",
+   "ai_search_volume": 40,
+   "our_pages": [
+    "/blog/picture-of-receipt-return"
+   ],
+   "our_rank": 2,
+   "sources": [
+    "www.reddit.com",
+    "www.makecepeit.com",
+    "ramp.com",
+    "www.hprt.com"
+   ]
+  },
+  {
+   "question": "receipt for groceries",
+   "ai_search_volume": 40,
+   "our_pages": [
+    "/templates/grocery-store"
+   ],
+   "our_rank": 6,
+   "sources": [
+    "makereceipt.com",
+    "money.usnews.com",
+    "simplereceiptmaker.com",
+    "receiptsapps.com",
+    "files.blogs.baruch.cuny.edu",
+    "www.makecepeit.com"
+   ]
+  },
+  {
+   "question": "receipt mcdonalds",
+   "ai_search_volume": 40,
+   "our_pages": [
+    "/receipt-help/mcdonalds-receipt-copy"
+   ],
+   "our_rank": 5,
+   "sources": [
+    "www.mcdvoice.com",
+    "www.mcdonalds.com",
+    "www.mcdonalds.com",
+    "www.youtube.com",
+    "www.makecepeit.com"
+   ]
+  },
+  {
+   "question": "walmart fake receipt generator",
+   "ai_search_volume": 40,
+   "our_pages": [
+    "/brands/walmart"
+   ],
+   "our_rank": 5,
+   "sources": [
+    "www.makemyreceipt.com",
+    "www.createreceipt.com",
+    "www.makemyreceipt.com",
+    "receiptsfaker.com",
+    "www.makecepeit.com",
+    "receiptsfaker.com"
+   ]
+  },
+  {
+   "question": "walmart receipt maker free",
+   "ai_search_volume": 40,
+   "our_pages": [
+    "/blog/walmart-receipt-generator",
+    "/brands/walmart"
+   ],
+   "our_rank": 3,
+   "sources": [
+    "www.makemyreceipt.com",
+    "makereceipt.com",
+    "www.makecepeit.com",
+    "www.makemyreceipt.com",
+    "receiptsfaker.com",
+    "www.makecepeit.com",
+    "invoicemama.com"
+   ]
+  },
+  {
+   "question": "walmart receipt generator app free",
+   "ai_search_volume": 40,
+   "our_pages": [
+    "/brands/walmart"
+   ],
+   "our_rank": 4,
+   "sources": [
+    "www.makemyreceipt.com",
+    "www.receiptfaker.com",
+    "makereceipt.com",
+    "www.makecepeit.com",
+    "www.youtube.com",
+    "m.youtube.com",
+    "receiptsfaker.com",
+    "www.youtube.com",
+    "invoicemama.com"
+   ]
+  },
+  {
+   "question": "zara retrieve receipt",
+   "ai_search_volume": 40,
+   "our_pages": [
+    "/receipt-help/zara-return-policy"
+   ],
+   "our_rank": 4,
+   "sources": [
+    "www.zara.com",
+    "www.zara.com",
+    "www.justanswer.com",
+    "www.makecepeit.com"
+   ]
+  },
+  {
+   "question": "can sephora look up a receipt",
+   "ai_search_volume": 30,
+   "our_pages": [
+    "/receipt-help/sephora-lost-receipt"
+   ],
+   "our_rank": 4,
+   "sources": [
+    "www.sephora.com",
+    "www.sephora.com",
+    "community.sephora.com",
+    "www.makecepeit.com"
+   ]
+  },
+  {
+   "question": "gucci purchase history",
+   "ai_search_volume": 30,
+   "our_pages": [
+    "/receipt-help/gucci-lost-receipt"
+   ],
+   "our_rank": 3,
+   "sources": [
+    "www.gucci.com",
+    "www.gucci.com",
+    "www.makecepeit.com"
+   ]
+  }
+ ],
+ "chatgpt": [
+  {
+   "question": "what is the $75 rule in the irs?",
+   "ai_search_volume": 652,
+   "our_pages_retrieved": [
+    "/blog/irs-75-dollar-receipt-rule"
+   ],
+   "cited_sources": [
+    "www.irs.gov",
+    "www.irs.gov",
+    "www.irs.gov"
+   ]
+  },
+  {
+   "question": "what is the $75 rule for receipts?",
+   "ai_search_volume": 338,
+   "our_pages_retrieved": [
+    "/blog/irs-75-dollar-receipt-rule"
+   ],
+   "cited_sources": [
+    "www.irs.gov",
+    "www.law.cornell.edu",
+    "www.irs.gov"
+   ]
+  },
+  {
+   "question": "can fake receipts be detected?",
+   "ai_search_volume": 180,
+   "our_pages_retrieved": [
+    "/blog/how-to-spot-a-fake-receipt"
+   ],
+   "cited_sources": [
+    "www.corpay.com",
+    "smartbills.io",
+    "www.appzen.com",
+    "docverify.app",
+    "developers.taggun.io"
+   ]
+  },
+  {
+   "question": "what is the $75 receipt rule?",
+   "ai_search_volume": 102,
+   "our_pages_retrieved": [
+    "/blog/irs-75-dollar-receipt-rule"
+   ],
+   "cited_sources": [
+    "use.expensify.com",
+    "ramp.com",
+    "sparkreceipt.com"
+   ]
+  },
+  {
+   "question": "can i get a refund from chipotle?",
+   "ai_search_volume": 15,
+   "our_pages_retrieved": [
+    "/receipt-help/chipotle-refund-policy"
+   ],
+   "cited_sources": [
+    "www.chipotle.com",
+    "www.checkreturnpolicy.com"
+   ]
+  },
+  {
+   "question": "how to get a tax receipt from domino's?",
+   "ai_search_volume": 13,
+   "our_pages_retrieved": [],
+   "cited_sources": [
+    "www.dominos.com",
+    "www.makecepeit.com",
+    "www.dominos.com",
+    "www.reddit.com",
+    "tusa-reset.dominos.com"
+   ]
+  },
+  {
+   "question": "do pharmacies keep receipts on file?",
+   "ai_search_volume": 12,
+   "our_pages_retrieved": [
+    "/receipt-help/walgreens-lost-receipt"
+   ],
+   "cited_sources": [
+    "www.pacodeandbulletin.gov",
+    "www.cvs.com",
+    "www.walgreens.com"
+   ]
+  }
+ ]
+}
