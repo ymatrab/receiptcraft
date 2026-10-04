@@ -253,6 +253,11 @@ const BRANDS_TITLE_TRIMMED: ReadonlySet<string> = new Set([
 ]);
 export const BRANDS_TITLE_UPDATED = "2026-09-11";
 
+// 2026-10-04: "Other brand templates" lists four same-category neighbours
+// instead of the same first four brands on every page, so every brand page's
+// visible links changed.
+export const BRANDS_LINKS_UPDATED = "2026-10-04";
+
 /**
  * When a brand page was last reviewed.
  *
@@ -261,8 +266,12 @@ export const BRANDS_TITLE_UPDATED = "2026-09-11";
  * this page last change", not "when did each part of it change".
  */
 export function brandReviewedAt(slug: string): string {
-  if (BRANDS_TITLE_TRIMMED.has(slug)) return BRANDS_TITLE_UPDATED;
-  return BRANDS_ARTICLE_FIXED.has(slug) ? BRANDS_ARTICLE_UPDATED : BRANDS_UPDATED;
+  return newest(
+    BRANDS_UPDATED,
+    BRANDS_ARTICLE_FIXED.has(slug) ? BRANDS_ARTICLE_UPDATED : null,
+    BRANDS_TITLE_TRIMMED.has(slug) ? BRANDS_TITLE_UPDATED : null,
+    BRANDS_LINKS_UPDATED,
+  );
 }
 // 2026-08-31: the CTA names a Pro template before the click.
 // 2026-09-01: the 73 policy guides are restored after a day away. They go back
@@ -396,9 +405,22 @@ export function templateReviewedAt(t: ReceiptTemplate): string {
   return TEMPLATES_UPDATED;
 }
 
+// 2026-10-04: every guide links its brand's template page in the body
+// ("{Brand} receipt generator"), and the brand chip no longer disappears on
+// brands with a single guide. The /receipt-help index keeps INTENT_UPDATED.
+export const INTENT_LINKS_UPDATED = "2026-10-04";
+
 /** When a receipt-help guide was last reviewed. */
 export function intentReviewedAt(brandSlug: string): string {
-  return hasOfficialSource(brandSlug) ? INTENT_CITED_UPDATED : INTENT_UPDATED;
+  return newest(
+    hasOfficialSource(brandSlug) ? INTENT_CITED_UPDATED : INTENT_UPDATED,
+    INTENT_LINKS_UPDATED,
+  );
+}
+
+/** Latest of several ISO dates (YYYY-MM-DD sorts as text); nulls are skipped. */
+function newest(...dates: (string | null)[]): string {
+  return dates.filter((d): d is string => d !== null).sort().pop()!;
 }
 
 /** Human-readable form for the visible line. */
