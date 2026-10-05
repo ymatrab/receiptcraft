@@ -1096,6 +1096,102 @@ export const TEMPLATES: ReceiptTemplate[] = [
     },
   },
   {
+    slug: "rent-receipt-ontario",
+    name: "Rent Receipt (Ontario)",
+    shortName: "Rent (Ontario)",
+    icon: "🍁",
+    seoTitle: "Ontario Rent Receipt Template — Free Rent Receipt Generator",
+    seoDescription:
+      "Make an Ontario rent receipt with the four things the law requires: unit address, tenant names, the amount and date of each payment, and what it was for.",
+    heading: "Rent Receipt Generator (Ontario)",
+    intro:
+      "Create a rent receipt that meets Ontario's rules: the rental unit address, every tenant's name, the amount and date of each payment, and what it was for. Landlords must give one free on request, and tenants use them for the Ontario Trillium Benefit.",
+    leadAnswer:
+      "An Ontario rent receipt must show, at a minimum, the address of the rental unit, the name of each tenant, the amount and date of each payment, and what each payment was for. A landlord must provide one free of charge whenever a tenant asks, and a former tenant can ask for up to 12 months after the tenancy ends.",
+    useCases: [
+      "Landlords answering a tenant's request for receipts",
+      "Tenants' proof of rent for the Ontario Trillium Benefit",
+      "Cash rent payments that need a record",
+      "Annual receipts listing every month's payment",
+    ],
+    fields: [
+      { name: "Rental unit address", description: "Required. The full address, including the unit number." },
+      { name: "Tenant names", description: "Required. Every tenant on the lease." },
+      { name: "Amount of each payment", description: "Required, in Canadian dollars." },
+      { name: "Date of each payment", description: "Required. The date the landlord received it." },
+      { name: "What it was for", description: "Required: rent, rent deposit, arrears, or another amount." },
+      { name: "Period covered", description: "Recommended, for example rent for October 2026, so the receipt cannot be read as a different month." },
+      { name: "Landlord's name and signature", description: "Recommended, and worth having for cash payments." },
+    ],
+    howToSteps: [
+      "Enter the landlord's name.",
+      "Add the rental unit address and every tenant's name.",
+      "Add a line for each payment with its amount, and record the date it was received.",
+      "Say what each payment was for, and the period it covers.",
+      "Download the PDF, sign it for a cash payment, and give the tenant a copy.",
+    ],
+    guidance: [
+      {
+        heading: "What Ontario law requires",
+        body:
+          "Under {cite:on-rta-s109|section 109 of the Residential Tenancies Act, 2006}, a landlord must give a tenant or former tenant a receipt for rent, a rent deposit, arrears or any other amount paid, free of charge, when asked. A former tenant can ask for up to 12 months after the tenancy ends.\n\n{cite:on-reg-516-06|Ontario Regulation 516/06} sets the minimum contents: the rental unit address, the tenant names, the amount and date of each payment, and what each payment was for. Refusing to give a receipt on request is an offence under the Act, and disputes go to the Landlord and Tenant Board.",
+      },
+      {
+        heading: "One receipt or twelve",
+        body:
+          "Either is fine. The regulation asks for the amount and date of each payment, so a single annual receipt that lists all twelve payments with their dates meets it. A receipt that only states a yearly total does not. Tenants usually ask in tax season: rent paid feeds the Ontario Trillium Benefit, and the CRA can ask for proof after the claim.",
+      },
+    ],
+    sources: ["on-rta-s109", "on-reg-516-06"],
+    faqs: [
+      {
+        question: "Does an Ontario landlord have to give rent receipts?",
+        answer: "Yes, free of charge, whenever the tenant asks. A former tenant can ask for up to 12 months after the tenancy ends.",
+      },
+      {
+        question: "What must an Ontario rent receipt include?",
+        answer:
+          "At a minimum, the rental unit address, the tenant names, the amount and date of each payment, and what each payment was for.",
+      },
+      {
+        question: "Can a landlord charge for a rent receipt?",
+        answer: "No. Section 109 requires the receipt to be provided free of charge.",
+      },
+      {
+        question: "Do I need rent receipts for the Ontario Trillium Benefit?",
+        answer:
+          "You report rent paid without attaching receipts, but the CRA can ask for proof later, so keep the receipts or other proof of payment.",
+      },
+    ],
+    defaults: {
+      businessName: "Maple Row Rentals",
+      addressLine1: "Landlord: D. Campbell",
+      addressLine2: "Toronto, ON",
+      phone: "",
+      currency: "CAD",
+      taxLabel: "Tax",
+      taxRate: 0,
+      greeting: "RENT RECEIPT",
+      paymentMethod: "Mobile Payment",
+      cardLastFour: "",
+      hideStoreLine: true,
+      showBarcode: false,
+      footerMessage: "Received with thanks. Landlord's signature: ____________",
+      paperStyle: "modern",
+      sections: [
+        {
+          title: "Tenancy",
+          rows: [
+            { label: "Unit", value: "Unit 1204, 88 Harbour Lane, Toronto, ON" },
+            { label: "Tenants", value: "Alex Chen, Sam Okafor" },
+            { label: "Paid via", value: "e-Transfer" },
+          ],
+        },
+      ],
+      items: [{ id: id(), name: "Rent for October 2026", quantity: 1, price: 2150 }],
+    },
+  },
+  {
     slug: "parking",
     name: "Parking Receipt",
     shortName: "Parking",
