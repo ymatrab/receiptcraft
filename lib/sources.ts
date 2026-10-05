@@ -20,7 +20,7 @@ export interface Source {
   publisher: string;
   url: string;
   /** Which rules this belongs to, when the claim is jurisdiction-specific. */
-  jurisdiction?: "US" | "US-CA" | "US-NY" | "US-WA" | "US-MA" | "EU" | "UK" | "AU";
+  jurisdiction?: "US" | "US-CA" | "US-NY" | "US-WA" | "US-MA" | "EU" | "UK" | "AU" | "CA-ON";
   /** ISO date the URL was last checked and confirmed to say what we claim. */
   verifiedAt: string;
   /** Some legislature and standards sites reject automated requests (403 or a
@@ -107,6 +107,30 @@ export const SOURCES = S({
     botBlocked: true,
     supports:
       "What a tax invoice must show under $1,000 and from $1,000, that GST may be shown as 'Total price includes GST' when it is one-eleventh of the total, and that one must be provided within 28 days on request except for sales of $82.50 or less.",
+  },
+  "on-rta-s109": {
+    id: "on-rta-s109",
+    title: "Residential Tenancies Act, 2006, s. 109",
+    publisher: "Government of Ontario",
+    url: "https://www.ontario.ca/laws/statute/06r17",
+    jurisdiction: "CA-ON",
+    // e-Laws renders the statute with JavaScript, so automated checks see an
+    // empty page; the text was confirmed through secondary legal sources.
+    verifiedAt: "2026-10-05",
+    botBlocked: true,
+    supports:
+      "A landlord must give a tenant or former tenant a receipt for rent and other payments free of charge on request; a former tenant may ask within 12 months after the tenancy ends.",
+  },
+  "on-reg-516-06": {
+    id: "on-reg-516-06",
+    title: "O. Reg. 516/06: General, s. 9",
+    publisher: "Government of Ontario",
+    url: "https://www.ontario.ca/laws/regulation/060516",
+    jurisdiction: "CA-ON",
+    verifiedAt: "2026-10-05",
+    botBlocked: true,
+    supports:
+      "A receipt under s. 109 must include at minimum the rental unit address, the tenant names, the amount and date of each payment, and what each payment was for.",
   },
   "irs-pub-531": {
     id: "irs-pub-531",
