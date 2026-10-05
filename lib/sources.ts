@@ -162,7 +162,7 @@ export const SOURCES = S({
     publisher: "HM Revenue & Customs",
     url: "https://www.gov.uk/guidance/vat-guide-notice-700",
     jurisdiction: "UK",
-    verifiedAt: "2026-08-19",
+    verifiedAt: "2026-10-05",
     supports: "What a UK VAT invoice must contain, and when a simplified (less-detailed) VAT invoice is allowed.",
   },
 
