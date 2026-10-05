@@ -207,6 +207,19 @@ US returns 14 days for StockX Credit); RTA 2006 s.109 and O. Reg. 516/06 s.9 for
 Ontario. Both posts are about 750 body words plus 10 FAQs, shorter than the
 September posts by design: direct answer first, then a fields table and numbered steps.
 
+## 2026-10-05: Oct 10–20 gap filled
+
+| Date | Slug | Keyword | Links to | Images |
+|---|---|---|---|---|
+| Oct 13 09:30Z | `dependent-care-fsa-receipt` | dependent care fsa receipt (70/mo, 110 in Nov–Jan) | /templates/childcare-receipt, irs.gov (Pub 503, W-10, 2441) | none yet |
+| Oct 17 09:30Z | `rent-receipt-for-hra` | rent receipt with revenue stamp (720/mo IN) + HRA cluster | /templates/rent-receipt | none yet |
+
+Both were moved forward from Nov 4 and Nov 15. Facts checked 2026-10-05: Pub 503
+(provider name, address, TIN); P.L. 119-21 limit $7,500 from 2026; Form 124
+replaced Form 12BB on 1 April 2026; landlord PAN above ₹1,00,000 a year; ₹1
+revenue stamp on cash receipts above ₹5,000. New-Act section numbers are
+deliberately not cited.
+
 ## Watch list
 
 - **`/create` synonym cluster** — #2, #10, #12, #13, #14, #16 all target near-identical "make/create a receipt online free" intent. Differentiated by angle + cross-linked; **watch Search Console** for two URLs trading impressions on one query and merge/canonicalize if it happens. Coming `online receipt generator` and `receipt creator free` add two more.
