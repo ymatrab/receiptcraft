@@ -86,6 +86,16 @@ export const SOURCES = S({
     supports:
       "A dealer cannot deny warranty coverage because routine maintenance was done elsewhere; owners should keep records and receipts of oil changes and other maintenance.",
   },
+  "epa-section-608": {
+    id: "epa-section-608",
+    title: "Section 608 Technician Certification",
+    publisher: "U.S. Environmental Protection Agency",
+    url: "https://www.epa.gov/section608/section-608-technician-certification",
+    jurisdiction: "US",
+    verifiedAt: "2026-10-05",
+    supports:
+      "Technicians who maintain, service, repair or dispose of equipment that could release refrigerants must be certified, including for most substitute refrigerants such as HFCs since 2018.",
+  },
   "irs-pub-531": {
     id: "irs-pub-531",
     title: "Publication 531: Reporting Tip Income",

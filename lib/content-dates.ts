@@ -402,6 +402,8 @@ export function alternativesUpdated(): string {
 // IndexNow cron only submits URLs newer than its last run.
 const TEMPLATES_ADDED: Readonly<Record<string, string>> = {
   "oil-change-receipt": "2026-10-05",
+  "plumbing-invoice": "2026-10-05",
+  "hvac-invoice": "2026-10-05",
 };
 
 export function templateReviewedAt(t: ReceiptTemplate): string {
