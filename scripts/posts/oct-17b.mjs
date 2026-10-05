@@ -3,7 +3,7 @@
  * (moved forward from Nov 15 to fill Oct 10–20; still ahead of the Dec–Jan peak).
  *   64. "rent receipt with revenue stamp"  720/mo India (2,900 in Jan)
  *       + "rent receipt for hra" 170, "hra rent receipt format" 110
- *       -> /templates/rent-receipt (₹ supported)
+ *       -> /templates/rent-receipt-india (live 2026-10-05)
  *
  * The head terms ("rent receipt format" 5,400, "rent receipt generator" 2,400)
  * are template intent and stay with /templates/rent-receipt. This post takes
@@ -34,7 +34,7 @@ export const OCT_17B = [
       "What a rent receipt needs for an HRA claim in India: the format, when a revenue stamp is needed, when the landlord's PAN is required, and Form 124.",
     excerpt:
       "To claim HRA, salaried employees in India give their employer rent receipts with Form 124. Here's the format, when a ₹1 revenue stamp is needed, and when the landlord's PAN becomes mandatory.",
-    body: `**A rent receipt for HRA must show the tenant's name, the landlord's name and address, the rented property's address, the rent amount, the period it covers, the payment date and method, and the landlord's signature.** Add a ₹1 revenue stamp if the rent was paid in cash and the amount is above ₹5,000, and include the landlord's PAN if the rent for the year exceeds ₹1,00,000. Employees submit the receipts to their employer with **Form 124**, which replaced Form 12BB from 1 April 2026. The [rent receipt template](/templates/rent-receipt) lays out these fields with the currency set to rupees.
+    body: `**A rent receipt for HRA must show the tenant's name, the landlord's name and address, the rented property's address, the rent amount, the period it covers, the payment date and method, and the landlord's signature.** Add a ₹1 revenue stamp if the rent was paid in cash and the amount is above ₹5,000, and include the landlord's PAN if the rent for the year exceeds ₹1,00,000. Employees submit the receipts to their employer with **Form 124**, which replaced Form 12BB from 1 April 2026. The [rent receipt template](/templates/rent-receipt-india) lays out these fields with the currency set to rupees.
 
 HRA, house rent allowance, is part of many salaries in India, and the exemption on it is only allowed against proof of rent actually paid. The rent receipt is that proof.
 
@@ -86,7 +86,7 @@ Here "salary" means basic pay plus dearness allowance where it forms part of ret
 
 ## How to Make the Receipt
 
-1. Open the [rent receipt template](/templates/rent-receipt) and set the currency to Indian rupees (₹).
+1. Open the [rent receipt template](/templates/rent-receipt-india) and set the currency to Indian rupees (₹).
 2. Enter the landlord's name and the property address.
 3. Enter your name as the tenant.
 4. Add a line for the period, for example "Rent for October 2026", with the amount.
