@@ -1905,12 +1905,16 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     name: "Lowe's Receipt",
     shortName: "Lowe's",
     icon: "🛠️",
-    seoTitle: "Free Lowe's Receipt Generator — Lowe's Receipt Maker",
+    // "Lowes", without the apostrophe, is how people type it: the page had no
+    // impressions at all for "lowes receipt generator" with the brand spelled
+    // only one way. The second mention carries the other spelling, which also
+    // keeps fitBrandTitle from treating it as a repeat to trim.
+    seoTitle: "Free Lowe's Receipt Generator — Lowes Receipt Maker",
     seoDescription:
       "Create a Lowe's receipt online. Add appliances, tools and building supplies, edit the prices, tax and date, then get a free print-ready PDF or PNG receipt.",
     heading: "Lowe's Receipt Generator",
     intro:
-      "Create a Lowe's receipt with appliances, plumbing supplies, and home improvement materials.",
+      "Make a Lowe's (Lowes) receipt with appliances, plumbing supplies and building materials, laid out like the store's thermal register receipt.",
     useCases: [
       "Home improvement deductions",
       "Replace a lost Lowe's receipt",
@@ -1921,6 +1925,16 @@ const HAND_BRANDS: ReceiptTemplate[] = [
         question: "Can I customize the items on the Lowe's receipt?",
         answer:
           "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
+      },
+      {
+        question: "How do I get a copy of a real Lowe's receipt?",
+        answer:
+          "If the purchase was linked to a MyLowe's account, it appears in your purchase history there. If it wasn't, Lowe's customer care or a store can usually look it up from the card you paid with. This template is for your own records, not a copy of the store's.",
+      },
+      {
+        question: "Can I use a Lowes receipt maker for returns?",
+        answer:
+          "No. A receipt you make is a record for budgeting, expense notes or mockups, not proof that Lowe's sold you something. For a return, use the store's own record of the sale.",
       },
     ],
     defaults: {
@@ -2726,6 +2740,82 @@ const HAND_BRANDS: ReceiptTemplate[] = [
         "Sellers have up to 7 days to ship the item and provide tracking. If you don't receive tracking within 7 days, eBay will cancel the order and issue a full refund.",
       paperStyle: "modern",
       items: [{ id: id(), name: "Christian Louboutin So Kate Pumps", quantity: 1, price: 725 }],
+    },
+  },
+  {
+    slug: "stockx",
+    name: "StockX Receipt",
+    shortName: "StockX",
+    icon: "👟",
+    seoTitle: "Free StockX Receipt Generator — StockX Order Receipt Maker",
+    seoDescription:
+      "Make a StockX-style order receipt for sneakers and streetwear: item, size, style code, processing fee, shipping and tax, then download it as a PDF or PNG.",
+    heading: "StockX Receipt Generator",
+    intro:
+      "Make a StockX-style order receipt for a sneaker or streetwear purchase, with the size, style code, processing fee and shipping laid out the way a resale order is billed.",
+    useCases: [
+      "Resale business bookkeeping",
+      "Tracking what a pair actually cost after fees",
+      "Expense records for a sneaker collection",
+    ],
+    faqs: [
+      {
+        question: "Where do I find my real StockX receipt?",
+        answer:
+          "Log in to your StockX account and open the order in your buying history; StockX also emails an order confirmation when the purchase goes through. That confirmation is the official record of what you paid.",
+      },
+      {
+        question: "What does a StockX order receipt show?",
+        answer:
+          "The item name, size and style code, the purchase price, the processing fee, shipping, sales tax and the order total, plus the order number and shipping address.",
+      },
+      {
+        question: "Does a receipt from this template prove a pair is authentic?",
+        answer:
+          "No. It records a price, nothing more, and it carries no authentication tag. Only StockX's own records relate to its verification process.",
+      },
+      {
+        question: "Can I change the item, size and fees?",
+        answer:
+          "Yes. Every field is editable: the item, size, style code, price, fees, tax rate and date, then download a PDF or PNG.",
+      },
+    ],
+    defaults: {
+      logoDataUrl: brandLogo("stockx.com"),
+      businessName: "StockX",
+      addressLine1: "",
+      addressLine2: "",
+      phone: "",
+      taxLabel: "Sales Tax",
+      taxRate: 8.875,
+      forcePaper: true,
+      greeting: "Your order is confirmed",
+      grandTotalLabel: "TOTAL",
+      footerMessage: "",
+      sections: [
+        {
+          title: "Item details",
+          rows: [
+            { label: "Size", value: "US M 10" },
+            { label: "Style", value: "DZ5485-612" },
+            { label: "Condition", value: "New" },
+          ],
+        },
+        {
+          title: "Shipping details",
+          rows: [
+            { value: "Marcus Bell" },
+            { value: "218 Atlantic Avenue" },
+            { value: "Brooklyn, NY 11201" },
+          ],
+        },
+      ],
+      paperStyle: "modern",
+      items: [
+        { id: id(), name: "Jordan 1 Retro High OG", quantity: 1, price: 248 },
+        { id: id(), name: "Processing Fee", quantity: 1, price: 7.44 },
+        { id: id(), name: "Shipping", quantity: 1, price: 14.95 },
+      ],
     },
   },
   {
