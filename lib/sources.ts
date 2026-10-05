@@ -76,6 +76,16 @@ export const SOURCES = S({
     verifiedAt: "2026-08-19",
     supports: "The rental income and expense records a landlord is expected to keep.",
   },
+  "ftc-auto-warranties": {
+    id: "ftc-auto-warranties",
+    title: "Auto Warranties and Auto Service Contracts",
+    publisher: "Federal Trade Commission",
+    url: "https://consumer.ftc.gov/articles/auto-warranties-and-auto-service-contracts",
+    jurisdiction: "US",
+    verifiedAt: "2026-10-05",
+    supports:
+      "A dealer cannot deny warranty coverage because routine maintenance was done elsewhere; owners should keep records and receipts of oil changes and other maintenance.",
+  },
   "irs-pub-531": {
     id: "irs-pub-531",
     title: "Publication 531: Reporting Tip Income",
