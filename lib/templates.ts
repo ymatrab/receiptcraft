@@ -1048,6 +1048,9 @@ export const TEMPLATES: ReceiptTemplate[] = [
       taxRate: 0,
       grandTotalLabel: "AMOUNT DUE",
       hideTotals: true,
+      invoice: true,
+      hideStoreLine: true,
+      showBarcode: false,
       footerMessage: "Payment due within 15 days. Thank you for your business.",
       paperStyle: "modern",
       sections: [
@@ -1060,11 +1063,10 @@ export const TEMPLATES: ReceiptTemplate[] = [
           ],
         },
         {
-          title: "Invoice details",
+          title: "Payment terms",
           rows: [
-            { label: "Invoice #", value: "INV-1084" },
-            { label: "Issued", value: "Oct 6, 2026" },
-            { label: "Due", value: "Oct 21, 2026 (Net 15)" },
+            { label: "Terms", value: "Net 15" },
+            { label: "Due", value: "15 days from invoice date" },
             { label: "License #", value: "CFC0000000" },
           ],
         },
@@ -1195,6 +1197,9 @@ export const TEMPLATES: ReceiptTemplate[] = [
       taxRate: 0,
       grandTotalLabel: "AMOUNT DUE",
       hideTotals: true,
+      invoice: true,
+      hideStoreLine: true,
+      showBarcode: false,
       footerMessage: "Payment due within 15 days. Thank you for your business.",
       paperStyle: "modern",
       sections: [
@@ -1207,12 +1212,17 @@ export const TEMPLATES: ReceiptTemplate[] = [
           ],
         },
         {
-          title: "Invoice details",
+          title: "Payment terms",
           rows: [
-            { label: "Invoice #", value: "INV-2217" },
-            { label: "Issued", value: "Oct 6, 2026" },
-            { label: "Due", value: "Oct 21, 2026 (Net 15)" },
-            { label: "Equipment", value: "Carrier 24ACC636 / SN 1023E12345" },
+            { label: "Terms", value: "Net 15" },
+            { label: "Due", value: "15 days from invoice date" },
+          ],
+        },
+        {
+          title: "Equipment",
+          rows: [
+            { label: "Unit", value: "Carrier 24ACC636" },
+            { label: "Serial", value: "1023E12345" },
           ],
         },
       ],

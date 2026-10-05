@@ -706,7 +706,9 @@ export function docFromReceiptData(data: ReceiptData): ReceiptDoc {
     divider: d(true),
     date: data.date,
     time: data.time,
-    receiptNumber: data.receiptNumber,
+    // An invoice is a bill: labelling its number "Receipt #" says it was paid.
+    receiptNumber: data.invoice ? undefined : data.receiptNumber,
+    invoiceId: data.invoice ? data.receiptNumber : undefined,
   });
 
   // Profile-specific detail blocks (mirrors ReceiptPaper's fuel/pharmacy/etc).
@@ -742,7 +744,7 @@ export function docFromReceiptData(data: ReceiptData): ReceiptDoc {
         divider: "none",
         rows: [{ label: "Member", value: `111${String(100000 + ((seed * 9301) % 899999))}` }],
       });
-    } else if (!isTicket && !data.register) {
+    } else if (!isTicket && !data.register && !data.hideStoreLine) {
       sections.push({
         id: uid(),
         type: "twocol",
