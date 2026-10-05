@@ -931,6 +931,300 @@ export const TEMPLATES: ReceiptTemplate[] = [
     },
   },
   {
+    slug: "plumbing-invoice",
+    name: "Plumbing Invoice",
+    shortName: "Plumbing",
+    icon: "🔧",
+    seoTitle: "Plumbing Invoice Template — Free Plumber Invoice Generator",
+    seoDescription:
+      "Make a plumbing invoice with the service call, labor hours, parts, amount due and due date, then mark it paid to give the customer a receipt. PDF or PNG.",
+    heading: "Plumbing Invoice Generator",
+    intro:
+      "Create a plumbing invoice that bills a job clearly: the service call, labor hours, each part, the amount due and when it is due. When the customer pays, mark the same document paid and it becomes the receipt.",
+    leadAnswer:
+      "A plumbing invoice lists your business and license details, the customer and service address, the work done, labor and parts on separate lines, the amount due and the due date. After payment, mark it paid so the same document serves as the customer's receipt.",
+    useCases: [
+      "Independent plumbers billing a job",
+      "Service-call and emergency work",
+      "Receipts for customers once an invoice is paid",
+      "Landlord and property-manager repair records",
+    ],
+    fields: [
+      {
+        name: "Business and license number",
+        description:
+          "Your trading name, phone number and, where your state licenses plumbers, your license number. It tells the customer who is responsible for the work.",
+      },
+      {
+        name: "Customer and service address",
+        description:
+          "Who is billed and where the work was done. For rentals they are often different people and places.",
+      },
+      {
+        name: "Description of work",
+        description:
+          "What was fixed or installed, in plain words: 'Replaced 40-gal water heater' rather than 'Labor'.",
+      },
+      {
+        name: "Labor",
+        description:
+          "Hours and rate, or a flat charge, on its own line.",
+      },
+      {
+        name: "Parts and materials",
+        description:
+          "Each part with quantity and price, separate from labor.",
+      },
+      {
+        name: "Service-call or trip fee",
+        description:
+          "A named line, so it is not mistaken for padding in the labor rate.",
+      },
+      {
+        name: "Invoice number",
+        description:
+          "A number in a sequence you control, so a payment can be matched to the job and no number is used twice.",
+      },
+      {
+        name: "Issue date and due date",
+        description:
+          "When the invoice was sent and when payment is due. 'Net 15' or 'due on receipt' belongs on the same line as the date it produces.",
+      },
+      {
+        name: "Amount due",
+        description:
+          "The total relabelled as the amount the customer owes. Once paid, change it to show the amount received and mark the document paid.",
+      },
+    ],
+    howToSteps: [
+      "Enter your business name, phone number and license number.",
+      "Add the customer, the billing address and the service address.",
+      "List the service call, labor and each part as separate lines.",
+      "Set the invoice number, issue date, due date and payment terms.",
+      "Download the PDF and send it. When the customer pays, mark it paid and send it again as their receipt.",
+    ],
+    guidance: [
+      {
+        heading: "Parts and labor on separate lines",
+        body:
+          "Customers question a single lump sum far more often than an itemized one, and separate lines make a warranty claim on a part easy to trace. Sales tax is the other reason: whether it applies to parts, labor or both depends on your state, so keep them apart and check your state's rules before you set a rate.",
+      },
+      {
+        heading: "Keep a copy of every invoice",
+        body:
+          "An invoice is a business record as well as a bill. {cite:irs-pub-583|IRS Publication 583} lists invoices among the supporting documents for a business's gross receipts, so keep a copy of each one you issue, paid or not, with the number sequence unbroken.",
+      },
+    ],
+    sources: ["irs-pub-583"],
+    faqs: [
+      {
+        question: "What should a plumbing invoice include?",
+        answer:
+          "Your business and license details, the customer and service address, a description of the work, labor and parts on separate lines, any service-call fee, the invoice number, the issue and due dates, and the amount due.",
+      },
+      {
+        question: "What is the difference between a plumbing invoice and a receipt?",
+        answer:
+          "An invoice asks for payment; a receipt confirms it was made. With this template you send the invoice, then mark the same document paid once the customer pays.",
+      },
+      {
+        question: "Should I charge sales tax on plumbing labor?",
+        answer:
+          "It depends on your state. Some tax parts only, some tax labor too. Keep them on separate lines and check your state's rules before setting a rate.",
+      },
+      {
+        question: "Do I need my license number on the invoice?",
+        answer:
+          "Where your state licenses plumbers, showing it is good practice and some jurisdictions expect it. It tells the customer who is responsible for the work.",
+      },
+    ],
+    defaults: {
+      businessName: "Clearline Plumbing Co.",
+      addressLine1: "88 Harbor Road",
+      addressLine2: "Tampa, FL 33602",
+      phone: "(813) 555-0127",
+      greeting: "INVOICE",
+      taxLabel: "Sales Tax",
+      taxRate: 0,
+      grandTotalLabel: "AMOUNT DUE",
+      hideTotals: true,
+      footerMessage: "Payment due within 15 days. Thank you for your business.",
+      paperStyle: "modern",
+      sections: [
+        {
+          title: "Bill to",
+          rows: [
+            { value: "Dana Whitfield" },
+            { value: "1425 Bayview Drive" },
+            { value: "Tampa, FL 33611" },
+          ],
+        },
+        {
+          title: "Invoice details",
+          rows: [
+            { label: "Invoice #", value: "INV-1084" },
+            { label: "Issued", value: "Oct 6, 2026" },
+            { label: "Due", value: "Oct 21, 2026 (Net 15)" },
+            { label: "License #", value: "CFC0000000" },
+          ],
+        },
+      ],
+      items: [
+        { id: id(), name: "Service Call", quantity: 1, price: 89.0 },
+        { id: id(), name: "Labor (hrs)", quantity: 2.5, price: 115.0 },
+        { id: id(), name: "40-gal Water Heater", quantity: 1, price: 649.0 },
+        { id: id(), name: "Supply Lines & Fittings", quantity: 1, price: 42.5 },
+      ],
+    },
+  },
+  {
+    slug: "hvac-invoice",
+    name: "HVAC Invoice",
+    shortName: "HVAC",
+    icon: "❄️",
+    seoTitle: "HVAC Invoice Template — Free HVAC Invoice Generator",
+    seoDescription:
+      "Make an HVAC invoice with the equipment, labor, parts, refrigerant, amount due and due date, then mark it paid to give the customer a receipt. PDF or PNG.",
+    heading: "HVAC Invoice Generator",
+    intro:
+      "Create an HVAC invoice for repairs, maintenance visits and installations, with the equipment serviced, labor, parts, refrigerant, the amount due and when it is due. When the customer pays, mark the same document paid and it becomes the receipt.",
+    leadAnswer:
+      "An HVAC invoice lists your business and license details, the customer and service address, the equipment serviced, labor, parts and refrigerant on separate lines, the amount due and the due date. After payment, mark it paid so the same document serves as the customer's receipt.",
+    useCases: [
+      "HVAC technicians billing repairs and installs",
+      "Seasonal maintenance and tune-up visits",
+      "Receipts for customers once an invoice is paid",
+      "Records for equipment warranty claims",
+    ],
+    fields: [
+      {
+        name: "Business and license number",
+        description:
+          "Your trading name, phone number and, where your state licenses HVAC contractors, your license number.",
+      },
+      {
+        name: "Customer and service address",
+        description:
+          "Who is billed and where the equipment is.",
+      },
+      {
+        name: "Equipment serviced",
+        description:
+          "Make, model and, ideally, serial number of the unit. Manufacturer warranty claims are made by serial number.",
+      },
+      {
+        name: "Labor",
+        description:
+          "Hours and rate, or a flat charge, on its own line.",
+      },
+      {
+        name: "Parts",
+        description:
+          "Each part with quantity and price, separate from labor.",
+      },
+      {
+        name: "Refrigerant",
+        description:
+          "Type and amount added, for example R-410A by the pound, on its own line.",
+      },
+      {
+        name: "Invoice number",
+        description:
+          "A number in a sequence you control, so a payment can be matched to the job and no number is used twice.",
+      },
+      {
+        name: "Issue date and due date",
+        description:
+          "When the invoice was sent and when payment is due. 'Net 15' or 'due on receipt' belongs on the same line as the date it produces.",
+      },
+      {
+        name: "Amount due",
+        description:
+          "The total relabelled as the amount the customer owes. Once paid, change it to show the amount received and mark the document paid.",
+      },
+    ],
+    howToSteps: [
+      "Enter your business name, phone number and license number.",
+      "Add the customer, the billing address and the service address.",
+      "Record the equipment's make, model and serial number.",
+      "List labor, each part and any refrigerant as separate lines.",
+      "Set the invoice number, issue date, due date and terms, then download and send it. Mark it paid when the customer pays.",
+    ],
+    guidance: [
+      {
+        heading: "Why refrigerant gets its own line",
+        body:
+          "Refrigerant is often the most questioned charge on an HVAC bill, so show the type and amount added rather than folding it into labor. Handling it is regulated: under {cite:epa-section-608|EPA Section 608} technicians who maintain, service or repair equipment that could release refrigerants must be certified, which is why many contractors print the technician's certification on the invoice.",
+      },
+      {
+        heading: "Record the serial number",
+        body:
+          "Manufacturer warranties on compressors, coils and furnaces are claimed by serial number, and the claim usually asks for proof of the service. An invoice that names the unit and what was done to it is that proof, for you and for the customer.",
+      },
+    ],
+    sources: ["epa-section-608"],
+    faqs: [
+      {
+        question: "What should an HVAC invoice include?",
+        answer:
+          "Your business and license details, the customer and service address, the equipment's make, model and serial number, labor, parts and refrigerant on separate lines, the invoice number, the issue and due dates, and the amount due.",
+      },
+      {
+        question: "What is the difference between an HVAC invoice and a receipt?",
+        answer:
+          "An invoice asks for payment; a receipt confirms it was made. Send the invoice, then mark the same document paid once the customer pays.",
+      },
+      {
+        question: "Should refrigerant be listed separately?",
+        answer:
+          "Yes. Show the type and amount added on its own line. It is often the most questioned charge, and a separate line answers the question before it is asked.",
+      },
+      {
+        question: "Do HVAC technicians need certification to handle refrigerant?",
+        answer:
+          "Yes. Under EPA Section 608, technicians who maintain, service or repair equipment that could release refrigerants must be certified.",
+      },
+    ],
+    defaults: {
+      businessName: "Summit Heating & Air",
+      addressLine1: "3100 Ridge Avenue",
+      addressLine2: "Charlotte, NC 28203",
+      phone: "(704) 555-0164",
+      greeting: "INVOICE",
+      taxLabel: "Sales Tax",
+      taxRate: 0,
+      grandTotalLabel: "AMOUNT DUE",
+      hideTotals: true,
+      footerMessage: "Payment due within 15 days. Thank you for your business.",
+      paperStyle: "modern",
+      sections: [
+        {
+          title: "Bill to",
+          rows: [
+            { value: "Marcus Ellison" },
+            { value: "742 Laurel Street" },
+            { value: "Charlotte, NC 28205" },
+          ],
+        },
+        {
+          title: "Invoice details",
+          rows: [
+            { label: "Invoice #", value: "INV-2217" },
+            { label: "Issued", value: "Oct 6, 2026" },
+            { label: "Due", value: "Oct 21, 2026 (Net 15)" },
+            { label: "Equipment", value: "Carrier 24ACC636 / SN 1023E12345" },
+          ],
+        },
+      ],
+      items: [
+        { id: id(), name: "Diagnostic Visit", quantity: 1, price: 95.0 },
+        { id: id(), name: "Labor (hrs)", quantity: 2, price: 125.0 },
+        { id: id(), name: "Dual Run Capacitor", quantity: 1, price: 68.0 },
+        { id: id(), name: "R-410A Refrigerant (lb)", quantity: 2, price: 85.0 },
+      ],
+    },
+  },
+  {
     slug: "sales-receipt",
     name: "Sales Receipt",
     shortName: "Sales",
