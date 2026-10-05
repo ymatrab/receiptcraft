@@ -692,6 +692,209 @@ export const TEMPLATES: ReceiptTemplate[] = [
     },
   },
   {
+    slug: "rent-receipt-india",
+    name: "Rent Receipt (India)",
+    shortName: "Rent (India)",
+    icon: "🏠",
+    seoTitle: "Rent Receipt Format for HRA — Free Rent Receipt Generator",
+    seoDescription:
+      "Rent receipt format for HRA in India: tenant, landlord, property, rent in ₹, period, payment mode, landlord PAN and revenue stamp. Download as PDF or PNG.",
+    heading: "Rent Receipt Generator (India)",
+    intro:
+      "Create a rent receipt in the format employers in India accept for HRA: tenant and landlord names, the rented property's address, the rent in rupees, the period it covers and how it was paid, with space for the landlord's PAN, signature and revenue stamp.",
+    leadAnswer:
+      "A rent receipt for HRA shows the tenant's name, the landlord's name and address, the property address, the rent amount in rupees, the period covered, the payment date and mode, and the landlord's signature. Add the landlord's PAN if your rent for the year exceeds ₹1,00,000, and a ₹1 revenue stamp on a cash payment above ₹5,000.",
+    useCases: [
+      "HRA proof for your employer (Form 124)",
+      "Monthly receipts from a landlord to a tenant",
+      "Cash rent payments that need a paper record",
+      "Rent paid to a parent who owns the home",
+    ],
+    fields: [
+      { name: "Tenant's name", description: "As it appears in your salary records, so payroll can match the receipt to you." },
+      { name: "Landlord's name and address", description: "The person you pay rent to, and where they can be reached." },
+      { name: "Property address", description: "The address you actually live at and pay rent for." },
+      { name: "Rent amount", description: "In rupees, ideally in figures and in words, for the period stated." },
+      { name: "Period covered", description: "For example, rent for October 2026. Monthly, quarterly or annual receipts all work if each states its period." },
+      { name: "Date and mode of payment", description: "When the rent was paid, and how: cash, cheque, UPI or bank transfer." },
+      { name: "Landlord's PAN", description: "Mandatory when the rent you pay in the year exceeds ₹1,00,000." },
+      { name: "Signature and revenue stamp", description: "The landlord signs every receipt. A cash payment above ₹5,000 also needs a ₹1 revenue stamp, signed across." },
+    ],
+    howToSteps: [
+      "Enter the landlord's name and the property address.",
+      "Enter the tenant's name.",
+      "Add a line for the period, for example Rent for October 2026, with the amount in rupees.",
+      "Record the payment date and mode, and the landlord's PAN if your annual rent exceeds ₹1,00,000.",
+      "Download, print and have the landlord sign it. Add a ₹1 revenue stamp for a cash payment above ₹5,000.",
+    ],
+    guidance: [
+      {
+        heading: "What your employer checks",
+        body:
+          "Salaried employees claim the HRA exemption through their employer, who reads the rent receipts with the declaration on Form 124 (it replaced Form 12BB from 1 April 2026). Payroll looks for three things: that the receipts cover the months claimed, that the amounts match the declaration, and that the landlord's PAN is there once the year's rent passes ₹1,00,000.\n\nThe exemption is only available under the old tax regime. Under the new regime, now the default, HRA is fully taxable and rent receipts do not reduce your tax.",
+      },
+      {
+        heading: "The revenue stamp is about cash",
+        body:
+          "Under the Indian Stamp Act, 1899, a receipt for a cash payment of more than ₹5,000 needs a ₹1 revenue stamp, signed across by the person receiving the money. Rent paid by cheque, UPI or bank transfer does not need one, because the payment leaves its own record. Some employers ask for a stamp on every receipt above ₹5,000 anyway; it costs ₹1, so follow your payroll team's rule.",
+      },
+    ],
+    faqs: [
+      {
+        question: "What is the format of a rent receipt for HRA?",
+        answer:
+          "Tenant's name, landlord's name and address, property address, rent amount in rupees, period covered, payment date and mode, and the landlord's signature, plus the landlord's PAN above ₹1,00,000 a year and a revenue stamp on cash payments above ₹5,000.",
+      },
+      {
+        question: "Is a revenue stamp mandatory on rent receipts?",
+        answer:
+          "For cash payments above ₹5,000, yes: a ₹1 revenue stamp. Payments by cheque, UPI or bank transfer do not need one, though some employers ask for it anyway.",
+      },
+      {
+        question: "When is the landlord's PAN required?",
+        answer: "When the rent you pay in the financial year exceeds ₹1,00,000.",
+      },
+      {
+        question: "Can I generate rent receipts online?",
+        answer:
+          "Yes, for rent you actually paid, signed by your landlord. A receipt for rent that was never paid is a false claim, and employers and the Income Tax Department can ask for bank records.",
+      },
+    ],
+    defaults: {
+      businessName: "Rajesh Kumar (Landlord)",
+      addressLine1: "Flat 302, Shanti Apartments, 14th Main Road",
+      addressLine2: "Indiranagar, Bengaluru 560038",
+      phone: "",
+      currency: "INR",
+      taxLabel: "Tax",
+      taxRate: 0,
+      greeting: "RENT RECEIPT",
+      cashier: "Received by: Rajesh Kumar",
+      paymentMethod: "Mobile Payment",
+      hideStoreLine: true,
+      showBarcode: false,
+      dateOrder: "dmy",
+      footerMessage: "Received with thanks. Landlord's signature: ____________",
+      paperStyle: "modern",
+      sections: [
+        {
+          title: "Tenant",
+          rows: [
+            { label: "Name", value: "Priya Sharma" },
+            { label: "Property", value: "Flat 302, Shanti Apartments, Bengaluru" },
+          ],
+        },
+        {
+          title: "Landlord",
+          rows: [
+            { label: "PAN", value: "XXXXX0000X" },
+            { label: "Paid via", value: "UPI" },
+          ],
+        },
+      ],
+      items: [{ id: id(), name: "Rent for October 2026", quantity: 1, price: 18000 }],
+    },
+  },
+  {
+    slug: "fuel-bill",
+    name: "Fuel Bill",
+    shortName: "Fuel Bill",
+    icon: "⛽",
+    seoTitle: "Fuel Bill Generator — Petrol Pump Bill Format (₹)",
+    seoDescription:
+      "Make a petrol pump fuel bill in rupees: station, bill number, date, nozzle, product, rate per litre, volume, vehicle number and payment mode. PDF or PNG.",
+    heading: "Fuel Bill Generator",
+    intro:
+      "Create a petrol or diesel bill in the format Indian petrol pumps print: the station, bill number, date and time, nozzle, product, rate per litre, litres filled, amount, vehicle number and payment mode. Use it to record a real fill-up when the pump's printer did not issue a bill.",
+    leadAnswer:
+      "A fuel bill shows the petrol pump's name and address, the bill number, the date and time, the product (petrol or diesel), the rate per litre, the litres filled, the amount in rupees, the vehicle number and the payment mode. Petrol and diesel are outside GST, so there is no GST line: the taxes are already in the price per litre.",
+    useCases: [
+      "Recording a real fill-up when the pump printer failed",
+      "Fuel logs for a company car or a fleet",
+      "Monthly fuel records for your own budgeting",
+      "Bills for a petrol pump that has no printer",
+    ],
+    fields: [
+      { name: "Pump name and address", description: "The petrol pump and its dealer or company, so the bill can be traced to one station." },
+      { name: "Bill number", description: "The pump's own sequence number for the transaction." },
+      { name: "Date and time", description: "When the vehicle was filled, written day-first as Indian bills print it." },
+      { name: "Nozzle", description: "The nozzle or dispenser number used." },
+      { name: "Product", description: "Petrol, diesel, or a premium grade, as named at the pump." },
+      { name: "Rate and volume", description: "The price per litre on the day and the litres filled. Amount equals rate times volume." },
+      { name: "Vehicle number", description: "The registration number of the vehicle filled. Fleet and company-car records depend on it." },
+      { name: "Payment mode", description: "Cash, card or UPI." },
+    ],
+    howToSteps: [
+      "Enter the petrol pump's name and address.",
+      "Set the date and time of the fill-up.",
+      "Enter the nozzle, product, rate per litre, litres and vehicle number from the pump display.",
+      "Check that the amount equals rate times litres, and set the payment mode.",
+      "Download the PDF or PNG and keep it with your fuel records.",
+    ],
+    guidance: [
+      {
+        heading: "Why a fuel bill has no GST line",
+        body:
+          "Petrol, diesel, aviation turbine fuel, natural gas and crude oil were kept outside GST when it was introduced. They are taxed through central excise duty and state VAT instead, and both are already inside the price per litre shown at the pump. So a petrol pump bill shows the rate, the volume and the amount, and no separate tax line.",
+      },
+      {
+        heading: "Fuel reimbursement needs fuel you bought",
+        body:
+          "Many employers reimburse fuel against monthly bills, and a bill made here can record a real fill-up when the pump did not print one. It cannot stand in for fuel that was never bought. Claiming reimbursement or a tax benefit with bills for fuel you did not buy is a false claim, and employers increasingly check bills against card, UPI and FASTag records. Keep the payment record with every bill.",
+      },
+    ],
+    faqs: [
+      {
+        question: "What should a petrol pump bill include?",
+        answer:
+          "The pump's name and address, the bill number, the date and time, the nozzle, the product, the rate per litre, the litres filled, the amount, the vehicle number and the payment mode.",
+      },
+      {
+        question: "Is there GST on a fuel bill?",
+        answer:
+          "No. Petrol and diesel are outside GST. They carry central excise and state VAT, which are already included in the price per litre.",
+      },
+      {
+        question: "Can I use a generated fuel bill for reimbursement?",
+        answer:
+          "Only for fuel you actually bought, for example when the pump did not print a bill. Bills for fuel never bought are false claims, and employers can check them against your payment records.",
+      },
+      {
+        question: "How do I calculate the amount on a fuel bill?",
+        answer: "Multiply the rate per litre by the litres filled. A bill where the amount does not match rate times volume will be questioned.",
+      },
+    ],
+    defaults: {
+      businessName: "Shree Ganesh Fuels",
+      addressLine1: "NH-48, Near Toll Plaza, Manesar",
+      addressLine2: "Gurugram, Haryana 122051",
+      phone: "",
+      currency: "INR",
+      taxLabel: "Tax",
+      taxRate: 0,
+      greeting: "FUEL BILL",
+      paymentMethod: "Mobile Payment",
+      hideStoreLine: true,
+      showBarcode: false,
+      dateOrder: "dmy",
+      footerMessage: "Thank you. Visit again.",
+      paperStyle: "thermal",
+      sections: [
+        {
+          title: "Fuel details",
+          rows: [
+            { label: "Nozzle", value: "03" },
+            { label: "Product", value: "Petrol" },
+            { label: "Rate (₹/L)", value: "94.98" },
+            { label: "Volume (L)", value: "31.59" },
+            { label: "Vehicle No", value: "HR 26 XX 0000" },
+          ],
+        },
+      ],
+      items: [{ id: id(), name: "Petrol 31.59 L @ ₹94.98", quantity: 1, price: 3000.42 }],
+    },
+  },
+  {
     slug: "parking",
     name: "Parking Receipt",
     shortName: "Parking",

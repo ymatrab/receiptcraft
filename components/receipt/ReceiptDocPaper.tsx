@@ -128,7 +128,7 @@ export default function ReceiptDocPaper({ doc }: Props) {
         return (
           <div className="text-xs text-slate-600">
             <p>
-              {formatDisplayDate(s.date)} {s.time}
+              {formatDisplayDate(s.date, s.dateOrder)} {s.time}
               {s.timezone ? ` ${s.timezone}` : ""}
               {s.receiptNumber ? ` · Receipt #${s.receiptNumber}` : ""}
             </p>

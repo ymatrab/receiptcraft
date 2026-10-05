@@ -208,6 +208,7 @@ export interface ReceiptData {
   logoText?: string; // render a large text wordmark instead of the image logo
   hideStoreLine?: boolean; // suppress the auto "Store #/Reg" line
   invoice?: boolean; // a bill, not a receipt: the number prints as "Invoice", not "Receipt #"
+  dateOrder?: "dmy"; // day-first dates (17/10/2026), as receipts in India and most of the world print them
   qrCode?: boolean; // show a QR code instead of a barcode
   dividers?: "default" | "minimal"; // minimal = only one rule, above payment
   paymentInline?: boolean; // "Payment Method: X •••• 1234" on one left line
