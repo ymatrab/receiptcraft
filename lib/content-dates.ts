@@ -412,6 +412,8 @@ const TEMPLATES_ADDED: Readonly<Record<string, string>> = {
   "oil-change-receipt": "2026-10-05",
   "plumbing-invoice": "2026-10-05",
   "hvac-invoice": "2026-10-05",
+  "rent-receipt-india": "2026-10-05",
+  "fuel-bill": "2026-10-05",
 };
 
 // 2026-10-05: visible title or H1 changed — "daycare" on childcare, "mechanic

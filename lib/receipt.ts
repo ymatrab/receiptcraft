@@ -3,6 +3,9 @@ import { randomReceiptNumber, todayISO, nowHHMM, uid } from "./format";
 import { BRAND_TEMPLATES } from "./brands";
 
 const PROFILE_BY_SLUG: Record<string, ReceiptProfile> = {
+  // The "fuel" profile prints a US pump block ("Grade: Unleaded"). An Indian
+  // petrol pump bill carries its own nozzle/product/rate/volume rows instead.
+  "fuel-bill": "retail",
   uber: "ride",
   lyft: "ride",
   doordash: "delivery",

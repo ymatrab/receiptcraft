@@ -41,11 +41,12 @@ export function calcTotals(data: ReceiptData): ReceiptTotals {
   return { subtotal, discount, tax, tip, total, change };
 }
 
-export function formatDisplayDate(isoDate: string): string {
+export function formatDisplayDate(isoDate: string, order?: "dmy"): string {
   if (!isoDate) return "";
   const [y, m, d] = isoDate.split("-").map(Number);
   if (!y || !m || !d) return isoDate;
-  return new Date(y, m - 1, d).toLocaleDateString("en-US", {
+  // en-GB is day-first (17/10/2026); en-US stays the default everywhere else.
+  return new Date(y, m - 1, d).toLocaleDateString(order === "dmy" ? "en-GB" : "en-US", {
     month: "2-digit",
     day: "2-digit",
     year: "numeric",
