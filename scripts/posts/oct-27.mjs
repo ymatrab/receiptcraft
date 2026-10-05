@@ -1,6 +1,6 @@
 /**
  * Oct re-plan — Day 2026-10-27 (1 post). Notion Content Pipeline Order 62.
- *   62. "rent receipt template ontario"   720/mo (Canada) · Medium -> /templates/rent-receipt
+ *   62. "rent receipt template ontario"   720/mo (Canada) · Medium -> /templates/rent-receipt-ontario (live 2026-10-05)
  *
  * Why a location post here, when "receipt maker canada" gets 10 searches: the
  * receipt really is different in Ontario. A statute requires it on request and
@@ -31,7 +31,7 @@ export const OCT_27 = [
       "Ontario landlords must give a free rent receipt on request. What the law requires it to show, how long former tenants can ask, and how to make one.",
     excerpt:
       "In Ontario, a landlord must give a tenant a free receipt for rent on request, and the law sets what it has to show. Here's the rule, the required fields, and how to issue one.",
-    body: `**In Ontario, a landlord must give a tenant a receipt for rent free of charge whenever the tenant asks.** That is section 109 of the [Residential Tenancies Act, 2006](https://www.ontario.ca/laws/statute/06r17). The duty covers rent, a rent deposit, arrears and any other amount paid to the landlord, and a former tenant can ask for up to 12 months after the tenancy ends. The receipt must show, at a minimum, the address of the rental unit, the tenant's name, the amount and date of each payment, and what the payment was for. The [rent receipt template](/templates/rent-receipt) has those fields laid out, with the currency set to Canadian dollars.
+    body: `**In Ontario, a landlord must give a tenant a receipt for rent free of charge whenever the tenant asks.** That is section 109 of the [Residential Tenancies Act, 2006](https://www.ontario.ca/laws/statute/06r17). The duty covers rent, a rent deposit, arrears and any other amount paid to the landlord, and a former tenant can ask for up to 12 months after the tenancy ends. The receipt must show, at a minimum, the address of the rental unit, the tenant's name, the amount and date of each payment, and what the payment was for. The [Ontario rent receipt template](/templates/rent-receipt-ontario) has those fields laid out in Canadian dollars.
 
 This applies to residential tenancies covered by the Act. It is a short rule with a long tail: most of the questions people ask about it come from tax season, when a receipt suddenly matters.
 
@@ -71,7 +71,7 @@ Tenants paying by e-transfer have a record in their bank account. Tenants paying
 
 ## How to Issue an Ontario Rent Receipt
 
-1. Open the [rent receipt template](/templates/rent-receipt) and set the currency to Canadian dollars.
+1. Open the [Ontario rent receipt template](/templates/rent-receipt-ontario). It opens in Canadian dollars with the required fields laid out.
 2. Enter the full rental unit address, including the unit number.
 3. Enter every tenant's name as it appears on the lease.
 4. Add a line for each payment: the amount, the date received, and what it was for.
@@ -92,7 +92,7 @@ Ask in writing, quoting section 109, and keep a copy of the request. If the tena
 
 ## Make the Receipt
 
-Use the [rent receipt template](/templates/rent-receipt) with Canadian dollars, fill in the four required fields, and give the tenant a copy each time they ask.`,
+Use the [Ontario rent receipt template](/templates/rent-receipt-ontario), fill in the four required fields, and give the tenant a copy each time they ask.`,
     faqs: [
       {
         q: "Does an Ontario landlord have to give a rent receipt?",
