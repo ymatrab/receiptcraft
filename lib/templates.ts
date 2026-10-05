@@ -775,6 +775,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
       showBarcode: false,
       dateOrder: "dmy",
       footerMessage: "Received with thanks. Landlord's signature: ____________",
+      cardLastFour: "", // paid by UPI: no card digits on the payment line
       paperStyle: "modern",
       sections: [
         {
@@ -878,6 +879,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
       showBarcode: false,
       dateOrder: "dmy",
       footerMessage: "Thank you. Visit again.",
+      cardLastFour: "", // paid by UPI: no card digits on the payment line
       paperStyle: "thermal",
       sections: [
         {
@@ -892,6 +894,107 @@ export const TEMPLATES: ReceiptTemplate[] = [
         },
       ],
       items: [{ id: id(), name: "Petrol 31.59 L @ ₹94.98", quantity: 1, price: 3000.42 }],
+    },
+  },
+  {
+    slug: "vat-receipt",
+    name: "VAT Receipt",
+    shortName: "VAT",
+    icon: "🇬🇧",
+    seoTitle: "VAT Receipt Template — Free UK VAT Receipt Generator",
+    seoDescription:
+      "Make a UK VAT receipt: your VAT registration number, tax point, items, the VAT rate and amount, and the total in pounds. Download as PDF or PNG.",
+    heading: "VAT Receipt Generator (UK)",
+    intro:
+      "Create a VAT receipt for a sale in the UK, showing your VAT registration number, the date of supply, what was sold, the VAT rate and amount, and the total in pounds. For sales up to £250 it can serve as a simplified VAT invoice; above that, your customer may need a full one.",
+    leadAnswer:
+      "A UK VAT receipt shows the seller's name, address and VAT registration number, the date of supply (tax point), a description of what was sold, and for each VAT rate the rate and the total including VAT. For sales of £250 or less, that is a valid simplified VAT invoice; VAT-registered customers buying more need a full VAT invoice.",
+    useCases: [
+      "VAT receipts for business customers who reclaim VAT",
+      "Simplified VAT invoices for sales up to £250",
+      "Sole traders and small shops without a till",
+      "Replacing a VAT receipt a customer asks for later",
+    ],
+    fields: [
+      { name: "Seller's name and address", description: "Your trading name and business address." },
+      { name: "VAT registration number", description: "Nine digits, usually shown with the GB prefix. Without it, a VAT-registered customer cannot reclaim the VAT." },
+      { name: "Date of supply (tax point)", description: "When the goods or services were supplied. It decides which VAT return the sale falls into." },
+      { name: "Description", description: "Enough to identify what was sold. 'Goods' is not enough; 'A4 printer paper, 5 reams' is." },
+      { name: "VAT rate", description: "20% standard, 5% reduced or 0% zero-rated, shown for each rate on the receipt." },
+      { name: "VAT amount", description: "The VAT charged, so a business customer knows what to reclaim." },
+      { name: "Total including VAT", description: "What the customer paid. On a simplified invoice this, with the rate, is the minimum." },
+      { name: "Customer details", description: "Not needed on a simplified invoice up to £250; required on a full VAT invoice." },
+    ],
+    howToSteps: [
+      "Enter your business name, address and VAT registration number.",
+      "Set the date of supply.",
+      "List what was sold, with prices excluding VAT.",
+      "Set VAT to the right rate (20%, 5% or 0%); the VAT amount and total calculate themselves.",
+      "Download the PDF or PNG and give it to the customer.",
+    ],
+    guidance: [
+      {
+        heading: "VAT receipt or full VAT invoice?",
+        body:
+          "Under {cite:hmrc-vat-notice-700|HMRC's VAT guide}, a less detailed VAT invoice is allowed when the total of the supply is £250 or less, including VAT. It needs your name, address and VAT registration number, the time of supply, a description that identifies the goods or services, and for each VAT rate the total including VAT and the rate. It does not need the customer's name or address.\n\nAbove £250, a VAT-registered customer who wants to reclaim the VAT needs a full VAT invoice: an invoice number, the issue date, the customer's name and address, quantities, prices excluding VAT, and the VAT amount, alongside everything above.",
+      },
+      {
+        heading: "Retailers issue them on request",
+        body:
+          "A shop selling to the public does not have to hand every customer a VAT invoice. HMRC's guidance is that retailers provide one when the customer asks for it, which is usually a business customer who needs it to reclaim VAT. Keep a copy of every VAT receipt you issue: it is part of the records behind your VAT return.",
+      },
+    ],
+    sources: ["hmrc-vat-notice-700"],
+    faqs: [
+      {
+        question: "What is a VAT receipt?",
+        answer:
+          "A receipt that shows the VAT charged on a sale, with the seller's VAT registration number. For sales up to £250 it can serve as a simplified VAT invoice, which VAT-registered customers use to reclaim VAT.",
+      },
+      {
+        question: "What must a VAT receipt show?",
+        answer:
+          "The seller's name, address and VAT registration number, the date of supply, a description of what was sold, and for each VAT rate the rate and the total including VAT.",
+      },
+      {
+        question: "When do I need a full VAT invoice instead?",
+        answer:
+          "When the sale is over £250 including VAT and the customer is VAT registered. A full invoice adds an invoice number, the customer's name and address, quantities, prices excluding VAT and the VAT amount.",
+      },
+      {
+        question: "Can I issue a VAT receipt if I'm not VAT registered?",
+        answer:
+          "No. Only VAT-registered businesses can charge VAT or show a VAT registration number. If you are not registered, issue an ordinary receipt with no VAT line.",
+      },
+    ],
+    defaults: {
+      businessName: "Northgate Stationers Ltd",
+      addressLine1: "14 Market Street",
+      addressLine2: "Leeds LS1 6DT",
+      phone: "",
+      currency: "GBP",
+      taxLabel: "VAT",
+      taxRate: 20,
+      greeting: "VAT RECEIPT",
+      paymentMethod: "Debit Card",
+      hideStoreLine: true,
+      showBarcode: false,
+      dateOrder: "dmy",
+      footerMessage: "Thank you for your custom.",
+      paperStyle: "thermal",
+      sections: [
+        {
+          title: "VAT details",
+          rows: [
+            { label: "VAT Reg No", value: "GB 000 0000 00" },
+            { label: "Tax point", value: "Date of sale" },
+          ],
+        },
+      ],
+      items: [
+        { id: id(), name: "A4 Printer Paper (ream)", quantity: 5, price: 4.15 },
+        { id: id(), name: "Black Toner Cartridge", quantity: 1, price: 38.0 },
+      ],
     },
   },
   {
