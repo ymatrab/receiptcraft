@@ -20,7 +20,7 @@ export interface Source {
   publisher: string;
   url: string;
   /** Which rules this belongs to, when the claim is jurisdiction-specific. */
-  jurisdiction?: "US" | "US-CA" | "US-NY" | "US-WA" | "US-MA" | "EU" | "UK";
+  jurisdiction?: "US" | "US-CA" | "US-NY" | "US-WA" | "US-MA" | "EU" | "UK" | "AU";
   /** ISO date the URL was last checked and confirmed to say what we claim. */
   verifiedAt: string;
   /** Some legislature and standards sites reject automated requests (403 or a
@@ -95,6 +95,18 @@ export const SOURCES = S({
     verifiedAt: "2026-10-05",
     supports:
       "Technicians who maintain, service, repair or dispose of equipment that could release refrigerants must be certified, including for most substitute refrigerants such as HFCs since 2018.",
+  },
+  "ato-tax-invoices": {
+    id: "ato-tax-invoices",
+    title: "Tax invoices",
+    publisher: "Australian Taxation Office",
+    url: "https://www.ato.gov.au/businesses-and-organisations/gst-excise-and-indirect-taxes/gst/tax-invoices",
+    jurisdiction: "AU",
+    // Read through the ATO page as indexed (the site returns 403 to fetches).
+    verifiedAt: "2026-10-05",
+    botBlocked: true,
+    supports:
+      "What a tax invoice must show under $1,000 and from $1,000, that GST may be shown as 'Total price includes GST' when it is one-eleventh of the total, and that one must be provided within 28 days on request except for sales of $82.50 or less.",
   },
   "irs-pub-531": {
     id: "irs-pub-531",
