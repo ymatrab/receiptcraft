@@ -775,6 +775,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
       showBarcode: false,
       dateOrder: "dmy",
       footerMessage: "Received with thanks. Landlord's signature: ____________",
+      cardLastFour: "", // paid by UPI: no card digits on the payment line
       paperStyle: "modern",
       sections: [
         {
@@ -878,6 +879,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
       showBarcode: false,
       dateOrder: "dmy",
       footerMessage: "Thank you. Visit again.",
+      cardLastFour: "", // paid by UPI: no card digits on the payment line
       paperStyle: "thermal",
       sections: [
         {
