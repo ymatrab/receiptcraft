@@ -220,6 +220,28 @@ replaced Form 12BB on 1 April 2026; landlord PAN above ₹1,00,000 a year; ₹1
 revenue stamp on cash receipts above ₹5,000. New-Act section numbers are
 deliberately not cited.
 
+## 2026-10-05: the four generic how-to posts re-scoped (live Sanity edits)
+
+GSC (Sep 6–Oct 3): `how-to-make-a-receipt` 28 impressions, `how-to-write-a-receipt` 25,
+`-online` 6, `-of-payment` 2, against 2,300 searches a month for "how to make / write
+a receipt". The problem was weakness, not four posts splitting one ranking. Two posts
+opened with the same "seven things" answer, and the online post made false claims.
+
+Edited in Sanity directly (two docs had been changed there on 2026-09-05, after their
+seed files; republishing aug-1 / day1-hubs-b would undo that). Script on dev:
+`scripts/edit-howto-posts.mjs`.
+
+- `how-to-write-a-receipt`: owns "how to write a receipt". New: how to write one by hand
+  (a People Also Ask question), a worked example table, two FAQs, links to the other three.
+- `how-to-make-a-receipt`: retitled "3 Ways (Online, Template, by Hand)". Its handwritten
+  section now points at the write post instead of repeating it.
+- `how-to-make-a-receipt-online`: "Free, No Sign-Up" is now "Free to Build" (downloading
+  needs an account). Removed "details are not uploaded anywhere" (Pro history is
+  server-side). FAQ said free accounts save history; that is Pro. "348" brands dropped.
+- `how-to-make-a-receipt-of-payment`: untouched.
+
+Recheck GSC for these four around 2026-11-02.
+
 ## Watch list
 
 - **`/create` synonym cluster** — #2, #10, #12, #13, #14, #16 all target near-identical "make/create a receipt online free" intent. Differentiated by angle + cross-linked; **watch Search Console** for two URLs trading impressions on one query and merge/canonicalize if it happens. Coming `online receipt generator` and `receipt creator free` add two more.
