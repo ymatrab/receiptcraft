@@ -236,7 +236,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     seoTitle: "Free Gas Station Receipt Generator — Fuel Receipt Maker",
     seoDescription:
       "Generate a gas station fuel receipt with gallons, price per gallon and pump number. Free PDF & PNG download for mileage and fuel expense claims.",
-    heading: "Gas Station Receipt Generator",
+    heading: "Gas Station & Fuel Receipt Generator",
     intro:
       "Create a fuel receipt showing gallons pumped, price per gallon, pump number and payment method. Essential for mileage reimbursement, fleet records and fuel expense claims when the pump printer was out of paper.",
     useCases: [
@@ -280,7 +280,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     seoTitle: "Free Taxi Receipt Generator — Cab & Rideshare Receipt Maker",
     seoDescription:
       "Make a taxi or rideshare trip receipt with fare, distance and tip. Free cab receipt maker with instant PDF & PNG download. No sign-up to start.",
-    heading: "Taxi & Rideshare Receipt Generator",
+    heading: "Taxi, Cab & Rideshare Receipt Generator",
     intro:
       "Generate a taxi or private ride receipt with base fare, distance charges, wait time and tip. Perfect for travel expense reports when a driver couldn't provide a printed receipt.",
     useCases: [
@@ -524,7 +524,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     name: "Auto Repair Receipt",
     shortName: "Auto",
     icon: "🔧",
-    seoTitle: "Free Auto Repair Receipt Generator — Mechanic Invoice Maker",
+    seoTitle: "Free Auto Repair Receipt Generator — Mechanic Receipt Maker",
     seoDescription:
       "Create an auto repair shop receipt with parts, labor and tax. Free mechanic receipt maker — download as PDF or PNG, sign in to save yours.",
     heading: "Auto Repair Receipt Generator",
@@ -1048,6 +1048,9 @@ export const TEMPLATES: ReceiptTemplate[] = [
       taxRate: 0,
       grandTotalLabel: "AMOUNT DUE",
       hideTotals: true,
+      invoice: true,
+      hideStoreLine: true,
+      showBarcode: false,
       footerMessage: "Payment due within 15 days. Thank you for your business.",
       paperStyle: "modern",
       sections: [
@@ -1060,11 +1063,10 @@ export const TEMPLATES: ReceiptTemplate[] = [
           ],
         },
         {
-          title: "Invoice details",
+          title: "Payment terms",
           rows: [
-            { label: "Invoice #", value: "INV-1084" },
-            { label: "Issued", value: "Oct 6, 2026" },
-            { label: "Due", value: "Oct 21, 2026 (Net 15)" },
+            { label: "Terms", value: "Net 15" },
+            { label: "Due", value: "15 days from invoice date" },
             { label: "License #", value: "CFC0000000" },
           ],
         },
@@ -1195,6 +1197,9 @@ export const TEMPLATES: ReceiptTemplate[] = [
       taxRate: 0,
       grandTotalLabel: "AMOUNT DUE",
       hideTotals: true,
+      invoice: true,
+      hideStoreLine: true,
+      showBarcode: false,
       footerMessage: "Payment due within 15 days. Thank you for your business.",
       paperStyle: "modern",
       sections: [
@@ -1207,12 +1212,17 @@ export const TEMPLATES: ReceiptTemplate[] = [
           ],
         },
         {
-          title: "Invoice details",
+          title: "Payment terms",
           rows: [
-            { label: "Invoice #", value: "INV-2217" },
-            { label: "Issued", value: "Oct 6, 2026" },
-            { label: "Due", value: "Oct 21, 2026 (Net 15)" },
-            { label: "Equipment", value: "Carrier 24ACC636 / SN 1023E12345" },
+            { label: "Terms", value: "Net 15" },
+            { label: "Due", value: "15 days from invoice date" },
+          ],
+        },
+        {
+          title: "Equipment",
+          rows: [
+            { label: "Unit", value: "Carrier 24ACC636" },
+            { label: "Serial", value: "1023E12345" },
           ],
         },
       ],
@@ -1387,10 +1397,10 @@ export const TEMPLATES: ReceiptTemplate[] = [
     name: "Childcare Receipt",
     shortName: "Childcare",
     icon: "👶",
-    seoTitle: "Free Childcare Receipt Generator — Babysitting Receipt Maker",
+    seoTitle: "Daycare & Childcare Receipt Generator — Free Receipt Maker",
     seoDescription:
-      "Create a childcare or babysitting receipt with hours, rate and dates. Free receipt maker for tax credits and reimbursement — PDF & PNG download.",
-    heading: "Childcare Receipt Generator",
+      "Create a daycare, childcare or babysitting receipt with dates, hours and rate. Free receipt maker for FSA claims and tax credits — PDF & PNG download.",
+    heading: "Daycare & Childcare Receipt Generator",
     intro:
       "Create a childcare or babysitting receipt showing the provider, dates, hours and rate. Parents use it for childcare tax credits and employer benefits; providers use it to give families a professional record.",
     useCases: [

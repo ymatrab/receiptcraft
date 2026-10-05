@@ -2819,6 +2819,80 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     },
   },
   {
+    slug: "goat",
+    name: "GOAT Receipt",
+    shortName: "GOAT",
+    icon: "👟",
+    seoTitle: "Free GOAT Receipt Generator — GOAT Order Receipt Maker",
+    seoDescription:
+      "Make a GOAT-style order receipt for sneakers and apparel: item, size, condition, shipping and tax, then download it as a PDF or PNG for your own records.",
+    heading: "GOAT Receipt Generator",
+    intro:
+      "Make a GOAT-style order receipt for a sneaker or apparel purchase, with the size, condition, shipping and tax laid out the way a resale order is billed.",
+    useCases: [
+      "Resale business bookkeeping",
+      "Tracking what a pair cost after shipping and tax",
+      "Expense records for a sneaker collection",
+    ],
+    faqs: [
+      {
+        question: "Where do I find my real GOAT receipt?",
+        answer:
+          "Open your order history in the GOAT app or on goat.com, and check the order confirmation email GOAT sends when a purchase goes through. That confirmation is the official record of what you paid.",
+      },
+      {
+        question: "What does a GOAT order receipt show?",
+        answer:
+          "The item name, size and condition, the price, shipping, sales tax and the order total, plus the order number and shipping address.",
+      },
+      {
+        question: "Does a receipt from this template prove a pair is authentic?",
+        answer:
+          "No. It records a price, nothing more, and it carries no authentication mark. Only GOAT's own records relate to its verification process.",
+      },
+      {
+        question: "Can I change the item, size and condition?",
+        answer:
+          "Yes. Every field is editable: the item, size, condition, price, shipping, tax rate and date, then download a PDF or PNG.",
+      },
+    ],
+    defaults: {
+      logoDataUrl: brandLogo("goat.com"),
+      businessName: "GOAT",
+      addressLine1: "",
+      addressLine2: "",
+      phone: "",
+      taxLabel: "Sales Tax",
+      taxRate: 9.5,
+      forcePaper: true,
+      greeting: "Thanks for your order",
+      grandTotalLabel: "TOTAL",
+      footerMessage: "",
+      sections: [
+        {
+          title: "Item details",
+          rows: [
+            { label: "Size", value: "US M 9.5" },
+            { label: "Condition", value: "New" },
+          ],
+        },
+        {
+          title: "Shipping details",
+          rows: [
+            { value: "Jordan Reyes" },
+            { value: "5120 Sunset Boulevard" },
+            { value: "Los Angeles, CA 90027" },
+          ],
+        },
+      ],
+      paperStyle: "modern",
+      items: [
+        { id: id(), name: "Nike Dunk Low Retro", quantity: 1, price: 132 },
+        { id: id(), name: "Shipping", quantity: 1, price: 14.5 },
+      ],
+    },
+  },
+  {
     slug: "netflix",
     name: "Netflix Receipt",
     shortName: "Netflix",

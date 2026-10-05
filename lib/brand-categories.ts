@@ -37,7 +37,7 @@ const GROUPED: Record<BrandCategory, string[]> = {
     "sephora", "ulta-beauty", "gamestop", "apple-store", "tj-maxx", "marshalls",
     "dick-s-sporting-goods", "petco", "petsmart", "autozone", "o-reilly-auto-parts",
     "barnes-noble", "michaels", "joann", "zara", "h-m", "gucci", "rolex", "louis-vuitton",
-    "dollar-tree", "microsoft-store", "amazon", "ebay", "stockx",
+    "dollar-tree", "microsoft-store", "amazon", "ebay", "stockx", "goat",
   ],
   "Gas & Convenience": [
     "7-eleven", "shell", "chevron", "exxon", "mobil", "bp", "speedway", "wawa", "quiktrip",

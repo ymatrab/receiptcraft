@@ -33,11 +33,18 @@ async function run(req: Request) {
     ? new Date(lastRunIso)
     : new Date(now.getTime() - 2 * 24 * 60 * 60 * 1000);
 
+  // Sitemap dates are whole days (midnight UTC), but this runs at 06:00. Compared
+  // against the exact run time, a page dated today and deployed after 06:00 is
+  // older than the next run's watermark and never goes out: the brand and guide
+  // changes of 2026-10-04, deployed that evening, would have been skipped.
+  // Comparing from the start of the last run's day closes that gap, at the
+  // cost of sending that one day's pages twice at most.
+  const sinceDay = Date.UTC(since.getUTCFullYear(), since.getUTCMonth(), since.getUTCDate());
   const entries = await allSitemapUrls();
   const changed = entries
     .filter((e) => {
       const lm = e.lastModified ? new Date(e.lastModified).getTime() : 0;
-      return lm >= since.getTime();
+      return lm >= sinceDay;
     })
     .map((e) => String(e.url));
 
