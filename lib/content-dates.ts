@@ -258,6 +258,13 @@ export const BRANDS_TITLE_UPDATED = "2026-09-11";
 // visible links changed.
 export const BRANDS_LINKS_UPDATED = "2026-10-04";
 
+// Brand pages added after the shared dates above. Without its own date a new
+// page inherits BRANDS_LINKS_UPDATED and looks older than it is.
+const BRANDS_ADDED: Readonly<Record<string, string>> = {
+  stockx: "2026-10-05",
+  goat: "2026-10-05",
+};
+
 /**
  * When a brand page was last reviewed.
  *
@@ -271,6 +278,7 @@ export function brandReviewedAt(slug: string): string {
     BRANDS_ARTICLE_FIXED.has(slug) ? BRANDS_ARTICLE_UPDATED : null,
     BRANDS_TITLE_TRIMMED.has(slug) ? BRANDS_TITLE_UPDATED : null,
     BRANDS_LINKS_UPDATED,
+    BRANDS_ADDED[slug] ?? null,
   );
 }
 // 2026-08-31: the CTA names a Pro template before the click.
@@ -406,8 +414,16 @@ const TEMPLATES_ADDED: Readonly<Record<string, string>> = {
   "hvac-invoice": "2026-10-05",
 };
 
+// 2026-10-05: visible title or H1 changed — "daycare" on childcare, "mechanic
+// receipt" on auto repair, "fuel" and "cab" in the gas-station and taxi H1s.
+const TEMPLATES_RETITLED: ReadonlySet<string> = new Set([
+  "childcare-receipt", "auto-repair", "gas-station", "taxi",
+]);
+const TEMPLATES_RETITLED_UPDATED = "2026-10-05";
+
 export function templateReviewedAt(t: ReceiptTemplate): string {
   if (TEMPLATES_ADDED[t.slug]) return TEMPLATES_ADDED[t.slug];
+  if (TEMPLATES_RETITLED.has(t.slug)) return TEMPLATES_RETITLED_UPDATED;
   if (TEMPLATES_DOWNLOAD_CLAIM_FIXED.has(t.slug)) return TEMPLATES_CLAIM_UPDATED;
   if (TEMPLATES_DEREALISTICISED.has(t.slug)) return TEMPLATES_COPY_UPDATED;
   if (t.sources?.length) return TEMPLATES_CITED_UPDATED;
