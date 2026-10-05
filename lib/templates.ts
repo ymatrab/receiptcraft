@@ -561,6 +561,137 @@ export const TEMPLATES: ReceiptTemplate[] = [
     },
   },
   {
+    slug: "oil-change-receipt",
+    name: "Oil Change Receipt",
+    shortName: "Oil Change",
+    icon: "🛢️",
+    seoTitle: "Free Oil Change Receipt Generator & Template",
+    seoDescription:
+      "Make an oil change receipt with the mileage, oil grade, filter and next service due: the maintenance record a warranty claim or a car buyer asks for.",
+    heading: "Oil Change Receipt Generator",
+    intro:
+      "Create an oil change receipt that records what a routine service actually proves: when it happened, at what mileage, with what oil, and when the next one is due. Quick-lube shops, independent mechanics and owners keeping their own service history all use the same few fields.",
+    leadAnswer:
+      "An oil change receipt shows the service date, the odometer reading, the oil grade and quantity, the filter, the price and when the next change is due. Keep every one: together they are the maintenance history a warranty claim or a used-car buyer will ask to see.",
+    useCases: [
+      "Proof of maintenance for a warranty claim",
+      "Service history for a private car sale",
+      "Quick-lube and mobile mechanic receipts",
+      "Fleet and company-car maintenance logs",
+    ],
+    fields: [
+      {
+        name: "Service date",
+        description:
+          "The day the oil was changed. Warranty and lease terms count intervals in time as well as miles, so the date matters as much as the mileage.",
+      },
+      {
+        name: "Odometer reading",
+        description:
+          "The mileage at the time of service. It is the figure that proves the change happened inside the manufacturer's interval.",
+      },
+      {
+        name: "Vehicle",
+        description:
+          "Year, make and model, and ideally the VIN or plate, so the receipt can only belong to one car.",
+      },
+      {
+        name: "Oil grade and quantity",
+        description:
+          "The viscosity and type (for example 0W-20 full synthetic) and how many quarts went in. Owner's manuals specify both, and a warranty question can turn on them.",
+      },
+      {
+        name: "Filter",
+        description:
+          "Whether the filter was replaced, and with which part. A change without a new filter is a different service.",
+      },
+      {
+        name: "Labor and fees",
+        description:
+          "The labor charge and any shop-supply or disposal fee on their own lines, so the total can be checked.",
+      },
+      {
+        name: "Next service due",
+        description:
+          "The mileage or date of the next change. It is the line customers read most, and it shows the interval the shop recommended.",
+      },
+      {
+        name: "Business details",
+        description:
+          "The shop's name, address and phone number. A receipt that names who did the work is the one a warranty company will accept.",
+      },
+    ],
+    howToSteps: [
+      "Enter the shop name, address and phone number.",
+      "Add the vehicle and the odometer reading at the time of service.",
+      "List the oil (grade and quarts), the filter, labor and any disposal fee as separate lines.",
+      "Set the next service due, by mileage or date.",
+      "Download the PDF or PNG and give the customer a copy.",
+    ],
+    guidance: [
+      {
+        heading: "Why the receipt matters for your warranty",
+        body:
+          "You do not have to use the dealer to keep a new-car warranty. The {cite:ftc-auto-warranties|FTC} says it is illegal for a dealer to deny warranty coverage because routine maintenance was done by someone else. That right only helps if you can show the maintenance happened, and the FTC's advice is to keep records of oil changes and your service receipts.\n\nSo the receipt is the evidence. A quick-lube receipt with the date, mileage and oil grade answers the question a warranty company asks when an engine fails: was the car serviced on schedule, with the right oil?",
+      },
+      {
+        heading: "Mileage is the field that does the work",
+        body:
+          "Most manufacturers set the oil interval in miles and months, whichever comes first. A receipt with a date but no odometer reading cannot show the interval was kept, and that is the gap a dispute opens.\n\nWrite the reading at the time of service, not an estimate, and print the next-due mileage on the same receipt so the customer and the shop are working from the same number.",
+      },
+    ],
+    sources: ["ftc-auto-warranties"],
+    faqs: [
+      {
+        question: "What should an oil change receipt include?",
+        answer:
+          "The service date, the odometer reading, the vehicle, the oil grade and quantity, the filter, labor and fees, the total, and when the next change is due.",
+      },
+      {
+        question: "Do I need oil change receipts to keep my warranty?",
+        answer:
+          "The FTC says a dealer cannot deny coverage just because someone else did the maintenance, and advises keeping records of oil changes. The receipts are how you show the car was maintained.",
+      },
+      {
+        question: "Can I make a receipt for an oil change I did myself?",
+        answer:
+          "You can record your own service, and you should keep the receipt for the oil and filter you bought alongside it. Your own log is weaker evidence than a shop's receipt, so keep both.",
+      },
+      {
+        question: "How long should I keep oil change receipts?",
+        answer:
+          "For as long as you own the car. They are the service history a buyer asks for and the record a warranty claim needs.",
+      },
+    ],
+    defaults: {
+      businessName: "Express Lube & Tire",
+      addressLine1: "2210 Commerce Street",
+      addressLine2: "Dallas, TX 75201",
+      phone: "(214) 555-0182",
+      taxLabel: "Sales Tax",
+      taxRate: 8.25,
+      register: "Bay 1",
+      footerMessage: "Next service due: 47,850 mi or Apr 2027, whichever comes first.",
+      paperStyle: "thermal",
+      sections: [
+        {
+          title: "Vehicle",
+          rows: [
+            { label: "Vehicle", value: "2021 Toyota Camry" },
+            { label: "Odometer", value: "42,850 mi" },
+            { label: "Next due", value: "47,850 mi" },
+          ],
+        },
+      ],
+      items: [
+        { id: id(), name: "Full Synthetic 0W-20 (qt)", quantity: 5, price: 8.99 },
+        { id: id(), name: "Oil Filter", quantity: 1, price: 12.99 },
+        { id: id(), name: "Labor", quantity: 1, price: 24.99 },
+        { id: id(), name: "Disposal Fee", quantity: 1, price: 3.5 },
+      ],
+    },
+  },
+  {
     slug: "parking",
     name: "Parking Receipt",
     shortName: "Parking",

@@ -397,7 +397,15 @@ export function alternativesUpdated(): string {
  * Mirrors the sitemap's precedence exactly: a template citing its own rules is
  * the most recently worked, then one carrying a sourced figure, then the rest.
  */
+// 2026-10-05: templates added in the October re-plan. A new page has to carry
+// its own date: falling back to TEMPLATES_UPDATED would stamp it July, and the
+// IndexNow cron only submits URLs newer than its last run.
+const TEMPLATES_ADDED: Readonly<Record<string, string>> = {
+  "oil-change-receipt": "2026-10-05",
+};
+
 export function templateReviewedAt(t: ReceiptTemplate): string {
+  if (TEMPLATES_ADDED[t.slug]) return TEMPLATES_ADDED[t.slug];
   if (TEMPLATES_DOWNLOAD_CLAIM_FIXED.has(t.slug)) return TEMPLATES_CLAIM_UPDATED;
   if (TEMPLATES_DEREALISTICISED.has(t.slug)) return TEMPLATES_COPY_UPDATED;
   if (t.sources?.length) return TEMPLATES_CITED_UPDATED;
