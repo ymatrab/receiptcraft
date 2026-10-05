@@ -1,6 +1,6 @@
 /**
  * Oct-sprint — Day 2026-10-13 (2 posts). Notion board Order 25 and 26, auto cluster.
- *   25. "oil change receipt template"  140/mo · CPC $3.85 · High -> /templates/auto-repair
+ *   25. "oil change receipt" 720/mo (retargeted 2026-10-04) -> /templates/oil-change-receipt (live 2026-10-05)
  *   26. "towing receipt template"      170/mo · CPC $5.74 · High -> /blog/towing-service-receipt-generator
  *
  * Cannibalization guard: #25 closes the repair run by owning the MAINTENANCE record —
@@ -29,7 +29,7 @@ export const OCT_13 = [
       "What an oil change receipt shows (mileage, oil grade, filter and next service due), why it matters for warranty and resale, and how to make one.",
     excerpt:
       "An oil change receipt records the mileage, the oil and filter used, and when the next service is due. That is what keeps a warranty claim and a resale history intact. Here's what belongs on one.",
-    body: `An **oil change receipt** shows the service date, the odometer reading, the oil grade and quantity, the filter, the price paid and when the next change is due. Keep every one: together they are the maintenance history a warranty claim or a used-car buyer will ask to see. To issue one, start from the [auto repair receipt template](/templates/auto-repair) and fill in those fields.
+    body: `An **oil change receipt** shows the service date, the odometer reading, the oil grade and quantity, the filter, the price paid and when the next change is due. Keep every one: together they are the maintenance history a warranty claim or a used-car buyer will ask to see. To issue one, start from the [oil change receipt template](/templates/oil-change-receipt), which has those fields laid out.
 
 An **oil change receipt template** is a service document for routine maintenance, used by quick-lube operators, repair shops, mobile technicians and owners keeping their own records. It captures the mileage at service, the oil and filter fitted, and the point at which the next service falls due.
 
