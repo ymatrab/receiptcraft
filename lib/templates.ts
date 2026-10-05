@@ -998,6 +998,104 @@ export const TEMPLATES: ReceiptTemplate[] = [
     },
   },
   {
+    slug: "tax-invoice-australia",
+    name: "Tax Invoice (Australia)",
+    shortName: "Tax Invoice",
+    icon: "🇦🇺",
+    seoTitle: "Tax Invoice Template Australia — Free GST Tax Invoice Maker",
+    seoDescription:
+      "Make an Australian tax invoice with your ABN, the date, items, GST at 10% and the total. Shows the buyer's ABN for sales of $1,000 or more. PDF or PNG.",
+    heading: "Tax Invoice Generator (Australia)",
+    intro:
+      "Create a tax invoice for a sale in Australia: marked as a tax invoice, with your business name and ABN, the date, what you sold, the GST and the total. It works as the receipt a business customer needs to claim a GST credit.",
+    leadAnswer:
+      "An Australian tax invoice must show that it is intended to be a tax invoice, the seller's identity and ABN, the date, a brief description of what was sold with quantity and price, and the GST, either as an amount or as the words 'Total price includes GST'. For sales of $1,000 or more it must also show the buyer's identity or ABN.",
+    useCases: [
+      "Tradies and contractors billing a job",
+      "Receipts business customers need for GST credits",
+      "Sole traders without invoicing software",
+      "Re-issuing a tax invoice a customer asks for",
+    ],
+    fields: [
+      { name: "The words 'Tax invoice'", description: "The document has to show it is intended to be a tax invoice. Printing 'Tax invoice' at the top does that." },
+      { name: "Seller's identity and ABN", description: "Your business name and your 11-digit Australian Business Number." },
+      { name: "Date of issue", description: "The date the tax invoice was issued." },
+      { name: "Description, quantity and price", description: "A brief description of each item, with the quantity where it applies and the price." },
+      { name: "GST", description: "The GST amount, or the statement 'Total price includes GST' when GST is exactly one-eleventh of the total." },
+      { name: "Total", description: "The amount payable including GST." },
+      { name: "Buyer's identity or ABN", description: "Required only when the sale is $1,000 or more." },
+    ],
+    howToSteps: [
+      "Enter your business name and ABN.",
+      "Set the date of issue.",
+      "List each item with its quantity and price excluding GST.",
+      "Leave GST at 10%; the GST amount and total calculate themselves.",
+      "For a sale of $1,000 or more, add the buyer's name or ABN. Then download the PDF or PNG.",
+    ],
+    guidance: [
+      {
+        heading: "Under $1,000, and $1,000 or more",
+        body:
+          "The {cite:ato-tax-invoices|ATO} sets two levels. Under $1,000, a tax invoice needs to show it is intended to be a tax invoice, the seller's identity and ABN, the date, a brief description with quantity and price, and the GST, which can be shown as an amount or, where it is exactly one-eleventh of the total, as the words 'Total price includes GST'. From $1,000, it must also show the buyer's identity or ABN.",
+      },
+      {
+        heading: "When a customer asks for one",
+        body:
+          "If a customer asks for a tax invoice, the ATO requires you to provide it within 28 days, unless the sale was $82.50 or less including GST. Business customers ask because they generally need a tax invoice to claim the GST credit on the purchase. Keep a copy of every one you issue.",
+      },
+    ],
+    sources: ["ato-tax-invoices"],
+    faqs: [
+      {
+        question: "What must an Australian tax invoice include?",
+        answer:
+          "That it is intended to be a tax invoice, the seller's identity and ABN, the date, a brief description with quantity and price, and the GST. From $1,000, also the buyer's identity or ABN.",
+      },
+      {
+        question: "Do I have to give a tax invoice?",
+        answer:
+          "If a customer asks, yes, within 28 days, unless the sale was $82.50 or less including GST.",
+      },
+      {
+        question: "Can a receipt be a tax invoice?",
+        answer:
+          "Yes, if it shows everything a tax invoice must show. Many Australian receipts are printed with 'Tax invoice' at the top for that reason.",
+      },
+      {
+        question: "Can I issue a tax invoice without being registered for GST?",
+        answer:
+          "Not with GST on it. Only GST-registered businesses charge GST. If you are not registered, issue an invoice or receipt with no GST.",
+      },
+    ],
+    defaults: {
+      businessName: "Harbour Electrical Services",
+      addressLine1: "Unit 4, 22 Wharf Road",
+      addressLine2: "Newcastle NSW 2300",
+      phone: "",
+      currency: "AUD",
+      taxLabel: "GST",
+      taxRate: 10,
+      greeting: "TAX INVOICE",
+      paymentMethod: "Credit Card",
+      hideStoreLine: true,
+      showBarcode: false,
+      dateOrder: "dmy",
+      footerMessage: "Total price includes GST. Thank you for your business.",
+      paperStyle: "modern",
+      sections: [
+        {
+          title: "Seller",
+          rows: [{ label: "ABN", value: "00 000 000 000" }],
+        },
+      ],
+      items: [
+        { id: id(), name: "Call-out Fee", quantity: 1, price: 90.0 },
+        { id: id(), name: "Labour (hrs)", quantity: 2, price: 95.0 },
+        { id: id(), name: "Double Power Point & Fittings", quantity: 1, price: 48.0 },
+      ],
+    },
+  },
+  {
     slug: "parking",
     name: "Parking Receipt",
     shortName: "Parking",
