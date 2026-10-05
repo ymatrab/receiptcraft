@@ -195,6 +195,18 @@ direct answer in the opening lines and a link to `/templates/auto-repair`:
 Posts 31–60 (not yet written) are replaced by the plan on the Notion Content
 Pipeline board, dated 2026-10-04. Evidence: `seo-audit/geo-ai-citations-2026-10-04.json` (dev).
 
+## 2026-10-05: two re-plan posts written and scheduled
+
+| Date | Slug | Keyword | Links to | Images |
+|---|---|---|---|---|
+| Oct 21 09:30Z | `stockx-receipt` | stockx receipt (2,400/mo) | /brands/stockx (live 10-05) | none yet; prompts on the Notion row |
+| Oct 27 09:30Z | `ontario-rent-receipt` | rent receipt template ontario (720/mo CA) | /templates/rent-receipt | none yet; prompts on the Notion row |
+
+Facts checked 2026-10-05: StockX help centre (Buying > History > Order Details;
+US returns 14 days for StockX Credit); RTA 2006 s.109 and O. Reg. 516/06 s.9 for
+Ontario. Both posts are about 750 body words plus 10 FAQs, shorter than the
+September posts by design: direct answer first, then a fields table and numbered steps.
+
 ## Watch list
 
 - **`/create` synonym cluster** — #2, #10, #12, #13, #14, #16 all target near-identical "make/create a receipt online free" intent. Differentiated by angle + cross-linked; **watch Search Console** for two URLs trading impressions on one query and merge/canonicalize if it happens. Coming `online receipt generator` and `receipt creator free` add two more.
