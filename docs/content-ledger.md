@@ -253,6 +253,21 @@ from Unsplash searches; no Unsplash image is used or hotlinked.
 Template and props: `scripts/banners/blog-banner.html`, `scripts/banners/props/`.
 Render: Chrome `--headless=new --window-size=1408,768 --screenshot=… file://…?p=N`.
 
+## 2026-10-06: back to 2 posts every other day (owner's cadence)
+
+The re-plan had dropped to one post per slot; the owner's agreed cadence is two
+every other day. 13 new topics passed the keyword gate (no page owns them),
+filling 19 of the 26 slots through Oct 31; 7 slots wait for the Nov 2 GSC data.
+
+| Date | Slug | Keyword | Links to |
+|---|---|---|---|
+| Oct 7 14:00Z | `car-sale-receipt` | car sale receipt (590) | /templates/sales-receipt, NHTSA, CA DMV REG 135 |
+| Oct 9 14:00Z | `how-to-fill-out-a-receipt-book` | how to fill out a receipt book (1,600) | /templates/cash-receipt, /blog/receipt-book-vs-digital |
+
+Facts checked 2026-10-06: NHTSA odometer rule (MY2011+, 20 years, from 2021);
+CA DMV REG 135 (any bill of sale identifying the vehicle; no notary). In-house
+banners for both.
+
 ## Watch list
 
 - **`/create` synonym cluster** — #2, #10, #12, #13, #14, #16 all target near-identical "make/create a receipt online free" intent. Differentiated by angle + cross-linked; **watch Search Console** for two URLs trading impressions on one query and merge/canonicalize if it happens. Coming `online receipt generator` and `receipt creator free` add two more.
