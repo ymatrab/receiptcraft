@@ -242,6 +242,17 @@ seed files; republishing aug-1 / day1-hubs-b would undo that). Script on dev:
 
 Recheck GSC for these four around 2026-11-02.
 
+## 2026-10-06: hero banners for the Oct 13, 17, 21 and 27 posts
+
+Made in-house, no third-party photos and no credit lines. Same method as the pin
+pipeline: HTML rendered by headless Chrome at 1408x768, text and receipt lines as
+real text, totals summed from the lines. Only the clay props come from an image
+model (Higgsfield Z Image, 0.15 credits each, 6 images incl. one regenerated
+because the first sneaker carried a swoosh-like mark). Theme ideas were taken
+from Unsplash searches; no Unsplash image is used or hotlinked.
+Template and props: `scripts/banners/blog-banner.html`, `scripts/banners/props/`.
+Render: Chrome `--headless=new --window-size=1408,768 --screenshot=… file://…?p=N`.
+
 ## Watch list
 
 - **`/create` synonym cluster** — #2, #10, #12, #13, #14, #16 all target near-identical "make/create a receipt online free" intent. Differentiated by angle + cross-linked; **watch Search Console** for two URLs trading impressions on one query and merge/canonicalize if it happens. Coming `online receipt generator` and `receipt creator free` add two more.

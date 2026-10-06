@@ -21,6 +21,7 @@
 export const OCT_13B = [
   {
     slug: "dependent-care-fsa-receipt",
+    image: "assets/dependent-care-fsa-receipt.jpeg",
     category: "taxes",
     publishedAt: "2026-10-13T09:30:00Z",
     title: "Dependent Care FSA Receipts: What Your Provider Must Include",

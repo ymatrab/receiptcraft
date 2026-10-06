@@ -23,6 +23,7 @@
 export const OCT_27 = [
   {
     slug: "ontario-rent-receipt",
+    image: "assets/ontario-rent-receipt.jpeg",
     category: "legal",
     publishedAt: "2026-10-27T09:30:00Z",
     title: "Ontario Rent Receipts: What Landlords Must Provide",

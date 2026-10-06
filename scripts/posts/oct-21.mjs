@@ -20,6 +20,7 @@
 export const OCT_21 = [
   {
     slug: "stockx-receipt",
+    image: "assets/stockx-receipt.jpeg",
     category: "lost-receipts",
     publishedAt: "2026-10-21T09:30:00Z",
     title: "StockX Receipt: How to Find Yours, and How to Make One",

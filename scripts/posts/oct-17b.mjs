@@ -26,6 +26,7 @@
 export const OCT_17B = [
   {
     slug: "rent-receipt-for-hra",
+    image: "assets/rent-receipt-for-hra.jpeg",
     category: "taxes",
     publishedAt: "2026-10-17T09:30:00Z",
     title: "Rent Receipt for HRA: Format, Revenue Stamp and Landlord PAN",
