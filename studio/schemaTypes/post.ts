@@ -26,6 +26,20 @@ export const post = defineType({
       description: "Short summary shown in listings and meta description fallback.",
     }),
     defineField({ name: "mainImage", title: "Main image", type: "image", options: { hotspot: true } }),
+    defineField({
+      name: "unsplashImage",
+      title: "Unsplash hero",
+      type: "object",
+      description:
+        "Hotlinked Unsplash photo, shown when there is no Main image. Set by script from the Unsplash API; keep the attribution links as returned.",
+      fields: [
+        defineField({ name: "raw", title: "Raw imgix URL", type: "url" }),
+        defineField({ name: "alt", title: "Alt text", type: "string" }),
+        defineField({ name: "photographer", title: "Photographer", type: "string" }),
+        defineField({ name: "photographerUrl", title: "Photographer URL", type: "url" }),
+        defineField({ name: "unsplashUrl", title: "Unsplash URL", type: "url" }),
+      ],
+    }),
     defineField({ name: "category", title: "Category", type: "reference", to: [{ type: "category" }] }),
     defineField({ name: "author", title: "Author", type: "reference", to: [{ type: "author" }] }),
     defineField({

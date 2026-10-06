@@ -16,6 +16,8 @@ export interface BlogPostStub {
    */
   _updatedAt?: string;
   mainImage?: import("@sanity/image-url/lib/types/types").SanityImageSource;
+  /** Hotlinked Unsplash hero, used when there is no uploaded mainImage. */
+  unsplashImage?: import("@/lib/unsplash").UnsplashImage;
   category?: string;
 }
 
@@ -39,14 +41,14 @@ export interface BlogPost extends BlogPostStub {
 const PUBLISHED = `_type == "post" && !(_id in path("drafts.**")) && publishedAt <= now()`;
 
 const LIST_QUERY = groq`*[${PUBLISHED}] | order(publishedAt desc){
-  _id, _updatedAt, title, "slug": slug.current, excerpt, publishedAt, mainImage,
+  _id, _updatedAt, title, "slug": slug.current, excerpt, publishedAt, mainImage, unsplashImage,
   "category": category->title
 }`;
 
 const SLUGS_QUERY = groq`*[${PUBLISHED}].slug.current`;
 
 const POST_QUERY = groq`*[${PUBLISHED} && slug.current == $slug][0]{
-  _id, _updatedAt, title, "slug": slug.current, excerpt, publishedAt, mainImage, body,
+  _id, _updatedAt, title, "slug": slug.current, excerpt, publishedAt, mainImage, unsplashImage, body,
   seoTitle, seoDescription, faqs, "category": category->title,
   "authorName": author->name, "authorSlug": author->slug.current, "authorJobTitle": author->jobTitle
 }`;

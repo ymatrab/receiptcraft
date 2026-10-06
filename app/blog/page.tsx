@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { unsplashSrc } from "@/lib/unsplash";
 import Link from "next/link";
 import { getAllPosts } from "@/lib/sanity/queries";
 import { urlForImage } from "@/lib/sanity/client";
@@ -51,14 +52,22 @@ export default async function BlogIndex() {
               href={`/blog/${post.slug}`}
               className="group flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-shadow hover:shadow-md"
             >
-              {post.mainImage && (
+              {post.mainImage ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={urlForImage(post.mainImage).width(600).height(338).url()}
                   alt={post.title}
                   className="aspect-video w-full object-cover"
                 />
-              )}
+              ) : post.unsplashImage ? (
+                // Credited on the post itself; the card links there.
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={unsplashSrc(post.unsplashImage, 600, 338)}
+                  alt={post.unsplashImage.alt}
+                  className="aspect-video w-full object-cover"
+                />
+              ) : null}
               <div className="flex flex-1 flex-col p-5">
                 {post.category && (
                   <span className="text-xs font-semibold uppercase tracking-wide text-indigo-600">

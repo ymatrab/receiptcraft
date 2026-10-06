@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { unsplashSrc } from "@/lib/unsplash";
 import Link from "next/link";
 import { notFound, permanentRedirect } from "next/navigation";
 import { PortableText, type PortableTextComponents } from "@portabletext/react";
@@ -138,7 +139,9 @@ export async function generateMetadata({
   // fixed on /create.
   const ogImage = post.mainImage
     ? urlForImage(post.mainImage).width(1200).height(630).url()
-    : absoluteUrl("/opengraph-image");
+    : post.unsplashImage
+      ? unsplashSrc(post.unsplashImage, 1200, 630)
+      : absoluteUrl("/opengraph-image");
   // Blog headlines are already long and self-describing, and the root layout
   // appends " | Makecepeit" (13 chars) to every one. On 15 posts that pushed the
   // title past 70 characters — where Google truncates and drops the suffix
@@ -225,7 +228,9 @@ export default async function BlogPostPage({
     mainEntityOfPage: absoluteUrl(`/blog/${post.slug}`),
     image: post.mainImage
       ? [urlForImage(post.mainImage).width(1200).height(675).url()]
-      : [absoluteUrl("/opengraph-image")],
+      : post.unsplashImage
+        ? [unsplashSrc(post.unsplashImage, 1200, 675)]
+        : [absoluteUrl("/opengraph-image")],
   };
 
   const breadcrumbJsonLd = {
@@ -331,14 +336,34 @@ export default async function BlogPostPage({
             )}
         </div>
 
-        {post.mainImage && (
+        {post.mainImage ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={urlForImage(post.mainImage).width(1200).height(675).url()}
             alt={post.title}
             className="mt-8 aspect-video w-full rounded-2xl object-cover"
           />
-        )}
+        ) : post.unsplashImage ? (
+          // Unsplash requires a visible credit with its referral links.
+          <figure className="mt-8">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={unsplashSrc(post.unsplashImage, 1200, 675)}
+              alt={post.unsplashImage.alt}
+              className="aspect-video w-full rounded-2xl object-cover"
+            />
+            <figcaption className="mt-2 text-xs text-slate-500">
+              Photo by{" "}
+              <a href={post.unsplashImage.photographerUrl} rel="noopener" className="underline">
+                {post.unsplashImage.photographer}
+              </a>{" "}
+              on{" "}
+              <a href={post.unsplashImage.unsplashUrl} rel="noopener" className="underline">
+                Unsplash
+              </a>
+            </figcaption>
+          </figure>
+        ) : null}
 
         <div className="prose prose-slate mt-8 max-w-none prose-headings:font-bold prose-a:text-indigo-600">
           {post.body ? (
