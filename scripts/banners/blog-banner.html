@@ -113,6 +113,28 @@ const BANNERS = [
     lines: [["Rent for October 2026", 2150.00]],
     totalLabel: "TOTAL", foot: "Paid via e-Transfer",
   },
+  {
+    h1: "How to Make a Mechanic Receipt", h2: "Parts, Labor, Payment", h3: "Vehicle. Parts. Labor. How it was paid.",
+    prop: "props/prop-5.png", noteL: "Number<br>Every Job", noteR: "Parts and Labor<br>Apart",
+    pills: ["Vehicle & mileage", "Parts & labor", "Payment method"],
+    currency: "$",
+    title: "Ridge Road Auto Repair", sub: "Receipt #2026-0147",
+    info: [["Vehicle", "2019 Honda Civic"], ["Mileage", "61,240 mi"]],
+    // Tax applies to the parts line only, so it is typed: 8.25% of $89.00 = $7.34.
+    lines: [["Front brake pads", 89.00], ["Labor 1.5 hr @ $95", 142.50], ["Shop supplies", 12.00], ["Tax on parts 8.25%", 7.34]],
+    totalLabel: "TOTAL PAID", foot: "Paid by card · Customer copy",
+  },
+  {
+    h1: "Oil Change Receipt", h2: "What It Shows and How to Make One", h3: "Date. Mileage. Oil. Next service.",
+    prop: "props/prop-6.png", noteL: "Write the<br>Miles", noteR: "Warranty<br>Proof",
+    pills: ["Mileage", "Oil & filter", "Next service"],
+    currency: "$",
+    title: "Express Lube & Tire", sub: "2210 Commerce Street, Dallas, TX",
+    info: [["Date", "Oct 9, 2026"], ["Vehicle", "2021 Toyota Camry"], ["Odometer", "42,850 mi"], ["Next due", "47,850 mi"]],
+    // Same sample as /templates/oil-change-receipt; tax is 8.25% of the $86.43 subtotal = $7.13.
+    lines: [["0W-20 synthetic, 5 qt", 44.95], ["Oil filter", 12.99], ["Labor", 24.99], ["Disposal fee", 3.50], ["Sales tax 8.25%", 7.13]],
+    totalLabel: "TOTAL", foot: "Keep for your service history",
+  },
 ];
 
 const b = BANNERS[Number(new URLSearchParams(location.search).get("p") || 0)];

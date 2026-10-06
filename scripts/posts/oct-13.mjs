@@ -20,7 +20,7 @@
 export const OCT_13 = [
   {
     slug: "oil-change-receipt",
-    image: "assets/oil-change-receipt-template.jpeg",
+    image: "assets/oil-change-receipt.jpeg",
     category: "small-business",
     publishedAt: "2026-10-09T09:30:00Z",
     title: "Oil Change Receipt: What It Shows and How to Make One",

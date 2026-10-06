@@ -19,7 +19,7 @@
 export const OCT_11 = [
   {
     slug: "how-to-make-a-mechanic-receipt",
-    image: "assets/mechanic-receipt-template.jpeg",
+    image: "assets/how-to-make-a-mechanic-receipt.jpeg",
     category: "small-business",
     publishedAt: "2026-10-07T09:30:00Z",
     title: "How to Make a Mechanic Receipt: Parts, Labor, Payment",
