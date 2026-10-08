@@ -312,7 +312,8 @@ export const POLICY_UPDATED = "2026-08-31";
 // by the bulk copy sweep ("Your first downloads are watermark-free").
 // 2026-08-31 (3): the builder's AI panel now counts the remaining monthly
 // allowance out loud instead of saying "limited per month".
-export const CREATE_UPDATED = "2026-08-31";
+// 2026-10-08: related posts on /create now include how-to-make-a-receipt-online.
+export const CREATE_UPDATED = "2026-10-08";
 export const COOKIES_UPDATED = "2026-08-29";
 // 2026-08-29: /login now leads with the log-in form instead of "Create your
 // free account" — the heading, the sub-heading and the form itself all change
@@ -426,7 +427,15 @@ const TEMPLATES_RETITLED: ReadonlySet<string> = new Set([
 ]);
 const TEMPLATES_RETITLED_UPDATED = "2026-10-05";
 
+// 2026-10-08: every template page now lists related posts (curated, then a
+// topical rotation); before, 50 of 51 linked to none. Supersedes older dates.
+const TEMPLATES_RELATED_UPDATED = "2026-10-08";
+
 export function templateReviewedAt(t: ReceiptTemplate): string {
+  return TEMPLATES_RELATED_UPDATED > templateReviewedAtBefore(t) ? TEMPLATES_RELATED_UPDATED : templateReviewedAtBefore(t);
+}
+
+function templateReviewedAtBefore(t: ReceiptTemplate): string {
   if (TEMPLATES_ADDED[t.slug]) return TEMPLATES_ADDED[t.slug];
   if (TEMPLATES_RETITLED.has(t.slug)) return TEMPLATES_RETITLED_UPDATED;
   if (TEMPLATES_DOWNLOAD_CLAIM_FIXED.has(t.slug)) return TEMPLATES_CLAIM_UPDATED;

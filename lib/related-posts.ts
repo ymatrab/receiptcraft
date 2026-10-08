@@ -28,6 +28,8 @@ const POSTS_BY_HUB: Record<string, RelatedPost[]> = {
     { slug: "clothing-store-receipt-generator-discount", title: "Clothing Store Receipt Generator" },
     { slug: "hardware-store-receipt-generator-itemized-materials", title: "Hardware Store Receipt Generator" },
     { slug: "pharmacy-receipt-generator-itemized-products", title: "Pharmacy Receipt Generator" },
+    { slug: "receipts-ui-ux-mockups", title: "Using Realistic Receipts in UI/UX Mockups" },
+    { slug: "how-to-make-a-receipt-online", title: "How to Make a Receipt Online" },
   ],
   "/alternatives": [
     { slug: "best-free-receipt-generator", title: "Best Free Receipt Generator" },
@@ -36,6 +38,59 @@ const POSTS_BY_HUB: Record<string, RelatedPost[]> = {
   ],
   "/templates/restaurant": [
     { slug: "how-to-write-tip-on-receipt", title: "How to Write a Tip on a Receipt" },
+    { slug: "meal-receipts-business-expenses", title: "Receipt Rules for Business Meals" },
+  ],
+  // 2026-10-08: posts Google had never discovered (URL Inspection: "URL is
+  // unknown to Google") or had dropped, given a link from the template page on
+  // their subject. Template pages are crawled and mostly indexed but linked to
+  // no posts at all. The curated list renders newest-last, up to four.
+  "/templates/proof-of-purchase": [
+    { slug: "audit-without-receipts-cohan-rule", title: "What Happens If You're Audited Without Receipts?" },
+    { slug: "warranty-claim-without-receipt", title: "Can You Claim a Warranty Without a Receipt?" },
+    { slug: "how-stores-verify-receipts", title: "How Do Stores Verify Receipts?" },
+    { slug: "how-to-spot-a-fake-receipt", title: "How Do Businesses Detect Fake Receipts?" },
+  ],
+  "/templates/donation-receipt": [
+    { slug: "goodwill-donation-receipt-template", title: "Goodwill Donation Receipt Template" },
+    { slug: "donation-receipt-requirements", title: "What Must a 501(c)(3) Donation Receipt Include?" },
+  ],
+  "/templates/gas-station": [
+    { slug: "gas-station-receipt-copy", title: "How to Get a Gas Station Receipt After Driving Off" },
+  ],
+  "/templates/retail-store": [
+    { slug: "faded-receipt-fix-reddit", title: "Why Do Receipts Fade?" },
+    { slug: "gift-receipt-explained", title: "How Do Gift Receipts Work?" },
+  ],
+  "/templates/itemized-receipt": [
+    { slug: "how-receipt-ocr-works", title: "How Does Receipt OCR Work?" },
+    { slug: "organize-receipts-expense-reports", title: "How to Organize Receipts for Expense Reports" },
+    { slug: "itemized-receipt-guide", title: "What Is an Itemized Receipt?" },
+  ],
+  "/templates/hotel": [
+    { slug: "how-to-make-a-hotel-receipt", title: "How to Make a Hotel Receipt" },
+  ],
+  "/templates/cash-receipt": [
+    { slug: "partial-payment-receipt", title: "How to Write a Deposit or Partial Payment Receipt" },
+  ],
+  "/templates/sales-receipt": [
+    { slug: "receipt-organization-systems", title: "7 Ways to Organize Receipts, Compared" },
+    { slug: "recording-receipts-bookkeeping", title: "How to Record Receipts in Bookkeeping" },
+    { slug: "what-is-a-receipt-number", title: "What Is a Receipt Number?" },
+    { slug: "how-to-write-a-receipt", title: "How to Write a Receipt" },
+  ],
+  "/templates/vat-receipt": [
+    { slug: "receipt-requirements-by-country", title: "Receipt Requirements in the US, UK, EU, Canada and Australia" },
+  ],
+  "/templates/grocery-store": [
+    { slug: "receipt-rewards-apps-reddit", title: "Are Receipt Rewards Apps Worth It?" },
+  ],
+  "/templates/rent-receipt": [
+    { slug: "security-deposit-receipt", title: "What Must a Security Deposit Receipt Include?" },
+  ],
+  "/templates/invoice": [
+    { slug: "switch-to-digital-receipts", title: "How to Switch Your Business to Digital Receipts" },
+    { slug: "home-office-deduction-receipts", title: "Receipts for the Home Office Deduction" },
+    { slug: "small-business-deductions-receipts", title: "Which Small-Business Deductions Need Receipts?" },
   ],
   "/compare/makereceipt": [{ slug: "makereceipt-alternative", title: "MakeReceipt Alternative" }],
   "/compare/receiptfaker": [{ slug: "receiptfaker-alternative", title: "ReceiptFaker Alternative" }],

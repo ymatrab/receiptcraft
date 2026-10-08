@@ -346,7 +346,12 @@ export default async function TemplatePage({ params }: Props) {
           </ul>
         </section>
 
-        <RelatedPosts hub={`/templates/${template.slug}`} />
+        {/* Curated posts first, then a rotation of how-to and small-business
+            posts, so no template page is a dead end for the crawler. */}
+        <RelatedPosts
+          hub={`/templates/${template.slug}`}
+          categories={["How-To", "Small Business", "Basics"]}
+        />
 
         <Reviewed date={templateReviewedAt(template)} />
       </div>
