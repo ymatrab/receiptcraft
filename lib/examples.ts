@@ -27,6 +27,40 @@ export interface Example {
   taxRate?: number;
   payment?: PaymentMethod;
   footer?: string;
+  /** Who needs this exact receipt and why, in a sentence or three. Written per
+   *  example, never generated: the surrounding prose is variant-pooled, so this
+   *  is the part of the page no other page has. */
+  scenario?: string;
+  /** What is worth noticing on this particular receipt. */
+  notes?: string[];
+}
+
+/**
+ * Currency, tax label and date order from the example's city. Before this, a
+ * missing currency fell back to USD, so the ASDA, EDEKA and Woolworths examples
+ * printed "$" and "Sales Tax" on a UK, German and Australian receipt.
+ */
+interface ExampleLocale {
+  currency: string;
+  taxLabel: string;
+  dmy: boolean;
+}
+const LOCALE_RULES: [RegExp, ExampleLocale][] = [
+  [/, UK$/, { currency: "GBP", taxLabel: "VAT", dmy: true }],
+  [/, Germany$/, { currency: "EUR", taxLabel: "MwSt", dmy: true }],
+  [/, France$/, { currency: "EUR", taxLabel: "TVA", dmy: true }],
+  [/, Spain$/, { currency: "EUR", taxLabel: "IVA", dmy: true }],
+  [/, Netherlands$/, { currency: "EUR", taxLabel: "BTW", dmy: true }],
+  [/, Switzerland$/, { currency: "CHF", taxLabel: "MWST", dmy: true }],
+  [/, Sweden$/, { currency: "SEK", taxLabel: "Moms", dmy: true }],
+  [/, Australia$/, { currency: "AUD", taxLabel: "GST", dmy: true }],
+  [/^Singapore$/, { currency: "SGD", taxLabel: "GST", dmy: true }],
+  [/, India$/, { currency: "INR", taxLabel: "GST", dmy: true }],
+  [/, (ON|BC|QC|AB|MB|NS)$/, { currency: "CAD", taxLabel: "Tax", dmy: false }],
+];
+export function exampleLocale(ex: Example): ExampleLocale | null {
+  const city = ex.city ?? "";
+  return LOCALE_RULES.find(([re]) => re.test(city))?.[1] ?? null;
 }
 
 /** Deterministic hash of the slug — drives receipt number + style variety. */
@@ -88,8 +122,9 @@ export function receiptFromExample(ex: Example): ReceiptData {
     cashier: "",
     register: "",
     items: ex.items.map((it, i) => ({ id: `${ex.slug}-${i}`, ...it })),
-    currency: def.currency ?? "USD",
-    taxLabel: def.taxLabel ?? "Sales Tax",
+    currency: exampleLocale(ex)?.currency ?? def.currency ?? "USD",
+    taxLabel: exampleLocale(ex)?.taxLabel ?? def.taxLabel ?? "Sales Tax",
+    dateOrder: exampleLocale(ex)?.dmy ? "dmy" : undefined,
     taxRate: ex.taxRate ?? def.taxRate ?? 0,
     discount: 0,
     tip: 0,
@@ -140,15 +175,14 @@ const DETAIL_VARIANTS: ((
   payment: string,
   location: string,
   date: string,
-  taxLabel: string,
-  taxRate: number,
+  taxPhrase: string,
 ) => string)[] = [
-  (brand, payment, location, date, taxLabel, taxRate) =>
-    `This ${brand} example reflects a ${payment} purchase${location ? ` in ${location}` : ""} on ${date}, with ${taxLabel} at ${taxRate}%. Yours can use any items, currency, tax rate, date and payment method you like.`,
-  (brand, payment, location, date, taxLabel, taxRate) =>
-    `The sale shown here was paid by ${payment}${location ? ` at a ${brand} location in ${location}` : ""} on ${date}, taxed as ${taxLabel} at ${taxRate}%. Change any of those details when you build your own.`,
-  (brand, payment, location, date, taxLabel, taxRate) =>
-    `Details on this receipt: ${payment} payment${location ? `, ${location}` : ""}, dated ${date}, with ${taxLabel} charged at ${taxRate}%. Every field is editable in your own version — currency, tax rate, date, payment method.`,
+  (brand, payment, location, date, taxPhrase) =>
+    `This ${brand} example reflects a ${payment} purchase${location ? ` in ${location}` : ""} on ${date}, with ${taxPhrase}. Yours can use any items, currency, tax rate, date and payment method you like.`,
+  (brand, payment, location, date, taxPhrase) =>
+    `The sale shown here was paid by ${payment}${location ? ` at a ${brand} location in ${location}` : ""} on ${date}, with ${taxPhrase}. Change any of those details when you build your own.`,
+  (brand, payment, location, date, taxPhrase) =>
+    `Details on this receipt: ${payment} payment${location ? `, ${location}` : ""}, dated ${date}, with ${taxPhrase}. Every field is editable in your own version — currency, tax rate, date, payment method.`,
 ];
 
 const CLOSING_VARIANTS: ((siteName: string) => string)[] = [
@@ -172,13 +206,20 @@ export function exampleDetailText(
   taxLabel: string,
   taxRate: number,
 ): string {
+  // A 0% rate on a VAT/GST receipt means the tax is inside the shelf price,
+  // not that none was charged.
+  const taxPhrase =
+    taxRate > 0
+      ? `${taxLabel} at ${taxRate}%`
+      : exampleLocale(ex)
+        ? `${taxLabel} included in the prices`
+        : "no sales tax added";
   return DETAIL_VARIANTS[slugHash(`${ex.slug}-detail`) % DETAIL_VARIANTS.length](
     ex.brand,
     payment,
     location,
     date,
-    taxLabel,
-    taxRate,
+    taxPhrase,
   );
 }
 
@@ -199,13 +240,13 @@ export const EXAMPLES: Example[] = [
   { slug: "popeyes-receipt-chicken-combo", brand: "Popeyes", base: "restaurant", city: "Atlanta, GA 30303", items: [{ name: "Spicy Chicken Sandwich Combo", quantity: 1, price: 8.99 }, { name: "Cajun Fries (L)", quantity: 1, price: 3.49 }, { name: "Sprite", quantity: 1, price: 2.29 }] },
   { slug: "chick-fil-a-receipt-sandwich-meal", brand: "Chick-fil-A", base: "restaurant", city: "Dallas, TX 75201", items: [{ name: "Chicken Sandwich Meal", quantity: 2, price: 8.65 }, { name: "8ct Nuggets", quantity: 1, price: 4.69 }, { name: "Lemonade", quantity: 2, price: 2.45 }] },
   { slug: "subway-receipt-footlong", brand: "Subway", base: "restaurant", city: "Phoenix, AZ 85001", items: [{ name: "Footlong Italian B.M.T.", quantity: 1, price: 9.29 }, { name: "6\" Veggie Delite", quantity: 1, price: 5.49 }, { name: "Cookies (3)", quantity: 1, price: 2.0 }] },
-  { slug: "taco-bell-receipt-cravings-box", brand: "Taco Bell", base: "restaurant", city: "Las Vegas, NV 89101", items: [{ name: "Cravings Box", quantity: 1, price: 6.99 }, { name: "Crunchwrap Supreme", quantity: 1, price: 4.99 }, { name: "Baja Blast (L)", quantity: 1, price: 2.49 }] },
+  { slug: "taco-bell-receipt-cravings-box", brand: "Taco Bell", base: "restaurant", city: "Las Vegas, NV 89101", items: [{ name: "Cravings Box", quantity: 1, price: 6.99 }, { name: "Crunchwrap Supreme", quantity: 1, price: 4.99 }, { name: "Baja Blast (L)", quantity: 1, price: 2.49 }], scenario: "A quick dinner bought for one person, the kind of small purchase that is easy to forget until the bank statement arrives.", notes: ["The Cravings Box is a bundled meal, so it appears as a single priced line even though it contains several items.", "The drink size is printed in the item name, which is how fast-food receipts tell sizes apart."] },
   { slug: "kfc-receipt-bucket-meal", brand: "KFC", base: "restaurant", city: "Louisville, KY 40202", items: [{ name: "8pc Bucket Meal", quantity: 1, price: 21.99 }, { name: "Mac & Cheese (L)", quantity: 1, price: 3.99 }, { name: "Biscuits (4)", quantity: 1, price: 2.49 }] },
-  { slug: "dominos-receipt-large-pizza", brand: "Domino's Pizza", base: "restaurant", city: "Ann Arbor, MI 48104", items: [{ name: "Large Pepperoni Pizza", quantity: 1, price: 13.99 }, { name: "Garlic Bread Twists", quantity: 1, price: 5.99 }, { name: "Coke 2L", quantity: 1, price: 2.99 }] },
+  { slug: "dominos-receipt-large-pizza", brand: "Domino's Pizza", base: "restaurant", city: "Ann Arbor, MI 48104", items: [{ name: "Large Pepperoni Pizza", quantity: 1, price: 13.99 }, { name: "Garlic Bread Twists", quantity: 1, price: 5.99 }, { name: "Coke 2L", quantity: 1, price: 2.99 }], scenario: "A family dinner order kept as a record of what was spent on takeaway that week.", notes: ["One pizza, one side and a drink: the simplest kind of food receipt, with each item on its own line.", "No delivery fee appears, so this reads as a carryout order."] },
   { slug: "olive-garden-receipt-dinner-for-two", brand: "Olive Garden", base: "restaurant", city: "Orlando, FL 32801", items: [{ name: "Chicken Alfredo", quantity: 1, price: 17.49 }, { name: "Lasagna Classico", quantity: 1, price: 16.99 }, { name: "Tiramisu", quantity: 1, price: 7.99 }] },
 
   // ── Grocery ──
-  { slug: "walmart-receipt-grocery-haul", brand: "Walmart", base: "grocery-store", city: "Bentonville, AR 72712", items: [{ name: "Great Value Milk 1Gal", quantity: 1, price: 3.12 }, { name: "Bananas (lb)", quantity: 3, price: 0.58 }, { name: "Bread Loaf", quantity: 2, price: 1.42 }, { name: "Eggs 18ct", quantity: 1, price: 4.34 }, { name: "Ground Beef (lb)", quantity: 2, price: 5.97 }] },
+  { slug: "walmart-receipt-grocery-haul", brand: "Walmart", base: "grocery-store", city: "Bentonville, AR 72712", items: [{ name: "Great Value Milk 1Gal", quantity: 1, price: 3.12 }, { name: "Bananas (lb)", quantity: 3, price: 0.58 }, { name: "Bread Loaf", quantity: 2, price: 1.42 }, { name: "Eggs 18ct", quantity: 1, price: 4.34 }, { name: "Ground Beef (lb)", quantity: 2, price: 5.97 }], scenario: "A family doing a weekly grocery run and tracking spending against a budget.", notes: ["Great Value is Walmart's store brand, which is why it appears in the item name.", "Bananas are priced by the pound, so the quantity of 3 on that line is a weight, not a count."] },
   { slug: "target-receipt-household-run", brand: "Target", base: "grocery-store", city: "Minneapolis, MN 55403", items: [{ name: "Up & Up Paper Towels", quantity: 1, price: 8.99 }, { name: "Laundry Detergent", quantity: 1, price: 11.49 }, { name: "Goldfish Crackers", quantity: 2, price: 2.79 }, { name: "Sparkling Water 12pk", quantity: 1, price: 4.99 }] },
   { slug: "kroger-receipt-weekly-groceries", brand: "Kroger", base: "grocery-store", city: "Cincinnati, OH 45202", items: [{ name: "Chicken Breast (lb)", quantity: 2, price: 4.49 }, { name: "Broccoli Crowns (lb)", quantity: 1, price: 1.99 }, { name: "Greek Yogurt 4pk", quantity: 1, price: 4.29 }, { name: "Orange Juice 52oz", quantity: 1, price: 3.79 }] },
   { slug: "whole-foods-receipt-organic", brand: "Whole Foods Market", base: "grocery-store", city: "Austin, TX 78703", items: [{ name: "Organic Avocados", quantity: 4, price: 1.79 }, { name: "365 Almond Milk", quantity: 2, price: 2.99 }, { name: "Wild Salmon Fillet (lb)", quantity: 1, price: 13.99 }, { name: "Kombucha", quantity: 2, price: 3.49 }] },
@@ -252,7 +293,7 @@ export const EXAMPLES: Example[] = [
   { slug: "five-guys-receipt-burger-fries", brand: "Five Guys", base: "restaurant", city: "Lorton, VA 22079", items: [{ name: "Bacon Cheeseburger", quantity: 1, price: 11.49 }, { name: "Cajun Fries (L)", quantity: 1, price: 6.29 }, { name: "Regular Shake", quantity: 1, price: 5.99 }] },
   { slug: "panera-receipt-soup-sandwich", brand: "Panera Bread", base: "restaurant", city: "St. Louis, MO 63105", items: [{ name: "You Pick Two", quantity: 1, price: 11.99 }, { name: "Broccoli Cheddar Bowl", quantity: 1, price: 7.49 }, { name: "Iced Tea", quantity: 1, price: 2.99 }] },
   { slug: "shake-shack-receipt-shackburger", brand: "Shake Shack", base: "restaurant", city: "New York, NY 10010", items: [{ name: "ShackBurger Double", quantity: 1, price: 9.59 }, { name: "Cheese Fries", quantity: 1, price: 4.99 }, { name: "Chocolate Shake", quantity: 1, price: 6.19 }] },
-  { slug: "in-n-out-receipt-double-double", brand: "In-N-Out Burger", base: "restaurant", city: "Baldwin Park, CA 91706", items: [{ name: "Double-Double", quantity: 2, price: 5.25 }, { name: "Fries", quantity: 2, price: 2.6 }, { name: "Vanilla Shake", quantity: 1, price: 3.15 }] },
+  { slug: "in-n-out-receipt-double-double", brand: "In-N-Out Burger", base: "restaurant", city: "Baldwin Park, CA 91706", items: [{ name: "Double-Double", quantity: 2, price: 5.25 }, { name: "Fries", quantity: 2, price: 2.6 }, { name: "Vanilla Shake", quantity: 1, price: 3.15 }], scenario: "Two people sharing a lunch that one of them is claiming on an expense report: the receipt has to show what was ordered, not just a total, so the reviewer can see it was a meal for two.", notes: ["Both burgers and both fries are one line each with a quantity of 2, so the unit price and the line total can both be checked.", "The shake is the only single item, which makes it easy to see how a per-person split of this bill would work."] },
   { slug: "arbys-receipt-roast-beef", brand: "Arby's", base: "restaurant", city: "Sandy Springs, GA 30328", items: [{ name: "Classic Roast Beef", quantity: 2, price: 4.99 }, { name: "Curly Fries (M)", quantity: 1, price: 2.99 }, { name: "Jamocha Shake", quantity: 1, price: 3.29 }] },
   { slug: "raising-canes-receipt-box-combo", brand: "Raising Cane's", base: "restaurant", city: "Baton Rouge, LA 70808", items: [{ name: "The Box Combo", quantity: 1, price: 10.99 }, { name: "Extra Cane's Sauce", quantity: 2, price: 0.5 }, { name: "Lemonade", quantity: 1, price: 2.79 }] },
   { slug: "whataburger-receipt-meal", brand: "Whataburger", base: "restaurant", city: "San Antonio, TX 78216", items: [{ name: "Whataburger Meal", quantity: 1, price: 9.39 }, { name: "Honey BBQ Chicken Strip Sandwich", quantity: 1, price: 6.79 }] },
@@ -267,7 +308,7 @@ export const EXAMPLES: Example[] = [
   // ── Delivery (orders) ──
   { slug: "doordash-receipt-food-delivery", brand: "DoorDash", base: "restaurant", city: "San Francisco, CA 94107", items: [{ name: "Restaurant Subtotal", quantity: 1, price: 27.5 }, { name: "Delivery Fee", quantity: 1, price: 3.99 }, { name: "Service Fee", quantity: 1, price: 4.13 }, { name: "Dasher Tip", quantity: 1, price: 5.0 }], payment: "Credit Card" },
   { slug: "uber-eats-receipt-order", brand: "Uber Eats", base: "restaurant", city: "Chicago, IL 60607", items: [{ name: "Order Subtotal", quantity: 1, price: 31.2 }, { name: "Delivery Fee", quantity: 1, price: 2.49 }, { name: "Service Fee", quantity: 1, price: 4.68 }, { name: "Tip", quantity: 1, price: 6.0 }], payment: "Credit Card" },
-  { slug: "grubhub-receipt-delivery", brand: "Grubhub", base: "restaurant", city: "New York, NY 10018", items: [{ name: "Food Subtotal", quantity: 1, price: 24.0 }, { name: "Delivery Fee", quantity: 1, price: 1.99 }, { name: "Service Fee", quantity: 1, price: 3.6 }, { name: "Driver Tip", quantity: 1, price: 4.5 }], payment: "Credit Card" },
+  { slug: "grubhub-receipt-delivery", brand: "Grubhub", base: "restaurant", city: "New York, NY 10018", items: [{ name: "Food Subtotal", quantity: 1, price: 24.0 }, { name: "Delivery Fee", quantity: 1, price: 1.99 }, { name: "Service Fee", quantity: 1, price: 3.6 }, { name: "Driver Tip", quantity: 1, price: 4.5 }], payment: "Credit Card", scenario: "An employee ordering a working lunch through a delivery app and claiming it on an expense report.", notes: ["Food, delivery fee, service fee and driver tip are four separate lines.", "Many expense policies treat tips and service fees differently from the food itself, so having them itemized saves a back-and-forth with finance."] },
 
   // ── More grocery (US) ──
   { slug: "safeway-receipt-groceries", brand: "Safeway", base: "grocery-store", city: "Pleasanton, CA 94588", items: [{ name: "Signature Milk 1Gal", quantity: 1, price: 3.99 }, { name: "Romaine Hearts 3ct", quantity: 1, price: 3.49 }, { name: "Boneless Chicken Thighs (lb)", quantity: 2, price: 3.99 }, { name: "Sourdough Loaf", quantity: 1, price: 3.99 }] },
@@ -281,18 +322,18 @@ export const EXAMPLES: Example[] = [
   { slug: "mercadona-receipt-spain", brand: "Mercadona", base: "grocery-store", city: "Valencia, Spain", taxRate: 0, items: [{ name: "Leche Entera 1L", quantity: 2, price: 0.89 }, { name: "Pan de Molde", quantity: 1, price: 1.2 }, { name: "Aceite de Oliva 1L", quantity: 1, price: 6.5 }, { name: "Plátanos (kg)", quantity: 1, price: 1.79 }] },
   { slug: "lidl-receipt-groceries", brand: "Lidl", base: "grocery-store", city: "Neckarsulm, Germany", taxRate: 0, items: [{ name: "Vollmilch 1L", quantity: 2, price: 0.95 }, { name: "Brötchen 6er", quantity: 1, price: 0.99 }, { name: "Bananen (kg)", quantity: 1, price: 1.49 }, { name: "Gouda 400g", quantity: 1, price: 2.99 }] },
   { slug: "sainsburys-receipt-uk", brand: "Sainsbury's", base: "grocery-store", city: "London, UK", taxRate: 0, items: [{ name: "British Semi-Skimmed Milk", quantity: 1, price: 1.45 }, { name: "Taste the Difference Bread", quantity: 1, price: 1.5 }, { name: "Free Range Eggs 12", quantity: 1, price: 2.95 }, { name: "Bananas 5pk", quantity: 1, price: 0.79 }] },
-  { slug: "asda-receipt-uk", brand: "ASDA", base: "grocery-store", city: "Leeds, UK", taxRate: 0, items: [{ name: "ASDA Chicken Breast 1kg", quantity: 1, price: 5.5 }, { name: "Baked Beans 4pk", quantity: 1, price: 1.4 }, { name: "Cheddar 460g", quantity: 1, price: 3.0 }, { name: "Apples 6pk", quantity: 1, price: 1.25 }] },
-  { slug: "woolworths-receipt-australia", brand: "Woolworths", base: "grocery-store", city: "Sydney, Australia", taxRate: 0, items: [{ name: "Full Cream Milk 2L", quantity: 1, price: 3.1 }, { name: "Tip Top Bread", quantity: 1, price: 3.5 }, { name: "Free Range Eggs 12", quantity: 1, price: 5.5 }, { name: "Bananas (kg)", quantity: 1, price: 3.9 }] },
+  { slug: "asda-receipt-uk", brand: "ASDA", base: "grocery-store", city: "Leeds, UK", taxRate: 0, items: [{ name: "ASDA Chicken Breast 1kg", quantity: 1, price: 5.5 }, { name: "Baked Beans 4pk", quantity: 1, price: 1.4 }, { name: "Cheddar 460g", quantity: 1, price: 3.0 }, { name: "Apples 6pk", quantity: 1, price: 1.25 }], scenario: "A UK shopper keeping a record of a supermarket shop, priced in pounds with VAT already inside the shelf prices.", notes: ["Prices are shown in pounds, and no VAT is added at the till: UK shelf prices include VAT.", "Most basic groceries in the UK are zero-rated for VAT, so a food-only shop like this one carries little or no VAT at all."] },
+  { slug: "woolworths-receipt-australia", brand: "Woolworths", base: "grocery-store", city: "Sydney, Australia", taxRate: 0, items: [{ name: "Full Cream Milk 2L", quantity: 1, price: 3.1 }, { name: "Tip Top Bread", quantity: 1, price: 3.5 }, { name: "Free Range Eggs 12", quantity: 1, price: 5.5 }, { name: "Bananas (kg)", quantity: 1, price: 3.9 }], scenario: "An Australian shopper keeping a record of a supermarket shop, priced in Australian dollars with GST handled at the shelf price.", notes: ["Prices are in Australian dollars; nothing is added at the till.", "Basic fresh food in Australia is GST-free, so a grocery-only shop like this one carries little or no GST."] },
   { slug: "coles-receipt-australia", brand: "Coles", base: "grocery-store", city: "Melbourne, Australia", taxRate: 0, items: [{ name: "Coles Milk 3L", quantity: 1, price: 4.0 }, { name: "Mince Beef 500g", quantity: 1, price: 7.5 }, { name: "Avocados", quantity: 2, price: 1.5 }, { name: "Bread Loaf", quantity: 1, price: 2.9 }] },
   { slug: "loblaws-receipt-canada", brand: "Loblaws", base: "grocery-store", city: "Toronto, ON", items: [{ name: "PC Milk 4L", quantity: 1, price: 5.49 }, { name: "Wonder Bread", quantity: 1, price: 3.29 }, { name: "Eggs Large 12", quantity: 1, price: 3.99 }, { name: "Bananas (kg)", quantity: 1, price: 1.65 }] },
   { slug: "rewe-receipt-germany", brand: "REWE", base: "grocery-store", city: "Cologne, Germany", taxRate: 0, items: [{ name: "Bio Milch 1L", quantity: 2, price: 1.19 }, { name: "Roggenbrot", quantity: 1, price: 1.79 }, { name: "Eier 10er", quantity: 1, price: 2.49 }, { name: "Äpfel (kg)", quantity: 1, price: 2.29 }] },
 
   // ── Retail / electronics / clothing ──
   { slug: "amazon-receipt-order", brand: "Amazon", base: "retail-store", city: "Seattle, WA 98109", items: [{ name: "Echo Dot (5th Gen)", quantity: 1, price: 49.99 }, { name: "USB-C Hub", quantity: 1, price: 25.99 }, { name: "Paperback Book", quantity: 1, price: 14.29 }] },
-  { slug: "macys-receipt-clothing", brand: "Macy's", base: "retail-store", city: "New York, NY 10001", items: [{ name: "Ralph Lauren Polo", quantity: 1, price: 89.5 }, { name: "Levi's 511 Jeans", quantity: 1, price: 69.5 }, { name: "Dress Socks 3pk", quantity: 1, price: 16.0 }] },
+  { slug: "macys-receipt-clothing", brand: "Macy's", base: "retail-store", city: "New York, NY 10001", items: [{ name: "Ralph Lauren Polo", quantity: 1, price: 89.5 }, { name: "Levi's 511 Jeans", quantity: 1, price: 69.5 }, { name: "Dress Socks 3pk", quantity: 1, price: 16.0 }], scenario: "A shopper buying clothes who wants proof of purchase for exchanges or returns later.", notes: ["Department store receipts name the brand on each line, such as Ralph Lauren and Levi's, which helps when returning one item and not the others.", "Each item is a single unit, so a return refunds exactly the line price shown."] },
   { slug: "gamestop-receipt-games", brand: "GameStop", base: "retail-store", city: "Grapevine, TX 76051", items: [{ name: "PS5 Game (New)", quantity: 1, price: 69.99 }, { name: "Controller Charger", quantity: 1, price: 24.99 }, { name: "Pre-Owned Game", quantity: 1, price: 29.99 }] },
   { slug: "sephora-receipt-makeup", brand: "Sephora", base: "retail-store", city: "San Francisco, CA 94105", items: [{ name: "Foundation", quantity: 1, price: 42.0 }, { name: "Setting Spray", quantity: 1, price: 33.0 }, { name: "Lip Gloss", quantity: 2, price: 22.0 }] },
-  { slug: "ulta-receipt-beauty", brand: "Ulta Beauty", base: "retail-store", city: "Bolingbrook, IL 60440", items: [{ name: "Shampoo & Conditioner Set", quantity: 1, price: 28.0 }, { name: "Mascara", quantity: 1, price: 24.0 }, { name: "Nail Polish", quantity: 3, price: 9.5 }] },
+  { slug: "ulta-receipt-beauty", brand: "Ulta Beauty", base: "retail-store", city: "Bolingbrook, IL 60440", items: [{ name: "Shampoo & Conditioner Set", quantity: 1, price: 28.0 }, { name: "Mascara", quantity: 1, price: 24.0 }, { name: "Nail Polish", quantity: 3, price: 9.5 }], scenario: "A shopper buying gifts and keeping the receipt in case one of them needs to go back.", notes: ["Three bottles of nail polish are one line with a quantity of 3, rather than three separate lines.", "A return of a single bottle would be refunded at the unit price shown, $9.50, which is why itemized receipts matter for partial returns."] },
   { slug: "lowes-receipt-tools", brand: "Lowe's", base: "retail-store", city: "Mooresville, NC 28117", items: [{ name: "Kobalt Socket Set", quantity: 1, price: 49.98 }, { name: "Paint Gallon (Eggshell)", quantity: 2, price: 32.98 }, { name: "Painter's Tape 3pk", quantity: 1, price: 11.97 }] },
   { slug: "dicks-sporting-goods-receipt", brand: "Dick's Sporting Goods", base: "retail-store", city: "Coraopolis, PA 15108", items: [{ name: "Wilson Basketball", quantity: 1, price: 29.99 }, { name: "Under Armour Shorts", quantity: 2, price: 25.0 }, { name: "Water Bottle 32oz", quantity: 1, price: 14.99 }] },
   { slug: "old-navy-receipt-clothes", brand: "Old Navy", base: "retail-store", city: "San Francisco, CA 94133", items: [{ name: "Graphic Tee", quantity: 3, price: 10.0 }, { name: "Men's Chinos", quantity: 1, price: 29.99 }, { name: "Kids Hoodie", quantity: 1, price: 19.99 }] },
@@ -339,7 +380,7 @@ export const EXAMPLES: Example[] = [
 
   // ── Batch 3: more restaurants ──
   { slug: "jersey-mikes-receipt-sub", brand: "Jersey Mike's", base: "restaurant", city: "Manasquan, NJ 08736", items: [{ name: "Giant #13 Mike's Way", quantity: 1, price: 16.45 }, { name: "Regular Club Sub", quantity: 1, price: 9.95 }, { name: "Chips", quantity: 2, price: 1.79 }] },
-  { slug: "jimmy-johns-receipt-sub", brand: "Jimmy John's", base: "restaurant", city: "Champaign, IL 61820", items: [{ name: "#9 Italian Night Club", quantity: 1, price: 8.99 }, { name: "Turkey Tom", quantity: 1, price: 7.49 }, { name: "Jumbo Kosher Dill", quantity: 1, price: 1.75 }] },
+  { slug: "jimmy-johns-receipt-sub", brand: "Jimmy John's", base: "restaurant", city: "Champaign, IL 61820", items: [{ name: "#9 Italian Night Club", quantity: 1, price: 8.99 }, { name: "Turkey Tom", quantity: 1, price: 7.49 }, { name: "Jumbo Kosher Dill", quantity: 1, price: 1.75 }], scenario: "Two colleagues grabbing subs between meetings, with one person paying and claiming it.", notes: ["Each sandwich is named by its menu name, which is what a reviewer sees when checking the order matches the claim.", "A small add-on such as the pickle gets its own line and price."] },
   { slug: "jack-in-the-box-receipt", brand: "Jack in the Box", base: "restaurant", city: "San Diego, CA 92123", items: [{ name: "Jumbo Jack Combo", quantity: 1, price: 8.49 }, { name: "Tacos 2pc", quantity: 2, price: 1.99 }, { name: "Curly Fries", quantity: 1, price: 3.29 }] },
   { slug: "qdoba-receipt-burrito", brand: "Qdoba", base: "restaurant", city: "San Diego, CA 92101", items: [{ name: "Loaded Tortilla Soup", quantity: 1, price: 6.25 }, { name: "Chicken Burrito", quantity: 1, price: 9.5 }, { name: "Chips & Queso", quantity: 1, price: 3.95 }] },
   { slug: "moes-receipt-burrito", brand: "Moe's Southwest Grill", base: "restaurant", city: "Atlanta, GA 30305", items: [{ name: "Homewrecker Burrito", quantity: 1, price: 10.29 }, { name: "Stack", quantity: 1, price: 9.49 }, { name: "Queso & Chips", quantity: 1, price: 4.49 }] },
@@ -365,15 +406,15 @@ export const EXAMPLES: Example[] = [
   { slug: "wagamama-receipt-uk", brand: "Wagamama", base: "restaurant", city: "London, UK", taxRate: 0, items: [{ name: "Chicken Katsu Curry", quantity: 1, price: 13.95 }, { name: "Yasai Gyoza", quantity: 1, price: 6.95 }, { name: "Green Tea", quantity: 2, price: 2.5 }] },
 
   // ── More grocery (US) ──
-  { slug: "food-lion-receipt-groceries", brand: "Food Lion", base: "grocery-store", city: "Salisbury, NC 28147", items: [{ name: "Food Lion Milk 1Gal", quantity: 1, price: 3.29 }, { name: "Chicken Drumsticks (lb)", quantity: 3, price: 1.29 }, { name: "Bread", quantity: 1, price: 1.5 }, { name: "Eggs 12ct", quantity: 1, price: 2.99 }] },
+  { slug: "food-lion-receipt-groceries", brand: "Food Lion", base: "grocery-store", city: "Salisbury, NC 28147", items: [{ name: "Food Lion Milk 1Gal", quantity: 1, price: 3.29 }, { name: "Chicken Drumsticks (lb)", quantity: 3, price: 1.29 }, { name: "Bread", quantity: 1, price: 1.5 }, { name: "Eggs 12ct", quantity: 1, price: 2.99 }], scenario: "A household tracking a weekly grocery budget, where the drumsticks are sold by weight and the rest by the unit.", notes: ["The drumsticks line shows a quantity of 3 at $1.29: on weighed items the quantity is the weight in pounds, not a count of pieces.", "Store-brand milk is named on its own line, which is how most grocery receipts show the private-label items."] },
   { slug: "sprouts-receipt-groceries", brand: "Sprouts Farmers Market", base: "grocery-store", city: "Phoenix, AZ 85016", items: [{ name: "Organic Kale", quantity: 1, price: 1.99 }, { name: "Grass-Fed Ground Beef (lb)", quantity: 1, price: 6.99 }, { name: "Almond Butter", quantity: 1, price: 7.49 }, { name: "Bulk Granola (lb)", quantity: 1, price: 4.99 }] },
   { slug: "vons-receipt-groceries", brand: "Vons", base: "grocery-store", city: "Fullerton, CA 92835", items: [{ name: "Signature Eggs 12ct", quantity: 1, price: 3.49 }, { name: "Roma Tomatoes (lb)", quantity: 2, price: 1.49 }, { name: "Pasta 16oz", quantity: 3, price: 1.29 }, { name: "Pasta Sauce", quantity: 2, price: 2.49 }] },
   { slug: "meijer-receipt-groceries", brand: "Meijer", base: "grocery-store", city: "Grand Rapids, MI 49544", items: [{ name: "Meijer Milk 1Gal", quantity: 1, price: 2.99 }, { name: "Frozen Pizza", quantity: 2, price: 4.49 }, { name: "Bananas (lb)", quantity: 3, price: 0.49 }, { name: "Cereal", quantity: 1, price: 3.99 }] },
   { slug: "albertsons-receipt-groceries", brand: "Albertsons", base: "grocery-store", city: "Boise, ID 83706", items: [{ name: "O Organics Milk", quantity: 1, price: 4.49 }, { name: "Ground Turkey (lb)", quantity: 1, price: 5.49 }, { name: "Spinach Bag", quantity: 1, price: 3.29 }, { name: "Whole Wheat Bread", quantity: 1, price: 2.79 }] },
 
   // ── More grocery (international) ──
-  { slug: "aldi-sud-receipt-germany", brand: "ALDI SÜD", base: "grocery-store", city: "Mülheim, Germany", taxRate: 0, items: [{ name: "Milch 1L", quantity: 2, price: 0.85 }, { name: "Toastbrot", quantity: 1, price: 0.89 }, { name: "Hähnchenbrust 500g", quantity: 1, price: 3.99 }, { name: "Bananen (kg)", quantity: 1, price: 1.39 }] },
-  { slug: "edeka-receipt-germany", brand: "EDEKA", base: "grocery-store", city: "Hamburg, Germany", taxRate: 0, items: [{ name: "Bio Vollmilch", quantity: 1, price: 1.29 }, { name: "Brötchen 4er", quantity: 1, price: 0.99 }, { name: "Butter 250g", quantity: 1, price: 2.19 }, { name: "Äpfel (kg)", quantity: 1, price: 2.49 }] },
+  { slug: "aldi-sud-receipt-germany", brand: "ALDI SÜD", base: "grocery-store", city: "Mülheim, Germany", taxRate: 0, items: [{ name: "Milch 1L", quantity: 2, price: 0.85 }, { name: "Toastbrot", quantity: 1, price: 0.89 }, { name: "Hähnchenbrust 500g", quantity: 1, price: 3.99 }, { name: "Bananen (kg)", quantity: 1, price: 1.39 }], scenario: "A shopper in Germany keeping a record of a discount-supermarket shop, priced in euros with the tax already inside the prices.", notes: ["Prices are in euros and include MwSt; German receipts typically mark each item with the VAT rate that applies.", "Two litres of milk are one line with a quantity of 2, the way most German supermarket receipts group identical items."] },
+  { slug: "edeka-receipt-germany", brand: "EDEKA", base: "grocery-store", city: "Hamburg, Germany", taxRate: 0, items: [{ name: "Bio Vollmilch", quantity: 1, price: 1.29 }, { name: "Brötchen 4er", quantity: 1, price: 0.99 }, { name: "Butter 250g", quantity: 1, price: 2.19 }, { name: "Äpfel (kg)", quantity: 1, price: 2.49 }], scenario: "A shopper in Germany keeping a record of a small grocery shop, priced in euros with the tax already included.", notes: ["Prices are in euros and include MwSt (German VAT); nothing is added at the till.", "Most food in Germany falls under the reduced 7% MwSt rate rather than the standard 19%, and German receipts typically mark which rate applies to each item."] },
   { slug: "monoprix-receipt-france", brand: "Monoprix", base: "grocery-store", city: "Paris, France", taxRate: 0, items: [{ name: "Yaourt Nature 4x", quantity: 1, price: 1.95 }, { name: "Jambon Blanc", quantity: 1, price: 3.4 }, { name: "Salade Verte", quantity: 1, price: 1.5 }, { name: "Eau Minérale 6x", quantity: 1, price: 2.7 }] },
   { slug: "jumbo-receipt-netherlands", brand: "Jumbo", base: "grocery-store", city: "Veghel, Netherlands", taxRate: 0, items: [{ name: "Halfvolle Melk 1L", quantity: 2, price: 1.05 }, { name: "Bruin Brood", quantity: 1, price: 1.39 }, { name: "Eieren 10", quantity: 1, price: 2.29 }, { name: "Kaas 250g", quantity: 1, price: 3.19 }] },
   { slug: "migros-receipt-switzerland", brand: "Migros", base: "grocery-store", city: "Zürich, Switzerland", taxRate: 0, items: [{ name: "Milch 1L", quantity: 2, price: 1.6 }, { name: "Brot", quantity: 1, price: 2.5 }, { name: "Eier 6", quantity: 1, price: 3.9 }, { name: "Käse 200g", quantity: 1, price: 4.2 }] },
@@ -386,11 +427,11 @@ export const EXAMPLES: Example[] = [
   { slug: "foot-locker-receipt-sneakers", brand: "Foot Locker", base: "retail-store", city: "New York, NY 10001", items: [{ name: "Jordan Retro 4", quantity: 1, price: 215.0 }, { name: "Nike Crew Socks", quantity: 2, price: 16.0 }] },
   { slug: "tj-maxx-receipt", brand: "T.J. Maxx", base: "retail-store", city: "Framingham, MA 01701", items: [{ name: "Designer Handbag", quantity: 1, price: 79.99 }, { name: "Throw Blanket", quantity: 1, price: 24.99 }, { name: "Candle Set", quantity: 1, price: 16.99 }] },
   { slug: "ross-receipt-clothing", brand: "Ross Dress for Less", base: "retail-store", city: "Dublin, CA 94568", items: [{ name: "Men's Polo", quantity: 2, price: 12.99 }, { name: "Bath Towel Set", quantity: 1, price: 19.99 }, { name: "Sandals", quantity: 1, price: 14.99 }] },
-  { slug: "kohls-receipt-clothing", brand: "Kohl's", base: "retail-store", city: "Menomonee Falls, WI 53051", items: [{ name: "Sonoma Flannel Shirt", quantity: 2, price: 22.0 }, { name: "Nike Kids Shoes", quantity: 1, price: 49.99 }, { name: "Bath Towels 2pk", quantity: 1, price: 17.99 }] },
+  { slug: "kohls-receipt-clothing", brand: "Kohl's", base: "retail-store", city: "Menomonee Falls, WI 53051", items: [{ name: "Sonoma Flannel Shirt", quantity: 2, price: 22.0 }, { name: "Nike Kids Shoes", quantity: 1, price: 49.99 }, { name: "Bath Towels 2pk", quantity: 1, price: 17.99 }], scenario: "A parent buying school clothes and shoes, with the receipt kept in case sizes need exchanging.", notes: ["Sonoma is Kohl's own clothing label; Nike is a third-party brand sold in the same store.", "Two flannel shirts are one line with a quantity of 2, so the price per shirt is clear."] },
   { slug: "nordstrom-receipt-clothing", brand: "Nordstrom", base: "retail-store", city: "Seattle, WA 98101", items: [{ name: "Cashmere Sweater", quantity: 1, price: 149.0 }, { name: "Leather Belt", quantity: 1, price: 58.0 }, { name: "Fragrance", quantity: 1, price: 92.0 }] },
-  { slug: "barnes-noble-receipt-books", brand: "Barnes & Noble", base: "retail-store", city: "New York, NY 10011", items: [{ name: "Hardcover Bestseller", quantity: 1, price: 28.99 }, { name: "Journal", quantity: 1, price: 14.95 }, { name: "Café Latte", quantity: 1, price: 4.95 }] },
+  { slug: "barnes-noble-receipt-books", brand: "Barnes & Noble", base: "retail-store", city: "New York, NY 10011", items: [{ name: "Hardcover Bestseller", quantity: 1, price: 28.99 }, { name: "Journal", quantity: 1, price: 14.95 }, { name: "Café Latte", quantity: 1, price: 4.95 }], scenario: "A teacher buying a book for class and a journal, with a coffee from the in-store café rung up on the same receipt. When only part of a receipt is a work expense, the itemized lines are what let you claim the right part.", notes: ["Three different kinds of purchase share one total: a book, stationery and a café drink.", "An expense claim for the book alone would list $28.99 plus its share of tax, not the receipt total."] },
   { slug: "dollar-tree-receipt", brand: "Dollar Tree", base: "retail-store", city: "Chesapeake, VA 23320", items: [{ name: "Party Supplies", quantity: 6, price: 1.25 }, { name: "Cleaning Sponges", quantity: 3, price: 1.25 }, { name: "Greeting Card", quantity: 2, price: 1.25 }] },
-  { slug: "harbor-freight-receipt-tools", brand: "Harbor Freight Tools", base: "retail-store", city: "Calabasas, CA 91302", items: [{ name: "Pittsburgh Tool Set", quantity: 1, price: 49.99 }, { name: "Work Gloves 3pk", quantity: 1, price: 8.99 }, { name: "Tarp 10x12", quantity: 2, price: 6.99 }] },
+  { slug: "harbor-freight-receipt-tools", brand: "Harbor Freight Tools", base: "retail-store", city: "Calabasas, CA 91302", items: [{ name: "Pittsburgh Tool Set", quantity: 1, price: 49.99 }, { name: "Work Gloves 3pk", quantity: 1, price: 8.99 }, { name: "Tarp 10x12", quantity: 2, price: 6.99 }], scenario: "A homeowner buying tools for a weekend project and keeping the receipt for the warranty.", notes: ["Pittsburgh is one of Harbor Freight's own tool brands, so it appears as a product name rather than as another store.", "The two tarps share one line with a quantity of 2."] },
   { slug: "autozone-receipt-parts", brand: "AutoZone", base: "retail-store", city: "Memphis, TN 38103", items: [{ name: "Duralast Battery", quantity: 1, price: 139.99 }, { name: "Motor Oil 5qt", quantity: 1, price: 27.99 }, { name: "Wiper Blades", quantity: 2, price: 14.99 }] },
   { slug: "microsoft-store-receipt", brand: "Microsoft Store", base: "retail-store", city: "Redmond, WA 98052", items: [{ name: "Xbox Wireless Controller", quantity: 1, price: 59.99 }, { name: "Game Pass 3-Month", quantity: 1, price: 49.99 }] },
 
@@ -457,7 +498,7 @@ export const EXAMPLES: Example[] = [
   { slug: "wendys-receipt-biggie-bag", brand: "Wendy's", base: "fast-food-receipt", city: "Dublin, OH 43017", items: [{ name: "Biggie Bag", quantity: 2, price: 5.0 }, { name: "Spicy Nuggets 10pc", quantity: 1, price: 5.29 }, { name: "Frosty (L)", quantity: 2, price: 2.99 }] },
   { slug: "subway-receipt-catering-box", brand: "Subway", base: "fast-food-receipt", city: "Milford, CT 06461", items: [{ name: "Giant Sub Platter", quantity: 1, price: 39.99 }, { name: "Cookie Platter (12)", quantity: 1, price: 9.99 }] },
   { slug: "popeyes-receipt-family-feast", brand: "Popeyes", base: "fast-food-receipt", city: "Atlanta, GA 30338", items: [{ name: "12pc Family Meal", quantity: 1, price: 29.99 }, { name: "Cajun Fries (Family)", quantity: 1, price: 6.99 }, { name: "Biscuits (6)", quantity: 1, price: 4.49 }] },
-  { slug: "dominos-receipt-two-pizzas", brand: "Domino's Pizza", base: "pizza-receipt", city: "Ann Arbor, MI 48108", items: [{ name: "Large 2-Topping Pizza", quantity: 2, price: 11.99 }, { name: "Stuffed Cheesy Bread", quantity: 1, price: 7.99 }, { name: "Coke 2L", quantity: 1, price: 2.99 }] },
+  { slug: "dominos-receipt-two-pizzas", brand: "Domino's Pizza", base: "pizza-receipt", city: "Ann Arbor, MI 48108", items: [{ name: "Large 2-Topping Pizza", quantity: 2, price: 11.99 }, { name: "Stuffed Cheesy Bread", quantity: 1, price: 7.99 }, { name: "Coke 2L", quantity: 1, price: 2.99 }], scenario: "An office ordering pizza for a team lunch, with the receipt needed for reimbursement afterwards.", notes: ["There is no delivery fee or driver tip line, so this reads as a carryout order; on a delivery order both would appear as their own lines.", "The two pizzas share one line with a quantity of 2, so the per-pizza price is visible."] },
   { slug: "pizza-hut-receipt-dinner-box", brand: "Pizza Hut", base: "pizza-receipt", city: "Plano, TX 75024", items: [{ name: "Big Dinner Box", quantity: 1, price: 23.99 }, { name: "Breadsticks", quantity: 1, price: 5.99 }] },
   { slug: "chick-fil-a-receipt-breakfast", brand: "Chick-fil-A", base: "fast-food-receipt", city: "College Park, GA 30349", items: [{ name: "Chick-n-Minis (4ct)", quantity: 2, price: 5.65 }, { name: "Hash Browns", quantity: 2, price: 1.69 }, { name: "Coffee", quantity: 2, price: 1.95 }] },
   { slug: "panera-receipt-you-pick-two", brand: "Panera Bread", base: "fast-food-receipt", city: "St. Louis, MO 63105", items: [{ name: "You Pick Two", quantity: 2, price: 11.99 }, { name: "Baguette", quantity: 1, price: 0.0 }, { name: "Iced Tea", quantity: 2, price: 2.99 }] },
@@ -536,11 +577,11 @@ export const EXAMPLES: Example[] = [
   { slug: "marriott-receipt-weekend", brand: "Marriott", base: "hotel", city: "Bethesda, MD 20814", items: [{ name: "King Room — 2 Nights", quantity: 2, price: 199.0 }, { name: "Valet Parking", quantity: 2, price: 42.0 }, { name: "Room Service", quantity: 1, price: 38.5 }] },
   { slug: "hilton-receipt-business-stay", brand: "Hilton", base: "hotel", city: "McLean, VA 22102", items: [{ name: "Executive Room — 3 Nights", quantity: 3, price: 224.0 }, { name: "Resort Fee", quantity: 3, price: 35.0 }] },
   { slug: "airbnb-receipt-week-stay", brand: "Airbnb", base: "hotel", city: "Austin, TX 78704", items: [{ name: "7 Nights", quantity: 7, price: 128.0 }, { name: "Cleaning Fee", quantity: 1, price: 95.0 }, { name: "Service Fee", quantity: 1, price: 110.0 }] },
-  { slug: "jetblue-receipt-flight", brand: "JetBlue", base: "airline-receipt", city: "Long Island City, NY", items: [{ name: "Base Fare (JFK-FLL)", quantity: 1, price: 119.0 }, { name: "Even More Space", quantity: 1, price: 45.0 }, { name: "Checked Bag", quantity: 1, price: 35.0 }] },
+  { slug: "jetblue-receipt-flight", brand: "JetBlue", base: "airline-receipt", city: "Long Island City, NY", items: [{ name: "Base Fare (JFK-FLL)", quantity: 1, price: 119.0 }, { name: "Even More Space", quantity: 1, price: 45.0 }, { name: "Checked Bag", quantity: 1, price: 35.0 }], scenario: "A traveller who paid for extra legroom and a checked bag and needs the receipt to show which costs were optional.", notes: ["The base fare names the route, JFK to FLL, so the trip can be matched to a travel request.", "Even More Space and the checked bag are separate lines, which is how an expense reviewer tells required costs from upgrades."] },
   { slug: "delta-receipt-flight", brand: "Delta Airlines", base: "airline-receipt", city: "Atlanta, GA", items: [{ name: "Main Cabin Fare", quantity: 1, price: 248.0 }, { name: "Taxes & Fees", quantity: 1, price: 41.2 }, { name: "Preferred Seat", quantity: 1, price: 29.0 }] },
   { slug: "hertz-receipt-rental", brand: "Hertz", base: "car-rental-receipt", city: "Estero, FL 33928", items: [{ name: "Full-Size Car — 3 Days", quantity: 3, price: 54.0 }, { name: "Loss Damage Waiver (day)", quantity: 3, price: 21.99 }, { name: "Prepaid Fuel", quantity: 1, price: 52.0 }] },
   { slug: "expedia-receipt-package", brand: "Expedia", base: "hotel", city: "Seattle, WA 98119", items: [{ name: "Flight + Hotel Package", quantity: 1, price: 689.0 }, { name: "Taxes & Booking Fees", quantity: 1, price: 78.4 }] },
-  { slug: "southwest-receipt-flight", brand: "Southwest Airlines", base: "airline-receipt", city: "Dallas, TX", items: [{ name: "Wanna Get Away Fare", quantity: 1, price: 129.0 }, { name: "Taxes & Fees", quantity: 1, price: 22.4 }, { name: "EarlyBird Check-In", quantity: 1, price: 25.0 }] },
+  { slug: "southwest-receipt-flight", brand: "Southwest Airlines", base: "airline-receipt", city: "Dallas, TX", items: [{ name: "Wanna Get Away Fare", quantity: 1, price: 129.0 }, { name: "Taxes & Fees", quantity: 1, price: 22.4 }, { name: "EarlyBird Check-In", quantity: 1, price: 25.0 }], scenario: "A business traveller filing a flight on an expense report, where the policy covers the fare but may not cover optional extras.", notes: ["The fare, the taxes and fees, and the EarlyBird Check-In are three separate lines.", "Keeping the optional add-on on its own line is what lets a reviewer approve the fare and query the extra, rather than rejecting the whole receipt."] },
 
   // ── Services ──
   { slug: "uber-receipt-pool-ride", brand: "Uber", base: "taxi", city: "San Francisco, CA 94103", payment: "Credit Card", items: [{ name: "UberX Share (3.1 mi)", quantity: 1, price: 9.8 }, { name: "Booking Fee", quantity: 1, price: 2.75 }] },
@@ -548,7 +589,7 @@ export const EXAMPLES: Example[] = [
   { slug: "doordash-receipt-grocery", brand: "DoorDash", base: "restaurant", city: "San Francisco, CA 94107", payment: "Credit Card", items: [{ name: "Grocery Subtotal", quantity: 1, price: 54.2 }, { name: "Delivery Fee", quantity: 1, price: 3.99 }, { name: "Service Fee", quantity: 1, price: 8.13 }, { name: "Dasher Tip", quantity: 1, price: 8.0 }] },
   { slug: "instacart-receipt-costco", brand: "Instacart", base: "grocery-store", city: "San Francisco, CA 94105", payment: "Credit Card", items: [{ name: "Costco Order Subtotal", quantity: 1, price: 142.6 }, { name: "Delivery Fee", quantity: 1, price: 3.99 }, { name: "Service Fee", quantity: 1, price: 14.26 }, { name: "Tip", quantity: 1, price: 15.0 }] },
   { slug: "planet-fitness-receipt-membership", brand: "Planet Fitness", base: "gym-membership-receipt", city: "Hampton, NH 03842", payment: "Credit Card", items: [{ name: "Black Card Membership", quantity: 1, price: 24.99 }, { name: "Annual Fee", quantity: 1, price: 49.0 }] },
-  { slug: "la-fitness-receipt-membership", brand: "LA Fitness", base: "gym-membership-receipt", city: "Irvine, CA 92614", payment: "Credit Card", items: [{ name: "Monthly Dues", quantity: 1, price: 39.99 }, { name: "Initiation Fee", quantity: 1, price: 99.0 }] },
+  { slug: "la-fitness-receipt-membership", brand: "LA Fitness", base: "gym-membership-receipt", city: "Irvine, CA 92614", payment: "Credit Card", items: [{ name: "Monthly Dues", quantity: 1, price: 39.99 }, { name: "Initiation Fee", quantity: 1, price: 99.0 }], scenario: "Someone joining a gym who wants a record of what they paid on day one, separate from the monthly payments that follow.", notes: ["The initiation fee is a one-time charge and the monthly dues recur; the receipt shows both on separate lines.", "Paid by credit card, so the card's last four digits appear instead of a change line."] },
   { slug: "regal-receipt-movie-night", brand: "Regal Cinemas", base: "sales-receipt", city: "Knoxville, TN 37902", payment: "Credit Card", items: [{ name: "Adult Ticket", quantity: 2, price: 14.5 }, { name: "Large Popcorn", quantity: 1, price: 9.5 }, { name: "Soft Drink (L)", quantity: 2, price: 6.0 }] },
   { slug: "ups-store-receipt-shipping", brand: "The UPS Store", base: "sales-receipt", city: "San Diego, CA 92101", payment: "Credit Card", items: [{ name: "Ground Shipping", quantity: 1, price: 14.85 }, { name: "Packaging", quantity: 1, price: 4.99 }, { name: "Printing (25 pages)", quantity: 25, price: 0.19 }] },
 

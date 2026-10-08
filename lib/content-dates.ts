@@ -294,7 +294,10 @@ export const INTENT_CITED_UPDATED = "2026-09-01";
 // "realistic" removal, and a third of them use the intro variant that carried
 // the word in visible copy. All 293 plus the paginated index genuinely moved,
 // so one date covers the set honestly.
-export const EXAMPLES_UPDATED = "2026-08-31";
+// 2026-10-08: every example's related links rotate per page, non-US examples
+// show their own currency, tax label and date order, examples link their
+// brand page, and the first batch gained hand-written scenarios and notes.
+export const EXAMPLES_UPDATED = "2026-10-08";
 export const GUIDES_UPDATED = "2026-08-20";
 // /guides/receipt-legality — new on 2026-08-21. Its own constant so the new URL
 // carries a date newer than the IndexNow cron's last run and is actually
