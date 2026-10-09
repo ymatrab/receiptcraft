@@ -268,6 +268,23 @@ Facts checked 2026-10-06: NHTSA odometer rule (MY2011+, 20 years, from 2021);
 CA DMV REG 135 (any bill of sale identifying the vehicle; no notary). In-house
 banners for both.
 
+## 2026-10-09: Oct 11 pair
+
+| Date | Slug | Keyword | Links to |
+|---|---|---|---|
+| Oct 11 09:30Z | `superbill-template` | superbill (4,400) / superbill template (590) | /templates/medical-receipt |
+| Oct 11 14:00Z | `acknowledgement-receipt` | acknowledgement receipt (1,300) | /templates/cash-receipt, /blog/security-deposit-receipt, /blog/how-to-fill-out-a-receipt-book |
+
+Gate checked 2026-10-09: 0 GSC impressions for either, nothing in Sanity. The
+"superbill template" SERP holds blog posts, so a post can rank. The medical
+receipt template has no CPT/ICD/NPI fields and the post says so. The superbill
+post's file is `oct-11-superbill.mjs` because `oct-11.mjs` holds the mechanic post
+(live Oct 7); publish with `--file=oct-11-superbill`, never `--file=oct-11`.
+In-house banners (new clay stethoscope prop-7, 0.15 credits; prop-1 reused).
+
+Oct 15 change: the planned "deposit receipt" post is dropped. `/blog/partial-payment-receipt`
+already covers deposits; improve that post instead.
+
 ## Watch list
 
 - **`/create` synonym cluster** — #2, #10, #12, #13, #14, #16 all target near-identical "make/create a receipt online free" intent. Differentiated by angle + cross-linked; **watch Search Console** for two URLs trading impressions on one query and merge/canonicalize if it happens. Coming `online receipt generator` and `receipt creator free` add two more.

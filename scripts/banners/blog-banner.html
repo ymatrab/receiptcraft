@@ -135,6 +135,27 @@ const BANNERS = [
     lines: [["0W-20 synthetic, 5 qt", 44.95], ["Oil filter", 12.99], ["Labor", 24.99], ["Disposal fee", 3.50], ["Sales tax 8.25%", 7.13]],
     totalLabel: "TOTAL", foot: "Keep for your service history",
   },
+  {
+    h1: "Superbill Template", h2: "Every Field, With the Codes Explained", h3: "NPI. CPT. ICD-10. Paid in full.",
+    prop: "props/prop-7.png", noteL: "Out-of-<br>Network", noteR: "Codes<br>Required",
+    pills: ["Provider NPI", "CPT & ICD-10", "Amount paid"],
+    currency: "$",
+    title: "Lakeside Counseling", sub: "Dana Ortiz, LCSW · Superbill",
+    info: [["NPI", "0000000000"], ["Diagnosis", "F41.1"], ["POS", "11 · Office"]],
+    // Same sessions as the worked example in the post: 200 + 160 + 140 = 500.
+    lines: [["10/02 · 90791 Evaluation", 200.00], ["10/09 · 90837 60 min", 160.00], ["10/16 · 90834 45 min", 140.00]],
+    totalLabel: "TOTAL PAID", foot: "Submit with your insurer's claim form",
+  },
+  {
+    h1: "Acknowledgement Receipt", h2: "How to Write One, With Samples", h3: "Who. What. When. Why. Signed.",
+    prop: "props/prop-1.png", noteL: "Both<br>Sign", noteR: "Amount<br>in Words",
+    pills: ["Money", "Documents", "Company property"],
+    currency: "$",
+    title: "ACKNOWLEDGEMENT RECEIPT", sub: "October 11, 2026",
+    info: [["Received by", "Maria Santos"], ["Received from", "James Cole"], ["For", "Loan repaid in full"]],
+    lines: [["Cash received", 1500.00]],
+    totalLabel: "TOTAL", foot: "One thousand five hundred dollars",
+  },
 ];
 
 const b = BANNERS[Number(new URLSearchParams(location.search).get("p") || 0)];
