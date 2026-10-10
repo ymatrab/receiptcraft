@@ -20,6 +20,7 @@ import { formatMoney, formatDisplayDate } from "@/lib/format";
 import { SITE, absoluteUrl } from "@/lib/site";
 import { creativeWorkJsonLd } from "@/lib/schema";
 import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
+import { BRAND_TEMPLATES } from "@/lib/brands";
 
 export function generateStaticParams() {
   return EXAMPLE_SLUGS.map((slug) => ({ slug }));
@@ -85,9 +86,19 @@ export default async function ExamplePage({
   const totalStr = formatMoney(total, data.currency);
   const location = data.addressLine2 || data.addressLine1;
 
-  // Related examples: prefer the same base category, fall back to any others.
-  const sameBase = EXAMPLES.filter((e) => e.slug !== ex.slug && e.base === ex.base);
-  const related = (sameBase.length ? sameBase : EXAMPLES.filter((e) => e.slug !== ex.slug)).slice(0, 6);
+  // Related examples: the next six in the same category, wrapping round. A
+  // plain slice(0, 6) sent every page in a category to the same six examples.
+  const pool = EXAMPLES.filter((e) => e.base === ex.base);
+  const at = pool.findIndex((e) => e.slug === ex.slug);
+  const related = (pool.length > 1
+    ? Array.from({ length: Math.min(6, pool.length - 1) }, (_, i) => pool[(at + 1 + i) % pool.length])
+    : EXAMPLES.filter((e) => e.slug !== ex.slug).slice(0, 6));
+
+  // The brand's own template page, when there is one: examples had no link to it.
+  const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, "");
+  const brandPage = BRAND_TEMPLATES.find(
+    (t) => norm(t.shortName) === norm(ex.brand) || norm(t.name.replace(/ Receipt$/, "")) === norm(ex.brand),
+  );
 
   // The former ItemList of receipt line items had no per-item URLs, so it was
   // ineligible for any Google rich result — dropped as noise, and not revived.
@@ -137,7 +148,32 @@ export default async function ExamplePage({
             >
               Make a {ex.brand} receipt
             </Link>
+            {brandPage && (
+              <Link
+                href={`/brands/${brandPage.slug}`}
+                className="ml-4 text-sm font-medium text-indigo-700 underline decoration-indigo-300 underline-offset-2 hover:decoration-indigo-700"
+              >
+                See the {brandPage.shortName} receipt template
+              </Link>
+            )}
           </div>
+
+          {ex.scenario && (
+            <>
+              <h2 className="mt-10 text-xl font-bold text-slate-900">When you would need this receipt</h2>
+              <p className="mt-2 leading-relaxed text-slate-600">{ex.scenario}</p>
+            </>
+          )}
+          {ex.notes && ex.notes.length > 0 && (
+            <>
+              <h2 className="mt-8 text-xl font-bold text-slate-900">What to notice on this receipt</h2>
+              <ul className="mt-3 list-disc space-y-2 pl-5 text-slate-600">
+                {ex.notes.map((n) => (
+                  <li key={n}>{n}</li>
+                ))}
+              </ul>
+            </>
+          )}
 
           <h2 className="mt-10 text-xl font-bold text-slate-900">What&apos;s on this receipt</h2>
           <table className="mt-3 w-full text-sm">
