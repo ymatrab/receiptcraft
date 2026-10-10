@@ -17,6 +17,22 @@ weight (they go through a google.com/url redirect), so the durable ranker is a
 | google sheets receipt template | 170 |
 | rent receipt template google docs | 30 |
 
+## Live files (filled 2026-10-10, owner's Drive)
+
+| Content | Doc ID | Current title | Status |
+|---|---|---|---|
+| Invoice template | 15MhnxhUT5SLzytGQLiMY3TDwNxbpidiYpximaY0fgtA | invoice template google docs | filled, table verified by formula |
+| Receipt template | 1kd_tGURLW-XgrsOfuTfi_7VkP1y6NcMfdN9ZMfJ7Eug | receipt template google docs | filled, read back and verified |
+| Bill of sale | 17E0Bt9H1lk8FpdjW1AKW_1maDEax3_OpV-JLkgwtz9o | bill of sale template google docs | filled |
+| Rent receipt | 1RmJlSRGYeryMmaD7DYvdK1FIiXWfBdUZYpIaAnS9I0M | rent receipt template google docs | filled |
+| Fact sheet (#7) | 1DHgFYfoe7MINLTS0QASfS2lVko8PBGdtkJeJgBi52qA | Invoice Template — Google Sheets (Auto-Calculating) | filled — **owner must rename** to "Makecepeit — Free Online Receipt Maker (Fact Sheet)" |
+| Guide (#8) | 1av7-D-YWD0g-mfFkMtEETx7DwCk8ZEyAxK9ao8bpcfs | Receipt Template — Google Sheets (Itemized, Auto-Total) | filled — **owner must rename** to "How to Make a Receipt Online in 2 Minutes — Makecepeit Guide" |
+| — | 1BKB9xRj7_3L-exg6KaF7CYVBbfTvuJWychhx4rn5eyE | google sheets invoice template | empty: it is a Doc, the target needs a real Sheet |
+| — | 1OBlAbN8bGOfQeYlCJ1gLZUms1UVzckdG5SQq5J2zNvs | google sheets receipt template | empty: same |
+
+The Docs API cannot rename a file, and the Zapier Drive connection was stale,
+so renames are manual. None are public yet.
+
 ## Files (8)
 
 Owner creates each blank file in their Google account, titles it exactly as
