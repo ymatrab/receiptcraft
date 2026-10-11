@@ -425,6 +425,8 @@ const TEMPLATES_ADDED: Readonly<Record<string, string>> = {
   "vat-receipt": "2026-10-05",
   "tax-invoice-australia": "2026-10-05",
   "rent-receipt-ontario": "2026-10-05",
+  // 2026-10-11: rebuilt from a paid "invoice receipt" into a real invoice.
+  invoice: "2026-10-11",
 };
 
 // 2026-10-05: visible title or H1 changed — "daycare" on childcare, "mechanic
