@@ -440,8 +440,17 @@ const TEMPLATES_RETITLED_UPDATED = "2026-10-05";
 // topical rotation); before, 50 of 51 linked to none. Supersedes older dates.
 const TEMPLATES_RELATED_UPDATED = "2026-10-08";
 
+// 2026-10-11: section headings fixed — "a airline receipt" read "an", and the
+// invoice templates said "plumbing receipt" where they mean "plumbing invoice".
+const TEMPLATES_HEADINGS_FIXED: ReadonlySet<string> = new Set([
+  "auto-repair", "oil-change-receipt", "invoice", "plumbing-invoice", "hvac-invoice",
+  "itemized-receipt", "electronics-store-receipt", "airline-receipt",
+]);
+const TEMPLATES_HEADINGS_UPDATED = "2026-10-11";
+
 export function templateReviewedAt(t: ReceiptTemplate): string {
-  return TEMPLATES_RELATED_UPDATED > templateReviewedAtBefore(t) ? TEMPLATES_RELATED_UPDATED : templateReviewedAtBefore(t);
+  const reviewed = TEMPLATES_RELATED_UPDATED > templateReviewedAtBefore(t) ? TEMPLATES_RELATED_UPDATED : templateReviewedAtBefore(t);
+  return TEMPLATES_HEADINGS_FIXED.has(t.slug) && TEMPLATES_HEADINGS_UPDATED > reviewed ? TEMPLATES_HEADINGS_UPDATED : reviewed;
 }
 
 function templateReviewedAtBefore(t: ReceiptTemplate): string {

@@ -58,6 +58,13 @@ export default async function TemplatePage({ params }: Props) {
   if (!template) notFound();
 
   const preview = previewFromTemplate(template);
+  // Invoice templates bill rather than confirm payment, so their headings say
+  // "invoice"; the article follows the noun ("an airline receipt").
+  const isInvoice = Boolean(template.defaults.invoice);
+  const docLabel = isInvoice ? template.name.toLowerCase() : `${template.shortName.toLowerCase()} receipt`;
+  const docTitle = isInvoice ? template.name : `${template.shortName} receipt`;
+  const an = (noun: string) => (/^[aeiou]/i.test(noun) ? "an" : "a");
+  const useLabel = template.name.toLowerCase();
   const related = TEMPLATES.filter((t) => t.slug !== template.slug).slice(0, 4);
 
   // A sourced figure for templates that carry none of their own. Its sources
@@ -168,7 +175,7 @@ export default async function TemplatePage({ params }: Props) {
             </div>
 
             <h2 className="mt-12 text-xl font-bold text-slate-900">
-              Common uses for a {template.name.toLowerCase()}
+              Common uses for {an(useLabel)} {useLabel}
             </h2>
             <ul className="mt-4 space-y-3">
               {template.useCases.map((useCase) => (
@@ -199,10 +206,10 @@ export default async function TemplatePage({ params }: Props) {
         {template.fields && template.fields.length > 0 && (
           <section className="mt-20" aria-labelledby="fields-heading">
             <h2 id="fields-heading" className="text-2xl font-bold text-slate-900">
-              What&apos;s on a {template.shortName.toLowerCase()} receipt
+              What&apos;s on {an(docLabel)} {docLabel}
             </h2>
             <p className="mt-4 max-w-3xl leading-relaxed text-slate-600">
-              These are the fields a {template.shortName.toLowerCase()} receipt is
+              These are the fields {an(docLabel)} {docLabel} is
               expected to show — the same ones filled in on the sample above. For a
               plain-English definition of any receipt field, see the{" "}
               <Link href="/guides/receipt-anatomy" className="font-medium text-indigo-600 hover:text-indigo-700">
@@ -225,7 +232,7 @@ export default async function TemplatePage({ params }: Props) {
         {template.howToSteps && template.howToSteps.length > 0 && (
           <section className="mt-20" aria-labelledby="how-to-heading">
             <h2 id="how-to-heading" className="text-2xl font-bold text-slate-900">
-              How to make a {template.shortName.toLowerCase()} receipt
+              How to make {an(docLabel)} {docLabel}
             </h2>
             <ol className="mt-6 max-w-3xl list-decimal space-y-3 pl-5 text-slate-600 marker:font-semibold marker:text-indigo-600">
               {template.howToSteps.map((step) => (
@@ -245,7 +252,7 @@ export default async function TemplatePage({ params }: Props) {
         {template.guidance && template.guidance.length > 0 && (
           <section className="mt-20" aria-labelledby="guidance-heading">
             <h2 id="guidance-heading" className="text-2xl font-bold text-slate-900">
-              {template.shortName} receipts: what to get right
+              {docTitle}s: what to get right
             </h2>
             <div className="mt-6 max-w-3xl space-y-8">
               {template.guidance.map((g) => (
@@ -303,7 +310,7 @@ export default async function TemplatePage({ params }: Props) {
         {template.faqs.length > 0 && (
           <section className="mt-20" aria-labelledby="template-faq-heading">
             <h2 id="template-faq-heading" className="text-2xl font-bold text-slate-900">
-              {template.shortName} receipt FAQ
+              {docTitle} FAQ
             </h2>
             <div className="mt-6 space-y-4">
               {template.faqs.map((faq) => (
