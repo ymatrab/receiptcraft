@@ -51,6 +51,13 @@ export default function TemplatesPage() {
           no sign-up; downloading uses a free account, and your first is
           watermark-free.
         </p>
+        <p className="mt-3 text-slate-600">
+          Prefer to work in Google Docs? Copy one of our{" "}
+          <Link href="/templates/google-docs" className="font-medium text-indigo-600 hover:underline">
+            free Google Docs receipt and invoice templates
+          </Link>
+          .
+        </p>
       </div>
 
       <ul className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

@@ -236,7 +236,11 @@ export const PRICING_UPDATED = "2026-08-31";
 // watermark-free", left ungrammatical when the free allowance dropped to one.
 export const HOME_UPDATED = "2026-09-01";
 // 2026-08-31: free-tier limits changed — see STATIC_UPDATED above.
-export const TEMPLATES_INDEX_UPDATED = "2026-08-31";
+// 2026-10-11: links to the new Google Docs templates page from under the intro.
+export const TEMPLATES_INDEX_UPDATED = "2026-10-11";
+// /templates/google-docs — new on 2026-10-11. Lists the free templates
+// published as public Google Docs (lib/google-docs-templates.ts).
+export const GOOGLE_DOCS_TEMPLATES_UPDATED = "2026-10-11";
 export const COMPARISONS_UPDATED = LAST_UPDATED;
 
 /**
