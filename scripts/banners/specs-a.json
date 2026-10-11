@@ -1,0 +1,314 @@
+[
+ {
+  "slug": "how-to-make-an-invoice",
+  "h1": "How to Make an Invoice",
+  "h2": "Every Field, Step by Step",
+  "h3": "Nine fields that get you paid.",
+  "prop": "invoice-clipboard",
+  "noteL": "Due Date,<br>Not Soon",
+  "noteR": "Itemize<br>Every Line",
+  "pills": [
+   "Invoice number",
+   "Issue & due date",
+   "Line items"
+  ],
+  "currency": "$",
+  "title": "Rivera Design Studio",
+  "sub": "Invoice INV-1042",
+  "info": [
+   [
+    "Bill to",
+    "Northside Bakery"
+   ],
+   [
+    "Issued",
+    "Oct 15, 2026"
+   ],
+   [
+    "Due",
+    "Nov 14, 2026 (Net 30)"
+   ]
+  ],
+  "lines": [
+   [
+    "Logo design, 3 concepts",
+    600.0
+   ],
+   [
+    "Business card layout",
+    150.0
+   ],
+   [
+    "Extra revisions, 2 hr @ $75",
+    150.0
+   ]
+  ],
+  "totalLabel": "TOTAL DUE",
+  "foot": "Bank transfer or check",
+  "propR": "calculator"
+ },
+ {
+  "slug": "how-to-send-an-invoice",
+  "h1": "How to Send an Invoice",
+  "h2": "Email, Payment Links and Follow-Ups",
+  "h3": "PDF, subject line, short message.",
+  "prop": "smartphone",
+  "noteL": "Send to<br>Who Pays",
+  "noteR": "Follow Up<br>on Time",
+  "pills": [
+   "PDF attached",
+   "Clear subject",
+   "Payment link"
+  ],
+  "currency": "$",
+  "title": "Hale Copy Co.",
+  "sub": "Invoice INV-1043",
+  "info": [
+   [
+    "Bill to",
+    "Jordan, client"
+   ],
+   [
+    "Issued",
+    "Oct 23, 2026"
+   ],
+   [
+    "Due",
+    "Nov 22, 2026"
+   ]
+  ],
+  "lines": [
+   [
+    "Website copy, 4 pages",
+    1000.0
+   ]
+  ],
+  "totalLabel": "TOTAL DUE",
+  "foot": "Pay by transfer or link",
+  "propR": "envelope-stamp"
+ },
+ {
+  "slug": "invoice-number",
+  "h1": "Invoice Numbers",
+  "h2": "What They Are and How to Number Them",
+  "h3": "Unique, in order, never reused.",
+  "prop": "invoice-clipboard",
+  "noteL": "Never<br>Reuse",
+  "noteR": "Void,<br>Don't Delete",
+  "pills": [
+   "Sequential",
+   "Year prefix",
+   "Void log"
+  ],
+  "currency": "$",
+  "title": "Invoice INV-2026-0047",
+  "sub": "Replaces INV-2026-0046 (void)",
+  "info": [
+   [
+    "Issued",
+    "Oct 31, 2026"
+   ],
+   [
+    "Due",
+    "Nov 30, 2026"
+   ]
+  ],
+  "lines": [
+   [
+    "Monthly bookkeeping, October 2026",
+    450.0
+   ]
+  ],
+  "totalLabel": "TOTAL DUE",
+  "foot": "Quote INV-2026-0047 on payment",
+  "propR": "calculator"
+ },
+ {
+  "slug": "invoice-payment-terms",
+  "h1": "Invoice Payment Terms",
+  "h2": "Net 30, 2/10 Net 30 and Late Fees",
+  "h3": "Write the terms and the date.",
+  "prop": "calculator",
+  "noteL": "2% Off<br>in 10 Days",
+  "noteR": "Late Fees<br>Agreed First",
+  "pills": [
+   "Net 30",
+   "2/10 net 30",
+   "Late fee terms"
+  ],
+  "currency": "$",
+  "title": "Invoice INV-1215",
+  "sub": "Terms: 2/10 net 30",
+  "info": [
+   [
+    "Issued",
+    "Oct 29, 2026"
+   ],
+   [
+    "Pay $2,450 by",
+    "Nov 8, 2026"
+   ],
+   [
+    "Due in full",
+    "Nov 28, 2026"
+   ]
+  ],
+  "lines": [
+   [
+    "Kitchen cabinet installation",
+    2500.0
+   ]
+  ],
+  "totalLabel": "TOTAL DUE",
+  "foot": "Net 30, due Nov 28, 2026",
+  "propR": "invoice-clipboard"
+ },
+ {
+  "slug": "estimate-vs-invoice",
+  "h1": "Estimate vs. Invoice",
+  "h2": "What Changes and When to Send Each",
+  "h3": "Estimate first. Invoice after.",
+  "prop": "invoice-clipboard",
+  "noteL": "Approve<br>Changes",
+  "noteR": "New<br>Number",
+  "pills": [
+   "Before the work",
+   "After the work",
+   "Approved changes"
+  ],
+  "currency": "$",
+  "title": "Invoice INV-2031",
+  "sub": "Per estimate EST-0112",
+  "info": [
+   [
+    "Job",
+    "Water heater replacement"
+   ],
+   [
+    "Issued",
+    "Oct 31, 2026"
+   ]
+  ],
+  "lines": [
+   [
+    "50-gal gas water heater",
+    1150.0
+   ],
+   [
+    "Labor, 4 hr @ $110",
+    440.0
+   ],
+   [
+    "Permit fee",
+    75.0
+   ],
+   [
+    "Haul away old unit",
+    50.0
+   ],
+   [
+    "Expansion tank (approved)",
+    85.0
+   ]
+  ],
+  "totalLabel": "TOTAL DUE",
+  "foot": "Estimate was $1,715.00",
+  "propR": "calculator"
+ },
+ {
+  "slug": "how-to-invoice-as-a-1099-contractor",
+  "h1": "Invoicing as a 1099 Pro",
+  "h2": "What to Include, and Where the W-9 Fits",
+  "h3": "$2,000 1099-NEC line for 2026.",
+  "prop": "invoice-clipboard",
+  "noteL": "No SSN on<br>Invoices",
+  "noteR": "Report<br>All Income",
+  "pills": [
+   "Services rendered",
+   "Service period",
+   "W-9 on file"
+  ],
+  "currency": "$",
+  "title": "Kim Nguyen Development",
+  "sub": "Invoice INV-1088",
+  "info": [
+   [
+    "Bill to",
+    "Brightline Logistics"
+   ],
+   [
+    "Period",
+    "Oct 1–31, 2026"
+   ],
+   [
+    "Due",
+    "Dec 2, 2026 (Net 30)"
+   ]
+  ],
+  "lines": [
+   [
+    "Shipping API integration, 24 hr",
+    2280.0
+   ],
+   [
+    "Code review & docs, 3 hr",
+    285.0
+   ]
+  ],
+  "totalLabel": "TOTAL DUE",
+  "foot": "W-9 provided separately",
+  "propR": "calculator"
+ },
+ {
+  "slug": "how-to-make-a-landscaping-invoice",
+  "h1": "Landscaping Invoices",
+  "h2": "Lawn Care Visits, Materials and Labor",
+  "h3": "List every visit date.",
+  "prop": "succulent",
+  "noteL": "Materials<br>Apart",
+  "noteR": "Bill<br>Monthly",
+  "pills": [
+   "Visit dates",
+   "Materials & labor",
+   "Seasonal terms"
+  ],
+  "currency": "$",
+  "title": "GreenEdge Lawn & Garden",
+  "sub": "Invoice INV-0318",
+  "info": [
+   [
+    "Service at",
+    "14 Birch Lane"
+   ],
+   [
+    "Period",
+    "October 2026"
+   ],
+   [
+    "Due",
+    "Nov 21, 2026 (Net 15)"
+   ]
+  ],
+  "lines": [
+   [
+    "Weekly mowing, 4 visits @ $45",
+    180.0
+   ],
+   [
+    "Hedge trimming",
+    85.0
+   ],
+   [
+    "Hardwood mulch, 3 cu yd",
+    144.0
+   ],
+   [
+    "Mulch install, 2 hr @ $55",
+    110.0
+   ]
+  ],
+  "totalLabel": "TOTAL DUE",
+  "foot": "Check or bank transfer",
+  "propR": "invoice-clipboard"
+ }
+]

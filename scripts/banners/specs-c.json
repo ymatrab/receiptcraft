@@ -1,0 +1,370 @@
+[
+ {
+  "slug": "fsa-hsa-receipt-requirements",
+  "h1": "FSA & HSA Receipts",
+  "h2": "What an itemized receipt must show",
+  "h3": "GET YOUR CLAIM APPROVED",
+  "prop": "stethoscope",
+  "noteL": "Date of<br>service",
+  "noteR": "Itemized<br>lines",
+  "pills": [
+   "Patient name",
+   "Date of service",
+   "Itemized lines"
+  ],
+  "currency": "$",
+  "title": "NORTHSIDE FAMILY DENTAL",
+  "sub": "210 Oak Ave, Columbus, OH",
+  "info": [
+   [
+    "Patient",
+    "Maya Lin"
+   ],
+   [
+    "Date of service",
+    "Oct 2, 2026"
+   ],
+   [
+    "Paid",
+    "Visa ending 4417"
+   ]
+  ],
+  "lines": [
+   [
+    "Periodic oral exam",
+    95
+   ],
+   [
+    "Bitewing X-rays, 4 films",
+    120
+   ],
+   [
+    "Adult cleaning",
+    110
+   ]
+  ],
+  "totalLabel": "Total paid by patient",
+  "foot": "Paid in full - thank you",
+  "propR": "calculator"
+ },
+ {
+  "slug": "missing-receipt-affidavit",
+  "h1": "Missing Receipt Affidavit",
+  "h2": "How to fill one out, with an example",
+  "h3": "LOST A RECEIPT? DO THIS",
+  "prop": "calculator",
+  "noteL": "Business<br>purpose",
+  "noteR": "Manager<br>signs",
+  "pills": [
+   "Date & merchant",
+   "Business purpose",
+   "Card record"
+  ],
+  "currency": "$",
+  "title": "MISSING RECEIPT FORM",
+  "sub": "Expense declaration",
+  "info": [
+   [
+    "Employee",
+    "Jordan Price"
+   ],
+   [
+    "Date",
+    "Sep 18, 2026"
+   ],
+   [
+    "Reason",
+    "Receipts lost"
+   ]
+  ],
+  "lines": [
+   [
+    "Client lunch, Harbor Grill",
+    48.6
+   ],
+   [
+    "Parking, client meeting",
+    18.0
+   ]
+  ],
+  "totalLabel": "TOTAL CLAIMED",
+  "foot": "Card statement attached",
+  "propR": "envelope-stamp"
+ },
+ {
+  "slug": "tuition-receipt",
+  "h1": "Tuition Receipt",
+  "h2": "Fields, an example and the 1098-T",
+  "h3": "PROOF OF EVERY PAYMENT",
+  "prop": "grad-cap",
+  "noteL": "Term<br>dates",
+  "noteR": "Itemized<br>fees",
+  "pills": [
+   "Student name",
+   "Term dates",
+   "Balance due"
+  ],
+  "currency": "$",
+  "title": "BRIGHT PATH LEARNING CENTER",
+  "sub": "88 Main St, Plano, TX",
+  "info": [
+   [
+    "Receipt",
+    "#T-1042"
+   ],
+   [
+    "Student",
+    "Ava Morales"
+   ],
+   [
+    "Term",
+    "Sep 8 - Nov 20, 2026"
+   ]
+  ],
+  "lines": [
+   [
+    "SAT prep tuition, fall",
+    960
+   ],
+   [
+    "Registration fee",
+    50
+   ],
+   [
+    "Practice materials",
+    50
+   ]
+  ],
+  "totalLabel": "TOTAL PAID",
+  "foot": "Paid by check #3318",
+  "propR": "calculator"
+ },
+ {
+  "slug": "receipt-for-tax-deduction",
+  "h1": "Receipts for Deductions",
+  "h2": "What a receipt must show to count",
+  "h3": "WHO, WHAT, WHEN, HOW MUCH",
+  "prop": "calculator",
+  "noteL": "Itemized<br>lines",
+  "noteR": "Business<br>purpose",
+  "pills": [
+   "Amount & date",
+   "Place",
+   "Business purpose"
+  ],
+  "currency": "$",
+  "title": "OFFICE HUB",
+  "sub": "12 Grand Ave, Denver, CO",
+  "info": [
+   [
+    "Receipt",
+    "#55821"
+   ],
+   [
+    "Date",
+    "Oct 6, 2026"
+   ],
+   [
+    "Paid",
+    "Visa ending 8812"
+   ]
+  ],
+  "lines": [
+   [
+    "Laser printer",
+    219
+   ],
+   [
+    "Toner cartridge x2",
+    70
+   ]
+  ],
+  "totalLabel": "TOTAL PAID",
+  "foot": "Home office, client invoices",
+  "propR": "invoice-clipboard"
+ },
+ {
+  "slug": "dog-bill-of-sale",
+  "h1": "Dog Bill of Sale",
+  "h2": "What to include when selling a puppy",
+  "h3": "CHIP, BREED, PRICE, TERMS",
+  "prop": "puppy",
+  "noteL": "Microchip<br>number",
+  "noteR": "Health<br>records",
+  "pills": [
+   "Breed & DOB",
+   "Microchip",
+   "Health guarantee"
+  ],
+  "currency": "$",
+  "title": "HOLLOW CREEK LABRADORS",
+  "sub": "Bill of sale",
+  "info": [
+   [
+    "Buyer",
+    "Priya Shah"
+   ],
+   [
+    "Date",
+    "Oct 30, 2026"
+   ],
+   [
+    "DOB",
+    "Aug 21, 2026"
+   ],
+   [
+    "Chip",
+    "ending 4471"
+   ]
+  ],
+  "lines": [
+   [
+    "Labrador puppy, female",
+    1500
+   ],
+   [
+    "Starter kit",
+    40
+   ]
+  ],
+  "totalLabel": "TOTAL PRICE",
+  "foot": "Signed by buyer and seller",
+  "propR": "succulent"
+ },
+ {
+  "slug": "donation-acknowledgement-letter",
+  "h1": "Donation Thank-You Letter",
+  "h2": "Sample wording and the IRS $250 rules",
+  "h3": "THE LETTER DONORS NEED",
+  "prop": "envelope-stamp",
+  "noteL": "$250<br>rule",
+  "noteR": "No goods<br>provided",
+  "pills": [
+   "Org name",
+   "Amount & date",
+   "Goods statement"
+  ],
+  "currency": "$",
+  "title": "RIVERBEND FOOD PANTRY",
+  "sub": "40 Water St, Hartford, CT",
+  "info": [
+   [
+    "Donor",
+    "Alex Romero"
+   ],
+   [
+    "Received",
+    "Dec 12, 2026"
+   ]
+  ],
+  "lines": [
+   [
+    "Cash gift",
+    500
+   ]
+  ],
+  "totalLabel": "TOTAL GIFT",
+  "foot": "No goods or services provided",
+  "propR": "succulent"
+ },
+ {
+  "slug": "mileage-reimbursement-form",
+  "h1": "Mileage Reimbursement",
+  "h2": "Fields, the 2026 rate and an example",
+  "h3": "76 CENTS A MILE FROM JULY",
+  "prop": "car",
+  "noteL": "Date &<br>route",
+  "noteR": "Miles x<br>rate",
+  "pills": [
+   "Trip date",
+   "Business purpose",
+   "Miles x rate"
+  ],
+  "currency": "$",
+  "title": "MILEAGE REIMBURSEMENT",
+  "sub": "October 2026",
+  "info": [
+   [
+    "Employee",
+    "Lena Fischer"
+   ],
+   [
+    "Rate",
+    "$0.76 / mile"
+   ],
+   [
+    "Miles",
+    "124"
+   ]
+  ],
+  "lines": [
+   [
+    "Oct 7, Round Rock, 42 mi",
+    31.92
+   ],
+   [
+    "Oct 14, Pflugerville, 18 mi",
+    13.68
+   ],
+   [
+    "Oct 23, San Marcos, 64 mi",
+    48.64
+   ]
+  ],
+  "totalLabel": "TOTAL DUE",
+  "foot": "Employee and manager sign",
+  "propR": "smartphone"
+ },
+ {
+  "slug": "babysitting-receipt",
+  "h1": "Babysitting Receipt",
+  "h2": "What parents need for the care credit",
+  "h3": "NAME, ADDRESS, TAX ID",
+  "prop": "teddy-blocks",
+  "noteL": "Hours<br>& rate",
+  "noteR": "Form<br>W-10",
+  "pills": [
+   "Sitter details",
+   "Hours & rate",
+   "Taxpayer ID"
+  ],
+  "currency": "$",
+  "title": "BABYSITTING RECEIPT #2026-10",
+  "sub": "Emma Clarke, Raleigh, NC",
+  "info": [
+   [
+    "Paid by",
+    "Marcus & Jo Bell"
+   ],
+   [
+    "Child",
+    "Noah Bell, 6"
+   ],
+   [
+    "Rate",
+    "$20.00 / hr"
+   ]
+  ],
+  "lines": [
+   [
+    "Oct 5-9, 12 hrs",
+    240
+   ],
+   [
+    "Oct 12-16, 12 hrs",
+    240
+   ],
+   [
+    "Oct 19-23, 10 hrs",
+    200
+   ],
+   [
+    "Oct 26-30, 12 hrs",
+    240
+   ]
+  ],
+  "totalLabel": "TOTAL PAID",
+  "foot": "Paid by bank transfer",
+  "propR": "succulent"
+ }
+]

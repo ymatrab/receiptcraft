@@ -1,0 +1,314 @@
+[
+ {
+  "slug": "proof-of-payment",
+  "h1": "Proof of Payment",
+  "h2": "What counts and how to write one",
+  "h3": "RECEIPT, STATEMENT, WIRE, CHECK",
+  "prop": "envelope-stamp",
+  "noteL": "Who paid<br>whom",
+  "noteR": "Method +<br>reference",
+  "pills": [
+   "Signed receipt",
+   "Wire confirmation",
+   "Payment letter"
+  ],
+  "currency": "$",
+  "title": "Chen Carpentry",
+  "sub": "Receipt #0142",
+  "info": [
+   [
+    "Date",
+    "Oct 15, 2026"
+   ],
+   [
+    "Received from",
+    "Jordan Lee"
+   ],
+   [
+    "Method",
+    "Wire, ref. 7731"
+   ],
+   [
+    "Invoice",
+    "2041"
+   ]
+  ],
+  "lines": [
+   [
+    "Kitchen cabinet installation",
+    850
+   ]
+  ],
+  "totalLabel": "Total paid",
+  "foot": "Balance due: $0.00",
+  "propR": "checkbook-pen"
+ },
+ {
+  "slug": "delivery-receipt",
+  "h1": "Delivery Receipt",
+  "h2": "Count, check condition, get a signature",
+  "h3": "PROOF THE GOODS ARRIVED",
+  "prop": "parcel-box",
+  "noteL": "Count at<br>the door",
+  "noteR": "Note any<br>damage",
+  "pills": [
+   "Items + quantity",
+   "Condition notes",
+   "Signed + timed"
+  ],
+  "currency": "$",
+  "title": "Oakline Furniture",
+  "sub": "Delivery Receipt DR-0318",
+  "info": [
+   [
+    "Order",
+    "INV-2207"
+   ],
+   [
+    "Delivered",
+    "Oct 19, 2:40 pm"
+   ],
+   [
+    "To",
+    "Priya Shah"
+   ]
+  ],
+  "lines": [
+   [
+    "Oak dining table x1",
+    640
+   ],
+   [
+    "Oak dining chairs x6",
+    540
+   ]
+  ],
+  "totalLabel": "Order value",
+  "foot": "1 chair: scuff noted at delivery",
+  "propR": "invoice-clipboard"
+ },
+ {
+  "slug": "petty-cash-receipt",
+  "h1": "Petty Cash Receipt",
+  "h2": "Fill out the voucher, balance the box",
+  "h3": "CASH + VOUCHERS = FLOAT",
+  "prop": "cash-box",
+  "noteL": "Who took<br>it, why",
+  "noteR": "Staple the<br>store slip",
+  "pills": [
+   "Numbered voucher",
+   "Approver initials",
+   "Monthly top-up"
+  ],
+  "currency": "$",
+  "title": "Petty Cash Voucher",
+  "sub": "PC-0057",
+  "info": [
+   [
+    "Date",
+    "Oct 21, 2026"
+   ],
+   [
+    "Paid to",
+    "USPS"
+   ],
+   [
+    "Received by",
+    "Sam Ortiz"
+   ],
+   [
+    "Approved",
+    "Office manager"
+   ]
+  ],
+  "lines": [
+   [
+    "Postage for client contracts",
+    18.4
+   ]
+  ],
+  "totalLabel": "Amount",
+  "foot": "Store receipt attached",
+  "propR": "envelope-stamp"
+ },
+ {
+  "slug": "receipt-template-word-excel",
+  "h1": "Receipts in Word or Excel",
+  "h2": "Build a reusable template, step by step",
+  "h3": "WORD FOR LAYOUT, EXCEL FOR MATH",
+  "prop": "calculator",
+  "noteL": "=SUM does<br>the total",
+  "noteR": "Save as<br>template",
+  "pills": [
+   "Word .dotx",
+   "Excel .xltx",
+   "Formulas included"
+  ],
+  "currency": "$",
+  "title": "Fern & Co. Bakery",
+  "sub": "Receipt #1048",
+  "info": [
+   [
+    "Date",
+    "Oct 25, 2026"
+   ],
+   [
+    "Customer",
+    "Alex Rivera"
+   ],
+   [
+    "Paid",
+    "Card, ending 4421"
+   ]
+  ],
+  "lines": [
+   [
+    "Sourdough loaf x2",
+    15
+   ],
+   [
+    "Croissant x4",
+    13
+   ],
+   [
+    "Coffee, large x2",
+    10
+   ],
+   [
+    "Tax (8%)",
+    3.04
+   ]
+  ],
+  "totalLabel": "Total",
+  "foot": "Thank you",
+  "propR": "invoice-clipboard"
+ },
+ {
+  "slug": "check-receipt",
+  "h1": "Check Receipt",
+  "h2": "Write a receipt for a check payment",
+  "h3": "CHECK NUMBER, BANK, DATE",
+  "prop": "checkbook-pen",
+  "noteL": "Record the<br>check #",
+  "noteR": "Clears<br>later",
+  "pills": [
+   "Check #5108",
+   "Drawn on bank",
+   "Bounced-check note"
+  ],
+  "currency": "$",
+  "title": "Park Lawn Services",
+  "sub": "Receipt #0219",
+  "info": [
+   [
+    "Date",
+    "Oct 27, 2026"
+   ],
+   [
+    "Received from",
+    "Dana Morales"
+   ],
+   [
+    "Method",
+    "Check #5108"
+   ],
+   [
+    "Bank",
+    "First Valley Bank"
+   ]
+  ],
+  "lines": [
+   [
+    "October lawn care (inv. 0391)",
+    450
+   ]
+  ],
+  "totalLabel": "Total received",
+  "foot": "Subject to the check clearing",
+  "propR": "envelope-stamp"
+ },
+ {
+  "slug": "money-order-receipt",
+  "h1": "Money Order Receipt",
+  "h2": "What the stub shows and why to keep it",
+  "h3": "KEEP THE STUB, TRACE THE ORDER",
+  "prop": "envelope-stamp",
+  "noteL": "Serial<br>number",
+  "noteR": "Fill in the<br>payee now",
+  "pills": [
+   "Customer stub",
+   "USPS inquiry",
+   "Payee receipt"
+  ],
+  "currency": "$",
+  "title": "Rent Receipt",
+  "sub": "Receipt #0307",
+  "info": [
+   [
+    "Date",
+    "Oct 29, 2026"
+   ],
+   [
+    "Received from",
+    "Marcus Bell"
+   ],
+   [
+    "Method",
+    "Money order ...4417"
+   ]
+  ],
+  "lines": [
+   [
+    "November rent, Unit 4B",
+    725
+   ]
+  ],
+  "totalLabel": "Total received",
+  "foot": "Balance due: $0.00",
+  "propR": "checkbook-pen"
+ },
+ {
+  "slug": "zelle-cash-app-venmo-receipts",
+  "h1": "Zelle, Cash App, Venmo",
+  "h2": "Where payments show and what to send",
+  "h3": "APP RECORD + A REAL RECEIPT",
+  "prop": "smartphone",
+  "noteL": "Transaction<br>ID",
+  "noteR": "List what<br>was sold",
+  "pills": [
+   "Zelle via bank",
+   "Cash App Activity",
+   "Venmo Transactions"
+  ],
+  "currency": "$",
+  "title": "Bright Paws Grooming",
+  "sub": "Receipt #0412",
+  "info": [
+   [
+    "Date",
+    "Nov 4, 2026"
+   ],
+   [
+    "Customer",
+    "Taylor Nguyen"
+   ],
+   [
+    "Paid by",
+    "Cash App"
+   ]
+  ],
+  "lines": [
+   [
+    "Full groom, small dog",
+    65
+   ],
+   [
+    "Nail trim",
+    15
+   ]
+  ],
+  "totalLabel": "Total paid",
+  "foot": "Balance due: $0.00",
+  "propR": "checkbook-pen"
+ }
+]

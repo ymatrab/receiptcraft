@@ -285,6 +285,52 @@ In-house banners (new clay stethoscope prop-7, 0.15 credits; prop-1 reused).
 Oct 15 change: the planned "deposit receipt" post is dropped. `/blog/partial-payment-receipt`
 already covers deposits; improve that post instead.
 
+## 2026-10-11: one month scheduled (Oct 13 – Nov 6), 22 new posts
+
+Held/folded review (GSC Sep 12–Oct 9): every held keyword is still owned by its
+brand/template page (/templates/auto-repair p30, /templates/gas-station p12, /brands/target
+p17, /brands/home-depot p10), so the 14 held posts stay held; the fix is improving those pages.
+The 5 folded posts stay folded: /create is p77–83 for the head terms, and unfolding would
+split it again. The head-term problem is /create itself, not missing posts.
+
+Keyword gate: DataForSEO (2 labs overview calls + 1 ads call, owner-approved), GSC owner
+check (no page ranks for any of them). New: invoice cluster ("how to make an invoice" 14,800).
+/templates/invoice rebuilt as a true invoice on feat/true-invoice-template (needs merge
+before Oct 15). /templates/google-docs (new 10-11) owns "receipt template google docs", so the
+Word/Excel post targets Word + Excel only.
+
+| Date | Slot | Slug | Keyword (US/mo) |
+|---|---|---|---|
+| Oct 13 | b | fsa-hsa-receipt-requirements | fsa receipt 260, requirements 210, hsa 170 |
+| Oct 15 | a | proof-of-payment | 880 + wire transfer receipt 480 |
+| Oct 15 | b | how-to-make-an-invoice | 14,800 (+create 2,900, write 1,900) |
+| Oct 17 | b | missing-receipt-affidavit | 720 |
+| Oct 19 | a | tuition-receipt | 590 |
+| Oct 19 | b | delivery-receipt | 590 |
+| Oct 21 | b | petty-cash-receipt | 210 |
+| Oct 23 | a | how-to-send-an-invoice | 2,400 |
+| Oct 23 | b | receipt-for-tax-deduction | 110 |
+| Oct 25 | a | invoice-number | 1,900 + 170 |
+| Oct 25 | b | receipt-template-word-excel | 720 + 320 |
+| Oct 27 | b | check-receipt | 720 |
+| Oct 29 | a | invoice-payment-terms | 590 + net 30 320 |
+| Oct 29 | b | money-order-receipt | 880 |
+| Oct 31 | a | estimate-vs-invoice | 210 |
+| Oct 31 | b | dog-bill-of-sale | 390 |
+| Nov 2 | a | donation-acknowledgement-letter | 390 + 90 |
+| Nov 2 | b | how-to-invoice-as-a-1099-contractor | 210 + 170 + 70 |
+| Nov 4 | a | mileage-reimbursement-form | 880 |
+| Nov 4 | b | zelle-cash-app-venmo-receipts | 880 + 480 + 390 |
+| Nov 6 | a | babysitting-receipt | 90 (+50) |
+| Nov 6 | b | how-to-make-a-landscaping-invoice | 320 + 170 |
+
+The "deposit receipt" slot (Oct 15) went to the invoice pillar. Nov 8 and Nov 10 stay open for
+the Nov 2 GSC review. Facts checked by each writer on official sources and listed in each
+file header; the 2026 mileage rates (72.5¢ Jan–Jun, 76¢ Jul–Dec) and the $2,000 1099-NEC
+threshold were re-checked on irs.gov. Banners: in-house, spec-driven
+(scripts/banners/spec-banner.html + specs-*.json + render-specs.py), 8 new clay props
+(Higgsfield Z Image, 8 × 0.15 credits).
+
 ## Watch list
 
 - **`/create` synonym cluster** — #2, #10, #12, #13, #14, #16 all target near-identical "make/create a receipt online free" intent. Differentiated by angle + cross-linked; **watch Search Console** for two URLs trading impressions on one query and merge/canonicalize if it happens. Coming `online receipt generator` and `receipt creator free` add two more.
