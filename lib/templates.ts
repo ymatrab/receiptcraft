@@ -1389,26 +1389,99 @@ export const TEMPLATES: ReceiptTemplate[] = [
   },
   {
     slug: "invoice",
-    name: "Invoice Receipt",
+    // 2026-10-11: was a "paid invoice receipt" sold as an invoice generator.
+    // Now a real bill (invoice flag, bill-to, terms, amount due) like the
+    // plumbing and HVAC invoices, so the October invoice posts can send
+    // readers here for what they asked for.
+    name: "Invoice",
     shortName: "Invoice",
     icon: "📋",
-    seoTitle: "Free Invoice Generator — Simple Paid Invoice Receipt Maker",
+    seoTitle: "Free Invoice Generator — Simple Invoice Template",
     seoDescription:
-      "Create a simple paid invoice receipt with line items, tax and total. Free invoice maker for freelancers and small businesses — PDF & PNG download.",
-    heading: "Invoice Receipt Generator",
+      "Make an invoice with your details, the client, line items, invoice number, issue and due date, and the amount due. Mark it paid to use it as the receipt.",
+    heading: "Invoice Generator",
     intro:
-      "Create a clean paid-invoice receipt for freelancers, contractors and small businesses, with itemized services, tax and a total. A fast way to give a client proof that an invoice was paid without invoicing software.",
+      "Create an invoice that asks for payment clearly: who is billing whom, what the work was, the invoice number, the due date and the amount due. When the client pays, mark the same document paid and it becomes their receipt.",
+    leadAnswer:
+      "An invoice shows your business details, the client you are billing, an invoice number, the issue date and due date, each item or service with its price, any tax, and the amount due. Once it is paid, mark it paid so the same document serves as the client's receipt.",
     useCases: [
-      "Freelancers confirming a paid invoice",
-      "Small businesses billing for services",
-      "Contractors documenting completed work",
-      "Client records and bookkeeping",
+      "Freelancers and consultants billing a client",
+      "Small businesses invoicing for goods or services",
+      "Contractors billing completed work",
+      "Turning a paid invoice into the client's receipt",
     ],
+    fields: [
+      {
+        name: "Your business details",
+        description:
+          "Name, address, phone or email, so the client knows who sent the bill and how to reach you.",
+      },
+      {
+        name: "Bill to",
+        description:
+          "The client's name or company and billing address. For a company, add the contact or department that approves payment.",
+      },
+      {
+        name: "Invoice number",
+        description:
+          "A number in a sequence you control, so each payment can be matched to its invoice and no number is used twice.",
+      },
+      {
+        name: "Issue date and due date",
+        description:
+          "When the invoice was sent and when payment is due, with the terms that produce the date, such as Net 30 or due on receipt.",
+      },
+      {
+        name: "Line items",
+        description:
+          "Each product or service on its own line with quantity or hours, rate and amount, described in plain words.",
+      },
+      {
+        name: "Tax",
+        description:
+          "Any sales tax as its own line, at the rate that applies to what you sold.",
+      },
+      {
+        name: "Amount due",
+        description:
+          "The total the client owes. Once paid, change it to show the amount received and mark the document paid.",
+      },
+    ],
+    howToSteps: [
+      "Enter your business name and contact details.",
+      "Add the client under Bill to.",
+      "List each service or product with quantity and price.",
+      "Set the invoice number, payment terms and due date.",
+      "Download the PDF and send it. When the client pays, mark it paid and send it again as their receipt.",
+    ],
+    guidance: [
+      {
+        heading: "Keep a copy of every invoice",
+        body:
+          "An invoice is a business record as well as a bill. {cite:irs-pub-583|IRS Publication 583} lists invoices among the supporting documents for a business's gross receipts, so keep a copy of each one you issue, paid or not, with the number sequence unbroken.",
+      },
+    ],
+    sources: ["irs-pub-583"],
     faqs: [
+      {
+        question: "What should an invoice include?",
+        answer:
+          "Your business details, the client's name and address, an invoice number, the issue and due dates, each item or service with its price, any tax, and the amount due.",
+      },
       {
         question: "What's the difference between an invoice and a receipt?",
         answer:
-          "An invoice requests payment before it's made; a receipt confirms payment after it's made. This generator produces a paid-style document that itemizes the work and shows the total as settled — useful when a client needs proof that they have already paid.",
+          "An invoice asks for payment; a receipt confirms it was made. With this template you send the invoice, then mark the same document paid once the client pays.",
+      },
+      {
+        question: "What does Net 30 mean on an invoice?",
+        answer:
+          "Payment is due 30 days after the invoice date. Write the actual due date next to the terms so the client does not have to work it out.",
+      },
+      {
+        question: "Can I use it for an unpaid invoice?",
+        answer:
+          "Yes. It starts as a bill showing the amount due and the due date. You only mark it paid after the money arrives.",
       },
     ],
     defaults: {
@@ -1417,12 +1490,33 @@ export const TEMPLATES: ReceiptTemplate[] = [
       addressLine2: "Brooklyn, NY 11201",
       phone: "(718) 555-0142",
       website: "brightstudio.design",
+      greeting: "INVOICE",
       taxLabel: "Sales Tax",
-      taxRate: 8.875,
-      register: "Invoice #INV-2041",
-      footerMessage: "Paid in full — thank you for your business!",
-      paymentMethod: "Mobile Payment",
+      taxRate: 0,
+      grandTotalLabel: "AMOUNT DUE",
+      hideTotals: true,
+      invoice: true,
+      hideStoreLine: true,
+      showBarcode: false,
+      footerMessage: "Payment due within 30 days. Thank you for your business.",
       paperStyle: "modern",
+      sections: [
+        {
+          title: "Bill to",
+          rows: [
+            { value: "Harbor Coffee Co." },
+            { value: "Attn: Accounts Payable" },
+            { value: "55 Water Street, Brooklyn, NY 11201" },
+          ],
+        },
+        {
+          title: "Payment terms",
+          rows: [
+            { label: "Terms", value: "Net 30" },
+            { label: "Due", value: "30 days from invoice date" },
+          ],
+        },
+      ],
       items: [
         { id: id(), name: "Logo Design", quantity: 1, price: 450.0 },
         { id: id(), name: "Brand Style Guide", quantity: 1, price: 300.0 },
