@@ -1,0 +1,258 @@
+[
+ {
+  "slug": "motorcycle-bill-of-sale",
+  "h1": "Motorcycle Bill of Sale",
+  "h2": "What to write, with a filled-in example",
+  "h3": "SELLING A BIKE PRIVATELY",
+  "prop": "checkbook-pen",
+  "noteL": "VIN and<br>engine no.",
+  "noteR": "Gear<br>included",
+  "pills": [
+   "VIN",
+   "Engine number",
+   "Odometer"
+  ],
+  "currency": "$",
+  "title": "BILL OF SALE",
+  "sub": "2019 Kawasaki Ninja 400 (sample)",
+  "info": [
+   [
+    "Seller",
+    "Marcus Reid"
+   ],
+   [
+    "Buyer",
+    "Alana Brooks"
+   ],
+   [
+    "Odometer",
+    "8,912 miles"
+   ]
+  ],
+  "lines": [
+   [
+    "Motorcycle and listed gear, as is",
+    4250
+   ]
+  ],
+  "totalLabel": "PRICE PAID",
+  "foot": "As is, with all faults",
+  "propR": "invoice-clipboard"
+ },
+ {
+  "slug": "boat-bill-of-sale",
+  "h1": "Boat Bill of Sale",
+  "h2": "HIN, motor and trailer, with a sample",
+  "h3": "HULL, MOTOR AND TRAILER",
+  "prop": "parcel-box",
+  "noteL": "12-character<br>HIN",
+  "noteR": "Trailer<br>priced apart",
+  "pills": [
+   "HIN",
+   "Outboard serial",
+   "Trailer VIN"
+  ],
+  "currency": "$",
+  "title": "BILL OF SALE",
+  "sub": "2016 Carolina Skiff 19 (sample)",
+  "info": [
+   [
+    "Seller",
+    "Ray Delgado"
+   ],
+   [
+    "Buyer",
+    "Tasha Nguyen"
+   ],
+   [
+    "Date",
+    "Nov 15, 2026"
+   ]
+  ],
+  "lines": [
+   [
+    "Boat, HIN on transom",
+    11500
+   ],
+   [
+    "Outboard motor",
+    5200
+   ],
+   [
+    "Boat trailer",
+    1300
+   ]
+  ],
+  "totalLabel": "TOTAL PRICE",
+  "foot": "As is, with all faults",
+  "propR": "invoice-clipboard"
+ },
+ {
+  "slug": "trailer-bill-of-sale",
+  "h1": "Trailer Bill of Sale",
+  "h2": "VIN, weight class and a filled-in sample",
+  "h3": "LIGHT AND HOMEMADE TRAILERS",
+  "prop": "calculator",
+  "noteL": "VIN from<br>the label",
+  "noteR": "GVWR<br>decides title",
+  "pills": [
+   "VIN",
+   "GVWR",
+   "Registration"
+  ],
+  "currency": "$",
+  "title": "BILL OF SALE",
+  "sub": "12 ft utility trailer (sample)",
+  "info": [
+   [
+    "Seller",
+    "Glen Huffman"
+   ],
+   [
+    "Buyer",
+    "Rosa Jimenez"
+   ],
+   [
+    "GVWR",
+    "2,990 lb"
+   ]
+  ],
+  "lines": [
+   [
+    "Utility trailer, sold as is",
+    1650
+   ]
+  ],
+  "totalLabel": "PRICE PAID",
+  "foot": "No odometer needed: not self-propelled",
+  "propR": "invoice-clipboard"
+ },
+ {
+  "slug": "how-to-notarize-a-bill-of-sale",
+  "h1": "How to Notarize a Bill of Sale",
+  "h2": "And when your state requires it",
+  "h3": "SIGN IN FRONT OF THE NOTARY",
+  "prop": "envelope-stamp",
+  "noteL": "Bring<br>photo ID",
+  "noteR": "Notary<br>seal",
+  "pills": [
+   "Photo ID",
+   "Unsigned form",
+   "Notary seal"
+  ],
+  "currency": "$",
+  "title": "BILL OF SALE",
+  "sub": "2017 Ford F-150 (sample)",
+  "info": [
+   [
+    "Seller",
+    "Denise Moreau"
+   ],
+   [
+    "Buyer",
+    "Corey Landry"
+   ],
+   [
+    "Signed",
+    "Before a notary"
+   ]
+  ],
+  "lines": [
+   [
+    "Vehicle, sold as is",
+    17400
+   ]
+  ],
+  "totalLabel": "PRICE PAID",
+  "foot": "Notary certificate attached",
+  "propR": "checkbook-pen"
+ },
+ {
+  "slug": "horse-bill-of-sale",
+  "h1": "Horse Bill of Sale",
+  "h2": "Papers, Coggins and a filled-in example",
+  "h3": "SELLING A HORSE",
+  "prop": "stethoscope",
+  "noteL": "Negative<br>Coggins",
+  "noteR": "Registration<br>papers",
+  "pills": [
+   "Registration no.",
+   "Coggins test",
+   "Markings"
+  ],
+  "currency": "$",
+  "title": "BILL OF SALE",
+  "sub": "Bay Quarter Horse gelding (sample)",
+  "info": [
+   [
+    "Seller",
+    "Linda Paulsen"
+   ],
+   [
+    "Buyer",
+    "Jordan Ellis"
+   ],
+   [
+    "Coggins",
+    "Negative, Oct 28"
+   ]
+  ],
+  "lines": [
+   [
+    "Horse, sold as is",
+    9500
+   ]
+  ],
+  "totalLabel": "PRICE PAID",
+  "foot": "Papers and transfer form handed over",
+  "propR": "succulent"
+ },
+ {
+  "slug": "personal-property-bill-of-sale",
+  "h1": "Personal Property Bill of Sale",
+  "h2": "Furniture, electronics and home sales",
+  "h3": "ONE LINE PER ITEM",
+  "prop": "building-keys",
+  "noteL": "Serial<br>numbers",
+  "noteR": "Price<br>per item",
+  "pills": [
+   "Item list",
+   "Serial numbers",
+   "As-is clause"
+  ],
+  "currency": "$",
+  "title": "BILL OF SALE",
+  "sub": "Household items (sample)",
+  "info": [
+   [
+    "Seller",
+    "Owen Carter"
+   ],
+   [
+    "Buyer",
+    "Priya Raman"
+   ],
+   [
+    "Date",
+    "Dec 5, 2026"
+   ]
+  ],
+  "lines": [
+   [
+    "Sectional sofa",
+    650
+   ],
+   [
+    "65-inch television",
+    480
+   ],
+   [
+    "Riding mower",
+    1370
+   ]
+  ],
+  "totalLabel": "TOTAL PRICE",
+  "foot": "Sold as is, with all faults",
+  "propR": "invoice-clipboard"
+ }
+]
