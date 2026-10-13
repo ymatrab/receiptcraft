@@ -15,7 +15,7 @@ export default function PrivacyPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
       <h1 className="text-4xl font-bold tracking-tight text-slate-900">Privacy Policy</h1>
-      <p className="mt-3 text-sm text-slate-500">Last updated: September 1, 2026</p>
+      <p className="mt-3 text-sm text-slate-500">Last updated: October 13, 2026</p>
 
       <div className="mt-8 space-y-5 leading-relaxed text-slate-600">
         <H2>The short version</H2>
@@ -96,6 +96,13 @@ export default function PrivacyPage() {
           never sent to a third party, and they are not used to track you across other websites.
           Clearing your site data removes them. Receipt events also carry the random id of the
           receipt they were about — never its contents.
+        </p>
+        <p>
+          To count visits and see where people leave the site, we also note which kind of site sent
+          you (a search engine, an AI assistant, social media, or none), the page you landed on, and
+          whether you are on a phone or a computer. This is stored with the same random visit
+          identifier, in local storage rather than a cookie, and is listed on our{" "}
+          <a href="/cookies" className="text-indigo-600 underline">Cookie Policy</a> page.
         </p>
 
         <H2>Service providers</H2>

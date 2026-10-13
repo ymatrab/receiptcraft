@@ -1,6 +1,6 @@
 "use client";
 
-import { isMirroredEvent } from "@/lib/analytics-events";
+import { BOT_UA, isMirroredEvent } from "@/lib/analytics-events";
 
 /**
  * Lightweight analytics dispatcher. Fires a custom event to GA4 (gtag),
@@ -188,6 +188,131 @@ export function eventIdentity(): { anonymous_id: string; session_id: string } {
   return { anonymous_id: visitorId(), session_id: currentSessionId() };
 }
 
+/* -------------------------------------------------------------------------
+ * Traffic source and visits
+ *
+ * The admin overview splits the funnel by where people came from, and starts
+ * it one step earlier than the builder: at the visit. Both hang off the session
+ * id above, so a "visit" here is exactly one session — the same 30-minute,
+ * GA4-compatible definition — rather than a second, competing idea of one.
+ * ---------------------------------------------------------------------------- */
+
+/**
+ * Where a visitor came from, as one short label: a search engine, an AI
+ * assistant, a social network, "referral" for any other site, or "direct".
+ * An explicit `utm_source` wins, so a tagged pin or newsletter link is credited
+ * to the campaign rather than to whatever app opened it.
+ */
+const SEARCH_AND_SOCIAL: [RegExp, string][] = [
+  [/(^|\.)bing\.com$/i, "bing"],
+  [/(^|\.)duckduckgo\.com$/i, "duckduckgo"],
+  [/(^|\.)yahoo\.com$/i, "yahoo"],
+  [/(^|\.)yandex\./i, "yandex"],
+  [/(^|\.)ecosia\.org$/i, "ecosia"],
+  [/(^|\.)search\.brave\.com$/i, "brave"],
+  // After the AI rules: gemini.google.com is an assistant, not a search.
+  [/(^|\.)google\.[a-z.]+$/i, "google"],
+  [/(^|\.)pinterest\.[a-z.]+$|(^|\.)pin\.it$/i, "pinterest"],
+  [/(^|\.)facebook\.com$|(^|\.)fb\.com$|(^|\.)instagram\.com$/i, "meta"],
+  [/(^|\.)reddit\.com$/i, "reddit"],
+  [/(^|\.)t\.co$|(^|\.)x\.com$|(^|\.)twitter\.com$/i, "x"],
+  [/(^|\.)youtube\.com$|(^|\.)youtu\.be$/i, "youtube"],
+  [/(^|\.)tiktok\.com$/i, "tiktok"],
+  [/(^|\.)linkedin\.com$|(^|\.)lnkd\.in$/i, "linkedin"],
+];
+
+export function trafficSource(referrer: string | null | undefined, utmSource?: string | null): string {
+  const utm = utmSource?.trim().toLowerCase().replace(/[^a-z0-9_.-]/g, "").slice(0, 30);
+  if (utm) return utm;
+  const ai = aiSourceFromReferrer(referrer);
+  if (ai) return ai;
+  if (!referrer) return "direct";
+  try {
+    const host = new URL(referrer).hostname;
+    // Our own pages (www, apex, the shop) are a navigation, not a source.
+    if (/(^|\.)makecepeit\.com$/i.test(host) || host === window.location.hostname) return "direct";
+    for (const [pattern, name] of SEARCH_AND_SOCIAL) {
+      if (pattern.test(host)) return name;
+    }
+    return "referral";
+  } catch {
+    return "direct";
+  }
+}
+
+const SOURCE_KEY = "mkc_src";
+const LAST_SOURCE_KEY = "mkc_last_src";
+const VISITED_KEY = "mkc_visited";
+/** How long a real source keeps the credit for a later direct return. */
+const LAST_SOURCE_TTL = 7 * 864e5;
+
+/**
+ * The source of the current session, worked out once when the session starts.
+ *
+ * A session that arrives direct inherits the last real source seen in the past
+ * week (last non-direct click, the model GA4 uses), so someone who found us on
+ * Google and came back by typing the address is still Google's — as is a
+ * sign-up confirmed from an emailed link, which opens with no referrer.
+ */
+function sessionSource(sessionId: string): string {
+  try {
+    const stored = JSON.parse(localStorage.getItem(SOURCE_KEY) ?? "null") as { sid: string; src: string } | null;
+    if (stored?.sid === sessionId) return stored.src;
+
+    const utm = new URLSearchParams(window.location.search).get("utm_source");
+    let src = trafficSource(document.referrer, utm);
+    if (src === "direct") {
+      const last = JSON.parse(localStorage.getItem(LAST_SOURCE_KEY) ?? "null") as { src: string; at: number } | null;
+      if (last && Date.now() - last.at < LAST_SOURCE_TTL) src = last.src;
+    } else {
+      localStorage.setItem(LAST_SOURCE_KEY, JSON.stringify({ src, at: Date.now() }));
+    }
+    localStorage.setItem(SOURCE_KEY, JSON.stringify({ sid: sessionId, src }));
+    return src;
+  } catch {
+    return trafficSource(document.referrer);
+  }
+}
+
+function isBot(): boolean {
+  return navigator.webdriver === true || BOT_UA.test(navigator.userAgent);
+}
+
+/**
+ * Record the start of a session — the dashboard's "visits" — if this session
+ * has not been recorded yet. Safe to call on every page and before every event.
+ *
+ * First-party only. GA4 counts sessions itself and reserves the name
+ * `session_start`; sending ours too would only add a duplicate custom event.
+ * Fires after the page has hydrated, so the gap between a search engine's
+ * clicks and these visits is the people who left before the page loaded
+ * (plus script blockers).
+ */
+export function recordVisit(landing: string): void {
+  if (typeof window === "undefined" || isBot()) return;
+  const sessionId = currentSessionId();
+  try {
+    if (localStorage.getItem(VISITED_KEY) === sessionId) return;
+    localStorage.setItem(VISITED_KEY, sessionId);
+  } catch {
+    // Storage blocked: the session id is per page anyway, so one visit per
+    // page load is the honest count.
+  }
+
+  let ref = "";
+  try {
+    ref = document.referrer ? new URL(document.referrer).hostname : "";
+  } catch {
+    /* malformed referrer */
+  }
+  sendFirstParty("visit", {
+    src: sessionSource(sessionId),
+    landing: landing.slice(0, 120),
+    device: window.matchMedia("(max-width: 767px)").matches ? "mobile" : "desktop",
+    ...(ref ? { ref } : {}),
+  });
+}
+
 /**
  * Copy one event into our own `events` table.
  *
@@ -204,6 +329,7 @@ function sendFirstParty(event: string, params: Record<string, string | number | 
   // Events a server route already records are skipped here to avoid storing
   // the same action twice — see lib/analytics-events.ts.
   if (!isMirroredEvent(event)) return;
+  if (isBot()) return;
 
   try {
     // The three ids travel as top-level fields, not inside props: they become
@@ -254,7 +380,9 @@ function sendFirstParty(event: string, params: Record<string, string | number | 
  * It stays in the first-party payload, where it is a real column with an index
  * and answers "did they make a second, different receipt".
  */
-const FIRST_PARTY_ONLY = new Set(["receipt_id"]);
+// `src` too: GA4 attributes traffic itself, and a second, differently-defined
+// source dimension there would only disagree with it.
+const FIRST_PARTY_ONLY = new Set(["receipt_id", "src"]);
 
 /** The subset of an event's properties we are willing to send off-site. */
 function shareable(params: Record<string, string | number | boolean>) {
@@ -278,6 +406,15 @@ export function track(event: string, params: EventParams = {}): void {
   // downloads and upgrades can be split by AI source rather than only pageviews.
   const aiSource = sessionAiSource();
   if (aiSource) clean.ai_source = aiSource;
+
+  // A session that rotated mid-page (30 minutes idle) gets its visit row before
+  // its first event, so no session reaches a later stage without one.
+  recordVisit(window.location.pathname);
+  try {
+    clean.src = sessionSource(currentSessionId());
+  } catch {
+    /* source is a nice-to-have on an event */
+  }
 
   // Our own table first — it is the only sink that can be joined to a member,
   // and the only one that keeps working when a visitor declines cookies.

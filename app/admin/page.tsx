@@ -3,6 +3,9 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { isProEntitled, PLANS } from "@/lib/plans";
 import { startOfUsageMonth } from "@/lib/usage";
 import { TRACKED_EVENT_NAMES } from "@/lib/analytics-events";
+import { getTraffic, FUNNEL_STEPS, ROW_CAP, isoDay, type StepKey } from "@/lib/admin-traffic";
+import { getBingSearch, getGoogleSearch, type DailySearch, type SearchSource } from "@/lib/search-stats";
+import { DailyBars, Funnel, type Point } from "./charts";
 
 export const dynamic = "force-dynamic";
 
@@ -253,7 +256,9 @@ async function getRecentEvents() {
   const { data } = await admin
     .from("events")
     .select("id, name, props, created_at")
-    .neq("name", "scroll_depth")
+    // visit is one row per session — on real traffic it would crowd out the
+    // actions this feed is for, just like scroll_depth.
+    .not("name", "in", "(scroll_depth,visit)")
     .order("created_at", { ascending: false })
     .limit(15);
   return data ?? [];
@@ -269,17 +274,247 @@ function Stat({ label, value, hint }: { label: string; value: string; hint?: str
   );
 }
 
+/** Window for the charts and the funnel. */
+const RANGE_DAYS = 30;
+
+/** One search engine's daily rows laid onto the dashboard's day keys. */
+function searchSeries(src: SearchSource, days: string[], field: keyof Omit<DailySearch, "date">): Point[] {
+  const byDay = new Map<string, number>(src.ok ? src.days.map((d) => [d.date, d[field]] as [string, number]) : []);
+  return days.map((date) => ({ date, value: byDay.get(date) ?? 0 }));
+}
+
+const addSeries = (a: Point[], b: Point[]): Point[] => a.map((p, i) => ({ date: p.date, value: p.value + (b[i]?.value ?? 0) }));
+const total = (pts: Point[]) => pts.reduce((n, p) => n + p.value, 0);
+
+/** Labels for the source column. */
+const SOURCE_LABEL: Record<string, string> = {
+  google: "Google",
+  bing: "Bing",
+  direct: "Direct / unknown",
+  referral: "Other websites",
+  pinterest: "Pinterest",
+  chatgpt: "ChatGPT",
+  perplexity: "Perplexity",
+  gemini: "Gemini",
+  copilot: "Copilot",
+  claude: "Claude",
+  duckduckgo: "DuckDuckGo",
+  yahoo: "Yahoo",
+  meta: "Facebook / Instagram",
+  unknown: "Unknown",
+};
+
 export default async function AdminOverview() {
-  const [stats, ai, eventRollup, events] = await Promise.all([
+  const [stats, ai, eventRollup, events, traffic, google, bing] = await Promise.all([
     getStats(),
     getAiUsage(),
     getEventRollup(),
     getRecentEvents(),
+    getTraffic(RANGE_DAYS),
+    getGoogleSearch(RANGE_DAYS + 3),
+    getBingSearch(RANGE_DAYS + 3),
   ]);
+
+  const searchClicks = addSeries(
+    searchSeries(google, traffic.days, "clicks"),
+    searchSeries(bing, traffic.days, "clicks")
+  );
+  const searchImpressions = addSeries(
+    searchSeries(google, traffic.days, "impressions"),
+    searchSeries(bing, traffic.days, "impressions")
+  );
+  const anySearch = google.ok || bing.ok;
+  // Search Console publishes with a 2–3 day lag, so the newest days read low.
+  const searchPartialFrom = isoDay(Date.now() - 2 * 864e5);
+
+  // The search funnel compares like with like: an engine's clicks against
+  // visits from that engine, over the same days — from the day session
+  // tracking began, up to where the engines' reporting lag starts. Without
+  // that window a month of clicks would be set against a day of visits.
+  const firstTrackedDay = traffic.firstSessionAt ? isoDay(Date.parse(traffic.firstSessionAt)) : null;
+  const inSearchWindow = (date: string) =>
+    // Strictly after the first day: tracking began part-way through it.
+    firstTrackedDay !== null && date > firstTrackedDay && date < searchPartialFrom;
+  const windowSum = (pts: Point[]) => total(pts.filter((p) => inSearchWindow(p.date)));
+  const searchWindowDays = traffic.days.filter(inSearchWindow).length;
+  const funnelImpressions = windowSum(searchImpressions);
+  const funnelClicks = windowSum(searchClicks);
+  const searchVisits =
+    (google.ok ? windowSum(traffic.engineVisits.google) : 0) + (bing.ok ? windowSum(traffic.engineVisits.bing) : 0);
+  const connected = [google.ok && "Google", bing.ok && "Bing"].filter(Boolean).join(" + ");
+
+  const searchByEngine: Record<string, { impressions: number; clicks: number }> = {
+    google: {
+      impressions: windowSum(searchSeries(google, traffic.days, "impressions")),
+      clicks: windowSum(searchSeries(google, traffic.days, "clicks")),
+    },
+    bing: {
+      impressions: windowSum(searchSeries(bing, traffic.days, "impressions")),
+      clicks: windowSum(searchSeries(bing, traffic.days, "clicks")),
+    },
+  };
 
   return (
     <div>
       <h1 className="text-2xl font-bold text-slate-900">Overview</h1>
+
+      <h2 className="mt-8 text-lg font-semibold text-slate-900">Traffic & sign-ups</h2>
+      <p className="mt-1 text-sm text-slate-500">
+        Last {RANGE_DAYS} days, per day (UTC). Hover a bar for its value.
+      </p>
+      <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <DailyBars
+          title="Visits"
+          points={traffic.visits}
+          hint="Browser sessions that loaded a page. Bots excluded."
+        />
+        <DailyBars title="Sign-ups" points={traffic.signups} color="#059669" hint="New accounts, counted from the database." />
+        <DailyBars
+          title={`Search clicks${connected ? ` · ${connected}` : ""}`}
+          points={searchClicks}
+          color="#0284c7"
+          partialFrom={searchPartialFrom}
+          hint={anySearch ? "Grey days are still being filled in by the search engines." : google.ok ? undefined : google.reason}
+        />
+        <DailyBars
+          title="Search impressions"
+          points={searchImpressions}
+          color="#7dd3fc"
+          partialFrom={searchPartialFrom}
+          hint={anySearch ? undefined : "Connect Search Console or Bing to fill this in."}
+        />
+        <DailyBars title="Receipts started" points={traffic.started} color="#d97706" hint="First real edit in the builder." />
+        <DailyBars title="Downloads" points={traffic.downloads} color="#9333ea" hint="Files actually downloaded, any plan." />
+      </div>
+
+      <h2 className="mt-10 text-lg font-semibold text-slate-900">Funnel</h2>
+      <p className="mt-1 text-sm text-slate-500">
+        Where people drop out, last {RANGE_DAYS} days. Steps after the first count
+        browser sessions that reached them, so one person who downloads three
+        times is one, not three.
+        {traffic.firstSessionAt &&
+          ` Visit tracking began ${new Date(traffic.firstSessionAt).toLocaleDateString()} — earlier sessions are not in these numbers; the Funnel page has the full history without sources.`}
+      </p>
+
+      <h3 className="mt-6 text-sm font-semibold uppercase tracking-wide text-slate-500">
+        1 · From search to the site
+      </h3>
+      <div className="mt-3">
+        <Funnel
+          steps={[
+            {
+              label: "Seen in search",
+              value: funnelImpressions,
+              source: connected ? `${connected} impressions` : "not connected",
+              missing: !anySearch || searchWindowDays === 0,
+            },
+            {
+              label: "Clicked through",
+              value: funnelClicks,
+              source: connected ? `${connected} clicks` : "not connected",
+              missing: !anySearch || searchWindowDays === 0,
+            },
+            {
+              label: "Page loaded",
+              value: searchVisits,
+              source: "visits from those engines",
+              missing: !anySearch || searchWindowDays === 0,
+            },
+          ]}
+        />
+      </div>
+      <p className="mt-2 text-xs text-slate-500">
+        {searchWindowDays > 0
+          ? `Covers the ${searchWindowDays} complete day${searchWindowDays === 1 ? "" : "s"} since visit tracking began. `
+          : "Fills in once visit tracking has run for a few days — search engines report 2–3 days late. "}
+        {!google.ok && <>Google: {google.reason}. </>}
+        {!bing.ok && <>Bing: {bing.reason}. </>}
+        Clicks that never become a visit left before the page finished loading,
+        or block scripts.
+      </p>
+
+      <h3 className="mt-6 text-sm font-semibold uppercase tracking-wide text-slate-500">
+        2 · On the site, every source
+      </h3>
+      <p className="mt-1 text-xs text-slate-500">
+        Stage-by-stage detail, walls and history:{" "}
+        <Link href="/admin/funnel" className="text-indigo-600 underline">Funnel page</Link>.
+      </p>
+      <div className="mt-3">
+        <Funnel
+          steps={FUNNEL_STEPS.map((step) => ({
+            label: step.label,
+            value: traffic.funnel.steps[step.key],
+            source: step.events.join(" / "),
+          }))}
+        />
+      </div>
+
+      <h3 className="mt-6 text-sm font-semibold uppercase tracking-wide text-slate-500">
+        3 · By source
+      </h3>
+      <div className="mt-3 overflow-x-auto rounded-2xl border border-slate-200 bg-white">
+        {traffic.funnelBySource.length === 0 ? (
+          <p className="p-6 text-sm text-slate-500">
+            No sessions recorded yet — they start arriving once this version is live.
+          </p>
+        ) : (
+          <table className="w-full text-sm">
+            <thead className="bg-slate-50 text-left text-xs uppercase tracking-wide text-slate-500">
+              <tr>
+                <th className="px-4 py-3">Source</th>
+                <th className="px-3 py-3 text-right">Impr.</th>
+                <th className="px-3 py-3 text-right">Clicks</th>
+                {FUNNEL_STEPS.map((s) => (
+                  <th key={s.key} className="px-3 py-3 text-right">
+                    {s.short}
+                  </th>
+                ))}
+                <th className="px-4 py-3 text-right">Visit → sign-up</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100">
+              {traffic.funnelBySource.map((row) => {
+                const engine = searchByEngine[row.source];
+                const engineOk =
+                  searchWindowDays > 0 &&
+                  ((row.source === "google" && google.ok) || (row.source === "bing" && bing.ok));
+                return (
+                  <tr key={row.source}>
+                    <td className="px-4 py-3 font-medium text-slate-700">{SOURCE_LABEL[row.source] ?? row.source}</td>
+                    <td className="px-3 py-3 text-right tabular-nums text-slate-400">
+                      {engine && engineOk ? engine.impressions.toLocaleString() : "—"}
+                    </td>
+                    <td className="px-3 py-3 text-right tabular-nums text-slate-400">
+                      {engine && engineOk ? engine.clicks.toLocaleString() : "—"}
+                    </td>
+                    {FUNNEL_STEPS.map((s) => (
+                      <td
+                        key={s.key}
+                        className={`px-3 py-3 text-right tabular-nums ${row.steps[s.key as StepKey] ? "text-slate-700" : "text-slate-300"}`}
+                      >
+                        {row.steps[s.key as StepKey].toLocaleString()}
+                      </td>
+                    ))}
+                    <td className="px-4 py-3 text-right tabular-nums font-medium text-slate-700">
+                      {row.steps.visit ? `${((row.steps.signup / row.steps.visit) * 100).toFixed(1)}%` : "—"}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        )}
+      </div>
+      <p className="mt-2 text-xs text-slate-500">
+        Source is the site that sent the visit; a direct return within a week
+        keeps the source that brought the visitor first. Impressions and clicks
+        come from the search engine itself, over the same complete days as the
+        search funnel above.
+        {traffic.truncated && ` Counted from the first ${ROW_CAP.toLocaleString()} events of the period.`}
+      </p>
+
+      <h2 className="mt-10 text-lg font-semibold text-slate-900">Business</h2>
 
       <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Stat label="Members" value={stats.members.toLocaleString()} hint={`+${stats.newMembers} in 30 days`} />
@@ -403,8 +638,8 @@ export default async function AdminOverview() {
 
       <h2 className="mt-10 text-lg font-semibold text-slate-900">Recent activity</h2>
       <p className="mt-1 text-sm text-slate-500">
-        The last 15 events, scroll depth aside — it fires on every page and would
-        be the whole list.
+        The last 15 events, visits and scroll depth aside — they fire on every
+        page and would be the whole list.
       </p>
       <div className="mt-4 overflow-hidden rounded-2xl border border-slate-200 bg-white">
         {events.length === 0 ? (

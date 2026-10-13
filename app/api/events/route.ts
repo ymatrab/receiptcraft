@@ -2,7 +2,7 @@ import { NextResponse, after } from "next/server";
 import { getAccountStatus } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { supabaseConfigured } from "@/lib/supabase/config";
-import { normalizeEventName, normalizeId, sanitizeProps } from "@/lib/analytics-events";
+import { BOT_UA, normalizeEventName, normalizeId, sanitizeProps } from "@/lib/analytics-events";
 import { EVENT_ALERTS, notify } from "@/lib/telegram";
 
 export const runtime = "nodejs";
@@ -33,6 +33,9 @@ export const dynamic = "force-dynamic";
  */
 export async function POST(req: Request) {
   if (!supabaseConfigured) return NextResponse.json({ ok: false });
+  // The browser already skips crawlers; this catches the ones that lie to it
+  // and anything posting here directly.
+  if (BOT_UA.test(req.headers.get("user-agent") ?? "")) return NextResponse.json({ ok: false });
 
   const body = (await req.json().catch(() => null)) as
     | {
