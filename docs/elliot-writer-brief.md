@@ -44,10 +44,13 @@ skill defaults where they differ.
   downloading needs a free account; **only the first download is
   watermark-free**; Pro is $3/week, $7.99/month or $49/year. Never say
   "realistic". /templates/invoice is a real invoice (bill-to, terms, due date,
-  amount due). There is no PO, quote, credit-memo or bill-of-sale template —
-  say "retitle the invoice/sales receipt template" only after checking in
-  `components/builder/SectionBuilder.tsx` that the title and custom lines are
-  editable. Check currency support in lib/templates.ts before telling UK readers
+  amount due). There is no PO, quote, credit-memo or bill-of-sale template.
+  Since 2026-10-13 the builder's header has a **Document heading** field: a
+  reader can head any document PURCHASE ORDER, QUOTE, CREDIT MEMO, etc. It prints
+  as a small heading above the business name. Templates that show a large
+  INVOICE/RECEIPT line do it with a message block, which is also editable. Say
+  exactly that; don't call it a dedicated template. Always check claims against
+  `git show origin/main:<file>`, not your worktree, which may be older. Check currency support in lib/templates.ts before telling UK readers
   they can use £.
 - Legitimacy: every document must describe a real transaction. Include one line
   saying so where a reader could misuse it.
