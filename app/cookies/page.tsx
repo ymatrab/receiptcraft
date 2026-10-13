@@ -43,6 +43,25 @@ const ANALYTICS = [
   },
 ];
 
+const MEASUREMENT = [
+  {
+    name: "mkc_session (session storage)",
+    purpose:
+      "A random visit id and the site that sent you (e.g. Google, Bing, direct), so we can count visits and see where people drop off. Contains nothing that identifies you.",
+    duration: "Until you close the tab",
+  },
+  {
+    name: "mkc_last_src (local storage)",
+    purpose: "The last site that sent you here, so a return visit within a week is credited to it.",
+    duration: "7 days",
+  },
+  {
+    name: "mkc_ai_source (session storage)",
+    purpose: "Whether an AI assistant (ChatGPT, Perplexity…) sent you to us.",
+    duration: "Until you close the tab",
+  },
+];
+
 function CookieTable({ rows }: { rows: typeof ESSENTIAL }) {
   return (
     <div className="overflow-x-auto rounded-2xl border border-slate-200">
@@ -72,7 +91,7 @@ export default function CookiesPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
       <h1 className="text-4xl font-bold tracking-tight text-slate-900">Cookie Policy</h1>
-      <p className="mt-3 text-sm text-slate-500">Last updated: July 2, 2026</p>
+      <p className="mt-3 text-sm text-slate-500">Last updated: October 13, 2026</p>
 
       <div className="mt-8 space-y-5 leading-relaxed text-slate-600">
         <p>
@@ -101,6 +120,15 @@ export default function CookiesPage() {
           anything on your device or identifying you.
         </p>
         <CookieTable rows={ANALYTICS} />
+
+        <H2>Our own visit counter (no cookies)</H2>
+        <p>
+          To count visits and see which step of the site people leave at, we keep a small
+          first-party record in our own database — never shared with a third party. It uses
+          the browser-storage items below rather than cookies, holds a random id rather than
+          anything about you, and the session item disappears when you close the tab.
+        </p>
+        <CookieTable rows={MEASUREMENT} />
 
         <H2>Changing your choice</H2>
         <p>

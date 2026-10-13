@@ -1,6 +1,6 @@
 "use client";
 
-import { isMirroredEvent } from "@/lib/analytics-events";
+import { BOT_UA, isMirroredEvent } from "@/lib/analytics-events";
 
 /**
  * Lightweight analytics dispatcher. Fires a custom event to GA4 (gtag),
@@ -86,6 +86,143 @@ function sessionAiSource(): string | null {
 }
 
 /**
+ * Where a visitor came from, as one short label: a search engine, an AI
+ * assistant, a social network, "referral" for any other site, or "direct".
+ *
+ * An explicit `utm_source` wins, so a tagged Pinterest pin or newsletter link
+ * is credited to the campaign rather than to whatever app opened it.
+ */
+const SEARCH_AND_SOCIAL: [RegExp, string][] = [
+  [/(^|\.)bing\.com$/i, "bing"],
+  [/(^|\.)duckduckgo\.com$/i, "duckduckgo"],
+  [/(^|\.)search\.yahoo\.com$|(^|\.)yahoo\.com$/i, "yahoo"],
+  [/(^|\.)yandex\./i, "yandex"],
+  [/(^|\.)ecosia\.org$/i, "ecosia"],
+  [/(^|\.)search\.brave\.com$/i, "brave"],
+  // After the AI rules: gemini.google.com is an assistant, not a search.
+  [/(^|\.)google\.[a-z.]+$/i, "google"],
+  [/(^|\.)pinterest\.[a-z.]+$|(^|\.)pin\.it$/i, "pinterest"],
+  [/(^|\.)facebook\.com$|(^|\.)fb\.com$|(^|\.)instagram\.com$/i, "meta"],
+  [/(^|\.)reddit\.com$/i, "reddit"],
+  [/(^|\.)t\.co$|(^|\.)x\.com$|(^|\.)twitter\.com$/i, "x"],
+  [/(^|\.)youtube\.com$|(^|\.)youtu\.be$/i, "youtube"],
+  [/(^|\.)tiktok\.com$/i, "tiktok"],
+  [/(^|\.)linkedin\.com$|(^|\.)lnkd\.in$/i, "linkedin"],
+];
+
+export function trafficSource(referrer: string | null | undefined, utmSource?: string | null): string {
+  const utm = utmSource?.trim().toLowerCase().replace(/[^a-z0-9_.-]/g, "").slice(0, 30);
+  if (utm) return utm;
+  const ai = aiSourceFromReferrer(referrer);
+  if (ai) return ai;
+  if (!referrer) return "direct";
+  try {
+    const host = new URL(referrer).hostname;
+    // Our own pages (www, apex, the shop) are a navigation, not a source.
+    if (/(^|\.)makecepeit\.com$/i.test(host) || host === window.location.hostname) return "direct";
+    for (const [pattern, name] of SEARCH_AND_SOCIAL) {
+      if (pattern.test(host)) return name;
+    }
+    return "referral";
+  } catch {
+    return "direct";
+  }
+}
+
+const SESSION_KEY = "mkc_session";
+const LAST_SOURCE_KEY = "mkc_last_src";
+/** How long a non-direct source keeps the credit for a later direct return. */
+const LAST_SOURCE_TTL = 7 * 864e5;
+
+interface VisitSession {
+  sid: string;
+  src: string;
+  /** True once the `visit` row for this session has been sent. */
+  counted?: boolean;
+}
+
+/**
+ * This tab's session: a random id and the source that started it.
+ *
+ * The id is what lets the dashboard count a funnel in people rather than in
+ * raw event totals — "sessions that opened the builder", not "builder_opened
+ * fired 3,000 times". sessionStorage, not a cookie: it dies with the tab, holds
+ * no identity, and survives the Google sign-in round trip in the same tab.
+ *
+ * A session that arrives direct inherits the last real source seen in the past
+ * week (last non-direct click, the same model GA4 uses), so a visitor who found
+ * us on Google and came back by typing the address is still Google's — as is a
+ * sign-up confirmed from an email link, which opens in a fresh tab.
+ */
+function visitSession(): VisitSession | null {
+  try {
+    const stored = sessionStorage.getItem(SESSION_KEY);
+    if (stored) return JSON.parse(stored) as VisitSession;
+
+    const utm = new URLSearchParams(window.location.search).get("utm_source");
+    let src = trafficSource(document.referrer, utm);
+    if (src === "direct") {
+      const last = JSON.parse(localStorage.getItem(LAST_SOURCE_KEY) ?? "null") as
+        | { src: string; at: number }
+        | null;
+      if (last && Date.now() - last.at < LAST_SOURCE_TTL) src = last.src;
+    } else {
+      localStorage.setItem(LAST_SOURCE_KEY, JSON.stringify({ src, at: Date.now() }));
+    }
+
+    const session: VisitSession = {
+      sid: crypto.randomUUID?.() ?? `${Date.now().toString(36)}${Math.random().toString(36).slice(2)}`,
+      src,
+    };
+    sessionStorage.setItem(SESSION_KEY, JSON.stringify(session));
+    return session;
+  } catch {
+    // Storage disabled: no session id, so these events stay out of the
+    // session funnel but still count in the totals.
+    return null;
+  }
+}
+
+function isBot(): boolean {
+  return navigator.webdriver === true || BOT_UA.test(navigator.userAgent);
+}
+
+/**
+ * Record the start of a browser session — the dashboard's "visits".
+ *
+ * First-party only. GA4 already counts sessions itself and reserves the name
+ * `session_start`; sending ours too would only add a duplicate custom event.
+ * Fires once per tab session, after the page has hydrated, so the gap between
+ * a search engine's clicks and these visits is the people who left before the
+ * page finished loading (plus blockers).
+ */
+export function recordVisit(landing: string): void {
+  if (typeof window === "undefined" || isBot()) return;
+  const session = visitSession();
+  if (!session || session.counted) return;
+  session.counted = true;
+  try {
+    sessionStorage.setItem(SESSION_KEY, JSON.stringify(session));
+  } catch {
+    /* counted once per load instead of once per session — acceptable */
+  }
+
+  let refHost = "";
+  try {
+    refHost = document.referrer ? new URL(document.referrer).hostname : "";
+  } catch {
+    /* malformed referrer */
+  }
+  sendFirstParty("visit", {
+    sid: session.sid,
+    src: session.src,
+    landing: landing.slice(0, 120),
+    device: window.matchMedia("(max-width: 767px)").matches ? "mobile" : "desktop",
+    ...(refHost ? { ref: refHost } : {}),
+  });
+}
+
+/**
  * Copy one event into our own `events` table.
  *
  * sendBeacon rather than fetch: it is queued by the browser and survives the
@@ -101,6 +238,7 @@ function sendFirstParty(event: string, params: Record<string, string | number | 
   // Events a server route already records are skipped here to avoid storing
   // the same action twice — see lib/analytics-events.ts.
   if (!isMirroredEvent(event)) return;
+  if (isBot()) return;
 
   try {
     const body = JSON.stringify({ name: event, props: params });
@@ -135,8 +273,11 @@ export function track(event: string, params: EventParams = {}): void {
   if (aiSource) clean.ai_source = aiSource;
 
   // Our own table first — it is the only sink that can be joined to a member,
-  // and the only one that keeps working when a visitor declines cookies.
-  sendFirstParty(event, clean);
+  // and the only one that keeps working when a visitor declines cookies. It
+  // alone gets the session id and source: that is what the funnel is counted
+  // by, and a per-session id is noise in GA4 and Clarity.
+  const session = visitSession();
+  sendFirstParty(event, session ? { ...clean, sid: session.sid, src: session.src } : clean);
 
   // GA4 custom event.
   window.gtag?.("event", event, clean);

@@ -11,6 +11,7 @@ import ConsentGate from "@/components/analytics/ConsentGate";
 import AuthEventBeacon from "@/components/analytics/AuthEventBeacon";
 import WelcomeSheet from "@/components/WelcomeSheet";
 import ScrollDepthTracker from "@/components/analytics/ScrollDepthTracker";
+import VisitTracker from "@/components/analytics/VisitTracker";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
@@ -123,6 +124,7 @@ export default function RootLayout({
         <Footer />
         <ChatWidget />
         <ScrollDepthTracker />
+        <VisitTracker />
       </body>
     </html>
   );

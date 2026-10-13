@@ -37,7 +37,8 @@ export const TOOLS_INDEX_UPDATED = "2026-08-31";
 // generations) and links to a signed-in account. Its own constant because
 // STATIC_UPDATED also stamps /about, /contact, /terms and /blog, none of which
 // changed; a policy page is the last place to be vague about when it changed.
-export const PRIVACY_UPDATED = "2026-09-01";
+// 2026-10-13: privacy + cookies pages describe the first-party visit counter.
+export const PRIVACY_UPDATED = "2026-10-13";
 export const TEMPLATES_UPDATED = "2026-07-20";
 export const TEMPLATES_CITED_UPDATED = "2026-08-20";
 export const TEMPLATES_FIGURE_UPDATED = "2026-08-21";
@@ -185,7 +186,7 @@ export const POLICY_UPDATED = "2026-08-31";
 // 2026-08-31 (3): the builder's AI panel now counts the remaining monthly
 // allowance out loud instead of saying "limited per month".
 export const CREATE_UPDATED = "2026-08-31";
-export const COOKIES_UPDATED = "2026-08-29";
+export const COOKIES_UPDATED = "2026-10-13";
 // 2026-08-29: /login now leads with the log-in form instead of "Create your
 // free account" — the heading, the sub-heading and the form itself all change
 // for anyone arriving with a ?next=. Its own constant for the same reason as

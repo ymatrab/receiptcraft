@@ -11,6 +11,8 @@
 
 /** Every event name lib/analytics.ts can emit. Keep in sync with `analytics`. */
 export const EVENT_NAMES = [
+  // traffic — one per browser session, first-party only (see recordVisit)
+  "visit",
   // creation funnel
   "receipt_generated",
   "ai_generate",
@@ -93,6 +95,15 @@ export const TRACKED_EVENT_NAMES: readonly string[] = [
   ...EVENT_NAMES.filter((n) => !NOT_MIRRORED_EVENTS.has(n)),
   ...SERVER_ONLY_EVENT_NAMES,
 ];
+
+/**
+ * Crawlers that execute JavaScript — Googlebot among them — would otherwise
+ * land in `events` as visitors, and on a site whose traffic is mostly search,
+ * the crawler can outnumber the people. Checked in the browser before sending
+ * and again at the ingest, since the endpoint is public.
+ */
+export const BOT_UA =
+  /bot|crawl|spider|slurp|mediapartners|lighthouse|headless|pagespeed|preview|prerender|facebookexternalhit|bingpreview|phantomjs|puppeteer|playwright|python-requests|curl|wget/i;
 
 /** Longest event-name string we will consider, before the allowlist even runs. */
 const MAX_NAME = 64;

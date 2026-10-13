@@ -15,7 +15,7 @@ export default function PrivacyPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
       <h1 className="text-4xl font-bold tracking-tight text-slate-900">Privacy Policy</h1>
-      <p className="mt-3 text-sm text-slate-500">Last updated: September 1, 2026</p>
+      <p className="mt-3 text-sm text-slate-500">Last updated: October 13, 2026</p>
 
       <div className="mt-8 space-y-5 leading-relaxed text-slate-600">
         <H2>The short version</H2>
@@ -87,6 +87,14 @@ export default function PrivacyPage() {
           this, and it is not shared with a third party. When you are signed in these events are
           linked to your account, so we can see how the product is really used and help you if
           something goes wrong; they never include the contents of your receipts.
+        </p>
+        <p>
+          To count visits and see where people leave the site, each browser tab also gets a
+          random visit id, and we note which kind of site sent you (a search engine, an AI
+          assistant, social media, or none), the page you landed on, and whether you are on a
+          phone or a computer. This sits in your browser&apos;s session storage, not a cookie,
+          and is listed on our{" "}
+          <a href="/cookies" className="text-indigo-600 underline">Cookie Policy</a> page.
         </p>
 
         <H2>Service providers</H2>
