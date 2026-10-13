@@ -333,15 +333,19 @@ threshold were re-checked on irs.gov. Banners: in-house, spec-driven
 
 ## Scheduled Nov 8–12 (Elliot writers test)
 
-Purchase order cluster, written by Elliot writer A on 2026-10-13. Facts (FAR 2.101, FAR 32.905,
-UCC 2-206) checked that day and listed in each file header. Banners specced in
-scripts/banners/specs-d.json, rendered by the orchestrator.
+Six posts by the Elliot factory writers (first test on this site), 2026-10-13. Facts and
+source URLs are in each file header: writer A — FAR 2.101, FAR 32.905, UCC 2-206; writer B —
+irs.gov, trade.gov, 19 CFR 141.86, UCC 2-316, 49 CFR 580.17, 49 USC 32705/32710,
+consumer.ftc.gov, dmv.ca.gov. Banners: scripts/banners/specs-d.json (A), specs-e.json (B).
 
 | Date | Slot | Slug | Keyword (US/mo) | Links to | Status |
 |---|---|---|---|---|---|
 | Nov 8 | a | how-to-write-a-purchase-order | 12,100 + 9,900 | /templates/invoice, /blog/purchase-order-vs-invoice, /blog/purchase-order-number | Scheduled |
 | Nov 8 | b | purchase-order-vs-invoice | 1,300 | /templates/invoice, /blog/how-to-make-an-invoice, /blog/how-to-write-a-purchase-order | Scheduled |
 | Nov 10 | a | purchase-order-number | 2,400 | /templates/invoice, /blog/invoice-number, /blog/how-to-write-a-purchase-order | Scheduled |
+| Nov 10 | b | commercial-invoice | 2,400 + 1,900 | /templates/invoice, /blog/how-to-make-an-invoice | Scheduled |
+| Nov 12 | a | as-is-bill-of-sale | 60,500 grouped (KD 15) | /blog/car-sale-receipt, /blog/dog-bill-of-sale, /templates/sales-receipt | Scheduled |
+| Nov 12 | b | gross-receipts | 1,600 | /templates/invoice, /blog/receipts-to-keep-for-taxes, /create | Scheduled |
 
 ## Watch list
 

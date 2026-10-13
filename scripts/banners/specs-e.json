@@ -1,0 +1,142 @@
+[
+ {
+  "slug": "commercial-invoice",
+  "h1": "Commercial Invoice",
+  "h2": "How to fill one out, field by field",
+  "h3": "SHIPPING ABROAD? START HERE",
+  "prop": "parcel-box",
+  "noteL": "HS code<br>per line",
+  "noteR": "Country of<br>origin",
+  "pills": [
+   "HS code",
+   "Country of origin",
+   "Incoterm"
+  ],
+  "currency": "$",
+  "title": "COMMERCIAL INVOICE",
+  "sub": "Cedar Lane Pottery, Asheville, NC",
+  "info": [
+   [
+    "Invoice",
+    "CI-2026-118"
+   ],
+   [
+    "Consignee",
+    "Harbourfront Cafe, Toronto"
+   ],
+   [
+    "Terms",
+    "DAP Toronto, ON"
+   ]
+  ],
+  "lines": [
+   [
+    "24 stoneware mugs (6912.00)",
+    432
+   ],
+   [
+    "12 serving bowls (6912.00)",
+    420
+   ],
+   [
+    "6 platters (6912.00)",
+    288
+   ],
+   [
+    "Freight to Toronto",
+    85
+   ]
+  ],
+  "totalLabel": "TOTAL (USD)",
+  "foot": "Reason for export: Sale",
+  "propR": "invoice-clipboard"
+ },
+ {
+  "slug": "as-is-bill-of-sale",
+  "h1": "As Is Bill of Sale",
+  "h2": "Sample wording for a vehicle sale",
+  "h3": "SELLING WITHOUT A WARRANTY",
+  "prop": "checkbook-pen",
+  "noteL": "Odometer<br>reading",
+  "noteR": "As-is<br>clause",
+  "pills": [
+   "VIN",
+   "Odometer",
+   "As-is clause"
+  ],
+  "currency": "$",
+  "title": "BILL OF SALE",
+  "sub": "2015 Toyota Corolla, silver",
+  "info": [
+   [
+    "Seller",
+    "Daniel Ortiz"
+   ],
+   [
+    "Buyer",
+    "Keisha Grant"
+   ],
+   [
+    "Odometer",
+    "128,450 miles"
+   ]
+  ],
+  "lines": [
+   [
+    "Vehicle, sold as is",
+    6800
+   ]
+  ],
+  "totalLabel": "PRICE PAID",
+  "foot": "As is, with all faults",
+  "propR": "invoice-clipboard"
+ },
+ {
+  "slug": "gross-receipts",
+  "h1": "What Are Gross Receipts?",
+  "h2": "IRS meaning, examples and Schedule C",
+  "h3": "EVERYTHING YOU TOOK IN",
+  "prop": "calculator",
+  "noteL": "Before<br>any costs",
+  "noteR": "Schedule C<br>line 1",
+  "pills": [
+   "Invoices",
+   "Card sales",
+   "Cash sales"
+  ],
+  "currency": "$",
+  "title": "GROSS RECEIPTS 2025",
+  "sub": "Sample candle business",
+  "info": [
+   [
+    "Tax year",
+    "2025"
+   ],
+   [
+    "Form",
+    "Schedule C"
+   ],
+   [
+    "Line",
+    "1"
+   ]
+  ],
+  "lines": [
+   [
+    "Invoices paid by check and ACH",
+    41200
+   ],
+   [
+    "Card sales",
+    29800
+   ],
+   [
+    "Cash sales",
+    13500
+   ]
+  ],
+  "totalLabel": "GROSS RECEIPTS",
+  "foot": "Before refunds, costs and expenses",
+  "propR": "invoice-clipboard"
+ }
+]
