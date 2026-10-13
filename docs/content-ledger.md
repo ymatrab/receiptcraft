@@ -331,6 +331,18 @@ threshold were re-checked on irs.gov. Banners: in-house, spec-driven
 (scripts/banners/spec-banner.html + specs-*.json + render-specs.py), 8 new clay props
 (Higgsfield Z Image, 8 × 0.15 credits).
 
+## Scheduled Nov 8–12 (Elliot writers test)
+
+Purchase order cluster, written by Elliot writer A on 2026-10-13. Facts (FAR 2.101, FAR 32.905,
+UCC 2-206) checked that day and listed in each file header. Banners specced in
+scripts/banners/specs-d.json, rendered by the orchestrator.
+
+| Date | Slot | Slug | Keyword (US/mo) | Links to | Status |
+|---|---|---|---|---|---|
+| Nov 8 | a | how-to-write-a-purchase-order | 12,100 + 9,900 | /templates/invoice, /blog/purchase-order-vs-invoice, /blog/purchase-order-number | Scheduled |
+| Nov 8 | b | purchase-order-vs-invoice | 1,300 | /templates/invoice, /blog/how-to-make-an-invoice, /blog/how-to-write-a-purchase-order | Scheduled |
+| Nov 10 | a | purchase-order-number | 2,400 | /templates/invoice, /blog/invoice-number, /blog/how-to-write-a-purchase-order | Scheduled |
+
 ## Watch list
 
 - **`/create` synonym cluster** — #2, #10, #12, #13, #14, #16 all target near-identical "make/create a receipt online free" intent. Differentiated by angle + cross-linked; **watch Search Console** for two URLs trading impressions on one query and merge/canonicalize if it happens. Coming `online receipt generator` and `receipt creator free` add two more.
