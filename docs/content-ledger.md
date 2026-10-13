@@ -347,6 +347,46 @@ consumer.ftc.gov, dmv.ca.gov. Banners: scripts/banners/specs-d.json (A), specs-e
 | Nov 12 | a | as-is-bill-of-sale | 60,500 grouped (KD 15) | /blog/car-sale-receipt, /blog/dog-bill-of-sale, /templates/sales-receipt | Scheduled |
 | Nov 12 | b | gross-receipts | 1,600 | /templates/invoice, /blog/receipts-to-keep-for-taxes, /create | Scheduled |
 
+Nov 14 – Dec 12: 30 more posts by five Elliot writers (invoicing, bill of sale, UK, receipts/AI),
+written 2026-10-13 with the shared brief docs/elliot-writer-brief.md. Demand checked with Google
+autocomplete (DataForSEO balance was $0); swap any slot that a later volume check rejects. Sources
+are in each file header. Corrections made while reviewing: the builder heading is NOT editable
+(Nov 8 PO post fixed and republished); UK mileage is 55p for 2026-27 and the 1099-NEC threshold is
+$2,000 from 2026 (both verified on gov.uk / irs.gov).
+
+| Date | Slot | Slug | Demand | Links to | Status |
+|---|---|---|---|---|---|
+| Nov 14 | a | how-to-write-a-quote | autocomplete-verified | see file header | Scheduled |
+| Nov 14 | b | motorcycle-bill-of-sale | autocomplete-verified | see file header | Scheduled |
+| Nov 16 | a | credit-memo | autocomplete-verified | see file header | Scheduled |
+| Nov 16 | b | vat-invoice-requirements-uk | autocomplete-verified | see file header | Scheduled |
+| Nov 18 | a | packing-slip-vs-invoice | autocomplete-verified | see file header | Scheduled |
+| Nov 18 | b | boat-bill-of-sale | autocomplete-verified | see file header | Scheduled |
+| Nov 20 | a | payment-reminder-email | autocomplete-verified | see file header | Scheduled |
+| Nov 20 | b | sole-trader-invoice-uk | autocomplete-verified | see file header | Scheduled |
+| Nov 22 | a | what-makes-a-receipt-valid | autocomplete-verified | see file header | Scheduled |
+| Nov 22 | b | trailer-bill-of-sale | autocomplete-verified | see file header | Scheduled |
+| Nov 24 | a | statement-of-account | autocomplete-verified | see file header | Scheduled |
+| Nov 24 | b | cis-invoice-uk | autocomplete-verified | see file header | Scheduled |
+| Nov 26 | a | deposit-invoice | autocomplete-verified | see file header | Scheduled |
+| Nov 26 | b | how-to-notarize-a-bill-of-sale | autocomplete-verified | see file header | Scheduled |
+| Nov 28 | a | final-notice-invoice-letter | autocomplete-verified | see file header | Scheduled |
+| Nov 28 | b | credit-note-uk | autocomplete-verified | see file header | Scheduled |
+| Nov 30 | a | retainer-invoice | autocomplete-verified | see file header | Scheduled |
+| Nov 30 | b | loan-repayment-receipt | autocomplete-verified | see file header | Scheduled |
+| Dec 2 | a | progress-billing-invoice | autocomplete-verified | see file header | Scheduled |
+| Dec 2 | b | how-long-to-keep-receipts-uk | autocomplete-verified | see file header | Scheduled |
+| Dec 4 | a | horse-bill-of-sale | autocomplete-verified | see file header | Scheduled |
+| Dec 4 | b | e-invoicing | autocomplete-verified | see file header | Scheduled |
+| Dec 6 | a | credit-card-authorization-form | autocomplete-verified | see file header | Scheduled |
+| Dec 6 | b | uk-rent-receipt | autocomplete-verified | see file header | Scheduled |
+| Dec 8 | a | personal-property-bill-of-sale | autocomplete-verified | see file header | Scheduled |
+| Dec 8 | b | child-support-payment-receipt | autocomplete-verified | see file header | Scheduled |
+| Dec 10 | a | invoice-international-clients | autocomplete-verified | see file header | Scheduled |
+| Dec 10 | b | self-employed-expenses-receipts-uk | autocomplete-verified | see file header | Scheduled |
+| Dec 12 | a | consignment-receipt | autocomplete-verified | see file header | Scheduled |
+| Dec 12 | b | year-end-receipts-checklist | autocomplete-verified | see file header | Scheduled |
+
 ## Watch list
 
 - **`/create` synonym cluster** — #2, #10, #12, #13, #14, #16 all target near-identical "make/create a receipt online free" intent. Differentiated by angle + cross-linked; **watch Search Console** for two URLs trading impressions on one query and merge/canonicalize if it happens. Coming `online receipt generator` and `receipt creator free` add two more.
