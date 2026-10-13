@@ -5,7 +5,8 @@
  *   "what is a purchase order"   12,100/mo
  *   "purchase order"              9,900/mo
  *   -> /templates/invoice (owner: the supplier bills against the PO there;
- *      buyers write the PO from the post; the builder heading is not editable), sister posts
+ *      buyers can head a document PURCHASE ORDER via the Document heading
+ *      field, live on main since 48aa0ee, 2026-10-13), sister posts
  *      /blog/purchase-order-vs-invoice (Nov 8, 14:00Z) and
  *      /blog/purchase-order-number (Nov 10)
  *
@@ -13,8 +14,9 @@
  * in the section builder; the header's title text is editable and the
  * two-column info block has "+ Add line" for custom label/value rows
  * (components/builder/SectionBuilder.tsx). No dedicated PO template exists,
- * and the header title is NOT editable (checked on main 2026-10-13), so the
- * post never tells buyers to retitle the invoice.
+ * Document heading field shipped 2026-10-13 (48aa0ee) and was confirmed in
+ * the live /create bundle; the post describes it as a small heading above the
+ * business name, not a PO template.
  *
  * Facts checked 2026-10-13:
  *   - FAR 2.101: a purchase order, when issued by the Government, is an offer
@@ -42,7 +44,7 @@ export const NOV_8A_HOW_TO_WRITE_A_PURCHASE_ORDER = [
       "A purchase order is the buyer's written order to a supplier. Here is what goes on one, field by field, a finished example you can copy, and how the PO connects to the invoice and the receipt that follow.",
     body: `**A purchase order (PO) is a document a buyer sends to a supplier to order goods or services at an agreed price. To write one, give it a unique PO number and date, name the buyer and the vendor, say where to deliver, list each item with quantity, unit price and line total, and state the payment and delivery terms before someone with authority approves it.** Once the supplier accepts it, the PO number follows the order all the way to the invoice and the receipt.
 
-If you are the supplier, you bill against a PO with an invoice that quotes its number; our [invoice template](/templates/invoice) has the bill-to block, invoice number, terms and amount due ready, and you can add a "PO number" line to the details block. If you are the buyer and do not use purchasing software, write the PO from the field list and example below in a document or spreadsheet; makecepeit does not have a purchase order template yet.
+If you are the supplier, you bill against a PO with an invoice that quotes its number; our [invoice template](/templates/invoice) has the bill-to block, invoice number, terms and amount due ready, and you can add a "PO number" line to the details block. If you are the buyer and do not use purchasing software, you can build the PO in the same [builder](/create): type PURCHASE ORDER in the header's Document heading field, and if the template also shows an INVOICE line, edit or delete that message block. Then fill in the fields shown below.
 
 ## What a Purchase Order Does
 
@@ -142,7 +144,7 @@ This is general information, not legal or accounting advice.`,
       },
       {
         q: "Can I make a purchase order with makecepeit?",
-        a: "Not yet: there is no purchase order template, and the invoice template's heading always reads INVOICE. Use the field list and example above to write the PO. On the supplier side, the invoice template is the right tool: add the PO number as a line in the details block when you bill against the order. Building and previewing need no account; downloading needs a free account, and the first download is watermark-free.",
+        a: "Yes. Open the builder, type PURCHASE ORDER in the header's Document heading field (it prints above your business name), remove or edit any INVOICE message line, and add the vendor, ship-to and PO number as lines in the details block. There is no dedicated PO template. Building and previewing need no account; downloading needs a free account, and the first download is watermark-free.",
       },
     ],
   },
