@@ -1,0 +1,280 @@
+[
+ {
+  "slug": "what-makes-a-receipt-valid",
+  "h1": "What Makes a Receipt Valid?",
+  "h2": "The checklist of required elements",
+  "h3": "WHO, WHEN, HOW MUCH, FOR WHAT",
+  "prop": "invoice-clipboard",
+  "noteL": "Date and<br>seller",
+  "noteR": "Itemized<br>lines",
+  "pills": [
+   "Amount",
+   "Date",
+   "Place",
+   "What was bought"
+  ],
+  "currency": "$",
+  "title": "SALES RECEIPT",
+  "sub": "Copper Kettle Print Co. (sample)",
+  "info": [
+   [
+    "Receipt",
+    "R-20581"
+   ],
+   [
+    "Date",
+    "Nov 18, 2026"
+   ],
+   [
+    "Paid by",
+    "Visa ending 4417"
+   ]
+  ],
+  "lines": [
+   [
+    "500 business cards",
+    64
+   ],
+   [
+    "2 vinyl banners",
+    96
+   ]
+  ],
+  "totalLabel": "TOTAL",
+  "foot": "Purpose: marketing for spring launch",
+  "propR": "checkbook-pen"
+ },
+ {
+  "slug": "loan-repayment-receipt",
+  "h1": "Loan Repayment Receipt",
+  "h2": "Fields, sample and a running balance",
+  "h3": "LENT MONEY TO FAMILY OR FRIENDS?",
+  "prop": "checkbook-pen",
+  "noteL": "Payment<br>4 of 12",
+  "noteR": "Balance<br>left",
+  "pills": [
+   "Original loan",
+   "Payment no.",
+   "Balance after"
+  ],
+  "currency": "$",
+  "title": "LOAN REPAYMENT",
+  "sub": "Sample personal loan, interest free",
+  "info": [
+   [
+    "Lender",
+    "Marcus Hale"
+   ],
+   [
+    "Borrower",
+    "Priya Nair"
+   ],
+   [
+    "Loan",
+    "$3,000.00, Mar 1, 2026"
+   ]
+  ],
+  "lines": [
+   [
+    "Payment 4 of 12 (Zelle)",
+    250
+   ]
+  ],
+  "totalLabel": "RECEIVED",
+  "foot": "Balance remaining: $2,000.00",
+  "propR": "calculator"
+ },
+ {
+  "slug": "child-support-payment-receipt",
+  "h1": "Child Support Payment Receipt",
+  "h2": "What it should show, with a sample",
+  "h3": "PAYING THE OTHER PARENT DIRECTLY?",
+  "prop": "teddy-blocks",
+  "noteL": "Period<br>covered",
+  "noteR": "Signed by<br>recipient",
+  "pills": [
+   "Period covered",
+   "Method",
+   "Order no."
+  ],
+  "currency": "$",
+  "title": "PAYMENT RECEIPT",
+  "sub": "Child support (sample)",
+  "info": [
+   [
+    "Received",
+    "Dec 3, 2026"
+   ],
+   [
+    "Check no.",
+    "2214"
+   ],
+   [
+    "Order",
+    "2024-DR-0381"
+   ]
+  ],
+  "lines": [
+   [
+    "Child support, December 2026",
+    450
+   ]
+  ],
+  "totalLabel": "RECEIVED",
+  "foot": "Signed by receiving parent",
+  "propR": "checkbook-pen"
+ },
+ {
+  "slug": "self-employed-expenses-receipts-uk",
+  "h1": "Self-Employed Allowable Expenses",
+  "h2": "Which receipts HMRC expects you to keep",
+  "h3": "SOLE TRADER? UK GUIDE",
+  "prop": "calculator",
+  "noteL": "55p a mile<br>2026 to 2027",
+  "noteR": "Business<br>share only",
+  "pills": [
+   "Mileage log",
+   "Supplier invoices",
+   "Flat rates"
+  ],
+  "currency": "£",
+  "title": "EXPENSES 2026-27",
+  "sub": "Mobile bike repair, Leeds (sample)",
+  "info": [
+   [
+    "Tax year",
+    "2026 to 2027"
+   ],
+   [
+    "Method",
+    "Simplified + actual"
+   ],
+   [
+    "Records",
+    "Logs and invoices"
+   ]
+  ],
+  "lines": [
+   [
+    "6,000 business miles at 55p",
+    3300
+   ],
+   [
+    "Working from home, £18 x 12",
+    216
+   ],
+   [
+    "Phone, 40% business",
+    144
+   ],
+   [
+    "Parts and tyres",
+    4850
+   ],
+   [
+    "Liability insurance",
+    180
+   ],
+   [
+    "Website hosting",
+    96
+   ]
+  ],
+  "totalLabel": "TOTAL EXPENSES",
+  "foot": "Keep records 5 years after 31 Jan deadline",
+  "propR": "invoice-clipboard"
+ },
+ {
+  "slug": "consignment-receipt",
+  "h1": "Consignment Receipt",
+  "h2": "Meaning, what to include and a sample",
+  "h3": "LEAVING ITEMS WITH A SHOP TO SELL?",
+  "prop": "parcel-box",
+  "noteL": "Condition<br>noted",
+  "noteR": "60 / 40<br>split",
+  "pills": [
+   "Item list",
+   "Commission split",
+   "Unsold terms"
+  ],
+  "currency": "$",
+  "title": "CONSIGNMENT",
+  "sub": "Second Bloom Boutique (sample)",
+  "info": [
+   [
+    "No.",
+    "CON-0412"
+   ],
+   [
+    "Consignor",
+    "Rachel Kim"
+   ],
+   [
+    "Period",
+    "60 days"
+   ]
+  ],
+  "lines": [
+   [
+    "Wool winter coat, size M",
+    120
+   ],
+   [
+    "Leather crossbody bag",
+    85
+   ],
+   [
+    "Ankle boots, size 8",
+    65
+   ]
+  ],
+  "totalLabel": "AGREED PRICE",
+  "foot": "Consignor 60% / shop 40% of sale price",
+  "propR": "invoice-clipboard"
+ },
+ {
+  "slug": "year-end-receipts-checklist",
+  "h1": "Year-End Checklist for Small Business",
+  "h2": "Receipts and records to sort before January",
+  "h3": "BEFORE DECEMBER 31",
+  "prop": "envelope-stamp",
+  "noteL": "1099-NEC<br>due Feb 1",
+  "noteR": "Donate by<br>Dec 31",
+  "pills": [
+   "Final invoices",
+   "Missing receipts",
+   "1099-NEC",
+   "Backups"
+  ],
+  "currency": "$",
+  "title": "INVOICE",
+  "sub": "Web design studio (sample)",
+  "info": [
+   [
+    "Invoice",
+    "INV-2026-118"
+   ],
+   [
+    "Issued",
+    "Dec 10, 2026"
+   ],
+   [
+    "Terms",
+    "Net 15"
+   ]
+  ],
+  "lines": [
+   [
+    "Website build, finished Dec 2026",
+    2400
+   ],
+   [
+    "Landing page, finished Dec 2026",
+    1150
+   ]
+  ],
+  "totalLabel": "AMOUNT DUE",
+  "foot": "Bill this year's work this year",
+  "propR": "calculator"
+ }
+]
