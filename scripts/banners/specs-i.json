@@ -1,0 +1,266 @@
+[
+ {
+  "slug": "vat-invoice-requirements-uk",
+  "h1": "VAT Invoice Requirements (UK)",
+  "h2": "What HMRC says must be on it",
+  "h3": "FULL, SIMPLIFIED OR MODIFIED?",
+  "prop": "calculator",
+  "noteL": "VAT total<br>in sterling",
+  "noteR": "£250<br>threshold",
+  "pills": [
+   "VAT number",
+   "Tax point",
+   "VAT rate"
+  ],
+  "currency": "£",
+  "title": "VAT INVOICE",
+  "sub": "Sample: Harbour Print Co",
+  "info": [
+   [
+    "Invoice",
+    "HPC-0158"
+   ],
+   [
+    "VAT Reg No",
+    "GB 000 0000 00"
+   ],
+   [
+    "Customer",
+    "Sample café"
+   ]
+  ],
+  "lines": [
+   [
+    "2,000 A5 flyers @ £0.09",
+    180
+   ],
+   [
+    "Flyer design, 3 hrs @ £45",
+    135
+   ],
+   [
+    "VAT at 20%",
+    63
+   ]
+  ],
+  "totalLabel": "TOTAL PAYABLE",
+  "foot": "Net £315.00 + VAT £63.00",
+  "propR": "invoice-clipboard"
+ },
+ {
+  "slug": "sole-trader-invoice-uk",
+  "h1": "Sole Trader Invoice (UK)",
+  "h2": "What to include, with or without VAT",
+  "h3": "SELF-EMPLOYED? BILL IT RIGHT",
+  "prop": "checkbook-pen",
+  "noteL": "Your own<br>name",
+  "noteR": "No VAT if<br>unregistered",
+  "pills": [
+   "Invoice number",
+   "Supply date",
+   "Total owed"
+  ],
+  "currency": "£",
+  "title": "INVOICE",
+  "sub": "Sample: Shah Bookkeeping",
+  "info": [
+   [
+    "Invoice",
+    "SB-2026-031"
+   ],
+   [
+    "Bill to",
+    "Sample café"
+   ],
+   [
+    "Terms",
+    "14 days"
+   ]
+  ],
+  "lines": [
+   [
+    "Bookkeeping, October 2026",
+    240
+   ],
+   [
+    "Payroll run, 2 staff @ £25",
+    50
+   ]
+  ],
+  "totalLabel": "TOTAL OWED",
+  "foot": "Not VAT registered",
+  "propR": "invoice-clipboard"
+ },
+ {
+  "slug": "cis-invoice-uk",
+  "h1": "CIS Invoice",
+  "h2": "Labour, materials and the deduction",
+  "h3": "CONSTRUCTION SUBCONTRACTORS",
+  "prop": "building-keys",
+  "noteL": "20% on<br>labour only",
+  "noteR": "Materials<br>not deducted",
+  "pills": [
+   "Labour",
+   "Materials",
+   "UTR"
+  ],
+  "currency": "£",
+  "title": "INVOICE",
+  "sub": "Sample subcontractor invoice",
+  "info": [
+   [
+    "From",
+    "Sample plumber"
+   ],
+   [
+    "UTR",
+    "On file"
+   ],
+   [
+    "Job",
+    "Second fix"
+   ]
+  ],
+  "lines": [
+   [
+    "Labour, 4 days @ £220",
+    880
+   ],
+   [
+    "Materials (receipts held)",
+    320
+   ]
+  ],
+  "totalLabel": "INVOICE TOTAL",
+  "foot": "CIS 20% of £880 = £176.00",
+  "propR": "invoice-clipboard"
+ },
+ {
+  "slug": "credit-note-uk",
+  "h1": "Credit Note (UK)",
+  "h2": "How to issue one against a VAT invoice",
+  "h3": "RETURNS AND OVERCHARGES",
+  "prop": "envelope-stamp",
+  "noteL": "Quote the<br>original invoice",
+  "noteR": "Within<br>14 days",
+  "pills": [
+   "Original invoice",
+   "VAT credited",
+   "Reason"
+  ],
+  "currency": "£",
+  "title": "CREDIT NOTE",
+  "sub": "Sample: Fenwick Office Supplies",
+  "info": [
+   [
+    "Credit note",
+    "CN-0007"
+   ],
+   [
+    "Relates to",
+    "INV-0412"
+   ],
+   [
+    "Reason",
+    "2 chairs returned"
+   ]
+  ],
+  "lines": [
+   [
+    "2 office chairs @ £120",
+    240
+   ],
+   [
+    "VAT at 20%",
+    48
+   ]
+  ],
+  "totalLabel": "TOTAL CREDITED",
+  "foot": "VAT credited in sterling",
+  "propR": "invoice-clipboard"
+ },
+ {
+  "slug": "how-long-to-keep-receipts-uk",
+  "h1": "How Long to Keep Receipts (UK)",
+  "h2": "HMRC rules by business type",
+  "h3": "BEFORE YOU SHRED ANYTHING",
+  "prop": "calculator",
+  "noteL": "5 years after<br>31 January",
+  "noteR": "6 years for<br>VAT",
+  "pills": [
+   "Sole trader",
+   "Limited company",
+   "VAT"
+  ],
+  "currency": "£",
+  "title": "RECORDS 2025-26",
+  "sub": "Sample sole trader, tax year 2025-26",
+  "info": [
+   [
+    "Tax year",
+    "2025 to 2026"
+   ],
+   [
+    "Return due",
+    "31 Jan 2027"
+   ],
+   [
+    "Keep until",
+    "End Jan 2032"
+   ]
+  ],
+  "lines": [
+   [
+    "Card sales",
+    21600
+   ],
+   [
+    "Invoices paid by transfer",
+    16800
+   ]
+  ],
+  "totalLabel": "SALES RECORDED",
+  "foot": "Keep the records until end Jan 2032",
+  "propR": "invoice-clipboard"
+ },
+ {
+  "slug": "uk-rent-receipt",
+  "h1": "Rent Receipts in the UK",
+  "h2": "Rent books, what to include, deposits",
+  "h3": "LANDLORDS AND TENANTS",
+  "prop": "building-keys",
+  "noteL": "Weekly rent:<br>rent book",
+  "noteR": "Deposit<br>in 30 days",
+  "pills": [
+   "Period covered",
+   "Amount",
+   "Received by"
+  ],
+  "currency": "£",
+  "title": "RENT RECEIPT",
+  "sub": "Sample room let, Leeds",
+  "info": [
+   [
+    "Receipt",
+    "RR-2026-046"
+   ],
+   [
+    "Tenant",
+    "Sam Okafor"
+   ],
+   [
+    "Method",
+    "Cash"
+   ]
+  ],
+  "lines": [
+   [
+    "Rent, w/c 2 Nov 2026",
+    185
+   ]
+  ],
+  "totalLabel": "RENT RECEIVED",
+  "foot": "Received by Helen Price",
+  "propR": "invoice-clipboard"
+ }
+]
