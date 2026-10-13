@@ -316,7 +316,9 @@ export const POLICY_UPDATED = "2026-08-31";
 // 2026-08-31 (3): the builder's AI panel now counts the remaining monthly
 // allowance out loud instead of saying "limited per month".
 // 2026-10-08: related posts on /create now include how-to-make-a-receipt-online.
-export const CREATE_UPDATED = "2026-10-08";
+// 2026-10-13: the builder's header gains a "Document heading" field, so a
+// receipt or invoice can be headed PURCHASE ORDER, QUOTE, CREDIT MEMO, etc.
+export const CREATE_UPDATED = "2026-10-13";
 export const COOKIES_UPDATED = "2026-08-29";
 // 2026-08-29: /login now leads with the log-in form instead of "Create your
 // free account" — the heading, the sub-heading and the form itself all change
