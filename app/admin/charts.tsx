@@ -13,8 +13,17 @@ const fmt = (n: number) => Math.round(n).toLocaleString();
 const shortDate = (iso: string) =>
   new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
 
-/** Last 7 days against the 7 before them, as a signed percentage. */
-function weekChange(pts: Point[]): number | null {
+/**
+ * Last 7 complete days against the 7 before them, as a signed percentage.
+ *
+ * Incomplete days are dropped first: today (the last point) always, and for
+ * search data every day from `partialFrom` on. Search engines report two or
+ * three days late, so those days read as near-zero; counting them made every
+ * search chart show a ~55% weekly "drop" that was only reporting lag, and a
+ * half-finished today did the same to sign-ups on a smaller scale.
+ */
+function weekChange(all: Point[], partialFrom?: string): number | null {
+  const pts = all.slice(0, -1).filter((p) => partialFrom === undefined || p.date < partialFrom);
   if (pts.length < 14) return null;
   const last = sum(pts.slice(-7));
   const prev = sum(pts.slice(-14, -7));
@@ -44,7 +53,7 @@ export function DailyBars({
   const H = 90;
   const max = Math.max(1, ...points.map((p) => p.value));
   const bw = W / Math.max(1, points.length);
-  const change = weekChange(points);
+  const change = weekChange(points, partialFrom);
 
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
@@ -53,7 +62,11 @@ export function DailyBars({
         {change !== null && (
           <span
             className={`text-xs font-medium ${change >= 0 ? "text-emerald-600" : "text-rose-600"}`}
-            title="Last 7 days vs the 7 days before"
+            title={
+              partialFrom === undefined
+                ? "Last 7 complete days vs the 7 before — today is left out until it ends"
+                : "Last 7 complete days vs the 7 before — grey days still filling in are left out"
+            }
           >
             {change >= 0 ? "▲" : "▼"} {Math.abs(change).toFixed(0)}% wk
           </span>
