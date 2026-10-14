@@ -211,6 +211,17 @@ async function getEventRollup(): Promise<{ rows: EventRow[]; truncated: boolean 
 
   /** Counts per event name for one window, grouped in Postgres where possible. */
   async function countsSince(sinceIso: string): Promise<{ counts: Map<string, number>; truncated: boolean }> {
+    // funnel_counts() (migration 0007) is applied in production; event_counts()
+    // (0005) is not — verified 2026-10-14. Try the one that exists first.
+    const funnel = await admin.rpc("funnel_counts", { since: sinceIso });
+    if (!funnel.error && Array.isArray(funnel.data)) {
+      const counts = new Map<string, number>();
+      for (const row of funnel.data as { event_name: string; events: number | string }[]) {
+        counts.set(row.event_name, Number(row.events));
+      }
+      return { counts, truncated: false };
+    }
+
     const { data, error } = await admin.rpc("event_counts", { since: sinceIso });
     if (!error && Array.isArray(data)) {
       const counts = new Map<string, number>();
@@ -220,16 +231,24 @@ async function getEventRollup(): Promise<{ rows: EventRow[]; truncated: boolean 
       return { counts, truncated: false };
     }
 
-    // event_counts() ships with migration 0005. Before it is applied, tally in
-    // memory so the dashboard still reports — that is when you most need it.
-    const { data: rows } = await admin
-      .from("events")
-      .select("name")
-      .gte("created_at", sinceIso)
-      .limit(TALLY_CAP);
+    // Neither function exists: tally in memory. Paged, because Supabase caps a
+    // single response at 1,000 rows — an unpaged read here once reported more
+    // events in 7 days than in 30, because each window got an arbitrary 1,000.
     const counts = new Map<string, number>();
-    for (const r of rows ?? []) counts.set(r.name, (counts.get(r.name) ?? 0) + 1);
-    return { counts, truncated: (rows ?? []).length >= TALLY_CAP };
+    let seen = 0;
+    for (let from = 0; from < TALLY_CAP; from += 1000) {
+      const { data: rows } = await admin
+        .from("events")
+        .select("name")
+        .gte("created_at", sinceIso)
+        .order("id", { ascending: true })
+        .range(from, from + 999);
+      if (!rows) break;
+      for (const r of rows) counts.set(r.name, (counts.get(r.name) ?? 0) + 1);
+      seen += rows.length;
+      if (rows.length < 1000) break;
+    }
+    return { counts, truncated: seen >= TALLY_CAP };
   }
 
   const [week, month] = await Promise.all([countsSince(since(7)), countsSince(since(30))]);
