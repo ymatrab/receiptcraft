@@ -4,7 +4,7 @@ import { notify } from "@/lib/telegram";
 import { getPaymentLinks } from "@/lib/settings";
 import { PLANS, formatPlanPrice } from "@/lib/plans";
 import { absoluteUrl } from "@/lib/site";
-import { stripeConfigured } from "@/lib/stripe";
+import { stripeConfigured, stripeTestConfigured } from "@/lib/stripe";
 import { createPassCheckout } from "@/lib/stripe-passes";
 
 export const runtime = "nodejs";
@@ -60,7 +60,10 @@ export async function GET(request: Request) {
   const account = await getAccountStatus();
 
   // Already paid — there is nothing to buy, so show them what they have.
-  if (account.isPro) return go(absoluteUrl("/account"));
+  // (Except an admin rehearsing a test purchase, who may well hold Pro already.)
+  if (account.isPro && !(account.isAdmin && stripeTestConfigured)) {
+    return go(absoluteUrl("/account"));
+  }
 
   if (!account.isLoggedIn) {
     // Come straight back here afterwards, so one click stays one click: the
@@ -77,18 +80,22 @@ export async function GET(request: Request) {
    * the fallback rail — Shopify, fulfilled by hand — for as long as Stripe is
    * not set up, or if it refuses to open a session.
    */
-  if (stripeConfigured) {
+  // Admin-only test mode wins for admins, so the owner can rehearse a sandbox
+  // purchase on the live site without touching anyone else's checkout.
+  const stripeTest = account.isAdmin && stripeTestConfigured;
+  if (stripeConfigured || stripeTest) {
     try {
       const url = await createPassCheckout({
         plan,
         userId: account.userId!,
         email: account.email ?? null,
+        test: stripeTest,
       });
       after(() =>
         notify("🛒 Checkout started", {
           Plan: `${chosen.name} (${formatPlanPrice(chosen)})`,
           Email: account.email,
-          Rail: "Stripe",
+          Rail: stripeTest ? "Stripe (test)" : "Stripe",
           User: account.userId,
         })
       );

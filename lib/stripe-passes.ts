@@ -25,11 +25,13 @@ export async function createPassCheckout(opts: {
   plan: PaidPlanId;
   userId: string;
   email: string | null;
+  /** Sandbox checkout — admin-only test mode, see stripeTestConfigured. */
+  test?: boolean;
 }): Promise<string> {
   const plan = PLANS[opts.plan];
   const metadata = { user_id: opts.userId, plan: opts.plan };
 
-  const session = await getStripe().checkout.sessions.create({
+  const session = await getStripe(opts.test ? "test" : "live").checkout.sessions.create({
     mode: "payment",
     line_items: [
       {
@@ -123,7 +125,7 @@ export async function fulfillPassCheckout(
   await admin.from("events").insert({
     user_id: userId,
     name: "pass_purchased",
-    props: { plan, session: session.id, amount: session.amount_total },
+    props: { plan, session: session.id, amount: session.amount_total, livemode: session.livemode },
   });
 
   return plan;

@@ -5,7 +5,12 @@ import { createClient } from "@/lib/supabase/server";
 import { supabaseConfigured } from "@/lib/supabase/config";
 import { isProEntitled, canEntitle, PLANS, FREE_LIMITS } from "@/lib/plans";
 import { getAccountUsage } from "@/lib/usage";
-import { getStripe, stripeConfigured } from "@/lib/stripe";
+import {
+  getStripe,
+  stripeConfigured,
+  stripeTestConfigured,
+  stripeModeForSession,
+} from "@/lib/stripe";
 import { fulfillPassCheckout } from "@/lib/stripe-passes";
 import { SITE } from "@/lib/site";
 import { FREE_BRAND_SLUGS } from "@/lib/brand-access";
@@ -64,9 +69,11 @@ function Stat({
  * once it has sat in a URL, and it must not hand Pro to whoever pastes it.
  */
 async function fulfilReturningBuyer(sessionId: string | undefined, userId: string) {
-  if (!sessionId || !stripeConfigured) return;
+  if (!sessionId) return;
+  const mode = stripeModeForSession(sessionId);
+  if (mode === "live" ? !stripeConfigured : !stripeTestConfigured) return;
   try {
-    const session = await getStripe().checkout.sessions.retrieve(sessionId);
+    const session = await getStripe(mode).checkout.sessions.retrieve(sessionId);
     if (session.client_reference_id !== userId) return;
     await fulfillPassCheckout(session);
   } catch (err) {

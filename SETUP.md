@@ -32,7 +32,11 @@ prices to create in the Stripe dashboard.
 4. Redeploy. While `STRIPE_SECRET_KEY` is set, the pricing buttons open Stripe
    Checkout and Pro is granted automatically; without it they fall back to the
    links in `/admin/settings`.
-5. Settings → Emails → turn on **successful payments** so buyers get a receipt.
+5. **Rehearse on the live site first (optional).** Set `STRIPE_TEST_SECRET_KEY`
+   to a sandbox key in Vercel (Production) and redeploy: admins then get a
+   sandbox Checkout (card 4242 4242 4242 4242) while everyone else is
+   unaffected. Delete the variable when you are done.
+6. Settings → Emails → turn on **successful payments** so buyers get a receipt.
 
 ## 2b. Supabase Realtime (chat)
 Enable Realtime for the `messages` table so the support chat streams live:
