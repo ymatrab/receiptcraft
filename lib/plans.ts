@@ -243,6 +243,36 @@ export const PLANS: Record<PlanId, Plan> = {
   },
 };
 
+/** The three plans a buyer can pay for — everything in PLANS except free. */
+export type PaidPlanId = Exclude<PlanId, "free">;
+
+export function isPaidPlan(value: unknown): value is PaidPlanId {
+  return value === "pro_weekly" || value === "pro_monthly" || value === "pro_yearly";
+}
+
+/**
+ * When a pass bought now runs out.
+ *
+ * `from` is the later of now and the end of any pass the buyer already holds,
+ * so buying a second week on day three adds a week rather than overlapping the
+ * one they paid for.
+ */
+export function passEndsAt(plan: PaidPlanId, from: Date): Date {
+  const end = new Date(from);
+  switch (PLANS[plan].interval) {
+    case "week":
+      end.setDate(end.getDate() + 7);
+      break;
+    case "month":
+      end.setMonth(end.getMonth() + 1);
+      break;
+    case "year":
+      end.setFullYear(end.getFullYear() + 1);
+      break;
+  }
+  return end;
+}
+
 /** A user is "Pro" when they hold any active, non-free subscription. */
 export function isProStatus(status: string | null | undefined): boolean {
   return status === "active" || status === "trialing";

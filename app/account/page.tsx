@@ -5,6 +5,8 @@ import { createClient } from "@/lib/supabase/server";
 import { supabaseConfigured } from "@/lib/supabase/config";
 import { isProEntitled, canEntitle, PLANS, FREE_LIMITS } from "@/lib/plans";
 import { getAccountUsage } from "@/lib/usage";
+import { getStripe, stripeConfigured } from "@/lib/stripe";
+import { fulfillPassCheckout } from "@/lib/stripe-passes";
 import { SITE } from "@/lib/site";
 import { FREE_BRAND_SLUGS } from "@/lib/brand-access";
 import { BRAND_TEMPLATES } from "@/lib/brands";
@@ -50,7 +52,34 @@ function Stat({
   );
 }
 
-export default async function AccountPage() {
+/**
+ * Grant the pass a buyer just paid for, as they land back from Stripe.
+ *
+ * The webhook does this too and is the path to rely on, but it can trail the
+ * redirect by a second or two — long enough for a buyer who has just paid to
+ * read "Free" on the page that should be thanking them. Both paths share one
+ * idempotent grant, so whichever runs second does nothing.
+ *
+ * Only for the signed-in owner of the session: a session id is not a secret
+ * once it has sat in a URL, and it must not hand Pro to whoever pastes it.
+ */
+async function fulfilReturningBuyer(sessionId: string | undefined, userId: string) {
+  if (!sessionId || !stripeConfigured) return;
+  try {
+    const session = await getStripe().checkout.sessions.retrieve(sessionId);
+    if (session.client_reference_id !== userId) return;
+    await fulfillPassCheckout(session);
+  } catch (err) {
+    // The webhook will still grant it; the page must not fail over this.
+    console.error("[account] could not fulfil returning checkout", err);
+  }
+}
+
+export default async function AccountPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ session_id?: string }>;
+}) {
   if (!supabaseConfigured) {
     return (
       <div className="mx-auto max-w-2xl px-4 py-20 text-center">
@@ -68,12 +97,14 @@ export default async function AccountPage() {
   } = await supabase.auth.getUser();
   if (!user) redirect("/login?next=/account");
 
+  await fulfilReturningBuyer((await searchParams).session_id, user.id);
+
   // The subscription decides what the rest of the page says, but nothing here
   // depends on anything else here — so pay for one round trip, not four.
   const [{ data: sub }, usage, { data: recentReceipts }] = await Promise.all([
     supabase
       .from("subscriptions")
-      .select("status, plan, current_period_end, cancel_at_period_end, stripe_customer_id")
+      .select("id, status, plan, current_period_end, cancel_at_period_end, stripe_customer_id")
       .eq("user_id", user.id)
       .order("current_period_end", { ascending: false })
       .limit(1)
@@ -97,11 +128,13 @@ export default async function AccountPage() {
   const plan = isPro && sub?.plan ? PLANS[sub.plan as keyof typeof PLANS] : null;
   const planName = plan?.name ?? (isPro ? sub?.plan ?? "Pro" : "Free");
 
-  // Shopify and admin grants are one-off purchases that simply end. Only a real
-  // Stripe customer has a subscription that renews — and a billing portal to
-  // manage it.
+  // Passes — Stripe, Shopify or an admin grant — are one-off purchases that
+  // simply end. Only a legacy Stripe subscription (a `sub_` row) renews, and
+  // only that has a billing portal to manage it.
   const isSelfServeBilling = Boolean(
-    sub?.stripe_customer_id && sub.stripe_customer_id !== "manual"
+    sub?.id?.startsWith("sub_") &&
+      sub.stripe_customer_id &&
+      sub.stripe_customer_id !== "manual"
   );
 
   return (

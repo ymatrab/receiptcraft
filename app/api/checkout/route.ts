@@ -4,6 +4,8 @@ import { notify } from "@/lib/telegram";
 import { getPaymentLinks } from "@/lib/settings";
 import { PLANS, formatPlanPrice } from "@/lib/plans";
 import { absoluteUrl } from "@/lib/site";
+import { stripeConfigured } from "@/lib/stripe";
+import { createPassCheckout } from "@/lib/stripe-passes";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -67,6 +69,36 @@ export async function GET(request: Request) {
     return go(absoluteUrl(`/login?next=${next}`));
   }
 
+  const chosen = PLANS[plan];
+
+  /**
+   * Stripe, when a key is configured: a Checkout Session for a one-time pass,
+   * granted automatically by the webhook. The saved payment links below are
+   * the fallback rail — Shopify, fulfilled by hand — for as long as Stripe is
+   * not set up, or if it refuses to open a session.
+   */
+  if (stripeConfigured) {
+    try {
+      const url = await createPassCheckout({
+        plan,
+        userId: account.userId!,
+        email: account.email ?? null,
+      });
+      after(() =>
+        notify("🛒 Checkout started", {
+          Plan: `${chosen.name} (${formatPlanPrice(chosen)})`,
+          Email: account.email,
+          Rail: "Stripe",
+          User: account.userId,
+        })
+      );
+      return go(url);
+    } catch (err) {
+      console.error("[checkout] stripe session failed", err);
+      return go(absoluteUrl("/pricing?checkout=unavailable"));
+    }
+  }
+
   const links = await getPaymentLinks();
   const link = links[PLAN_LINK[plan]];
   if (!link) return go(absoluteUrl("/pricing?checkout=unavailable"));
@@ -100,8 +132,6 @@ export async function GET(request: Request) {
    * the grant is manual (Members tab), so an order that nobody is told about
    * sits unfulfilled until the buyer complains.
    */
-  const chosen = PLANS[plan];
-
   after(() =>
     notify("🛒 Checkout started", {
       // Named the way it is named on /pricing, with the price the buyer just

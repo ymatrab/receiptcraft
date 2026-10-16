@@ -15,12 +15,24 @@ this once. I'll wire each feature on top in later phases.
 4. (Phase 2) Auth → Providers: we'll enable Google + Apple then.
 
 ## 2. Stripe (payments)
-1. https://dashboard.stripe.com → start in **Test mode**.
-2. Developers → API keys → copy **Secret key** → `STRIPE_SECRET_KEY`.
-3. Products → create **ReceiptCraft Pro** with two prices:
-   - $7.99 / month → copy price id → `STRIPE_PRICE_PRO_MONTHLY`
-   - $39 / year → copy price id → `STRIPE_PRICE_PRO_YEARLY`
-4. `STRIPE_WEBHOOK_SECRET` — I'll generate this in Phase 1 when the webhook exists.
+Every plan is a **one-time pass** (weekly / monthly / yearly) — nothing
+auto-renews. Prices come from `lib/plans.ts`, so there are no products or
+prices to create in the Stripe dashboard.
+
+1. https://dashboard.stripe.com → build and test in a **sandbox** first.
+2. Developers → API keys → create a **restricted key** (`rk_…`) with write
+   access to *Checkout Sessions* and read access to *Charges* and *Customers*
+   → Vercel env `STRIPE_SECRET_KEY`. (A secret `sk_…` key also works.)
+3. Developers → Webhooks → **Add endpoint**
+   `https://www.makecepeit.com/api/stripe/webhook`, events:
+   - `checkout.session.completed`
+   - `checkout.session.async_payment_succeeded`
+   - `charge.refunded`
+   Copy its signing secret → Vercel env `STRIPE_WEBHOOK_SECRET`.
+4. Redeploy. While `STRIPE_SECRET_KEY` is set, the pricing buttons open Stripe
+   Checkout and Pro is granted automatically; without it they fall back to the
+   links in `/admin/settings`.
+5. Settings → Emails → turn on **successful payments** so buyers get a receipt.
 
 ## 2b. Supabase Realtime (chat)
 Enable Realtime for the `messages` table so the support chat streams live:

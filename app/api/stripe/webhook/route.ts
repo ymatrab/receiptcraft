@@ -4,6 +4,8 @@ import { getStripe, stripeConfigured, planFromPriceId } from "@/lib/stripe";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { supabaseConfigured } from "@/lib/supabase/config";
 import { notify } from "@/lib/telegram";
+import { fulfillPassCheckout, endRefundedPass } from "@/lib/stripe-passes";
+import { PLANS } from "@/lib/plans";
 
 // Stripe needs the raw body for signature verification — force the Node runtime.
 export const runtime = "nodejs";
@@ -80,13 +82,21 @@ export async function POST(req: Request) {
 
   try {
     switch (event.type) {
-      case "checkout.session.completed": {
+      // Bank debits and other delayed methods complete the session unpaid and
+      // pay later, so fulfilment listens for both and grants only once paid.
+      case "checkout.session.completed":
+      case "checkout.session.async_payment_succeeded": {
         const session = event.data.object as Stripe.Checkout.Session;
         const userId = session.client_reference_id;
         if (session.subscription) {
+          // Legacy: subscriptions bought before passes moved to one-time Checkout.
           const sub = await stripe.subscriptions.retrieve(String(session.subscription));
           await syncSubscription(sub, userId);
+        } else {
+          const plan = await fulfillPassCheckout(session);
+          if (!plan) break;
         }
+        if (session.payment_status !== "paid") break;
         // Money actually arrived. Stripe has already verified the signature
         // above, so unlike the client-side funnel events this one cannot be
         // faked — it is the most trustworthy alert the site sends.
@@ -98,9 +108,17 @@ export async function POST(req: Request) {
                   session.currency ?? ""
                 ).toUpperCase()}`
               : null,
+            Plan: PLANS[session.metadata?.plan as keyof typeof PLANS]?.name ?? null,
             User: userId,
           })
         );
+        break;
+      }
+      case "charge.refunded": {
+        const userId = await endRefundedPass(event.data.object as Stripe.Charge);
+        if (userId) {
+          after(() => notify("↩️ Refund — Pro pass ended", { User: userId }));
+        }
         break;
       }
       case "customer.subscription.created":

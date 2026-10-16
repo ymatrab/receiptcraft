@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getPaymentLinks } from "@/lib/settings";
+import { stripeConfigured } from "@/lib/stripe";
 import { telegramChatCount, telegramConfigured } from "@/lib/telegram";
 import { saveLinksAction } from "./actions";
 import TelegramTester from "./TelegramTester";
@@ -35,11 +36,20 @@ export default async function AdminSettings() {
       {/* Checkout links */}
       <section className="mt-6 rounded-2xl border border-slate-200 bg-white p-6">
         <h2 className="text-lg font-semibold text-slate-900">Checkout links</h2>
-        <p className="mt-1 text-sm text-slate-500">
-          Paste your checkout URLs (Stripe Payment Links or a Shopify product/checkout link).
-          The pricing page sends buyers here. With Shopify, grant the buyer Pro from the
-          Members tab after their order — it won&apos;t sync automatically.
-        </p>
+        {stripeConfigured ? (
+          <p className="mt-2 rounded-xl bg-emerald-50 px-4 py-3 text-sm text-emerald-900">
+            <strong className="font-semibold">Stripe is live.</strong> Buyers pay through Stripe
+            Checkout at the prices in the code, and Pro is granted automatically. These links are
+            not used while the Stripe key is set.
+          </p>
+        ) : (
+          <p className="mt-1 text-sm text-slate-500">
+            Paste your checkout URLs (a Shopify product/checkout link). The pricing page sends
+            buyers here. Grant the buyer Pro from the Members tab after their order — it
+            won&apos;t sync automatically. Once a Stripe key is set, Stripe Checkout replaces
+            these links.
+          </p>
+        )}
         <form action={saveLinksAction} className="mt-4 space-y-4">
           <div>
             <label className={label} htmlFor="weekly">Weekly link</label>
