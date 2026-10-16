@@ -251,6 +251,32 @@ export function isPaidPlan(value: unknown): value is PaidPlanId {
 }
 
 /**
+ * What buying `target` means for someone currently on `current`.
+ *
+ * Passes are prepaid, so the rules are about time, never about refunds:
+ *  - new       — not on Pro: an ordinary purchase.
+ *  - extend    — same plan: another period, added after the current one.
+ *  - upgrade   — a longer plan: they are on it from now, and every unused day
+ *                of the pass they hold is carried over on top.
+ *  - downgrade — a shorter plan while a longer one is still running. Not sold:
+ *                it would buy nothing they don't already have. Any plan is
+ *                open again once the current pass ends.
+ *
+ * Upgrade and extend are the same arithmetic — the new period is added to the
+ * end of whatever is left (passEndsAt) — so nobody loses a day they paid for,
+ * and the newest pass, being the one that ends last, is the plan shown.
+ */
+export type PlanChange = "new" | "extend" | "upgrade" | "downgrade";
+
+const PLAN_RANK: Record<PaidPlanId, number> = { pro_weekly: 1, pro_monthly: 2, pro_yearly: 3 };
+
+export function planChange(current: string | null | undefined, target: PaidPlanId): PlanChange {
+  if (!isPaidPlan(current)) return "new";
+  const diff = PLAN_RANK[target] - PLAN_RANK[current];
+  return diff === 0 ? "extend" : diff > 0 ? "upgrade" : "downgrade";
+}
+
+/**
  * When a pass bought now runs out.
  *
  * `from` is the later of now and the end of any pass the buyer already holds,

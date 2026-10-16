@@ -1,7 +1,7 @@
 import type Stripe from "stripe";
 import { getStripe } from "@/lib/stripe";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { PLANS, isPaidPlan, passEndsAt, type PaidPlanId } from "@/lib/plans";
+import { PLANS, isPaidPlan, passEndsAt, type PaidPlanId, type PlanChange } from "@/lib/plans";
 import { absoluteUrl } from "@/lib/site";
 
 /**
@@ -20,6 +20,12 @@ import { absoluteUrl } from "@/lib/site";
  * Server-only: getStripe() holds the secret key.
  */
 
+/**
+ * Tags every session in the Dashboard (Payments → filter by integration), so
+ * this flow can be told apart from anything added later. Fixed, not per-call.
+ */
+const INTEGRATION_IDENTIFIER = "makecepeit_pro_pass_qhtwzkmr";
+
 /** Opens a Checkout Session for one pass and returns the URL to send the buyer to. */
 export async function createPassCheckout(opts: {
   plan: PaidPlanId;
@@ -27,12 +33,15 @@ export async function createPassCheckout(opts: {
   email: string | null;
   /** Sandbox checkout — admin-only test mode, see stripeTestConfigured. */
   test?: boolean;
+  /** How this purchase relates to the buyer's current pass. */
+  change: PlanChange;
 }): Promise<string> {
   const plan = PLANS[opts.plan];
-  const metadata = { user_id: opts.userId, plan: opts.plan };
+  const metadata = { user_id: opts.userId, plan: opts.plan, change: opts.change };
 
   const session = await getStripe(opts.test ? "test" : "live").checkout.sessions.create({
     mode: "payment",
+    integration_identifier: INTEGRATION_IDENTIFIER,
     line_items: [
       {
         quantity: 1,
@@ -43,7 +52,12 @@ export async function createPassCheckout(opts: {
             name: `Makecepeit ${plan.name}`,
             // Shown on the Checkout page under the product name — the place a
             // buyer looks for "will this charge me again?".
-            description: `One-time payment for 1 ${plan.interval} of Pro. Does not renew.`,
+            description:
+              opts.change === "upgrade"
+                ? `One-time payment for 1 ${plan.interval} of Pro, starting now. Days left on your current pass are added on top. Does not renew.`
+                : opts.change === "extend"
+                  ? `One-time payment adding 1 ${plan.interval} of Pro after your current pass ends. Does not renew.`
+                  : `One-time payment for 1 ${plan.interval} of Pro. Does not renew.`,
           },
         },
       },
@@ -88,16 +102,19 @@ export async function fulfillPassCheckout(
 
   const admin = createAdminClient();
 
-  const { data: existing } = await admin
+  // Every database error throws: the webhook then answers 500 and Stripe
+  // retries, instead of a 200 that marks a paid order done with nothing granted.
+  const { data: existing, error: readError } = await admin
     .from("subscriptions")
     .select("id")
     .eq("id", session.id)
     .maybeSingle();
+  if (readError) throw readError;
   if (existing) return plan;
 
   // A buyer who already holds a pass gets the new one added to the end of it.
   const now = new Date();
-  const { data: latest } = await admin
+  const { data: latest, error: latestError } = await admin
     .from("subscriptions")
     .select("current_period_end")
     .eq("user_id", userId)
@@ -105,9 +122,10 @@ export async function fulfillPassCheckout(
     .order("current_period_end", { ascending: false })
     .limit(1)
     .maybeSingle();
+  if (latestError) throw latestError;
   const from = latest?.current_period_end ? new Date(latest.current_period_end) : now;
 
-  await admin.from("subscriptions").upsert(
+  const { error: writeError } = await admin.from("subscriptions").upsert(
     {
       id: session.id,
       user_id: userId,
@@ -121,38 +139,57 @@ export async function fulfillPassCheckout(
     },
     { onConflict: "id" }
   );
+  if (writeError) throw writeError;
 
   await admin.from("events").insert({
     user_id: userId,
     name: "pass_purchased",
-    props: { plan, session: session.id, amount: session.amount_total, livemode: session.livemode },
+    props: {
+      plan,
+      change: session.metadata?.change ?? null,
+      session: session.id,
+      amount: session.amount_total,
+      livemode: session.livemode,
+    },
   });
 
   return plan;
 }
 
 /**
- * End the pass a fully refunded payment bought.
- *
- * Returns the user id the pass belonged to, or null when the payment was not a
- * pass sold here (or was only partly refunded, which keeps the pass).
+ * End the pass a payment bought, now. Returns the user it belonged to, or null
+ * when the payment was not a pass sold here.
  */
-export async function endRefundedPass(charge: Stripe.Charge): Promise<string | null> {
-  if (!charge.refunded || !charge.payment_intent) return null;
-
+async function endPassForPayment(paymentIntentId: string): Promise<string | null> {
   const sessions = await getStripe().checkout.sessions.list({
-    payment_intent: String(charge.payment_intent),
+    payment_intent: paymentIntentId,
     limit: 1,
   });
   const session = sessions.data[0];
   if (!session) return null;
 
-  const { data } = await createAdminClient()
+  const { data, error } = await createAdminClient()
     .from("subscriptions")
     .update({ status: "canceled", current_period_end: new Date().toISOString() })
     .eq("id", session.id)
     .select("user_id")
     .maybeSingle();
+  if (error) throw error;
 
   return data?.user_id ?? null;
+}
+
+/** A full refund ends the pass. A partial one — a goodwill credit — keeps it. */
+export async function endRefundedPass(charge: Stripe.Charge): Promise<string | null> {
+  if (!charge.refunded || !charge.payment_intent) return null;
+  return endPassForPayment(String(charge.payment_intent));
+}
+
+/**
+ * A chargeback ends the pass at once: the money is already held by the bank,
+ * and Pro should not keep running on a payment the buyer is contesting.
+ */
+export async function endDisputedPass(dispute: Stripe.Dispute): Promise<string | null> {
+  if (!dispute.payment_intent) return null;
+  return endPassForPayment(String(dispute.payment_intent));
 }

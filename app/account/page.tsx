@@ -204,6 +204,13 @@ export default async function AccountPage({
             </p>
           )}
 
+          {isPro && !isSelfServeBilling && (
+            <p className="mt-2 text-sm text-slate-500">
+              Nothing renews automatically. Moving to a longer plan starts it today and keeps
+              every day you have left; extending adds time after this pass ends.
+            </p>
+          )}
+
           {hasLapsed && sub?.current_period_end && (
             <p className="mt-4 text-sm text-slate-600">
               Your Pro access ended on{" "}

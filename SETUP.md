@@ -28,6 +28,7 @@ prices to create in the Stripe dashboard.
    - `checkout.session.completed`
    - `checkout.session.async_payment_succeeded`
    - `charge.refunded`
+   - `charge.dispute.created`
    Copy its signing secret → Vercel env `STRIPE_WEBHOOK_SECRET`.
 4. Redeploy. While `STRIPE_SECRET_KEY` is set, the pricing buttons open Stripe
    Checkout and Pro is granted automatically; without it they fall back to the

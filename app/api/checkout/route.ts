@@ -2,7 +2,7 @@ import { NextResponse, after } from "next/server";
 import { getAccountStatus } from "@/lib/auth";
 import { notify } from "@/lib/telegram";
 import { getPaymentLinks } from "@/lib/settings";
-import { PLANS, formatPlanPrice } from "@/lib/plans";
+import { PLANS, formatPlanPrice, planChange } from "@/lib/plans";
 import { absoluteUrl } from "@/lib/site";
 import { stripeConfigured, stripeTestConfigured } from "@/lib/stripe";
 import { createPassCheckout } from "@/lib/stripe-passes";
@@ -59,9 +59,6 @@ export async function GET(request: Request) {
 
   const account = await getAccountStatus();
 
-  // A member may buy again — to extend, or to move to a longer plan. Passes
-  // stack: the new one starts when the current one ends (lib/stripe-passes.ts).
-
   if (!account.isLoggedIn) {
     // Come straight back here afterwards, so one click stays one click: the
     // login page honours an internal `next`, and so does the auth callback.
@@ -70,6 +67,11 @@ export async function GET(request: Request) {
   }
 
   const chosen = PLANS[plan];
+
+  // A member may extend or move to a longer plan, never to a shorter one while
+  // the longer pass is still running — see planChange in lib/plans.ts.
+  const change = planChange(account.plan, plan);
+  if (change === "downgrade") return go(absoluteUrl("/account"));
 
   /**
    * Stripe, when a key is configured: a Checkout Session for a one-time pass,
@@ -87,12 +89,14 @@ export async function GET(request: Request) {
         userId: account.userId!,
         email: account.email ?? null,
         test: stripeTest,
+        change,
       });
       after(() =>
         notify("🛒 Checkout started", {
           Plan: `${chosen.name} (${formatPlanPrice(chosen)})`,
           Email: account.email,
           Rail: stripeTest ? "Stripe (test)" : "Stripe",
+          Change: change === "new" ? null : `${change} from ${PLANS[account.plan as keyof typeof PLANS]?.name}`,
           User: account.userId,
         })
       );

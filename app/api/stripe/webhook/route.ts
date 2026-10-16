@@ -4,7 +4,7 @@ import { getStripe, stripeConfigured, planFromPriceId } from "@/lib/stripe";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { supabaseConfigured } from "@/lib/supabase/config";
 import { notify } from "@/lib/telegram";
-import { fulfillPassCheckout, endRefundedPass } from "@/lib/stripe-passes";
+import { fulfillPassCheckout, endRefundedPass, endDisputedPass } from "@/lib/stripe-passes";
 import { PLANS } from "@/lib/plans";
 
 // Stripe needs the raw body for signature verification — force the Node runtime.
@@ -119,6 +119,20 @@ export async function POST(req: Request) {
         if (userId) {
           after(() => notify("↩️ Refund — Pro pass ended", { User: userId }));
         }
+        break;
+      }
+      case "charge.dispute.created": {
+        const dispute = event.data.object as Stripe.Dispute;
+        const userId = await endDisputedPass(dispute);
+        // Always alert, pass or not: a dispute has a response deadline and
+        // costs a fee whether or not anything is done about it.
+        after(() =>
+          notify("🚨 Chargeback opened — respond in Stripe", {
+            Amount: `${(dispute.amount / 100).toFixed(2)} ${dispute.currency.toUpperCase()}`,
+            Reason: dispute.reason,
+            User: userId,
+          })
+        );
         break;
       }
       case "customer.subscription.created":
