@@ -364,7 +364,9 @@ export const LOGIN_UPDATED = "2026-08-31";
 // Free and Pro" answer now derives its four counts from lib/plans.ts and
 // lib/brands.ts instead of stating them by hand, and the meta description names
 // the weekly pass, which has been on sale throughout and was not mentioned.
-export const PRICING_UPDATED = "2026-09-04";
+// 2026-10-16: Stripe checkout — accepted payment methods, automatic activation,
+// and plan switching explained; the "use the same email" warning removed.
+export const PRICING_UPDATED = "2026-10-16";
 // 2026-08-23: the hero grid no longer stretches to the 380px receipt, so the
 // primary CTA is reachable again on phones under 412px — a visible change to
 // the page's most important element.

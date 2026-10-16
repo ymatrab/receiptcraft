@@ -126,7 +126,11 @@ export default function ProActivating({ sessionId }: { sessionId?: string }) {
       <Card
         tone="warn"
         title="Thanks — your payment went through"
-        body="Pro attaches to your account, so sign in with the email you used at checkout and it will appear."
+        body={
+          automatic
+            ? "Pro attaches to the account you were signed in with when you paid. Sign in to it and Pro will be there."
+            : "Pro attaches to your account, so sign in with the email you used at checkout and it will appear."
+        }
       >
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Link

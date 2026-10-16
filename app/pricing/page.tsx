@@ -15,6 +15,7 @@ import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
 import Watermark from "@/components/receipt/Watermark";
 import type { ReceiptData } from "@/lib/types";
 import { absoluteUrl, SITE } from "@/lib/site";
+import { stripeConfigured } from "@/lib/stripe";
 import PricingCta from "./PricingCta";
 import FreePlanCta from "./FreePlanCta";
 import NewAccountBanner from "./NewAccountBanner";
@@ -221,6 +222,20 @@ const FAQ = [
     q: "Can I cancel anytime?",
     a: `Yes — and in most cases there is nothing to cancel. Pro is a pass that runs for the period you bought and then stops on its own: there is no auto-renewal and no recurring charge, so you are never locked in. Your end date is shown on your account page. If you subscribed through a card subscription rather than a one-off pass, Manage billing on that page opens the billing portal, where you can end it yourself at any time. For anything else — stopping a future charge or asking for a refund — email ${SITE.email} and we'll sort it within one business day.`,
   },
+  // Only while Stripe is the rail: the Shopify fallback takes different
+  // methods and is fulfilled by hand, so these answers would be wrong for it.
+  ...(stripeConfigured
+    ? [
+        {
+          q: "How do I pay, and how fast does Pro switch on?",
+          a: "Checkout is handled by Stripe. You can pay by card (Visa, Mastercard, American Express) or with Apple Pay, Google Pay or Link where your device supports them. Pro attaches to the account you are signed in with and switches on automatically within seconds of the payment going through — it does not matter which email you type at checkout. We never see or store your card details.",
+        },
+        {
+          q: "Can I switch plans?",
+          a: "Yes. Moving to a longer plan — weekly to monthly or yearly, or monthly to yearly — starts it straight away and keeps every day left on your current pass. Buying the same plan again adds another period after the current one ends. A shorter plan becomes available again once your current pass ends.",
+        },
+      ]
+    : []),
   {
     q: "Do I need an account to use the free tier?",
     a: "You can build and preview with no sign-up. Downloading uses a free account: your first receipt is watermark-free, then downloads are watermarked until you upgrade to Pro.",
@@ -458,7 +473,9 @@ export default function PricingPage() {
                   the same thing. */}
               {row.id !== "free" && (
                 <p className="mt-3 text-center text-xs text-slate-500">
-                  Cancel anytime — no auto-renewal
+                  {stripeConfigured
+                    ? "Secure payment by Stripe · no auto-renewal"
+                    : "Cancel anytime — no auto-renewal"}
                 </p>
               )}
             </div>
@@ -568,10 +585,38 @@ export default function PricingPage() {
         </div>
       </section>
 
-      <p className="mx-auto mt-8 max-w-xl rounded-xl bg-amber-50 px-4 py-3 text-center text-sm text-amber-800">
-        💡 Please check out using the <strong>same email you sign in with</strong> — that&apos;s how
-        we match your payment and activate Pro on your account.
-      </p>
+      {/* With Stripe the buyer's account is attached to the checkout itself, so
+          the email typed there no longer matters and Pro switches on by
+          itself. The old "use the same email" warning is only true of the
+          Shopify fallback, which is matched by hand. */}
+      {stripeConfigured ? (
+        <div className="mx-auto mt-8 max-w-xl rounded-2xl border border-slate-200 bg-white px-5 py-4 text-center">
+          <p className="text-sm font-semibold text-slate-900">
+            <span aria-hidden="true">🔒 </span>Secure checkout by Stripe
+          </p>
+          <ul
+            aria-label="Accepted payment methods"
+            className="mt-3 flex flex-wrap justify-center gap-2 text-xs font-medium text-slate-700"
+          >
+            {["Visa", "Mastercard", "American Express", "Apple Pay", "Google Pay", "Link"].map(
+              (method) => (
+                <li key={method} className="rounded-md border border-slate-200 bg-slate-50 px-2 py-1">
+                  {method}
+                </li>
+              )
+            )}
+          </ul>
+          <p className="mt-3 text-sm text-slate-600">
+            Pro switches on automatically the moment your payment goes through. One-time
+            payment — nothing renews, and we never see your card details.
+          </p>
+        </div>
+      ) : (
+        <p className="mx-auto mt-8 max-w-xl rounded-xl bg-amber-50 px-4 py-3 text-center text-sm text-amber-800">
+          💡 Please check out using the <strong>same email you sign in with</strong> — that&apos;s how
+          we match your payment and activate Pro on your account.
+        </p>
+      )}
 
       {/* The watermark is the single asset the whole Free -> Pro decision turns
           on, and the page described it in words without ever showing it. Both
