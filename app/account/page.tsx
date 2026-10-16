@@ -224,6 +224,14 @@ export default async function AccountPage({
                 </button>
               </form>
             )}
+            {isPro && !isSelfServeBilling && (
+              <Link
+                href="/pricing"
+                className="rounded-full bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
+              >
+                Extend or change plan
+              </Link>
+            )}
             {!isPro && (
               <Link
                 href="/pricing"

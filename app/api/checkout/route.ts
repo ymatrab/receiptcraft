@@ -59,11 +59,8 @@ export async function GET(request: Request) {
 
   const account = await getAccountStatus();
 
-  // Already paid — there is nothing to buy, so show them what they have.
-  // (Except an admin rehearsing a test purchase, who may well hold Pro already.)
-  if (account.isPro && !(account.isAdmin && stripeTestConfigured)) {
-    return go(absoluteUrl("/account"));
-  }
+  // A member may buy again — to extend, or to move to a longer plan. Passes
+  // stack: the new one starts when the current one ends (lib/stripe-passes.ts).
 
   if (!account.isLoggedIn) {
     // Come straight back here afterwards, so one click stays one click: the
