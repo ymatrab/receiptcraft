@@ -100,6 +100,14 @@ export const SERVER_ONLY_EVENT_NAMES = [
   "receipt_downloaded",
   "subscription_synced",
   "ai_limit_reached",
+  // The Stripe payment path, in order — see lib/server-events.ts.
+  "checkout_opened",
+  "checkout_failed",
+  "checkout_returned",
+  "pass_purchased",
+  "pass_grant_failed",
+  "pass_refunded",
+  "pass_disputed",
 ] as const;
 
 /**

@@ -31,7 +31,13 @@ const PATIENCE_MS = 45000;
 
 type Phase = "waiting" | "active" | "slow" | "signed-out";
 
-export default function ProActivating() {
+/**
+ * `sessionId` is set when Stripe sent the buyer here. Stripe purchases are
+ * granted automatically within seconds, so the hand-activation copy below is
+ * only for the Shopify rail.
+ */
+export default function ProActivating({ sessionId }: { sessionId?: string }) {
+  const automatic = Boolean(sessionId);
   const [phase, setPhase] = useState<Phase>("waiting");
   const [plan, setPlan] = useState<string | null>(null);
   const startedAt = useRef(Date.now());
@@ -124,7 +130,9 @@ export default function ProActivating() {
       >
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Link
-            href="/login?next=/pro-activating"
+            href={`/login?next=${encodeURIComponent(
+              sessionId ? `/pro-activating?session_id=${sessionId}` : "/pro-activating"
+            )}`}
             className="rounded-full bg-indigo-600 px-6 py-3 text-sm font-semibold text-white hover:bg-indigo-700"
           >
             Sign in
@@ -140,7 +148,11 @@ export default function ProActivating() {
       <Card
         tone="warn"
         title="Your payment went through — Pro is being switched on"
-        body="Our team activates each purchase by hand, so this can take a little while. Your payment is safe and recorded, and Pro attaches to your account the moment it is on — there is no need to keep this page open."
+        body={
+          automatic
+            ? "This is taking longer than usual. Your payment is safe and recorded, and Pro attaches to your account as soon as Stripe confirms it — there is no need to keep this page open."
+            : "Our team activates each purchase by hand, so this can take a little while. Your payment is safe and recorded, and Pro attaches to your account the moment it is on — there is no need to keep this page open."
+        }
       >
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Link
@@ -159,7 +171,11 @@ export default function ProActivating() {
     <Card
       tone="waiting"
       title="Thanks — setting up your Pro access"
-      body="Our team switches each purchase on by hand. This page updates on its own if it lands while you're here, and your account keeps the access either way."
+      body={
+        automatic
+          ? "Confirming your payment with Stripe — this usually takes a few seconds."
+          : "Our team switches each purchase on by hand. This page updates on its own if it lands while you're here, and your account keeps the access either way."
+      }
     >
       <p className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-slate-500">
         <SpinnerIcon className="h-4 w-4" />

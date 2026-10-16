@@ -4,6 +4,7 @@ import { getStripe, stripeConfigured, planFromPriceId } from "@/lib/stripe";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { supabaseConfigured } from "@/lib/supabase/config";
 import { notify } from "@/lib/telegram";
+import { recordServerEvent, errorText } from "@/lib/server-events";
 import { fulfillPassCheckout, endRefundedPass, endDisputedPass } from "@/lib/stripe-passes";
 import { PLANS } from "@/lib/plans";
 
@@ -117,6 +118,7 @@ export async function POST(req: Request) {
       case "charge.refunded": {
         const userId = await endRefundedPass(event.data.object as Stripe.Charge);
         if (userId) {
+          await recordServerEvent("pass_refunded", userId);
           after(() => notify("↩️ Refund — Pro pass ended", { User: userId }));
         }
         break;
@@ -124,6 +126,7 @@ export async function POST(req: Request) {
       case "charge.dispute.created": {
         const dispute = event.data.object as Stripe.Dispute;
         const userId = await endDisputedPass(dispute);
+        await recordServerEvent("pass_disputed", userId, { reason: dispute.reason });
         // Always alert, pass or not: a dispute has a response deadline and
         // costs a fee whether or not anything is done about it.
         after(() =>
@@ -156,6 +159,24 @@ export async function POST(req: Request) {
     }
   } catch (err) {
     console.error(`[stripe] handler error for ${event.type}`, err);
+    // A paid order that could not be granted is the failure that matters most:
+    // Stripe will retry, but say so now rather than when the buyer writes in.
+    if (event.type.startsWith("checkout.session.")) {
+      const session = event.data.object as Stripe.Checkout.Session;
+      const userId = session.client_reference_id ?? null;
+      await recordServerEvent("pass_grant_failed", userId, {
+        where: "webhook",
+        session: session.id,
+        error: errorText(err),
+      });
+      after(() =>
+        notify("❌ Paid but Pro not granted — Stripe will retry", {
+          Session: session.id,
+          User: userId,
+          Error: errorText(err),
+        })
+      );
+    }
     return NextResponse.json({ error: "handler failed" }, { status: 500 });
   }
 

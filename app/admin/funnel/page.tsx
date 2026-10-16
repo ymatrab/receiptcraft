@@ -45,7 +45,9 @@ const STAGES: { event: string; label: string; note: string }[] = [
   { event: "pricing_viewed", label: "Saw the plans", note: "Once per session" },
   { event: "upgrade_click", label: "Clicked to upgrade", note: "Asked for money and got a click" },
   { event: "begin_checkout", label: "Chose a plan", note: "Left for the payment provider" },
+  { event: "checkout_opened", label: "Reached Stripe checkout", note: "Server: session created" },
   { event: "purchase_landed", label: "Came back from checkout", note: "Not proof of payment" },
+  { event: "pass_purchased", label: "Paid — pass granted", note: "Server: Stripe confirmed payment" },
   { event: "pro_activated", label: "Pro actually active", note: "Entitlement appeared" },
 ];
 
@@ -57,6 +59,10 @@ const WALLS: { event: string; label: string }[] = [
   { event: "pro_template_blocked", label: "Refused a Pro template" },
   { event: "sign_up_error", label: "Sign-up failed" },
   { event: "login_error", label: "Log-in failed" },
+  { event: "checkout_failed", label: "Stripe refused to open checkout" },
+  { event: "pass_grant_failed", label: "Paid but Pro not granted (retrying)" },
+  { event: "pass_refunded", label: "Pass refunded" },
+  { event: "pass_disputed", label: "Chargeback opened" },
 ];
 
 type Row = {

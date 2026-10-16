@@ -6,6 +6,7 @@ import { PLANS, formatPlanPrice, planChange } from "@/lib/plans";
 import { absoluteUrl } from "@/lib/site";
 import { stripeConfigured, stripeTestConfigured } from "@/lib/stripe";
 import { createPassCheckout } from "@/lib/stripe-passes";
+import { recordServerEvent, errorText } from "@/lib/server-events";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -100,9 +101,19 @@ export async function GET(request: Request) {
           User: account.userId,
         })
       );
+      after(() =>
+        recordServerEvent("checkout_opened", account.userId, {
+          plan,
+          change,
+          rail: stripeTest ? "stripe_test" : "stripe",
+        })
+      );
       return go(url);
     } catch (err) {
       console.error("[checkout] stripe session failed", err);
+      after(() =>
+        recordServerEvent("checkout_failed", account.userId, { plan, error: errorText(err) })
+      );
       return go(absoluteUrl("/pricing?checkout=unavailable"));
     }
   }

@@ -1,5 +1,6 @@
 import type Stripe from "stripe";
-import { getStripe } from "@/lib/stripe";
+import { getStripe, stripeConfigured, stripeTestConfigured, stripeModeForSession } from "@/lib/stripe";
+import { recordServerEvent, errorText } from "@/lib/server-events";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { PLANS, isPaidPlan, passEndsAt, type PaidPlanId, type PlanChange } from "@/lib/plans";
 import { absoluteUrl } from "@/lib/site";
@@ -69,7 +70,9 @@ export async function createPassCheckout(opts: {
     payment_intent_data: { metadata },
     customer_creation: "always",
     ...(opts.email ? { customer_email: opts.email } : {}),
-    success_url: absoluteUrl("/account?checkout=success&session_id={CHECKOUT_SESSION_ID}"),
+    // /pro-activating grants the pass on arrival and records the funnel's
+    // "came back" and "Pro active" steps.
+    success_url: absoluteUrl("/pro-activating?session_id={CHECKOUT_SESSION_ID}"),
     cancel_url: absoluteUrl("/pricing"),
   });
 
@@ -141,19 +144,54 @@ export async function fulfillPassCheckout(
   );
   if (writeError) throw writeError;
 
-  await admin.from("events").insert({
-    user_id: userId,
-    name: "pass_purchased",
-    props: {
-      plan,
-      change: session.metadata?.change ?? null,
-      session: session.id,
-      amount: session.amount_total,
-      livemode: session.livemode,
-    },
+  await recordServerEvent("pass_purchased", userId, {
+    plan,
+    change: session.metadata?.change ?? null,
+    session: session.id,
+    amount: session.amount_total,
+    livemode: session.livemode,
   });
 
   return plan;
+}
+
+/**
+ * Grant the pass a buyer just paid for, as they land back from Stripe.
+ *
+ * The webhook does this too and is the path to rely on, but it can trail the
+ * redirect by a second or two — long enough for a buyer who has just paid to
+ * read "Free". Both paths share one idempotent grant, so whichever runs second
+ * does nothing.
+ *
+ * Only for the signed-in owner of the session: a session id is not a secret
+ * once it has sat in a URL, and it must not hand Pro to whoever pastes it.
+ * Records what it found, so a buyer stuck after paying can be traced.
+ */
+export async function fulfilReturningBuyer(sessionId: string | undefined, userId: string) {
+  if (!sessionId) return;
+  const mode = stripeModeForSession(sessionId);
+  if (mode === "live" ? !stripeConfigured : !stripeTestConfigured) return;
+  try {
+    const session = await getStripe(mode).checkout.sessions.retrieve(sessionId);
+    if (session.client_reference_id !== userId) {
+      await recordServerEvent("checkout_returned", userId, { status: "not_owner", session: sessionId });
+      return;
+    }
+    await recordServerEvent("checkout_returned", userId, {
+      status: session.payment_status,
+      plan: session.metadata?.plan ?? null,
+      session: sessionId,
+    });
+    await fulfillPassCheckout(session);
+  } catch (err) {
+    // The webhook will still grant it; the page must not fail over this.
+    console.error("[stripe] could not fulfil returning checkout", err);
+    await recordServerEvent("pass_grant_failed", userId, {
+      where: "return",
+      session: sessionId,
+      error: errorText(err),
+    });
+  }
 }
 
 /**
