@@ -1829,6 +1829,332 @@ export const TEMPLATES: ReceiptTemplate[] = [
     },
   },
   {
+    slug: "proforma-invoice",
+    // 2026-10-18: Bing's Topic Portfolio report lists "proformainvoice" (5K–10K
+    // Copilot citations) and "proformarechnung" (1K–5K) as queries where
+    // Copilot cites other sites and never this one.
+    name: "Pro Forma Invoice",
+    shortName: "Pro Forma",
+    icon: "🧾",
+    seoTitle: "Pro Forma Invoice Template — Make a Proforma Invoice Online",
+    seoDescription:
+      "Make a pro forma invoice with the buyer, goods, quantities, prices, shipping terms and validity date. Download a PDF to send before you ship or take payment.",
+    heading: "Pro Forma Invoice Generator",
+    intro:
+      "Create a pro forma invoice: a preliminary bill you send before the sale happens, so the buyer knows exactly what they will pay and can arrange payment, an import licence or a letter of credit. It is headed PRO FORMA INVOICE and lists the goods, prices and terms the final invoice will carry.",
+    leadAnswer:
+      "A pro forma invoice is a preliminary invoice sent before goods are shipped or work is done. It shows the seller and buyer, a pro forma number and date, each item with quantity and price, shipping and payment terms, the total and how long the quote is valid. It is not a bill for a completed sale and not a tax invoice: once you ship or get paid, you issue the real invoice.",
+    useCases: [
+      "Quoting an export order so the buyer can arrange payment or an import licence",
+      "Asking for payment in advance before goods are dispatched",
+      "Giving customs a declared value for samples or advance shipments",
+      "Letting a client's purchasing team raise a purchase order",
+    ],
+    fields: [
+      {
+        name: "PRO FORMA INVOICE heading",
+        description:
+          "The words 'Pro Forma Invoice' at the top, so nobody books it as a bill that is owed. In the UK it should also say 'This is not a VAT invoice'.",
+      },
+      {
+        name: "Seller and buyer",
+        description:
+          "Your business name, address and contact details, and the buyer's name and address. For exports, add the delivery address if it differs.",
+      },
+      {
+        name: "Pro forma number and date",
+        description:
+          "Its own reference, separate from your invoice sequence, plus the issue date. The final invoice can quote it so the two documents match.",
+      },
+      {
+        name: "Validity date",
+        description:
+          "How long the prices hold, for example 30 days. A pro forma is an offer, and an offer without an end date is hard to hold anyone to.",
+      },
+      {
+        name: "Goods or services",
+        description:
+          "Each item on its own line with a clear description, quantity, unit price and amount. For exports, add the HS code and country of origin.",
+      },
+      {
+        name: "Shipping and delivery terms",
+        description:
+          "Freight, packing and insurance as their own lines, and the delivery terms, such as an Incoterm like FCA or CIF, so the buyer knows what the price covers.",
+      },
+      {
+        name: "Payment terms",
+        description:
+          "How and when you want to be paid: payment in advance, a deposit, or a letter of credit, plus your bank details if you take transfers.",
+      },
+      {
+        name: "Estimated total",
+        description:
+          "The total the buyer should expect to pay. Taxes and duties that depend on where the goods end up are usually shown as estimates or left to the buyer.",
+      },
+    ],
+    howToSteps: [
+      "Open the Pro Forma Invoice template. The heading is already set to PRO FORMA INVOICE.",
+      "Enter your business details and the buyer under Bill to.",
+      "List each item with quantity and unit price, then freight, packing or insurance as separate lines.",
+      "Set the pro forma number, the validity date, the delivery terms and the payment terms.",
+      "Sign in with a free account to download the PDF and send it. Your first download is watermark-free. When the order ships or the buyer pays, send a final invoice with the same figures.",
+    ],
+    guidance: [
+      {
+        heading: "Pro forma invoice vs. invoice",
+        body:
+          "An invoice bills a sale that has happened: the goods were delivered or the work was done, so the buyer owes the amount and you book it as revenue. A pro forma invoice comes before the sale. It tells the buyer what the invoice will say if they go ahead, so nothing is owed yet and nothing goes into your accounts receivable.\n\nThat is why the heading matters. A document that looks like an invoice but is headed PRO FORMA INVOICE will not be paid twice or booked as a debt. In the UK, {cite:hmrc-vat-700-pro-forma|HMRC's VAT guide} says a pro forma cannot be used to reclaim VAT, should be marked 'this is not a VAT invoice', and must be followed by a proper VAT invoice once you supply the goods or receive payment.",
+      },
+      {
+        heading: "Pro forma invoice vs. quote",
+        body:
+          "A quote gives a price. A pro forma invoice gives everything the final invoice will hold: the buyer's details, quantities, shipping, delivery terms and payment instructions. Buyers ask for a pro forma when they need a document their bank, customs broker or purchasing team will accept. A quote is usually not enough for an import licence or a letter of credit.",
+      },
+      {
+        heading: "Worked example: an export order",
+        body:
+          "A furniture maker in Portland quotes a buyer in Vancouver before building the order:\n\n• 2 oak dining tables at $1,250.00 = $2,500.00\n\n• 8 oak dining chairs at $185.00 = $1,480.00\n\n• Export crating, 1 at $240.00 = $240.00\n\n• Freight to the border, 1 at $360.00 = $360.00\n\nSubtotal: $2,500.00 + $1,480.00 + $240.00 + $360.00 = $4,580.00. Oregon has no sales tax, so the pro forma total is $4,580.00. Canadian GST and any duty are paid by the buyer on import, so the pro forma does not include them. The terms say 50% deposit ($2,290.00) to start production, the balance before dispatch, and prices valid for 30 days. When the order ships, the final invoice repeats these lines and quotes the pro forma number.",
+      },
+      {
+        heading: "Pro forma invoices for customs",
+        body:
+          "When there is no sale, such as free samples, replacement parts or goods sent ahead of payment, customs still need a value for the shipment. A pro forma invoice gives one. Use the same detail as a commercial invoice: a full description of each item, quantity, unit value, country of origin, and the reason for export, for example 'Sample, no commercial value'.",
+      },
+    ],
+    sources: ["hmrc-vat-700-pro-forma"],
+    faqs: [
+      {
+        question: "What is a pro forma invoice?",
+        answer:
+          "A preliminary invoice sent before goods are shipped or work is done. It tells the buyer what they will be billed, so they can arrange payment, financing or an import licence. It is not a bill for a completed sale and not a tax invoice.",
+      },
+      {
+        question: "What is the difference between a pro forma invoice and an invoice?",
+        answer:
+          "An invoice bills a completed sale and is owed. A pro forma comes first, as a firm offer: nothing is owed until the buyer accepts and you ship or perform. After that, you send the real invoice.",
+      },
+      {
+        question: "Is a pro forma invoice legally binding?",
+        answer:
+          "It is an offer, not a bill. Once the buyer accepts it, for example by paying the deposit, the terms on it can become part of the contract, which is why it should carry a validity date and clear payment terms.",
+      },
+      {
+        question: "Do I need to send an invoice after a pro forma invoice?",
+        answer:
+          "Yes. A pro forma does not replace the final invoice. When the goods ship or the buyer pays, issue an invoice with your normal invoice number and quote the pro forma number on it.",
+      },
+      {
+        question: "Is it proforma, pro-forma or pro forma?",
+        answer:
+          "All three are used and mean the same document. In German it is a Proformarechnung, in French a facture pro forma and in Spanish a factura proforma.",
+      },
+    ],
+    defaults: {
+      businessName: "Harbor & Pine Woodworks",
+      addressLine1: "2200 NW Front Avenue",
+      addressLine2: "Portland, OR 97209",
+      phone: "(503) 555-0186",
+      website: "harborandpine.com",
+      greeting: "PRO FORMA INVOICE",
+      taxLabel: "Sales Tax",
+      taxRate: 0,
+      grandTotalLabel: "PRO FORMA TOTAL",
+      hideTotals: true,
+      invoice: true,
+      numberLabel: "Pro forma no.",
+      hideStoreLine: true,
+      showBarcode: false,
+      footerMessage: "This is not a tax invoice. Prices valid for 30 days. A final invoice will be issued on dispatch.",
+      paperStyle: "modern",
+      sections: [
+        {
+          title: "Bill to",
+          rows: [
+            { value: "Northshore Interiors Ltd." },
+            { value: "1080 Marine Drive" },
+            { value: "North Vancouver, BC V7P 1S1, Canada" },
+          ],
+        },
+        {
+          title: "Terms",
+          rows: [
+            { label: "Valid until", value: "30 days from issue" },
+            { label: "Payment", value: "50% deposit, balance before dispatch" },
+            { label: "Delivery", value: "FCA Blaine, WA" },
+          ],
+        },
+      ],
+      items: [
+        { id: id(), name: "Oak Dining Table", quantity: 2, price: 1250.0 },
+        { id: id(), name: "Oak Dining Chair", quantity: 8, price: 185.0 },
+        { id: id(), name: "Export Crating", quantity: 1, price: 240.0 },
+        { id: id(), name: "Freight to Border", quantity: 1, price: 360.0 },
+      ],
+    },
+  },
+  {
+    slug: "credit-note",
+    // 2026-10-18: Bing's Topic Portfolio report lists "credit note" (1K–5K
+    // Copilot citations) as a query where Copilot cites other sites and never
+    // this one. The US name, credit memo, is covered in the copy.
+    name: "Credit Note",
+    shortName: "Credit Note",
+    icon: "↩️",
+    seoTitle: "Credit Note Template — Make a Credit Note or Credit Memo",
+    seoDescription:
+      "Make a credit note for a return, overcharge or discount: the original invoice number, items credited, tax and the total credit. Download a PDF to send.",
+    heading: "Credit Note Generator",
+    intro:
+      "Create a credit note, also called a credit memo, when a customer returns goods, was overcharged or is owed an agreed discount on an invoice you already sent. It names the original invoice, lists what is being credited and shows the total the customer can deduct or have refunded.",
+    leadAnswer:
+      "A credit note reduces or cancels an invoice you have already issued. It shows a credit note number and date, the seller and customer, the number and date of the original invoice, each item credited with quantity and price, the tax being reversed and the total credit. The customer deducts it from what they owe or gets it back as a refund.",
+    useCases: [
+      "Crediting goods a customer returned",
+      "Correcting an invoice that was overcharged",
+      "Applying a discount or rebate agreed after invoicing",
+      "Cancelling an invoice that was issued in error",
+    ],
+    fields: [
+      {
+        name: "CREDIT NOTE heading",
+        description:
+          "The words 'Credit Note' or 'Credit Memo' at the top, so the customer's accounts team books it as a reduction, not as a new bill.",
+      },
+      {
+        name: "Credit note number and date",
+        description:
+          "Its own number, and the date it is issued. Many businesses run a separate sequence, such as CN-0001, so credits never collide with invoice numbers.",
+      },
+      {
+        name: "Original invoice number and date",
+        description:
+          "The invoice this credit applies to. Without it, neither side can match the credit to the debt it reduces.",
+      },
+      {
+        name: "Seller and customer",
+        description:
+          "Your business details, tax or VAT number if you have one, and the customer's name and address exactly as on the original invoice.",
+      },
+      {
+        name: "Items credited",
+        description:
+          "Each item or service being credited, with quantity, price and amount. Credit only what changed, not the whole invoice, unless you are cancelling it.",
+      },
+      {
+        name: "Reason for the credit",
+        description:
+          "Return, damaged goods, pricing error, agreed discount. One line is enough, and it saves a phone call.",
+      },
+      {
+        name: "Tax credited",
+        description:
+          "The sales tax or VAT being reversed, at the same rate the original invoice charged.",
+      },
+      {
+        name: "Total credit",
+        description:
+          "The full amount credited, tax included, and whether it will be refunded or offset against the next invoice.",
+      },
+    ],
+    howToSteps: [
+      "Open the Credit Note template. The heading is already set to CREDIT NOTE; change it to CREDIT MEMO if you prefer the US term.",
+      "Enter your business details and the customer under Credit to, as they appear on the original invoice.",
+      "Add the original invoice number and date, and the reason for the credit.",
+      "List only the items being credited, with quantity and price, and set the same tax rate the invoice used.",
+      "Sign in with a free account to download the PDF and send it. Your first download is watermark-free.",
+    ],
+    guidance: [
+      {
+        heading: "Credit note vs. invoice vs. refund",
+        body:
+          "An invoice says the customer owes you money. A credit note says they owe you less: it reduces an invoice you already issued, either in part (one returned item) or in full (an invoice sent in error). A refund is the payment that may follow. If the customer already paid, the credit note documents why you are sending money back. If they have not, they simply pay the invoice minus the credit.\n\nNever edit or delete an invoice once it has been sent. Issue a credit note against it, so both your records and the customer's show what happened and when.",
+      },
+      {
+        heading: "Credit note, credit memo and debit note",
+        body:
+          "Credit note and credit memo are the same document. Credit note is the usual term in the UK, Europe, Australia and India; credit memo, short for credit memorandum, is more common in the US. A debit note goes the other way: it increases an invoice, for example when goods were undercharged.",
+      },
+      {
+        heading: "What a valid credit note shows",
+        body:
+          "Where VAT applies, the rules are specific. {cite:hmrc-vat-700-credit-notes|HMRC's VAT guide} says a credit note must reflect a genuine mistake, overcharge or agreed reduction and be issued within 14 days of the refund. It must show its own number and date, both parties' details, what is credited with quantity and amount, the total credited excluding VAT, the VAT rate and amount, and the number and date of the original invoice. If the credit makes no VAT adjustment, it should say 'This is not a credit note for VAT'. Outside the UK the list is a good default, because it is what any accounts team needs to match the credit.",
+      },
+      {
+        heading: "Worked example: a return and a price correction",
+        body:
+          "A supplier invoiced a café on invoice INV-1042 for mugs and espresso cups. Six mugs arrived broken, and the cups were billed at $5.25 instead of the agreed $4.75. The credit note lists:\n\n• 6 ceramic mugs, returned damaged, at $8.50 = $51.00\n\n• 24 espresso cups, price correction of $0.50 each = $12.00\n\nSubtotal credited: $51.00 + $12.00 = $63.00. Sales tax at the 8% rate the invoice charged: $63.00 × 0.08 = $5.04. Total credit: $63.00 + $5.04 = $68.04. The café deducts $68.04 from what it owes on INV-1042, or, if it has already paid, the supplier refunds it.",
+      },
+    ],
+    sources: ["hmrc-vat-700-credit-notes"],
+    faqs: [
+      {
+        question: "What is a credit note?",
+        answer:
+          "A document a seller issues to reduce or cancel an invoice already sent, after a return, an overcharge or an agreed discount. The customer deducts the credit from what they owe, or receives it as a refund.",
+      },
+      {
+        question: "Is a credit note the same as a credit memo?",
+        answer:
+          "Yes. Credit memo is the more common name in the US; credit note is used in the UK, Europe, Australia and India. Both reduce an existing invoice.",
+      },
+      {
+        question: "What is the difference between a credit note and a refund?",
+        answer:
+          "A credit note records that the customer owes less. A refund is money paid back. If the invoice is unpaid, the credit is simply deducted; if it was paid, the credit note explains the refund that follows.",
+      },
+      {
+        question: "Does a credit note need the original invoice number?",
+        answer:
+          "Yes. Quoting the number and date of the original invoice is how both sides match the credit to the debt it reduces, and under UK VAT rules it is required.",
+      },
+      {
+        question: "Should a credit note show negative amounts?",
+        answer:
+          "Either works. Most credit notes list positive amounts under a CREDIT NOTE heading, because the heading already says the money flows back. Some accounting systems print them as negatives. What matters is that the total credit is clear.",
+      },
+    ],
+    defaults: {
+      businessName: "Cedar Lane Supply Co.",
+      addressLine1: "415 North High Street",
+      addressLine2: "Columbus, OH 43215",
+      phone: "(614) 555-0139",
+      website: "cedarlanesupply.com",
+      greeting: "CREDIT NOTE",
+      taxLabel: "Sales Tax",
+      taxRate: 8,
+      grandTotalLabel: "TOTAL CREDIT",
+      hideTotals: true,
+      invoice: true,
+      numberLabel: "Credit note no.",
+      hideStoreLine: true,
+      showBarcode: false,
+      footerMessage: "This credit will be deducted from your next payment or refunded on request.",
+      paperStyle: "modern",
+      sections: [
+        {
+          title: "Credit to",
+          rows: [
+            { value: "Morning Ritual Café" },
+            { value: "88 East Gay Street" },
+            { value: "Columbus, OH 43215" },
+          ],
+        },
+        {
+          title: "Against invoice",
+          rows: [
+            { label: "Invoice", value: "INV-1042" },
+            { label: "Invoice date", value: "October 2, 2026" },
+            { label: "Reason", value: "Damaged goods returned; price correction" },
+          ],
+        },
+      ],
+      items: [
+        { id: id(), name: "Ceramic Mug 12oz (returned)", quantity: 6, price: 8.5 },
+        { id: id(), name: "Espresso Cup (price correction)", quantity: 24, price: 0.5 },
+      ],
+    },
+  },
+  {
     slug: "sales-receipt",
     name: "Sales Receipt",
     shortName: "Sales",

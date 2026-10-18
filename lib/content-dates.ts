@@ -386,7 +386,8 @@ export const PRICING_UPDATED = "2026-10-16";
 export const HOME_UPDATED = "2026-09-01";
 // 2026-08-31: free-tier limits changed — see STATIC_UPDATED above.
 // 2026-10-11: links to the new Google Docs templates page from under the intro.
-export const TEMPLATES_INDEX_UPDATED = "2026-10-11";
+// 2026-10-18: lists the new pro forma invoice and credit note templates.
+export const TEMPLATES_INDEX_UPDATED = "2026-10-18";
 // /templates/google-docs — new on 2026-10-11. Lists the free templates
 // published as public Google Docs (lib/google-docs-templates.ts).
 export const GOOGLE_DOCS_TEMPLATES_UPDATED = "2026-10-11";
@@ -434,6 +435,10 @@ const TEMPLATES_ADDED: Readonly<Record<string, string>> = {
   "rent-receipt-ontario": "2026-10-05",
   // 2026-10-11: rebuilt from a paid "invoice receipt" into a real invoice.
   invoice: "2026-10-11",
+  // 2026-10-18: new pages for two Bing Topic Portfolio gaps, where Copilot
+  // cites other sites for "proformainvoice" and "credit note" and never us.
+  "proforma-invoice": "2026-10-18",
+  "credit-note": "2026-10-18",
 };
 
 // 2026-10-05: visible title or H1 changed — "daycare" on childcare, "mechanic
