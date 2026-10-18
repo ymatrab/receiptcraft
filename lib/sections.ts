@@ -72,6 +72,7 @@ export interface DateTimeSection extends BaseSection {
   orderId?: string;
   transactionId?: string;
   invoiceId?: string;
+  invoiceLabel?: string; // printed before invoiceId; defaults to "Invoice"
   customerId?: string;
   dateOrder?: "dmy"; // day-first display; the stored date stays ISO
 }
@@ -710,6 +711,7 @@ export function docFromReceiptData(data: ReceiptData): ReceiptDoc {
     // An invoice is a bill: labelling its number "Receipt #" says it was paid.
     receiptNumber: data.invoice ? undefined : data.receiptNumber,
     invoiceId: data.invoice ? data.receiptNumber : undefined,
+    invoiceLabel: data.invoice ? data.numberLabel : undefined,
     dateOrder: data.dateOrder,
   });
 

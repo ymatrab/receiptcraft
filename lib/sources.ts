@@ -201,6 +201,24 @@ export const SOURCES = S({
     verifiedAt: "2026-10-05",
     supports: "What a UK VAT invoice must contain, and when a simplified (less-detailed) VAT invoice is allowed.",
   },
+  "hmrc-vat-700-pro-forma": {
+    id: "hmrc-vat-700-pro-forma",
+    title: "VAT guide (VAT Notice 700), section 17.3 — Pro-forma invoices",
+    publisher: "HM Revenue & Customs",
+    url: "https://www.gov.uk/guidance/vat-guide-notice-700#pro-forma-invoices",
+    jurisdiction: "UK",
+    verifiedAt: "2026-10-18",
+    supports: "A pro forma invoice cannot be used to reclaim VAT, should be marked 'this is not a VAT invoice', and must be followed by a proper VAT invoice once the goods are supplied or payment is received.",
+  },
+  "hmrc-vat-700-credit-notes": {
+    id: "hmrc-vat-700-credit-notes",
+    title: "VAT guide (VAT Notice 700), section 18.2.3 — Valid credit notes",
+    publisher: "HM Revenue & Customs",
+    url: "https://www.gov.uk/guidance/vat-guide-notice-700#valid-credit-debit-note",
+    jurisdiction: "UK",
+    verifiedAt: "2026-10-18",
+    supports: "A valid credit note reflects a genuine mistake, overcharge or agreed reduction, is issued within 14 days of the refund, and shows its own number and date, both parties' details, what is credited with quantities and amounts, the VAT rate and amount credited, and the number and date of the original invoice.",
+  },
 
   // ── US state: rent receipts ────────────────────────────────────────────
   "ca-civ-1499": {

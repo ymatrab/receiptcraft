@@ -122,7 +122,7 @@ export default function ReceiptDocPaper({ doc }: Props) {
         const ids: { label: string; value?: string }[] = [
           { label: "Order", value: s.orderId },
           { label: "Txn", value: s.transactionId },
-          { label: "Invoice", value: s.invoiceId },
+          { label: s.invoiceLabel ?? "Invoice", value: s.invoiceId },
           { label: "Customer", value: s.customerId },
         ].filter((x) => x.value);
         return (
