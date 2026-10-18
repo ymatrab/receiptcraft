@@ -5,6 +5,7 @@ import { firstDownloadsPhrase } from "@/lib/plans";
 import { HOMEPAGE_FAQS } from "@/lib/faqs";
 import SectionBuilder from "@/components/builder/SectionBuilder";
 import RelatedPosts from "@/components/RelatedPosts";
+import ReceiptMakerGuide from "@/components/create/ReceiptMakerGuide";
 
 // Subset of the homepage FAQ most relevant to someone who has already landed
 // on the builder — reused rather than duplicated so the two pages can't drift.
@@ -105,7 +106,9 @@ export default function CreatePage() {
       <SectionBuilder />
 
       <section className="mx-auto mt-16 max-w-3xl px-4 pb-16 sm:px-6 lg:px-8">
-        <h2 className="text-xl font-bold text-slate-900">Receipt maker FAQ</h2>
+        <ReceiptMakerGuide />
+
+        <h2 className="mt-12 text-xl font-bold text-slate-900">Receipt maker FAQ</h2>
         <dl className="mt-4 space-y-4">
           {CREATE_FAQS.map((faq) => (
             <div key={faq.question} className="rounded-2xl border border-slate-200 bg-white p-5">

@@ -6174,7 +6174,29 @@ function fitBrandTitle(title: string, brand: string): string {
   if (first === -1) return title;
   const second = title.indexOf(brand, first + brand.length);
   if (second === -1) return title;
-  return (title.slice(0, second) + title.slice(second + brand.length))
+  const trimmed = dropMention(title, second, brand.length);
+  // Dropping the brand from "… — Free Food Lion Receipt Generator" leaves the
+  // bare clause "Free Receipt Generator", which is /create's head term rather
+  // than this page's. 53 brand titles were in that shape on 2026-10-18 and
+  // rotated with /create for "receipt maker" and "receipt generator". Keep
+  // the clause that pairs the brand with the generator or maker instead.
+  if (trimmed.split(" — ").some((c) => BARE_HEAD_TERM.test(c.trim()))) {
+    const clauses = title.split(" — ").map((c) => c.trim());
+    return clauses.find((c) => c.includes(brand) && /\breceipt\s+(?:generator|maker)\b/i.test(c)) ?? clauses[0];
+  }
+  return trimmed;
+}
+
+/**
+ * A title clause that is only the site's head term — "Receipt Maker", "Free
+ * Receipt Generator", "Receipt Generator & Maker" — with no brand or kind in
+ * front of it. Those belong to /create; see fitBrandTitle.
+ */
+export const BARE_HEAD_TERM =
+  /^(?:free\s+)?(?:online\s+)?receipt\s+(?:generator|maker|creator)(?:\s*&\s*(?:generator|maker))?$/i;
+
+function dropMention(title: string, at: number, length: number): string {
+  return (title.slice(0, at) + title.slice(at + length))
     .replace(/\s{2,}/g, " ")
     .replace(/\s+—\s*$/, "")
     // Re-agree any indefinite article with the word it now sits in front of.
