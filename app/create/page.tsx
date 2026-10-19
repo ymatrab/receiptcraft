@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { SITE, absoluteUrl } from "@/lib/site";
 import { fitSeoDescription } from "@/lib/seo-description";
 import { firstDownloadsPhrase } from "@/lib/plans";
-import { HOMEPAGE_FAQS } from "@/lib/faqs";
+import { HOMEPAGE_FAQS, type Faq } from "@/lib/faqs";
+import { CURRENCIES } from "@/lib/format";
 import SectionBuilder from "@/components/builder/SectionBuilder";
 import RelatedPosts from "@/components/RelatedPosts";
 import ReceiptMakerGuide from "@/components/create/ReceiptMakerGuide";
@@ -15,7 +16,41 @@ const CREATE_FAQ_QUESTIONS = [
   "Is it legal to make your own receipt?",
   "Is my data stored anywhere?",
 ];
-const CREATE_FAQS = HOMEPAGE_FAQS.filter((f) => CREATE_FAQ_QUESTIONS.includes(f.question));
+const SHARED_FAQS = HOMEPAGE_FAQS.filter((f) => CREATE_FAQ_QUESTIONS.includes(f.question));
+
+// Builder-specific questions the top "receipt maker" results answer and the
+// homepage FAQ does not (SEO.md §6). Each answer describes what
+// components/builder/SectionBuilder.tsx actually does; the currency count is
+// read from lib/format.ts and the free-download allowance from lib/plans.ts,
+// so neither can drift. "Can I email the receipt?" is deliberately absent: the
+// builder has no send feature.
+const BUILDER_FAQS: Faq[] = [
+  {
+    question: "Can I add my logo to a receipt?",
+    answer:
+      "Yes. Open the header section and upload an image file as the logo; it appears at the top of the receipt in the live preview. If you have no logo file, type your business name into the big logo text field instead. The image stays in your browser and is not uploaded to our servers.",
+  },
+  {
+    question: "How do I set the tax rate?",
+    answer:
+      "Enter a percentage in the tax rate field under the items list and the tax line, subtotal and total recalculate as you type. To label the tax Sales Tax, VAT or GST, or to show two rates, press Add tax line: each tax line has its own label and rate.",
+  },
+  {
+    question: "Which currencies can I use?",
+    answer: `The currency menu in the receipt settings has ${CURRENCIES.length}: ${CURRENCIES.map((c) => c.code).join(", ")}. Changing it reformats every price on the receipt at once.`,
+  },
+  {
+    question: "How do I download my receipt as a PDF?",
+    answer: `Press Download PDF under the preview. Downloading needs a free account; your first ${firstDownloadsPhrase()} is watermark-free, later free downloads carry a small watermark, and Pro removes it. Choose Print-ready PDF (A4) instead if you are printing on an office printer.`,
+  },
+  {
+    question: "Can I make a receipt on my phone?",
+    answer:
+      "Yes. The receipt maker runs in a phone browser with nothing to install. On a small screen, a bar at the bottom switches between editing the fields and previewing the receipt, and the preview shows the running total.",
+  },
+];
+
+const CREATE_FAQS: Faq[] = [...SHARED_FAQS, ...BUILDER_FAQS];
 
 // Title is written to fit the ` | Makecepeit` template in app/layout.tsx: 44
 // chars here, 57 rendered, inside the ~60 Google shows. The previous one was 62
@@ -96,7 +131,10 @@ export default function CreatePage() {
           Free Receipt Maker
         </h1>
         <p className="mt-2 max-w-2xl text-sm leading-relaxed text-slate-600">
-          This is {SITE.name}&apos;s free receipt maker and generator — build your
+          A receipt maker is an online tool that turns the details of a sale —
+          seller, items, prices, tax and payment — into a finished receipt you
+          can download, print or attach to an expense claim. This is{" "}
+          {SITE.name}&apos;s free receipt maker and generator — build your
           receipt section by section with a live preview, free and no sign-up to
           start. Pick a template or start from scratch, edit every field, then
           create a free account to download as a PDF or PNG — your first{" "}

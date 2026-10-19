@@ -358,8 +358,10 @@ export const POLICY_UPDATED = "2026-08-31";
 // linking their templates, what a receipt must contain, a 3-step how-to, paper
 // styles and widths, receipt vs invoice), so /create can own "receipt maker"
 // and "receipt generator" instead of rotating with up to eight other URLs.
+// 2026-10-19: a definition-first opening sentence and five builder FAQs (logo,
+// tax rate, currency, PDF download, phone), mirrored in the FAQPage JSON-LD.
 // CREATE_UPDATED stamps /create alone, so this moves no other page.
-export const CREATE_UPDATED = "2026-10-18";
+export const CREATE_UPDATED = "2026-10-19";
 // 2026-10-13: lists the first-party measurement storage (mkc_* keys).
 export const COOKIES_UPDATED = "2026-10-13";
 // 2026-08-29: /login now leads with the log-in form instead of "Create your
