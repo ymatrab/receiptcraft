@@ -2065,10 +2065,10 @@ export const TEMPLATES: ReceiptTemplate[] = [
     // 2026-10-19: Bing's Topic Portfolio lists "bill format" (1K–5K Copilot
     // citations), India-led. This is the GST sales bill for shops and service
     // businesses; rent receipts (rent-receipt-india) and petrol bills
-    // (fuel-bill, outside GST) keep their own pages. No CBIC source is in
-    // lib/sources.ts yet, so the copy describes the format and states no GST
-    // rule: when CGST/SGST vs IGST applies, HSN digit thresholds and invoice
-    // contents under the CGST Rules wait for a cited source.
+    // (fuel-bill, outside GST) keep their own pages. The required invoice
+    // contents cite CBIC's tax-invoice flyer (rule 46 of the CGST Rules). HSN
+    // digit thresholds by turnover are deliberately not stated: that flyer
+    // does not cover them, and only secondary sources were found.
     name: "Bill Format",
     shortName: "Bill Format",
     icon: "🧾",
@@ -2116,6 +2116,13 @@ export const TEMPLATES: ReceiptTemplate[] = [
           `The template prints the GST as one line labelled with the split, at the combined ${GST_RATE}%, so the total matches. The codes and rate here are a sample: GST rates are revised from time to time, so check the current rate and code for each item you bill.`,
       },
       {
+        heading: "What a GST tax invoice has to show",
+        body:
+          "According to {cite:cbic-gst-tax-invoice|CBIC's guide to tax invoices}, which restates rule 46 of the CGST Rules, a tax invoice carries the supplier's name, address and GSTIN; a serial number of up to sixteen characters (letters, numbers, hyphens and slashes) that is unique for the financial year; the date; the recipient's name, address and GSTIN if they are registered; the HSN code of goods or the accounting code of services; a description, the quantity and the total and taxable value; the rate and amount of each tax (central tax, State tax, integrated tax or cess); the place of supply with the State name for an inter-State supply; whether tax is payable on reverse charge; and the signature of the supplier or an authorised representative.\n\n" +
+          "The same guide says a business on the composition scheme, or one that supplies only exempt goods or services, issues a bill of supply instead of a tax invoice. For goods, the invoice is made in triplicate, marked Original for Recipient, Duplicate for Transporter and Triplicate for Supplier; for services, in duplicate.\n\n" +
+          "This is a summary of the format, not tax advice. GST rules and rates are amended from time to time, so check the current rules for your business.",
+      },
+      {
         heading: "Which India template to use",
         body:
           "Use this bill for goods and services you sell with GST. A rent receipt for HRA has its own format, with the landlord's PAN and a revenue stamp, in the India rent receipt template. A petrol pump bill, with the nozzle, rate per litre and vehicle number, has its own fuel bill template.",
@@ -2143,6 +2150,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
           "Yes. Set the rate that applies to what you sell and rename the tax line to match, for example CGST 2.5% + SGST 2.5% at 5%, or IGST 18%.",
       },
     ],
+    sources: ["cbic-gst-tax-invoice"],
     defaults: {
       businessName: "Sri Lakshmi Computers",
       addressLine1: "No. 42, 3rd Cross, SP Road",
