@@ -297,6 +297,8 @@ export const BRANDS_HUB_LINK_UPDATED = "2026-10-19";
 const BRANDS_ADDED: Readonly<Record<string, string>> = {
   stockx: "2026-10-05",
   goat: "2026-10-05",
+  "cash-app": "2026-10-19",
+  zelle: "2026-10-19",
 };
 
 /**

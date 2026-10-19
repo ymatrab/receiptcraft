@@ -56,7 +56,7 @@ const GROUPED: Record<BrandCategory, string[]> = {
     "playstation-store", "xbox-store", "adobe", "zoom",
   ],
   "Health & Pharmacy": ["walgreens", "cvs-pharmacy"],
-  "Services & Other": ["fedex", "paypal", "venmo", "planet-fitness", "amc-theatres"],
+  "Services & Other": ["fedex", "paypal", "venmo", "cash-app", "zelle", "planet-fitness", "amc-theatres"],
 };
 
 /** Flattened slug → category map for the original brands. */

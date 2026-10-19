@@ -133,7 +133,7 @@ const BRAND_TEMPLATES_OVERRIDE: Record<string, string[]> = {
   ),
   // Payment apps record a payment between two parties, so they sit with the
   // invoice and payment-receipt pages rather than with a kind of shop.
-  ...each(["paypal", "venmo"], ["invoice", "sales-receipt", "proof-of-purchase"]),
+  ...each(["paypal", "venmo", "cash-app", "zelle"], ["invoice", "sales-receipt", "proof-of-purchase"]),
 };
 
 /** The template pages a brand page should link, hub first. */
