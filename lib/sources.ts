@@ -20,7 +20,7 @@ export interface Source {
   publisher: string;
   url: string;
   /** Which rules this belongs to, when the claim is jurisdiction-specific. */
-  jurisdiction?: "US" | "US-CA" | "US-NY" | "US-WA" | "US-MA" | "EU" | "UK" | "AU" | "CA-ON";
+  jurisdiction?: "US" | "US-CA" | "US-NY" | "US-WA" | "US-MA" | "EU" | "UK" | "AU" | "CA-ON" | "IN";
   /** ISO date the URL was last checked and confirmed to say what we claim. */
   verifiedAt: string;
   /** Some legislature and standards sites reject automated requests (403 or a
@@ -95,6 +95,19 @@ export const SOURCES = S({
     verifiedAt: "2026-10-05",
     supports:
       "Technicians who maintain, service, repair or dispose of equipment that could release refrigerants must be certified, including for most substitute refrigerants such as HFCs since 2018.",
+  },
+  "cbic-gst-tax-invoice": {
+    id: "cbic-gst-tax-invoice",
+    title: "Tax Invoice and other such instruments in GST",
+    publisher: "Central Board of Indirect Taxes & Customs (CBIC)",
+    url: "https://www.gstcouncil.gov.in/sites/default/files/e-version-gst-flyers/Tax_Invoice_and_other_new.pdf",
+    jurisdiction: "IN",
+    // CBIC's taxpayer-services flyer, hosted by the GST Council. It restates
+    // rule 46 of the CGST Rules. The rule page itself on
+    // taxinformation.cbic.gov.in fails TLS from automated fetches.
+    verifiedAt: "2026-10-19",
+    supports:
+      "The particulars a GST tax invoice must contain (supplier GSTIN, a serial number of up to sixteen characters unique for the financial year, date, recipient details, HSN code, description, quantity, taxable value, rate and amount of each tax, place of supply with State for inter-State supplies, reverse charge, signature); that composition dealers and suppliers of only exempt supplies issue a bill of supply instead; and the triplicate (goods) and duplicate (services) copies.",
   },
   "ato-tax-invoices": {
     id: "ato-tax-invoices",
