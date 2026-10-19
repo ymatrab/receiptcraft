@@ -5110,6 +5110,153 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       items: [{ id: id(), name: "Payment", quantity: 1, price: 45 }],
     },
   },
+  // Cash App and Zelle (added 2026-10-19). Fields are limited to what each
+  // company's own help pages say a payment record shows — Cash App: the
+  // Activity tab lists status, date, amount and payment method, receipts carry
+  // the $cashtag and a transaction number; Zelle: payments live in your bank's
+  // app, are sent to an enrolled email or U.S. mobile number and show as
+  // pending or completed. Zelle's pages do not describe a confirmation number
+  // (it varies by bank), so the template does not invent one.
+  {
+    slug: "cash-app",
+    name: "Cash App Receipt",
+    shortName: "Cash App",
+    icon: "💲",
+    seoTitle: "Cash App Receipt Generator — Payment Receipt Template",
+    seoDescription:
+      "Make a receipt for a Cash App payment you sent or received: $Cashtag, amount, date and time, payment method, status and identifier, as a PDF or PNG.",
+    heading: "Cash App Receipt Generator",
+    intro:
+      "Make a written receipt for a Cash App payment that actually happened, laid out like the payment details in the app: the $Cashtag, amount, date and time, payment method, status and identifier.",
+    useCases: [
+      "A receipt for rent paid or collected through Cash App",
+      "Records for a sale or freelance job paid by $Cashtag",
+      "Bookkeeping copies when you split costs with roommates",
+    ],
+    faqs: [
+      {
+        question: "Where do I find my Cash App payment details?",
+        answer:
+          "Open the Activity tab in Cash App, or Activity on the web, and select the payment. Its receipt shows the details Cash App holds for it, and that record is the official one.",
+      },
+      {
+        question: "What does a Cash App payment receipt show?",
+        answer:
+          "Who the payment went to or came from by $Cashtag, the amount, the date and time, the payment method (such as Cash balance or a linked card), the status, and a transaction identifier.",
+      },
+      {
+        question: "When would I make my own Cash App receipt?",
+        answer:
+          "When someone you sold to, rented to or worked for wants a receipt with your name and their details on it, or when you want a tidy copy of a real payment for your books. Fill in the payment exactly as it appears in your Cash App activity.",
+      },
+      {
+        question: "Can I edit the fields?",
+        answer:
+          "Yes. Edit the $Cashtag, amount, date, payment method, status and identifier, then download a PDF or PNG.",
+      },
+    ],
+    defaults: {
+      logoDataUrl: brandLogo("cash.app"),
+      logoText: "Cash App",
+      businessName: "Cash App",
+      addressLine1: "",
+      addressLine2: "",
+      phone: "",
+      taxLabel: "Tax",
+      taxRate: 0,
+      fontFamily: "sans",
+      ruleStyle: "none",
+      headerAlign: "center",
+      greeting: "Payment to $JordanLee",
+      hideItems: true,
+      hideTotals: true,
+      footerMessage: "Keep this receipt with your records.",
+      sections: [
+        {
+          rows: [
+            { label: "Amount", value: "$850.00" },
+            { label: "To", value: "$JordanLee" },
+            { label: "For", value: "October rent" },
+            { label: "Date", value: "Oct 1, 2026 at 9:14 AM" },
+            { label: "Payment method", value: "Cash balance" },
+            { label: "Status", value: "Completed" },
+            { label: "Identifier", value: "#D7K2MQ9" },
+          ],
+        },
+      ],
+      items: [{ id: id(), name: "Payment", quantity: 1, price: 850 }],
+    },
+  },
+  {
+    slug: "zelle",
+    name: "Zelle Receipt",
+    shortName: "Zelle",
+    icon: "🏦",
+    seoTitle: "Zelle Receipt Generator — Payment Receipt Template",
+    seoDescription:
+      "Make a receipt for a Zelle payment you sent or received: sender, recipient, bank, amount, date and status, ready to download as a PDF or PNG.",
+    heading: "Zelle Receipt Generator",
+    intro:
+      "Make a written receipt for a Zelle payment that actually happened: who sent it, who received it at which email or mobile number, the bank account it left, the amount, the date and the status.",
+    useCases: [
+      "A receipt for rent a tenant paid by Zelle",
+      "Records for a sale or freelance invoice settled by Zelle",
+      "Bookkeeping copies of shared bills and split costs",
+    ],
+    faqs: [
+      {
+        question: "Where do I find my Zelle payment details?",
+        answer:
+          "Zelle runs inside your bank's or credit union's app and online banking, so the payment appears in that bank's payment activity. That bank record is the official one, and what it shows varies from bank to bank.",
+      },
+      {
+        question: "What does a Zelle payment record show?",
+        answer:
+          "The sender and recipient, the recipient's enrolled email address or U.S. mobile number, the amount, the date and a status such as pending or completed. Many banks add their own reference number; copy it from your bank's activity if you want it on the receipt.",
+      },
+      {
+        question: "When would I make my own Zelle receipt?",
+        answer:
+          "When a tenant, customer or client asks for a receipt for a Zelle payment they made, or when you want a clean copy of a real payment for your books. Fill it in exactly as the payment appears in your bank's activity.",
+      },
+      {
+        question: "Can I edit the fields?",
+        answer:
+          "Yes. Edit the sender, recipient, bank, amount, date and status, then download a PDF or PNG.",
+      },
+    ],
+    defaults: {
+      logoDataUrl: brandLogo("zelle.com"),
+      logoText: "Zelle",
+      businessName: "Zelle",
+      addressLine1: "",
+      addressLine2: "",
+      phone: "",
+      taxLabel: "Tax",
+      taxRate: 0,
+      fontFamily: "sans",
+      ruleStyle: "none",
+      headerAlign: "center",
+      greeting: "Payment sent with Zelle",
+      hideItems: true,
+      hideTotals: true,
+      footerMessage: "Keep this receipt with your records.",
+      sections: [
+        {
+          rows: [
+            { label: "From", value: "Maria Lopez" },
+            { label: "Bank", value: "Checking ••4821" },
+            { label: "To", value: "Sam Carter" },
+            { label: "Sent to", value: "sam.carter@email.com" },
+            { label: "Amount", value: "$320.00" },
+            { label: "Date", value: "Oct 12, 2026" },
+            { label: "Status", value: "Completed" },
+          ],
+        },
+      ],
+      items: [{ id: id(), name: "Payment", quantity: 1, price: 320 }],
+    },
+  },
   {
     slug: "gucci",
     name: "Gucci Receipt",

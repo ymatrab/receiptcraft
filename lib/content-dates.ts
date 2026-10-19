@@ -297,6 +297,8 @@ export const BRANDS_HUB_LINK_UPDATED = "2026-10-19";
 const BRANDS_ADDED: Readonly<Record<string, string>> = {
   stockx: "2026-10-05",
   goat: "2026-10-05",
+  "cash-app": "2026-10-19",
+  zelle: "2026-10-19",
 };
 
 /**
@@ -358,8 +360,10 @@ export const POLICY_UPDATED = "2026-08-31";
 // linking their templates, what a receipt must contain, a 3-step how-to, paper
 // styles and widths, receipt vs invoice), so /create can own "receipt maker"
 // and "receipt generator" instead of rotating with up to eight other URLs.
+// 2026-10-19: a definition-first opening sentence and five builder FAQs (logo,
+// tax rate, currency, PDF download, phone), mirrored in the FAQPage JSON-LD.
 // CREATE_UPDATED stamps /create alone, so this moves no other page.
-export const CREATE_UPDATED = "2026-10-18";
+export const CREATE_UPDATED = "2026-10-19";
 // 2026-10-13: lists the first-party measurement storage (mkc_* keys).
 export const COOKIES_UPDATED = "2026-10-13";
 // 2026-08-29: /login now leads with the log-in form instead of "Create your
@@ -426,7 +430,8 @@ export const HOME_UPDATED = "2026-09-01";
 // 2026-08-31: free-tier limits changed — see STATIC_UPDATED above.
 // 2026-10-11: links to the new Google Docs templates page from under the intro.
 // 2026-10-18: lists the new pro forma invoice and credit note templates.
-export const TEMPLATES_INDEX_UPDATED = "2026-10-18";
+// 2026-10-19: lists the new payment receipt, estimate and bill format templates.
+export const TEMPLATES_INDEX_UPDATED = "2026-10-19";
 // /templates/google-docs — new on 2026-10-11. Lists the free templates
 // published as public Google Docs (lib/google-docs-templates.ts).
 export const GOOGLE_DOCS_TEMPLATES_UPDATED = "2026-10-11";
@@ -467,6 +472,16 @@ const ALTERNATIVES_COPY_UPDATED = "2026-10-18";
  * Mirrors the sitemap's precedence exactly: a template citing its own rules is
  * the most recently worked, then one carrying a sourced figure, then the rest.
  */
+// 2026-10-19: template gaps from SEO.md §8 — new payment receipt (P3),
+// estimate and GST bill format (P8) pages.
+const TEMPLATE_GAPS_ADDED = "2026-10-19";
+
+// 2026-10-19: gas-station gained a field list, the gallons × price maths and a
+// how-to (P4); rent-receipt was retitled to own "rent receipt template" and
+// gained landlord fields, a how-to and a balance-due section (P5).
+const TEMPLATES_DEEPENED: ReadonlySet<string> = new Set(["gas-station", "rent-receipt"]);
+const TEMPLATES_DEEPENED_UPDATED = "2026-10-19";
+
 // 2026-10-05: templates added in the October re-plan. A new page has to carry
 // its own date: falling back to TEMPLATES_UPDATED would stamp it July, and the
 // IndexNow cron only submits URLs newer than its last run.
@@ -485,6 +500,9 @@ const TEMPLATES_ADDED: Readonly<Record<string, string>> = {
   // cites other sites for "proformainvoice" and "credit note" and never us.
   "proforma-invoice": "2026-10-18",
   "credit-note": "2026-10-18",
+  "payment-receipt": TEMPLATE_GAPS_ADDED,
+  estimate: TEMPLATE_GAPS_ADDED,
+  "bill-format": TEMPLATE_GAPS_ADDED,
 };
 
 // 2026-10-05: visible title or H1 changed — "daycare" on childcare, "mechanic
@@ -518,6 +536,7 @@ export function templateReviewedAt(t: ReceiptTemplate): string {
 }
 
 function templateReviewedAtBefore(t: ReceiptTemplate): string {
+  if (TEMPLATES_DEEPENED.has(t.slug)) return TEMPLATES_DEEPENED_UPDATED;
   if (TEMPLATES_ADDED[t.slug]) return TEMPLATES_ADDED[t.slug];
   if (TEMPLATES_RETITLED.has(t.slug)) return TEMPLATES_RETITLED_UPDATED;
   if (TEMPLATES_DOWNLOAD_CLAIM_FIXED.has(t.slug)) return TEMPLATES_CLAIM_UPDATED;
