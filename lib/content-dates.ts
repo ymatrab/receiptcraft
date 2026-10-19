@@ -260,6 +260,34 @@ export const BRANDS_TITLE_UPDATED = "2026-09-11";
 // visible links changed.
 export const BRANDS_LINKS_UPDATED = "2026-10-04";
 
+/**
+ * The 53 brands whose title lost its bare head-term clause on 2026-10-18.
+ *
+ * fitBrandTitle() dropped the brand's second mention from overlong titles, and
+ * when that mention sat in "Free Food Lion Receipt Generator" what was left —
+ * "Free Receipt Generator", "Receipt Maker" — was /create's head term, not the
+ * brand's. These pages rotated with /create for "receipt maker" and "receipt
+ * generator"; they now keep the clause that pairs the brand with the term
+ * ("Free Food Lion Receipt Generator"). Listed from the live titles that day,
+ * for the same reason as BRANDS_TITLE_TRIMMED.
+ */
+const BRANDS_HEAD_TERM_FIXED: ReadonlySet<string> = new Set([
+  "american-eagle", "apple-store", "apple-tv-plus", "banana-republic",
+  "barnes-noble", "bed-bath-beyond", "blue-bottle-coffee", "british-airways",
+  "burger-king", "burlington", "caribou-coffee", "checkers",
+  "cheesecake-factory", "chick-fil-a", "comfort-inn", "cracker-barrel",
+  "culvers", "dollar-general", "einstein-bros-bagels", "family-dollar",
+  "firehouse-subs", "food-lion", "frontier-airlines", "giant-eagle",
+  "golden-corral", "hollister", "jack-in-the-box", "jimmy-john-s", "just-eat",
+  "kate-spade", "kwik-trip", "little-caesars", "longhorn-steakhouse",
+  "michael-kors", "napa-auto-parts", "nintendo-eshop", "office-depot",
+  "orangetheory", "panda-express", "paramount-plus", "party-city",
+  "peet-s-coffee", "potbelly", "quest-diagnostics", "sheraton",
+  "texas-roadhouse", "tgi-fridays", "tim-hortons", "trader-joe-s",
+  "whataburger", "whole-foods", "williams-sonoma", "youtube-tv",
+]);
+export const BRANDS_HEAD_TERM_UPDATED = "2026-10-18";
+
 // 2026-10-19: every brand page links up to its generic template(s) and the
 // receipt maker (lib/topic-clusters.ts), so every page's visible links changed.
 export const BRANDS_HUB_LINK_UPDATED = "2026-10-19";
@@ -284,6 +312,7 @@ export function brandReviewedAt(slug: string): string {
     BRANDS_ARTICLE_FIXED.has(slug) ? BRANDS_ARTICLE_UPDATED : null,
     BRANDS_TITLE_TRIMMED.has(slug) ? BRANDS_TITLE_UPDATED : null,
     BRANDS_LINKS_UPDATED,
+    BRANDS_HEAD_TERM_FIXED.has(slug) ? BRANDS_HEAD_TERM_UPDATED : null,
     BRANDS_HUB_LINK_UPDATED,
     BRANDS_ADDED[slug] ?? null,
   );
@@ -325,7 +354,12 @@ export const POLICY_UPDATED = "2026-08-31";
 // 2026-10-08: related posts on /create now include how-to-make-a-receipt-online.
 // 2026-10-13: the builder's header gains a "Document heading" field, so a
 // receipt or invoice can be headed PURCHASE ORDER, QUOTE, CREDIT MEMO, etc.
-export const CREATE_UPDATED = "2026-10-13";
+// 2026-10-18: ~750 words of reference copy under the builder (receipt types
+// linking their templates, what a receipt must contain, a 3-step how-to, paper
+// styles and widths, receipt vs invoice), so /create can own "receipt maker"
+// and "receipt generator" instead of rotating with up to eight other URLs.
+// CREATE_UPDATED stamps /create alone, so this moves no other page.
+export const CREATE_UPDATED = "2026-10-18";
 // 2026-10-13: lists the first-party measurement storage (mkc_* keys).
 export const COOKIES_UPDATED = "2026-10-13";
 // 2026-08-29: /login now leads with the log-in form instead of "Create your
@@ -417,8 +451,15 @@ export function compareReviewedAt(slug: string): string {
 export function alternativesUpdated(): string {
   // ISO dates sort lexicographically, so the last one is the newest.
   const reviewed = COMPETITORS.map((c) => c.updated).sort();
-  return reviewed[reviewed.length - 1] ?? COMPARISONS_UPDATED;
+  return newest(reviewed[reviewed.length - 1] ?? COMPARISONS_UPDATED, ALTERNATIVES_COPY_UPDATED);
 }
+
+// 2026-10-18: our own entry links "receipt maker" and the closing CTA "online
+// receipt maker" to /create, so the roundup keeps "best receipt generators"
+// and hands the head terms to the builder; the first-download line now says it
+// is a free account's watermark-free download. Our copy, not a competitor
+// re-check, so the visible "Last reviewed" date (LAST_UPDATED) does not move.
+const ALTERNATIVES_COPY_UPDATED = "2026-10-18";
 
 /**
  * When a template page was last reviewed.

@@ -1,7 +1,7 @@
 import type { ReceiptTemplate } from "./types";
 import type { SourceId } from "./sources";
 import { isFreeBrand } from "@/lib/brand-access";
-import { BRAND_TEMPLATES } from "./brands";
+import { BRAND_TEMPLATES, BARE_HEAD_TERM } from "./brands";
 
 let n = 0;
 const id = () => `tpl-${++n}`;
@@ -3266,6 +3266,19 @@ const PROMISES_FREE = /\bfree\b/i;
       if (IMITATION_CLAIM.test(text)) {
         problems.push(`"${t.slug}" ${field} promises a realistic receipt: ${text.slice(0, 90)}`);
       }
+    }
+  }
+
+  /*
+   * No brand title may carry a clause that is only the head term ("— Receipt
+   * Maker", "— Free Receipt Generator"). Those clauses made 53 brand pages
+   * compete with /create for "receipt maker" and "receipt generator"; see
+   * fitBrandTitle in lib/brands.ts. Checked on the assembled title because
+   * hand-written titles never pass through the variant pools.
+   */
+  for (const t of BRAND_TEMPLATES) {
+    if (t.seoTitle.split(" — ").some((c) => BARE_HEAD_TERM.test(c.trim()))) {
+      problems.push(`"${t.slug}" title has a bare head-term clause: ${t.seoTitle}`);
     }
   }
 
