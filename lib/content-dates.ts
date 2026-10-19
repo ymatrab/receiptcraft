@@ -260,6 +260,10 @@ export const BRANDS_TITLE_UPDATED = "2026-09-11";
 // visible links changed.
 export const BRANDS_LINKS_UPDATED = "2026-10-04";
 
+// 2026-10-19: every brand page links up to its generic template(s) and the
+// receipt maker (lib/topic-clusters.ts), so every page's visible links changed.
+export const BRANDS_HUB_LINK_UPDATED = "2026-10-19";
+
 // Brand pages added after the shared dates above. Without its own date a new
 // page inherits BRANDS_LINKS_UPDATED and looks older than it is.
 const BRANDS_ADDED: Readonly<Record<string, string>> = {
@@ -280,6 +284,7 @@ export function brandReviewedAt(slug: string): string {
     BRANDS_ARTICLE_FIXED.has(slug) ? BRANDS_ARTICLE_UPDATED : null,
     BRANDS_TITLE_TRIMMED.has(slug) ? BRANDS_TITLE_UPDATED : null,
     BRANDS_LINKS_UPDATED,
+    BRANDS_HUB_LINK_UPDATED,
     BRANDS_ADDED[slug] ?? null,
   );
 }
@@ -460,9 +465,15 @@ const TEMPLATES_HEADINGS_FIXED: ReadonlySet<string> = new Set([
 ]);
 const TEMPLATES_HEADINGS_UPDATED = "2026-10-11";
 
+// 2026-10-19: "Related templates" lists same-topic neighbours instead of the
+// same first four templates on every page, and templates link the brands they
+// are the hub for (lib/topic-clusters.ts). Every template's links changed.
+const TEMPLATES_CLUSTER_UPDATED = "2026-10-19";
+
 export function templateReviewedAt(t: ReceiptTemplate): string {
   const reviewed = TEMPLATES_RELATED_UPDATED > templateReviewedAtBefore(t) ? TEMPLATES_RELATED_UPDATED : templateReviewedAtBefore(t);
-  return TEMPLATES_HEADINGS_FIXED.has(t.slug) && TEMPLATES_HEADINGS_UPDATED > reviewed ? TEMPLATES_HEADINGS_UPDATED : reviewed;
+  const headed = TEMPLATES_HEADINGS_FIXED.has(t.slug) && TEMPLATES_HEADINGS_UPDATED > reviewed ? TEMPLATES_HEADINGS_UPDATED : reviewed;
+  return TEMPLATES_CLUSTER_UPDATED > headed ? TEMPLATES_CLUSTER_UPDATED : headed;
 }
 
 function templateReviewedAtBefore(t: ReceiptTemplate): string {
