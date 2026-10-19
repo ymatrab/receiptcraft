@@ -14,6 +14,8 @@ import { SITE, absoluteUrl } from "@/lib/site";
 import { creativeWorkJsonLd } from "@/lib/schema";
 import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
 import RelatedPosts from "@/components/RelatedPosts";
+import { TEMPLATES } from "@/lib/templates";
+import { templatesForBrand } from "@/lib/topic-clusters";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -74,6 +76,11 @@ export default async function BrandTemplatePage({ params }: Props) {
   // Same-brand "receipt help" guides (lost receipt, get a copy, returns) — a
   // real intra-entity link so the brand/help pages read as one cluster.
   const helpPages = INTENT_PAGES.filter((p) => p.brandSlug === template.slug);
+  // The generic template(s) this brand belongs under, so the brand links up to
+  // its hub as well as across to its neighbours.
+  const hubTemplates = templatesForBrand(template.slug, category)
+    .map((s) => TEMPLATES.find((t) => t.slug === s))
+    .filter((t): t is NonNullable<typeof t> => Boolean(t));
 
   // Per-brand content derived from the template's own data — unique per page
   // (items, address, tax and totals all differ), not boilerplate.
@@ -295,6 +302,25 @@ export default async function BrandTemplatePage({ params }: Props) {
                 : " — this is a Pro template, so a free account's export carries the watermark."}
             </li>
           </ol>
+
+          {hubTemplates.length > 0 && (
+            <p className="mt-6 max-w-3xl text-slate-600">
+              Need one without the {template.shortName} branding? Start from the{" "}
+              {hubTemplates.map((t, i) => (
+                <span key={t.slug}>
+                  {i > 0 && (i === hubTemplates.length - 1 ? " or " : ", ")}
+                  <Link href={`/templates/${t.slug}`} className="font-medium text-indigo-600 hover:text-indigo-700">
+                    {t.name.toLowerCase()}
+                  </Link>
+                </span>
+              ))}{" "}
+              {hubTemplates.length > 1 ? "templates" : "template"}, or open a blank page in the{" "}
+              <Link href="/create" className="font-medium text-indigo-600 hover:text-indigo-700">
+                receipt maker
+              </Link>
+              .
+            </p>
+          )}
         </section>
 
         {/* FAQ */}
