@@ -13,6 +13,8 @@ import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
 import { CitedText, SourceList } from "@/components/Sources";
 import { citationJsonLd } from "@/lib/sources";
 import RelatedPosts from "@/components/RelatedPosts";
+import { BRAND_TEMPLATES, brandCategoryFor } from "@/lib/brands";
+import { hubTemplateForBrand, relatedTemplateSlugs } from "@/lib/topic-clusters";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -65,7 +67,15 @@ export default async function TemplatePage({ params }: Props) {
   const docTitle = isInvoice ? template.name : `${template.shortName} receipt`;
   const an = (noun: string) => (/^[aeiou]/i.test(noun) ? "an" : "a");
   const useLabel = template.name.toLowerCase();
-  const related = TEMPLATES.filter((t) => t.slug !== template.slug).slice(0, 4);
+  // Neighbours from the same topic group, and the brands whose hub this
+  // template is. Both used to be missing: every page listed the same first
+  // four templates and no brands at all.
+  const related = relatedTemplateSlugs(template.slug)
+    .map((s) => getTemplate(s))
+    .filter((t): t is NonNullable<typeof t> => Boolean(t));
+  const brands = BRAND_TEMPLATES.filter(
+    (b) => hubTemplateForBrand(b.slug, brandCategoryFor(b.slug)) === template.slug,
+  ).slice(0, 8);
 
   // A sourced figure for templates that carry none of their own. Its sources
   // join the page's own so the footer list and the JSON-LD citations both cover
@@ -331,11 +341,43 @@ export default async function TemplatePage({ params }: Props) {
           />
         )}
 
+        {/* Brand templates of this kind — the spokes of this hub */}
+        {brands.length > 0 && (
+          <section className="mt-20" aria-labelledby="brands-heading">
+            <h2 id="brands-heading" className="text-2xl font-bold text-slate-900">
+              Make {an(docLabel)} {docLabel} for a specific brand
+            </h2>
+            <p className="mt-3 max-w-3xl text-slate-600">
+              These brand templates start from the same layout, with that
+              brand&apos;s own items, tax and store details already filled in.
+            </p>
+            <ul className="mt-5 flex flex-wrap gap-2">
+              {brands.map((b) => (
+                <li key={b.slug}>
+                  <Link
+                    href={`/brands/${b.slug}`}
+                    className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-600 transition-colors hover:border-indigo-300 hover:text-indigo-600"
+                  >
+                    {b.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
         {/* Related templates */}
         <section className="mt-20" aria-labelledby="related-heading">
           <h2 id="related-heading" className="text-2xl font-bold text-slate-900">
             Related templates
           </h2>
+          <p className="mt-3 max-w-3xl text-slate-600">
+            Or start from a blank page in the{" "}
+            <Link href="/create" className="font-medium text-indigo-600 hover:text-indigo-700">
+              receipt maker
+            </Link>
+            .
+          </p>
           <ul className="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
             {related.map((t) => (
               <li key={t.slug}>
