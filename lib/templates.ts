@@ -6,6 +6,50 @@ import { BRAND_TEMPLATES, BARE_HEAD_TERM } from "./brands";
 let n = 0;
 const id = () => `tpl-${++n}`;
 
+/* -------------------------------------------------------------------------- */
+/*  Worked examples                                                           */
+/* -------------------------------------------------------------------------- */
+// A worked example in the page copy and the template's own line items read the
+// same numbers below, so the maths a reader sees can never drift from the
+// receipt preview beside it. Totals are computed here, never typed.
+
+type Line = { name: string; quantity: number; price: number };
+const sumLines = (lines: readonly Line[]) => lines.reduce((s, l) => s + l.quantity * l.price, 0);
+const usd = (x: number) =>
+  `$${x.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+const inr = (x: number) =>
+  `₹${x.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
+/** Gas station: one fill-up, priced to a tenth of a cent as US pumps print it. */
+const GAS_FILL = { grade: "Unleaded 87", pump: "04", gallons: 12.418, pricePerGallon: 3.459 };
+const GAS_TOTAL = Math.round(GAS_FILL.gallons * GAS_FILL.pricePerGallon * 100) / 100;
+const GAS_PREPAY = 40;
+
+/** Estimate: an interior painting job. */
+const ESTIMATE_LINES: readonly Line[] = [
+  { name: "Wall painting, 2 coats (sq ft)", quantity: 850, price: 1.85 },
+  { name: "Ceiling painting (sq ft)", quantity: 420, price: 1.4 },
+  { name: "Trim and doors (linear ft)", quantity: 160, price: 2.5 },
+  { name: "Paint and primer (gal)", quantity: 9, price: 48.0 },
+  { name: "Surface prep and patching", quantity: 1, price: 225.0 },
+];
+const ESTIMATE_TOTAL = sumLines(ESTIMATE_LINES);
+const ESTIMATE_DEPOSIT_PCT = 25;
+
+/** GST bill: a computer shop in Bengaluru billing a local business customer. */
+const GST_BILL_LINES: readonly Line[] = [
+  { name: "Laptop servicing (SAC 998713)", quantity: 1, price: 1500.0 },
+  { name: "SSD 512 GB (HSN 8523)", quantity: 1, price: 3800.0 },
+  { name: "USB keyboard (HSN 8471)", quantity: 2, price: 650.0 },
+];
+const GST_RATE = 18;
+const GST_TAXABLE = sumLines(GST_BILL_LINES);
+const GST_HALF = GST_TAXABLE * (GST_RATE / 2 / 100);
+
+/** Payment receipt: the balance of a freelancer's invoice, after a deposit. */
+const PAYMENT = { invoice: "INV-0217", invoiceTotal: 1200, deposit: 400 };
+const PAYMENT_AMOUNT = PAYMENT.invoiceTotal - PAYMENT.deposit;
+
 export const TEMPLATES: ReceiptTemplate[] = [
   {
     slug: "grocery-store",
@@ -238,23 +282,109 @@ export const TEMPLATES: ReceiptTemplate[] = [
       "Generate a gas station fuel receipt with gallons, price per gallon and pump number. Free PDF & PNG download for mileage and fuel expense claims.",
     heading: "Gas Station & Fuel Receipt Generator",
     intro:
-      "Create a fuel receipt showing gallons pumped, price per gallon, pump number and payment method. Essential for mileage reimbursement, fleet records and fuel expense claims when the pump printer was out of paper.",
+      "Create a gas station receipt that shows the station, the pump number, the fuel grade, the gallons pumped, the price per gallon and the fuel total, worked out as gallons times price. Use it for mileage and fuel expense records, fleet logs and company-card reconciliation.",
+    // 2026-10-19: deepened against makereceipt and makemyreceipt (SEO.md §6):
+    // field list, the gallons × price maths, a how-to and a uses list. The
+    // "pump didn't print my receipt" FAQ was retrieval intent and is gone.
+    leadAnswer:
+      "A gas station receipt shows the station's name and address, the date and time, the pump number, the fuel grade, the gallons pumped, the price per gallon and the fuel total, which is gallons × price per gallon. Below that come the payment method and the card's last four digits. Pumps price fuel to a tenth of a cent, so the price per gallon has three decimals.",
     useCases: [
-      "Fuel expense claims when the pump didn't print a receipt",
-      "Mileage and fleet expense documentation",
-      "Company car fuel logs",
-      "Replace faded thermal fuel receipts",
+      "Mileage and fuel expense reimbursement",
+      "Fleet and company-car fuel logs",
+      "Fuel records for rideshare and delivery drivers",
+      "Matching a corporate card charge to a fill-up",
+    ],
+    fields: [
+      {
+        name: "Station name and address",
+        description:
+          "The station's brand or name, street address and phone, so the fill-up can be placed on a route or a mileage log.",
+      },
+      {
+        name: "Date and time",
+        description:
+          "When the tank was filled. Expense reviewers compare it with the trip dates and the card statement.",
+      },
+      {
+        name: "Pump number",
+        description:
+          "The pump (or dispenser) used, printed as 'Pump 04' or 'PUMP# 4'. In the builder it goes in the register field.",
+      },
+      {
+        name: "Fuel grade",
+        description:
+          "Regular 87, Plus 89, Premium 91–93 or Diesel, named on the fuel line so the grade matches the vehicle.",
+      },
+      {
+        name: "Gallons",
+        description:
+          "The volume pumped, to three decimals, for example 12.418 gal. It is the quantity on the fuel line.",
+      },
+      {
+        name: "Price per gallon",
+        description:
+          "The posted price to a tenth of a cent, for example $3.459. It is the price on the fuel line.",
+      },
+      {
+        name: "Fuel total",
+        description:
+          "Gallons × price per gallon, rounded to the cent. The receipt works it out for you as you type.",
+      },
+      {
+        name: "Payment",
+        description:
+          "Cash, or the card type with the last four digits only. Pay-at-the-pump receipts also print an authorization code.",
+      },
+    ],
+    howToSteps: [
+      `To make a gas station receipt, open the Gas Station template: it loads with a station, pump ${GAS_FILL.pump} and one fuel line of ${GAS_FILL.gallons} gallons of ${GAS_FILL.grade} at $${GAS_FILL.pricePerGallon} a gallon.`,
+      "Enter the station's name, address and phone, then set the date and time of the fill-up.",
+      "Put the pump number in the register field, for example Pump 04.",
+      "Name the fuel line with the grade, enter the gallons as the quantity and the price per gallon as the price. The fuel total is gallons × price and updates as you type.",
+      "Set the payment method and the card's last four digits, then sign in with a free account to download a PDF or PNG. Your first download is watermark-free.",
+    ],
+    guidance: [
+      {
+        heading: "How the fuel total is worked out",
+        body:
+          `A pump receipt has one sum on it: gallons × price per gallon. Here is the fill-up this template loads with:\n\n` +
+          `• Fuel grade: ${GAS_FILL.grade}, pump ${GAS_FILL.pump}\n\n` +
+          `• Gallons: ${GAS_FILL.gallons}\n\n` +
+          `• Price per gallon: $${GAS_FILL.pricePerGallon}\n\n` +
+          `• Fuel total: ${GAS_FILL.gallons} × $${GAS_FILL.pricePerGallon} = $${(GAS_FILL.gallons * GAS_FILL.pricePerGallon).toFixed(4)}, which rounds to ${usd(GAS_TOTAL)}\n\n` +
+          `Two checks catch most mistakes. Divide the total by the gallons and you should get the price back: ${usd(GAS_TOTAL)} ÷ ${GAS_FILL.gallons} = $${(GAS_TOTAL / GAS_FILL.gallons).toFixed(3)}. And the price should carry three decimals, because pumps price fuel to a tenth of a cent. Round the price to ${usd(GAS_FILL.pricePerGallon)} and the same ${GAS_FILL.gallons} gallons come to ${usd(GAS_FILL.gallons * Math.round(GAS_FILL.pricePerGallon * 100) / 100)}, which no longer matches the card charge.`,
+      },
+      {
+        heading: "Prepaid at the counter",
+        body:
+          `When the driver prepays a round amount, the pump stops at that amount and the gallons are what it bought. Work backwards: ${usd(GAS_PREPAY)} ÷ $${GAS_FILL.pricePerGallon} = ${(GAS_PREPAY / GAS_FILL.pricePerGallon).toFixed(3)} gallons. Enter those gallons as the quantity and the same price per gallon, and the fuel total comes back to ${usd(GAS_PREPAY)}, give or take a cent of rounding.`,
+      },
+      {
+        heading: "Why the tax line reads 'Fuel Tax (incl.)'",
+        body:
+          "A pump receipt usually shows no tax added on top of the fuel line, because the price per gallon on the receipt is the price the driver paid. The template's tax line is set to 'Fuel Tax (incl.)' at 0% for that reason, so nothing is added to the total. If the receipt you are recording printed a separate tax line, or a car wash or shop item with its own tax, add it as its own line and set the rate to match.",
+      },
     ],
     faqs: [
       {
-        question: "How do I show gallons and price per gallon on the receipt?",
+        question: "How do I make a gas station receipt?",
         answer:
-          "Use the quantity field for gallons (decimals like 12.418 are supported) and the price field for the per-gallon rate. The receipt automatically multiplies them, so '12.418 × $3.45' displays exactly like a real pump receipt.",
+          "Open the Gas Station template, enter the station's name and address, the date and the pump number, then add the fuel line with the grade, the gallons and the price per gallon. The fuel total calculates itself. Set the payment method and download the PDF or PNG.",
       },
       {
-        question: "What if the gas pump didn't print my receipt?",
+        question: "How do I show gallons and price per gallon on the receipt?",
         answer:
-          "Pump printers frequently run out of paper. Recreate the transaction here with the station name, date, fuel grade, gallons and total from your bank statement, then attach the PDF to your expense report alongside the card statement line.",
+          `Use the quantity field for gallons (decimals like ${GAS_FILL.gallons} are supported) and the price field for the price per gallon. The receipt multiplies them, so ${GAS_FILL.gallons} × $${GAS_FILL.pricePerGallon} shows a fuel total of ${usd(GAS_TOTAL)}.`,
+      },
+      {
+        question: "What is the pump number on a gas receipt?",
+        answer:
+          "The number of the pump the vehicle was filled at, printed as 'Pump 04' or similar. Enter it in the register field and it prints near the top of the receipt.",
+      },
+      {
+        question: "Does a gas station receipt show tax?",
+        answer:
+          "Most show no tax added to the fuel line, because the price per gallon is the price paid. The template's tax line is 'Fuel Tax (incl.)' at 0%. If your receipt printed a separate tax line, set the rate to match it.",
       },
     ],
     defaults: {
@@ -264,11 +394,16 @@ export const TEMPLATES: ReceiptTemplate[] = [
       phone: "(928) 555-0134",
       taxLabel: "Fuel Tax (incl.)",
       taxRate: 0,
-      register: "Pump 04",
+      register: `Pump ${GAS_FILL.pump}`,
       footerMessage: "Drive safe. Thank you!",
       paperStyle: "thermal",
       items: [
-        { id: id(), name: "Unleaded 87 (Gal)", quantity: 12.418, price: 3.459 },
+        {
+          id: id(),
+          name: `${GAS_FILL.grade} (Gal)`,
+          quantity: GAS_FILL.gallons,
+          price: GAS_FILL.pricePerGallon,
+        },
       ],
     },
   },
@@ -1236,29 +1371,71 @@ export const TEMPLATES: ReceiptTemplate[] = [
     name: "Rent Receipt",
     shortName: "Rent",
     icon: "🏠",
-    seoTitle: "Free Rent Receipt Generator — Landlord Rent Receipt Maker",
+    // 2026-10-19: retitled to own "rent receipt" / "rent receipt template"
+    // (9,900/mo; we sat at p71, split with /blog/how-to-write-a-rent-receipt).
+    // The template is the page that makes one; the post explains writing one.
+    seoTitle: "Rent Receipt Template — Free Landlord Rent Receipt Maker",
     seoDescription:
-      "Create a rent receipt for tenants and landlords. Show rent paid, period, property and payment method. Free PDF & PNG download, free to build and preview.",
-    heading: "Rent Receipt Generator",
+      "Rent receipt template for landlords: tenant, rental address, period covered, amount paid, payment method and balance due. Build it free, then PDF or PNG.",
+    heading: "Rent Receipt Template",
     intro:
-      "Create a rent receipt that documents a rent payment with the amount, rental period, property address and payment method. Landlords use it to give tenants proof of payment; tenants use it for records and reimbursement.",
+      "Make a rent receipt for each payment a tenant makes: who paid and who received it, the rental property's address, the period the rent covers, the amount, how it was paid and any balance still due. Landlords and property managers give it as proof of payment; tenants keep it for their records.",
+    leadAnswer:
+      "A rent receipt shows the landlord or property manager who received the rent, the tenant who paid it, the rental property's address, the period the payment covers, the amount and date paid, the payment method with a check number or transfer reference, and any balance still due. It is signed or initialled by whoever took the payment.",
     useCases: [
       "Landlords issuing proof of payment to tenants",
-      "Tenants documenting rent for records or benefits",
+      "Property managers recording rent across units",
       "Cash rent payments that need a paper trail",
-      "Housing-allowance and reimbursement claims",
+      "Tenants documenting rent for records or benefits",
     ],
-    faqs: [
+    fields: [
       {
-        question: "What should a rent receipt include?",
-        answer:
-          "A complete rent receipt shows the date paid, the rental period it covers, the property address, the tenant and landlord names, the amount paid and the payment method. Use the business field for the landlord or property name and a line item for the rent period.",
+        name: "Landlord or property manager",
+        description:
+          "The name and contact details of whoever the rent is paid to. A management company goes here, with the agent's name on the 'Received by' line.",
       },
       {
-        question: "Is a rent receipt a legal document?",
-        answer:
-          "A rent receipt is a record of payment and can serve as evidence that rent was paid. In some jurisdictions landlords are required to provide one on request. It is most useful when it accurately reflects a real payment between the named tenant and landlord.",
+        name: "Tenant",
+        description:
+          "Every tenant named on the lease, or at least the one who paid, so the receipt matches the lease.",
       },
+      {
+        name: "Property address",
+        description:
+          "The full address of the rental unit, including the unit or apartment number. It is often not the landlord's address.",
+      },
+      {
+        name: "Period covered",
+        description:
+          "The dates the payment is for, such as June 1 – June 30, 2026. It is what settles a dispute about which month was paid.",
+      },
+      {
+        name: "Amount and date paid",
+        description:
+          "What the tenant paid and the day the landlord received it. Late fees or utilities go on their own lines.",
+      },
+      {
+        name: "Payment method and reference",
+        description:
+          "Cash, check, money order or transfer, with the check number or transaction ID so both sides can trace it.",
+      },
+      {
+        name: "Balance due",
+        description:
+          "What is still owed for the period after this payment: $0.00 when rent is paid in full, the remainder after a part payment.",
+      },
+      {
+        name: "Received by",
+        description:
+          "The name, and on paper the signature, of the person who accepted the payment.",
+      },
+    ],
+    howToSteps: [
+      "Open the Rent Receipt template. It loads with a landlord, a tenant, one month's rent and a balance-due line.",
+      "Enter the landlord or management company and its contact details, and put the name of whoever took the payment on the 'Received by' line.",
+      "Under Tenant, enter the tenant's name and the rental unit's full address.",
+      "Name the rent line with the period it covers, such as Rent — June 2026, and enter the amount paid. Add late fees or utilities as separate lines.",
+      "Set the payment method, the check number or transfer reference and the balance due, then sign in with a free account to download a PDF or PNG. Your first download is watermark-free.",
     ],
     guidance: [
       {
@@ -1276,21 +1453,78 @@ export const TEMPLATES: ReceiptTemplate[] = [
         body:
           "The receipt is the tenant's proof, but it is also the landlord's own income record. {cite:irs-pub-527|Publication 527} sets out the rental income and expense records a landlord is expected to keep, and receipts are the income side of that file. Issuing them monthly means the year-end position is already assembled rather than reconstructed.",
       },
+      {
+        heading: "Part payments and the balance due",
+        body:
+          `When a tenant pays less than the full rent, the receipt should say so in figures rather than leave it to memory. Write the period, the amount received and what is still owed for that period. For June rent of ${usd(1850)} paid in part:\n\n` +
+          `• Rent — June 2026: ${usd(1850)}\n\n` +
+          `• Received June 3: ${usd(1200)}\n\n` +
+          `• Balance due for June: ${usd(1850 - 1200)}\n\n` +
+          "When the rest arrives, issue a second receipt for that payment that names the same period and shows a balance of $0.00. One receipt per payment, each naming its period, keeps the ledger and the tenant's copies in step.",
+      },
     ],
     sources: ["ca-civ-1499", "ny-rpl-235-e", "wa-rcw-59-18-063", "ma-mgl-186-15b", "irs-pub-527"],
+    faqs: [
+      {
+        question: "How do I make a rent receipt?",
+        answer:
+          "Open the rent receipt template, enter the landlord's details, the tenant's name and the rental address, add a line for the period with the amount paid, set the payment method and reference and the balance due, then download it as a PDF or PNG.",
+      },
+      {
+        question: "What should a rent receipt include?",
+        answer:
+          "The date paid, the period the rent covers, the rental property's address, the tenant and landlord names, the amount paid, the payment method with a check number or reference, any balance still due, and the name or signature of whoever received the payment.",
+      },
+      {
+        question: "Can I give one receipt for several months?",
+        answer:
+          "You can, as long as it names each period and the amount paid for it. One receipt per payment is easier to match against bank records and leases, which is why most landlords issue them monthly.",
+      },
+      {
+        question: "What if the tenant only paid part of the rent?",
+        answer:
+          "Record the amount actually received, the period it was for and the balance still due for that period. When the rest is paid, issue a second receipt for that payment.",
+      },
+      {
+        question: "Is a rent receipt a legal document?",
+        answer:
+          "A rent receipt is a record of payment and can serve as evidence that rent was paid. In some jurisdictions landlords are required to provide one, as set out above. It is most useful when it accurately reflects a real payment between the named tenant and landlord.",
+      },
+    ],
     defaults: {
       businessName: "Maple Grove Properties",
-      addressLine1: "Unit 4B, 215 Birch Lane",
+      addressLine1: "1420 Fifth Avenue, Suite 300",
       addressLine2: "Seattle, WA 98101",
       phone: "(206) 555-0119",
+      greeting: "RENT RECEIPT",
       taxLabel: "Tax",
       taxRate: 0,
-      cashier: "Received by: M. Reyes",
-      footerMessage: "Payment received in full. Thank you.",
+      cashier: "Received by: M. Reyes, Property Manager",
+      footerMessage: "Payment received with thanks.",
       paymentMethod: "Check",
+      cardLastFour: "", // paid by check: no card digits on the payment line
+      hideStoreLine: true,
+      showBarcode: false,
       paperStyle: "modern",
+      sections: [
+        {
+          title: "Tenant",
+          rows: [
+            { label: "Name", value: "Jordan Ellis" },
+            { label: "Property", value: "Unit 4B, 215 Birch Lane, Seattle, WA 98101" },
+          ],
+        },
+        {
+          title: "Payment",
+          rows: [
+            { label: "Period", value: "June 1 – June 30, 2026" },
+            { label: "Check no.", value: "1187" },
+            { label: "Balance due", value: "$0.00 (paid in full)" },
+          ],
+        },
+      ],
       items: [
-        { id: id(), name: "Monthly Rent — June 2026", quantity: 1, price: 1850.0 },
+        { id: id(), name: "Rent — June 2026", quantity: 1, price: 1850.0 },
       ],
     },
   },
@@ -1333,6 +1567,161 @@ export const TEMPLATES: ReceiptTemplate[] = [
       items: [
         { id: id(), name: "Payment for services rendered", quantity: 1, price: 150.0 },
       ],
+    },
+  },
+  {
+    slug: "payment-receipt",
+    // 2026-10-19: "payment receipt" (~6,600/mo, invoicesimple #2) had only a
+    // blog post at p57. Distinct from cash-receipt (cash only) and
+    // sales-receipt (goods sold at a till): this confirms any payment, by any
+    // method, against what it paid for.
+    name: "Payment Receipt",
+    shortName: "Payment",
+    icon: "💳",
+    seoTitle: "Payment Receipt Template — Free Receipt of Payment Maker",
+    seoDescription:
+      "Make a payment receipt with the payer, payee, amount, payment method, date, reference and what it paid for. For freelancers, landlords and small sellers. PDF.",
+    heading: "Payment Receipt Template",
+    intro:
+      "Create a receipt of payment that confirms money changed hands: who paid, who received it, how much, how and when it was paid, the transaction reference and what it paid for. Freelancers send one when an invoice is settled; landlords and small sellers send one when a customer pays by transfer, check or app.",
+    leadAnswer:
+      "A payment receipt confirms that a payment was received. It shows the payee who received the money and the payer who sent it, a receipt number and the date paid, the amount, the payment method, a reference such as a check number or transaction ID, and what the payment was for, often an invoice number. Any balance still owed goes on it too.",
+    useCases: [
+      "Freelancers confirming a client's invoice is paid",
+      "Landlords and property managers acknowledging a payment",
+      "Small sellers paid by bank transfer, Zelle, PayPal or check",
+      "Deposits, installments and final payments",
+    ],
+    fields: [
+      {
+        name: "Payee",
+        description:
+          "The person or business that received the money, with contact details. It is the name at the top of the receipt.",
+      },
+      {
+        name: "Payer",
+        description:
+          "Who paid: the client, tenant or customer, by name or company, under 'Received from'.",
+      },
+      {
+        name: "Receipt number and date",
+        description:
+          "A number from your own sequence and the date the money arrived, which can differ from the date it was sent.",
+      },
+      {
+        name: "Amount paid",
+        description:
+          "The amount received in this payment, not the whole contract value, so a deposit and a final payment each get their own receipt.",
+      },
+      {
+        name: "Payment method",
+        description:
+          "Bank transfer, check, card, cash or a payment app, named the way it shows on the payer's statement.",
+      },
+      {
+        name: "Reference",
+        description:
+          "The check number, transfer ID or app transaction ID, so the payer can match the receipt to their bank record.",
+      },
+      {
+        name: "What it paid for",
+        description:
+          "The invoice number, the job or the goods. 'Balance of invoice INV-0217' says more than 'payment received'.",
+      },
+      {
+        name: "Balance remaining",
+        description: "What is still owed after this payment, or $0.00 when the account is settled.",
+      },
+    ],
+    howToSteps: [
+      "Open the Payment Receipt template. It loads with a freelancer's receipt for the balance of an invoice.",
+      "Enter your name or business as the payee, with your contact details.",
+      "Under Received from, enter the payer's name or company.",
+      "Add a line for what the payment was for, such as the invoice number, with the amount received.",
+      "Fill in the payment method, the reference and the balance remaining, then sign in with a free account to download a PDF or PNG. Your first download is watermark-free.",
+    ],
+    guidance: [
+      {
+        heading: "Payment receipt, invoice or cash receipt?",
+        body:
+          "An invoice asks for money; a payment receipt confirms it arrived. Send the invoice first, and the payment receipt once the money is in your account. A cash receipt is the same confirmation for a payment made in notes and coins. Use this template for any method, and put the method and its reference on it, because that is what lets the payer trace the payment.",
+      },
+      {
+        heading: "Worked example: a deposit, then the balance",
+        body:
+          `A photographer invoices a client ${usd(PAYMENT.invoiceTotal)} as invoice ${PAYMENT.invoice} and takes a ${usd(PAYMENT.deposit)} deposit to book the date. Each payment gets its own receipt:\n\n` +
+          `• Receipt 1, the deposit: ${usd(PAYMENT.deposit)} received, balance remaining ${usd(PAYMENT.invoiceTotal - PAYMENT.deposit)}\n\n` +
+          `• Receipt 2, the balance: ${usd(PAYMENT_AMOUNT)} received, balance remaining ${usd(PAYMENT.invoiceTotal - PAYMENT.deposit - PAYMENT_AMOUNT)}\n\n` +
+          `Together the two receipts add up to the invoice: ${usd(PAYMENT.deposit)} + ${usd(PAYMENT_AMOUNT)} = ${usd(PAYMENT.deposit + PAYMENT_AMOUNT)}. The template loads with the second one.`,
+      },
+      {
+        heading: "Keep a copy of every receipt you issue",
+        body:
+          "A payment receipt is the payer's proof, and your copy is part of your own books. {cite:irs-pub-583|IRS Publication 583} lists receipts among the supporting documents for a business's gross receipts, so keep a copy of each one you issue, numbered in sequence, next to the invoice it settles.",
+      },
+    ],
+    sources: ["irs-pub-583"],
+    faqs: [
+      {
+        question: "How can I generate a payment receipt?",
+        answer:
+          "Open the payment receipt template, enter your details as the payee and the payer under Received from, add what the payment was for with the amount, then fill in the method, reference and balance. Download it as a PDF or PNG and send it to the payer.",
+      },
+      {
+        question: "What should a payment receipt include?",
+        answer:
+          "The payee and payer, a receipt number, the date paid, the amount, the payment method, a reference such as a check number or transaction ID, what the payment was for, and any balance remaining.",
+      },
+      {
+        question: "What is the difference between a payment receipt and an invoice?",
+        answer:
+          "An invoice asks for payment and shows what is owed. A payment receipt confirms a payment was received and shows what is left, if anything.",
+      },
+      {
+        question: "Can I make a receipt for a partial payment?",
+        answer:
+          "Yes. Enter the amount actually received and the balance remaining. When the rest is paid, issue a second receipt for that payment.",
+      },
+      {
+        question: "Is a payment receipt proof of payment?",
+        answer:
+          "It is the payee's written confirmation that the money was received. Together with the bank, card or app record of the transfer, it gives both sides a full record of the payment.",
+      },
+    ],
+    defaults: {
+      businessName: "Dana Whitfield Photography",
+      addressLine1: "88 Lake Street, Studio 2",
+      addressLine2: "Burlington, VT 05401",
+      phone: "(802) 555-0163",
+      website: "danawhitfield.photo",
+      greeting: "PAYMENT RECEIPT",
+      taxLabel: "Tax",
+      taxRate: 0,
+      grandTotalLabel: "AMOUNT PAID",
+      // The method prints under "Payment details": the payment block only
+      // knows cash and cards, and this payment was a bank transfer.
+      hideTotals: true,
+      hideStoreLine: true,
+      showBarcode: false,
+      cashier: "Received by: Dana Whitfield",
+      footerMessage: "Payment received with thanks.",
+      paperStyle: "modern",
+      sections: [
+        {
+          title: "Received from",
+          rows: [{ value: "Lakeside Events LLC" }, { value: "410 Pine Street, Burlington, VT 05401" }],
+        },
+        {
+          title: "Payment details",
+          rows: [
+            { label: "Method", value: "Bank transfer (ACH)" },
+            { label: "Reference", value: "ACH 0034-7719" },
+            { label: "Invoice", value: `${PAYMENT.invoice} (${usd(PAYMENT.invoiceTotal)})` },
+            { label: "Balance remaining", value: usd(PAYMENT.invoiceTotal - PAYMENT.deposit - PAYMENT_AMOUNT) },
+          ],
+        },
+      ],
+      items: [{ id: id(), name: `Balance of invoice ${PAYMENT.invoice}`, quantity: 1, price: PAYMENT_AMOUNT }],
     },
   },
   {
@@ -1522,6 +1911,273 @@ export const TEMPLATES: ReceiptTemplate[] = [
         { id: id(), name: "Brand Style Guide", quantity: 1, price: 300.0 },
         { id: id(), name: "Revisions (hrs)", quantity: 2, price: 75.0 },
       ],
+    },
+  },
+  {
+    slug: "estimate",
+    // 2026-10-19: the "estimate / quote" node had no owner on the site (SEO.md
+    // §8 P8). "Estimate" is the slug because it is the contractor's word and
+    // invoicesimple's /estimate-template/ is the page earning that traffic;
+    // "quote" is answered on the same page rather than split onto a second one.
+    name: "Estimate",
+    shortName: "Estimate",
+    icon: "📝",
+    seoTitle: "Estimate Template — Free Job Estimate & Quote Maker",
+    seoDescription:
+      "Make a job estimate with your business, the customer, itemized labor and materials, the total, a valid-until date and terms. Send a PDF, then invoice it.",
+    heading: "Estimate Generator",
+    intro:
+      "Create an estimate that tells a customer what a job will cost before you start: who it is for, the work broken into labor and materials, the estimate total, how long the price holds and what you need to begin. It is headed ESTIMATE, so nobody mistakes it for a bill.",
+    leadAnswer:
+      "An estimate shows your business details, the customer and job address, an estimate number and date, each part of the work with quantity, rate and amount, the estimate total, how long the price is valid, and the terms for starting, such as a deposit. It is headed ESTIMATE, not INVOICE: nothing is owed until the customer accepts and the work is done.",
+    useCases: [
+      "Contractors pricing a job before the customer commits",
+      "Painters, landscapers and cleaners quoting by area or visit",
+      "Freelancers pricing a project for a client's approval",
+      "Repair shops estimating parts and labor",
+    ],
+    fields: [
+      {
+        name: "ESTIMATE heading",
+        description:
+          "The word 'Estimate' (or 'Quote') at the top, so the customer's accounts team does not book it as a bill.",
+      },
+      {
+        name: "Your business and the customer",
+        description:
+          "Your name, address and contact details, and the customer under Prepared for, with the job address if it differs.",
+      },
+      {
+        name: "Estimate number and date",
+        description:
+          "Its own reference, so the customer can accept it by number and the final invoice can quote it.",
+      },
+      {
+        name: "Labor and materials",
+        description:
+          "Each part of the work on its own line with a quantity, unit and rate: square feet, hours, visits or items.",
+      },
+      {
+        name: "Estimate total",
+        description:
+          "The sum of the lines, plus sales tax if you charge it on the job, so the customer sees the full figure.",
+      },
+      {
+        name: "Valid until",
+        description:
+          "How long the price holds, such as 30 days. Material prices move, and an open-ended estimate is hard to honor.",
+      },
+      {
+        name: "Terms",
+        description:
+          "The deposit to book the work, the expected start date, and what would change the price, such as hidden damage.",
+      },
+    ],
+    howToSteps: [
+      "Open the Estimate template. The heading is already set to ESTIMATE and the number to Estimate no.",
+      "Enter your business details and the customer under Prepared for.",
+      "List each part of the work with a quantity and rate: labor by area or hour, then materials.",
+      "Set the valid-until date, the deposit and the start terms under Terms.",
+      "Sign in with a free account to download the PDF and send it. Your first download is watermark-free. When the job is done, send an invoice with the same lines and quote the estimate number.",
+    ],
+    guidance: [
+      {
+        heading: "Estimate vs. quote",
+        body:
+          "In most trades an estimate is your best figure for the job, and the final bill can move if the work turns out different. A quote is usually a fixed price for a defined scope that the customer accepts as it stands. Customers use the two words loosely, so say on the document which one it is, and if the price can change, say what would change it.",
+      },
+      {
+        heading: "Estimate vs. pro forma invoice vs. invoice",
+        body:
+          "An estimate prices work the customer has not agreed to yet. A pro forma invoice is the next step for goods: it sets out what the invoice will say so the buyer can arrange payment or import paperwork. An invoice bills work that is done. Keep the estimate number on all of them, so the customer can follow one job from price to payment.",
+      },
+      {
+        heading: "Worked example: an interior painting job",
+        body:
+          `A painter prices a living room, hallway and two bedrooms:\n\n` +
+          ESTIMATE_LINES.map((l) => `• ${l.name}: ${l.quantity} at ${usd(l.price)} = ${usd(l.quantity * l.price)}`).join("\n\n") +
+          `\n\nEstimate total: ${usd(ESTIMATE_TOTAL)}, with no sales tax charged on this job. The terms ask for a ${ESTIMATE_DEPOSIT_PCT}% deposit of ${usd((ESTIMATE_TOTAL * ESTIMATE_DEPOSIT_PCT) / 100)} to book the dates, with the balance due on completion, and the price holds for 30 days. This is the estimate the template loads with.`,
+      },
+    ],
+    faqs: [
+      {
+        question: "What is an estimate?",
+        answer:
+          "A document that tells a customer what a job is expected to cost before the work starts, line by line, with how long the price holds. Nothing is owed until they accept and the work is done.",
+      },
+      {
+        question: "What is the difference between an estimate and a quote?",
+        answer:
+          "An estimate is usually an approximate price that can change if the job does. A quote is usually a fixed price for a defined scope. Write on the document which one it is.",
+      },
+      {
+        question: "How long should an estimate be valid?",
+        answer:
+          "You choose. Thirty days is common; shorter suits jobs where material prices move quickly. Put the date on the estimate so there is no argument later.",
+      },
+      {
+        question: "Should an estimate include sales tax?",
+        answer:
+          "If you charge sales tax on the job, yes, so the customer sees the full figure. Whether labor or materials are taxed depends on your state, so set the rate that applies to you.",
+      },
+      {
+        question: "How do I turn an estimate into an invoice?",
+        answer:
+          "When the work is done, open the invoice template, copy the lines, adjust anything that changed, and quote the estimate number. Change the heading to INVOICE and set the due date.",
+      },
+    ],
+    defaults: {
+      businessName: "Northside Painting Co.",
+      addressLine1: "2715 Lyndale Avenue S",
+      addressLine2: "Minneapolis, MN 55408",
+      phone: "(612) 555-0172",
+      website: "northsidepainting.co",
+      greeting: "ESTIMATE",
+      taxLabel: "Sales Tax",
+      taxRate: 0,
+      grandTotalLabel: "ESTIMATE TOTAL",
+      hideTotals: true,
+      invoice: true,
+      numberLabel: "Estimate no.",
+      hideStoreLine: true,
+      showBarcode: false,
+      footerMessage: "This is an estimate, not a bill. Prices valid for 30 days. A final invoice will follow on completion.",
+      paperStyle: "modern",
+      sections: [
+        {
+          title: "Prepared for",
+          rows: [{ value: "Alex and Sam Rivera" }, { value: "4120 Bryant Avenue S, Minneapolis, MN 55409" }],
+        },
+        {
+          title: "Terms",
+          rows: [
+            { label: "Valid until", value: "30 days from issue" },
+            { label: "Deposit", value: `${ESTIMATE_DEPOSIT_PCT}% to book (${usd((ESTIMATE_TOTAL * ESTIMATE_DEPOSIT_PCT) / 100)})` },
+            { label: "Start", value: "Within 2 weeks of acceptance" },
+          ],
+        },
+      ],
+      items: ESTIMATE_LINES.map((l) => ({ id: id(), ...l })),
+    },
+  },
+  {
+    slug: "bill-format",
+    // 2026-10-19: Bing's Topic Portfolio lists "bill format" (1K–5K Copilot
+    // citations), India-led. This is the GST sales bill for shops and service
+    // businesses; rent receipts (rent-receipt-india) and petrol bills
+    // (fuel-bill, outside GST) keep their own pages. No CBIC source is in
+    // lib/sources.ts yet, so the copy describes the format and states no GST
+    // rule: when CGST/SGST vs IGST applies, HSN digit thresholds and invoice
+    // contents under the CGST Rules wait for a cited source.
+    name: "Bill Format",
+    shortName: "Bill Format",
+    icon: "🧾",
+    seoTitle: "GST Bill Format — Bill Maker with GSTIN, HSN, CGST & SGST",
+    seoDescription:
+      "GST bill format for shops and service businesses in India: bill number, date, GSTIN, HSN or SAC codes, taxable value, CGST and SGST, and the total. PDF or PNG.",
+    heading: "GST Bill Format Generator",
+    intro:
+      "Create a bill in the GST format Indian businesses print: your name, address and GSTIN, the bill number and date, the customer and place of supply, each item with its HSN or SAC code, quantity, rate and taxable value, the GST charged and the total in rupees.",
+    leadAnswer:
+      "A GST bill shows the supplier's name, address and GSTIN, a bill number and date, the customer's name and address (with their GSTIN when the buyer is a registered business), the place of supply, each item with its HSN or SAC code, quantity, rate and taxable value, the GST charged as CGST and SGST or as IGST, and the total in rupees, signed by the supplier.",
+    useCases: [
+      "Shops billing customers with GST",
+      "Service businesses billing a registered business client",
+      "Small sellers without billing software",
+      "Re-issuing a bill a customer has asked for",
+    ],
+    fields: [
+      { name: "Supplier name, address and GSTIN", description: "Your business name and address as registered, and your GSTIN, printed at the top." },
+      { name: "Bill number and date", description: "A number from one running series for the financial year, and the date of the bill, written day-first." },
+      { name: "Customer details", description: "The buyer's name and address, and their GSTIN when they are a registered business that will claim the tax." },
+      { name: "Place of supply", description: "The state the supply is made to, with its state code, for example Karnataka (29)." },
+      { name: "HSN or SAC code", description: "HSN codes classify goods and SAC codes classify services. Print the code next to each item." },
+      { name: "Quantity, rate and taxable value", description: "Each item's quantity and rate, and the value before tax, which is what the GST is charged on." },
+      { name: "CGST and SGST, or IGST", description: "The tax lines with their rates and amounts. On this sample, 18% is shown as CGST 9% plus SGST 9%." },
+      { name: "Total and signature", description: "The amount payable in figures, ideally also in words, and the signature of the supplier or an authorised signatory." },
+    ],
+    howToSteps: [
+      "Enter your business name, address and GSTIN.",
+      "Set the bill number and date, then enter the customer, their GSTIN if they have one, and the place of supply under Bill to.",
+      "Add each item with its HSN or SAC code in the name, the quantity and the rate before tax.",
+      "Set the GST rate and name the tax line with the split you charge, such as CGST 9% + SGST 9%. The tax and total calculate themselves.",
+      "Sign in with a free account to download the PDF or PNG. Your first download is watermark-free. Print it and sign it, or send the PDF.",
+    ],
+    guidance: [
+      {
+        heading: "Worked example: how the GST is added up",
+        body:
+          `A computer shop in Bengaluru bills a local business customer at ${GST_RATE}% GST:\n\n` +
+          GST_BILL_LINES.map((l) => `• ${l.name}: ${l.quantity} × ${inr(l.price)} = ${inr(l.quantity * l.price)}`).join("\n\n") +
+          `\n\nTaxable value: ${inr(GST_TAXABLE)}\n\n` +
+          `• CGST ${GST_RATE / 2}%: ${inr(GST_HALF)}\n\n` +
+          `• SGST ${GST_RATE / 2}%: ${inr(GST_HALF)}\n\n` +
+          `Total: ${inr(GST_TAXABLE)} + ${inr(GST_HALF)} + ${inr(GST_HALF)} = ${inr(GST_TAXABLE + 2 * GST_HALF)}. ` +
+          `The template prints the GST as one line labelled with the split, at the combined ${GST_RATE}%, so the total matches. The codes and rate here are a sample: GST rates are revised from time to time, so check the current rate and code for each item you bill.`,
+      },
+      {
+        heading: "Which India template to use",
+        body:
+          "Use this bill for goods and services you sell with GST. A rent receipt for HRA has its own format, with the landlord's PAN and a revenue stamp, in the India rent receipt template. A petrol pump bill, with the nozzle, rate per litre and vehicle number, has its own fuel bill template.",
+      },
+    ],
+    faqs: [
+      {
+        question: "What is the format of a GST bill?",
+        answer:
+          "Supplier name, address and GSTIN; bill number and date; customer name, address and GSTIN if registered; place of supply; each item with HSN or SAC code, quantity, rate and taxable value; CGST and SGST or IGST; the total; and a signature.",
+      },
+      {
+        question: "How do I make a bill with GST?",
+        answer:
+          "Enter your business and GSTIN, the bill number and date, the customer and place of supply, then add each item with its HSN or SAC code, quantity and rate. Set the GST rate and the tax and total are worked out for you. Download it as a PDF or PNG.",
+      },
+      {
+        question: "What is the difference between HSN and SAC?",
+        answer:
+          "HSN codes classify goods and SAC codes classify services. A bill that sells both, like a repair with parts, prints the right code against each line.",
+      },
+      {
+        question: "Can I change the GST rate?",
+        answer:
+          "Yes. Set the rate that applies to what you sell and rename the tax line to match, for example CGST 2.5% + SGST 2.5% at 5%, or IGST 18%.",
+      },
+    ],
+    defaults: {
+      businessName: "Sri Lakshmi Computers",
+      addressLine1: "No. 42, 3rd Cross, SP Road",
+      addressLine2: "Bengaluru, Karnataka 560002",
+      phone: "",
+      currency: "INR",
+      taxLabel: `GST (CGST ${GST_RATE / 2}% + SGST ${GST_RATE / 2}%)`,
+      taxRate: GST_RATE,
+      greeting: "TAX INVOICE",
+      grandTotalLabel: "TOTAL (₹)",
+      invoice: true,
+      numberLabel: "Bill no.",
+      paymentMethod: "Mobile Payment",
+      cardLastFour: "", // paid by UPI: no card digits on the payment line
+      hideStoreLine: true,
+      showBarcode: false,
+      dateOrder: "dmy",
+      footerMessage: "Thank you for your business. Authorised signatory: ____________",
+      paperStyle: "modern",
+      sections: [
+        {
+          title: "Seller",
+          rows: [{ label: "GSTIN", value: "29XXXXX0000X1ZX" }],
+        },
+        {
+          title: "Bill to",
+          rows: [
+            { value: "Anand Traders" },
+            { value: "9th Block, Jayanagar, Bengaluru 560041" },
+            { label: "GSTIN", value: "29XXXXX0000X2ZX" },
+            { label: "Place of supply", value: "Karnataka (29)" },
+          ],
+        },
+      ],
+      items: GST_BILL_LINES.map((l) => ({ id: id(), ...l })),
     },
   },
   {

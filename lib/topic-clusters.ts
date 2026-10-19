@@ -32,11 +32,16 @@ const TEMPLATE_GROUPS: string[][] = [
   ],
   // Payments & rent
   [
-    "cash-receipt", "sales-receipt", "itemized-receipt", "proof-of-purchase", "donation-receipt",
-    "rent-receipt", "rent-receipt-india", "rent-receipt-ontario", "vat-receipt",
+    "payment-receipt", "cash-receipt", "sales-receipt", "itemized-receipt", "proof-of-purchase",
+    "donation-receipt", "rent-receipt", "rent-receipt-india", "rent-receipt-ontario", "vat-receipt",
   ],
-  // Invoices
-  ["invoice", "plumbing-invoice", "hvac-invoice", "proforma-invoice", "credit-note", "tax-invoice-australia"],
+  // Invoices. Order matters: relatedTemplateSlugs takes the next four, so the
+  // /templates/invoice hub links the four document types (estimate, pro forma,
+  // credit note, GST bill) and the trade invoices are linked from the rest.
+  [
+    "invoice", "estimate", "proforma-invoice", "credit-note", "bill-format",
+    "tax-invoice-australia", "plumbing-invoice", "hvac-invoice",
+  ],
 ];
 
 /**
