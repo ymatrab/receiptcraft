@@ -46,7 +46,9 @@ export const TOOLS_INDEX_UPDATED = "2026-08-31";
 // prevent.
 // 2026-10-13: also discloses the visit counter — traffic source, landing page
 // and device stored against the visit id.
-export const PRIVACY_UPDATED = "2026-10-13";
+// 2026-10-20: Google Analytics is now on by default outside the EEA, UK and
+// Switzerland (opt-out via Decline); opt-in there is unchanged.
+export const PRIVACY_UPDATED = "2026-10-20";
 // 2026-09-04: sections 3 and 4 now describe the billing model that actually
 // runs. The old text said a plan "continues for successive periods until
 // cancelled" and that you "authorize the recurring charge until you cancel",
@@ -365,7 +367,9 @@ export const POLICY_UPDATED = "2026-08-31";
 // CREATE_UPDATED stamps /create alone, so this moves no other page.
 export const CREATE_UPDATED = "2026-10-19";
 // 2026-10-13: lists the first-party measurement storage (mkc_* keys).
-export const COOKIES_UPDATED = "2026-10-13";
+// 2026-10-20: analytics section split by region — opt-in in the EEA/UK/CH,
+// on by default with Decline as the opt-out everywhere else.
+export const COOKIES_UPDATED = "2026-10-20";
 // 2026-08-29: /login now leads with the log-in form instead of "Create your
 // free account" — the heading, the sub-heading and the form itself all change
 // for anyone arriving with a ?next=. Its own constant for the same reason as

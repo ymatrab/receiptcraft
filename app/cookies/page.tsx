@@ -4,7 +4,7 @@ import { SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Cookie Policy",
-  description: `Which cookies ${SITE.name} uses and why: essential cookies for login and free-plan limits, plus optional analytics cookies you can accept or decline anytime.`,
+  description: `Which cookies ${SITE.name} uses and why: essential cookies for login and free-plan limits, plus anonymous analytics you can turn off anytime.`,
   alternates: { canonical: "/cookies" },
 };
 
@@ -92,14 +92,15 @@ export default function CookiesPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
       <h1 className="text-4xl font-bold tracking-tight text-slate-900">Cookie Policy</h1>
-      <p className="mt-3 text-sm text-slate-500">Last updated: October 13, 2026</p>
+      <p className="mt-3 text-sm text-slate-500">Last updated: October 20, 2026</p>
 
       <div className="mt-8 space-y-5 leading-relaxed text-slate-600">
         <p>
           This page lists every cookie and browser-storage item {SITE.name} uses, what it does,
           and how long it lives. We use no advertising cookies and no cross-site tracking —
-          only what&apos;s needed to run the product, plus optional anonymous analytics that load
-          only if you accept them in the cookie banner.
+          only what&apos;s needed to run the product, plus anonymous analytics. In the EEA, the
+          UK and Switzerland analytics cookies are set only if you accept them; elsewhere
+          they are on by default and you can turn them off with Decline.
         </p>
 
         <H2>Essential cookies &amp; storage (always on)</H2>
@@ -109,14 +110,23 @@ export default function CookiesPage() {
         </p>
         <CookieTable rows={ESSENTIAL} />
 
-        <H2>Analytics cookies (only with your consent)</H2>
+        <H2>Analytics cookies</H2>
         <p>
-          Google Analytics runs in <strong>consent mode</strong>: until you click Accept it
-          sends only cookieless, anonymous pings — no cookies are set and you are not
-          identified. When you click <strong>Accept</strong> in the cookie banner, Google
-          Analytics switches to full measurement (setting the cookies below) and Microsoft
-          Clarity loads to collect anonymous session insights. If you decline, no analytics
-          cookies are ever set and Clarity never loads. We also use Vercel Analytics, which is{" "}
+          <strong>In the EEA, the UK and Switzerland</strong>, Google Analytics runs in{" "}
+          <strong>consent mode</strong>: until you click Accept it sends only cookieless,
+          anonymous pings — no cookies are set and you are not identified. Clicking{" "}
+          <strong>Accept</strong> switches it to full measurement (setting the cookies below).
+        </p>
+        <p>
+          <strong>Everywhere else</strong>, Google Analytics measures visits by default and sets
+          the cookies below from your first page. Clicking <strong>Decline</strong> in the
+          banner turns it back to cookieless pings and deletes the Google Analytics cookies
+          already set.
+        </p>
+        <p>
+          In every country, Microsoft Clarity loads only after you click Accept, and no
+          advertising features of Google Analytics are ever enabled. We also use Vercel
+          Analytics, which is{" "}
           <strong>cookieless</strong> — it counts page views in aggregate without storing
           anything on your device or identifying you.
         </p>
@@ -135,7 +145,8 @@ export default function CookiesPage() {
         <p>
           Your consent choice is stored in your browser. To change it, clear this site&apos;s
           browsing data (cookies and site data) in your browser settings — the banner will
-          appear again on your next visit. Declining analytics never limits any feature.
+          appear again on your next visit. Declining analytics never limits any feature, and
+          once you decline, analytics cookies stay off wherever you are.
         </p>
 
         <H2>More information</H2>

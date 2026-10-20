@@ -7,13 +7,44 @@ import { SITE } from "@/lib/site";
 import { CONSENT_KEY, useConsent, writeConsent } from "@/lib/consent";
 
 /**
+ * Where analytics cookies need an Accept click before they are set: the EEA
+ * (EU 27 plus Iceland, Liechtenstein, Norway), the UK and Switzerland.
+ */
+const OPT_IN_REGIONS = [
+  "AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", "DE", "GR", "HU", "IE",
+  "IT", "LV", "LT", "LU", "MT", "NL", "PL", "PT", "RO", "SK", "SI", "ES", "SE",
+  "IS", "LI", "NO", "GB", "CH",
+];
+
+/**
+ * Remove the _ga cookies a granted-by-default visitor already has. Denying
+ * consent stops GA writing them but leaves the old ones in place. GA sets them
+ * on the registrable domain (.makecepeit.com), so each name is expired there
+ * and on the bare host.
+ */
+function clearGaCookies(): void {
+  const host = window.location.hostname;
+  const domains = ["", host, `.${host.split(".").slice(-2).join(".")}`];
+  for (const part of document.cookie.split(";")) {
+    const name = part.split("=")[0].trim();
+    if (name !== "_ga" && !name.startsWith("_ga_")) continue;
+    for (const domain of domains) {
+      document.cookie = `${name}=; Max-Age=0; path=/${domain ? `; domain=${domain}` : ""}`;
+    }
+  }
+}
+
+/**
  * Cookie consent banner + analytics loader, using Google Consent Mode v2.
  *
- * GA4 always loads but starts with consent DENIED: it sends cookieless,
- * anonymous pings (no cookies are set, no user is identified), which keeps
- * traffic visible in GA without requiring an Accept click. When the visitor
- * accepts, consent upgrades to granted and full measurement (with cookies)
- * begins — including retroactively on later visits via localStorage.
+ * GA4's default depends on where the visitor is. In the EEA, the UK and
+ * Switzerland analytics cookies need opt-in, so there it starts DENIED and
+ * sends only cookieless, anonymous pings until Accept. Everywhere else the law
+ * allows analytics by default with an opt-out, so it starts GRANTED — before
+ * 2026-10-20 it was denied worldwide, and GA4 saw roughly a quarter of the
+ * visits /admin counts. Google resolves the region itself (the `region` key on
+ * a consent default); a region-specific default wins over the global one.
+ * Decline turns analytics off anywhere and clears the cookies GA already set.
  *
  * Microsoft Clarity records sessions, so it loads only after explicit accept.
  * Vercel Analytics is cookieless by design and lives in the layout.
@@ -53,9 +84,8 @@ export default function ConsentGate() {
 
   const decide = (value: "granted" | "denied") => {
     writeConsent(value);
-    if (value === "granted") {
-      window.gtag?.("consent", "update", { analytics_storage: "granted" });
-    }
+    window.gtag?.("consent", "update", { analytics_storage: value });
+    if (value === "denied") clearGaCookies();
   };
 
   return (
@@ -71,11 +101,19 @@ gtag('consent', 'default', {
   ad_storage: 'denied',
   ad_user_data: 'denied',
   ad_personalization: 'denied',
-  analytics_storage: 'denied'
+  analytics_storage: 'granted'
+});
+gtag('consent', 'default', {
+  ad_storage: 'denied',
+  ad_user_data: 'denied',
+  ad_personalization: 'denied',
+  analytics_storage: 'denied',
+  region: ${JSON.stringify(OPT_IN_REGIONS)}
 });
 try {
-  if (localStorage.getItem('${CONSENT_KEY}') === 'granted') {
-    gtag('consent', 'update', { analytics_storage: 'granted' });
+  var choice = localStorage.getItem('${CONSENT_KEY}');
+  if (choice === 'granted' || choice === 'denied') {
+    gtag('consent', 'update', { analytics_storage: choice });
   }
 } catch (e) {}
 gtag('js', new Date());
@@ -109,9 +147,10 @@ gtag('config', '${SITE.gaId}');`}
           className="fixed inset-x-4 bottom-4 z-50 mx-auto max-w-xl rounded-2xl border border-slate-200 bg-white p-5 shadow-2xl"
         >
           <p className="text-sm leading-relaxed text-slate-600">
-            🍪 We use anonymous analytics cookies (Google Analytics, Microsoft
-            Clarity) to understand what to improve — no ads, no cross-site
-            tracking. Essential cookies (login, free-plan limits) are always on.{" "}
+            🍪 We use anonymous analytics (Google Analytics, Microsoft Clarity)
+            to understand what to improve — no ads, no cross-site tracking.
+            Decline turns analytics off. Essential cookies (login, free-plan
+            limits) are always on.{" "}
             <Link href="/cookies" className="font-medium text-indigo-600 underline">
               Cookie policy
             </Link>
