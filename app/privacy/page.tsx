@@ -15,7 +15,7 @@ export default function PrivacyPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
       <h1 className="text-4xl font-bold tracking-tight text-slate-900">Privacy Policy</h1>
-      <p className="mt-3 text-sm text-slate-500">Last updated: October 13, 2026</p>
+      <p className="mt-3 text-sm text-slate-500">Last updated: October 20, 2026</p>
 
       <div className="mt-8 space-y-5 leading-relaxed text-slate-600">
         <H2>The short version</H2>
@@ -64,9 +64,11 @@ export default function PrivacyPage() {
         <H2>Cookies &amp; local storage</H2>
         <p>
           Essential cookies and storage — keeping you signed in, enforcing free AI-generation
-          limits, and autosaving drafts in your own browser — are always on. Analytics cookies
-          are set <strong>only if you accept them</strong> in the cookie banner: until then
-          Google Analytics runs in cookieless consent mode and Microsoft Clarity does not load.
+          limits, and autosaving drafts in your own browser — are always on. In the EEA, the UK
+          and Switzerland, analytics cookies are set <strong>only if you accept them</strong> in
+          the cookie banner: until then Google Analytics runs in cookieless consent mode. Elsewhere
+          Google Analytics sets its cookies by default, and Decline in the banner turns them off.
+          Microsoft Clarity loads only after you accept, wherever you are.
           We do not use advertising or cross-site tracking cookies. The full
           list is on our{" "}
           <a href="/cookies" className="text-indigo-600 underline">Cookie Policy</a> page.
@@ -74,7 +76,8 @@ export default function PrivacyPage() {
 
         <H2>Analytics</H2>
         <p>
-          With your consent, we use Google Analytics and Microsoft Clarity to understand which
+          We use Google Analytics (with your consent in the EEA, the UK and Switzerland; until
+          you decline elsewhere) and, with your consent, Microsoft Clarity to understand which
           features are popular and where the interface can improve. We also use Vercel Analytics,
           which is cookieless and only counts page views in aggregate. None of this is linked to
           your receipt contents. If you subscribe to our newsletter, we store your email address
