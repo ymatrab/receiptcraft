@@ -6,7 +6,7 @@ import {
   GOOGLE_DOC_TEMPLATES,
   GOOGLE_DOC_GUIDE_ID,
   docCopyUrl,
-  docPreviewUrl,
+  docViewUrl,
 } from "@/lib/google-docs-templates";
 import { SITE, absoluteUrl } from "@/lib/site";
 
@@ -75,7 +75,7 @@ const jsonLd = [
       "@type": "ListItem",
       position: i + 1,
       name: `${t.name} for Google Docs`,
-      url: docPreviewUrl(t.id),
+      url: docViewUrl(t.id),
     })),
   },
   {
@@ -145,12 +145,12 @@ export default function GoogleDocsTemplatesPage() {
                 Make a copy
               </a>
               <a
-                href={docPreviewUrl(t.id)}
+                href={docViewUrl(t.id)}
                 target="_blank"
                 rel="noopener"
                 className="rounded-full border border-slate-300 px-5 py-2.5 text-sm font-semibold text-slate-700 transition-colors hover:border-indigo-300 hover:text-indigo-700"
               >
-                Preview
+                Open in Google Docs
               </a>
             </div>
             <p className="mt-4 text-sm text-slate-500">
@@ -182,7 +182,7 @@ export default function GoogleDocsTemplatesPage() {
         <p className="mt-4 text-slate-600">
           The same steps are in our{" "}
           <a
-            href={docPreviewUrl(GOOGLE_DOC_GUIDE_ID)}
+            href={docViewUrl(GOOGLE_DOC_GUIDE_ID)}
             target="_blank"
             rel="noopener"
             className="font-medium text-indigo-600 hover:underline"

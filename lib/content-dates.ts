@@ -438,7 +438,9 @@ export const HOME_UPDATED = "2026-09-01";
 export const TEMPLATES_INDEX_UPDATED = "2026-10-19";
 // /templates/google-docs — new on 2026-10-11. Lists the free templates
 // published as public Google Docs (lib/google-docs-templates.ts).
-export const GOOGLE_DOCS_TEMPLATES_UPDATED = "2026-10-11";
+// 2026-10-21: "Preview" became "Open in Google Docs", linking each Doc's /edit
+// address so Google can index the Docs (none were indexed on 2026-10-21).
+export const GOOGLE_DOCS_TEMPLATES_UPDATED = "2026-10-21";
 export const COMPARISONS_UPDATED = LAST_UPDATED;
 
 /**
@@ -533,10 +535,17 @@ const TEMPLATES_HEADINGS_UPDATED = "2026-10-11";
 // are the hub for (lib/topic-clusters.ts). Every template's links changed.
 const TEMPLATES_CLUSTER_UPDATED = "2026-10-19";
 
+// 2026-10-21: templates with a Google Docs twin link it ("Prefer Google Docs?").
+const TEMPLATES_GDOC_LINKED: ReadonlySet<string> = new Set([
+  "invoice", "sales-receipt", "rent-receipt", "proof-of-purchase",
+]);
+const TEMPLATES_GDOC_UPDATED = "2026-10-21";
+
 export function templateReviewedAt(t: ReceiptTemplate): string {
   const reviewed = TEMPLATES_RELATED_UPDATED > templateReviewedAtBefore(t) ? TEMPLATES_RELATED_UPDATED : templateReviewedAtBefore(t);
   const headed = TEMPLATES_HEADINGS_FIXED.has(t.slug) && TEMPLATES_HEADINGS_UPDATED > reviewed ? TEMPLATES_HEADINGS_UPDATED : reviewed;
-  return TEMPLATES_CLUSTER_UPDATED > headed ? TEMPLATES_CLUSTER_UPDATED : headed;
+  const clustered = TEMPLATES_CLUSTER_UPDATED > headed ? TEMPLATES_CLUSTER_UPDATED : headed;
+  return TEMPLATES_GDOC_LINKED.has(t.slug) && TEMPLATES_GDOC_UPDATED > clustered ? TEMPLATES_GDOC_UPDATED : clustered;
 }
 
 function templateReviewedAtBefore(t: ReceiptTemplate): string {
