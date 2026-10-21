@@ -55,6 +55,22 @@ export function docCopyUrl(id: string): string {
   return `https://docs.google.com/document/d/${id}/copy`;
 }
 
+/**
+ * The Doc's own address, the one Google indexes. Every docs.google.com result
+ * ranking for these searches is a /edit URL; /copy is an interstitial and
+ * /preview is not what Google lists, so linking only those left our Docs
+ * undiscovered (not indexed on 2026-10-21). Shared "anyone with the link can
+ * view", so visitors get the read-only Doc.
+ */
+export function docViewUrl(id: string): string {
+  return `https://docs.google.com/document/d/${id}/edit`;
+}
+
+/** The Google Doc version of a builder page, if one exists. */
+export function googleDocFor(builderHref: string): GoogleDocTemplate | undefined {
+  return GOOGLE_DOC_TEMPLATES.find((t) => t.builderHref === builderHref);
+}
+
 /** Read-only view without the editor chrome. */
 export function docPreviewUrl(id: string): string {
   return `https://docs.google.com/document/d/${id}/preview`;

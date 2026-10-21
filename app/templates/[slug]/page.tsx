@@ -13,6 +13,7 @@ import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
 import { CitedText, SourceList } from "@/components/Sources";
 import { citationJsonLd } from "@/lib/sources";
 import RelatedPosts from "@/components/RelatedPosts";
+import { docViewUrl, googleDocFor } from "@/lib/google-docs-templates";
 import { BRAND_TEMPLATES, brandCategoryFor } from "@/lib/brands";
 import { hubTemplateForBrand, relatedTemplateSlugs } from "@/lib/topic-clusters";
 
@@ -60,6 +61,7 @@ export default async function TemplatePage({ params }: Props) {
   if (!template) notFound();
 
   const preview = previewFromTemplate(template);
+  const googleDoc = googleDocFor(`/templates/${template.slug}`);
   // Invoice templates bill rather than confirm payment, so their headings say
   // "invoice"; the article follows the noun ("an airline receipt").
   const isInvoice = Boolean(template.defaults.invoice);
@@ -256,6 +258,27 @@ export default async function TemplatePage({ params }: Props) {
               Open the {template.shortName} template — Free
             </Link>
           </section>
+        )}
+
+        {/* The same document as a public Google Doc, linked by its indexable
+            /edit address so Google discovers the Doc from a crawled page. */}
+        {googleDoc && (
+          <p className="mt-10 max-w-3xl rounded-2xl border border-slate-200 bg-slate-50 px-6 py-4 text-slate-600">
+            Prefer Google Docs? Open the free{" "}
+            <a
+              href={docViewUrl(googleDoc.id)}
+              target="_blank"
+              rel="noopener"
+              className="font-medium text-indigo-600 hover:underline"
+            >
+              {googleDoc.name.toLowerCase()} in Google Docs
+            </a>{" "}
+            and make a copy, or see all our{" "}
+            <Link href="/templates/google-docs" className="font-medium text-indigo-600 hover:underline">
+              Google Docs templates
+            </Link>
+            .
+          </p>
         )}
 
         {/* Vertical-specific guidance — the depth competitors lack */}
