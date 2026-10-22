@@ -446,15 +446,15 @@ export default function HomePage() {
               download
             </p>
             <h1 className="mt-5 text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
-              Recreate any store receipt in{" "}
+              Make a receipt in{" "}
               <span className="bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">
                 60 seconds
               </span>
             </h1>
             <p className="mt-5 max-w-xl text-lg leading-relaxed text-slate-600">
-              Pick the template that matches where you shopped, customize
-              items, tax and payment details with a live preview, then download
-              as a PDF or PNG. Open the{" "}
+              Pick a receipt template for your business, customize items, tax
+              and payment details with a live preview, then download as a PDF
+              or PNG. Open the{" "}
               <Link
                 href="/create"
                 className="font-medium text-indigo-600 underline underline-offset-2 hover:text-indigo-700"
