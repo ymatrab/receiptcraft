@@ -15,7 +15,7 @@ import type {
   TaxLine,
   TextWeight,
 } from "./types";
-import { todayISO, nowHHMM, randomReceiptNumber, uid } from "./format";
+import { addDaysISO, formatDisplayDate, todayISO, nowHHMM, randomReceiptNumber, uid } from "./format";
 
 // ---------------------------------------------------------------------------
 // Section-based document model. A receipt is an ordered list of sections the
@@ -667,6 +667,16 @@ export function presetDoc(id: PresetId): ReceiptDoc {
 }
 
 /**
+ * Template rows may hold "{{date+30}}": a date that many days after the
+ * receipt's own, so a sample invoice shows a real due date rather than
+ * "30 days from invoice date".
+ */
+function resolveRowValue(value: string, data: ReceiptData): string {
+  const m = /^\{\{date\+(\d+)\}\}$/.exec(value);
+  return m ? formatDisplayDate(addDaysISO(data.date, Number(m[1])), data.dateOrder) : value;
+}
+
+/**
  * Convert a flat (template) ReceiptData into an editable section document.
  * Reuses the override fields already present on brand templates.
  */
@@ -762,16 +772,19 @@ export function docFromReceiptData(data: ReceiptData): ReceiptDoc {
     }
   }
 
-  for (const s of data.sections ?? []) {
+  const extra = data.sections ?? [];
+  extra.forEach((s, i) => {
     sections.push({
       id: uid(),
       type: "twocol",
-      divider: "none",
+      // A rule after the last block, so its rows do not run straight into the
+      // item column headers.
+      divider: i === extra.length - 1 && !data.hideItems ? d(true) : "none",
       title: s.title,
-      rows: s.rows,
+      rows: s.rows.map((r) => ({ ...r, value: resolveRowValue(r.value, data) })),
       flow: data.sectionStyle === "flow",
     });
-  }
+  });
 
   if (!data.hideItems) {
     sections.push({

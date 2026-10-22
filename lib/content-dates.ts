@@ -543,11 +543,20 @@ const TEMPLATES_GDOC_LINKED: ReadonlySet<string> = new Set([
 ]);
 const TEMPLATES_GDOC_UPDATED = "2026-10-21";
 
+// 2026-10-22: sample receipts fixed — the restaurant sample no longer borrows a
+// chain's name, invoices show a real due date, the rent receipt's blocks no
+// longer run into its item line, and grocery counts a weighed line as one item.
+const TEMPLATES_SAMPLE_FIXED: ReadonlySet<string> = new Set([
+  "restaurant", "invoice", "plumbing-invoice", "hvac-invoice", "rent-receipt", "grocery-store",
+]);
+const TEMPLATES_SAMPLE_UPDATED = "2026-10-22";
+
 export function templateReviewedAt(t: ReceiptTemplate): string {
   const reviewed = TEMPLATES_RELATED_UPDATED > templateReviewedAtBefore(t) ? TEMPLATES_RELATED_UPDATED : templateReviewedAtBefore(t);
   const headed = TEMPLATES_HEADINGS_FIXED.has(t.slug) && TEMPLATES_HEADINGS_UPDATED > reviewed ? TEMPLATES_HEADINGS_UPDATED : reviewed;
   const clustered = TEMPLATES_CLUSTER_UPDATED > headed ? TEMPLATES_CLUSTER_UPDATED : headed;
-  return TEMPLATES_GDOC_LINKED.has(t.slug) && TEMPLATES_GDOC_UPDATED > clustered ? TEMPLATES_GDOC_UPDATED : clustered;
+  const linked = TEMPLATES_GDOC_LINKED.has(t.slug) && TEMPLATES_GDOC_UPDATED > clustered ? TEMPLATES_GDOC_UPDATED : clustered;
+  return TEMPLATES_SAMPLE_FIXED.has(t.slug) && TEMPLATES_SAMPLE_UPDATED > linked ? TEMPLATES_SAMPLE_UPDATED : linked;
 }
 
 function templateReviewedAtBefore(t: ReceiptTemplate): string {

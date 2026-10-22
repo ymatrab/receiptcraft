@@ -148,7 +148,7 @@ export default function ReceiptDocPaper({ doc }: Props) {
         return (
           <div className="text-xs text-slate-600">
             {s.title && (
-              <p className="mb-1 text-[11px] font-bold uppercase tracking-wide text-slate-500">
+              <p className="mb-1 mt-2 text-[11px] font-bold uppercase tracking-wide text-slate-500">
                 {s.title}
               </p>
             )}
@@ -167,9 +167,10 @@ export default function ReceiptDocPaper({ doc }: Props) {
               columns={s.columns}
               gap={doc.settings.itemGap}
             />
+            {/* A weighed line (1.5 lb) counts as one item, as tills count it. */}
             {s.showItemsSold && (
               <p className="mt-2 text-[11px] uppercase tracking-wide text-slate-500">
-                Items sold: {Math.max(1, Math.round(s.items.reduce((n, i) => n + i.quantity, 0)))}
+                Items sold: {Math.max(1, s.items.reduce((n, i) => n + (Number.isInteger(i.quantity) ? i.quantity : 1), 0))}
               </p>
             )}
             {s.totalsDivider && s.totalsDivider !== "none" && <Rule rule={s.totalsDivider} />}

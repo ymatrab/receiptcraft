@@ -212,7 +212,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     ],
     sources: ["irs-rr-2012-18", "irs-pub-531", "irs-pub-463"],
     defaults: {
-      businessName: "The Olive Garden Bistro",
+      businessName: "Harbor Street Bistro",
       addressLine1: "88 Harbor Street",
       addressLine2: "Portland, OR 97201",
       phone: "(503) 555-0192",
@@ -1523,6 +1523,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
           ],
         },
       ],
+      itemStyle: "lined",
       items: [
         { id: id(), name: "Rent — June 2026", quantity: 1, price: 1850.0 },
       ],
@@ -1902,7 +1903,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
           title: "Payment terms",
           rows: [
             { label: "Terms", value: "Net 30" },
-            { label: "Due", value: "30 days from invoice date" },
+            { label: "Due", value: "{{date+30}}" },
           ],
         },
       ],
@@ -2324,7 +2325,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
           title: "Payment terms",
           rows: [
             { label: "Terms", value: "Net 15" },
-            { label: "Due", value: "15 days from invoice date" },
+            { label: "Due", value: "{{date+15}}" },
             { label: "License #", value: "CFC0000000" },
           ],
         },
@@ -2473,7 +2474,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
           title: "Payment terms",
           rows: [
             { label: "Terms", value: "Net 15" },
-            { label: "Due", value: "15 days from invoice date" },
+            { label: "Due", value: "{{date+15}}" },
           ],
         },
         {
