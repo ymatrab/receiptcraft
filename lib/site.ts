@@ -1,10 +1,13 @@
 export const SITE = {
   name: "Makecepeit",
-  // Deliberately not "Free Receipt Maker …": that is /create's title and H1,
-  // and in Aug 2026 Google was showing both pages for "receipt maker", each at
-  // position ~89. /create owns the head term; the homepage leads on the brand
-  // catalogue, which is what it can win that /create cannot.
-  tagline: "Makecepeit — Brand Receipt Templates & Receipt Builder",
+  // 2026-10-22: the homepage names the topic again. Every competitor's home
+  // title and H1 say "receipt maker", and our external links (launch sites,
+  // directories) all point here, so a homepage that never mentioned it wasted
+  // them. GSC (Sep 22 – Oct 21) showed the home never ranking for the head
+  // terms at all, so this does not undo the Aug split. /create keeps the
+  // exact-match H1 and gets the "free receipt maker" anchor from the hero; the
+  // Nov 2 review decides which of the two becomes the single owner.
+  tagline: "Makecepeit — Free Receipt Maker & Receipt Templates",
   // The default meta description lives in lib/counts.ts as SITE_DESCRIPTION,
   // because it quotes the real brand count and this module is imported by client
   // components — importing the catalogue here would ship it to the browser.

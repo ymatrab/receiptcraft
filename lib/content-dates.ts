@@ -430,7 +430,9 @@ export const PRICING_UPDATED = "2026-10-16";
 // head term and the homepage leads on the brand catalogue, linking to the
 // builder with exact-match anchor text. Also fixes "your first download are
 // watermark-free", left ungrammatical when the free allowance dropped to one.
-export const HOME_UPDATED = "2026-09-01";
+// 2026-10-22: title and H1 lead with "receipt maker"; "recreate any store
+// receipt" wording removed.
+export const HOME_UPDATED = "2026-10-22";
 // 2026-08-31: free-tier limits changed — see STATIC_UPDATED above.
 // 2026-10-11: links to the new Google Docs templates page from under the intro.
 // 2026-10-18: lists the new pro forma invoice and credit note templates.
