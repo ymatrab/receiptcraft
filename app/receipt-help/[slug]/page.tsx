@@ -150,6 +150,20 @@ export default async function IntentPage({
       </div>
       <h1 className="mt-3 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">{c.h1}</h1>
       <p className="mt-4 text-lg leading-relaxed text-slate-600">{c.lead}</p>
+      {/* 2026-10-22: one line above the fold. Most visitors here want their own
+          receipt back and leave once the answer says they can't have it — the
+          box under the first section and the closing CTA are both below the
+          fold, and only 25% of visitors ever open the builder. This stays a
+          single line so the page still answers the query first. */}
+      <p className="mt-3 text-sm text-slate-500">
+        Can&apos;t get the original back?{" "}
+        <Link
+          href={`/create?template=${encodeURIComponent(page.brandSlug)}`}
+          className="font-semibold text-indigo-700 underline decoration-indigo-300 underline-offset-2 hover:decoration-indigo-700"
+        >
+          Make a {page.brandName} receipt for your records instead →
+        </Link>
+      </p>
 
       {c.sections.map((s, si) => (
         <Fragment key={s.heading}>

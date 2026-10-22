@@ -575,11 +575,16 @@ function templateReviewedAtBefore(t: ReceiptTemplate): string {
 // brands with a single guide. The /receipt-help index keeps INTENT_UPDATED.
 export const INTENT_LINKS_UPDATED = "2026-10-04";
 
+// 2026-10-22: every guide gains a "make one for your records instead" link to
+// its brand template directly under the lead, above the fold.
+export const INTENT_TOP_LINK_UPDATED = "2026-10-22";
+
 /** When a receipt-help guide was last reviewed. */
 export function intentReviewedAt(brandSlug: string): string {
   return newest(
     hasOfficialSource(brandSlug) ? INTENT_CITED_UPDATED : INTENT_UPDATED,
     INTENT_LINKS_UPDATED,
+    INTENT_TOP_LINK_UPDATED,
   );
 }
 
