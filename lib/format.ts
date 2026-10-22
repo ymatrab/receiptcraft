@@ -53,6 +53,13 @@ export function formatDisplayDate(isoDate: string, order?: "dmy"): string {
   });
 }
 
+export function addDaysISO(isoDate: string, days: number): string {
+  const [y, m, d] = isoDate.split("-").map(Number);
+  if (!y || !m || !d) return isoDate;
+  // UTC so a DST change between the two dates cannot shift the result a day.
+  return new Date(Date.UTC(y, m - 1, d + days)).toISOString().slice(0, 10);
+}
+
 export function todayISO(): string {
   return new Date().toISOString().slice(0, 10);
 }
