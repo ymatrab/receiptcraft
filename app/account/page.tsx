@@ -3,11 +3,10 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { supabaseConfigured } from "@/lib/supabase/config";
-import { isProEntitled, canEntitle, PLANS, FREE_LIMITS } from "@/lib/plans";
+import { isProEntitled, canEntitle, PLANS, FREE_LIMITS, formatPlanPrice } from "@/lib/plans";
 import { getAccountUsage } from "@/lib/usage";
 import { fulfilReturningBuyer } from "@/lib/stripe-passes";
 import { SITE } from "@/lib/site";
-import { FREE_BRAND_SLUGS } from "@/lib/brand-access";
 import { BRAND_TEMPLATES } from "@/lib/brands";
 import LocalDate from "@/components/LocalDate";
 import BillingNotice from "./BillingNotice";
@@ -248,7 +247,7 @@ export default async function AccountPage({
           {isPro ? "Your usage" : "What's left"}
         </h2>
         <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {/* Each of these three reads can come back null, meaning the count
+          {/* The AI and saved-receipt reads can come back null, meaning the count
               failed rather than that it was zero — see lib/usage.ts. "—" is the
               honest answer there. The previous version printed `null ?? 0`
               dressed up as a real figure, which is how an account page went on
@@ -256,22 +255,12 @@ export default async function AccountPage({
               the table behind it did not exist. */}
           <Stat
             label="Watermark-free downloads"
-            value={
-              isPro
-                ? "Unlimited"
-                : usage.downloadsLeft === null
-                  ? "—"
-                  : `${usage.downloadsLeft} of ${FREE_LIMITS.freeReceiptDownloads}`
-            }
-            tone={isPro ? "good" : usage.downloadsLeft === 0 ? "spent" : "neutral"}
+            value={isPro ? "Unlimited" : "With Pro"}
+            tone={isPro ? "good" : "neutral"}
             hint={
               isPro
                 ? "Every download exports clean"
-                : usage.downloadsLeft === null
-                  ? "We couldn't load this just now — refresh to try again"
-                  : usage.downloadsLeft === 0
-                    ? "New downloads carry a watermark"
-                    : "Counted per receipt — re-downloading one is free"
+                : `Free downloads carry a watermark · Pro from ${formatPlanPrice(PLANS.pro_weekly)}`
             }
           />
           <Stat
@@ -296,13 +285,9 @@ export default async function AccountPage({
           />
           <Stat
             label="Brand templates"
-            value={isPro ? `All ${BRAND_TEMPLATES.length}` : `${FREE_BRAND_SLUGS.size} of ${BRAND_TEMPLATES.length}`}
-            tone={isPro ? "good" : "neutral"}
-            hint={
-              isPro
-                ? "Every brand template is yours"
-                : `${BRAND_TEMPLATES.length - FREE_BRAND_SLUGS.size} more with Pro`
-            }
+            value={`All ${BRAND_TEMPLATES.length}`}
+            tone="good"
+            hint="Every brand template, on every plan"
           />
           <Stat
             label="Saved receipts"

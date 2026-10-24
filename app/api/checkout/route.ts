@@ -60,14 +60,49 @@ export async function GET(request: Request) {
 
   const account = await getAccountStatus();
 
+  const chosen = PLANS[plan];
+
   if (!account.isLoggedIn) {
+    /**
+     * Guest checkout. Paying needs no account: Stripe collects the email, and
+     * fulfilment (lib/stripe-passes.ts) attaches the pass to the account with
+     * that email, creating one when there is none. Sending a buyer to a login
+     * form first was losing most of the people who clicked "remove the
+     * watermark".
+     *
+     * Live Stripe only. Admin test mode needs a signed-in admin, and the saved
+     * payment links below need an account id to attribute the order, so
+     * without Stripe a guest still signs in first.
+     */
+    if (stripeConfigured) {
+      try {
+        const url = await createPassCheckout({ plan, userId: null, email: null, change: "new" });
+        after(() =>
+          notify("🛒 Checkout started", {
+            Plan: `${chosen.name} (${formatPlanPrice(chosen)})`,
+            Email: null,
+            Rail: "Stripe",
+            User: "guest",
+          })
+        );
+        after(() =>
+          recordServerEvent("checkout_opened", null, { plan, change: "new", rail: "stripe", guest: true })
+        );
+        return go(url);
+      } catch (err) {
+        console.error("[checkout] guest stripe session failed", err);
+        after(() =>
+          recordServerEvent("checkout_failed", null, { plan, guest: true, error: errorText(err) })
+        );
+        return go(absoluteUrl("/pricing?checkout=unavailable"));
+      }
+    }
+
     // Come straight back here afterwards, so one click stays one click: the
     // login page honours an internal `next`, and so does the auth callback.
     const next = encodeURIComponent(`/api/checkout?plan=${plan}`);
     return go(absoluteUrl(`/login?next=${next}`));
   }
-
-  const chosen = PLANS[plan];
 
   // A member may extend or move to a longer plan, never to a shorter one while
   // the longer pass is still running — see planChange in lib/plans.ts.

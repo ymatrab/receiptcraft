@@ -38,22 +38,12 @@ export function startOfUsageMonth(): Date {
 }
 
 export interface AccountUsage {
-  /**
-   * Watermark-free downloads claimed, and how many of the free allowance are
-   * left. `null` means the count could not be read.
-   *
-   * Nullable because the alternative is the failure this whole area was built
-   * around: `count ?? 0` turned an unreadable table into "you have used
-   * nothing", so the account page told everyone they had their full allowance
-   * intact while the API was handing out unlimited clean downloads on the same
-   * bad assumption. See app/api/downloads/route.ts and
-   * supabase/migrations/0006_download_credits_repair.sql.
-   *
-   * A page that says "we can't tell you right now" is worth having; one that
-   * confidently says the wrong number is not.
-   */
-  downloadsUsed: number | null;
-  downloadsLeft: number | null;
+  // `null` throughout means the count could not be read. `count ?? 0` once
+  // turned an unreadable table into "you have used nothing"; a page that says
+  // "we can't tell you right now" beats one that states the wrong number.
+  //
+  // There is no download allowance to report: since 2026-10-24 every non-Pro
+  // download is watermarked, so download_credits is no longer read.
   /** Free AI generations used since startOfUsageMonth(), and how many remain. */
   aiUsedThisMonth: number | null;
   aiLeftThisMonth: number | null;
@@ -65,7 +55,7 @@ export interface AccountUsage {
  * Everything the account page needs to tell someone what they have used.
  *
  * Reads through the caller's client rather than the service role: RLS already
- * scopes download_credits, ai_usage and receipts to their owner, so a user's
+ * scopes ai_usage and receipts to their owner, so a user's
  * own session is sufficient and nothing here needs elevated access.
  *
  * Counts are `head: true` — we want the number, never the rows.
@@ -74,11 +64,7 @@ export async function getAccountUsage(
   supabase: ServerClient,
   userId: string
 ): Promise<AccountUsage> {
-  const [downloads, ai, receipts] = await Promise.all([
-    supabase
-      .from("download_credits")
-      .select("*", { count: "exact", head: true })
-      .eq("user_id", userId),
+  const [ai, receipts] = await Promise.all([
     // Free rows only: ai_usage records Pro generations as well, and those are
     // unlimited — counting them would make "3 of 3 used" appear on an account
     // that has no allowance to spend.
@@ -97,20 +83,11 @@ export async function getAccountUsage(
   const countOf = (r: { count: number | null; error: unknown }): number | null =>
     r.error ? null : r.count;
 
-  const downloadsUsed = countOf(downloads);
   const aiUsedThisMonth = countOf(ai);
   const left = (limit: number, used: number | null) =>
     used === null ? null : Math.max(0, limit - used);
 
-  if (downloads.error) {
-    // Silent otherwise: this is the read that was failing in production for
-    // months without a single line in a log.
-    console.error("[usage] download_credits count failed:", downloads.error.message);
-  }
-
   return {
-    downloadsUsed,
-    downloadsLeft: left(FREE_LIMITS.freeReceiptDownloads, downloadsUsed),
     aiUsedThisMonth,
     aiLeftThisMonth: left(FREE_LIMITS.aiGenerationsPerMonth, aiUsedThisMonth),
     receiptCount: countOf(receipts),

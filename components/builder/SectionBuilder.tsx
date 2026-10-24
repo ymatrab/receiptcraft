@@ -32,7 +32,7 @@ import {
   SPACING_DEFAULTS,
   WIDTH_PRESETS,
 } from "@/lib/sections";
-import { getTemplate, templateNeedsPro, TEMPLATES } from "@/lib/templates";
+import { getTemplate, TEMPLATES } from "@/lib/templates";
 import { receiptFromTemplate } from "@/lib/receipt";
 import {
   deleteTemplate,
@@ -50,7 +50,7 @@ import { downloadPng, downloadJpg, downloadPdf, exportFilename } from "@/lib/dow
 import { analytics, eventIdentity } from "@/lib/analytics";
 import ReviewPrompt, { reviewAlreadyAsked } from "./ReviewPrompt";
 import { useAccount } from "@/lib/useAccount";
-import { FREE_LIMITS, FREE_FONTS, FREE_PAPER_STYLE, PLANS, freeDownloadsPhrase, firstDownloadsPhrase } from "@/lib/plans";
+import { FREE_LIMITS, FREE_FONTS, FREE_PAPER_STYLE, PLANS, formatPlanPrice } from "@/lib/plans";
 import { createClient } from "@/lib/supabase/client";
 import { supabaseConfigured } from "@/lib/supabase/config";
 import Link from "next/link";
@@ -65,7 +65,6 @@ import {
   ChevronDownIcon,
   CloseIcon,
   GripIcon,
-  LockIcon,
   SpinnerIcon,
   TagIcon,
   WarningIcon,
@@ -175,18 +174,6 @@ const ENTRY_MODES = [
   { value: "Swipe", label: "Swipe" },
   { value: "Manual", label: "Manual / keyed" },
 ];
-/**
- * Shown when the free-download allowance cannot be checked — the network is
- * down, or the server reached the database and got an error back.
- *
- * One string for both because they are one thing to the person downloading: we
- * could not check, so this export is watermarked and it is not their fault.
- * Never silently watermark instead; a clean first download is a promise the
- * pricing page makes by name.
- */
-const QUOTA_UNREACHABLE =
-  "We couldn't check your free downloads just now, so this one carries a watermark. Try again in a moment for a clean copy.";
-
 const DEFAULT_COLS = { item: "Item", qty: "Qty", price: "Price", total: "Total" };
 const COLS = ["item", "qty", "price", "total"] as const;
 type ExportKind = "png" | "jpg" | "pdf" | "pdf-print";
@@ -209,8 +196,6 @@ export default function SectionBuilder() {
   const [exporting, setExporting] = useState<ExportKind | null>(null);
   const [mobileTab, setMobileTab] = useState<"edit" | "preview">("edit");
   const [activeTemplate, setActiveTemplate] = useState("");
-  /** Slug of a Pro-only template a free user just tried to open. */
-  const [proTemplate, setProTemplate] = useState<string | null>(null);
   /** A ?template= slug waiting for the account to resolve before it is applied. */
   const [pendingTemplate, setPendingTemplate] = useState<string | null>(null);
   const dragIndex = useRef<number | null>(null);
@@ -218,37 +203,23 @@ export default function SectionBuilder() {
   /** Receipt id that has already fired receipt_completed, so it fires once. */
   const completedRef = useRef<string | null>(null);
   const { account, loading: accountLoading } = useAccount();
-  // Download-quota state (from /api/downloads). A logged-in free account gets
-  // FREE_LIMITS.freeReceiptDownloads clean receipts, then downloads are
-  // watermarked. Pro is always clean; anonymous users must log in to download.
+  // Usage state from /api/downloads, for a logged-in free account. Downloads
+  // need nothing here: Pro is always clean and everyone else is watermarked.
   const [dl, setDl] = useState<{
-    loggedIn: boolean;
-    willWatermark: boolean;
-    remaining: number | null;
-    /** This template is outside the free-brand list, so a free export always
-     *  carries the watermark however many credits are left. */
-    brandLocked: boolean;
-    /** AI generations left this month; null for Pro (unlimited). */
+    /** AI generations left this month; null until known, and for Pro (unlimited). */
     aiRemaining: number | null;
-  }>({
-    loggedIn: false,
-    willWatermark: false,
-    remaining: FREE_LIMITS.freeReceiptDownloads,
-    brandLocked: false,
-    aiRemaining: FREE_LIMITS.aiGenerationsPerMonth,
-  });
+  }>({ aiRemaining: null });
   // Pins the watermark during a capture so the exported image matches the
-  // claim result exactly; null means "follow the preview".
+  // choice made in the paywall exactly; null means "follow the preview".
   const [captureWatermark, setCaptureWatermark] = useState<boolean | null>(null);
-  // The preview shows the watermark only when THIS receipt would export
-  // watermarked (logged-in free user who is out of, or hasn't claimed, credits).
-  const previewWatermark = !account.isPro && account.isLoggedIn && dl.willWatermark;
+  // Every non-Pro visitor sees the watermark in the preview, logged in or not,
+  // because that is exactly what their download will carry. Held back while the
+  // account loads so a paying Pro user is not shown one on every page load.
+  const previewWatermark = !account.isPro && !accountLoading;
   const renderWatermark = captureWatermark ?? previewWatermark;
   // Brand name for the lawful-use notice by the download buttons, or null for
   // the generic templates, which imitate nobody and need no attribution.
-  // Brand-ness is "known to getTemplate but not one of the generic TEMPLATES" —
-  // deliberately not templateNeedsPro, which is about payment: fifty brands are
-  // free and still must not claim to be issued by the retailer.
+  // Brand-ness is "known to getTemplate but not one of the generic TEMPLATES".
   const activeBrandName =
     activeTemplate && !TEMPLATES.some((t) => t.slug === activeTemplate)
       ? getTemplate(activeTemplate)?.shortName ?? null
@@ -258,13 +229,11 @@ export default function SectionBuilder() {
   const [aiError, setAiError] = useState<string | null>(null);
   const [aiNeedsAuth, setAiNeedsAuth] = useState(false);
   const [saveState, setSaveState] = useState<"idle" | "saving" | "saved">("idle");
-  // Shown when an out-of-credits free user downloads (watermark fallback).
+  // The download paywall: the export a non-Pro visitor asked for, held while
+  // they choose between the pass and a watermarked copy.
   const [pendingExport, setPendingExport] = useState<ExportKind | null>(null);
-  // Shown when an anonymous user tries to download (login is required). Holds
-  // the export they wanted so we can resume it after they come back logged in.
-  const [loginPrompt, setLoginPrompt] = useState<ExportKind | null>(null);
-  // After returning from login with a pending export, offer to finish it in one
-  // tap (a real click keeps the browser download reliable).
+  // After returning from checkout as Pro with a pending export, offer to finish
+  // it in one tap (a real click keeps the browser download reliable).
   const [resumeExport, setResumeExport] = useState<ExportKind | null>(null);
   // The post-download review ask. Raised only by a clean download — see the
   // conditions in handleExport and the reasoning in ReviewPrompt.tsx.
@@ -359,11 +328,13 @@ export default function SectionBuilder() {
     if (!doc.id) setDoc((d) => ({ ...d, id: newDocId() }));
   }, [doc.id]);
 
-  // Coming back from the login gate: the user left mid-download. Their draft is
-  // already restored from localStorage above; surface a one-tap prompt to finish
-  // the export they wanted so they don't lose momentum.
+  // Coming back from checkout (or /pricing, or signing in to the account a
+  // guest purchase went to) with a download waiting. The draft is already
+  // restored from localStorage above; once the account says Pro, offer a
+  // one-tap clean export. A visitor who came back without paying — they
+  // cancelled checkout — just has the stale request cleared.
   useEffect(() => {
-    if (!account.isLoggedIn) return;
+    if (accountLoading) return;
     let pending: string | null = null;
     try {
       pending = localStorage.getItem("rc_pending_export");
@@ -371,40 +342,28 @@ export default function SectionBuilder() {
     } catch {
       /* localStorage unavailable — nothing to resume */
     }
-    if (pending) setResumeExport(pending as ExportKind);
-  }, [account.isLoggedIn]);
+    if (pending && account.isPro) setResumeExport(pending as ExportKind);
+  }, [accountLoading, account.isPro]);
 
-  // Fetch this receipt's download status (clean vs. watermarked + remaining
-  // credits) for the current logged-in free user, refetching when the receipt
-  // identity or account changes.
+  // AI allowance for a logged-in free account (the badge on the AI box). The
+  // download side needs no fetch: a non-Pro download is always watermarked.
   useEffect(() => {
-    if (account.isPro || !account.isLoggedIn || !doc.id) return;
+    if (account.isPro || !account.isLoggedIn) return;
     let active = true;
-    fetch(
-      `/api/downloads?receiptKey=${encodeURIComponent(doc.id)}${
-        activeTemplate ? `&brand=${encodeURIComponent(activeTemplate)}` : ""
-      }`
-    )
+    fetch("/api/downloads", { cache: "no-store" })
       .then((r) => (r.ok ? r.json() : null))
       .then((s) => {
-        if (active && s) {
-          setDl({
-            loggedIn: Boolean(s.loggedIn),
-            willWatermark: Boolean(s.willWatermark),
-            remaining: s.remaining ?? null,
-            brandLocked: Boolean(s.brandLocked),
-            aiRemaining: s.aiRemaining ?? null,
-          });
-        }
+        if (active && s) setDl({ aiRemaining: s.aiRemaining ?? null });
       })
       .catch(() => {});
     return () => {
       active = false;
     };
-  }, [doc.id, activeTemplate, account.isLoggedIn, account.isPro]);
+  }, [account.isLoggedIn, account.isPro]);
 
-  // Apply the ?template= slug once the account is known, so the Pro gate is
-  // decided against a real answer rather than against the anonymous default.
+  // Apply the ?template= slug once the account is known. No template is gated
+  // any more; the deferral is kept so styling gates (fonts, paper) read a
+  // resolved account when the template lands.
   useEffect(() => {
     if (!pendingTemplate || accountLoading) return;
     applyTemplate(pendingTemplate);
@@ -489,27 +448,12 @@ export default function SectionBuilder() {
   const keepId = (next: ReceiptDoc) => (d: ReceiptDoc) => ({ ...next, id: d.id });
 
   /**
-   * Load a brand template into the builder.
-   *
-   * Outside the free fifty this needs Pro. The gate is here rather than on the
-   * brand page because the page itself stays public and indexable — it is the
-   * template that is paid for, not the article around it.
-   *
-   * Account state resolves asynchronously, so this is checked at click time
-   * rather than baked into the button: `account.isPro` is false until /api/me
-   * lands, and gating the button on that would flash a locked state at a paying
-   * subscriber on every page load.
+   * Load a template into the builder. Every template, brand or generic, is free
+   * to build and preview; only the watermark-free download is paid.
    */
   const applyTemplate = (slug: string) => {
     const t = getTemplate(slug);
     if (!t) return;
-    if (!account.isPro && templateNeedsPro(slug)) {
-      setProTemplate(slug);
-      // Being refused a template is not an upgrade click — see
-      // analytics.upgradeClick. The click in the modal that follows still is.
-      analytics.proTemplateBlocked(slug);
-      return;
-    }
     setDoc(keepId(docFromReceiptData(receiptFromTemplate(t))));
     setActiveTemplate(slug);
     setCollapsed({});
@@ -669,11 +613,10 @@ export default function SectionBuilder() {
         }).catch(() => {});
       }
       // Ask for a public review — but only off a clean download by a logged-in
-      // free user, and only once. A free user is watermarked precisely when
-      // their credits have run out, so asking on that export would be asking
-      // someone the moment they hit a limit. Pro is excluded by the owner's
-      // call: don't nag people who already pay. Renders nothing until
-      // SITE.reviewUrl is set, so this is inert on first deploy.
+      // free user, and only once. Pro is excluded by the owner's call: don't
+      // nag people who already pay. Since 2026-10-24 a free download is never
+      // clean, so this is dormant until the owner picks a new moment to ask.
+      // Renders nothing until SITE.reviewUrl is set either way.
       if (
         SITE.reviewUrl &&
         account.isLoggedIn &&
@@ -691,14 +634,15 @@ export default function SectionBuilder() {
     }
   };
 
-  // Download flow: Pro exports clean; anonymous users are prompted to log in;
-  // logged-in free users claim a free receipt (clean while credits remain, then
-  // watermarked — counted per unique receipt so re-downloads stay free).
+  // Download flow (since 2026-10-24): Pro exports clean; everyone else, logged
+  // in or not, gets the paywall — buy the $3 pass straight to checkout, or
+  // download with the watermark. No account is needed for either, and there is
+  // no free watermark-free allowance to check.
   const requestExport = async (kind: ExportKind) => {
     if (exporting) return;
 
-    // Download intent — fires once per click, before any gate, so the funnel
-    // captures preview → download-attempt and where it drops (login vs paywall).
+    // Download intent — fires once per click, before the paywall, so the funnel
+    // captures preview → download-attempt and where it drops.
     analytics.downloadClick(
       kind === "pdf-print" ? "pdf" : kind,
       account.isPro ? "pro" : account.isLoggedIn ? "free" : "anon"
@@ -707,71 +651,22 @@ export default function SectionBuilder() {
     if (account.isPro) return handleExport(kind, false);
 
     const fmt = kind === "pdf-print" ? "pdf" : kind;
+    analytics.paywallShown(fmt, account.isLoggedIn ? "free" : "anon", doc.id || undefined);
+    analytics.watermarkPrompt(fmt);
+    setPendingExport(kind);
+  };
 
-    if (!account.isLoggedIn) {
-      analytics.downloadBlocked("login", fmt, doc.id || undefined);
-      setLoginPrompt(kind);
-      return;
-    }
-
-    // Ensure the receipt has a stable id before claiming a credit against it.
-    let key = doc.id;
-    if (!key) {
-      key = newDocId();
-      setDoc((d) => ({ ...d, id: key! }));
-    }
-
-    let clean = false;
-    let remaining: number | null = dl.remaining;
-    /** Why the clean export was refused, for download_blocked. */
-    let blocked: "watermark" | "brand" | "unavailable" | null = null;
+  /**
+   * Before leaving for checkout or /pricing: flush the draft (the autosave is
+   * debounced) and remember which export they wanted, so /create can finish it
+   * clean once they are back as Pro. Read by the resume effect above.
+   */
+  const rememberPendingExport = (kind: ExportKind | null) => {
+    saveAutosave(doc);
     try {
-      const res = await fetch("/api/downloads", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ receiptKey: key, brand: activeTemplate || undefined }),
-      });
-      if (res.status === 401) {
-        analytics.downloadBlocked("login", fmt, key);
-        setLoginPrompt(kind);
-        return;
-      }
-      const data = await res.json().catch(() => ({}));
-      clean = Boolean(data.clean);
-      remaining = data.remaining ?? null;
-      // The server reached its database and could not read the answer (503 with
-      // `unavailable`). Same user-visible outcome as a network failure and the
-      // same message, because from here they are the same event: we could not
-      // check, so nothing is given away. Previously this path was invisible —
-      // the route answered 200 with clean:true whatever the database said, so
-      // there was nothing to report.
-      if (data.unavailable) {
-        clean = false;
-        blocked = "unavailable";
-        notify("error", QUOTA_UNREACHABLE);
-      } else if (!clean) {
-        // Which wall: the brand list, or a spent allowance. They lead to
-        // different fixes and used to be the same silent non-event.
-        blocked = data.brandLocked ? "brand" : "watermark";
-      }
+      if (kind) localStorage.setItem("rc_pending_export", kind);
     } catch {
-      // Network/API failure → fail safe to watermarked (don't give away clean).
-      // Say so: silently handing back a watermarked file when the user expected
-      // a clean one reads as the product cheating them rather than as the
-      // transient network error it actually is.
-      clean = false;
-      blocked = "unavailable";
-      notify("error", QUOTA_UNREACHABLE);
-    }
-
-    setDl((d) => ({ ...d, loggedIn: true, remaining, willWatermark: !clean }));
-
-    if (clean) {
-      handleExport(kind, false);
-    } else {
-      if (blocked) analytics.downloadBlocked(blocked, fmt, key);
-      analytics.watermarkPrompt(fmt);
-      setPendingExport(kind);
+      /* localStorage unavailable — the draft autosave still applies */
     }
   };
 
@@ -1257,10 +1152,7 @@ export default function SectionBuilder() {
       <div className="-mx-4 overflow-x-auto px-4 pb-4 pt-3 sm:mx-0 sm:px-0">
         <div className="flex gap-2">
           {TEMPLATES.slice(0, 14).map((t) => (
-            <button key={t.slug} type="button" onClick={() => applyTemplate(t.slug)} title={!account.isPro && templateNeedsPro(t.slug) ? "Pro template" : undefined} className={`flex shrink-0 items-center gap-1.5 rounded-full border px-4 py-2.5 text-sm font-medium transition-colors ${activeTemplate === t.slug ? "border-indigo-600 bg-indigo-600 text-white" : "border-slate-200 bg-white text-slate-600 hover:border-indigo-300"}`}>
-                {!account.isPro && templateNeedsPro(t.slug) && (
-                  <LockIcon aria-hidden className="h-3.5 w-3.5 shrink-0 opacity-60" />
-                )}
+            <button key={t.slug} type="button" onClick={() => applyTemplate(t.slug)} className={`flex shrink-0 items-center gap-1.5 rounded-full border px-4 py-2.5 text-sm font-medium transition-colors ${activeTemplate === t.slug ? "border-indigo-600 bg-indigo-600 text-white" : "border-slate-200 bg-white text-slate-600 hover:border-indigo-300"}`}>
               <span aria-hidden="true">{t.icon}</span>
               {t.shortName}
             </button>
@@ -1436,33 +1328,16 @@ export default function SectionBuilder() {
                 <p className="mt-3 text-center text-[11px] leading-relaxed text-emerald-600">
                   ✓ Pro · watermark-free HD downloads
                 </p>
-              ) : !account.isLoggedIn ? (
+              ) : (
                 <p className="mt-3 text-center text-[11px] leading-relaxed text-slate-500">
-                  Log in to download ·{" "}
-                  <span className="font-semibold text-slate-600">
-                    {freeDownloadsPhrase("free HD receipt")} per account
-                  </span>
-                </p>
-              ) : /* The brand gate is checked before the credit count: a Pro-only
-                     template watermarks however many credits are left, so showing
-                     "1 free receipt left" here would promise a clean export we are
-                     not going to give. */
-              dl.brandLocked || (dl.remaining ?? 0) <= 0 ? (
-                <p className="mt-3 text-center text-[11px] leading-relaxed text-slate-500">
-                  {dl.brandLocked
-                    ? "Pro template · this download includes a watermark · "
-                    : "Free receipts used · downloads now include a watermark · "}
+                  Free downloads include a small watermark · no account needed ·{" "}
                   <Link
                     href="/pricing"
                     onClick={() => analytics.upgradeClick("builder_download_note")}
                     className="font-semibold text-indigo-600 hover:text-indigo-700"
                   >
-                    Upgrade to remove
+                    Remove it from {formatPlanPrice(PLANS.pro_weekly)}
                   </Link>
-                </p>
-              ) : (
-                <p className="mt-3 text-center text-[11px] leading-relaxed text-emerald-600">
-                  ✓ {dl.remaining} of {freeDownloadsPhrase("free HD receipt")} left
                 </p>
               )}
 
@@ -1517,30 +1392,41 @@ export default function SectionBuilder() {
 
       {showAdd && <AddSectionModal onPick={addSection} onClose={() => setShowAdd(false)} />}
 
-      {/* Watermark fallback (logged-in free user who is out of free receipts) */}
+      {/* Download paywall: every non-Pro download, logged in or not. */}
       {pendingExport && (
         <Modal
           onClose={() => setPendingExport(null)}
-          labelledBy="watermark-prompt-title"
+          labelledBy="paywall-title"
           panelClassName="w-full max-w-md rounded-3xl bg-white p-7 shadow-2xl"
         >
           <div>
             <TagIcon className="h-8 w-8 text-indigo-600" />
-            <h3 id="watermark-prompt-title" className="mt-3 text-xl font-bold text-slate-900">
-              You&apos;ve used your {firstDownloadsPhrase("free receipt")}
+            <h3 id="paywall-title" className="mt-3 text-xl font-bold text-slate-900">
+              Download without the watermark?
             </h3>
             <p className="mt-2 text-sm leading-relaxed text-slate-600">
-              This download will include a small <strong>{SITE.name}</strong> watermark. Go Pro for
-              clean, watermark-free HD receipts, unlimited AI generation and saved history.
+              Free downloads carry a small <strong>{SITE.name}</strong> watermark. Pro removes it
+              from every download, with HD exports and unlimited AI receipts. One-time payment, no
+              account needed, never renews.
             </p>
             <div className="mt-6 flex flex-col gap-2">
-              <Link
-                href="/pricing"
-                onClick={() => analytics.upgradeClick("watermark_modal")}
+              <a
+                href="/api/checkout?plan=pro_weekly"
+                // Matches the pricing CTAs: never hand crawlers a checkout URL.
+                rel="nofollow"
+                onClick={() => {
+                  // Straight to checkout, not via /pricing: the plans page
+                  // loses most of the people who click upgrade. The draft and
+                  // the export they wanted survive the trip — see the resume
+                  // effect above.
+                  rememberPendingExport(pendingExport);
+                  analytics.upgradeClick("download_paywall");
+                  analytics.beginCheckout("weekly", "download_paywall");
+                }}
                 className="rounded-full bg-indigo-600 px-5 py-3 text-center text-sm font-semibold text-white hover:bg-indigo-700"
               >
-                Upgrade to remove watermark
-              </Link>
+                Remove the watermark — {formatPlanPrice(PLANS.pro_weekly)} for 7 days
+              </a>
               <button
                 type="button"
                 onClick={() => {
@@ -1550,109 +1436,24 @@ export default function SectionBuilder() {
                 }}
                 className="rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50"
               >
-                Download with watermark ({pendingExport.toUpperCase()})
+                Download with watermark ({pendingExport === "pdf-print" ? "PDF" : pendingExport.toUpperCase()})
               </button>
-              <button
-                type="button"
-                onClick={() => setPendingExport(null)}
-                className="cursor-pointer rounded-full px-5 py-3 text-sm font-medium text-slate-600 transition-colors hover:text-slate-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </Modal>
-      )}
-
-      {/* Pro-only brand template */}
-      {proTemplate && (
-        <Modal
-          onClose={() => setProTemplate(null)}
-          labelledBy="pro-template-title"
-          panelClassName="w-full max-w-md rounded-3xl bg-white p-7 shadow-2xl"
-        >
-          <div>
-            <LockIcon className="h-8 w-8 text-indigo-600" />
-            <h3 id="pro-template-title" className="mt-3 text-xl font-bold text-slate-900">
-              {getTemplate(proTemplate)?.shortName ?? "This"} is a Pro template
-            </h3>
-            <p className="mt-2 text-sm leading-relaxed text-slate-600">
-              Around fifty brand templates are free to use, and the receipt builder itself is free
-              for everyone with no sign-up. This one needs Pro — which also removes the watermark
-              everywhere and unlocks unlimited AI generation.
-            </p>
-            <div className="mt-6 flex flex-col gap-2">
               <Link
                 href="/pricing"
-                onClick={() => analytics.upgradeClick("pro_template_modal")}
-                className="rounded-full bg-indigo-600 px-5 py-3 text-center text-sm font-semibold text-white hover:bg-indigo-700"
-              >
-                See plans — from ${PLANS.pro_weekly.price}
-              </Link>
-              <button
-                type="button"
-                onClick={() => setProTemplate(null)}
-                className="cursor-pointer rounded-full px-5 py-3 text-sm font-medium text-slate-600 transition-colors hover:text-slate-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
-              >
-                Pick a different template
-              </button>
-            </div>
-          </div>
-        </Modal>
-      )}
-
-      {/* Login required to download (anonymous users) */}
-      {loginPrompt && (
-        <Modal
-          onClose={() => setLoginPrompt(null)}
-          labelledBy="login-prompt-title"
-          panelClassName="w-full max-w-md rounded-3xl bg-white p-7 shadow-2xl"
-        >
-          <div>
-            <LockIcon className="h-8 w-8 text-indigo-600" />
-            <h3 id="login-prompt-title" className="mt-3 text-xl font-bold text-slate-900">
-              Log in to download
-            </h3>
-            <p className="mt-2 text-sm leading-relaxed text-slate-600">
-              Create a free account to download your receipt. Every free account includes{" "}
-              <strong>{freeDownloadsPhrase("watermark-free HD receipt")}</strong> — no
-              payment required. Your receipt is saved — we&apos;ll bring you right back here to
-              finish the download.
-            </p>
-            <div className="mt-6 flex flex-col gap-2">
-              <Link
-                href="/login?next=/create&signup=1"
-                // Matches the header: never hand crawlers a ?next= login URL.
-                rel="nofollow"
                 onClick={() => {
-                  // Flush the latest draft synchronously (the autosave is
-                  // debounced) and remember the export so we can resume it.
-                  saveAutosave(doc);
-                  try {
-                    if (loginPrompt) localStorage.setItem("rc_pending_export", loginPrompt);
-                  } catch {
-                    /* localStorage unavailable — draft autosave still applies */
-                  }
-                  // A sign-up starting at the download gate, not a purchase.
-                  analytics.signupStarted("download_gate");
+                  rememberPendingExport(pendingExport);
+                  analytics.upgradeClick("download_paywall_plans");
                 }}
-                className="rounded-full bg-indigo-600 px-5 py-3 text-center text-sm font-semibold text-white hover:bg-indigo-700"
+                className="rounded-full px-5 py-2.5 text-center text-sm font-medium text-indigo-600 transition-colors hover:text-indigo-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
               >
-                Log in / Sign up free
+                See all plans
               </Link>
-              <button
-                type="button"
-                onClick={() => setLoginPrompt(null)}
-                className="cursor-pointer rounded-full px-5 py-3 text-sm font-medium text-slate-600 transition-colors hover:text-slate-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
-              >
-                Cancel
-              </button>
             </div>
           </div>
         </Modal>
       )}
 
-      {/* Resume banner: back from login with a pending download — one tap to finish. */}
+      {/* Resume banner: back from checkout as Pro with a download waiting — one tap to finish. */}
       {resumeExport && (
         // Sits above the mobile Edit/Preview bar rather than on top of it: that
         // bar is fixed at bottom-0 with z-40, so a bottom-4 banner at z-50 was
@@ -1666,7 +1467,7 @@ export default function SectionBuilder() {
         >
           <div className="flex w-full max-w-md flex-col gap-3 rounded-2xl border border-indigo-200 bg-white p-4 shadow-2xl sm:max-w-xl sm:flex-row sm:items-center sm:rounded-full sm:py-3 sm:pl-5 sm:pr-3">
             <span className="flex-1 text-sm font-medium text-slate-700">
-              You&apos;re logged in — your receipt is right here. Finish your download:
+              Pro is active and your receipt is right here. Download it without the watermark:
             </span>
             <div className="flex shrink-0 items-center gap-1">
               <button

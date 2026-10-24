@@ -3,12 +3,10 @@ import {
   PLANS,
   FREE_LIMITS,
   monthlyEquivalent,
-  freeDownloadsNoun,
-  firstDownloadsPhrase,
+  formatPlanPrice,
   freeAiPhrase,
   freeStylingPhrase,
 } from "@/lib/plans";
-import { FREE_BRAND_SLUGS } from "@/lib/brand-access";
 import { BRAND_TEMPLATES } from "@/lib/brands";
 import { docFromReceiptData } from "@/lib/sections";
 import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
@@ -115,6 +113,8 @@ type PlanRow = {
   downloads: string;
   /** The noun after it, already singular or plural to match. */
   downloadsNoun: string;
+  /** Watermark-free downloads, for the comparison table. */
+  clean: string;
   ai: string;
   brands: string;
   styling: string;
@@ -123,18 +123,14 @@ type PlanRow = {
 };
 
 /**
- * Brand-template wording.
+ * Brand-template wording. Every brand template is on every plan, free
+ * included (2026-10-24): the only thing Pro changes about a download is the
+ * watermark.
  *
- * Every brand stays free to build and preview — that is what the brand pages
- * promise and what brings the traffic. What differs is the clean download: 50
- * brands export watermark-free on the free plan, the rest need Pro. See
- * lib/brand-access.ts.
- *
- * Paid says "300+" rather than the exact count: the catalogue grows, and a round
- * floor stays true without a copy edit every time it does.
+ * "300+" rather than the exact count: the catalogue grows, and a round floor
+ * stays true without a copy edit every time it does.
  */
 const BRANDS_LABEL = "300+ brand templates";
-const FREE_BRANDS_LABEL = `${FREE_BRAND_SLUGS.size} brand templates`;
 
 const PLAN_ROWS: PlanRow[] = [
   {
@@ -143,14 +139,14 @@ const PLAN_ROWS: PlanRow[] = [
     unit: "forever",
     access: "Forever",
     cta: "Start free",
-    // Split into quantity and noun so the two agree. They did not: the row held
-    // freeDownloadsPhrase("watermark-free") — "1 watermark-free" — and the card
-    // appended a hardcoded "downloads", so the live pricing page read
-    // "1 watermark-free downloads".
-    downloads: String(FREE_LIMITS.freeReceiptDownloads),
-    downloadsNoun: freeDownloadsNoun("watermark-free download"),
+    // Every free download is watermarked, logged in or not; there is no
+    // watermark-free allowance. The table's "Watermark-free downloads" row
+    // reads `clean`, not this.
+    downloads: "Unlimited",
+    downloadsNoun: "watermarked downloads",
+    clean: "None",
     ai: `${FREE_LIMITS.aiGenerationsPerMonth} a month`,
-    brands: FREE_BRANDS_LABEL,
+    brands: BRANDS_LABEL,
     styling: freeStylingPhrase(),
     saveTemplates: false,
     support: false,
@@ -163,6 +159,7 @@ const PLAN_ROWS: PlanRow[] = [
     cta: "Get 7 days",
     downloads: "Unlimited",
     downloadsNoun: "watermark-free downloads",
+    clean: "Unlimited",
     ai: "Unlimited",
     brands: BRANDS_LABEL,
     styling: "All 32 fonts · 3 paper styles",
@@ -177,6 +174,7 @@ const PLAN_ROWS: PlanRow[] = [
     cta: "Go monthly",
     downloads: "Unlimited",
     downloadsNoun: "watermark-free downloads",
+    clean: "Unlimited",
     ai: "Unlimited",
     brands: BRANDS_LABEL,
     styling: "All 32 fonts · 3 paper styles",
@@ -191,6 +189,7 @@ const PLAN_ROWS: PlanRow[] = [
     cta: "Go yearly",
     downloads: "Unlimited",
     downloadsNoun: "watermark-free downloads",
+    clean: "Unlimited",
     ai: "Unlimited",
     brands: BRANDS_LABEL,
     styling: "All 32 fonts · 3 paper styles",
@@ -205,7 +204,6 @@ const PLAN_ROWS: PlanRow[] = [
 const SHARED_FEATURES = [
   "PNG, JPG, PDF, print-PDF",
   "Logo, barcode, custom sections",
-  "Saved receipt history",
 ] as const;
 
 const FAQ = [
@@ -216,7 +214,7 @@ const FAQ = [
     // fonts and one paper style, and 50 of the brand templates; the other 298
     // need Pro" — four counts hand-written into one sentence, in the answer
     // that exists specifically to state them accurately.
-    a: `Free gives you the generic receipt builder with no sign-up, plus ${FREE_BRAND_SLUGS.size} of the brand templates. On a free account your first download is watermark-free HD; after that downloads carry a small watermark. Free also includes ${freeAiPhrase()}, ${freeStylingPhrase().replace(" · ", " and ")}; the other ${BRAND_TEMPLATES.length - FREE_BRAND_SLUGS.size} brand templates need Pro. Pro removes the watermark on every download and unlocks unlimited HD exports, unlimited AI generation, all 32 fonts, all three paper styles and your own saved templates.`,
+    a: `Free gives you the whole receipt builder and all ${BRAND_TEMPLATES.length} brand templates with no sign-up, and you can download as PDF, PNG or JPG with a small watermark. A free account adds ${freeAiPhrase()}; free styling is ${freeStylingPhrase().replace(" · ", " and ")}. Pro removes the watermark on every download and unlocks HD exports, unlimited AI generation, all 32 fonts, all three paper styles, saved receipt history and your own saved templates, from ${formatPlanPrice(PLANS.pro_weekly)} for 7 days.`,
   },
   {
     q: "Can I cancel anytime?",
@@ -228,7 +226,7 @@ const FAQ = [
     ? [
         {
           q: "How do I pay, and how fast does Pro switch on?",
-          a: "Checkout is handled by Stripe. You can pay by card (Visa, Mastercard, American Express) or with Apple Pay, Google Pay or Link where your device supports them. Pro attaches to the account you are signed in with and switches on automatically within seconds of the payment going through — it does not matter which email you type at checkout. We never see or store your card details.",
+          a: "Checkout is handled by Stripe. You can pay by card (Visa, Mastercard, American Express) or with Apple Pay, Google Pay or Link where your device supports them. Pro switches on automatically within seconds of the payment going through. If you are signed in, it attaches to that account. You do not need an account to buy: Pro goes on the email you enter at checkout, and if that email already has an account the pass is added to it. We never see or store your card details.",
         },
         {
           q: "Can I switch plans?",
@@ -237,8 +235,8 @@ const FAQ = [
       ]
     : []),
   {
-    q: "Do I need an account to use the free tier?",
-    a: "You can build and preview with no sign-up. Downloading uses a free account: your first receipt is watermark-free, then downloads are watermarked until you upgrade to Pro.",
+    q: "Do I need an account?",
+    a: `No. Building, previewing and downloading with a watermark need no account, and neither does buying Pro. A free account adds ${freeAiPhrase()}.`,
   },
 ];
 
@@ -358,13 +356,13 @@ export default function PricingPage() {
       <ol className="mx-auto mt-10 max-w-2xl divide-y divide-slate-200 rounded-2xl border border-slate-200 bg-white">
         {[
           { step: "Build and preview", detail: "No account needed", free: true },
+          { step: "Download", detail: "Free with a small watermark, no account", free: false },
+          { step: "Free account", detail: freeAiPhrase(), free: true },
           {
-            step: `Your first ${firstDownloadsPhrase()}`,
-            detail: "Watermark-free HD",
+            step: "Pro",
+            detail: `Watermark-free HD downloads, from ${formatPlanPrice(PLANS.pro_weekly)}`,
             free: true,
           },
-          { step: "Downloads after that", detail: "Include a small watermark", free: false },
-          { step: "Pro", detail: "Unlimited watermark-free HD exports", free: true },
         ].map((row) => (
           <li key={row.step} className="flex items-center justify-between gap-4 px-5 py-3.5">
             <span className="text-sm font-medium text-slate-900">{row.step}</span>
@@ -434,6 +432,8 @@ export default function PricingPage() {
                 <Feature yes>{row.brands}</Feature>
                 <Feature yes>{row.styling}</Feature>
                 <Feature yes={row.saveTemplates}>Save your own templates</Feature>
+                {/* Pro only, like saved templates: PLANS lists it on Pro. */}
+                <Feature yes={row.saveTemplates}>Saved receipt history</Feature>
                 {SHARED_FEATURES.map((f) => (
                   <Feature key={f} yes>
                     {f}
@@ -441,9 +441,7 @@ export default function PricingPage() {
                 ))}
                 <Feature yes={row.support}>Priority support</Feature>
                 {row.id === "free" && (
-                  <Feature yes={false}>
-                    Watermarked after your first
-                  </Feature>
+                  <Feature yes={false}>Watermark-free downloads</Feature>
                 )}
               </ul>
 
@@ -539,7 +537,7 @@ export default function PricingPage() {
               </Row>
               <Row label="Watermark-free downloads">
                 {PLAN_ROWS.map((r) => (
-                  <Cell key={r.id}>{r.downloads}</Cell>
+                  <Cell key={r.id}>{r.clean}</Cell>
                 ))}
               </Row>
               <Row label="AI generations">
@@ -558,6 +556,13 @@ export default function PricingPage() {
                 ))}
               </Row>
               <Row label="Save your own templates">
+                {PLAN_ROWS.map((r) => (
+                  <Cell key={r.id}>
+                    <Tick yes={r.saveTemplates} />
+                  </Cell>
+                ))}
+              </Row>
+              <Row label="Saved receipt history">
                 {PLAN_ROWS.map((r) => (
                   <Cell key={r.id}>
                     <Tick yes={r.saveTemplates} />
@@ -585,9 +590,9 @@ export default function PricingPage() {
         </div>
       </section>
 
-      {/* With Stripe the buyer's account is attached to the checkout itself, so
-          the email typed there no longer matters and Pro switches on by
-          itself. The old "use the same email" warning is only true of the
+      {/* With Stripe a signed-in buyer's account is attached to the checkout
+          itself, and a guest's pass goes on the checkout email; either way Pro
+          switches on by itself. The old "use the same email" warning is only true of the
           Shopify fallback, which is matched by hand. */}
       {stripeConfigured ? (
         <div className="mx-auto mt-8 max-w-xl rounded-2xl border border-slate-200 bg-white px-5 py-4 text-center">
@@ -637,8 +642,7 @@ export default function PricingPage() {
           {/* Not "the one on the left": the pair stacks below 640px, where left
               and right do not exist. The figcaptions already name each panel, so
               point at those instead of at a position. */}
-          Your first {firstDownloadsPhrase()} is watermark-free either way. After that, a
-          free download carries the watermark below.
+          Every free download carries the watermark below. Pro downloads are clean.
         </p>
         <div className="mt-8 grid gap-8 sm:grid-cols-2">
           <figure>
@@ -647,7 +651,7 @@ export default function PricingPage() {
               <Watermark />
             </div>
             <figcaption className="mt-3 text-center text-sm text-slate-500">
-              A free download, once your first is used
+              A free download
             </figcaption>
           </figure>
           <figure>

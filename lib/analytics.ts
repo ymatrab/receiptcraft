@@ -488,21 +488,23 @@ export const analytics = {
    * worth understanding — could not be counted at all.
    */
   pricingViewed: (source: string) => track("pricing_viewed", { source }),
+  // pro_template_blocked is retired: since 2026-10-24 every template is free to
+  // build, so nothing refuses one. The name stays in lib/analytics-events.ts so
+  // its history still shows on the dashboard.
   /**
-   * A free user was refused a Pro-only template.
+   * The download paywall opened: a non-Pro visitor pressed Download.
    *
-   * Was upgrade_click{builder_pro_template}. Opening a template is how you find
-   * out it is locked; the click that follows *in the modal* is the intent, and
-   * that one still fires upgrade_click{pro_template_modal}.
+   * The denominator for the paywall's own CTA, upgrade_click{download_paywall},
+   * and for "Download with watermark". `state` is free (logged in) or anon.
    */
-  proTemplateBlocked: (template: string) => track("pro_template_blocked", { template }),
+  paywallShown: (format: string, state: "free" | "anon", receiptId?: string) =>
+    track("paywall_shown", { format, state, receipt_id: receiptId }),
   /**
-   * A download was asked for and refused, and why.
+   * A clean download was asked for and refused, and why.
    *
-   * `login` (no account), `watermark` (out of credits), `brand` (Pro-only
-   * template) or `unavailable` (we could not check). download_click already
-   * counts the attempt; this counts the wall it hit, which is the difference
-   * between "nobody wants to download" and "everybody wants to and can't".
+   * Since 2026-10-24 every non-Pro download is watermarked, so `watermark` is
+   * the normal reason. `login`, `brand` and `unavailable` are kept in the type
+   * for the dashboard's history and are no longer sent by the builder.
    */
   downloadBlocked: (
     reason: "login" | "watermark" | "brand" | "unavailable",
