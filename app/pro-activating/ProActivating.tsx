@@ -284,71 +284,66 @@ export default function ProActivating({ sessionId, guest = false }: { sessionId?
  * Optional: keep access to the account a guest checkout just created.
  *
  * The account has no password, so without one the buyer can only come back
- * through Google (same email) or "Forgot password". The browser is signed in
- * at this point, so updateUser sets it directly.
+ * through Google (same email) or "Forgot password".
+ *
+ * A link to the inbox, never a password typed here. Anyone can pay $3 with an
+ * email that is not theirs; if this form set the password directly, that payer
+ * would hold the password to an account the real owner later reaches with
+ * Google, and could read what they save. Setting a password through the email
+ * link proves the inbox, and the first sign-in that proves it signs out every
+ * other session (app/auth/callback).
  */
 function SetPassword() {
-  const [password, setPassword] = useState("");
-  const [state, setState] = useState<"idle" | "saving" | "saved">("idle");
+  const [state, setState] = useState<"idle" | "sending" | "sent">("idle");
   const [error, setError] = useState<string | null>(null);
 
-  async function submit(e: React.FormEvent) {
-    e.preventDefault();
-    if (state === "saving") return;
-    if (password.length < 8) {
-      setError("Use at least 8 characters.");
-      return;
-    }
+  async function send() {
+    if (state === "sending") return;
     setError(null);
-    setState("saving");
-    const { error: updateError } = await createClient().auth.updateUser({ password });
-    if (updateError) {
+    setState("sending");
+    const supabase = createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user?.email) {
       setState("idle");
-      setError(updateError.message || "Couldn't save the password. Try again.");
+      setError("Couldn't find your email. Use “Forgot password” on the sign-in page instead.");
       return;
     }
-    setState("saved");
-    setPassword("");
+    const { error: sendError } = await supabase.auth.resetPasswordForEmail(user.email, {
+      redirectTo: `${window.location.origin}/auth/callback?next=/auth/reset`,
+    });
+    if (sendError) {
+      setState("idle");
+      setError(sendError.message || "Couldn't send the email. Try again.");
+      return;
+    }
+    setState("sent");
   }
 
   return (
     <div className="mx-auto mt-8 max-w-sm border-t border-emerald-100 pt-6 text-left">
       <h2 className="text-sm font-semibold text-slate-900">Keep access: set a password</h2>
       <p className="mt-1 text-xs leading-relaxed text-slate-600">
-        Optional. Your account uses the email you paid with. You can also sign in later with
-        Google using the same email, or with “Forgot password”.
+        Optional. Your account uses the email you paid with. We&apos;ll email you a link to set a
+        password, or you can sign in later with Google using the same email.
       </p>
-      {state === "saved" ? (
+      {state === "sent" ? (
         <p role="status" className="mt-3 text-sm font-medium text-emerald-700">
-          Password saved.
+          Check your inbox for the link to set your password.
         </p>
       ) : (
-        <form onSubmit={submit} className="mt-3 flex flex-col gap-2 sm:flex-row">
-          <label htmlFor="new-password" className="sr-only">
-            New password
-          </label>
-          <input
-            id="new-password"
-            type="password"
-            autoComplete="new-password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            aria-invalid={error ? true : undefined}
-            aria-describedby={error ? "new-password-error" : undefined}
-            placeholder="At least 8 characters"
-            className="min-w-0 flex-1 rounded-lg border border-slate-300 px-3 py-2.5 text-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/30"
-          />
-          <button
-            type="submit"
-            disabled={state === "saving"}
-            className="rounded-lg bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-slate-800 disabled:opacity-60"
-          >
-            {state === "saving" ? "Saving…" : "Save password"}
-          </button>
-        </form>
+        <button
+          type="button"
+          onClick={send}
+          disabled={state === "sending"}
+          className="mt-3 rounded-lg bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-slate-800 disabled:opacity-60"
+        >
+          {state === "sending" ? "Sending…" : "Email me a link to set a password"}
+        </button>
       )}
       {error && (
-        <p id="new-password-error" role="alert" className="mt-2 text-xs font-medium text-red-700">
+        <p role="alert" className="mt-2 text-xs font-medium text-red-700">
           {error}
         </p>
       )}

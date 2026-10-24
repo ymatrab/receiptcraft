@@ -215,6 +215,9 @@ export async function fulfillPassCheckout(
     .from("subscriptions")
     .select("current_period_end")
     .eq("user_id", userId)
+    // Not this session's own row: when the webhook and the return page run at
+    // once, the slower one would otherwise stack this same pass on itself.
+    .neq("id", session.id)
     .gt("current_period_end", now.toISOString())
     .order("current_period_end", { ascending: false })
     .limit(1)
@@ -222,7 +225,7 @@ export async function fulfillPassCheckout(
   if (latestError) throw latestError;
   const from = latest?.current_period_end ? new Date(latest.current_period_end) : now;
 
-  const { error: writeError } = await admin.from("subscriptions").upsert(
+  const { data: inserted, error: writeError } = await admin.from("subscriptions").upsert(
     {
       id: session.id,
       user_id: userId,
@@ -234,9 +237,15 @@ export async function fulfillPassCheckout(
       // Nothing will be charged again — the account page reads this.
       cancel_at_period_end: true,
     },
-    { onConflict: "id" }
-  );
+    // Insert-or-nothing: whichever caller loses the race leaves the winner's
+    // row untouched and gets no row back.
+    { onConflict: "id", ignoreDuplicates: true }
+  )
+    .select("id");
   if (writeError) throw writeError;
+  // Only the caller that wrote the row records the sale, so /admin revenue
+  // counts each payment once.
+  if (!inserted || inserted.length === 0) return { plan, userId };
 
   await recordServerEvent("pass_purchased", userId, {
     plan,
