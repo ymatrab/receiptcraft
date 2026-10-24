@@ -4,7 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { supabaseConfigured } from "@/lib/supabase/config";
 import { analytics } from "@/lib/analytics";
-import { newAccountDestination } from "@/lib/new-account";
+import Link from "next/link";
+import { AI_RESUME_PATH, newAccountDestination } from "@/lib/new-account";
 import { SITE } from "@/lib/site";
 import { freeAiPhrase } from "@/lib/plans";
 import { EyeIcon, EyeOffIcon, SpinnerIcon } from "@/components/Icons";
@@ -412,10 +413,25 @@ export default function LoginForm({
    * only a visitor sent here by a gate has a receipt waiting, so only they are
    * promised it back.
    */
+  // Sent here by the homepage AI box, which keeps the prompt and generates it
+  // on the way back. Read off the destination because that path is used for
+  // nothing else; every other sign-up keeps the usual wording.
+  const fromAi = nextParam === AI_RESUME_PATH;
+
   const heading = verifyEmail
     ? { title: "Check your email", blurb: null }
     : mode === "forgot"
       ? { title: "Reset your password", blurb: null }
+      : fromAi
+        ? mode === "signup"
+          ? {
+              title: "Sign up to generate receipts with AI",
+              blurb: `A free account gives you ${freeAiPhrase()}, no card needed. We'll make the receipt you described as soon as you're in.`,
+            }
+          : {
+              title: "Log in to generate your receipt",
+              blurb: "We'll make the receipt you described as soon as you're in.",
+            }
       : mode === "signup"
         ? {
             title: "Create your free account",
@@ -704,6 +720,16 @@ export default function LoginForm({
             By continuing you agree to our{" "}
             <a href="/terms" className="underline hover:text-slate-900">Terms</a> and{" "}
             <a href="/privacy" className="underline hover:text-slate-900">Privacy Policy</a>.
+          </p>
+        )}
+
+        {fromAi && mode !== "forgot" && (
+          <p className="border-t border-slate-100 pt-4 text-center text-sm text-slate-600">
+            Rather do it by hand?{" "}
+            <Link href="/create" className="font-semibold text-indigo-700 underline">
+              Open the free receipt maker
+            </Link>{" "}
+            — no account needed.
           </p>
         )}
       </div>
