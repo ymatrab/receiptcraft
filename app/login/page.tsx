@@ -48,7 +48,7 @@ export async function generateMetadata({
   const canonical = suffix ? `/login?${suffix}` : "/login";
   return {
     title: "Log in",
-    description: `Log in to ${SITE.name} to download your receipts, manage your Pro subscription and saved templates, and get support. New here? An account takes seconds to create.`,
+    description: `Log in to ${SITE.name} to use AI receipt generation, manage your Pro pass and get support. New here? An account takes seconds to create.`,
     alternates: { canonical },
     ...(suffix ? { robots: { index: false, follow: true } } : {}),
   };

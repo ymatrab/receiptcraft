@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getCurrentUser } from "@/lib/auth";
-import { fulfilReturningBuyer } from "@/lib/stripe-passes";
+import { fulfilReturningBuyer, isGuestSession, retrieveCheckoutSession } from "@/lib/stripe-passes";
 import ProActivating from "./ProActivating";
 
 export const metadata: Metadata = {
@@ -19,15 +19,24 @@ export default async function ProActivatingPage({
 }) {
   // Stripe returns here with the session id. Grant before the page renders, so
   // the first poll below already finds Pro instead of waiting on the webhook.
+  //
+  // A guest checkout (paid without an account) is finished by the client
+  // instead, through POST /pro-activating/claim: granting it may sign the
+  // browser in, and only a Route Handler can set that cookie.
   const { session_id } = await searchParams;
+  let guest = false;
   if (session_id) {
-    const user = await getCurrentUser();
-    if (user) await fulfilReturningBuyer(session_id, user.id);
+    const session = await retrieveCheckoutSession(session_id);
+    guest = session ? isGuestSession(session) : false;
+    if (!guest) {
+      const user = await getCurrentUser();
+      if (user) await fulfilReturningBuyer(session_id, user.id);
+    }
   }
 
   return (
     <div className="mx-auto max-w-xl px-4 py-16 sm:px-6 sm:py-24">
-      <ProActivating sessionId={session_id} />
+      <ProActivating sessionId={session_id} guest={guest} />
     </div>
   );
 }

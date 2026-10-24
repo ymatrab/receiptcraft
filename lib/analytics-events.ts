@@ -19,6 +19,7 @@ export const EVENT_NAMES = [
   "download_receipt",
   "download_click",
   "watermark_prompt",
+  "paywall_shown",
   "builder_opened",
   "edit_started",
   "receipt_completed",
@@ -105,6 +106,8 @@ export const SERVER_ONLY_EVENT_NAMES = [
   "checkout_failed",
   "checkout_returned",
   "pass_purchased",
+  // A guest buyer was signed in to the account their checkout created (once per session).
+  "guest_signed_in",
   "pass_grant_failed",
   "pass_refunded",
   "pass_disputed",

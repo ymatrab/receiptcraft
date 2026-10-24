@@ -88,14 +88,17 @@ export async function POST(req: Request) {
       case "checkout.session.completed":
       case "checkout.session.async_payment_succeeded": {
         const session = event.data.object as Stripe.Checkout.Session;
-        const userId = session.client_reference_id;
+        let userId = session.client_reference_id;
         if (session.subscription) {
           // Legacy: subscriptions bought before passes moved to one-time Checkout.
           const sub = await stripe.subscriptions.retrieve(String(session.subscription));
           await syncSubscription(sub, userId);
         } else {
-          const plan = await fulfillPassCheckout(session);
-          if (!plan) break;
+          // A guest checkout has no client_reference_id; fulfilment resolves
+          // (or creates) the account from the checkout email and says which.
+          const granted = await fulfillPassCheckout(session);
+          if (!granted) break;
+          userId = granted.userId;
         }
         if (session.payment_status !== "paid") break;
         // Money actually arrived. Stripe has already verified the signature
@@ -111,6 +114,7 @@ export async function POST(req: Request) {
               : null,
             Plan: PLANS[session.metadata?.plan as keyof typeof PLANS]?.name ?? null,
             User: userId,
+            Guest: session.metadata?.guest === "1" ? "yes" : null,
           })
         );
         break;
