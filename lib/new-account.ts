@@ -54,6 +54,17 @@ function isCheckoutBound(path: string): boolean {
 }
 
 /**
+ * Where the homepage AI box sends someone to sign up: back to the homepage,
+ * which finds the prompt they typed and generates it at once.
+ *
+ * Exempt from the plans page, like checkout. This person signed up to get one
+ * specific receipt drafted; showing them prices first stands between the free
+ * thing they were promised and the moment they see it. They meet the paywall
+ * at Download, in the builder, with the receipt in front of them.
+ */
+export const AI_RESUME_PATH = "/?ai=1";
+
+/**
  * The destination for a newly created account.
  *
  * A `next` worth returning to is appended; the default builder path is not,
@@ -63,8 +74,9 @@ function isCheckoutBound(path: string): boolean {
 export function newAccountDestination(next?: string | null): string {
   const safe = safeInternalPath(next);
   if (!safe) return NEW_ACCOUNT_PATH;
-  // The one exemption: they are mid-purchase, so let them finish.
+  // Exempt: mid-purchase, or mid-AI-request (see AI_RESUME_PATH).
   if (isCheckoutBound(safe)) return safe;
+  if (safe === AI_RESUME_PATH) return safe;
   if (safe === DEFAULT_NEXT || safe === "/") return NEW_ACCOUNT_PATH;
   return `${NEW_ACCOUNT_PATH}&next=${encodeURIComponent(safe)}`;
 }
