@@ -175,7 +175,7 @@ export default function ChatWidget() {
       </button>
 
       {open && (
-        <div className={`fixed right-5 z-50 flex h-[28rem] ${liftOnPhones ? "bottom-44 lg:bottom-24" : "bottom-24"} w-[22rem] max-w-[calc(100vw-2.5rem)] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
+        <div className={`fixed right-5 z-50 flex h-[28rem] ${liftOnPhones ? "bottom-44 lg:bottom-24" : "bottom-24"} w-[22rem] max-w-[calc(100vw-2.5rem)] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl`}>
           <div className="border-b border-slate-100 bg-slate-50 px-4 py-3">
             <p className="text-sm font-semibold text-slate-900">Support</p>
             <p className="text-xs text-slate-500">We usually reply within a day.</p>
