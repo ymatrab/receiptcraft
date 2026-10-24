@@ -296,7 +296,12 @@ function Feature({ yes = true, children }: { yes?: boolean; children: React.Reac
 function Row({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <tr>
-      <th scope="row" className="px-4 py-2.5 text-left font-normal text-slate-600">
+      {/* Sticky so the feature name stays on screen while a phone scrolls the
+          plan columns sideways — otherwise every tick loses its label. */}
+      <th
+        scope="row"
+        className="sticky left-0 z-10 max-w-[9.5rem] bg-white px-4 py-2.5 text-left font-normal text-slate-600 sm:max-w-none"
+      >
         {label}
       </th>
       {children}
@@ -345,7 +350,7 @@ export default function PricingPage() {
   };
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-16 lg:px-8">
       <PricingViewed />
       <script
         type="application/ld+json"
@@ -357,10 +362,10 @@ export default function PricingPage() {
       {/* Renders nothing unless /api/checkout bounced someone back here. */}
       <CheckoutNotice />
       <div className="text-center">
-        <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
+        <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-5xl">
           Simple, honest pricing
         </h1>
-        <p className="mx-auto mt-4 max-w-2xl text-lg text-slate-600">
+        <p className="mx-auto mt-4 max-w-2xl text-base text-slate-600 sm:text-lg">
           Start free. Upgrade when you need watermark-free, professional receipts.
         </p>
       </div>
@@ -379,10 +384,13 @@ export default function PricingPage() {
             free: true,
           },
         ].map((row) => (
-          <li key={row.step} className="flex items-center justify-between gap-4 px-5 py-3.5">
+          <li
+            key={row.step}
+            className="flex flex-col gap-0.5 px-5 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:py-3.5"
+          >
             <span className="text-sm font-medium text-slate-900">{row.step}</span>
             <span
-              className={`text-sm ${row.free ? "font-medium text-indigo-600" : "text-slate-500"}`}
+              className={`text-sm sm:text-right ${row.free ? "font-medium text-indigo-600" : "text-slate-500"}`}
             >
               {row.detail}
             </span>
@@ -401,7 +409,10 @@ export default function PricingPage() {
           also what search engines and AI answers quote about each plan. Every
           price carries its monthly equivalent, so $3 / $7.99 / $49 do not read
           as a rising ladder when per month they fall. */}
-      <div className="mx-auto mt-12 grid max-w-4xl gap-4 sm:grid-cols-3">
+      {/* Three columns from md, not sm: at 640px each card got ~190px for a
+          dozen feature lines and the CTA labels wrapped. Stacked cards get a
+          wider gap so the "Best value" badge clears the card above it. */}
+      <div className="mx-auto mt-10 grid max-w-4xl gap-6 sm:mt-12 md:grid-cols-3 md:gap-4">
         {PAID_ROWS.map((row) => {
           const plan = PLANS[row.id as Exclude<PlanRow["id"], "free">];
           const perMonth = monthlyEquivalent(plan);
@@ -496,7 +507,10 @@ export default function PricingPage() {
             </caption>
             <thead>
               <tr className="border-b border-slate-200 bg-slate-50">
-                <th scope="col" className="px-4 py-3 text-left font-semibold text-slate-900">
+                <th
+                  scope="col"
+                  className="sticky left-0 z-10 bg-slate-50 px-4 py-3 text-left font-semibold text-slate-900"
+                >
                   Feature
                 </th>
                 {PLAN_ROWS.map((r) => (

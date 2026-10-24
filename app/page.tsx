@@ -10,6 +10,7 @@ import type { PaperFinish, ReceiptData } from "@/lib/types";
 import { docFromReceiptData } from "@/lib/sections";
 import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
 import ReceiptAnatomy from "@/components/home/ReceiptAnatomy";
+import MobileCreateBar from "@/components/home/MobileCreateBar";
 import ComparisonTable from "@/components/comparison/ComparisonTable";
 import { MAKECEPEIT, COMPETITORS, PRICING_AS_OF } from "@/lib/comparisons";
 
@@ -440,7 +441,11 @@ export default function HomePage() {
             to. Capping the track lets the decorative receipt clip against the
             section's existing overflow-hidden instead. */}
         <div className="relative mx-auto grid max-w-7xl grid-cols-[minmax(0,1fr)] items-center gap-12 px-4 pb-14 pt-10 sm:px-6 sm:pb-20 sm:pt-16 lg:grid-cols-2 lg:gap-8 lg:px-8 lg:pb-28 lg:pt-24">
-          <div>
+          {/* Flex column so phones can reorder: below sm the builder CTA comes
+              straight after the intro and the AI box follows it. The AI box
+              needs an account, so leading with it put a sign-up wall ahead of
+              the free path on the screen most visitors arrive on. */}
+          <div className="flex flex-col items-start">
             <p className="inline-flex items-center gap-1.5 rounded-full border border-indigo-200 bg-indigo-50 px-3 py-1 text-xs font-medium text-indigo-700">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
               Free to build · {BRAND_COUNT} brand templates · No sign-up to
@@ -452,7 +457,7 @@ export default function HomePage() {
                 60 seconds
               </span>
             </h1>
-            <p className="mt-5 max-w-xl text-lg leading-relaxed text-slate-600">
+            <p className="mt-4 max-w-xl text-base leading-relaxed text-slate-600 sm:mt-5 sm:text-lg">
               Pick a receipt template for your business, customize items, tax
               and payment details with a live preview, then download as a PDF
               or PNG. Open the{" "}
@@ -465,9 +470,11 @@ export default function HomePage() {
               to start from a blank receipt.
             </p>
 
-            <HomeAiGenerator />
+            <div className="order-1 w-full sm:order-none">
+              <HomeAiGenerator />
+            </div>
 
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div id="hero-cta" className="mt-6 flex w-full flex-wrap gap-3 sm:mt-8">
               <Link
                 href="/create"
                 className="w-full rounded-full bg-indigo-600 px-7 py-3.5 text-center text-base font-semibold text-white shadow-lg shadow-indigo-600/25 transition-all hover:bg-indigo-700 hover:shadow-xl hover:shadow-indigo-600/30 sm:w-auto"
@@ -481,7 +488,7 @@ export default function HomePage() {
                 Browse Templates
               </Link>
             </div>
-            <p className="mt-3 text-sm text-slate-500">
+            <p className="order-2 mt-3 text-sm text-slate-500 sm:order-none">
               Free to build, preview and download — no sign-up. Free downloads
               carry a small watermark; Pro removes it, from{" "}
               {formatPlanPrice(PLANS.pro_weekly)} for 7 days. The AI generator
@@ -493,7 +500,7 @@ export default function HomePage() {
                 See pricing
               </Link>
             </p>
-            <dl className="mt-10 grid max-w-md grid-cols-3 gap-6">
+            <dl className="order-2 mt-8 grid w-full max-w-md grid-cols-3 gap-6 sm:order-none sm:mt-10">
               <div>
                 <dt className="text-2xl font-bold text-slate-900">{BRAND_COUNT}</dt>
                 <dd className="mt-0.5 text-sm text-slate-500">Brand templates</dd>
@@ -1181,6 +1188,10 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <MobileCreateBar watchId="hero-cta" />
+      {/* Room for that bar, so it never sits over the last of the page. */}
+      <div aria-hidden className="h-20 lg:hidden" />
     </>
   );
 }

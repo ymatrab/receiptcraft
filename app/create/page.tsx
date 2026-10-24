@@ -126,11 +126,14 @@ export default function CreatePage() {
       />
       {/* Real H1 for the flagship tool page. Visually compact so it doesn't
           push the builder below the fold, but present in the SSR DOM. */}
-      <div className="mx-auto max-w-7xl px-4 pt-8 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 pt-5 sm:px-6 sm:pt-8 lg:px-8">
         <h1 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
           Free Receipt Maker
         </h1>
-        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-slate-600">
+        {/* Clamped to three lines on phones, where the full paragraph was a
+            screen of reading before the first field. The text stays in the
+            HTML whole, so crawlers and screen readers still get all of it. */}
+        <p className="mt-2 line-clamp-3 max-w-2xl text-sm leading-relaxed text-slate-600 sm:line-clamp-none">
           A receipt maker is an online tool that turns the details of a sale —
           seller, items, prices, tax and payment — into a finished receipt you
           can download, print or attach to an expense claim. This is{" "}

@@ -158,19 +158,24 @@ export default function ChatWidget() {
   // appear and then vanish.
   if (consent !== "granted" && consent !== "denied") return null;
 
+  // Pages with a fixed bottom bar on phones (the builder's Edit/Preview switch,
+  // the homepage's sticky CTA). At bottom-5 the launcher landed on that bar and
+  // swallowed taps meant for "Preview", so below lg it rides above it instead.
+  const liftOnPhones = pathname === "/" || pathname?.startsWith("/create");
+
   return (
     <>
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
         aria-label="Support chat"
-        className="fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-indigo-600 text-2xl text-white shadow-lg transition-transform hover:scale-105"
+        className={`fixed right-5 z-50 flex h-14 w-14 ${liftOnPhones ? "bottom-24 lg:bottom-5" : "bottom-5"} items-center justify-center rounded-full bg-indigo-600 text-2xl text-white shadow-lg transition-transform hover:scale-105`}
       >
         {open ? "✕" : "💬"}
       </button>
 
       {open && (
-        <div className="fixed bottom-24 right-5 z-50 flex h-[28rem] w-[22rem] max-w-[calc(100vw-2.5rem)] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
+        <div className={`fixed right-5 z-50 flex h-[28rem] ${liftOnPhones ? "bottom-44 lg:bottom-24" : "bottom-24"} w-[22rem] max-w-[calc(100vw-2.5rem)] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
           <div className="border-b border-slate-100 bg-slate-50 px-4 py-3">
             <p className="text-sm font-semibold text-slate-900">Support</p>
             <p className="text-xs text-slate-500">We usually reply within a day.</p>

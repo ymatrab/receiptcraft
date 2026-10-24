@@ -1,7 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import type { RuleStyle } from "@/lib/types";
 import type { SectionAlign } from "@/lib/sections";
+import { ChevronDownIcon } from "@/components/Icons";
 
 // text-base on mobile (16px) prevents iOS Safari's auto-zoom on focus;
 // sm:text-sm restores the compact desktop density.
@@ -53,6 +55,8 @@ export function NumberField({
       <span className="mb-1.5 block text-xs font-medium text-slate-600">{label}</span>
       <input
         type="number"
+        // Decimal keypad on phones instead of the full keyboard.
+        inputMode="decimal"
         defaultValue={defaultValue || ""}
         min={min}
         step={step}
@@ -244,4 +248,53 @@ export function DividerRow({
       {on && <DividerPicker value={value} onChange={onChange} />}
     </div>
   );
+}
+
+/**
+ * The rarely-used fields of a section, folded away.
+ *
+ * Most receipts need a store name, items and a date; showing all forty-odd
+ * fields at once is what made the builder read as hard, worst of all on a
+ * phone, where the header section alone was two screens tall. A native
+ * <details> keeps its children mounted while closed, so the uncontrolled
+ * inputs inside keep their values. `inUse` counts the fields already filled
+ * (a brand template fills several), so nothing on the receipt is hidden
+ * without a hint that it is there.
+ */
+export function MoreOptions({
+  hint,
+  inUse = 0,
+  defaultOpen = false,
+  children,
+}: {
+  hint: string;
+  inUse?: number;
+  defaultOpen?: boolean;
+  children: React.ReactNode;
+}) {
+  const [open, setOpen] = useState(defaultOpen);
+  return (
+    <details
+      open={open}
+      onToggle={(e) => setOpen(e.currentTarget.open)}
+      className="group rounded-xl border border-slate-200 bg-slate-50/60"
+    >
+      <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 rounded-xl px-3 text-sm font-medium text-slate-700 hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 [&::-webkit-details-marker]:hidden">
+        <span className="min-w-0">
+          More options
+          <span className="font-normal text-slate-500">
+            {" "}
+            · {inUse > 0 ? `${inUse} in use` : hint}
+          </span>
+        </span>
+        <ChevronDownIcon className="h-4 w-4 shrink-0 text-slate-500 transition-transform group-open:rotate-180" />
+      </summary>
+      <div className="space-y-3 border-t border-slate-200 p-3">{children}</div>
+    </details>
+  );
+}
+
+/** How many of these optional values are actually set. */
+export function countFilled(...values: unknown[]): number {
+  return values.filter((v) => v !== undefined && v !== null && v !== "" && v !== 0).length;
 }
