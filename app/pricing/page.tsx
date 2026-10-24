@@ -210,23 +210,6 @@ const PLAN_ROWS: PlanRow[] = [
  */
 const PAID_ROWS = PLAN_ROWS.filter((r) => r.id !== "free");
 
-/**
- * What every Pro plan includes. The three passes are identical apart from how
- * long they run and priority support, so this is stated once, directly above
- * the cards rather than repeated nine lines per card. It sits above them, not
- * below, so a buyer still reads what they get before the buttons.
- */
-const PRO_INCLUDES = [
-  "Unlimited watermark-free downloads",
-  "Unlimited AI receipt generation",
-  BRANDS_LABEL,
-  "All 32 fonts · 3 paper styles",
-  "Save your own templates",
-  "Saved receipt history",
-  "PNG, JPG, PDF, print-PDF",
-  "Logo, barcode, custom sections",
-] as const;
-
 /** Most checkout starts pick the 7-day pass (36 of 44, Sep–Oct 2026). */
 const MOST_POPULAR = "pro_weekly";
 
@@ -411,25 +394,14 @@ export default function PricingPage() {
           and watermarked downloads need no plan, so it is explained in the
           steps above and offered again under the comparison table.
 
-          The passes share every entitlement except how long they run and
-          priority support, so the shared list is stated once, right above the
-          cards — still before the buttons, which was the reason the old cards
-          each repeated it. Every price carries its monthly equivalent, so $3 /
-          $7.99 / $49 do not read as a rising ladder when per month they fall. */}
-      <section aria-labelledby="pro-includes-heading" className="mx-auto mt-12 max-w-4xl">
-        <h2 id="pro-includes-heading" className="text-center text-sm font-semibold text-slate-900">
-          Every Pro plan includes
-        </h2>
-        <ul className="mt-4 grid gap-x-6 gap-y-2 text-sm text-slate-600 sm:grid-cols-2">
-          {PRO_INCLUDES.map((f) => (
-            <Feature key={f} yes>
-              {f}
-            </Feature>
-          ))}
-        </ul>
-      </section>
-
-      <div className="mx-auto mt-10 grid max-w-4xl gap-4 sm:grid-cols-3">
+          Each card carries the whole feature list even though the three are
+          nearly identical. Tried once as a single shared list above the cards
+          (2026-10-24) and reverted the same day at the owner's call: a buyer
+          reads what they get on the card they click, and the repeated lines are
+          also what search engines and AI answers quote about each plan. Every
+          price carries its monthly equivalent, so $3 / $7.99 / $49 do not read
+          as a rising ladder when per month they fall. */}
+      <div className="mx-auto mt-12 grid max-w-4xl gap-4 sm:grid-cols-3">
         {PAID_ROWS.map((row) => {
           const plan = PLANS[row.id as Exclude<PlanRow["id"], "free">];
           const perMonth = monthlyEquivalent(plan);
@@ -468,8 +440,21 @@ export default function PricingPage() {
 
               <ul className="mt-5 flex-1 space-y-2.5 text-sm text-slate-600">
                 <Feature yes>
-                  <strong className="font-semibold text-slate-900">{row.access}</strong> of Pro
+                  <strong className="font-semibold text-slate-900">{row.downloads}</strong>{" "}
+                  {row.downloadsNoun}
                 </Feature>
+                <Feature yes>
+                  <strong className="font-semibold text-slate-900">{row.ai}</strong> AI generations
+                </Feature>
+                <Feature yes>{row.brands}</Feature>
+                <Feature yes>{row.styling}</Feature>
+                <Feature yes={row.saveTemplates}>Save your own templates</Feature>
+                <Feature yes={row.saveTemplates}>Saved receipt history</Feature>
+                {SHARED_FEATURES.map((f) => (
+                  <Feature key={f} yes>
+                    {f}
+                  </Feature>
+                ))}
                 <Feature yes={row.support}>Priority support</Feature>
               </ul>
 
