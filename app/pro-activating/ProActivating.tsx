@@ -5,20 +5,24 @@ import Link from "next/link";
 import type { AccountStatus } from "@/lib/auth";
 import { analytics } from "@/lib/analytics";
 import { SITE } from "@/lib/site";
+import { createClient } from "@/lib/supabase/client";
 import { SpinnerIcon } from "@/components/Icons";
 
 /**
- * Post-purchase landing page. Shopify's thank-you URL points here.
+ * Post-purchase landing page. Stripe's success_url (and Shopify's thank-you
+ * URL) point here.
  *
- * Pro is granted by hand from /admin/members, so activation takes as long as it
- * takes a person — minutes if someone is at a desk, longer otherwise. This page
- * therefore promises no duration at all. It still polls, because a buyer whose
- * grant lands while they are watching should see it immediately, but every
- * branch ends somewhere concrete: nobody who has just been charged is left
- * guessing, and nobody is told a wait is "unusual" when it is the norm.
+ * Three ways in:
+ *  - a signed-in Stripe buyer: the server already granted the pass; this polls
+ *    /api/me until Pro shows.
+ *  - a guest Stripe buyer (paid without an account): this POSTs to
+ *    /pro-activating/claim, which grants the pass to the account for the
+ *    checkout email and, when that account was created by this purchase,
+ *    signs the browser in to it.
+ *  - Shopify: Pro is granted by hand, so the copy promises no duration.
  *
- * If automatic fulfilment ever returns, shorten PATIENCE_MS and say so in the
- * copy — the timings below are deliberately generous for a human in the loop.
+ * Every branch ends somewhere concrete: nobody who has just been charged is
+ * left guessing.
  */
 
 // Poll briskly at first in case the grant is already in, then back off rather
@@ -28,26 +32,83 @@ const SLOW_INTERVAL_MS = 15000;
 const FAST_WINDOW_MS = 60000;
 /** When to stop asking someone to sit and watch, and hand them a way out. */
 const PATIENCE_MS = 45000;
+/** Guest claims answer "pending" while a delayed payment clears. */
+const CLAIM_RETRIES = 10;
 
-type Phase = "waiting" | "active" | "slow" | "signed-out";
+type Phase = "waiting" | "active" | "slow" | "signed-out" | "existing";
+
+const planLabel = (plan: string | null) =>
+  plan ? plan.replace("pro_", "").replace(/^\w/, (c) => c.toUpperCase()) : null;
 
 /**
- * `sessionId` is set when Stripe sent the buyer here. Stripe purchases are
- * granted automatically within seconds, so the hand-activation copy below is
- * only for the Shopify rail.
+ * `sessionId` is set when Stripe sent the buyer here; `guest` when that
+ * checkout was opened without an account.
  */
-export default function ProActivating({ sessionId }: { sessionId?: string }) {
+export default function ProActivating({ sessionId, guest = false }: { sessionId?: string; guest?: boolean }) {
   const automatic = Boolean(sessionId);
   const [phase, setPhase] = useState<Phase>("waiting");
   const [plan, setPlan] = useState<string | null>(null);
+  /** The guest claim created and signed in to a new account — offer a password. */
+  const [newAccount, setNewAccount] = useState(false);
+  /** The guest claim could not grant here; the webhook will. */
+  const [claimFailed, setClaimFailed] = useState(false);
   const startedAt = useRef(Date.now());
   const reported = useRef(false);
+
+  const markActive = (p: string | null) => {
+    setPlan(p);
+    setPhase("active");
+    if (!reported.current) {
+      reported.current = true;
+      analytics.proActivated(Math.round((Date.now() - startedAt.current) / 1000));
+    }
+  };
 
   useEffect(() => {
     analytics.purchaseLanded();
 
     let active = true;
     let timer: ReturnType<typeof setTimeout>;
+
+    async function claim(attempt: number) {
+      if (!active) return;
+      try {
+        const res = await fetch("/pro-activating/claim", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ sessionId }),
+        });
+        const data = (await res.json().catch(() => null)) as
+          | { status?: string; plan?: string; newAccount?: boolean }
+          | null;
+        if (!active) return;
+
+        if (data?.status === "signed_in") {
+          setNewAccount(Boolean(data.newAccount));
+          markActive(data.plan ?? null);
+          return;
+        }
+        if (data?.status === "existing_account") {
+          setPlan(data.plan ?? null);
+          setPhase("existing");
+          return;
+        }
+        if (data?.status === "pending" && attempt < CLAIM_RETRIES) {
+          timer = setTimeout(() => claim(attempt + 1), FAST_INTERVAL_MS);
+          return;
+        }
+      } catch {
+        if (!active) return;
+        if (attempt < CLAIM_RETRIES) {
+          timer = setTimeout(() => claim(attempt + 1), FAST_INTERVAL_MS);
+          return;
+        }
+      }
+      // Could not grant from here. The payment is safe and the webhook grants
+      // it to the account for the checkout email.
+      setClaimFailed(true);
+      setPhase("existing");
+    }
 
     async function check() {
       if (!active) return;
@@ -60,12 +121,7 @@ export default function ProActivating({ sessionId }: { sessionId?: string }) {
         if (!active) return;
 
         if (data?.isPro) {
-          setPlan(data.plan);
-          setPhase("active");
-          if (!reported.current) {
-            reported.current = true;
-            analytics.proActivated(Math.round(elapsed / 1000));
-          }
+          markActive(data.plan);
           return; // stop polling
         }
 
@@ -85,31 +141,39 @@ export default function ProActivating({ sessionId }: { sessionId?: string }) {
       timer = setTimeout(check, elapsed > FAST_WINDOW_MS ? SLOW_INTERVAL_MS : FAST_INTERVAL_MS);
     }
 
-    check();
+    if (guest && sessionId) claim(0);
+    else check();
     return () => {
       active = false;
       clearTimeout(timer);
     };
+    // Runs once per landing; markActive only touches state and refs.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (phase === "active") {
+    const label = planLabel(plan);
     return (
       <Card
         tone="success"
-        title="Pro is active — you're all set"
+        title="Pro is active"
         body={
-          plan
-            ? `Your ${plan.replace("pro_", "").replace(/^\w/, (c) => c.toUpperCase())} pass is on. Downloads are watermark-free from now on.`
+          label
+            ? `Your ${label} pass is on. Downloads are watermark-free from now on.`
             : "Downloads are watermark-free from now on."
         }
       >
         <div className="mt-6 flex flex-wrap justify-center gap-3">
-          <Link
+          {/* The builder restored the autosaved draft and picks up the export
+              left waiting in rc_pending_export, so this lands on their receipt.
+              A full load, not a client navigation: a guest was signed in a
+              moment ago and the header should render with that session. */}
+          <a
             href="/create"
             className="rounded-full bg-indigo-600 px-6 py-3 text-sm font-semibold text-white hover:bg-indigo-700"
           >
-            Start building
-          </Link>
+            Back to your receipt
+          </a>
           <Link
             href="/account"
             className="rounded-full border border-slate-300 px-6 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50"
@@ -117,6 +181,33 @@ export default function ProActivating({ sessionId }: { sessionId?: string }) {
             View your account
           </Link>
         </div>
+        {newAccount && <SetPassword />}
+      </Card>
+    );
+  }
+
+  if (phase === "existing") {
+    const label = planLabel(plan);
+    return (
+      <Card
+        tone="warn"
+        title="Thanks — your payment went through"
+        body={
+          claimFailed
+            ? "Pro is being added to the account for the email you paid with. Sign in with that email to download without the watermark — if you have never set a password, use “Forgot password” or continue with Google."
+            : `${label ? `Your ${label} pass` : "Pro"} was added to the account for the email you paid with. Sign in to it to download without the watermark — if you have never set a password, use “Forgot password” or continue with Google.`
+        }
+      >
+        <div className="mt-6 flex flex-wrap justify-center gap-3">
+          <Link
+            href="/login?next=/create"
+            rel="nofollow"
+            className="rounded-full bg-indigo-600 px-6 py-3 text-sm font-semibold text-white hover:bg-indigo-700"
+          >
+            Sign in
+          </Link>
+        </div>
+        <SupportNote />
       </Card>
     );
   }
@@ -186,6 +277,77 @@ export default function ProActivating({ sessionId }: { sessionId?: string }) {
         Waiting for confirmation…
       </p>
     </Card>
+  );
+}
+
+/**
+ * Optional: keep access to the account a guest checkout just created.
+ *
+ * The account has no password, so without one the buyer can only come back
+ * through Google (same email) or "Forgot password".
+ *
+ * A link to the inbox, never a password typed here. Anyone can pay $3 with an
+ * email that is not theirs; if this form set the password directly, that payer
+ * would hold the password to an account the real owner later reaches with
+ * Google, and could read what they save. Setting a password through the email
+ * link proves the inbox, and the first sign-in that proves it signs out every
+ * other session (app/auth/callback).
+ */
+function SetPassword() {
+  const [state, setState] = useState<"idle" | "sending" | "sent">("idle");
+  const [error, setError] = useState<string | null>(null);
+
+  async function send() {
+    if (state === "sending") return;
+    setError(null);
+    setState("sending");
+    const supabase = createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user?.email) {
+      setState("idle");
+      setError("Couldn't find your email. Use “Forgot password” on the sign-in page instead.");
+      return;
+    }
+    const { error: sendError } = await supabase.auth.resetPasswordForEmail(user.email, {
+      redirectTo: `${window.location.origin}/auth/callback?next=/auth/reset`,
+    });
+    if (sendError) {
+      setState("idle");
+      setError(sendError.message || "Couldn't send the email. Try again.");
+      return;
+    }
+    setState("sent");
+  }
+
+  return (
+    <div className="mx-auto mt-8 max-w-sm border-t border-emerald-100 pt-6 text-left">
+      <h2 className="text-sm font-semibold text-slate-900">Keep access: set a password</h2>
+      <p className="mt-1 text-xs leading-relaxed text-slate-600">
+        Optional. Your account uses the email you paid with. We&apos;ll email you a link to set a
+        password, or you can sign in later with Google using the same email.
+      </p>
+      {state === "sent" ? (
+        <p role="status" className="mt-3 text-sm font-medium text-emerald-700">
+          Check your inbox for the link to set your password.
+        </p>
+      ) : (
+        <button
+          type="button"
+          onClick={send}
+          disabled={state === "sending"}
+          className="mt-3 rounded-lg bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-slate-800 disabled:opacity-60"
+        >
+          {state === "sending" ? "Sending…" : "Email me a link to set a password"}
+        </button>
+      )}
+      {error && (
+        <p role="alert" className="mt-2 text-xs font-medium text-red-700">
+          {error}
+        </p>
+      )}
+    </div>
   );
 }
 

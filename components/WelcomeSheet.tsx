@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { analytics } from "@/lib/analytics";
-import { FREE_LIMITS, PLANS, freeDownloadsPhrase } from "@/lib/plans";
+import { FREE_LIMITS, PLANS, formatPlanPrice } from "@/lib/plans";
 
 /**
  * Shown once, immediately after a new account is created *at a gate* — the
@@ -84,16 +84,12 @@ export default function WelcomeSheet() {
           <Item>
             <strong>{FREE_LIMITS.aiGenerationsPerMonth} AI receipt generations</strong> a month
           </Item>
-          <Item>
-            <strong>{freeDownloadsPhrase("watermark-free HD download")}</strong> — PDF,
-            PNG or JPG
-          </Item>
-          <Item>Every template and brand layout, and your saved receipts</Item>
+          <Item>Every template and brand layout, with watermarked PDF, PNG or JPG downloads</Item>
         </ul>
 
         <p className="mt-4 rounded-xl bg-indigo-50 px-4 py-3 text-sm text-indigo-900">
-          Later, when you want no watermark at all and unlimited AI, Pro starts at $
-          {PLANS.pro_weekly.price} a week.
+          When you want downloads without the watermark and unlimited AI, Pro starts at{" "}
+          {formatPlanPrice(PLANS.pro_weekly)} for 7 days, one-time.
         </p>
 
         <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">

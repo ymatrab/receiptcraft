@@ -183,9 +183,9 @@ export default function AlternativesPage() {
               </Link>{" "}
               with {BRAND_COUNT} named-brand templates (Walmart, Target, Starbucks
               and more), live preview, and PDF plus high-resolution PNG export.
-              You can build and preview with no signup; a free account&apos;s
-              first download is watermark-free, and Pro removes the watermark
-              with unlimited AI generation and saved history.
+              You can build, preview and download with no signup; free
+              downloads carry a small watermark, and Pro removes it — with
+              unlimited AI generation — as a one-time pass.
             </p>
             <p className="mt-3 text-sm font-medium text-slate-500">
               Pricing: Free · Pro $3/wk, $7.99/mo or $49/yr · Best for: anyone
@@ -332,7 +332,7 @@ export default function AlternativesPage() {
             <Link href="/create" className="font-semibold text-white underline hover:text-indigo-200">
               online receipt maker
             </Link>{" "}
-            — no signup to build, free account to download.
+            — no signup to build or download.
           </p>
           <div className="mt-8">
             <Link

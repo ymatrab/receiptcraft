@@ -81,6 +81,40 @@ async function announceNewAccount(user: User, method: "google" | "email" | null)
 }
 
 /**
+ * The first proven sign-in to an account a guest checkout created.
+ *
+ * A guest purchase creates an account for whatever email was typed at Stripe
+ * checkout, and signs the paying browser in to it (app/pro-activating/claim).
+ * That email is unverified: someone can pay $3 with an address that is not
+ * theirs. Everything that reaches this route proves the person controls the
+ * address (Google with that email, or a link sent to that inbox), so the first
+ * time it happens for such an account, every other session is signed out and
+ * the account is marked as owned. The real owner then never shares an account
+ * with whoever paid in their name.
+ *
+ * Fails open on purpose: an error here must not stop someone signing in. The
+ * worst case is the pre-fix behaviour, and the log says so.
+ */
+async function secureCheckoutAccount(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  user: User | null
+) {
+  if (!user) return;
+  const meta = user.app_metadata ?? {};
+  if (!meta.created_by_checkout || meta.owner_verified) return;
+  try {
+    const { error: signOutError } = await supabase.auth.signOut({ scope: "others" });
+    if (signOutError) throw signOutError;
+    const { error: updateError } = await createAdminClient().auth.admin.updateUserById(user.id, {
+      app_metadata: { ...meta, owner_verified: true },
+    });
+    if (updateError) throw updateError;
+  } catch (err) {
+    console.error("[auth] could not secure a checkout-created account", err);
+  }
+}
+
+/**
  * Auth callback. Handles both flows:
  *  - OAuth / PKCE magic links → `?code=...` (exchangeCodeForSession)
  *  - Email OTP magic links     → `?token_hash=...&type=...` (verifyOtp)
@@ -171,6 +205,7 @@ export async function GET(request: Request) {
     if (code) {
       const { data, error } = await supabase.auth.exchangeCodeForSession(code);
       if (!error) {
+        await secureCheckoutAccount(supabase, data.user);
         announceIfNew(data.user);
         return NextResponse.redirect(`${origin}${destinationFor(data.user?.created_at)}`);
       }
@@ -178,6 +213,7 @@ export async function GET(request: Request) {
     } else if (tokenHash && type) {
       const { data, error } = await supabase.auth.verifyOtp({ token_hash: tokenHash, type });
       if (!error) {
+        await secureCheckoutAccount(supabase, data.user);
         announceIfNew(data.user);
         return NextResponse.redirect(`${origin}${destinationFor(data.user?.created_at)}`);
       }

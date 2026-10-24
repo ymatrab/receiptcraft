@@ -7,7 +7,7 @@ import { consolidationTarget } from "@/lib/consolidated-posts";
 import { urlForImage } from "@/lib/sanity/client";
 import { fitSeoDescription } from "@/lib/seo-description";
 import { absoluteUrl, SITE } from "@/lib/site";
-import { firstDownloadsPhrase } from "@/lib/plans";
+import { PLANS, formatPlanPrice } from "@/lib/plans";
 
 /**
  * Posts where the builder is what the visitor came for, not a footnote.
@@ -360,13 +360,13 @@ export default async function BlogPostPage({
                     </Link>
                     . The rest of this guide covers the alternatives.
                   </p>
-                  {/* The allowance comes from lib/plans.ts rather than a number
+                  {/* The price comes from lib/plans.ts rather than a number
                       written here: nine live pages once promised "your first
                       three" when the real limit was one, and every one of them
                       was a hand-written claim. */}
                   <p className="mt-2 text-sm text-slate-500">
-                    No sign-up to build or preview. Downloading uses a free account, and your
-                    first {firstDownloadsPhrase()} is watermark-free.
+                    No sign-up to build, preview or download. Free downloads carry a small
+                    watermark; Pro removes it, from {formatPlanPrice(PLANS.pro_weekly)} for 7 days.
                   </p>
                 </aside>
                 <PortableText value={offerBody.rest as never} components={portableComponents} />

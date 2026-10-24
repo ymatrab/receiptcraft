@@ -34,9 +34,9 @@ export default function Footer() {
               <Wordmark />
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-slate-500">
-              The fastest free receipt maker online. Build and customize
-              professional receipts with no sign-up, then download as PDF or
-              PNG with a free account.
+              The fastest free receipt maker online. Build, customize and
+              download professional receipts as PDF or PNG with no
+              sign-up.
             </p>
             <a
               href="https://launchzone.co/p/makecepeit"

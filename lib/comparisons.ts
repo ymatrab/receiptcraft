@@ -15,7 +15,7 @@
 
 import { SITE } from "./site";
 import { BRAND_COUNT } from "./counts";
-import { FREE_LIMITS, PLANS, formatPlanPrice, freeDownloadsPhrase } from "./plans";
+import { FREE_LIMITS, PLANS, formatPlanPrice } from "./plans";
 
 // Rivals re-fetched live and the table re-verified on 2026-08-22 — ReceiptBaker's
 // named-brand and no-signup rows were both wrong, and the ExpressExpense price
@@ -94,8 +94,8 @@ export const MAKECEPEIT = {
   url: SITE.url,
   startingPrice: "Free · Pro from $3/wk",
   cells: {
-    free_start: yes("Build + first HD download free"),
-    no_signup: yes("Build & preview, no signup"),
+    free_start: yes("Build + watermarked download free"),
+    no_signup: yes("Build & download, no signup"),
     live_preview: yes(),
     // Exact, not "350+": this is the dimension we win outright (348 vs their
     // 100+), and a rounded-up range read as a tie with ReceiptFaker.
@@ -108,7 +108,7 @@ export const MAKECEPEIT = {
     // being accurate about who offers what.
     ai_generator: yes(`${FREE_LIMITS.aiGenerationsPerMonth}/month free, unlimited on Pro`),
     saved_history: yes("Pro"),
-    watermark_free: partial(`${freeDownloadsPhrase()} free, then Pro from $${PLANS.pro_weekly.price}/wk`),
+    watermark_free: partial(`Pro, from ${formatPlanPrice(PLANS.pro_weekly)} for 7 days`),
     transparent_pricing: yes(
       `${formatPlanPrice(PLANS.pro_weekly)}/wk · ${formatPlanPrice(PLANS.pro_monthly)}/mo · ${formatPlanPrice(PLANS.pro_yearly)}/yr`
     ),
@@ -217,7 +217,7 @@ export const COMPETITORS: Competitor[] = [
       {
         question: "Is Makecepeit a free alternative to MakeReceipt?",
         answer:
-          "Yes. Building and previewing a receipt on Makecepeit needs no account at all, and a free account then gets your first HD download clean. MakeReceipt lets you make free receipts too, but they stay watermarked until you buy a membership.",
+          `Yes. Building, previewing and downloading a receipt on Makecepeit needs no account at all; free downloads carry a small watermark, and Pro removes it from ${formatPlanPrice(PLANS.pro_weekly)} for 7 days with no account needed. MakeReceipt lets you make free receipts too, but they stay watermarked until you buy a membership.`,
       },
       {
         question: "How much does MakeReceipt cost?",
@@ -293,7 +293,7 @@ export const COMPETITORS: Competitor[] = [
       {
         question: "Is ReceiptFaker free?",
         answer:
-          "Yes for basic use — it still offers a free generator with no sign-up. It also sells subscriptions — $13.50/month or $60/year when we checked on 2026-10-24 — whose selling points are removing watermarks and unlimited downloads. Makecepeit is also free to build and preview, with your first HD download free before Pro.",
+          "Yes for basic use — it still offers a free generator with no sign-up. It also sells subscriptions — $13.50/month or $60/year when we checked on 2026-10-24 — whose selling points are removing watermarks and unlimited downloads. Makecepeit is also free to build, preview and download with no account; its free downloads are watermarked, and a one-time Pro pass removes the watermark.",
       },
       {
         question: "Are these receipts legal?",
@@ -349,7 +349,7 @@ export const COMPETITORS: Competitor[] = [
       transparent_pricing: yes("Weekly and monthly prices listed"),
     },
     verdict:
-      `Both Makecepeit and ReceiptBaker offer AI receipt generation, so this comes down to how much you get and what it costs. ReceiptBaker meters both plans — $5 a week for 25 AI generations, or $12 a month for 100. Makecepeit is $3 a week or $7.99 a month for unlimited AI generation, never renews on its own, is free to build and preview without an account, and offers ${BRAND_COUNT} specific brand templates with PDF and PNG export. ReceiptBaker is worth a look if its blog, rental-receipt templates or photorealistic renders match your niche.`,
+      `Both Makecepeit and ReceiptBaker offer AI receipt generation, so this comes down to how much you get and what it costs. ReceiptBaker meters both plans — $5 a week for 25 AI generations, or $12 a month for 100. Makecepeit is $3 a week or $7.99 a month for unlimited AI generation, never renews on its own, is free to build, preview and download (watermarked) without an account, and offers ${BRAND_COUNT} specific brand templates with PDF and PNG export. ReceiptBaker is worth a look if its blog, rental-receipt templates or photorealistic renders match your niche.`,
     chooseUs: [
       "You want AI generation and pricing you can see before committing",
       `You need a specific brand's receipt from a ${BRAND_COUNT}-template library`,

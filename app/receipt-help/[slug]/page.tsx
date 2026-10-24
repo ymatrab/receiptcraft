@@ -12,7 +12,7 @@ import {
   type IntentKind,
 } from "@/lib/intent-pages";
 import { getTemplate } from "@/lib/templates";
-import { isFreeBrand } from "@/lib/brand-access";
+import { PLANS, formatPlanPrice } from "@/lib/plans";
 import { fitSeoDescription } from "@/lib/seo-description";
 import { absoluteUrl, SITE } from "@/lib/site";
 import RelatedPosts from "@/components/RelatedPosts";
@@ -197,12 +197,6 @@ export default async function IntentPage({
               </Link>{" "}
               template includes first.
             </p>
-            {!isFreeBrand(page.brandSlug) && (
-              <p className="mt-2 text-sm text-slate-500">
-                The {page.brandName} template is one of our Pro layouts. The builder itself
-                is free to use with no sign-up.
-              </p>
-            )}
           </div>
         )}
         <section className="mt-8">
@@ -260,14 +254,12 @@ export default async function IntentPage({
           Open the {page.brandName} receipt builder
         </Link>
         {/* These pages carry most of the site's traffic and send it straight at
-            a template. Saying which templates are paid belongs here, before the
-            click, not in the modal after it. */}
-        {!isFreeBrand(page.brandSlug) && (
-          <p className="mt-3 text-sm text-indigo-100">
-            The {page.brandName} template is one of our Pro layouts. The receipt builder itself is
-            free to use with no sign-up.
-          </p>
-        )}
+            a template. What the download costs belongs here, before the click,
+            not in the modal after it. */}
+        <p className="mt-3 text-sm text-indigo-100">
+          Free to build and download with no sign-up. Free downloads carry a small
+          watermark; Pro removes it, from {formatPlanPrice(PLANS.pro_weekly)} for 7 days.
+        </p>
       </div>
 
       {/* FAQ */}

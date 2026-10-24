@@ -6,6 +6,7 @@ import { supabaseConfigured } from "@/lib/supabase/config";
 import { analytics } from "@/lib/analytics";
 import { newAccountDestination } from "@/lib/new-account";
 import { SITE } from "@/lib/site";
+import { freeAiPhrase } from "@/lib/plans";
 import { EyeIcon, EyeOffIcon, SpinnerIcon } from "@/components/Icons";
 import {
   authFieldClass,
@@ -235,8 +236,11 @@ export default function LoginForm({
     setPassword("");
     setShowPassword(false);
     setPwError(null);
+    // A buyer who paid without an account already has one under their checkout
+    // email (lib/stripe-passes.ts creates it, with no password), so "already
+    // registered" is often their own Pro pass waiting for them.
     setError(
-      "That email is already registered — we’ve switched you to log in. Enter your password to continue, or use “Forgot password?” below if you’ve lost it.",
+      "That email already has an account — it may hold a Pro pass from a purchase. We’ve switched you to log in: enter your password, use “Forgot password?” below to set one, or continue with Google using the same email.",
     );
     passwordRef.current?.focus();
   }
@@ -416,13 +420,13 @@ export default function LoginForm({
         ? {
             title: "Create your free account",
             blurb: signup
-              ? "It takes about ten seconds, and your receipt is saved right where you left it. Your first HD download is watermark-free."
-              : "It takes about ten seconds, and your receipts stay in your account. Your first HD download is watermark-free.",
+              ? `It takes about ten seconds, and your draft stays right where you left it. A free account adds ${freeAiPhrase()}.`
+              : `It takes about ten seconds. A free account adds ${freeAiPhrase()}.`,
           }
         : {
             title: `Welcome to ${SITE.name}`,
             blurb:
-              "Log in to save your receipts and pick up where you left off. The free builder works without an account.",
+              "Log in to use AI receipt generation and your Pro pass. The free builder and watermarked downloads work without an account.",
           };
 
   const header = (

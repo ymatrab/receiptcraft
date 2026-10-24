@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { SITE, absoluteUrl } from "@/lib/site";
 import { fitSeoDescription } from "@/lib/seo-description";
-import { firstDownloadsPhrase } from "@/lib/plans";
+import { PLANS, formatPlanPrice } from "@/lib/plans";
 import { HOMEPAGE_FAQS, type Faq } from "@/lib/faqs";
 import { CURRENCIES } from "@/lib/format";
 import SectionBuilder from "@/components/builder/SectionBuilder";
@@ -21,7 +21,7 @@ const SHARED_FAQS = HOMEPAGE_FAQS.filter((f) => CREATE_FAQ_QUESTIONS.includes(f.
 // Builder-specific questions the top "receipt maker" results answer and the
 // homepage FAQ does not (SEO.md §6). Each answer describes what
 // components/builder/SectionBuilder.tsx actually does; the currency count is
-// read from lib/format.ts and the free-download allowance from lib/plans.ts,
+// read from lib/format.ts and the Pro price from lib/plans.ts,
 // so neither can drift. "Can I email the receipt?" is deliberately absent: the
 // builder has no send feature.
 const BUILDER_FAQS: Faq[] = [
@@ -41,7 +41,7 @@ const BUILDER_FAQS: Faq[] = [
   },
   {
     question: "How do I download my receipt as a PDF?",
-    answer: `Press Download PDF under the preview. Downloading needs a free account; your first ${firstDownloadsPhrase()} is watermark-free, later free downloads carry a small watermark, and Pro removes it. Choose Print-ready PDF (A4) instead if you are printing on an office printer.`,
+    answer: `Press Download PDF under the preview. No account is needed: free downloads carry a small watermark, and Pro removes it, from ${formatPlanPrice(PLANS.pro_weekly)} for 7 days. Choose Print-ready PDF (A4) instead if you are printing on an office printer.`,
   },
   {
     question: "Can I make a receipt on my phone?",
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
   // to length already, hence `preformatted` — the padding pools exist to rescue
   // stubs, not to append "Editable." to a finished sentence.
   description: fitSeoDescription(
-    "Free receipt maker: build a receipt section by section — header, items, payment and barcode — with a live preview. No sign-up to start; sign in to download.",
+    "Free receipt maker: build a receipt section by section — header, items, payment and barcode — with a live preview. No sign-up needed to build or download.",
     { preformatted: true }
   ),
   alternates: { canonical: "/create" },
@@ -136,9 +136,9 @@ export default function CreatePage() {
           can download, print or attach to an expense claim. This is{" "}
           {SITE.name}&apos;s free receipt maker and generator — build your
           receipt section by section with a live preview, free and no sign-up to
-          start. Pick a template or start from scratch, edit every field, then
-          create a free account to download as a PDF or PNG — your first{" "}
-          {firstDownloadsPhrase()} is watermark-free.
+          start. Pick any template or start from scratch, edit every field, then
+          download as a PDF or PNG with no account. Free downloads carry a small
+          watermark; Pro removes it from {formatPlanPrice(PLANS.pro_weekly)}.
         </p>
       </div>
       <SectionBuilder />

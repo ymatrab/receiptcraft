@@ -1,4 +1,4 @@
-import { isFreeBrand } from "@/lib/brand-access";
+import { PLANS, formatPlanPrice } from "@/lib/plans";
 import type { LineItem, ReceiptTemplate } from "./types";
 import { WIKIMEDIA_LOGOS } from "./brand-logos";
 import type { BrandCategory } from "./brand-categories";
@@ -5637,51 +5637,32 @@ function pickDistinct<T>(arr: T[], n: number, seed: number): T[] {
 // so pages without a city just render the city-free half of the sentence.
 const INTRO_VARIANTS: ((n: string, noun: string, city?: string) => string)[] = [
   (n, noun) => `Create an editable ${n} receipt with ${noun}. Perfect for replacing a lost ${n} receipt, expense reports, bookkeeping records or design mockups.`,
-  (n, noun) => `Need ${anBrand(n)} receipt fast? Build one with ${noun}, then sign in free to download a clean PDF or PNG. Your first download is watermark-free.`,
+  (n, noun) => `Need ${anBrand(n)} receipt fast? Build one with ${noun}, then download a PDF or PNG with no account. Free downloads carry a small watermark; Pro removes it.`,
   (n, noun) => `Recreate ${anBrand(n)} receipt that matches the real thing, complete with ${noun}. Adjust the totals and export it for expenses, reimbursements or your own records.`,
   (n, noun) => `Make ${anBrand(n)} receipt online in seconds. Lay it out with ${noun} — subtotal, tax and total included — ready to print or save.`,
   (n, noun, city) => `Build ${anBrand(n)} receipt${city ? ` for a visit to the ${city} location` : ""} with ${noun}. Edit the totals, then download it for expenses or your own records.`,
-  (n, noun) => `Rebuild ${anBrand(n)} receipt from memory — add ${noun}, set the tax and total, then export a clean PDF or PNG in under a minute.`,
+  (n, noun) => `Rebuild ${anBrand(n)} receipt from memory — add ${noun}, set the tax and total, then export a PDF or PNG in under a minute.`,
   (n, noun, city) => `Whether you're replacing a receipt from ${anBrand(n)}${city ? ` in ${city}` : ""} or issuing one yourself, this generator handles ${noun}, tax and totals in one editable layout.`,
   (n, noun) => `A ${n} receipt template with ${noun} already laid out — change the items, prices and date to match your own purchase, then download.`,
   (n, noun) => `Generate ${anBrand(n)} receipt with ${noun} in the format the real thing uses. Free to build, with a live preview as you edit.`,
   (n, noun, city) => `This ${n} receipt generator lays out ${noun}${city ? `, styled after the ${city} store` : ""} — edit every field, then export as PDF or PNG.`,
 ];
 
-// Five of these used to end "no sign-up to start" one clause after promising a
-// download — which reads as "download without an account", and downloading needs
-// one. Variants 3 and 6 already said it honestly ("sign in to download"), so the
-// other five now follow that pattern rather than dropping the clause entirely:
-// "free to build, account to download" is the accurate framing the hero and
-// /create were corrected to use, and it still earns the "free" click.
+// None of these may say an account is needed to download — since 2026-10-24
+// it is not: building and a watermarked download need no account, and the
+// watermark-free download is a Pro pass bought at checkout, also without one.
+// None may say "clean" either: a free download is watermarked.
 const SEO_DESC_VARIANTS: ((n: string, noun: string) => string)[] = [
-  (n, noun) => `Create an editable ${n} receipt online in seconds. Add ${noun}, preview it free, then sign in to download as a PDF or PNG.`,
-  (n, noun) => `Make ${anBrand(n)} receipt with ${noun} and download a print-ready PDF or PNG. Free ${n} receipt generator — free account to download.`,
-  (n, noun) => `Generate ${anBrand(n)} receipt online, complete with ${noun}. Set the totals, preview free, then export with a free account.`,
-  (n, noun) => `Build ${anBrand(n)} receipt online with ${noun}, editable totals and tax. Free live preview — sign in to download as a PDF or PNG.`,
-  (n, noun) => `Free ${n} receipt maker: add ${noun}, set the date and totals, then export a clean PDF or PNG with a free account.`,
+  (n, noun) => `Create an editable ${n} receipt online in seconds. Add ${noun}, preview it free, then download a PDF or PNG with no account.`,
+  (n, noun) => `Make ${anBrand(n)} receipt with ${noun} and download a print-ready PDF or PNG. Free ${n} receipt generator — no account needed.`,
+  (n, noun) => `Generate ${anBrand(n)} receipt online, complete with ${noun}. Set the totals, preview free, then export with no account.`,
+  (n, noun) => `Build ${anBrand(n)} receipt online with ${noun}, editable totals and tax. Free live preview — download as a PDF or PNG, no account needed.`,
+  (n, noun) => `Free ${n} receipt maker: add ${noun}, set the date and totals, then export a PDF or PNG with no account.`,
   (n, noun) => `${n} receipt generator: lay out ${noun}, edit the totals and tax, then export a PDF or PNG. Free to build and preview.`,
-  (n, noun) => `Recreate ${anBrand(n)} receipt with ${noun} in a couple of clicks. Free live preview, download as PDF or PNG once you sign in.`,
+  (n, noun) => `Recreate ${anBrand(n)} receipt with ${noun} in a couple of clicks. Free live preview and PDF or PNG download, no account needed.`,
   (n, noun) => `Build an editable ${n} receipt — ${noun}, custom tax and totals — and export it free as a PDF or PNG.`,
   (n, noun) => `A free ${n} receipt template with ${noun} pre-filled. Adjust the details and download a print-ready PDF or PNG.`,
   (n, noun) => `Fast, free ${n} receipt generator. Add ${noun}, set the tax rate, preview live, then export as a PDF or PNG.`,
-];
-
-/**
- * Descriptions for Pro-only brands.
- *
- * Titles are handled by stripFree at assembly — surgical, so hand-written ones
- * keep their character. Descriptions cannot be: they say "free" in too many
- * grammars ("preview it free", "with a free account") to edit safely, and none
- * of them is true once the template needs Pro to open. So these replace them.
- */
-const PRO_DESC_VARIANTS: ((n: string) => string)[] = [
-  (n) =>
-    `Create an editable ${n} receipt online. Add your items, set the totals, tax and date, then download a print-ready PDF or PNG. A Makecepeit Pro template.`,
-  (n) =>
-    `${n} receipt generator: lay out your items, edit the totals, tax and store details, then export a clean PDF or PNG. One of our Pro brand templates.`,
-  (n) =>
-    `Build ${anBrand(n)} receipt with your own items, editable totals and tax. A Pro layout — Makecepeit Pro exports it as a print-ready PDF or high-resolution PNG.`,
 ];
 
 /**
@@ -5756,50 +5737,35 @@ const FOOTER_VARIANTS: ((n: string, city?: string) => string)[] = [
 
 type FaqVariant = (n: string, slug: string) => { question: string; answer: string };
 
-/**
- * Whether this brand's template exports watermark-free on a free account.
- *
- * Only two FAQ answers depend on it — the ones that promise a clean download.
- * The rest are true for every brand, because building and previewing stays free
- * for all 348: that is what the page titles promise and what brings the traffic.
- *
- * Imported lazily via require-style indirection would be neater, but this file
- * is data and brand-access is data, so a plain import is fine and has no cycle:
- * brand-access does not import brands.
- */
+/** "$3" — the cheapest watermark-free route, quoted rather than typed. */
+const PRO_FROM = formatPlanPrice(PLANS.pro_weekly);
 
 // "How do I make…" is the primary search intent, so it always leads; two more
 // are rotated in from the pool below for variety.
 const FAQ_ANCHOR: FaqVariant = (n) => ({
   question: `How do I make ${anBrand(n)} receipt?`,
-  answer: `Open the ${n} template, edit the store details, add your items and prices, set the tax rate, then sign in free to download as a PDF or PNG. It takes about a minute.`,
+  answer: `Open the ${n} template, edit the store details, add your items and prices, set the tax rate, then download it as a PDF or PNG — no account needed. It takes about a minute.`,
 });
 
 const FAQ_POOL: FaqVariant[] = [
-  (n, slug) => ({
+  (n) => ({
     question: `Is the ${n} receipt generator free?`,
-    answer: isFreeBrand(slug)
-      ? `Yes. Building ${anBrand(n)} receipt is free. Downloading uses a free account — your first is watermark-free, then a small watermark applies unless you upgrade to Pro, which also unlocks unlimited AI generation.`
-      : `The ${n} template is one of our Pro layouts, so it needs Makecepeit Pro. Around fifty brand templates are free to use, and the generic receipt builder is free for everyone with no sign-up.`,
+    answer: `Yes. Building and previewing ${anBrand(n)} receipt is free with no account, and so is a download with a small watermark. A watermark-free download needs Pro, from ${PRO_FROM} for 7 days, which also unlocks unlimited AI generation.`,
   }),
   (n) => ({ question: `Can I edit the items and prices on ${anBrand(n)} receipt?`, answer: `Every line, quantity, price and the tax rate is fully editable, so your ${n} receipt matches exactly what you need.` }),
   (n) => ({ question: `Can I download ${anBrand(n)} receipt as a PDF?`, answer: `Yes — export your ${n} receipt as a high-resolution PDF or PNG, ready to print or attach to an expense report.` }),
   (n) => ({ question: `Does it look like a real ${n} receipt?`, answer: `The layout mirrors a genuine ${n} receipt — logo, itemized lines, subtotal, tax and total — so it reads as authentic at a glance.` }),
-  (n, slug) => ({
+  (n) => ({
     question: `Do I need an account to make ${anBrand(n)} receipt?`,
-    answer: isFreeBrand(slug)
-      ? `You can build and preview with no sign-up. Downloading uses a free account — your first ${n} receipt is watermark-free, then a small watermark applies unless you go Pro.`
-      : `The ${n} template is one of our Pro layouts, so it needs a Makecepeit Pro account. The generic receipt builder is free to use with no sign-up at all.`,
+    answer: `No. You can build, preview and download ${anBrand(n)} receipt with no account. Free downloads carry a small watermark; Pro removes it, from ${PRO_FROM} for 7 days, and you pay at checkout without creating an account.`,
   }),
   (n) => ({ question: `Can I change the date and store details on ${anBrand(n)} receipt?`, answer: `Yes. Set the date, store address, register or order number and cashier so your ${n} receipt reflects the right visit.` }),
   (n) => ({ question: `What can I use ${anBrand(n)} receipt for?`, answer: `People recreate ${n} receipts to replace a lost original, document purchases for expense and reimbursement claims, keep bookkeeping records, or use them as props and mockups.` }),
   (n) => ({ question: `Can I add my own items to ${anBrand(n)} receipt?`, answer: `Yes — add, remove or reorder line items freely. The template starts with sample ${n} items, but every field is yours to change.` }),
   (n) => ({ question: `What file formats does the ${n} receipt export to?`, answer: `PDF (fitted or print-ready A4), PNG and JPG, all rendered at 3x resolution so they stay sharp when printed or attached to an email.` }),
-  (n, slug) => ({
+  (n) => ({
     question: `Will a recreated ${n} receipt have a watermark?`,
-    answer: isFreeBrand(slug)
-      ? `Your first download on a free account is watermark-free HD. After that, free downloads include a small watermark unless you upgrade to Pro.`
-      : `The ${n} template is one of our Pro layouts. Opening and exporting it needs Makecepeit Pro, which also removes the watermark everywhere and unlocks unlimited AI generation.`,
+    answer: `Free downloads include a small watermark. A watermark-free download needs Pro, from ${PRO_FROM} for 7 days — a one-time pass that never renews.`,
   }),
   (n) => ({ question: `Can I set a different currency or tax rate on ${anBrand(n)} receipt?`, answer: `Yes. Switch between 10 currencies and set any tax label and rate — the totals recalculate instantly.` }),
   (n) => ({ question: `Is my information saved when I make ${anBrand(n)} receipt?`, answer: `Only if you ask for it. The builder runs in your browser, so what you type stays on your device unless you save the receipt to your account.` }),
@@ -6254,7 +6220,8 @@ const GENERATED_BRANDS = NEW_BRAND_SEEDS.map(makeBrand);
 // ones gain a follow-on sentence landing closest to the target, overlong ones
 // are trimmed to a clean word boundary.
 /**
- * Strip the word "Free" from a Pro-only brand's title.
+ * Strip the word "Free" from a brand title outside TITLE_KEEPS_FREE (it was
+ * the Pro-only brand rule until 2026-10-24; see TITLE_KEEPS_FREE).
  *
  * Applied at assembly rather than at generation because 118 brands carry a
  * hand-written seoTitle that never goes near TITLE_VARIANTS — 96 of them are
@@ -6358,19 +6325,35 @@ function dropMention(title: string, at: number, length: number): string {
     .trim();
 }
 
+/**
+ * Brands whose page title keeps its "Free".
+ *
+ * Until 2026-10-24 only these fifty exported watermark-free on a free account,
+ * and stripFree took "Free" out of every other brand's title. That paywall is
+ * gone — every brand now builds and downloads (watermarked) free with no
+ * account — so a "Free" title is honest on all of them. The titles are frozen
+ * as they were rather than restored, so the paywall change does not also
+ * rewrite ~300 SERP titles on the same day. Restoring "Free" to the rest is a
+ * separate, measurable title test: delete this set and the stripFree call.
+ */
+const TITLE_KEEPS_FREE: ReadonlySet<string> = new Set([
+  "7-eleven", "albert-heijn", "aldi", "amazon", "apple-store", "autozone",
+  "barnes-noble", "bp", "burger-king", "chanel", "chick-fil-a", "chipotle",
+  "deliveroo", "dhl", "dick-s-sporting-goods", "dollar-tree", "domino-s-pizza",
+  "dunkin", "exxon", "food-lion", "gamestop", "giant-eagle", "grab", "gucci",
+  "guitar-center", "h-m", "harbor-freight", "jersey-mike-s", "kfc", "kroger",
+  "marriott", "mcdonalds", "nordstrom", "panda-express", "paypal", "petsmart",
+  "pizza-hut", "planet-fitness", "publix", "safeway", "sephora", "subway",
+  "taco-bell", "tgi-fridays", "tim-hortons", "trader-joe-s", "united-airlines",
+  "walmart", "whole-foods", "zara",
+]);
+
 export const BRAND_TEMPLATES: ReceiptTemplate[] = [...HAND_BRANDS, ...GENERATED_BRANDS].map((t) => {
-  // Descriptions are replaced outright rather than stripped: they say "free" in
-  // too many different grammars ("preview it free", "with a free account") to
-  // edit safely, and none of them is true once the template needs Pro to open.
-  const pro = !isFreeBrand(t.slug);
-  const seoTitle = fitBrandTitle(pro ? stripFree(t.seoTitle) : t.seoTitle, t.shortName);
-  const rawDescription = pro
-    ? pick(PRO_DESC_VARIANTS, hashSlug(t.slug) >>> 2)(t.shortName)
-    : t.seoDescription;
-  // `pro` swaps the pad pool: three of the receipt pads say "Free to use", which
-  // would re-introduce the false claim at the padding step, after the
-  // description itself was written correctly.
-  return { ...t, seoTitle, seoDescription: fitSeoDescription(rawDescription, { pro }) };
+  const seoTitle = fitBrandTitle(
+    TITLE_KEEPS_FREE.has(t.slug) ? t.seoTitle : stripFree(t.seoTitle),
+    t.shortName
+  );
+  return { ...t, seoTitle, seoDescription: fitSeoDescription(t.seoDescription) };
 });
 
 const NEW_BRAND_CATEGORY: Record<string, BrandCategory> = {};
@@ -6387,8 +6370,6 @@ export interface BrandListItem {
   logo: string;
   icon: string;
   category: BrandCategory;
-  /** Needs Pro to open in the builder. */
-  pro: boolean;
 }
 
 /** Lightweight list for the /brands explorer (no heavy template fields). */
@@ -6398,7 +6379,4 @@ export const BRAND_LIST: BrandListItem[] = BRAND_TEMPLATES.map((t) => ({
   logo: t.defaults.logoDataUrl ?? "",
   icon: t.icon,
   category: brandCategoryFor(t.slug),
-  // Carried on the list item so the index can mark Pro templates without
-  // importing the access rules into a client component.
-  pro: !isFreeBrand(t.slug),
 }));

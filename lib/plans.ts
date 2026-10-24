@@ -33,15 +33,10 @@ export const FREE_LIMITS = {
    * account page both read, via startOfUsageMonth() in lib/usage.ts.
    */
   aiGenerationsPerMonth: 3,
-  /**
-   * Watermark-free receipt downloads a logged-in free account gets before
-   * downloads fall back to watermarked. Counted per unique receipt (re-downloads
-   * and multiple formats of the same receipt don't consume extra credits).
-   *
-   * Was 3, which is more than any competitor gives away and close enough to the
-   * $3 pass that a one-off buyer had no reason to reach the paid ladder at all.
-   */
-  freeReceiptDownloads: 1,
+  // There is no free watermark-free download any more (owner decision,
+  // 2026-10-24): every non-Pro export carries the watermark, logged in or not.
+  // The old free-download allowance and its phrase helpers are gone on
+  // purpose; copy names the $3 pass instead, via formatPlanPrice(PLANS.pro_weekly).
 } as const;
 
 /**
@@ -56,44 +51,6 @@ export const FREE_FONTS = ["mono", "sans", "courier"] as const;
 /** Paper style a free account is limited to. Same rule — the template's own
  *  style still renders; this only limits manual switching. */
 export const FREE_PAPER_STYLE = "thermal" as const;
-
-/**
- * "1 watermark-free download" / "3 watermark-free downloads".
- *
- * The number appears in about thirty places across the site and the surrounding
- * grammar changes with it. Centralised so a future change to FREE_LIMITS cannot
- * leave half the site saying "your first 1 downloads".
- */
-export function freeDownloadsPhrase(noun = "download"): string {
-  const n = FREE_LIMITS.freeReceiptDownloads;
-  return n === 1 ? `1 ${noun}` : `${n} ${noun}s`;
-}
-
-/**
- * Just the noun, pluralised to agree with the allowance: "watermark-free
- * download" / "watermark-free downloads".
- *
- * For the places that render the number separately — /pricing bolds the
- * quantity and sets the noun beside it — where freeDownloadsPhrase would
- * supply the number twice, or (as it did) leave a hardcoded plural next to a
- * singular count: the live page read "1 watermark-free downloads".
- */
-export function freeDownloadsNoun(noun = "download"): string {
-  return FREE_LIMITS.freeReceiptDownloads === 1 ? noun : `${noun}s`;
-}
-
-/**
- * The same count for the "your first …" construction, where the number is
- * implicit when it is one.
- *
- * "your first download" / "your first 3 downloads" — never "your first 1
- * download", which is what freeDownloadsPhrase produces there and what shipped
- * to /create and /pricing before anyone read the rendered sentence.
- */
-export function firstDownloadsPhrase(noun = "download"): string {
-  const n = FREE_LIMITS.freeReceiptDownloads;
-  return n === 1 ? noun : `${n} ${noun}s`;
-}
 
 /**
  * "3 AI receipt generations a month" / "1 AI receipt generation a month".
@@ -181,14 +138,10 @@ export const PLANS: Record<PlanId, Plan> = {
     features: [
       "All receipt templates & brands",
       "Live preview",
-      // Written out by the helpers below rather than typed as literals. Every
-      // one of these sentences was wrong at some point after a limit changed:
-      // the AI allowance went from 3 a day to 3 a month and the download
-      // allowance from 3 to 1, and each time a handful of places on the site
-      // kept quoting the old number. A features array is exactly the kind of
-      // copy nobody re-reads.
-      `${freeDownloadsPhrase("free HD receipt download")}, then watermarked`,
-      freeAiPhrase(),
+      "Watermarked PDF & PNG downloads, no account needed",
+      // Derived rather than typed: the AI allowance went from 3 a day to 3 a
+      // month once and half the site kept quoting the old number.
+      `${freeAiPhrase()} with a free account`,
       freeStylingPhrase(),
     ],
   },
@@ -200,7 +153,7 @@ export const PLANS: Record<PlanId, Plan> = {
     stripePriceId: process.env.STRIPE_PRICE_PRO_WEEKLY ?? null,
     paymentLink: process.env.NEXT_PUBLIC_STRIPE_LINK_WEEKLY ?? null,
     features: [
-      "No watermark",
+      "Watermark-free downloads",
       "HD exports",
       "Unlimited AI receipt generation",
       "Saved receipt history",
@@ -216,8 +169,8 @@ export const PLANS: Record<PlanId, Plan> = {
     stripePriceId: process.env.STRIPE_PRICE_PRO_MONTHLY ?? null,
     paymentLink: process.env.NEXT_PUBLIC_STRIPE_LINK_MONTHLY ?? null,
     features: [
+      "Watermark-free downloads",
       "Everything in Free",
-      "No watermark",
       "HD exports",
       "Unlimited AI receipt generation",
       "Saved receipt history",

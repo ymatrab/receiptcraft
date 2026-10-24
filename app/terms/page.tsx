@@ -27,9 +27,10 @@ export default function TermsPage() {
 
         <H2>2. Accounts</H2>
         <p>
-          The free builder works without an account. Some features — removing the watermark
-          with a paid plan, saving receipts, and support chat — require you to create an
-          account by signing in with your email or a supported provider. You are responsible
+          The free builder, including watermarked downloads, works without an account, and a
+          Pro pass can be bought at checkout without one. Some features — the AI generator,
+          saving receipts, and support chat — require you to create an account by signing in
+          with your email or a supported provider. You are responsible
           for activity under your account and for keeping access to your email secure. You must
           be at least 18 years old, or the age of majority in your jurisdiction, to purchase a plan.
         </p>

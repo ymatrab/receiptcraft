@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { analytics } from "@/lib/analytics";
 import { DEFAULT_NEXT, safeInternalPath } from "@/lib/new-account";
-import { FREE_LIMITS, freeDownloadsPhrase } from "@/lib/plans";
+import { FREE_LIMITS } from "@/lib/plans";
 
 /**
  * Shown once at the top of /pricing, immediately after a new account is created.
@@ -63,19 +63,16 @@ export default function NewAccountBanner() {
       </h2>
 
       <p className="mt-2 text-sm text-emerald-900">It already includes:</p>
-      <ul className="mt-3 grid gap-2 text-sm text-emerald-900 sm:grid-cols-3">
+      <ul className="mt-3 grid gap-2 text-sm text-emerald-900 sm:grid-cols-2">
         <Item>
           <strong>{FREE_LIMITS.aiGenerationsPerMonth} AI generations</strong> a month
         </Item>
-        <Item>
-          <strong>{freeDownloadsPhrase("watermark-free HD download")}</strong>
-        </Item>
-        <Item>Every template, and your saved receipts</Item>
+        <Item>Every template, with watermarked downloads</Item>
       </ul>
 
       <div className="mt-5 flex flex-col gap-3 border-t border-emerald-200/80 pt-5 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm text-emerald-900">
-          Want no watermark at all and unlimited AI? The plans are below.
+          Want downloads without the watermark and unlimited AI? The plans are below.
         </p>
         {/* Declining the plans is not an upgrade click. This fired
             upgrade_click{new_account_pricing_skip}, which put every new account

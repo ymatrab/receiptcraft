@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { isFreeBrand } from "@/lib/brand-access";
+import { PLANS, formatPlanPrice } from "@/lib/plans";
 import Reviewed from "@/components/Reviewed";
 import { brandReviewedAt } from "@/lib/content-dates";
 import Link from "next/link";
@@ -184,11 +184,7 @@ export default async function BrandTemplatePage({ params }: Props) {
                 href={`/create?template=${template.slug}`}
                 className="rounded-full bg-indigo-600 px-7 py-3.5 text-base font-semibold text-white shadow-lg shadow-indigo-600/25 transition-all hover:bg-indigo-700"
               >
-                {/* This said "Use This Template — Free" on every brand, which
-                    stopped being true for 298 of them the moment the templates
-                    needed Pro. A false promise on the button itself is the
-                    worst place for one. */}
-                {isFreeBrand(template.slug) ? "Use This Template — Free" : "Use This Template"}
+                Use This Template — Free
               </Link>
               <Link
                 href="/brands"
@@ -291,15 +287,9 @@ export default async function BrandTemplatePage({ params }: Props) {
             <li>Open the {template.shortName} template — it loads with sample items and {d.taxLabel ?? "tax"} already filled in.</li>
             <li>Edit the business details, line items, prices, date and payment method to match what you need.</li>
             <li>
-              Sign in with a free account to download a print-ready PDF or high-resolution PNG
-              {/* Pro gates the clean export, not opening the template: isFreeBrand is
-                  read by the watermark check in the builder, and lib/brand-access.ts
-                  is explicit that all 348 stay free to build and preview. The old
-                  copy told 298 brands' visitors they needed Pro to open the page
-                  they were already on. */}
-              {isFreeBrand(template.slug)
-                ? " — your first receipt is watermark-free."
-                : " — this is a Pro template, so a free account's export carries the watermark."}
+              Download a print-ready PDF or high-resolution PNG with no account. Free
+              downloads carry a small watermark; Pro removes it, from{" "}
+              {formatPlanPrice(PLANS.pro_weekly)} for 7 days.
             </li>
           </ol>
 
