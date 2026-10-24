@@ -5,6 +5,7 @@ import HomeAiGenerator from "@/components/HomeAiGenerator";
 import { TEMPLATES } from "@/lib/templates";
 import { BRAND_LIST } from "@/lib/brands";
 import { HOMEPAGE_FAQS } from "@/lib/faqs";
+import { PLANS, formatPlanPrice } from "@/lib/plans";
 import type { PaperFinish, ReceiptData } from "@/lib/types";
 import { docFromReceiptData } from "@/lib/sections";
 import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
@@ -144,9 +145,9 @@ const FEATURES = [
   {
     icon: "🆓",
     tint: "bg-rose-50 ring-rose-100",
-    title: "Free to build — account to download",
+    title: "Free to build and download",
     description:
-      "Build and preview receipts with no account. Create a free account to download — your first is watermark-free — then go Pro for unlimited HD, watermark-free exports.",
+      `Build, preview and download receipts with no account — free downloads carry a small watermark. Pro removes it, from ${formatPlanPrice(PLANS.pro_weekly)} for 7 days, paid at checkout with no account.`,
   },
 ];
 
@@ -162,9 +163,9 @@ const STEPS = [
       "Edit the business info, items, prices, tax, tip and payment method. The live preview updates with every keystroke.",
   },
   {
-    title: "Sign in & download",
+    title: "Download",
     description:
-      "Create a free account and export your receipt as a PDF or high-resolution PNG. Your first download is watermark-free HD — upgrade to Pro for unlimited watermark-free exports.",
+      `Export your receipt as a PDF or high-resolution PNG with no account. Free downloads carry a small watermark; Pro removes it, from ${formatPlanPrice(PLANS.pro_weekly)} for 7 days.`,
   },
 ];
 
@@ -222,7 +223,7 @@ const USE_CASES: {
     tint: "bg-violet-50 ring-violet-100",
     title: "You need it for an expense report",
     description:
-      "Itemized totals, tax lines and payment method in a layout finance teams accept — exported as a clean PDF.",
+      "Itemized totals, tax lines and payment method in a layout finance teams accept — exported as a print-ready PDF.",
     href: "/templates",
     cta: "Browse templates",
   },
@@ -369,7 +370,7 @@ const appJsonLd = {
     "PDF and PNG download",
     "Custom tax, discount and tip",
     "10 currencies",
-    "No sign-up to build — free account to download",
+    "No sign-up to build or download",
     "AI receipt generator",
   ],
 };
@@ -442,7 +443,7 @@ export default function HomePage() {
           <div>
             <p className="inline-flex items-center gap-1.5 rounded-full border border-indigo-200 bg-indigo-50 px-3 py-1 text-xs font-medium text-indigo-700">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-              Free to build · {BRAND_COUNT} brand templates · Free account to
+              Free to build · {BRAND_COUNT} brand templates · No sign-up to
               download
             </p>
             <h1 className="mt-5 text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
@@ -481,9 +482,10 @@ export default function HomePage() {
               </Link>
             </div>
             <p className="mt-3 text-sm text-slate-500">
-              Free to build &amp; preview — no sign-up. A free account is needed
-              to download or to use the AI generator, and your first download
-              is watermark-free.{" "}
+              Free to build, preview and download — no sign-up. Free downloads
+              carry a small watermark; Pro removes it, from{" "}
+              {formatPlanPrice(PLANS.pro_weekly)} for 7 days. The AI generator
+              needs a free account.{" "}
               <Link
                 href="/pricing"
                 className="font-medium text-indigo-600 underline underline-offset-2 hover:text-indigo-700"
@@ -1160,8 +1162,8 @@ export default function HomePage() {
           </h2>
           <p className="relative mx-auto mt-4 max-w-xl text-lg text-indigo-100">
             No sign-up to build. {TEMPLATE_COUNT} business templates and{" "}
-            {BRAND_COUNT} brand layouts. A free account downloads your first one
-            watermark-free.
+            {BRAND_COUNT} brand layouts. Download with no account; Pro removes the
+            watermark.
           </p>
           <div className="relative mt-8 flex flex-wrap items-center justify-center gap-4">
             <Link

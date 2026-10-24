@@ -201,7 +201,7 @@ export const WIDTH_PRESETS: { id: string; label: string; px: number }[] = [
 export interface ReceiptDoc {
   /**
    * Stable identifier for this working receipt, used for download-quota
-   * accounting (free accounts get a fixed number of watermark-free receipts,
+   * accounting (historically: free accounts got a fixed number of watermark-free receipts,
    * counted per unique id). Assigned lazily by the builder; persisted through
    * autosave and saved-receipt data so re-downloads reuse the same credit.
    */

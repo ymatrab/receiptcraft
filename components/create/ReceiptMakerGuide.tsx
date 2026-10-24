@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FREE_FONTS, freeDownloadsPhrase } from "@/lib/plans";
+import { FREE_FONTS, PLANS, formatPlanPrice } from "@/lib/plans";
 
 /**
  * The reference copy under the builder on /create.
@@ -144,11 +144,10 @@ export default function ReceiptMakerGuide() {
           <li className="rounded-2xl border border-slate-200 bg-white p-5">
             <p className="font-semibold text-slate-900">3. Download it</p>
             <p className="mt-1 text-sm leading-relaxed">
-              Create a free account and download the receipt as a PDF, PNG or
-              JPG, or as a print-ready A4 PDF. A free account includes{" "}
-              {freeDownloadsPhrase("watermark-free download")}; after that, free
-              downloads carry a watermark and{" "}
-              <Link href="/pricing" className={linkClass}>Pro</Link> removes it.
+              Download the receipt as a PDF, PNG or JPG, or as a print-ready A4
+              PDF — no account needed. Free downloads carry a small watermark,
+              and <Link href="/pricing" className={linkClass}>Pro</Link> removes
+              it, from {formatPlanPrice(PLANS.pro_weekly)} for 7 days.
             </p>
           </li>
         </ol>

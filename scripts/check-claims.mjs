@@ -63,6 +63,14 @@ const STALE = [
   { re: /\b1 watermark-free downloads\b/, why: "singular count, plural noun" },
   { re: /\b1 free downloads\b/, why: "singular count, plural noun" },
   { re: /your first 1 /i, why: 'reads as "your first 1 download" — use firstDownloadsPhrase()' },
+  // 2026-10-24 paywall change: no free watermark-free download, no Pro brand
+  // templates, and downloading (watermarked) or buying Pro needs no account.
+  { re: /first (?:HD |clean |watermark-free )?(?:download|receipt) (?:is|exports) (?:watermark-free|clean)/i, why: "there is no free watermark-free download since 2026-10-24" },
+  { re: /watermark-free on your first/i, why: "there is no free watermark-free download since 2026-10-24" },
+  { re: /\bPro (?:layout|template)s?\b/, why: "every brand template is free to build since 2026-10-24" },
+  { re: /free account (?:to download|required)/i, why: "downloading needs no account since 2026-10-24" },
+  { re: /sign in (?:free )?to download/i, why: "downloading needs no account since 2026-10-24" },
+  { re: /downloading (?:uses|needs|requires) a free account/i, why: "downloading needs no account since 2026-10-24" },
 ];
 
 /** A line that is only describing history is allowed to name the old number. */

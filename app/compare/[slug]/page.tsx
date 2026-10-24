@@ -14,6 +14,7 @@ import { previewFromTemplate } from "@/lib/receipt";
 import { docFromReceiptData } from "@/lib/sections";
 import { SITE, absoluteUrl } from "@/lib/site";
 import { BRAND_COUNT, SITE_DESCRIPTION } from "@/lib/counts";
+import { PLANS, formatPlanPrice } from "@/lib/plans";
 import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
 import ComparisonTable from "@/components/comparison/ComparisonTable";
 import RelatedPosts from "@/components/RelatedPosts";
@@ -241,10 +242,10 @@ export default async function ComparePage({ params }: Props) {
             <div className="rounded-2xl border-2 border-indigo-200 bg-indigo-50/50 p-6">
               <h3 className="text-lg font-bold text-slate-900">{SITE.name}</h3>
               <p className="mt-3 text-sm leading-relaxed text-slate-600">
-                Free to build and preview with no signup. Your first HD
-                downloads are free; after that, Pro removes the watermark and
-                unlocks unlimited HD exports, unlimited AI generation and saved
-                history.
+                Free to build, preview and download with no signup; free
+                downloads carry a small watermark. Pro removes it, from{" "}
+                {formatPlanPrice(PLANS.pro_weekly)} for 7 days with no account
+                needed, and unlocks unlimited AI generation.
               </p>
               <p className="mt-4 text-2xl font-bold text-slate-900">
                 Free{" "}
@@ -381,7 +382,7 @@ export default async function ComparePage({ params }: Props) {
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-slate-300">
             {BRAND_COUNT} brand templates, AI generation and PDF &amp; PNG export.
-            Build with no signup; a free account downloads your first one.
+            Build and download with no signup; Pro removes the watermark.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Link

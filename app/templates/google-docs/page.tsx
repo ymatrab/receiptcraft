@@ -53,7 +53,7 @@ const FAQS = [
   {
     question: "Can I make a receipt without editing a document?",
     answer:
-      "Yes. The Makecepeit receipt maker fills in the totals for you as you type and exports a PDF or PNG. Building and previewing needs no account; downloading uses a free account, and your first download is watermark-free.",
+      "Yes. The Makecepeit receipt maker fills in the totals for you as you type and exports a PDF or PNG. Building, previewing and downloading need no account; free downloads carry a small watermark, and Pro removes it.",
   },
 ];
 
@@ -204,8 +204,8 @@ export default function GoogleDocsTemplatesPage() {
           </Link>{" "}
           adds up line items, tax and tips as you type, offers thermal,
           clean-white and invoice paper styles, and exports a PDF or PNG.
-          Building and previewing needs no account; downloading uses a free
-          account, and your first download is watermark-free.
+          Building, previewing and downloading need no account; free
+          downloads carry a small watermark, and Pro removes it.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
           <Link

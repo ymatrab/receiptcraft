@@ -23,6 +23,15 @@ import { COMPETITORS, LAST_UPDATED } from "./comparisons";
 // style, and saving your own templates is now Pro. Every page that stated the
 // old numbers changed with it.
 export const STATIC_UPDATED = "2026-08-31";
+// 2026-10-24: /about stopped saying a free account is needed to download and
+// that the first receipt is watermark-free (paywall change). Its own constant
+// because STATIC_UPDATED also stamps /blog, /contact and /authors, which did
+// not change.
+export const ABOUT_UPDATED = "2026-10-24";
+// 2026-10-24: the calculator's footer note said an account is needed to
+// download; downloading no longer needs one. /tools/receipt-calculator only —
+// CONTENT_UPDATED also stamps the split-payment checker, which did not change.
+export const RECEIPT_CALCULATOR_UPDATED = "2026-10-24";
 // 2026-08-29: /tools/receipt-calculator stopped saying an account is needed
 // "only to download" — the AI generator needs one too. /tools and the other
 // calculator did not change, but they share this constant and the text sits in
@@ -58,7 +67,9 @@ export const PRIVACY_UPDATED = "2026-10-20";
 // as PRIVACY_UPDATED: STATIC_UPDATED also stamps /about, /contact, /authors and
 // /blog, none of which changed, and a terms page is the last place to be vague
 // about when it changed.
-export const TERMS_UPDATED = "2026-09-04";
+// 2026-10-24: section 2 — watermarked downloads and buying a Pro pass need no
+// account; the AI generator, saving and support chat still do.
+export const TERMS_UPDATED = "2026-10-24";
 export const TEMPLATES_UPDATED = "2026-07-20";
 export const TEMPLATES_CITED_UPDATED = "2026-08-20";
 export const TEMPLATES_FIGURE_UPDATED = "2026-08-21";
@@ -72,7 +83,7 @@ export const TEMPLATES_COPY_UPDATED = "2026-08-31";
 
 /**
  * The five templates whose seoDescription promised "watermark-free on your
- * first three" when FREE_LIMITS.freeReceiptDownloads has been 1. The claim was
+ * first three" when the free allowance had been 1 since 2026-08-31. The claim was
  * live on /templates/bar and four others; three of them were also long enough
  * that fitSeoDescription truncated the promise mid-clause ("watermark-free
  * on…"). Their own constant so the corrected pages are submitted without
@@ -111,7 +122,9 @@ export const BRANDS_UPDATED = "2026-08-31";
 // 2026-08-31: free-tier limits changed — see STATIC_UPDATED above.
 // 2026-08-31 (2): the explorer marks Pro templates, and the brand page CTA no
 // longer says "Use This Template — Free" on templates that need Pro.
-export const BRANDS_INDEX_UPDATED = "2026-08-31";
+// 2026-10-24: the "Pro" badges are gone from the explorer, and the intro, meta
+// description and watermark FAQ (page + FAQPage JSON-LD) state the new paywall.
+export const BRANDS_INDEX_UPDATED = "2026-10-24";
 
 /**
  * The 36 brands whose visible copy changed with the article fix on 2026-09-01.
@@ -294,6 +307,15 @@ export const BRANDS_HEAD_TERM_UPDATED = "2026-10-18";
 // receipt maker (lib/topic-clusters.ts), so every page's visible links changed.
 export const BRANDS_HUB_LINK_UPDATED = "2026-10-19";
 
+// 2026-10-24: paywall change — every template builds free with no account,
+// free downloads are watermarked and need no account, and a watermark-free
+// download is a Pro pass bought at checkout without one.
+// Every brand page changed: the how-to step and CTA no longer split brands into
+// free and Pro, the generated FAQs (and their JSON-LD) and two intro variants
+// stopped saying an account is needed to download, and the 298 former Pro
+// brands lost their "A Makecepeit Pro template" meta description.
+export const BRANDS_PAYWALL_UPDATED = "2026-10-24";
+
 // Brand pages added after the shared dates above. Without its own date a new
 // page inherits BRANDS_LINKS_UPDATED and looks older than it is.
 const BRANDS_ADDED: Readonly<Record<string, string>> = {
@@ -319,6 +341,7 @@ export function brandReviewedAt(slug: string): string {
     BRANDS_HEAD_TERM_FIXED.has(slug) ? BRANDS_HEAD_TERM_UPDATED : null,
     BRANDS_HUB_LINK_UPDATED,
     BRANDS_ADDED[slug] ?? null,
+    BRANDS_PAYWALL_UPDATED,
   );
 }
 // 2026-08-31: the CTA names a Pro template before the click.
@@ -365,7 +388,10 @@ export const POLICY_UPDATED = "2026-08-31";
 // 2026-10-19: a definition-first opening sentence and five builder FAQs (logo,
 // tax rate, currency, PDF download, phone), mirrored in the FAQPage JSON-LD.
 // CREATE_UPDATED stamps /create alone, so this moves no other page.
-export const CREATE_UPDATED = "2026-10-19";
+// 2026-10-24: paywall change — the builder, its download copy and the FAQs it
+// renders (lib/faqs.ts, ReceiptMakerGuide) no longer say a free account is
+// needed to download or that the first download is watermark-free.
+export const CREATE_UPDATED = "2026-10-24";
 // 2026-10-13: lists the first-party measurement storage (mkc_* keys).
 // 2026-10-20: analytics section split by region — opt-in in the EEA/UK/CH,
 // on by default with Decline as the opt-out everywhere else.
@@ -413,7 +439,9 @@ export const LOGIN_UPDATED = "2026-08-31";
 // the weekly pass, which has been on sale throughout and was not mentioned.
 // 2026-10-16: Stripe checkout — accepted payment methods, automatic activation,
 // and plan switching explained; the "use the same email" warning removed.
-export const PRICING_UPDATED = "2026-10-16";
+// 2026-10-24: paywall change — no free watermark-free download, no Pro brand
+// templates, and Pro can be bought at checkout without an account.
+export const PRICING_UPDATED = "2026-10-24";
 // 2026-08-23: the hero grid no longer stretches to the 380px receipt, so the
 // primary CTA is reachable again on phones under 412px — a visible change to
 // the page's most important element.
@@ -432,17 +460,24 @@ export const PRICING_UPDATED = "2026-10-16";
 // watermark-free", left ungrammatical when the free allowance dropped to one.
 // 2026-10-22: title and H1 lead with "receipt maker"; "recreate any store
 // receipt" wording removed.
-export const HOME_UPDATED = "2026-10-22";
+// 2026-10-24: paywall change — the hero note, feature card, steps (and their
+// HowTo JSON-LD), closing CTA and the two download FAQs (and FAQPage JSON-LD)
+// say downloading needs no account and Pro removes the watermark.
+export const HOME_UPDATED = "2026-10-24";
 // 2026-08-31: free-tier limits changed — see STATIC_UPDATED above.
 // 2026-10-11: links to the new Google Docs templates page from under the intro.
 // 2026-10-18: lists the new pro forma invoice and credit note templates.
 // 2026-10-19: lists the new payment receipt, estimate and bill format templates.
-export const TEMPLATES_INDEX_UPDATED = "2026-10-19";
+// 2026-10-24: the intro no longer says downloading needs a free account or that
+// the first download is watermark-free.
+export const TEMPLATES_INDEX_UPDATED = "2026-10-24";
 // /templates/google-docs — new on 2026-10-11. Lists the free templates
 // published as public Google Docs (lib/google-docs-templates.ts).
 // 2026-10-21: "Preview" became "Open in Google Docs", linking each Doc's /edit
 // address so Google can index the Docs (none were indexed on 2026-10-21).
-export const GOOGLE_DOCS_TEMPLATES_UPDATED = "2026-10-21";
+// 2026-10-24: the receipt-maker paragraph and its FAQ answer (and JSON-LD) no
+// longer say downloading needs a free account or the first is watermark-free.
+export const GOOGLE_DOCS_TEMPLATES_UPDATED = "2026-10-24";
 export const COMPARISONS_UPDATED = LAST_UPDATED;
 
 /**
@@ -454,8 +489,17 @@ export const COMPARISONS_UPDATED = LAST_UPDATED;
  * or leaves the re-read one looking untouched. See brandReviewedAt, same rule.
  */
 export function compareReviewedAt(slug: string): string {
-  return COMPETITORS.find((c) => c.slug === slug)?.updated ?? COMPARISONS_UPDATED;
+  return newest(
+    COMPETITORS.find((c) => c.slug === slug)?.updated ?? COMPARISONS_UPDATED,
+    COMPARE_COPY_UPDATED,
+  );
 }
+
+// 2026-10-24: our own column, pricing card, closing CTA and FAQ answers on every
+// comparison page state the new paywall (watermarked download with no account,
+// watermark-free via Pro). Our copy, not a competitor re-check, so the visible
+// "Last reviewed" date does not move — only the sitemap date does.
+const COMPARE_COPY_UPDATED = "2026-10-24";
 
 /**
  * /alternatives renders every competitor's overview and pricing, so it is as
@@ -472,7 +516,9 @@ export function alternativesUpdated(): string {
 // and hands the head terms to the builder; the first-download line now says it
 // is a free account's watermark-free download. Our copy, not a competitor
 // re-check, so the visible "Last reviewed" date (LAST_UPDATED) does not move.
-const ALTERNATIVES_COPY_UPDATED = "2026-10-18";
+// 2026-10-24: our entry and the closing CTA state the new paywall (download
+// with no account; Pro removes the watermark).
+const ALTERNATIVES_COPY_UPDATED = "2026-10-24";
 
 /**
  * When a template page was last reviewed.
@@ -551,7 +597,24 @@ const TEMPLATES_SAMPLE_FIXED: ReadonlySet<string> = new Set([
 ]);
 const TEMPLATES_SAMPLE_UPDATED = "2026-10-22";
 
+// 2026-10-24: templates whose description or how-to said "free account
+// required" or "watermark-free on your first one" (lib/templates.ts, fixed with
+// the paywall change). Listed from the copy that day, like the sets above.
+const TEMPLATES_PAYWALL_FIXED: ReadonlySet<string> = new Set([
+  "restaurant", "coffee-shop", "gas-station", "bar", "rent-receipt",
+  "payment-receipt", "estimate", "bill-format", "proforma-invoice", "credit-note",
+  "medical-receipt", "handyman-receipt", "clothing-store-receipt",
+  "electronics-store-receipt", "car-rental-receipt", "airline-receipt",
+  "veterinary-receipt", "spa-receipt", "florist-receipt",
+]);
+const TEMPLATES_PAYWALL_UPDATED = "2026-10-24";
+
 export function templateReviewedAt(t: ReceiptTemplate): string {
+  const latest = templateReviewedAtSamples(t);
+  return TEMPLATES_PAYWALL_FIXED.has(t.slug) && TEMPLATES_PAYWALL_UPDATED > latest ? TEMPLATES_PAYWALL_UPDATED : latest;
+}
+
+function templateReviewedAtSamples(t: ReceiptTemplate): string {
   const reviewed = TEMPLATES_RELATED_UPDATED > templateReviewedAtBefore(t) ? TEMPLATES_RELATED_UPDATED : templateReviewedAtBefore(t);
   const headed = TEMPLATES_HEADINGS_FIXED.has(t.slug) && TEMPLATES_HEADINGS_UPDATED > reviewed ? TEMPLATES_HEADINGS_UPDATED : reviewed;
   const clustered = TEMPLATES_CLUSTER_UPDATED > headed ? TEMPLATES_CLUSTER_UPDATED : headed;
@@ -579,12 +642,18 @@ export const INTENT_LINKS_UPDATED = "2026-10-04";
 // its brand template directly under the lead, above the fold.
 export const INTENT_TOP_LINK_UPDATED = "2026-10-22";
 
+// 2026-10-24: the closing CTA on every guide states the download terms (free,
+// no sign-up, watermarked; Pro removes it) instead of naming 298 brands' "Pro
+// layouts", and the rebuild step no longer says to sign in to download.
+export const INTENT_PAYWALL_UPDATED = "2026-10-24";
+
 /** When a receipt-help guide was last reviewed. */
 export function intentReviewedAt(brandSlug: string): string {
   return newest(
     hasOfficialSource(brandSlug) ? INTENT_CITED_UPDATED : INTENT_UPDATED,
     INTENT_LINKS_UPDATED,
     INTENT_TOP_LINK_UPDATED,
+    INTENT_PAYWALL_UPDATED,
   );
 }
 

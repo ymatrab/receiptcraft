@@ -2,9 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { BRAND_LIST } from "@/lib/brands";
 import { BRAND_COUNT } from "@/lib/counts";
-import { FREE_BRAND_COUNT } from "@/lib/brand-access";
+import { PLANS, formatPlanPrice } from "@/lib/plans";
 import BrandExplorer from "@/components/BrandExplorer";
 import { absoluteUrl } from "@/lib/site";
+
+const PRO_FROM = formatPlanPrice(PLANS.pro_weekly);
 
 const BRAND_FAQS = [
   {
@@ -30,12 +32,12 @@ const BRAND_FAQS = [
   {
     question: "Are brand receipts downloaded with a watermark?",
     answer:
-      "Free downloads include a small Makecepeit watermark. Upgrade to Pro for clean PDF and PNG receipts with no branding or watermark on the document.",
+      `Free downloads include a small Makecepeit watermark and need no account. Pro removes it, from ${PRO_FROM} for 7 days — a one-time pass you pay for at checkout, with no account needed and nothing that renews.`,
   },
   {
     question: "Is my receipt data stored?",
     answer:
-      "No. Receipt editing and export happen in your browser, and Makecepeit does not store the receipt information you type into the builder. Building and previewing need no sign-up; downloading uses a free account.",
+      "No. Receipt editing and export happen in your browser, and Makecepeit does not store the receipt information you type into the builder. Building, previewing and downloading need no sign-up.",
   },
   {
     question: "Can I use these templates for reimbursements?",
@@ -70,11 +72,7 @@ const breadcrumbLd = {
 
 export const metadata: Metadata = {
   title: `Brand Receipt Templates — ${BRAND_COUNT} Stores`,
-  // Every brand is free to build and preview; only FREE_BRAND_COUNT of them
-  // export without a watermark on a free account. The old line ("… free brand
-  // receipt templates … a free account downloads your first one") promised the
-  // clean download for all 348.
-  description: `Browse ${BRAND_COUNT} brand receipt templates — Walmart, Starbucks, Uber, McDonald's and more. All free to build and preview; ${FREE_BRAND_COUNT} download clean on a free account.`,
+  description: `Browse ${BRAND_COUNT} brand receipt templates — Walmart, Starbucks, Uber, McDonald's and more. All free to build and download with no account; Pro removes the watermark.`,
   alternates: { canonical: "/brands" },
 };
 
@@ -92,8 +90,9 @@ export default function BrandsPage() {
         <p className="mt-4 text-lg leading-relaxed text-slate-600">
           {BRAND_COUNT} receipt templates inspired by popular brands across restaurants,
           grocery, retail, travel, gas and more. Search for a brand or filter by category, then
-          customize the items, dates and prices. Building and previewing is free with no
-          sign-up; downloading uses a free account, and your first is watermark-free.
+          customize the items, dates and prices. Building, previewing and a watermarked
+          download are free with no sign-up; a watermark-free download is Pro, from{" "}
+          {PRO_FROM} for 7 days.
         </p>
       </div>
 

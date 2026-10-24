@@ -27,4 +27,4 @@ export const TEMPLATE_COUNT = TEMPLATES.length;
  *
  * Kept under ~160 chars so it doesn't truncate in SERPs.
  */
-export const SITE_DESCRIPTION = `Create professional receipts online for free with ${BRAND_COUNT} brand templates — live preview, instant PDF & PNG download, editable fields, free account to download.`;
+export const SITE_DESCRIPTION = `Create professional receipts online for free with ${BRAND_COUNT} brand templates — live preview, instant PDF & PNG download, editable fields, no account needed.`;

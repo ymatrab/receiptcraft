@@ -47,9 +47,9 @@ export default function TemplatesPage() {
         <p className="mt-4 text-lg leading-relaxed text-slate-600">
           Every template is pre-filled with sample items, prices and tax
           rates for its business type. Pick one, customize what you need, and
-          download your receipt in seconds. Building and previewing is free with
-          no sign-up; downloading uses a free account, and your first is
-          watermark-free.
+          download your receipt in seconds. Building, previewing and downloading
+          are free with no sign-up; free downloads carry a small watermark, and
+          Pro removes it.
         </p>
         <p className="mt-3 text-slate-600">
           Prefer to work in Google Docs? Copy one of our{" "}
