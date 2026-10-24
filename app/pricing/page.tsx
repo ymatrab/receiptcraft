@@ -16,6 +16,7 @@ import { absoluteUrl, SITE } from "@/lib/site";
 import { stripeConfigured } from "@/lib/stripe";
 import PricingCta from "./PricingCta";
 import FreePlanCta from "./FreePlanCta";
+import Link from "next/link";
 import NewAccountBanner from "./NewAccountBanner";
 import PricingViewed from "./PricingViewed";
 import CheckoutNotice from "./CheckoutNotice";
@@ -127,10 +128,13 @@ type PlanRow = {
  * included (2026-10-24): the only thing Pro changes about a download is the
  * watermark.
  *
- * "300+" rather than the exact count: the catalogue grows, and a round floor
- * stays true without a copy edit every time it does.
+ * The real count, read from the catalogue, so it cannot go stale. It used to be
+ * "300+" for that reason, which undersold the 350-odd templates every other
+ * page names.
  */
-const BRANDS_LABEL = "300+ brand templates";
+const BRANDS_LABEL = `${BRAND_TEMPLATES.length} brand templates`;
+
+
 
 const PLAN_ROWS: PlanRow[] = [
   {
@@ -197,6 +201,34 @@ const PLAN_ROWS: PlanRow[] = [
     support: true,
   },
 ];
+
+/**
+ * The paid plans, which are the cards. Free stays a column in the comparison
+ * table and gets its own line under it: building and watermarked downloads need
+ * no plan at all since 2026-10-24, so a Free card only competed with the choice
+ * the page exists for.
+ */
+const PAID_ROWS = PLAN_ROWS.filter((r) => r.id !== "free");
+
+/**
+ * What every Pro plan includes. The three passes are identical apart from how
+ * long they run and priority support, so this is stated once, directly above
+ * the cards rather than repeated nine lines per card. It sits above them, not
+ * below, so a buyer still reads what they get before the buttons.
+ */
+const PRO_INCLUDES = [
+  "Unlimited watermark-free downloads",
+  "Unlimited AI receipt generation",
+  BRANDS_LABEL,
+  "All 32 fonts · 3 paper styles",
+  "Save your own templates",
+  "Saved receipt history",
+  "PNG, JPG, PDF, print-PDF",
+  "Logo, barcode, custom sections",
+] as const;
+
+/** Most checkout starts pick the 7-day pass (36 of 44, Sep–Oct 2026). */
+const MOST_POPULAR = "pro_weekly";
 
 /** Rows every plan shares. Brand templates, fonts and paper styles moved out —
  *  they differ by plan now, so they are columns in the table rather than a
@@ -375,24 +407,34 @@ export default function PricingPage() {
         ))}
       </ol>
 
-      {/* All four plans on screen, each carrying its whole feature list.
+      {/* Three paid passes. Free is not a card any more (2026-10-24): building
+          and watermarked downloads need no plan, so it is explained in the
+          steps above and offered again under the comparison table.
 
-          An earlier version put the shared entitlements in one band under the
-          row, on the grounds that the Pro tiers are identical and repeating
-          four lines four times is noise. That is true of the *entitlements* and
-          false of the *page*: comparing what you get is the job here, and a
-          buyer should not have to scroll past the cards to find out what they
-          are buying. ReceiptFaker and Receiptmakerly both repeat the list per
-          card for the same reason.
-
-          The table underneath is the other half — cards to decide from, a grid
-          to compare in. Every price carries its monthly equivalent, so $3 /
+          The passes share every entitlement except how long they run and
+          priority support, so the shared list is stated once, right above the
+          cards — still before the buttons, which was the reason the old cards
+          each repeated it. Every price carries its monthly equivalent, so $3 /
           $7.99 / $49 do not read as a rising ladder when per month they fall. */}
-      <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {PLAN_ROWS.map((row) => {
-          const plan = row.id === "free" ? PLANS.free : PLANS[row.id];
+      <section aria-labelledby="pro-includes-heading" className="mx-auto mt-12 max-w-4xl">
+        <h2 id="pro-includes-heading" className="text-center text-sm font-semibold text-slate-900">
+          Every Pro plan includes
+        </h2>
+        <ul className="mt-4 grid gap-x-6 gap-y-2 text-sm text-slate-600 sm:grid-cols-2">
+          {PRO_INCLUDES.map((f) => (
+            <Feature key={f} yes>
+              {f}
+            </Feature>
+          ))}
+        </ul>
+      </section>
+
+      <div className="mx-auto mt-10 grid max-w-4xl gap-4 sm:grid-cols-3">
+        {PAID_ROWS.map((row) => {
+          const plan = PLANS[row.id as Exclude<PlanRow["id"], "free">];
           const perMonth = monthlyEquivalent(plan);
           const best = row.id === "pro_yearly";
+          const popular = row.id === MOST_POPULAR;
           return (
             <div
               key={row.id}
@@ -405,11 +447,14 @@ export default function PricingPage() {
                   Best value
                 </span>
               )}
+              {popular && (
+                <span className="absolute -top-3 left-6 rounded-full border border-indigo-200 bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-700">
+                  Most popular
+                </span>
+              )}
               <h2 className="text-base font-semibold text-slate-900">{row.label}</h2>
               <p className="mt-3 text-3xl font-bold tabular-nums text-slate-900">${plan.price}</p>
               <p className="text-sm text-slate-500">{row.unit}</p>
-              {/* min-h holds the four cards' prices and lists on the same lines
-                  whether or not this plan has a monthly equivalent to show. */}
               <p className="mt-1 min-h-5 text-xs text-slate-600">
                 {perMonth !== null && (
                   <>
@@ -423,59 +468,29 @@ export default function PricingPage() {
 
               <ul className="mt-5 flex-1 space-y-2.5 text-sm text-slate-600">
                 <Feature yes>
-                  <strong className="font-semibold text-slate-900">{row.downloads}</strong>{" "}
-                  {row.downloadsNoun}
+                  <strong className="font-semibold text-slate-900">{row.access}</strong> of Pro
                 </Feature>
-                <Feature yes>
-                  <strong className="font-semibold text-slate-900">{row.ai}</strong> AI generations
-                </Feature>
-                <Feature yes>{row.brands}</Feature>
-                <Feature yes>{row.styling}</Feature>
-                <Feature yes={row.saveTemplates}>Save your own templates</Feature>
-                {/* Pro only, like saved templates: PLANS lists it on Pro. */}
-                <Feature yes={row.saveTemplates}>Saved receipt history</Feature>
-                {SHARED_FEATURES.map((f) => (
-                  <Feature key={f} yes>
-                    {f}
-                  </Feature>
-                ))}
                 <Feature yes={row.support}>Priority support</Feature>
-                {row.id === "free" && (
-                  <Feature yes={false}>Watermark-free downloads</Feature>
-                )}
               </ul>
 
-              {row.id === "free" ? (
-                <FreePlanCta
-                  label={row.cta}
-                  className="mt-6 flex min-h-11 items-center justify-center rounded-full border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50"
-                />
-              ) : (
-                <PricingCta
-                  planId={row.id}
-                  className={`mt-6 flex min-h-11 items-center justify-center rounded-full px-4 text-sm font-semibold transition-colors ${
-                    best
-                      ? "bg-indigo-600 text-white shadow-sm hover:bg-indigo-700"
-                      : "border border-indigo-200 bg-indigo-50 text-indigo-700 hover:bg-indigo-100"
-                  }`}
-                  label={row.cta}
-                />
-              )}
+              <PricingCta
+                planId={row.id as Exclude<PlanRow["id"], "free">}
+                className={`mt-6 flex min-h-11 items-center justify-center rounded-full px-4 text-sm font-semibold transition-colors ${
+                  best
+                    ? "bg-indigo-600 text-white shadow-sm hover:bg-indigo-700"
+                    : "border border-indigo-200 bg-indigo-50 text-indigo-700 hover:bg-indigo-100"
+                }`}
+                label={row.cta}
+              />
 
-              {/* Sits under the CTA because that is where the "am I locking
-                  myself in?" question actually gets asked — the FAQ answer for
-                  it was nine entries down the page, long past the click.
-                  "No auto-renewal" is the accurate half: a Pro pass runs for
-                  the period bought and then stops on its own, so there is no
-                  recurring charge to stop. See app/terms/page.tsx, which states
-                  the same thing. */}
-              {row.id !== "free" && (
-                <p className="mt-3 text-center text-xs text-slate-500">
-                  {stripeConfigured
-                    ? "Secure payment by Stripe · no auto-renewal"
-                    : "Cancel anytime — no auto-renewal"}
-                </p>
-              )}
+              {/* Under the CTA because that is where "am I locking myself in?"
+                  gets asked. A pass runs for the period bought and stops on its
+                  own; app/terms/page.tsx says the same. */}
+              <p className="mt-3 text-center text-xs text-slate-500">
+                {stripeConfigured
+                  ? "Secure payment by Stripe · no auto-renewal"
+                  : "Cancel anytime — no auto-renewal"}
+              </p>
             </div>
           );
         })}
@@ -587,6 +602,34 @@ export default function PricingPage() {
               </Row>
             </tbody>
           </table>
+        </div>
+      </section>
+
+      {/* The free offer, after the table rather than as a card: it is not a
+          plan anyone has to pick. Two ways in — straight to the builder, which
+          needs nothing, or a free account for the AI allowance. */}
+      <section
+        aria-labelledby="free-heading"
+        className="mx-auto mt-8 max-w-2xl rounded-2xl border border-slate-200 bg-slate-50 px-6 py-6 text-center"
+      >
+        <h2 id="free-heading" className="text-base font-semibold text-slate-900">
+          Not ready for Pro?
+        </h2>
+        <p className="mt-2 text-sm leading-relaxed text-slate-600">
+          Building, previewing and watermarked downloads are free, with no account. Want AI? A free
+          account gives you {freeAiPhrase()}.
+        </p>
+        <div className="mt-4 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <Link
+            href="/login?signup=1&next=/create"
+            className="flex min-h-11 items-center justify-center rounded-full bg-slate-900 px-5 text-sm font-semibold text-white transition-colors hover:bg-slate-800"
+          >
+            Sign up free
+          </Link>
+          <FreePlanCta
+            label="Open the receipt maker"
+            className="flex min-h-11 items-center justify-center rounded-full border border-slate-300 bg-white px-5 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-100"
+          />
         </div>
       </section>
 
