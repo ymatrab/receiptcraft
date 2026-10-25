@@ -593,25 +593,27 @@ export default function SectionBuilder() {
       else if (kind === "pdf-print") await downloadPdf(receiptRef.current, filename, { printReady: true });
       else await downloadPdf(receiptRef.current, filename);
       analytics.receiptDownloaded(kind === "pdf-print" ? "pdf" : kind, activeTemplate || undefined, account.isPro);
-      // Record the download server-side for the admin per-member count. Only
-      // logged-in downloads can be attributed; fire-and-forget so it never
-      // blocks or fails the export.
-      if (account.isLoggedIn) {
-        void fetch("/api/downloads/track", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            format: kind === "pdf-print" ? "pdf" : kind,
-            watermark: useWatermark,
-            // Which receipt, which template, and whose session — so a second
-            // download can be told apart from a second *receipt*, and a brand
-            // page's traffic can be followed to a finished file.
-            receiptKey: doc.id,
-            template: activeTemplate || undefined,
-            ...eventIdentity(),
-          }),
-        }).catch(() => {});
-      }
+      // Record the download server-side for the admin per-member count —
+      // signed in or not: a guest's row carries the browser id, which
+      // /admin/members ties to the account once they sign in. Fire-and-forget
+      // so it never blocks or fails the export. keepalive because on a phone
+      // the download itself can navigate the page and cancel a plain fetch,
+      // which is how a paid download left no record (2026-10-25).
+      void fetch("/api/downloads/track", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        keepalive: true,
+        body: JSON.stringify({
+          format: kind === "pdf-print" ? "pdf" : kind,
+          watermark: useWatermark,
+          // Which receipt, which template, and whose session — so a second
+          // download can be told apart from a second *receipt*, and a brand
+          // page's traffic can be followed to a finished file.
+          receiptKey: doc.id,
+          template: activeTemplate || undefined,
+          ...eventIdentity(),
+        }),
+      }).catch(() => {});
       // Ask for a public review — but only off a clean download by a logged-in
       // free user, and only once. Pro is excluded by the owner's call: don't
       // nag people who already pay. Since 2026-10-24 a free download is never
@@ -627,6 +629,7 @@ export default function SectionBuilder() {
         setShowReview(true);
       }
     } catch {
+      analytics.downloadFailed(kind === "pdf-print" ? "pdf" : kind, account.isPro);
       notify("error", "The download failed. Your receipt is safe — press Download to try again.");
     } finally {
       setExporting(null);
