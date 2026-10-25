@@ -18,6 +18,7 @@ export const EVENT_NAMES = [
   "ai_generate",
   "download_receipt",
   "download_click",
+  "download_failed",
   "watermark_prompt",
   "paywall_shown",
   "builder_opened",

@@ -9,6 +9,7 @@ export const dynamic = "force-dynamic";
 function providerLabel(provider: string): string {
   if (provider === "google") return "Google";
   if (provider === "email") return "Password";
+  if (provider === "checkout") return "Checkout";
   return provider.charAt(0).toUpperCase() + provider.slice(1);
 }
 
@@ -44,29 +45,60 @@ async function getMembers() {
   // paginate if we ever grow past that.
   const providerByUser = new Map<string, string>();
   const confirmedByUser = new Map<string, boolean>();
+  const signedInByUser = new Map<string, boolean>();
   const { data: authList } = await admin.auth.admin.listUsers({ page: 1, perPage: 200 });
   for (const u of authList?.users ?? []) {
+    // A guest who paid without an account gets one made by the checkout
+    // (lib/stripe-passes.ts resolveGuestBuyer). Until they sign in with Google
+    // it has no identity of its own, and "Password" would be a guess.
+    const fromCheckout = Boolean(u.app_metadata?.created_by_checkout);
+    const identity = u.identities?.[0]?.provider;
     const provider =
-      (u.app_metadata?.provider as string | undefined) ??
-      u.identities?.[0]?.provider ??
-      "email";
+      fromCheckout && (!identity || identity === "email")
+        ? "checkout"
+        : (u.app_metadata?.provider as string | undefined) ?? identity ?? "email";
     providerByUser.set(u.id, provider);
+    signedInByUser.set(u.id, Boolean(u.last_sign_in_at));
     // email_confirmed_at is set once the verification link is clicked (and is
     // pre-set for Google sign-ups, since Google vouches for the address).
     confirmedByUser.set(u.id, Boolean(u.email_confirmed_at));
   }
 
+  // Which browser belongs to which account: any session that was signed in
+  // carries both ids on its visit and builder events. That is what lets a
+  // download made before signing in — a guest who paid at checkout and has
+  // not signed in yet, say — count for the account once the browser is known.
+  const userByAnon = new Map<string, string>();
+  const { data: linkRows } = await admin
+    .from("events")
+    .select("user_id, anonymous_id")
+    .in("name", ["visit", "builder_opened"])
+    .not("user_id", "is", null)
+    .not("anonymous_id", "is", null)
+    .limit(10000);
+  for (const r of linkRows ?? []) {
+    if (r.user_id && r.anonymous_id) userByAnon.set(r.anonymous_id, r.user_id);
+  }
+
   // Per-user download counts from first-party events (recorded on every
-  // completed download by a logged-in user).
-  const downloadsByUser = new Map<string, number>();
+  // completed download — signed out too since 2026-10-25, with the browser id).
+  const downloadsByUser = new Map<string, { total: number; signedOut: number }>();
+  let unattributedDownloads = 0;
   const { data: dlEvents } = await admin
     .from("events")
-    .select("user_id")
+    .select("user_id, anonymous_id")
     .eq("name", "receipt_downloaded")
-    .not("user_id", "is", null)
     .limit(10000);
   for (const e of dlEvents ?? []) {
-    if (e.user_id) downloadsByUser.set(e.user_id, (downloadsByUser.get(e.user_id) ?? 0) + 1);
+    const owner = e.user_id ?? (e.anonymous_id ? userByAnon.get(e.anonymous_id) : undefined);
+    if (!owner) {
+      unattributedDownloads++;
+      continue;
+    }
+    const entry = downloadsByUser.get(owner) ?? { total: 0, signedOut: 0 };
+    entry.total++;
+    if (!e.user_id) entry.signedOut++;
+    downloadsByUser.set(owner, entry);
   }
 
   // Per-user AI generations: one ai_usage row per generation, split into the
@@ -90,23 +122,30 @@ async function getMembers() {
     aiByUser.set(r.user_id, entry);
   }
 
-  return (profiles ?? []).map((p) => ({
+  const members = (profiles ?? []).map((p) => ({
     ...p,
     sub: subByUser.get(p.id) ?? null,
     provider: providerByUser.get(p.id) ?? null,
     confirmed: confirmedByUser.get(p.id) ?? false,
-    downloads: downloadsByUser.get(p.id) ?? 0,
+    signedIn: signedInByUser.get(p.id) ?? false,
+    downloads: downloadsByUser.get(p.id) ?? { total: 0, signedOut: 0 },
     ai: aiByUser.get(p.id) ?? { month: 0, total: 0 },
   }));
+  return { members, unattributedDownloads };
 }
 
 export default async function AdminMembers() {
-  const members = await getMembers();
+  const { members, unattributedDownloads } = await getMembers();
 
   return (
     <div>
       <h1 className="text-2xl font-bold text-slate-900">Members</h1>
-      <p className="mt-1 text-sm text-slate-500">{members.length} most recent</p>
+      <p className="mt-1 text-sm text-slate-500">
+        {members.length} most recent
+        {unattributedDownloads > 0 && (
+          <> · {unattributedDownloads} signed-out downloads not tied to an account yet</>
+        )}
+      </p>
 
       <div className="mt-6 overflow-x-auto rounded-2xl border border-slate-200 bg-white">
         <table className="w-full text-sm">
@@ -137,15 +176,23 @@ export default async function AdminMembers() {
                     )}
                   </td>
                   <td className="px-4 py-3">
-                    <span
-                      className={`rounded-full px-2 py-0.5 text-xs font-medium ${
-                        m.confirmed
-                          ? "bg-emerald-100 text-emerald-700"
-                          : "bg-amber-100 text-amber-700"
-                      }`}
-                    >
-                      {m.confirmed ? "Activated" : "Pending"}
-                    </span>
+                    {m.provider === "checkout" && !m.signedIn ? (
+                      // Paid as a guest; the account exists but they have not
+                      // come back to it yet.
+                      <span className="rounded-full bg-violet-100 px-2 py-0.5 text-xs font-medium text-violet-700">
+                        Never signed in
+                      </span>
+                    ) : (
+                      <span
+                        className={`rounded-full px-2 py-0.5 text-xs font-medium ${
+                          m.confirmed
+                            ? "bg-emerald-100 text-emerald-700"
+                            : "bg-amber-100 text-amber-700"
+                        }`}
+                      >
+                        {m.confirmed ? "Activated" : "Pending"}
+                      </span>
+                    )}
                   </td>
                   <td className="px-4 py-3 text-slate-500">{m.full_name ?? "—"}</td>
                   <td className="px-4 py-3">
@@ -154,7 +201,9 @@ export default async function AdminMembers() {
                         className={`rounded-full px-2 py-0.5 text-xs font-medium ${
                           m.provider === "google"
                             ? "bg-blue-100 text-blue-700"
-                            : "bg-slate-100 text-slate-600"
+                            : m.provider === "checkout"
+                              ? "bg-violet-100 text-violet-700"
+                              : "bg-slate-100 text-slate-600"
                         }`}
                       >
                         {providerLabel(m.provider)}
@@ -173,7 +222,12 @@ export default async function AdminMembers() {
                     </span>
                   </td>
                   <td className="px-4 py-3 font-medium text-slate-600 tabular-nums">
-                    {m.downloads}
+                    {m.downloads.total}
+                    {m.downloads.signedOut > 0 && (
+                      <span className="ml-1 text-xs font-normal text-slate-400">
+                        ({m.downloads.signedOut} signed out)
+                      </span>
+                    )}
                   </td>
                   <td className="px-4 py-3 font-medium text-slate-600 tabular-nums">
                     {m.ai.month}

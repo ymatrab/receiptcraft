@@ -579,6 +579,10 @@ export const analytics = {
   // download-attempt drop by which gate the user then hits.
   downloadClick: (format: string, state: "pro" | "free" | "anon") =>
     track("download_click", { format, state }),
+  // The export itself threw — the file never left. Without this a paid buyer
+  // whose download failed looks the same as one who never pressed the button.
+  downloadFailed: (format: string, pro: boolean) =>
+    track("download_failed", { format, pro }),
 
   // ---- reviews ----
   // The post-download review card. shown/clicked/dismissed together give the

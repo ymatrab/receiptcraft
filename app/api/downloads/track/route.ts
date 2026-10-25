@@ -13,14 +13,16 @@ export const dynamic = "force-dynamic";
  *
  * Fire-and-forget from the builder. The user is resolved from their session
  * cookie (not the request body), so a download can't be attributed to anyone
- * else. Anonymous downloads have no user to attribute and are skipped.
+ * else. A signed-out download is recorded too, with no user and the browser's
+ * anonymous id: /admin/members joins that id to the account the same browser
+ * later signs in to, so a guest's downloads are not lost from their history.
  */
 export async function POST(req: Request) {
-  const account = await getAccountStatus();
-  if (!account.userId || !supabaseConfigured) {
-    // Nothing to attribute — succeed quietly so the client never blocks.
+  if (!supabaseConfigured) {
+    // Nowhere to record it — succeed quietly so the client never blocks.
     return NextResponse.json({ ok: false });
   }
+  const account = await getAccountStatus();
 
   const body = (await req.json().catch(() => ({}))) as {
     format?: string;
@@ -33,10 +35,14 @@ export async function POST(req: Request) {
   const format = typeof body.format === "string" ? body.format.slice(0, 16) : "unknown";
   const template = typeof body.template === "string" ? body.template.slice(0, 64) : null;
 
+  const anonymousId = normalizeId(body.anonymous_id);
+  // A signed-out row with no browser id could never be tied to anyone.
+  if (!account.userId && !anonymousId) return NextResponse.json({ ok: false });
+
   const { error } = await createAdminClient()
     .from("events")
     .insert({
-      user_id: account.userId,
+      user_id: account.userId ?? null,
       name: "receipt_downloaded",
       props: {
         format,
@@ -53,7 +59,7 @@ export async function POST(req: Request) {
       // making two receipts — which is precisely the difference between a
       // one-off visitor and a returning user.
       receipt_id: normalizeId(body.receiptKey),
-      anonymous_id: normalizeId(body.anonymous_id),
+      anonymous_id: anonymousId,
       session_id: normalizeId(body.session_id),
     });
 
