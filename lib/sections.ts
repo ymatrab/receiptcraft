@@ -731,7 +731,8 @@ export function presetDoc(id: PresetId): ReceiptDoc {
  * "30 days from invoice date".
  */
 function resolveRowValue(value: string, data: ReceiptData): string {
-  const m = /^\{\{date\+(\d+)\}\}$/.exec(value);
+  // {{date+14}} a return-by date, {{date-3}} a date of service before the receipt.
+  const m = /^\{\{date([+-]\d+)\}\}$/.exec(value);
   return m ? formatDisplayDate(addDaysISO(data.date, Number(m[1])), data.dateOrder) : value;
 }
 
