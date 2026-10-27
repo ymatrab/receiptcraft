@@ -5,6 +5,11 @@ import { HOMEPAGE_FAQS } from "@/lib/faqs";
 import { PLANS, formatPlanPrice } from "@/lib/plans";
 import { getAllPosts } from "@/lib/sanity/queries";
 import { SOURCES } from "@/lib/sources";
+import { BRAND_TEMPLATES, brandCategoryFor } from "@/lib/brands";
+import { byDemand } from "@/lib/topic-clusters";
+
+/** "7 days" rather than "/week": a pass is paid once and never renews. */
+const PASS_LENGTH = { week: "7 days", month: "1 month", year: "1 year" } as const;
 
 // Regenerate hourly so newly published blog posts appear without a redeploy.
 export const revalidate = 3600;
@@ -22,12 +27,27 @@ export async function GET() {
     (t) => `- [${t.name}](${SITE.url}/templates/${t.slug}): ${t.intro.split(". ")[0]}.`
   ).join("\n");
 
+  // Until 2026-10-27 this file listed 55 templates and ~230 posts but not one
+  // of the brand pages, so an engine reading it learned the site was about
+  // finding receipts. The brand pages are where the creation searches land
+  // (5% CTR); proven demand first, then by category.
+  const brandLines = [...BRAND_TEMPLATES]
+    .sort(byDemand)
+    .map(
+      (b) =>
+        `- [${b.shortName} receipt generator](${SITE.url}/brands/${b.slug}): ${brandCategoryFor(b.slug)}`
+    )
+    .join("\n");
+
   const faqLines = HOMEPAGE_FAQS.map((f) => `### ${f.question}\n\n${f.answer}`).join("\n\n");
 
   const planLines = (["free", "pro_weekly", "pro_monthly", "pro_yearly"] as const)
     .map((id) => {
       const p = PLANS[id];
-      const price = p.price === 0 ? "Free" : `$${p.price}/${p.interval}`;
+      const price =
+        p.price === 0 || !p.interval
+          ? "Free"
+          : `${formatPlanPrice(p)} one-time pass for ${PASS_LENGTH[p.interval]}, never renews`;
       return `- **${p.name}** (${price}): ${p.features.join("; ")}`;
     })
     .join("\n");
@@ -51,6 +71,14 @@ export async function GET() {
 
 Written and reviewed by the ${SITE.name} team (${SITE.url}/authors); editorial standards at ${SITE.url}/editorial-policy. Contact: ${SITE.email}.
 
+## Main pages
+
+- [Receipt maker](${SITE.url}/create): the builder — pick a template, edit every field with a live preview, download as PDF or PNG
+- [Receipt templates](${SITE.url}/templates): ${TEMPLATES.length} receipt and invoice templates by business type
+- [Brand receipt generators](${SITE.url}/brands): ${BRAND_COUNT} brand-style receipt layouts
+- [Pricing](${SITE.url}/pricing): free to build; watermark-free downloads from ${formatPlanPrice(PLANS.pro_weekly)}, one-time
+- [Receipt maker comparisons](${SITE.url}/alternatives): ${SITE.name} compared with other receipt generators, prices included
+
 ## Pricing
 
 ${planLines}
@@ -59,7 +87,11 @@ ${planLines}
 
 ${templateLines}
 
-Also available: ${BRAND_COUNT} brand-style receipt layouts (${SITE.url}/brands), real-world receipt examples by industry (${SITE.url}/examples), and lost-receipt help guides for 70+ major brands (${SITE.url}/receipt-help).
+## Brand receipt generators (${BRAND_TEMPLATES.length})
+
+${brandLines}
+
+Also available: real-world receipt examples by industry (${SITE.url}/examples), and lost-receipt help guides for 70+ major brands (${SITE.url}/receipt-help).
 
 ## Frequently asked questions
 

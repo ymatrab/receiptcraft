@@ -12,6 +12,8 @@ import {
   type IntentKind,
 } from "@/lib/intent-pages";
 import { getTemplate } from "@/lib/templates";
+import { brandCategoryFor } from "@/lib/brands";
+import { hubTemplateForBrand } from "@/lib/topic-clusters";
 import { PLANS, formatPlanPrice } from "@/lib/plans";
 import { fitSeoDescription } from "@/lib/seo-description";
 import { absoluteUrl, SITE } from "@/lib/site";
@@ -118,6 +120,11 @@ export default async function IntentPage({
       }
     : null;
 
+  // The template this brand is a spoke of (Whole Foods → grocery store). These
+  // guides carry half the site's impressions and linked no template page at
+  // all; the brand page alone was their only route into the creation pages.
+  const hubTemplate = getTemplate(hubTemplateForBrand(page.brandSlug, brandCategoryFor(page.brandSlug)));
+
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -182,20 +189,32 @@ export default async function IntentPage({
               </strong>{" "}
               If {page.brandName} cannot retrieve the original, you can rebuild one from
               what you remember — items, prices, date and store details.{" "}
-              <Link
-                href={`/create?template=${encodeURIComponent(page.brandSlug)}`}
-                className="font-medium text-indigo-700 underline decoration-indigo-300 underline-offset-2 hover:decoration-indigo-700"
-              >
-                Open the {page.brandName} receipt builder
-              </Link>
-              , or see what the{" "}
+              {/* 2026-10-27: both links go to pages that can rank. This box
+                  used to open /create?template=…, which canonicalises to
+                  /create — a page with ~1,160 internal links already. The
+                  builder stays one click away: the line under the H1 and the
+                  closing CTA both open it. */}
+              Start from the{" "}
               <Link
                 href={`/brands/${page.brandSlug}`}
                 className="font-medium text-indigo-700 underline decoration-indigo-300 underline-offset-2 hover:decoration-indigo-700"
               >
                 {page.brandName} receipt generator
-              </Link>{" "}
-              template includes first.
+              </Link>
+              {hubTemplate ? (
+                <>
+                  , or use the general{" "}
+                  <Link
+                    href={`/templates/${hubTemplate.slug}`}
+                    className="font-medium text-indigo-700 underline decoration-indigo-300 underline-offset-2 hover:decoration-indigo-700"
+                  >
+                    {hubTemplate.name.toLowerCase()} template
+                  </Link>{" "}
+                  if your copy looked different.
+                </>
+              ) : (
+                "."
+              )}
             </p>
           </div>
         )}

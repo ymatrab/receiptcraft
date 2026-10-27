@@ -133,7 +133,13 @@ const BRAND_TEMPLATES_OVERRIDE: Record<string, string[]> = {
   ),
   // Payment apps record a payment between two parties, so they sit with the
   // invoice and payment-receipt pages rather than with a kind of shop.
-  ...each(["paypal", "venmo", "cash-app", "zelle"], ["invoice", "sales-receipt", "proof-of-purchase"]),
+  // payment-receipt is the hub (2026-10-27): /brands/paypal earns more clicks
+  // than any other page on the site, and as a spoke of /templates/invoice it was
+  // listed by no template page at all.
+  ...each(
+    ["paypal", "venmo", "cash-app", "zelle"],
+    ["payment-receipt", "invoice", "sales-receipt", "proof-of-purchase"],
+  ),
 };
 
 /** The template pages a brand page should link, hub first. */
@@ -144,4 +150,23 @@ export function templatesForBrand(slug: string, category: BrandCategory): string
 /** The template a brand counts towards as a spoke: the first entry of templatesForBrand. */
 export function hubTemplateForBrand(slug: string, category: BrandCategory): string {
   return templatesForBrand(slug, category)[0];
+}
+
+/**
+ * Brands with proven search demand, most first (GSC clicks and impressions,
+ * Jul 28 – Oct 25 2026). A template page lists only eight of its spokes, so
+ * these go to the front instead of wherever they sit in lib/brands.ts.
+ */
+const BRANDS_BY_DEMAND = [
+  "paypal", "walmart", "amazon", "home-depot", "planet-fitness", "starbucks", "uber",
+  "instacart", "mcdonalds", "target", "petsmart", "food-lion", "balenciaga", "chipotle", "kroger",
+];
+
+/** Sort comparator: brands in BRANDS_BY_DEMAND first, in that order; the rest keep their order. */
+export function byDemand(a: { slug: string }, b: { slug: string }): number {
+  const rank = (s: string) => {
+    const i = BRANDS_BY_DEMAND.indexOf(s);
+    return i < 0 ? BRANDS_BY_DEMAND.length : i;
+  };
+  return rank(a.slug) - rank(b.slug);
 }

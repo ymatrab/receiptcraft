@@ -1,4 +1,5 @@
 import type { BrandCategory } from "./brand-categories";
+import { SITE } from "./site";
 
 /**
  * High-intent "receipt help" pages: for a curated set of popular brands we
@@ -734,7 +735,29 @@ function composeDescription(lead: string, tails: readonly string[]): string {
   return best;
 }
 
+/**
+ * Every guide also answers the creation question, in the FAQ that AI Overviews
+ * quote from. These pages hold most of the site's AI citations (42 of 72 in
+ * the Oct 4 2026 sample), but every FAQ answered a return or lookup question,
+ * so the passages engines lifted never named the product. Added last so the
+ * guide still answers what the searcher asked first.
+ */
 export function intentContent(p: IntentPage): IntentContent {
+  const c = baseIntentContent(p);
+  const n = p.brandName;
+  return {
+    ...c,
+    faqs: [
+      ...c.faqs,
+      {
+        question: `Can I make a replacement ${n} receipt?`,
+        answer: `For your own records, yes. ${SITE.name}'s ${n} receipt generator lays out a ${n}-style receipt that you fill in with the items, prices, date and store details of your real purchase, then download as a PDF or PNG. It is not an official ${n} document, so use it only for a purchase that actually happened — never to return goods or claim an expense.`,
+      },
+    ],
+  };
+}
+
+function baseIntentContent(p: IntentPage): IntentContent {
   const n = p.brandName;
   const fact = BRAND_FACTS[p.brandSlug];
   const cite = officialCite(p.brandSlug, n, p.kind);

@@ -1,6 +1,8 @@
 import type { ReceiptTemplate } from "./types";
 import { getTemplate, sourcedFigure } from "./templates";
 import { BRAND_SPECS } from "./brand-specs";
+import { BRAND_TEMPLATES, brandCategoryFor } from "./brands";
+import { hubTemplateForBrand } from "./topic-clusters";
 import { hasOfficialSource } from "./intent-pages";
 import { COMPETITORS, LAST_UPDATED } from "./comparisons";
 
@@ -320,6 +322,10 @@ export const BRANDS_HUB_LINK_UPDATED = "2026-10-19";
 // brands lost their "A Makecepeit Pro template" meta description.
 export const BRANDS_PAYWALL_UPDATED = "2026-10-24";
 
+// 2026-10-27: every brand page gains a "What is the {brand} receipt
+// generator?" answer passage under the hero.
+export const BRANDS_ANSWER_UPDATED = "2026-10-27";
+
 // Brand pages added after the shared dates above. Without its own date a new
 // page inherits BRANDS_LINKS_UPDATED and looks older than it is.
 const BRANDS_ADDED: Readonly<Record<string, string>> = {
@@ -365,6 +371,7 @@ export function brandReviewedAt(slug: string): string {
     BRANDS_HUB_LINK_UPDATED,
     BRANDS_ADDED[slug] ?? null,
     BRANDS_PAYWALL_UPDATED,
+    BRANDS_ANSWER_UPDATED,
   );
 }
 // 2026-08-31: the CTA names a Pro template before the click.
@@ -466,6 +473,7 @@ export const LOGIN_UPDATED = "2026-08-31";
 // templates, and Pro can be bought at checkout without an account.
 // 2026-10-27: the watermark demo receipt now prints its register and cashier
 // line, which the renderer had been dropping.
+// 2026-10-27: a one-sentence price answer under the hero.
 export const PRICING_UPDATED = "2026-10-27";
 // 2026-08-23: the hero grid no longer stretches to the 380px receipt, so the
 // primary CTA is reachable again on phones under 412px — a visible change to
@@ -645,10 +653,28 @@ const TEMPLATES_PAYWALL_UPDATED = "2026-10-24";
 // Ana") now prints on its preview — it was read nowhere before.
 const TEMPLATES_STAFF_LINE_UPDATED = "2026-10-27";
 
+// 2026-10-27: these pages gained a related post moved off /create
+// (lib/related-posts.ts), and payment-receipt became the hub of the payment-app
+// brands, which left invoice's brand list (lib/topic-clusters.ts).
+const TEMPLATES_HUB_FIXED: ReadonlySet<string> = new Set([
+  "payment-receipt", "invoice", "veterinary-receipt", "florist-receipt", "gym-membership-receipt",
+  "dry-cleaning-receipt", "towing-receipt", "electronics-store-receipt", "clothing-store-receipt",
+  "hardware-store-receipt", "pharmacy",
+]);
+const TEMPLATES_HUB_UPDATED = "2026-10-27";
+
+// Same date: templates with more than eight brands now list the rest as links
+// under the brand cards (app/templates/[slug]/page.tsx). Derived, not listed,
+// so it matches exactly the pages whose content changed.
+const hasMoreThanEightBrands = (slug: string) =>
+  BRAND_TEMPLATES.filter((b) => hubTemplateForBrand(b.slug, brandCategoryFor(b.slug)) === slug).length > 8;
+
 export function templateReviewedAt(t: ReceiptTemplate): string {
   const latest = templateReviewedAtSamples(t);
   const paywall = TEMPLATES_PAYWALL_FIXED.has(t.slug) && TEMPLATES_PAYWALL_UPDATED > latest ? TEMPLATES_PAYWALL_UPDATED : latest;
-  return (t.defaults.register || t.defaults.cashier) && TEMPLATES_STAFF_LINE_UPDATED > paywall ? TEMPLATES_STAFF_LINE_UPDATED : paywall;
+  const staffed = (t.defaults.register || t.defaults.cashier) && TEMPLATES_STAFF_LINE_UPDATED > paywall ? TEMPLATES_STAFF_LINE_UPDATED : paywall;
+  const hubbed = TEMPLATES_HUB_FIXED.has(t.slug) || hasMoreThanEightBrands(t.slug);
+  return hubbed && TEMPLATES_HUB_UPDATED > staffed ? TEMPLATES_HUB_UPDATED : staffed;
 }
 
 function templateReviewedAtSamples(t: ReceiptTemplate): string {
@@ -684,6 +710,11 @@ export const INTENT_TOP_LINK_UPDATED = "2026-10-22";
 // layouts", and the rebuild step no longer says to sign in to download.
 export const INTENT_PAYWALL_UPDATED = "2026-10-24";
 
+// 2026-10-27: the mid-guide box links the brand page and the brand's category
+// template instead of /create, and every guide gains a "Can I make a
+// replacement receipt?" FAQ (visible and in the FAQ JSON-LD).
+export const INTENT_HUB_LINK_UPDATED = "2026-10-27";
+
 /** When a receipt-help guide was last reviewed. */
 export function intentReviewedAt(brandSlug: string): string {
   return newest(
@@ -691,6 +722,7 @@ export function intentReviewedAt(brandSlug: string): string {
     INTENT_LINKS_UPDATED,
     INTENT_TOP_LINK_UPDATED,
     INTENT_PAYWALL_UPDATED,
+    INTENT_HUB_LINK_UPDATED,
   );
 }
 
