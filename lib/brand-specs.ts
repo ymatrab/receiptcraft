@@ -92,6 +92,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     showBarcode: false,
     footerMessage: "This payment is eligible for PayPal Purchase Protection.",
     policyText: "Help & Contact | Security | Apps\nCopyright © 1999-2026 PayPal, Inc. All rights reserved.\nPayPal is located at 2211 N. First St., San Jose, CA 95131.",
+    showTaxRate: false,
   },
   // walmart — was wrong-format. Sources:
   //   https://querysprout.com/how-to-read-a-walmart-receipt/
@@ -120,19 +121,22 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     itemStyle: "lined",
     items: [
       {
-        name: "GV 2% MLK GAL 007874235186 F",
+        name: "GV 2% MLK GAL 007874235186",
         quantity: 1,
         price: 3.42,
+        taxFlag: "F",
       },
       {
-        name: "BANANAS 000000004011 F",
+        name: "BANANAS 000000004011",
         quantity: 1,
         price: 1.36,
+        taxFlag: "F",
       },
       {
-        name: "GV LG WHT EGG 007874213620 F",
+        name: "GV LG WHT EGG 007874213620",
         quantity: 1,
         price: 4.47,
+        taxFlag: "F",
       },
       {
         name: "BOUNTY SAS 6DR 003700074312",
@@ -145,14 +149,16 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
         price: 13.97,
       },
       {
-        name: "GV WHT BREAD 007874237003 F",
+        name: "GV WHT BREAD 007874237003",
         quantity: 1,
         price: 1.42,
+        taxFlag: "F",
       },
       {
-        name: "COKE 12PK 004900000634 F",
+        name: "COKE 12PK 004900000634",
         quantity: 1,
         price: 7.48,
+        taxFlag: "F",
       },
     ],
     taxLabel: "TAX 1",
@@ -165,6 +171,10 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     footerMessage: "# ITEMS SOLD 7\nTC# 4417 2093 5518 6624 0179",
     policyText: "Low Prices You Can Trust. Every Day.",
     paperStyle: "thermal",
+    labels: {
+      subtotal: "SUBTOTAL",
+      change: "CHANGE DUE",
+    },
   },
   // mcdonalds — was missing-key-details. Sources:
   //   https://www.mcdvoice.com/
@@ -228,6 +238,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     footerMessage: "We'd love to hear from you!\nTell us about your visit at www.mcdvoice.com\nand get a validation code for the offer\nprinted on this receipt.",
     policyText: "",
     paperStyle: "thermal",
+    showTaxRate: false,
   },
   // domino-s-pizza — was missing-key-details. Sources:
   //   https://baymard.com/checkout-usability/benchmark/step-type/receipt/11377-dominos-pizza
@@ -310,6 +321,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     footerMessage: "The delivery charge is not a tip paid to your driver.",
     policyText: "Track your order at dominos.com",
     paperStyle: "thermal",
+    showTaxRate: false,
   },
   // amazon — was wrong-format. Sources:
   //   https://www.slashgear.com/1778351/amazon-receipt-how-to-print-view/
@@ -401,6 +413,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     showBarcode: false,
     footerMessage: "",
     policyText: "Conditions of Use | Privacy Notice\n© 1996-2026, Amazon.com, Inc. or its affiliates",
+    showTaxRate: false,
   },
   // chipotle — was missing-key-details. Sources:
   //   https://www.chipotlefeedback.com/
@@ -469,6 +482,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     footerMessage: "Tell us about your visit at chipotlefeedback.com\nSurvey Code: 2026 1027 1422 0212 4417",
     policyText: "",
     paperStyle: "thermal",
+    showTaxRate: false,
   },
   // bp — was wrong-format. Sources:
   //   https://consumered.georgia.gov/node/871
@@ -517,6 +531,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     footerMessage: "THANK YOU\nHAVE A NICE DAY",
     policyText: "Earn on every fill-up with bp rewards",
     paperStyle: "thermal",
+    showTaxRate: false,
   },
   // panda-express — was missing-key-details. Sources:
   //   https://www.pandaguestexperience.com/
@@ -578,6 +593,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     footerMessage: "Tell us about your visit at\nwww.PandaGuestExperience.com\nSurvey Code: 1342-1027-2614-2201-1844-17",
     policyText: "",
     paperStyle: "thermal",
+    showTaxRate: false,
   },
   // dunkin — was missing-key-details. Sources:
   //   https://dunkinrunsonyou.com/
@@ -640,6 +656,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     footerMessage: "Tell us how we did at dunkinrunsonyou.com\nSurvey Code: 3439 1810 2726 0814 72",
     policyText: "America Runs on Dunkin'.",
     paperStyle: "thermal",
+    showTaxRate: false,
   },
   // chick-fil-a — was missing-key-details. Sources:
   //   https://www.chick-fil-a.com/customer-support/events-and-promotions/receipt-survey/i-cant-read-my-survey-code-on-my-receipt-how-can-i-take-the-survey
@@ -696,6 +713,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     footerMessage: "Tell us how we did at www.mycfavisit.com\nSerial #: 0418-2710-2614-2202-1744",
     policyText: "",
     paperStyle: "thermal",
+    showTaxRate: false,
   },
   // taco-bell — was missing-key-details. Sources:
   //   https://github.com/jnicolow/receiptParse/blob/main/data/receipts/text/2b5287a5-8249-401e-8410-27f30dfb2695.txt
@@ -757,6 +775,10 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
         price: 3.19,
       },
     ],
+    labels: {
+      subtotal: "SubTotal",
+    },
+    showTaxRate: false,
   },
   // dollar-tree — was missing-key-details. Sources:
   //   https://www.housedigest.com/2230237/big-changes-shoppers-notice-dollar-tree-2026/
@@ -812,6 +834,10 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
         price: 5.0,
       },
     ],
+    labels: {
+      subtotal: "SUBTOTAL",
+    },
+    showTaxRate: false,
   },
   // petsmart — was missing-key-details. Sources:
   //   https://www.petsmart.com/learning-center/treats-rewards/how-to-earn-petsmart-treats-rewards
@@ -881,6 +907,10 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
         price: 15.99,
       },
     ],
+    labels: {
+      subtotal: "SUBTOTAL",
+    },
+    showTaxRate: false,
   },
   // subway — was missing-key-details. Sources:
   //   https://frequal.com/Perspectives/SubwaySurveyForCookie.html
@@ -947,6 +977,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
         price: 2.49,
       },
     ],
+    showTaxRate: false,
   },
   // kfc — was missing-key-details. Sources:
   //   https://www.mykfcexperience.com/
@@ -1008,6 +1039,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
         modifiers: ["Pepsi"],
       },
     ],
+    showTaxRate: false,
   },
   // burger-king — was missing-key-details. Sources:
   //   https://www.mybkexperience.com/
@@ -1069,6 +1101,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
         price: 2.79,
       },
     ],
+    showTaxRate: false,
   },
   // apple-store — was wrong-format. Sources:
   //   https://www.apple.com/legal/sales-support/sales-policies/retail/
@@ -1141,6 +1174,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
         sku: "MXX12AM/A",
       },
     ],
+    showTaxRate: false,
   },
   // home-depot — was missing-key-details. Sources:
   //   https://github.com/jnicolow/receiptParse/blob/main/data/receipts/text/1dfc45f4-d53e-458a-84fb-c6ab365dcaf3.txt
@@ -1212,6 +1246,10 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
         sku: "000000912012",
       },
     ],
+    labels: {
+      subtotal: "SUBTOTAL",
+    },
+    showTaxRate: false,
   },
   // southwest-airlines — was wrong-format. Sources:
   //   https://htmlscript.auburn.edu/academic/education/ed/documents_uploaded/graduatetravelawards/jaw0110bt2020020318064583807.pdf
@@ -1344,6 +1382,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
         price: 9.0,
       },
     ],
+    showTaxRate: false,
   },
   // wendy-s — was missing-key-details. Sources:
   //   https://donotpay.com/learn/talktowendys/
@@ -1408,6 +1447,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
         price: 2.99,
       },
     ],
+    showTaxRate: false,
   },
   // 7-eleven — was close. Sources:
   //   https://medium999.blogspot.com/2018/04/i-spent-711-and-at-7-eleven-at-711-am.html (photo: https://i.redd.it/asym12evzuu01.jpg — Denver CO 7-Eleven receipt, 2018)
@@ -1490,6 +1530,10 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
         price: 2.19,
       },
     ],
+    labels: {
+      subtotal: "SUBTOTAL",
+    },
+    showTaxRate: false,
   },
   // aldi — was missing-key-details. Sources:
   //   https://www.the-sun.com/money/11886850/aldi-double-tax-manager-grocery-receipt/ (photo of a Chicago ALDI receipt, June 2024)
@@ -1562,6 +1606,9 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
         price: 2.09,
       },
     ],
+    labels: {
+      subtotal: "SUBTOTAL",
+    },
   },
   // publix — was close. Sources:
   //   https://www.scribd.com/document/902181201/2023-03-14-0852am-PublixReceipt (full Publix receipt, Decatur GA, 2023)
@@ -1624,6 +1671,10 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
         unit: "lb",
       },
     ],
+    labels: {
+      subtotal: "Order Total",
+    },
+    showTaxRate: false,
   },
   // kroger — was missing-key-details. Sources:
   //   https://thejournalonline.blogspot.com/2016/11/challenge.html (full Kroger receipt photo: https://blogger.googleusercontent.com/.../kroger-receipt.jpg)
@@ -1692,6 +1743,11 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
         price: 8.47,
       },
     ],
+    labels: {
+      subtotal: "SUBTOTAL",
+      change: "CHANGE",
+    },
+    showTaxRate: false,
   },
   // united-airlines — was wrong-format. Sources:
   //   https://experience.apsc.ubc.ca/sites/default/files/2024-08/united_airlines_receipt_-_sample.pdf (redacted United eTicket Itinerary and Receipt, 2024)
@@ -1834,6 +1890,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
         price: 9.0,
       },
     ],
+    showTaxRate: false,
   },
   // chevron — was wrong-format. Sources:
   //   https://commons.wikimedia.org/wiki/File:G%26M_Oil_(Chevron)_145_(Palm_Desert,_California).jpg (Chevron pump receipt scan, 2011)
@@ -1886,6 +1943,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
         unit: "G",
       },
     ],
+    showTaxRate: false,
   },
   // panera-bread — was missing-key-details. Sources:
   //   https://www.tripadvisor.com/Restaurant_Review-g60933-d13496056-Reviews-Panera_Bread-Albuquerque_New_Mexico.html (receipt photo, Albuquerque NM, 2018)
@@ -1932,6 +1990,10 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
         price: 2.99,
       },
     ],
+    labels: {
+      subtotal: "SubTotal",
+    },
+    showTaxRate: false,
   },
   // gucci — was wrong-format. Sources:
   //   https://poshmark.com/listing/Gucci-shoes-and-Gucci-shirt-brad-new-receipts-5faf31109e1559dd0bcf47de (photo of a Gucci Troy MI boutique receipt, 2020)
@@ -2001,6 +2063,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
         category: "Salesperson: 1061937 (Marco)",
       },
     ],
+    showTaxRate: false,
   },
   // whole-foods — was missing-key-details. Sources:
   //   https://nosaltnofatnosugar.com/2021/07/18/deal-shopping-even-at-whole-foods/ (photo of a Northbrook IL Whole Foods receipt with Prime Extra 10% lines, 2021)
@@ -2068,6 +2131,9 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
         price: 6.49,
       },
     ],
+    labels: {
+      subtotal: "Subtotal:",
+    },
   },
   // safeway — was missing-key-details. Sources:
   //   https://www.milehighonthecheap.com/safeway-nestle-bonus-coupon-discount/ (photo of a Denver-area Safeway receipt, Jan 2025)
@@ -2143,6 +2209,10 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
         discount: 3.0,
       },
     ],
+    labels: {
+      subtotal: "SUBTOTAL",
+    },
+    showTaxRate: false,
   },
   // wawa — was wrong-format. Sources:
   //   https://www.fox29.com/news/wawa-superfan-collects-receipts-0-999-over-3-years
@@ -2192,6 +2262,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
         price: 1.79,
       },
     ],
+    showTaxRate: false,
   },
   // shell — was wrong-format. Sources:
   //   https://support.shell.us/hc/en-us/articles/43333743484945-How-Shell-Fuel-Rewards-Savings-Work-at-the-Pump-Limits-Rollover-Explained
@@ -2248,6 +2319,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
         price: 34.86,
       },
     ],
+    showTaxRate: false,
   },
   // tim-hortons — was missing-key-details. Sources:
   //   https://help.timhortons.ca/hc/en-ca/articles/33456675818395-How-do-I-redeem-my-Tell-Tims-Survey-offer
@@ -2296,6 +2368,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
         modifiers: ["Assorted"],
       },
     ],
+    showTaxRate: false,
   },
   // rolex — was missing-key-details. Sources:
   //   https://www.rolexforums.com/showthread.php?t=834494
@@ -2377,6 +2450,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
         price: 10900,
       },
     ],
+    showTaxRate: false,
   },
   // pizza-hut — was missing-key-details. Sources:
   //   https://slickdeals.net/f/7564034-pizza-hut-10-dollars-off-of-20-dollars-for-quick-survey-can-get-two-10-dollars-off-twice-a-week
@@ -2424,6 +2498,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
         modifiers: ["Garlic Parmesan", "Ranch"],
       },
     ],
+    showTaxRate: false,
   },
   // sam-s-club — was missing-key-details. Sources:
   //   https://help.samsclub.com/app/answers/detail/a_id/1130/~/sam%E2%80%99s-club-instant-savings%E2%84%A0-program-faq
@@ -2497,6 +2572,9 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
         sku: "980000401",
       },
     ],
+    labels: {
+      subtotal: "SUBTOTAL",
+    },
   },
   // exxon — was wrong-format. Sources:
   //   https://thepointsguy.com/news/exxon-mobil-rewards-app/
@@ -2576,6 +2654,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
         price: 10.0,
       },
     ],
+    showTaxRate: false,
   },
   // grab — was wrong-format. Sources:
   //   https://imagetotable.ai/extract/grab-trip-screenshot
@@ -2659,6 +2738,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
         price: -2.0,
       },
     ],
+    showTaxRate: false,
   },
   // h-m — was missing-key-details. Sources:
   //   https://www2.hm.com/en_us/customer-service/return-link.html
@@ -2725,6 +2805,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
         sku: "0712924001",
       },
     ],
+    showTaxRate: false,
   },
   // best-buy — was missing-key-details. Sources:
   //   https://receiptedit.com/blog/best-buy-receipt
@@ -2784,6 +2865,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
         sku: "6397003",
       },
     ],
+    showTaxRate: false,
   },
   // planet-fitness — was close. Sources:
   //   https://alumni.caelum.com.br/guide-costs-billing-dates-sneaky-pu4b.html
@@ -2827,6 +2909,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
       },
     ],
     policyText: "Annual fee of $49 bills separately on its scheduled date. Questions? Contact your home club.",
+    showTaxRate: false,
   },
   // sheetz — was wrong-format. Sources:
   //   https://www.chowhound.com/2115869/sheetz-order-pickup-counter-rule
@@ -2854,6 +2937,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     footerMessage: "THANK YOU FOR CHOOSING SHEETZ",
     policyText: "Earn points on every gallon with Sheetz Rewardz.",
     showBarcode: false,
+    showTaxRate: false,
   },
   // peet-s-coffee — was missing-key-details. Sources:
   //   https://www.nrn.com/beverage-trends/peet-s-coffee-sees-returns-from-relaunched-loyalty-program-now-with-tiered-rewards-structure
@@ -2891,6 +2975,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     policyText: "Peetnik Rewards members: scan your app QR code at checkout to earn points.",
     qrCode: true,
     showBarcode: true,
+    showTaxRate: false,
   },
   // lowe-s — was missing-key-details. Sources:
   //   https://sites.google.com/view/lowescomsurveyshareyourex/home
@@ -2963,6 +3048,10 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     footerMessage: "THANK YOU FOR SHOPPING LOWE'S",
     policyText: "Share your feedback! Visit www.lowes.com/survey and enter the survey code below for a chance to win. See lowes.com/returns for our return policy.",
     showBarcode: true,
+    labels: {
+      subtotal: "SUBTOTAL",
+    },
+    showTaxRate: false,
   },
   // ulta-beauty — was missing-key-details. Sources:
   //   https://www.ulta.com/rewards/faq
@@ -3009,6 +3098,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     footerMessage: "Ulta Beauty Rewards Member ****0000 | Points earned: 120 | Balance: 1,540",
     policyText: "Returns and exchanges accepted within 60 days with receipt. See ulta.com for details.",
     showBarcode: true,
+    showTaxRate: false,
   },
   // target — was missing-key-details. Sources:
   //   https://receiptsmaker.com/blog/how-to-read-a-receipt
@@ -3025,34 +3115,39 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     hideStoreLine: true,
     items: [
       {
-        name: "THRESHOLD THROW PILLOW  T",
+        name: "THRESHOLD THROW PILLOW",
         quantity: 1,
         price: 20.0,
         sku: "234010012",
+        taxFlag: "T",
       },
       {
-        name: "UP&UP AA BATTERIES 8PK  T",
+        name: "UP&UP AA BATTERIES 8PK",
         quantity: 1,
         price: 8.49,
         sku: "082041234",
+        taxFlag: "T",
       },
       {
-        name: "ROOM ESSENTIALS STORAGE BIN  T",
+        name: "ROOM ESSENTIALS STORAGE BIN",
         quantity: 2,
         price: 6.0,
         sku: "068010456",
+        taxFlag: "T",
       },
       {
-        name: "MAIN STREET MULTI-SURFACE CLEANER  T",
+        name: "MAIN STREET MULTI-SURFACE CLEANER",
         quantity: 1,
         price: 3.29,
         sku: "071020789",
+        taxFlag: "T",
       },
       {
-        name: "FAVORITE DAY GUMMY BEARS  T",
+        name: "FAVORITE DAY GUMMY BEARS",
         quantity: 1,
         price: 3.49,
         sku: "249110901",
+        taxFlag: "T",
       },
     ],
     paymentMethod: "Credit Card",
@@ -3061,6 +3156,9 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     footerMessage: "Expect More. Pay Less.",
     policyText: "Most items can be returned within 90 days with receipt. Target owned brands: 1 year. Tell us about your visit at informtarget.com.",
     showBarcode: true,
+    labels: {
+      subtotal: "SUBTOTAL",
+    },
   },
   // costco — was missing-key-details. Sources:
   //   https://www.makemyreceipt.com/blog/costco-receipt-codes
@@ -3079,41 +3177,51 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     register: "Whse:0000 Trm:12 Trn:123 OP:482",
     items: [
       {
-        name: "KS PAPER TOWEL 12 ROLL  A",
+        name: "KS PAPER TOWEL 12 ROLL",
         quantity: 1,
         price: 23.99,
         sku: "1234567",
+        taxFlag: "A",
       },
       {
-        name: "KS BATH TISSUE 30 ROLL  A",
+        name: "KS BATH TISSUE 30 ROLL",
         quantity: 1,
         price: 24.99,
         sku: "1234568",
         discount: 4.0,
+        taxFlag: "A",
       },
       {
-        name: "ROTISSERIE CHICKEN  E",
+        name: "ROTISSERIE CHICKEN",
         quantity: 1,
         price: 4.99,
         sku: "1234569",
+        taxFlag: "E",
+        notTaxed: true,
       },
       {
-        name: "ORG STRAWBERRY 2LB  E",
+        name: "ORG STRAWBERRY 2LB",
         quantity: 1,
         price: 6.99,
         sku: "1234570",
+        taxFlag: "E",
+        notTaxed: true,
       },
       {
-        name: "KS WATER 40PK  E",
+        name: "KS WATER 40PK",
         quantity: 2,
         price: 4.99,
         sku: "1234571",
+        taxFlag: "E",
+        notTaxed: true,
       },
       {
-        name: "KS ORG EVOO 2L  E",
+        name: "KS ORG EVOO 2L",
         quantity: 1,
         price: 18.99,
         sku: "1234572",
+        taxFlag: "E",
+        notTaxed: true,
       },
     ],
     paymentMethod: "Credit Card",
@@ -3122,6 +3230,10 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     footerMessage: "Thank You! Please Come Again",
     policyText: "INSTANT SAVINGS $4.00",
     showBarcode: true,
+    labels: {
+      subtotal: "SUBTOTAL",
+    },
+    showTaxRate: false,
   },
   // autozone — was missing-key-details. Sources:
   //   https://www.automoblog.com/reviews/auto-warranty/what-to-know-about-the-autozone-warranty/
@@ -3172,6 +3284,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     footerMessage: "AutoZone Rewards: (XXX) XXX-0000",
     policyText: "Warranty terms for each part are shown above; keep this receipt or the phone number used at purchase for warranty claims. Core charge refunded when the old part is returned.",
     showBarcode: true,
+    showTaxRate: false,
   },
   // dhl — was wrong-format. Sources:
   //   https://mydhl.express.dhl/es/en/help-and-support/faqs/tracking-monitoring.html
@@ -3265,6 +3378,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     footerMessage: "Track your shipment at dhl.com with your waybill number.",
     policyText: "Carriage is subject to the DHL Express Terms and Conditions of Carriage. Duties and taxes, if any, are payable by the receiver unless DTP was selected.",
     showBarcode: true,
+    showTaxRate: false,
   },
   // nike — was wrong-format. Sources:
   //   https://www.nike.com/help/a/returns-policy
@@ -3334,6 +3448,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     cardLastFour: "0000",
     footerMessage: "Returns are free for Nike Members within 60 days.",
     showBarcode: false,
+    showTaxRate: false,
   },
 };
 

@@ -1,4 +1,5 @@
 import type { SourceId } from "./sources";
+import type { ReceiptLabels } from "./sections";
 
 export interface LineItem {
   id: string;
@@ -12,6 +13,8 @@ export interface LineItem {
   modifiers?: string[]; // e.g. ["No onions", "Extra shot"]
   discount?: number; // flat per-item discount amount
   taxCategory?: string; // informational label, e.g. "Standard", "Zero-rated"
+  notTaxed?: boolean; // left out of the tax base — groceries, exempt goods
+  taxFlag?: string; // printed after the line total, as tills do: "F", "T", "N", "A"
 }
 
 /** One tax line in a totals block (supports multiple tax rates). */
@@ -188,6 +191,8 @@ export interface ReceiptData {
 
   // Optional composable sections used to recreate real-world receipt designs.
   forcePaper?: boolean; // render the paper template even for digital/service brands
+  labels?: ReceiptLabels; // the receipt's own wording for fixed lines ("SUBTOTAL", "CHANGE DUE")
+  showTaxRate?: boolean; // false = "TAX 1" without "(9.5%)"
   hideTitle?: boolean; // no generic "SALES RECEIPT"/"FUEL RECEIPT" heading — real brand receipts never print one
   greeting?: string; // friendly line under the logo, e.g. "Congrats on Your Purchase!"
   sections?: ReceiptSection[]; // titled detail blocks (shipping, ride, delivery, …)

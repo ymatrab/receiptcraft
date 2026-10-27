@@ -185,6 +185,48 @@ export interface DocSettings {
   contentPadding?: number; // inner padding of the receipt (default 24)
   sectionGap?: number; // extra vertical gap between sections (default 0)
   itemGap?: number; // vertical gap between line items (default 4)
+  /** The receipt's own wording for the fixed lines — see RECEIPT_LABELS. */
+  labels?: ReceiptLabels;
+  /** Print the rate after each tax label, "Tax (9.5%)". Default true. */
+  showTaxRate?: boolean;
+}
+
+/**
+ * Every word the renderer prints on its own, with its default.
+ *
+ * These were hard-coded, so no receipt could say "SUBTOTAL", "CHANGE DUE",
+ * "APPROVAL #" or "Debit Tend" the way the real one does — and anyone matching
+ * a specific receipt hit a line they could not change. Each one is now the
+ * user's to rename in the builder's "Receipt wording" panel.
+ */
+export const RECEIPT_LABELS = {
+  subtotal: "Subtotal",
+  itemDiscounts: "Item discounts",
+  discount: "Discount",
+  serviceFee: "Service fee",
+  deliveryFee: "Delivery fee",
+  tip: "Tip",
+  rounding: "Rounding",
+  amountPaid: "Amount paid",
+  change: "Change",
+  itemsSold: "Items sold:",
+  paymentMethod: "Payment Method",
+  amountTendered: "Amount Tendered",
+  splitPayment: "Split payment",
+  cardNumber: "Card number",
+  cardType: "Card type",
+  cardEntry: "Card entry",
+  reference: "Reference #",
+  status: "Status",
+  approved: "APPROVED",
+  feedback: "We value your feedback:",
+} as const;
+export type ReceiptLabelKey = keyof typeof RECEIPT_LABELS;
+export type ReceiptLabels = Partial<Record<ReceiptLabelKey, string>>;
+
+/** The receipt's wording for one fixed line, falling back to the default. */
+export function receiptLabel(labels: ReceiptLabels | undefined, key: ReceiptLabelKey): string {
+  return labels?.[key] || RECEIPT_LABELS[key];
 }
 
 /** Spacing defaults, in px — single source of truth for renderer + builder. */
@@ -912,6 +954,8 @@ export function docFromReceiptData(data: ReceiptData): ReceiptDoc {
       ...(letterSpacing && { letterSpacing }),
       ...(weight && { weight }),
       ...(paper && { paper }),
+      ...(data.labels && { labels: data.labels }),
+      ...(data.showTaxRate === false && { showTaxRate: false }),
     },
     sections,
   };
@@ -937,6 +981,16 @@ export function itemsTotals(s: ItemsSection) {
   const discount = Math.min(rawDiscount, afterItemDisc);
   const taxable = afterItemDisc - discount;
 
+  // Tax falls only on items not marked untaxed — a grocery receipt taxes the
+  // soap, not the milk. An order-level discount is shared pro rata, so it
+  // lowers the taxed and untaxed parts alike.
+  const taxedNet = s.items.reduce((sum, i) => {
+    if (i.notTaxed) return sum;
+    const gross = (i.quantity || 0) * (i.price || 0);
+    return sum + gross - Math.min(Math.max(i.discount || 0, 0), Math.max(gross, 0));
+  }, 0);
+  const taxBase = afterItemDisc > 0 ? taxedNet - discount * (taxedNet / afterItemDisc) : 0;
+
   // One or more tax lines. Multiple lines override the single taxLabel/taxRate.
   const lines = s.taxLines && s.taxLines.length > 0
     ? s.taxLines
@@ -946,7 +1000,7 @@ export function itemsTotals(s: ItemsSection) {
   const taxLines = lines.map((l) => ({
     label: l.label || "Tax",
     rate: l.rate,
-    amount: taxable * ((l.rate || 0) / 100),
+    amount: taxBase * ((l.rate || 0) / 100),
   }));
   const tax = taxLines.reduce((sum, l) => sum + l.amount, 0);
 

@@ -28,9 +28,11 @@ import {
   newSection,
   presetDoc,
   PRESETS,
+  RECEIPT_LABELS,
   SECTION_LABEL,
   SPACING_DEFAULTS,
   WIDTH_PRESETS,
+  type ReceiptLabelKey,
 } from "@/lib/sections";
 import { getTemplate, TEMPLATES } from "@/lib/templates";
 import { receiptFromTemplate } from "@/lib/receipt";
@@ -798,10 +800,17 @@ export default function SectionBuilder() {
                     <input className={inputClass} defaultValue={it.category ?? ""} placeholder="Category" onChange={(e) => updateItem(s, it.id, { category: e.target.value || undefined })} aria-label="Category" />
                     <input className={inputClass} defaultValue={it.taxCategory ?? ""} placeholder="Tax category" onChange={(e) => updateItem(s, it.id, { taxCategory: e.target.value || undefined })} aria-label="Tax category" />
                     <input className={`${inputClass} col-span-2 sm:col-span-1`} defaultValue={(it.modifiers ?? []).join(", ")} placeholder="Modifiers (comma-sep)" onChange={(e) => updateItem(s, it.id, { modifiers: e.target.value.split(",").map((m) => m.trim()).filter(Boolean) })} aria-label="Modifiers" />
+                    {/* Real grocery tills tax the soap and not the milk, and
+                        print a flag after each price saying which is which. */}
+                    <input className={inputClass} defaultValue={it.taxFlag ?? ""} placeholder="Tax flag (F, T, N…)" maxLength={4} onChange={(e) => updateItem(s, it.id, { taxFlag: e.target.value || undefined })} aria-label="Tax flag printed after the price" />
+                    <label className="flex min-h-11 items-center gap-2 text-xs text-slate-600">
+                      <input type="checkbox" defaultChecked={!!it.notTaxed} onChange={(e) => updateItem(s, it.id, { notTaxed: e.target.checked || undefined })} className="h-4 w-4" />
+                      Not taxed
+                    </label>
                   </div>
                 )}
                 <button type="button" onClick={() => setItemDetails((m) => ({ ...m, [it.id]: !m[it.id] }))} className="mt-1.5 text-[11px] font-medium text-indigo-500 hover:text-indigo-700">
-                  {itemDetails[it.id] ? "− Hide details" : "+ SKU, unit, modifiers, discount"}
+                  {itemDetails[it.id] ? "− Hide details" : "+ SKU, unit, modifiers, discount, tax"}
                 </button>
               </div>
             ))}
@@ -1257,6 +1266,29 @@ export default function SectionBuilder() {
                     <input type="range" min={0} max={20} value={doc.settings.itemGap ?? SPACING_DEFAULTS.itemGap} onChange={(e) => patchSettings({ itemGap: parseInt(e.target.value) })} className="mt-1 w-full" />
                   </label>
                 </div>
+                {/* Every word the receipt prints on its own. Free on every plan:
+                    matching the real receipt is the product, and the paywall
+                    is on the clean download alone. */}
+                <details className="rounded-lg border border-slate-100 p-3">
+                  <summary className="cursor-pointer text-xs font-semibold text-slate-700">
+                    Receipt wording — rename Subtotal, Change, card lines…
+                  </summary>
+                  <div className="mt-3 flex items-center justify-between">
+                    <span className="text-sm text-slate-700">Show the rate after each tax line, e.g. “Tax (9.5%)”</span>
+                    <Toggle checked={doc.settings.showTaxRate !== false} onChange={(c) => patchSettings({ showTaxRate: c })} />
+                  </div>
+                  <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                    {(Object.keys(RECEIPT_LABELS) as ReceiptLabelKey[]).map((k) => (
+                      <TextField
+                        key={k}
+                        label={RECEIPT_LABELS[k]}
+                        defaultValue={doc.settings.labels?.[k] ?? ""}
+                        placeholder={RECEIPT_LABELS[k]}
+                        onChange={(v) => patchSettings({ labels: { ...doc.settings.labels, [k]: v || undefined } })}
+                      />
+                    ))}
+                  </div>
+                </details>
               </div>
             )}
           </div>

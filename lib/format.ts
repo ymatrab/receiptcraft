@@ -31,7 +31,14 @@ export function calcTotals(data: ReceiptData): ReceiptTotals {
   );
   const discount = Math.min(Math.max(data.discount || 0, 0), subtotal);
   const taxable = subtotal - discount;
-  const tax = taxable * ((data.taxRate || 0) / 100);
+  // Same rule as itemsTotals in lib/sections.ts: untaxed items stay out of the
+  // tax base, and the discount is shared pro rata.
+  const taxedGross = data.items.reduce(
+    (sum, item) => (item.notTaxed ? sum : sum + (item.quantity || 0) * (item.price || 0)),
+    0
+  );
+  const taxBase = subtotal > 0 ? taxedGross - discount * (taxedGross / subtotal) : 0;
+  const tax = taxBase * ((data.taxRate || 0) / 100);
   const tip = Math.max(data.tip || 0, 0);
   const total = taxable + tax + tip;
   const change =
