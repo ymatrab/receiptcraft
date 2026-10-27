@@ -206,6 +206,13 @@ export interface ReceiptDoc {
    * autosave and saved-receipt data so re-downloads reuse the same credit.
    */
   id?: string;
+  /**
+   * How this receipt was started. Rides along on download and paywall events so
+   * "do AI receipts get paid for" is a query rather than a reconstruction —
+   * and survives autosave, because a draft restored tomorrow is still the AI
+   * receipt it was today. Absent on drafts saved before it existed.
+   */
+  origin?: "ai" | "template" | "blank" | "preset";
   settings: DocSettings;
   sections: Section[];
 }

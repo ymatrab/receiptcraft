@@ -10,9 +10,10 @@ import {
 } from "@/lib/settings";
 import { notify } from "@/lib/telegram";
 import { generateJson, AiProviderError, AI_ATTEMPT_TIMEOUT_MS } from "@/lib/ai-providers";
-import { FREE_LIMITS } from "@/lib/plans";
+import { FREE_LIMITS, PLANS, formatPlanPrice } from "@/lib/plans";
 import { startOfUsageMonth } from "@/lib/usage";
 import { AI_RECEIPT_SCHEMA, receiptSystemPrompt, type AiReceiptResult } from "@/lib/ai-receipt";
+import { brandPrompt, detectBrand } from "@/lib/ai-brand";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -140,7 +141,10 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "AI is not configured yet." }, { status: 503 });
   }
 
-  const { prompt } = (await req.json().catch(() => ({}))) as { prompt?: string };
+  const { prompt, template: requested } = (await req.json().catch(() => ({}))) as {
+    prompt?: string;
+    template?: string;
+  };
   if (!prompt || prompt.trim().length < 3) {
     return NextResponse.json({ error: "Please describe the receipt you want." }, { status: 400 });
   }
@@ -168,7 +172,10 @@ export async function POST(req: Request) {
     if (!ok) {
       after(() => announceLimitReached(account.userId!, account.email));
       return NextResponse.json(
-        { error: "You've used your free AI generations for this month. Upgrade for unlimited." },
+        {
+          // "Upgrade" stays in the text: both generators key their checkout link off it.
+          error: `You've used your ${FREE_LIMITS.aiGenerationsPerMonth} free AI receipts this month. Upgrade for unlimited — ${formatPlanPrice(PLANS.pro_weekly)} for 7 days.`,
+        },
         { status: 429 }
       );
     }
@@ -181,7 +188,14 @@ export async function POST(req: Request) {
   // costing a wasted round-trip once it runs dry.
   // Resolved once, so every failover attempt sends an identical prompt (and a
   // retry that straddles midnight cannot change the date mid-request).
-  const system = receiptSystemPrompt();
+  //
+  // The brand comes from the prompt when it names one ("a Starbucks latte"
+  // typed on the Walmart page means Starbucks), else from the template the
+  // builder is showing. Either way the receipt comes back with the slug, so the
+  // builder lays it onto that template instead of a blank roll.
+  const slug = detectBrand(prompt) ?? (typeof requested === "string" ? requested.slice(0, 64) : "");
+  const brand = slug ? brandPrompt(slug) : null;
+  const system = receiptSystemPrompt(new Date(), brand?.text);
   let result: AiReceiptResult | null = null;
   let servedBy: string | null = null;
   let failures = 0;
@@ -293,9 +307,19 @@ export async function POST(req: Request) {
   // unlimited actually costs us in provider calls.
   //
   // `pro` keeps the two uses apart: checkUserLimit above counts free rows only.
+  //
+  // The prompt, the brand we matched and the business name that came back are
+  // the demand signal: what people ask the generator for is the most direct
+  // list there is of the receipts the site should be offering (migration 0008).
   if (supabaseConfigured) {
     const usage = createAdminClient().from("ai_usage");
-    const { error } = await usage.insert({ user_id: account.userId, pro: account.isPro });
+    const { error } = await usage.insert({
+      user_id: account.userId,
+      pro: account.isPro,
+      prompt: prompt.trim().slice(0, 600),
+      template: brand?.template.slug ?? null,
+      business_name: (result.businessName || "").slice(0, 120) || null,
+    });
     if (error) {
       // Same missing-column case as above. Record the generation regardless —
       // supabase-js returns errors rather than throwing, so a silently dropped
@@ -303,7 +327,16 @@ export async function POST(req: Request) {
       console.error("[ai] usage insert failed", error.message);
       await usage.insert({ user_id: account.userId });
     }
+    // Prompts are kept 90 days (0008). Hobby crons are daily-only and run
+    // unauthenticated, so the sweep rides on real traffic instead, at most once
+    // a day — the same throttle the outage alerts use.
+    after(async () => {
+      if (await claimAlertSlot("ai_prompt_sweep", 24 * 60 * 60 * 1000)) {
+        const { error: sweep } = await createAdminClient().rpc("clear_old_ai_prompts");
+        if (sweep) console.error("[ai] prompt sweep failed", sweep.message);
+      }
+    });
   }
 
-  return NextResponse.json({ receipt: result });
+  return NextResponse.json({ receipt: result, template: brand?.template.slug ?? null });
 }

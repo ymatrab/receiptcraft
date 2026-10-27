@@ -57,7 +57,10 @@ export const TOOLS_INDEX_UPDATED = "2026-08-31";
 // and device stored against the visit id.
 // 2026-10-20: Google Analytics is now on by default outside the EEA, UK and
 // Switzerland (opt-out via Decline); opt-in there is unchanged.
-export const PRIVACY_UPDATED = "2026-10-20";
+// 2026-10-27: the AI generator section now says the prompt, the result's
+// business name and the matched template are stored, and the prompt is deleted
+// after 90 days.
+export const PRIVACY_UPDATED = "2026-10-27";
 // 2026-09-04: sections 3 and 4 now describe the billing model that actually
 // runs. The old text said a plan "continues for successive periods until
 // cancelled" and that you "authorize the recurring charge until you cancel",

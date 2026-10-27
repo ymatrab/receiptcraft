@@ -51,8 +51,11 @@ export default function PrivacyPage() {
         <p>
           When you use the AI generator, the text you enter is sent to a third-party AI provider
           (such as Google, OpenAI or Anthropic) to produce suggested receipt content. Please don&apos;t
-          enter sensitive personal information into AI prompts. We keep a minimal count of AI usage
-          to enforce fair-use limits.
+          enter sensitive personal information into AI prompts. For each generation we record that
+          it happened (to enforce fair-use limits), the text you entered, the business name in the
+          result and which of our templates it matched. We use these to learn which receipts people
+          need, so we can add the templates that are missing. The text you entered is deleted after
+          90 days; it is linked to your account and is never shown to anyone outside our team.
         </p>
 
         <H2>Support chat</H2>
