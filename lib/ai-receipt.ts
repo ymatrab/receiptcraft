@@ -1,5 +1,5 @@
 import type { PaymentMethod, ReceiptData } from "./types";
-import { baseReceipt } from "./receipt";
+import { baseReceipt } from "./receipt-base";
 import { uid } from "./format";
 
 /** Shape the AI returns — a subset of ReceiptData the builder can hydrate. */
