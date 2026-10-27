@@ -906,6 +906,12 @@ export default function SectionBuilder() {
             {moreOpen[s.id] && (
               <div className="space-y-3">
             <SelectField label="Item layout" defaultValue={s.itemStyle ?? "table"} onChange={(v) => patchSection(s.id, { itemStyle: v })} options={ITEM_STYLES} />
+            {/* UK/EU/AU prices already contain VAT/GST: the tax line shows the
+                share inside the total instead of adding it on top. */}
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-slate-700">Prices already include tax (VAT / GST)</span>
+              <Toggle checked={!!s.taxIncluded} onChange={(c) => patchSection(s.id, { taxIncluded: c || undefined })} />
+            </div>
             <div className="flex items-center justify-between">
               <span className="text-sm text-slate-700">Show the Subtotal line</span>
               <Toggle checked={!s.hideSubtotal} onChange={(c) => patchSection(s.id, { hideSubtotal: c ? undefined : true })} />

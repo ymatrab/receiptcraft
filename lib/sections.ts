@@ -104,6 +104,7 @@ export interface ItemsSection extends BaseSection {
   showItemsSold?: boolean; // "Items sold: N" line (grocery / warehouse)
   skuFirst?: boolean; // print each item's SKU/UPC before its name, as tills do
   hideSubtotal?: boolean; // fuel slips and Kroger print no subtotal
+  taxIncluded?: boolean; // prices include the tax (VAT/GST): the lines show it, the total doesn't add it
   unitDecimals?: 3; // unit prices to 3 decimals ($2.799); line totals stay in cents
   showSavings?: boolean; // "You saved $x" after the total, from item + order discounts
 }
@@ -871,6 +872,9 @@ export function docFromReceiptData(data: ReceiptData): ReceiptDoc {
       ...(data.skuFirst && { skuFirst: true }),
       ...(data.taxLines?.length && { taxLines: data.taxLines }),
       ...(data.hideSubtotal && { hideSubtotal: true }),
+      ...(data.taxIncluded && { taxIncluded: true }),
+      ...(data.deliveryFee && { deliveryFee: data.deliveryFee }),
+      ...(data.serviceFee && { serviceFee: data.serviceFee }),
       ...(data.unitDecimals && { unitDecimals: data.unitDecimals }),
       ...(data.showSavings && { showSavings: true }),
     });
@@ -1021,7 +1025,7 @@ export function itemsTotals(s: ItemsSection) {
     : s.taxRate > 0
       ? [{ label: s.taxLabel || "Tax", rate: s.taxRate }]
       : [];
-  const taxLines = taxLineAmounts(s.items, lines, afterItemDisc > 0 ? 1 - discount / afterItemDisc : 0);
+  const taxLines = taxLineAmounts(s.items, lines, afterItemDisc > 0 ? 1 - discount / afterItemDisc : 0, s.taxIncluded);
   const tax = taxLines.reduce((sum, l) => sum + l.amount, 0);
 
   const serviceFee = s.serviceFeePercent
@@ -1031,7 +1035,9 @@ export function itemsTotals(s: ItemsSection) {
   const tip = Math.max(s.tip || 0, 0);
   const rounding = s.rounding || 0;
 
-  const total = taxable + tax + serviceFee + deliveryFee + tip + rounding;
+  // Included tax (VAT in the price) is shown on its line but is already in
+  // `taxable`, so adding it again would charge it twice.
+  const total = taxable + (s.taxIncluded ? 0 : tax) + serviceFee + deliveryFee + tip + rounding;
   const amountPaid = Math.max(s.amountPaid || 0, 0);
   const change = amountPaid > total ? amountPaid - total : 0;
 
