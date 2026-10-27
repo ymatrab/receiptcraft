@@ -188,6 +188,7 @@ export interface ReceiptData {
 
   // Optional composable sections used to recreate real-world receipt designs.
   forcePaper?: boolean; // render the paper template even for digital/service brands
+  hideTitle?: boolean; // no generic "SALES RECEIPT"/"FUEL RECEIPT" heading — real brand receipts never print one
   greeting?: string; // friendly line under the logo, e.g. "Congrats on Your Purchase!"
   sections?: ReceiptSection[]; // titled detail blocks (shipping, ride, delivery, …)
   grandTotalLabel?: string; // override the "TOTAL" label (e.g. "Grand Total")

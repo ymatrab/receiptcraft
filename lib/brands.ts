@@ -9,6 +9,7 @@ import {
   EXISTING_BRAND_CATEGORY,
 } from "./brand-categories";
 import { fitSeoDescription } from "./seo-description";
+import { BRAND_SPECS } from "./brand-specs";
 
 /**
  * Brand logo URL for a company domain. Prefers the official Wikimedia wordmark
@@ -6348,12 +6349,25 @@ const TITLE_KEEPS_FREE: ReadonlySet<string> = new Set([
   "walmart", "whole-foods", "zara",
 ]);
 
+/**
+ * A template's defaults with its researched receipt applied (lib/brand-specs.ts).
+ * "replace" specs drop the old defaults except the logo; "merge" specs only
+ * correct the fields they name.
+ */
+function withSpec(t: ReceiptTemplate): ReceiptTemplate["defaults"] {
+  const spec = BRAND_SPECS[t.slug];
+  if (!spec) return t.defaults;
+  const { mode, items, ...fields } = spec;
+  const base = mode === "merge" ? t.defaults : { logoDataUrl: t.defaults.logoDataUrl };
+  return { ...base, ...fields, items: items.map((it) => ({ id: id(), ...it })) };
+}
+
 export const BRAND_TEMPLATES: ReceiptTemplate[] = [...HAND_BRANDS, ...GENERATED_BRANDS].map((t) => {
   const seoTitle = fitBrandTitle(
     TITLE_KEEPS_FREE.has(t.slug) ? t.seoTitle : stripFree(t.seoTitle),
     t.shortName
   );
-  return { ...t, seoTitle, seoDescription: fitSeoDescription(t.seoDescription) };
+  return { ...t, defaults: withSpec(t), seoTitle, seoDescription: fitSeoDescription(t.seoDescription) };
 });
 
 const NEW_BRAND_CATEGORY: Record<string, BrandCategory> = {};

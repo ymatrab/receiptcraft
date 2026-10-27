@@ -707,7 +707,7 @@ export function docFromReceiptData(data: ReceiptData): ReceiptDoc {
     divider: d(true),
     logoDataUrl: data.logoText ? undefined : data.logoDataUrl || undefined,
     logoText: data.logoText,
-    title: data.greeting ? undefined : RECEIPT_TITLE[profile],
+    title: data.greeting || data.hideTitle ? undefined : RECEIPT_TITLE[profile],
     storeName: data.businessName,
     address: [data.addressLine1, data.addressLine2].filter(Boolean).join("\n"),
     phone: data.phone || undefined,
@@ -736,8 +736,11 @@ export function docFromReceiptData(data: ReceiptData): ReceiptDoc {
   if (!isService) {
     const storeNumber = 100 + (seed % 8900);
     const reg = 1 + (seed % 12);
+    // A brand that lays out its own pump block (Shell's PUMP# / GALLONS /
+    // PRICE/GAL) would otherwise print it twice, once with "Grade: Unleaded".
+    const ownPumpBlock = (data.sections ?? []).some((s) => s.rows.some((r) => /pump/i.test(r.label ?? "")));
     if (profile === "fuel") {
-      sections.push({
+      if (!ownPumpBlock) sections.push({
         id: uid(),
         type: "twocol",
         divider: "none",
@@ -747,6 +750,7 @@ export function docFromReceiptData(data: ReceiptData): ReceiptDoc {
           { label: "Auth", value: data.receiptNumber.slice(-4) },
         ],
       });
+      // otherwise its own block follows with the other sections
     } else if (profile === "pharmacy") {
       sections.push({
         id: uid(),
@@ -765,17 +769,22 @@ export function docFromReceiptData(data: ReceiptData): ReceiptDoc {
         divider: "none",
         rows: [{ label: "Member", value: `111${String(100000 + ((seed * 9301) % 899999))}` }],
       });
-    } else if (!isTicket && !data.register && !data.hideStoreLine) {
-      sections.push({
-        id: uid(),
-        type: "twocol",
-        divider: "none",
-        flow: true,
-        rows: [
-          { label: "Store #", value: String(storeNumber) },
-          { label: "Reg", value: String(reg) },
-        ],
-      });
+    } else if (!data.hideStoreLine) {
+      // `register` and `cashier` used to be read nowhere outside the fuel and
+      // pharmacy blocks: "REG #03", "Window #2" and every cashier a template or
+      // the AI set were silently dropped. Both values carry their own wording
+      // ("Bartender: Mike"), so they print as given — only a bare name is
+      // labelled.
+      const rows: ReceiptRow[] = data.register
+        ? [{ value: data.register }]
+        : isTicket
+          ? []
+          : [
+              { label: "Store #", value: String(storeNumber) },
+              { label: "Reg", value: String(reg) },
+            ];
+      if (data.cashier) rows.push(data.cashier.includes(":") ? { value: data.cashier } : { label: "Cashier", value: data.cashier });
+      if (rows.length > 0) sections.push({ id: uid(), type: "twocol", divider: "none", flow: true, rows });
     }
   }
 
