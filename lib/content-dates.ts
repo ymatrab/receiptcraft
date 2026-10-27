@@ -1,5 +1,7 @@
 import type { ReceiptTemplate } from "./types";
 import { sourcedFigure } from "./templates";
+import { BRAND_TEMPLATES, brandCategoryFor } from "./brands";
+import { hubTemplateForBrand } from "./topic-clusters";
 import { hasOfficialSource } from "./intent-pages";
 import { COMPETITORS, LAST_UPDATED } from "./comparisons";
 
@@ -625,9 +627,15 @@ const TEMPLATES_HUB_FIXED: ReadonlySet<string> = new Set([
 ]);
 const TEMPLATES_HUB_UPDATED = "2026-10-27";
 
+// Same date: templates with more than eight brands now list the rest as links
+// under the brand cards (app/templates/[slug]/page.tsx). Derived, not listed,
+// so it matches exactly the pages whose content changed.
+const hasMoreThanEightBrands = (slug: string) =>
+  BRAND_TEMPLATES.filter((b) => hubTemplateForBrand(b.slug, brandCategoryFor(b.slug)) === slug).length > 8;
+
 export function templateReviewedAt(t: ReceiptTemplate): string {
   const latest = templateReviewedAtSamples(t);
-  if (TEMPLATES_HUB_FIXED.has(t.slug)) return TEMPLATES_HUB_UPDATED;
+  if (TEMPLATES_HUB_FIXED.has(t.slug) || hasMoreThanEightBrands(t.slug)) return TEMPLATES_HUB_UPDATED;
   return TEMPLATES_PAYWALL_FIXED.has(t.slug) && TEMPLATES_PAYWALL_UPDATED > latest ? TEMPLATES_PAYWALL_UPDATED : latest;
 }
 

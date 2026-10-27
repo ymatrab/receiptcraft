@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import type { Metadata } from "next";
 import Reviewed from "@/components/Reviewed";
 import { templateReviewedAt } from "@/lib/content-dates";
@@ -75,11 +76,14 @@ export default async function TemplatePage({ params }: Props) {
   const related = relatedTemplateSlugs(template.slug)
     .map((s) => getTemplate(s))
     .filter((t): t is NonNullable<typeof t> => Boolean(t));
-  const brands = BRAND_TEMPLATES.filter(
+  const allBrands = BRAND_TEMPLATES.filter(
     (b) => hubTemplateForBrand(b.slug, brandCategoryFor(b.slug)) === template.slug,
-  )
-    .sort(byDemand)
-    .slice(0, 8);
+  ).sort(byDemand);
+  const brands = allBrands.slice(0, 8);
+  // The rest, as plain links under the cards. Until 2026-10-27 a template showed
+  // only eight of its brands, so 213 of 352 brand pages had no link from the
+  // template page they belong to and lived on five links from their neighbours.
+  const moreBrands = allBrands.slice(8);
 
   // A sourced figure for templates that carry none of their own. Its sources
   // join the page's own so the footer list and the JSON-LD citations both cover
@@ -388,6 +392,21 @@ export default async function TemplatePage({ params }: Props) {
                 </li>
               ))}
             </ul>
+            {moreBrands.length > 0 && (
+              <p className="mt-5 max-w-3xl text-sm leading-relaxed text-slate-600">
+                <span className="font-semibold text-slate-900">
+                  More {docLabel} templates by brand:
+                </span>{" "}
+                {moreBrands.map((b, i) => (
+                  <Fragment key={b.slug}>
+                    {i > 0 && " · "}
+                    <Link href={`/brands/${b.slug}`} className="hover:text-indigo-600 hover:underline">
+                      {b.shortName}
+                    </Link>
+                  </Fragment>
+                ))}
+              </p>
+            )}
           </section>
         )}
 
