@@ -870,7 +870,7 @@ export function docFromReceiptData(data: ReceiptData): ReceiptDoc {
       tip: data.tip,
       grandTotalLabel: data.grandTotalLabel,
       totalsDivider: d(true),
-      showItemsSold: profile === "grocery" || profile === "warehouse",
+      showItemsSold: data.showItemsSold ?? (profile === "grocery" || profile === "warehouse"),
       ...(data.skuFirst && { skuFirst: true }),
       ...(data.taxLines?.length && { taxLines: data.taxLines }),
       ...(data.hideSubtotal && { hideSubtotal: true }),

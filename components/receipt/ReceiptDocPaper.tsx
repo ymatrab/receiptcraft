@@ -194,7 +194,9 @@ export default function ReceiptDocPaper({ doc }: Props) {
                   <span>{money(s.subtotalNet ? t.subtotal - t.itemDiscount : t.subtotal)}</span>
                 </div>
               )}
-              {t.itemDiscount > 0 && !s.subtotalNet && (
+              {/* With no subtotal printed (or one already net), a separate
+                  discounts total has nothing to be subtracted from. */}
+              {t.itemDiscount > 0 && !s.subtotalNet && !s.hideSubtotal && (
                 <div className="flex justify-between text-emerald-700">
                   <span>{L("itemDiscounts")}</span>
                   <span>-{money(t.itemDiscount)}</span>
