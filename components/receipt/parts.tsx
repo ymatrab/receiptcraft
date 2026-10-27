@@ -102,11 +102,17 @@ function ItemMeta({ item, money, opts = {} }: { item: LineItem; money: (n: numbe
           {a.price ? <span className="tabular-nums">{money(a.price)}</span> : null}
         </div>
       ))}
-      {hasDiscount && (
-        <div className="text-emerald-700">
-          − {money(item.discount!)} {opts.discountLabel || "item discount"}
-        </div>
-      )}
+      {/* A receipt's own saving line reads label first, amount right —
+          "SC RALPHS SAVED YOU 0.80"; the default note stays as it was. */}
+      {hasDiscount &&
+        (opts.discountLabel ? (
+          <div className="flex justify-between gap-2 text-emerald-700">
+            <span>{opts.discountLabel}</span>
+            <span className="tabular-nums">−{money(item.discount!)}</span>
+          </div>
+        ) : (
+          <div className="text-emerald-700">− {money(item.discount!)} item discount</div>
+        ))}
     </div>
   );
 }

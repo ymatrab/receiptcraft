@@ -48,7 +48,7 @@ export function itemNet(item: LineItem): number {
  * order discount (1 − discount / net), so the discount lowers every base
  * pro rata. The single definition both itemsTotals and calcTotals use.
  */
-export function taxLineAmounts(items: LineItem[], lines: TaxLine[], share: number) {
+export function taxLineAmounts(items: LineItem[], lines: TaxLine[], share: number, included = false) {
   const claimed = new Set(lines.map((l) => l.appliesTo).filter(Boolean));
   return lines.map((l) => {
     const base = items.reduce((sum, i) => {
@@ -56,7 +56,10 @@ export function taxLineAmounts(items: LineItem[], lines: TaxLine[], share: numbe
       const hit = l.appliesTo ? i.taxFlag === l.appliesTo : !claimed.has(i.taxFlag);
       return hit ? sum + itemNet(i) : sum;
     }, 0);
-    return { label: l.label || "Tax", rate: l.rate, amount: base * share * ((l.rate || 0) / 100) };
+    // Included tax is the part of a VAT-inclusive price that is tax:
+    // price × rate / (100 + rate) — £12 at 20% holds £2.00 of VAT.
+    const r = l.rate || 0;
+    return { label: l.label || "Tax", rate: l.rate, amount: base * share * (included ? r / (100 + r) : r / 100) };
   });
 }
 
@@ -67,9 +70,10 @@ export function calcTotals(data: ReceiptData): ReceiptTotals {
   // Same rule as itemsTotals in lib/sections.ts (taxLineAmounts).
   const lines = data.taxLines?.length ? data.taxLines : [{ label: data.taxLabel, rate: data.taxRate || 0 }];
   const share = subtotal > 0 ? 1 - discount / subtotal : 0;
-  const tax = taxLineAmounts(data.items, lines, share).reduce((sum, l) => sum + l.amount, 0);
+  const tax = taxLineAmounts(data.items, lines, share, data.taxIncluded).reduce((sum, l) => sum + l.amount, 0);
   const tip = Math.max(data.tip || 0, 0);
-  const total = taxable + tax + tip;
+  const fees = Math.max(data.deliveryFee || 0, 0) + Math.max(data.serviceFee || 0, 0);
+  const total = taxable + (data.taxIncluded ? 0 : tax) + tip + fees;
   const change =
     data.paymentMethod === "Cash" && data.amountTendered > total
       ? data.amountTendered - total

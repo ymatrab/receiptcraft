@@ -207,6 +207,11 @@ export interface ReceiptData {
   fuelGrade?: string; // the fuel block's grade, "Regular" / "Supreme" / "Diesel" (default "Unleaded")
   taxLines?: TaxLine[]; // several tax rates, each optionally limited to one tax flag
   hideSubtotal?: boolean; // fuel slips and Kroger print no subtotal line
+  showItemsSold?: boolean; // print the item count ("ITEMS 5") on any receipt, not only grocery/warehouse
+  subtotalNet?: boolean; // the Subtotal already has item discounts taken off (JCPenney, Burlington)
+  taxIncluded?: boolean; // prices already include the tax (UK/EU VAT, AU GST): shown, not added
+  deliveryFee?: number; // printed below the subtotal (delivery apps), not as an item
+  serviceFee?: number; // likewise
   unitDecimals?: 3; // unit prices to 3 decimals ($2.799/gal); line totals stay in cents
   paymentName?: string; // the tender as printed, when it is not Cash/Card ("Wire transfer", "GrabPay")
   paperFinish?: PaperFinish; // force a paper finish, e.g. "email" for emailed receipts
