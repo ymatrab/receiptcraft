@@ -1409,6 +1409,741 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
       },
     ],
   },
+  // 7-eleven — was close. Sources:
+  //   https://medium999.blogspot.com/2018/04/i-spent-711-and-at-7-eleven-at-711-am.html (photo: https://i.redd.it/asym12evzuu01.jpg — Denver CO 7-Eleven receipt, 2018)
+  //   https://www.flickr.com/photos/target_man_2000/14451931159 (California 7-Eleven receipt photo, 2014)
+  //   https://receiptbaker.com/examples/7-eleven-receipt (secondary, template site)
+  "7-eleven": {
+    businessName: "7-Eleven",
+    logoText: "7-ELEVEN",
+    addressLine1: "2201 W Airport Fwy",
+    addressLine2: "IRVING TX 75062",
+    phone: "9725550147",
+    taxLabel: "High Tax",
+    taxRate: 8.25,
+    register: "STORE#: 41862",
+    hideTitle: true,
+    greeting: "THANKS FOR SHOPPING 7-ELEVEN",
+    sections: [
+      {
+        rows: [
+          {
+            label: "UNIT ID",
+            value: "00094186201",
+          },
+          {
+            label: "TERM ID",
+            value: "21",
+          },
+        ],
+      },
+      {
+        rows: [
+          {
+            value: "--== SALE TRANSACTION ==--",
+          },
+        ],
+      },
+    ],
+    sectionStyle: "flow",
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "dashed",
+    itemStyle: "qtycol",
+    grandTotalLabel: "TOTAL DUE",
+    paymentMethod: "Credit Card",
+    cardLastFour: "4417",
+    showCardAuth: true,
+    footerMessage: "THANKS FOR SHOPPING HERE\nWE WILL SEE YOU SOON",
+    policyText: "CUSTOMER AGREES TO PAY THE ABOVE TOTAL AMOUNT ACCORDING TO THE CARD HOLDERS AGREEMENT",
+    showBarcode: false,
+    paperStyle: "thermal",
+    items: [
+      {
+        name: "PaperHotCupLgSel20OZ",
+        quantity: 1,
+        price: 2.49,
+      },
+      {
+        name: "BigBiteQtrLbAllBf",
+        quantity: 1,
+        price: 2.99,
+      },
+      {
+        name: "LaysClassic2.625z",
+        quantity: 1,
+        price: 2.29,
+      },
+      {
+        name: "MnstrEnrgyOrig16z",
+        quantity: 2,
+        price: 3.29,
+      },
+      {
+        name: "7SelOrigBfJrky3.25z",
+        quantity: 1,
+        price: 7.49,
+      },
+      {
+        name: "SlurpeeLg30oz",
+        quantity: 1,
+        price: 2.19,
+      },
+    ],
+  },
+  // aldi — was missing-key-details. Sources:
+  //   https://www.the-sun.com/money/11886850/aldi-double-tax-manager-grocery-receipt/ (photo of a Chicago ALDI receipt, June 2024)
+  //   https://www.thebillfold.com/2016/04/show-us-your-grocery-receipts-part-eleven-trader-joes-and-aldi/ (two US ALDI receipt photos, 2016)
+  //   https://www.thebillfold.com/2016/03/show-us-your-grocery-receipts-part-eight-market-district-aldi-trader-joes-and-hannaford/
+  "aldi": {
+    businessName: "ALDI",
+    logoText: "ALDI",
+    addressLine1: "4120 Nolensville Pike",
+    addressLine2: "Nashville, TN 37211",
+    phone: "",
+    hideTitle: true,
+    greeting: "www.ALDI.us",
+    hideStoreLine: true,
+    register: "",
+    taxLabel: "B:Taxable",
+    taxRate: 6.25,
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "asterisk",
+    itemStyle: "lined",
+    grandTotalLabel: "T O T A L",
+    paymentMethod: "Debit Card",
+    cardLastFour: "6052",
+    showCardAuth: true,
+    footerMessage: "Like ALDI? Tell ALDI!\nTell us how we did at\nwww.tellaldi.us\nEnter the drawing for a chance\nto win a $100 ALDI gift card.\nMust be 18 years old to enter.\nNo purchase necessary.",
+    policyText: "Sign up for ALDI emails and save!\nwww.aldi.us/signup",
+    showBarcode: false,
+    paperStyle: "thermal",
+    items: [
+      {
+        name: "416318 Whole Milk 1/2 Gal",
+        quantity: 1,
+        price: 2.29,
+      },
+      {
+        name: "702214 Large White Eggs 12ct",
+        quantity: 1,
+        price: 2.79,
+      },
+      {
+        name: "Bananas",
+        quantity: 2.43,
+        price: 0.33,
+        unit: "lb",
+      },
+      {
+        name: "388139 Shredded Parmesan",
+        quantity: 1,
+        price: 2.19,
+      },
+      {
+        name: "412907 Wide Pan Wheat Brd",
+        quantity: 1,
+        price: 1.89,
+      },
+      {
+        name: "701552 Strw/Blue Grk Yog",
+        quantity: 4,
+        price: 0.89,
+      },
+      {
+        name: "515006 Fresh 80% Lean Bf",
+        quantity: 1,
+        price: 5.79,
+      },
+      {
+        name: "399685 Dish Detergent",
+        quantity: 1,
+        price: 2.09,
+      },
+    ],
+  },
+  // publix — was close. Sources:
+  //   https://www.scribd.com/document/902181201/2023-03-14-0852am-PublixReceipt (full Publix receipt, Decatur GA, 2023)
+  //   https://www.thedailymeal.com/1261545/tips-first-trip-publix/ (photo of a Weston FL Publix receipt)
+  //   https://receiptbaker.com/examples/publix-receipt (secondary, template site)
+  "publix": {
+    businessName: "Oak Hollow Commons",
+    addressLine1: "3180 Peachtree Pkwy",
+    addressLine2: "Suwanee, GA 30024",
+    phone: "770-555-0136",
+    manager: "Store Manager: Dana Whitfield",
+    hideTitle: true,
+    topBarcode: true,
+    showBarcode: false,
+    register: "Your cashier was Lena",
+    taxLabel: "Food Tax",
+    taxRate: 2.0,
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "none",
+    itemStyle: "lined",
+    grandTotalLabel: "Grand Total",
+    paymentMethod: "Debit Card",
+    cardLastFour: "6723",
+    showCardAuth: true,
+    footerMessage: "Savings Summary\nSpecial Price Savings 5.99\n**********************************\n*    Your Savings at Publix     *\n*            5.99               *\n**********************************",
+    policyText: "Join the Publix family!\nApply today at apply.publix.jobs.\nWe're an equal opportunity employer.\n\nPublix Super Markets, Inc.",
+    paperStyle: "thermal",
+    items: [
+      {
+        name: "PUBLIX WHOLE MILK GAL",
+        quantity: 1,
+        price: 4.79,
+      },
+      {
+        name: "GW ORG BABY SPINACH 5OZ",
+        quantity: 1,
+        price: 4.29,
+      },
+      {
+        name: "PUB SUB CHKN TNDR WHL",
+        quantity: 1,
+        price: 11.99,
+      },
+      {
+        name: "OREO DOUBLE STF 15.35OZ",
+        quantity: 2,
+        price: 5.99,
+        discount: 5.99,
+      },
+      {
+        name: "TOSTITOS SCOOPS 10OZ",
+        quantity: 1,
+        price: 5.79,
+      },
+      {
+        name: "BANANAS",
+        quantity: 1.84,
+        price: 0.69,
+        unit: "lb",
+      },
+    ],
+  },
+  // kroger — was missing-key-details. Sources:
+  //   https://thejournalonline.blogspot.com/2016/11/challenge.html (full Kroger receipt photo: https://blogger.googleusercontent.com/.../kroger-receipt.jpg)
+  //   https://missiontosave.com/wp-content/uploads/2015/06/Kroger-Mega-Sale-Receipt-.jpg (Kroger receipt photo with SC KROGER SAVINGS lines, 2015)
+  //   https://olivia-knox.com/krogerfeedback-com/ (screenshot of Kroger's survey page showing the receipt's Entry ID box)
+  //   https://www.createreceipt.com/templates/stores/kroger (secondary, template modelled on real layout)
+  "kroger": {
+    businessName: "Kroger",
+    addressLine1: "5520 Clinton Hwy",
+    addressLine2: "Knoxville, TN 37912",
+    phone: "(865) 555-0182 STORE",
+    hideTitle: true,
+    register: "YOUR CASHIER WAS DANA",
+    taxLabel: "TAX",
+    taxRate: 6.25,
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "asterisk",
+    itemStyle: "lined",
+    grandTotalLabel: "**** BALANCE",
+    paymentMethod: "Debit Card",
+    cardLastFour: "5310",
+    showCardAuth: true,
+    footerMessage: "********* KROGER SAVINGS *********\nKROGER SAVINGS $ 6.00\nFuel Points This Order = 58\nSave $.10 off per gallon on 1 fillup\nfor every 100 Fuel Points\n\n*SEE WHAT YOU ARE SAVING TODAY*\nYOU SAVED $6.00\nTHANK YOU FOR SHOPPING KROGER",
+    policyText: "**********************************\nEARN 50 FUEL POINTS\nBY GIVING US FEEDBACK\nGo to kroger.com/feedback\nEntry ID: 481-207-336-915-062-774\n**********************************",
+    showBarcode: false,
+    paperStyle: "thermal",
+    items: [
+      {
+        name: "KRO 2% MILK GAL",
+        quantity: 1,
+        price: 3.29,
+      },
+      {
+        name: "SMP TRTH ORG EGGS 12CT",
+        quantity: 1,
+        price: 5.49,
+        discount: 1.0,
+      },
+      {
+        name: "BANANAS",
+        quantity: 2.31,
+        price: 0.59,
+        unit: "lb",
+      },
+      {
+        name: "KRO WHT BREAD 20OZ",
+        quantity: 1,
+        price: 1.49,
+      },
+      {
+        name: "TIDE PODS 42CT",
+        quantity: 1,
+        price: 13.99,
+        discount: 3.0,
+      },
+      {
+        name: "COCA COLA 12PK 12OZ",
+        quantity: 2,
+        price: 7.99,
+        discount: 2.0,
+      },
+      {
+        name: "PRV SEL CHKN BRST",
+        quantity: 1,
+        price: 8.47,
+      },
+    ],
+  },
+  // united-airlines — was wrong-format. Sources:
+  //   https://experience.apsc.ubc.ca/sites/default/files/2024-08/united_airlines_receipt_-_sample.pdf (redacted United eTicket Itinerary and Receipt, 2024)
+  //   https://web.mit.edu/golem/doc/receipt/united-lga-iad-receipt.html (older United E-Ticket Receipt and Itinerary)
+  //   https://www.flyertalk.com/forum/7750513-post1.html (FlyerTalk breakdown of UA e-receipt tax codes)
+  "united-airlines": {
+    businessName: "United Airlines",
+    addressLine1: "",
+    addressLine2: "",
+    phone: "",
+    hideTitle: true,
+    greeting: "eTicket Itinerary and Receipt for Confirmation K7QW2M",
+    hideStoreLine: true,
+    sections: [
+      {
+        rows: [
+          {
+            value: "Thank you for choosing United. A receipt of your purchase is shown below. Please retain this email receipt for your records.",
+          },
+          {
+            label: "Confirmation Number",
+            value: "K7QW2M",
+          },
+        ],
+      },
+      {
+        title: "Flight 1 of 2 UA1187",
+        rows: [
+          {
+            label: "Date",
+            value: "{{date+14}}",
+          },
+          {
+            label: "Class",
+            value: "United Economy (L)",
+          },
+          {
+            label: "Depart 07:05 AM",
+            value: "Chicago, IL, US (ORD)",
+          },
+          {
+            label: "Arrive 09:52 AM",
+            value: "San Francisco, CA, US (SFO)",
+          },
+        ],
+      },
+      {
+        title: "Flight 2 of 2 UA2214",
+        rows: [
+          {
+            label: "Date",
+            value: "{{date+18}}",
+          },
+          {
+            label: "Class",
+            value: "United Economy (L)",
+          },
+          {
+            label: "Depart 05:40 PM",
+            value: "San Francisco, CA, US (SFO)",
+          },
+          {
+            label: "Arrive 11:58 PM",
+            value: "Chicago, IL, US (ORD)",
+          },
+        ],
+      },
+      {
+        title: "Traveler Details",
+        rows: [
+          {
+            value: "SAMPLE/ALEX",
+          },
+          {
+            label: "eTicket number",
+            value: "0162398471105",
+          },
+          {
+            label: "Seats",
+            value: "ORD-SFO 23C   SFO-ORD 24C",
+          },
+          {
+            label: "MileagePlus",
+            value: "XXXXX123",
+          },
+        ],
+      },
+      {
+        title: "Purchase Summary",
+        rows: [
+          {
+            label: "Method of payment",
+            value: "Visa ending in 4417",
+          },
+          {
+            label: "Date of purchase",
+            value: "{{date+0}}",
+          },
+        ],
+      },
+    ],
+    taxLabel: "Taxes",
+    taxRate: 0,
+    itemStyle: "lined",
+    grandTotalLabel: "Total",
+    paymentMethod: "Credit Card",
+    cardLastFour: "4417",
+    hideTotals: true,
+    fontFamily: "sans",
+    headerAlign: "left",
+    ruleStyle: "solid",
+    footerMessage: "Fare Rules\nAdditional charges may apply for changes in addition to any fare rules listed.\nNONREF/CHGFEE/NOASR",
+    policyText: "Baggage allowance and charges for this itinerary\nORD to SFO: 1st bag 40.00 USD, 2nd bag 50.00 USD, 50lbs (23kg) 62in (157cm)\nSFO to ORD: 1st bag 40.00 USD, 2nd bag 50.00 USD, 50lbs (23kg) 62in (157cm)",
+    showBarcode: false,
+    paperStyle: "modern",
+    items: [
+      {
+        name: "Airfare",
+        quantity: 1,
+        price: 267.0,
+      },
+      {
+        name: "U.S. Transportation Tax",
+        quantity: 1,
+        price: 20.03,
+      },
+      {
+        name: "U.S. Flight Segment Tax",
+        quantity: 1,
+        price: 10.6,
+      },
+      {
+        name: "September 11th Security Fee",
+        quantity: 1,
+        price: 11.2,
+      },
+      {
+        name: "U.S. Passenger Facility Charge",
+        quantity: 1,
+        price: 9.0,
+      },
+    ],
+  },
+  // chevron — was wrong-format. Sources:
+  //   https://commons.wikimedia.org/wiki/File:G%26M_Oil_(Chevron)_145_(Palm_Desert,_California).jpg (Chevron pump receipt scan, 2011)
+  //   https://foursquare.com/v/chevron/4ea99ea930f8719c90589532 (photo of an Oakland CA Chevron in-store receipt, 2017)
+  //   https://commons.wikimedia.org/wiki/File:Shell-Gas-Station-Receipt-MasterCard.jpg (same-era US pump receipt layout: PUMP / PRODUCT / $/G / GALLONS / FUEL TOTAL)
+  //   https://receiptgenerator.io/chevron-receipt (secondary: grades Regular/Plus/Supreme, no sales tax line on fuel)
+  "chevron": {
+    businessName: "VALLEY OIL CHEV # 214",
+    addressLine1: "2405 San Ramon Valley Blvd",
+    addressLine2: "San Ramon CA 94583",
+    phone: "",
+    hideTitle: true,
+    headerAlign: "left",
+    register: "Pump# 6",
+    sections: [
+      {
+        rows: [
+          {
+            value: "STN 00214587",
+          },
+          {
+            label: "Invoice#",
+            value: "0083416",
+          },
+          {
+            label: "Auth#",
+            value: "052917",
+          },
+        ],
+      },
+    ],
+    taxLabel: "Tax",
+    taxRate: 0,
+    fontFamily: "mono",
+    ruleStyle: "none",
+    itemStyle: "stacked",
+    grandTotalLabel: "Total",
+    paymentMethod: "Credit Card",
+    cardLastFour: "7731",
+    showCardAuth: false,
+    footerMessage: "THANK YOU\nPLEASE COME AGAIN",
+    policyText: "Save on every fill-up with\nChevron Texaco Rewards.",
+    showBarcode: false,
+    paperStyle: "thermal",
+    items: [
+      {
+        name: "Regular/Self",
+        quantity: 11.405,
+        price: 4.899,
+        unit: "G",
+      },
+    ],
+  },
+  // panera-bread — was missing-key-details. Sources:
+  //   https://www.tripadvisor.com/Restaurant_Review-g60933-d13496056-Reviews-Panera_Bread-Albuquerque_New_Mexico.html (receipt photo, Albuquerque NM, 2018)
+  //   https://www.yelp.com/biz/panera-bread-clark (receipt photo, Clark NJ, 2017)
+  //   https://www.automobilesillustrated.com/tellpanera-survey (secondary: tellpanera.com survey code printed near the bottom)
+  "panera-bread": {
+    businessName: "Panera Bread",
+    logoDataUrl: "",
+    addressLine1: "Cafe 2147",
+    addressLine2: "Sunset Hills, MO 63127",
+    phone: "Phone: (314) 555-0129",
+    hideTitle: true,
+    greeting: "Accuracy Matters,\nYour order should be correct every time.\nIf it's not, we'll fix it right away.\nJust let any associate know.",
+    register: "Check Number: 2814406   Cashier: Maria",
+    taxLabel: "Tax",
+    taxRate: 9.238,
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "none",
+    itemStyle: "qtycol",
+    grandTotalLabel: "Total",
+    paymentMethod: "Credit Card",
+    cardLastFour: "2290",
+    showCardAuth: false,
+    footerMessage: "Log in at PaneraBread.com.\nYou are 2 visits away from your next reward\nMyPanera Member: XXXXXXXXXXXX40217",
+    policyText: "www.panerabread.com\n\nRAPID PICK-UP\nYour Order Number is: 418\nCustomer / Pager: ALEX",
+    showBarcode: false,
+    paperStyle: "thermal",
+    items: [
+      {
+        name: "You Pick 2",
+        quantity: 1,
+        price: 12.79,
+        modifiers: ["1/2 Frontega Chx Pan", "No Mozzarella Cheese", "Cup Brc Chdr Soup", "French Baguette"],
+      },
+      {
+        name: "Lg Iced Green Tea",
+        quantity: 1,
+        price: 3.49,
+      },
+      {
+        name: "Choc Chipper Cookie",
+        quantity: 1,
+        price: 2.99,
+      },
+    ],
+  },
+  // gucci — was wrong-format. Sources:
+  //   https://poshmark.com/listing/Gucci-shoes-and-Gucci-shirt-brad-new-receipts-5faf31109e1559dd0bcf47de (photo of a Gucci Troy MI boutique receipt, 2020)
+  //   https://aworldofgoodsforyou.com/wp-content/uploads/2022/10/DB8CA8C4-230D-4FFA-9B72-71CC8EE1D914-scaled.jpeg (Gucci Canton Road receipt with signature/barcode footer)
+  //   https://pbs.twimg.com/media/Eu68-5YVoAM0Y8w.jpg (Gucci Beijing SKP receipt, same POS layout)
+  "gucci": {
+    businessName: "New York 5th Avenue",
+    addressLine1: "725 Fifth Avenue",
+    addressLine2: "New York NY 10022",
+    phone: "tel (212) 555-0190",
+    hideTitle: true,
+    hideStoreLine: true,
+    register: "Register: 1",
+    sections: [
+      {
+        rows: [
+          {
+            label: "Trans #",
+            value: "41876",
+          },
+          {
+            label: "Store",
+            value: "21604",
+          },
+          {
+            label: "Cashier",
+            value: "98114207",
+          },
+          {
+            label: "Customer",
+            value: "SAMPLE CLIENT",
+          },
+        ],
+      },
+    ],
+    taxLabel: "Tax",
+    taxRate: 8.875,
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "solid",
+    itemStyle: "lined",
+    itemHeader: {
+      left: "ITEM            QTY.",
+      right: "AMOUNT USD",
+    },
+    grandTotalLabel: "Total(USD)",
+    paymentMethod: "Credit Card",
+    cardLastFour: "1009",
+    showCardAuth: true,
+    footerMessage: "",
+    policyText: "I acknowledge satisfactory receipt\nof relative goods/services\n\nX______________________________\nCustomer's Signature",
+    showBarcode: true,
+    paperStyle: "thermal",
+    items: [
+      {
+        name: "HANDBAGS 728219 AABZC - 9761 - NOSIZ",
+        quantity: 1,
+        price: 3200.0,
+        sku: "809754213",
+        category: "Salesperson: 1061937 (Marco)",
+      },
+      {
+        name: "MENS SHOES 776123 AAEP3 - 9014 - 10",
+        quantity: 1,
+        price: 850.0,
+        sku: "809761504",
+        category: "Salesperson: 1061937 (Marco)",
+      },
+    ],
+  },
+  // whole-foods — was missing-key-details. Sources:
+  //   https://nosaltnofatnosugar.com/2021/07/18/deal-shopping-even-at-whole-foods/ (photo of a Northbrook IL Whole Foods receipt with Prime Extra 10% lines, 2021)
+  //   https://robpegoraro.com/2020/07/03/how-i-got-amazon-prime-almost-for-free/whole-foods-receipt-with-amazon-prime-discounts/ (receipt close-up: *Sale*, Prime Extra 10.00%, BAG REFUND)
+  //   https://www.thebillfold.com/2016/04/show-us-your-grocery-receipts-part-nine-whole-foods/ (older Whole Foods receipts: F/B flags, weight/TARE, ITEM = PLU lines)
+  //   https://couponsinthenews.com/2019/05/22/whole-foods-will-show-off-its-low-prices-even-though-theyre-still-high (Prime Extra 10% printed under each sale item)
+  "whole-foods": {
+    businessName: "Riverside RVS 512-555-0148",
+    addressLine1: "4301 S Congress Ave",
+    addressLine2: "Austin, TX 78745",
+    phone: "",
+    hideTitle: true,
+    hideStoreLine: true,
+    register: "",
+    taxLabel: "Tax:",
+    taxRate: 8.25,
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "none",
+    itemStyle: "stacked",
+    grandTotalLabel: "Total:",
+    paymentMethod: "Credit Card",
+    cardLastFour: "8820",
+    showCardAuth: false,
+    paymentInline: false,
+    footerMessage: "Total Savings: -$1.25",
+    showBarcode: false,
+    paperStyle: "thermal",
+    items: [
+      {
+        name: "365 OG WHOLE MILK GAL",
+        quantity: 1,
+        price: 5.49,
+      },
+      {
+        name: "OG HASS AVOCADO",
+        quantity: 4,
+        price: 1.25,
+      },
+      {
+        name: "WILD SOCKEYE SALMON",
+        quantity: 1.21,
+        price: 13.99,
+        unit: "lb",
+      },
+      {
+        name: "SIETE GRAIN FREE CHIPS",
+        quantity: 1,
+        price: 5.29,
+        discount: 1.25,
+      },
+      {
+        name: "365 SPRKLNG WTR LIME 8PK",
+        quantity: 1,
+        price: 4.99,
+      },
+      {
+        name: "OG BABY SPINACH 5OZ",
+        quantity: 1,
+        price: 3.99,
+      },
+      {
+        name: "BRM THCK RLD OATS",
+        quantity: 1,
+        price: 6.49,
+      },
+    ],
+  },
+  // safeway — was missing-key-details. Sources:
+  //   https://www.milehighonthecheap.com/safeway-nestle-bonus-coupon-discount/ (photo of a Denver-area Safeway receipt, Jan 2025)
+  //   https://www.grocerycouponguide.com/articles/step-by-step-safeway-ecoupon-moneymaker-eating-well-on-1-a-day/ (Safeway receipt photo with RegPrice/CardSav lines, 2010)
+  //   https://www.safeway.com/faq/foru.3132.html (Safeway for U program: member prices and points)
+  "safeway": {
+    businessName: "Safeway",
+    addressLine1: "1480 S Colorado Blvd",
+    addressLine2: "Denver, CO 80222",
+    phone: "(303) 555-0164",
+    hideTitle: true,
+    topBarcode: true,
+    showBarcode: false,
+    register: "YOUR CASHIER TODAY WAS JORDAN",
+    taxLabel: "TAX",
+    taxRate: 4.81,
+    discount: 2.0,
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "dashed",
+    itemStyle: "lined",
+    itemHeader: {
+      left: "",
+      right: "You Pay",
+    },
+    grandTotalLabel: "**** BALANCE",
+    paymentMethod: "Credit Card",
+    cardLastFour: "2286",
+    showCardAuth: true,
+    footerMessage: "YOUR SAVINGS\nMember Savings 9.50\nBasket Savings 2.00\nTotal 11.50",
+    policyText: "YOUR POINTS\nPoints Earned Today 41\nPoints Available 386",
+    paperStyle: "thermal",
+    items: [
+      {
+        name: "LUCERNE 2% MILK GAL",
+        quantity: 1,
+        price: 4.49,
+        discount: 0.5,
+      },
+      {
+        name: "O ORGANICS BABY SPINACH",
+        quantity: 1,
+        price: 4.99,
+        discount: 1.0,
+      },
+      {
+        name: "HOT POCKETS PEPRNI",
+        quantity: 2,
+        price: 3.79,
+        discount: 2.0,
+      },
+      {
+        name: "SIG SEL FLOUR TORTILLA",
+        quantity: 1,
+        price: 2.99,
+      },
+      {
+        name: "BANANAS",
+        quantity: 2.1,
+        price: 0.69,
+        unit: "lb",
+      },
+      {
+        name: "TILLAMOOK MED CHDR 2LB",
+        quantity: 1,
+        price: 12.99,
+        discount: 3.0,
+      },
+      {
+        name: "COCA COLA 12PK 12OZ",
+        quantity: 1,
+        price: 9.99,
+        discount: 3.0,
+      },
+    ],
+  },
   // wawa — was wrong-format. Sources:
   //   https://www.fox29.com/news/wawa-superfan-collects-receipts-0-999-over-3-years
   //   https://mywawavisitsurvey.com/
