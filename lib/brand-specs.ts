@@ -92,6 +92,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     showBarcode: false,
     footerMessage: "This payment is eligible for PayPal Purchase Protection.",
     policyText: "Help & Contact | Security | Apps\nCopyright © 1999-2026 PayPal, Inc. All rights reserved.\nPayPal is located at 2211 N. First St., San Jose, CA 95131.",
+    paperFinish: "email",
     showTaxRate: false,
   },
   // walmart — was wrong-format. Sources:
@@ -166,7 +167,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     grandTotalLabel: "TOTAL",
     paymentMethod: "Debit Card",
     cardLastFour: "4417",
-    showCardAuth: true,
+    showCardAuth: false,
     showBarcode: true,
     footerMessage: "# ITEMS SOLD 7\nTC# 4417 2093 5518 6624 0179",
     policyText: "Low Prices You Can Trust. Every Day.",
@@ -175,6 +176,46 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
       subtotal: "SUBTOTAL",
       change: "CHANGE DUE",
     },
+    cardRows: [
+      {
+        value: "EFT DEBIT PAY FROM PRIMARY",
+      },
+      {
+        label: "US DEBIT",
+        value: "**** **** **** 4417 I 0",
+      },
+      {
+        label: "APPROVAL #",
+        value: "0A13CZ",
+      },
+      {
+        label: "REF #",
+        value: "529900415512",
+      },
+      {
+        label: "TRANS ID -",
+        value: "385297612048391",
+      },
+      {
+        label: "VALIDATION -",
+        value: "8E2P",
+      },
+      {
+        label: "PAYMENT SERVICE -",
+        value: "E",
+      },
+      {
+        label: "AID",
+        value: "A0000000980840",
+      },
+      {
+        label: "TERMINAL #",
+        value: "SC010127",
+      },
+      {
+        value: "*Signature Not Required",
+      },
+    ],
   },
   // mcdonalds — was missing-key-details. Sources:
   //   https://www.mcdvoice.com/
@@ -234,10 +275,24 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     grandTotalLabel: "Take-Out Total",
     paymentMethod: "Credit Card",
     cardLastFour: "4417",
-    showCardAuth: true,
+    showCardAuth: false,
     footerMessage: "We'd love to hear from you!\nTell us about your visit at www.mcdvoice.com\nand get a validation code for the offer\nprinted on this receipt.",
     policyText: "",
     paperStyle: "thermal",
+    cardRows: [
+      {
+        label: "Cashless",
+        value: "VISA ************4417",
+      },
+      {
+        label: "Auth Code",
+        value: "082214",
+      },
+      {
+        label: "Seq #",
+        value: "0417",
+      },
+    ],
     showTaxRate: false,
   },
   // domino-s-pizza — was missing-key-details. Sources:
@@ -258,10 +313,6 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     sections: [
       {
         rows: [
-          {
-            label: "Order #",
-            value: "58213",
-          },
           {
             label: "Store #",
             value: "7342",
@@ -321,6 +372,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     footerMessage: "The delivery charge is not a tip paid to your driver.",
     policyText: "Track your order at dominos.com",
     paperStyle: "thermal",
+    orderNumber: "ORDER 58213",
     showTaxRate: false,
   },
   // amazon — was wrong-format. Sources:
@@ -413,6 +465,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     showBarcode: false,
     footerMessage: "",
     policyText: "Conditions of Use | Privacy Notice\n© 1996-2026, Amazon.com, Inc. or its affiliates",
+    paperFinish: "email",
     showTaxRate: false,
   },
   // chipotle — was missing-key-details. Sources:
@@ -434,10 +487,6 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     sections: [
       {
         rows: [
-          {
-            label: "Order",
-            value: "#212",
-          },
           {
             label: "Server",
             value: "Alexis",
@@ -482,6 +531,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     footerMessage: "Tell us about your visit at chipotlefeedback.com\nSurvey Code: 2026 1027 1422 0212 4417",
     policyText: "",
     paperStyle: "thermal",
+    orderNumber: "ORDER 212",
     showTaxRate: false,
   },
   // bp — was wrong-format. Sources:
@@ -526,11 +576,34 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     grandTotalLabel: "FUEL TOTAL",
     paymentMethod: "Credit Card",
     cardLastFour: "4417",
-    showCardAuth: true,
+    showCardAuth: false,
     showBarcode: false,
     footerMessage: "THANK YOU\nHAVE A NICE DAY",
     policyText: "Earn on every fill-up with bp rewards",
     paperStyle: "thermal",
+    cardRows: [
+      {
+        label: "VISA",
+        value: "XXXXXXXXXXXX4417",
+      },
+      {
+        label: "AUTH#",
+        value: "041872",
+      },
+      {
+        label: "INVOICE",
+        value: "018233",
+      },
+      {
+        label: "AID",
+        value: "A0000000031010",
+      },
+      {
+        label: "Entry",
+        value: "Chip",
+      },
+    ],
+    fuelGrade: "Regular",
     showTaxRate: false,
   },
   // panda-express — was missing-key-details. Sources:
@@ -549,10 +622,6 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     sections: [
       {
         rows: [
-          {
-            label: "Order",
-            value: "#118",
-          },
           {
             label: "Cashier",
             value: "Kevin",
@@ -593,6 +662,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     footerMessage: "Tell us about your visit at\nwww.PandaGuestExperience.com\nSurvey Code: 1342-1027-2614-2201-1844-17",
     policyText: "",
     paperStyle: "thermal",
+    orderNumber: "ORDER 118",
     showTaxRate: false,
   },
   // dunkin — was missing-key-details. Sources:
@@ -612,10 +682,6 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     sections: [
       {
         rows: [
-          {
-            label: "Order",
-            value: "#147",
-          },
           {
             label: "Crew",
             value: "Mike",
@@ -656,6 +722,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     footerMessage: "Tell us how we did at dunkinrunsonyou.com\nSurvey Code: 3439 1810 2726 0814 72",
     policyText: "America Runs on Dunkin'.",
     paperStyle: "thermal",
+    orderNumber: "ORDER 147",
     showTaxRate: false,
   },
   // chick-fil-a — was missing-key-details. Sources:
@@ -674,10 +741,6 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     sections: [
       {
         rows: [
-          {
-            label: "Order",
-            value: "#217",
-          },
           {
             label: "Name",
             value: "JORDAN",
@@ -713,6 +776,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     footerMessage: "Tell us how we did at www.mycfavisit.com\nSerial #: 0418-2710-2614-2202-1744",
     policyText: "",
     paperStyle: "thermal",
+    orderNumber: "ORDER 217",
     showTaxRate: false,
   },
   // taco-bell — was missing-key-details. Sources:
@@ -747,7 +811,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     ],
     paymentMethod: "Credit Card",
     cardLastFour: "4417",
-    showCardAuth: true,
+    showCardAuth: false,
     footerMessage: "Order Number 287\nTotal Items in Order: 4",
     policyText: "Start earning FREE rewards now.\nDownload the Taco Bell App &\nScan the barcode below to get your points\nTerms and exclusions apply\n\nGot a sec? Let's connect.\nTellthebell.com\nSurvey Code: 0000-1234-5678-0001",
     showBarcode: true,
@@ -778,6 +842,40 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     labels: {
       subtotal: "SubTotal",
     },
+    cardRows: [
+      {
+        label: "Acct :",
+        value: "XXXXXXXX4417",
+      },
+      {
+        label: "Approval :",
+        value: "06916D",
+      },
+      {
+        label: "Entry Mode:",
+        value: "Contactless",
+      },
+      {
+        label: "APL:",
+        value: "VISA CREDIT",
+      },
+      {
+        label: "AID:",
+        value: "A0000000031010",
+      },
+      {
+        label: "TVR:",
+        value: "0000000000",
+      },
+      {
+        label: "TSI:",
+        value: "0000",
+      },
+      {
+        label: "CVM:",
+        value: "NONE",
+      },
+    ],
     showTaxRate: false,
   },
   // dollar-tree — was missing-key-details. Sources:
@@ -933,10 +1031,6 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
       {
         rows: [
           {
-            label: "Order",
-            value: "58",
-          },
-          {
             label: "Cashier",
             value: "Dana",
           },
@@ -977,6 +1071,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
         price: 2.49,
       },
     ],
+    orderNumber: "ORDER 58",
     showTaxRate: false,
   },
   // kfc — was missing-key-details. Sources:
@@ -999,10 +1094,6 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     sections: [
       {
         rows: [
-          {
-            label: "Order",
-            value: "142",
-          },
           {
             label: "Cashier",
             value: "Tasha",
@@ -1039,6 +1130,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
         modifiers: ["Pepsi"],
       },
     ],
+    orderNumber: "ORDER 142",
     showTaxRate: false,
   },
   // burger-king — was missing-key-details. Sources:
@@ -1061,10 +1153,6 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     sections: [
       {
         rows: [
-          {
-            label: "Order",
-            value: "43",
-          },
           {
             label: "Cashier",
             value: "Luis",
@@ -1101,6 +1189,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
         price: 2.79,
       },
     ],
+    orderNumber: "ORDER 43",
     showTaxRate: false,
   },
   // apple-store — was wrong-format. Sources:
@@ -1174,6 +1263,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
         sku: "MXX12AM/A",
       },
     ],
+    paperFinish: "email",
     showTaxRate: false,
   },
   // home-depot — was missing-key-details. Sources:
@@ -1209,7 +1299,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     ],
     paymentMethod: "Credit Card",
     cardLastFour: "5509",
-    showCardAuth: true,
+    showCardAuth: false,
     footerMessage: "RETURN POLICY DEFINITIONS\nPOLICY ID  DAYS  POLICY EXPIRES ON\nA          90    90 DAYS AFTER PURCHASE",
     policyText: "DID WE NAIL IT?\nTake a short survey for a chance TO WIN\nA $5,000 HOME DEPOT GIFT CARD\nOpine en Espanol\nwww.homedepot.com/survey\nUser ID: H89 000000 000000\nPASSWORD: 00000 000000\nEntries must be completed within 14 days of purchase. Entrants must be 18 or older to enter. See complete rules on website. No purchase necessary.",
     showBarcode: true,
@@ -1249,6 +1339,25 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     labels: {
       subtotal: "SUBTOTAL",
     },
+    cardRows: [
+      {
+        value: "XXXXXXXXXXXX5509 VISA",
+      },
+      {
+        label: "AUTH CODE",
+        value: "030120/9521209",
+      },
+      {
+        value: "Chip Read",
+      },
+      {
+        label: "AID",
+        value: "A0000000031010",
+      },
+      {
+        value: "VISA CREDIT",
+      },
+    ],
     showTaxRate: false,
   },
   // southwest-airlines — was wrong-format. Sources:
@@ -1382,6 +1491,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
         price: 9.0,
       },
     ],
+    paperFinish: "email",
     showTaxRate: false,
   },
   // wendy-s — was missing-key-details. Sources:
@@ -1407,10 +1517,6 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
           {
             label: "Restaurant #",
             value: "11482",
-          },
-          {
-            label: "Order",
-            value: "66",
           },
           {
             label: "Cashier",
@@ -1447,6 +1553,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
         price: 2.99,
       },
     ],
+    orderNumber: "ORDER 66",
     showTaxRate: false,
   },
   // 7-eleven — was close. Sources:
@@ -1493,7 +1600,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     grandTotalLabel: "TOTAL DUE",
     paymentMethod: "Credit Card",
     cardLastFour: "4417",
-    showCardAuth: true,
+    showCardAuth: false,
     footerMessage: "THANKS FOR SHOPPING HERE\nWE WILL SEE YOU SOON",
     policyText: "CUSTOMER AGREES TO PAY THE ABOVE TOTAL AMOUNT ACCORDING TO THE CARD HOLDERS AGREEMENT",
     showBarcode: false,
@@ -1533,6 +1640,27 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     labels: {
       subtotal: "SUBTOTAL",
     },
+    cardRows: [
+      {
+        label: "ACCT#:",
+        value: "XXXX XXXX XXXX 4417",
+      },
+      {
+        label: "APPROVAL#:",
+        value: "00-418236",
+      },
+      {
+        label: "TERM# :",
+        value: "0102 01",
+      },
+      {
+        label: "REF# :",
+        value: "000418236502017",
+      },
+      {
+        value: "00 - APPROVED",
+      },
+    ],
     showTaxRate: false,
   },
   // aldi — was missing-key-details. Sources:
@@ -1558,7 +1686,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     grandTotalLabel: "T O T A L",
     paymentMethod: "Debit Card",
     cardLastFour: "6052",
-    showCardAuth: true,
+    showCardAuth: false,
     footerMessage: "Like ALDI? Tell ALDI!\nTell us how we did at\nwww.tellaldi.us\nEnter the drawing for a chance\nto win a $100 ALDI gift card.\nMust be 18 years old to enter.\nNo purchase necessary.",
     policyText: "Sign up for ALDI emails and save!\nwww.aldi.us/signup",
     showBarcode: false,
@@ -1609,6 +1737,30 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     labels: {
       subtotal: "SUBTOTAL",
     },
+    cardRows: [
+      {
+        value: "***************6052 PIN",
+      },
+      {
+        label: "Ref/Seq #",
+        value: "004182",
+      },
+      {
+        label: "Auth #",
+        value: "418236",
+      },
+      {
+        label: "AID",
+        value: "A0000000980840",
+      },
+      {
+        label: "TSI",
+        value: "0000  ARC 000  EntryMode 07",
+      },
+      {
+        value: "++APPROVED++",
+      },
+    ],
   },
   // publix — was close. Sources:
   //   https://www.scribd.com/document/902181201/2023-03-14-0852am-PublixReceipt (full Publix receipt, Decatur GA, 2023)
@@ -1633,7 +1785,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     grandTotalLabel: "Grand Total",
     paymentMethod: "Debit Card",
     cardLastFour: "6723",
-    showCardAuth: true,
+    showCardAuth: false,
     footerMessage: "Savings Summary\nSpecial Price Savings 5.99\n**********************************\n*    Your Savings at Publix     *\n*            5.99               *\n**********************************",
     policyText: "Join the Publix family!\nApply today at apply.publix.jobs.\nWe're an equal opportunity employer.\n\nPublix Super Markets, Inc.",
     paperStyle: "thermal",
@@ -1674,6 +1826,37 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     labels: {
       subtotal: "Order Total",
     },
+    cardRows: [
+      {
+        value: "PRESTO!",
+      },
+      {
+        label: "Trace #:",
+        value: "418236",
+      },
+      {
+        label: "Reference #:",
+        value: "0102418236",
+      },
+      {
+        label: "Acct #:",
+        value: "XXXXXXXXXXXX6723",
+      },
+      {
+        value: "Debit Purchase FROM CHECKING",
+      },
+      {
+        label: "Auth #:",
+        value: "418236",
+      },
+      {
+        value: "A0000000980840  US DEBIT",
+      },
+      {
+        label: "Entry Method:",
+        value: "Chip Read",
+      },
+    ],
     showTaxRate: false,
   },
   // kroger — was missing-key-details. Sources:
@@ -1890,6 +2073,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
         price: 9.0,
       },
     ],
+    paperFinish: "email",
     showTaxRate: false,
   },
   // chevron — was wrong-format. Sources:
@@ -2738,6 +2922,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
         price: -2.0,
       },
     ],
+    paperFinish: "email",
     showTaxRate: false,
   },
   // h-m — was missing-key-details. Sources:
@@ -2937,6 +3122,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     footerMessage: "THANK YOU FOR CHOOSING SHEETZ",
     policyText: "Earn points on every gallon with Sheetz Rewardz.",
     showBarcode: false,
+    fuelGrade: "Unleaded 87",
     showTaxRate: false,
   },
   // peet-s-coffee — was missing-key-details. Sources:
@@ -3152,13 +3338,26 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     ],
     paymentMethod: "Credit Card",
     cardLastFour: "0000",
-    showCardAuth: true,
+    showCardAuth: false,
     footerMessage: "Expect More. Pay Less.",
     policyText: "Most items can be returned within 90 days with receipt. Target owned brands: 1 year. Tell us about your visit at informtarget.com.",
     showBarcode: true,
     labels: {
       subtotal: "SUBTOTAL",
     },
+    cardRows: [
+      {
+        value: "*0000 VISA CHARGE",
+      },
+      {
+        label: "AID",
+        value: "A0000000031010",
+      },
+      {
+        label: "AUTH CODE",
+        value: "418236",
+      },
+    ],
   },
   // costco — was missing-key-details. Sources:
   //   https://www.makemyreceipt.com/blog/costco-receipt-codes
@@ -3226,13 +3425,34 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     ],
     paymentMethod: "Credit Card",
     cardLastFour: "0000",
-    showCardAuth: true,
+    showCardAuth: false,
     footerMessage: "Thank You! Please Come Again",
     policyText: "INSTANT SAVINGS $4.00",
     showBarcode: true,
     labels: {
       subtotal: "SUBTOTAL",
     },
+    cardRows: [
+      {
+        value: "XXXXXXXXXXXX0000 CHIP Read",
+      },
+      {
+        label: "AID",
+        value: "A0000000031010",
+      },
+      {
+        label: "Seq#",
+        value: "41823",
+      },
+      {
+        label: "App#",
+        value: "418236",
+      },
+      {
+        label: "Visa Resp:",
+        value: "APPROVED",
+      },
+    ],
     showTaxRate: false,
   },
   // autozone — was missing-key-details. Sources:
@@ -3448,6 +3668,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     cardLastFour: "0000",
     footerMessage: "Returns are free for Nike Members within 60 days.",
     showBarcode: false,
+    paperFinish: "email",
     showTaxRate: false,
   },
 };

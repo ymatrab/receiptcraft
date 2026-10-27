@@ -15,7 +15,7 @@ import type {
   TaxLine,
   TextWeight,
 } from "./types";
-import { addDaysISO, formatDisplayDate, todayISO, nowHHMM, randomReceiptNumber, uid } from "./format";
+import { addDaysISO, formatDisplayDate, itemGross, todayISO, nowHHMM, randomReceiptNumber, uid } from "./format";
 
 // ---------------------------------------------------------------------------
 // Section-based document model. A receipt is an ordered list of sections the
@@ -102,6 +102,8 @@ export interface ItemsSection extends BaseSection {
   grandTotalLabel?: string;
   totalsDivider?: RuleStyle;
   showItemsSold?: boolean; // "Items sold: N" line (grocery / warehouse)
+  skuFirst?: boolean; // print each item's SKU/UPC before its name, as tills do
+  showSavings?: boolean; // "You saved $x" after the total, from item + order discounts
 }
 export type PaymentMethodKind = "Cash" | "Card" | "Mobile" | "Gift Card";
 export interface PaymentSplit {
@@ -119,10 +121,12 @@ export interface PaymentSection extends BaseSection {
   showCardAuth?: boolean;
   inline?: boolean;
   splits?: PaymentSplit[]; // split payment across methods
+  extraRows?: ReceiptRow[]; // the terminal's own lines: APPROVAL #, AID, TC, "DEBIT TEND"
 }
 export interface MessageSection extends BaseSection {
   type: "message";
   text: string;
+  size?: "normal" | "large"; // large = the big "ORDER 47" of a counter ticket
 }
 export interface FooterSection extends BaseSection {
   type: "footer";
@@ -220,6 +224,8 @@ export const RECEIPT_LABELS = {
   status: "Status",
   approved: "APPROVED",
   feedback: "We value your feedback:",
+  itemDiscount: "item discount",
+  savings: "You saved",
 } as const;
 export type ReceiptLabelKey = keyof typeof RECEIPT_LABELS;
 export type ReceiptLabels = Partial<Record<ReceiptLabelKey, string>>;
@@ -788,7 +794,7 @@ export function docFromReceiptData(data: ReceiptData): ReceiptDoc {
         divider: "none",
         rows: [
           { label: "Pump", value: data.register?.replace(/[^0-9]/g, "") || "04" },
-          { label: "Grade", value: "Unleaded" },
+          { label: "Grade", value: data.fuelGrade || "Unleaded" },
           { label: "Auth", value: data.receiptNumber.slice(-4) },
         ],
       });
@@ -859,6 +865,8 @@ export function docFromReceiptData(data: ReceiptData): ReceiptDoc {
       grandTotalLabel: data.grandTotalLabel,
       totalsDivider: d(true),
       showItemsSold: profile === "grocery" || profile === "warehouse",
+      ...(data.skuFirst && { skuFirst: true }),
+      ...(data.showSavings && { showSavings: true }),
     });
   }
 
@@ -878,7 +886,23 @@ export function docFromReceiptData(data: ReceiptData): ReceiptDoc {
       amountTendered: data.amountTendered,
       showCardAuth: data.showCardAuth,
       inline: data.paymentInline,
+      ...(data.cardRows?.length && { extraRows: data.cardRows }),
     });
+  }
+
+  // What a real receipt prints after the tender: TC#, survey code, pager.
+  (data.afterPayment ?? []).forEach((s) => {
+    sections.push({
+      id: uid(),
+      type: "twocol",
+      divider: "none",
+      title: s.title,
+      rows: s.rows.map((r) => ({ ...r, value: resolveRowValue(r.value, data) })),
+      flow: data.sectionStyle === "flow",
+    });
+  });
+  if (data.orderNumber) {
+    sections.push({ id: uid(), type: "message", align: "center", divider: "none", text: data.orderNumber, size: "large" });
   }
 
   if (data.footerMessage) {
@@ -953,7 +977,7 @@ export function docFromReceiptData(data: ReceiptData): ReceiptDoc {
       ...(lineSpacing && { lineSpacing }),
       ...(letterSpacing && { letterSpacing }),
       ...(weight && { weight }),
-      ...(paper && { paper }),
+      ...((data.paperFinish ?? paper) && { paper: data.paperFinish ?? paper }),
       ...(data.labels && { labels: data.labels }),
       ...(data.showTaxRate === false && { showTaxRate: false }),
     },
@@ -969,7 +993,7 @@ export function itemsTotals(s: ItemsSection) {
   let subtotal = 0; // gross, before per-item discounts
   let itemDiscount = 0;
   for (const i of s.items) {
-    const gross = (i.quantity || 0) * (i.price || 0);
+    const gross = itemGross(i);
     subtotal += gross;
     itemDiscount += Math.min(Math.max(i.discount || 0, 0), Math.max(gross, 0));
   }
@@ -986,7 +1010,7 @@ export function itemsTotals(s: ItemsSection) {
   // lowers the taxed and untaxed parts alike.
   const taxedNet = s.items.reduce((sum, i) => {
     if (i.notTaxed) return sum;
-    const gross = (i.quantity || 0) * (i.price || 0);
+    const gross = itemGross(i);
     return sum + gross - Math.min(Math.max(i.discount || 0, 0), Math.max(gross, 0));
   }, 0);
   const taxBase = afterItemDisc > 0 ? taxedNet - discount * (taxedNet / afterItemDisc) : 0;

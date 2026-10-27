@@ -172,6 +172,7 @@ export default function ReceiptDocPaper({ doc }: Props) {
               header={s.itemHeader}
               columns={s.columns}
               gap={doc.settings.itemGap}
+              opts={{ skuFirst: s.skuFirst, discountLabel: doc.settings.labels?.itemDiscount }}
             />
             {/* A weighed line (1.5 lb) counts as one item, as tills count it. */}
             {s.showItemsSold && (
@@ -237,6 +238,14 @@ export default function ReceiptDocPaper({ doc }: Props) {
                 <span>{s.grandTotalLabel ?? "TOTAL"}</span>
                 <span style={{ color: accent }}>{money(t.total)}</span>
               </div>
+              {/* Grocery receipts total what the shopper saved; computed, so it
+                  stays right when an item's discount is edited. */}
+              {s.showSavings && t.itemDiscount + t.discount > 0 && (
+                <div className="flex justify-between font-semibold text-slate-700">
+                  <span>{L("savings")}</span>
+                  <span>{money(t.itemDiscount + t.discount)}</span>
+                </div>
+              )}
               {t.amountPaid > 0 && (
                 <>
                   <div className="flex justify-between">
@@ -254,6 +263,13 @@ export default function ReceiptDocPaper({ doc }: Props) {
         );
       }
       case "payment": {
+        // The terminal's own lines (APPROVAL #, AID, "DEBIT TEND"), in the
+        // receipt's wording rather than our generic card block's.
+        const terminalRows = s.extraRows?.length ? (
+          <div className="mt-2">
+            <KeyValueRows rows={s.extraRows} />
+          </div>
+        ) : null;
         if (s.method === "Cash") {
           const change = (s.amountTendered ?? 0) > grandTotal ? (s.amountTendered ?? 0) - grandTotal : 0;
           return (
@@ -274,6 +290,7 @@ export default function ReceiptDocPaper({ doc }: Props) {
                   </div>
                 </>
               )}
+              {terminalRows}
             </div>
           );
         }
@@ -322,11 +339,17 @@ export default function ReceiptDocPaper({ doc }: Props) {
                 labels={doc.settings.labels}
               />
             )}
+            {terminalRows}
           </div>
         );
       }
       case "message":
-        return <p className="whitespace-pre-line text-xs leading-relaxed text-slate-600">{s.text}</p>;
+        // Large is the counter ticket's "ORDER 47", read across the room.
+        return s.size === "large" ? (
+          <p className="whitespace-pre-line text-3xl font-black leading-tight text-slate-900">{s.text}</p>
+        ) : (
+          <p className="whitespace-pre-line text-xs leading-relaxed text-slate-600">{s.text}</p>
+        );
       case "footer":
         return (
           <div className="space-y-1.5 text-[11px] leading-relaxed text-slate-500">

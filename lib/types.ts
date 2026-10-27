@@ -15,6 +15,7 @@ export interface LineItem {
   taxCategory?: string; // informational label, e.g. "Standard", "Zero-rated"
   notTaxed?: boolean; // left out of the tax base — groceries, exempt goods
   taxFlag?: string; // printed after the line total, as tills do: "F", "T", "N", "A"
+  addons?: { name: string; price: number }[]; // priced extras ("Add Beef 2.20"), per unit, added to the line
 }
 
 /** One tax line in a totals block (supports multiple tax rates). */
@@ -191,6 +192,13 @@ export interface ReceiptData {
 
   // Optional composable sections used to recreate real-world receipt designs.
   forcePaper?: boolean; // render the paper template even for digital/service brands
+  cardRows?: ReceiptRow[]; // the brand's own card-terminal lines (APPROVAL #, AID, TC) in the payment block
+  afterPayment?: ReceiptSection[]; // detail blocks printed after payment (TC#, survey code, pager)
+  orderNumber?: string; // printed large after payment, as counter tickets do ("ORDER 47")
+  skuFirst?: boolean; // item number before the name (UPC / SKU / DPCI), not a "SKU" line under it
+  showSavings?: boolean; // a "You saved $x" line summing item and order discounts
+  fuelGrade?: string; // the fuel block's grade, "Regular" / "Supreme" / "Diesel" (default "Unleaded")
+  paperFinish?: PaperFinish; // force a paper finish, e.g. "email" for emailed receipts
   labels?: ReceiptLabels; // the receipt's own wording for fixed lines ("SUBTOTAL", "CHANGE DUE")
   showTaxRate?: boolean; // false = "TAX 1" without "(9.5%)"
   hideTitle?: boolean; // no generic "SALES RECEIPT"/"FUEL RECEIPT" heading — real brand receipts never print one

@@ -1,4 +1,4 @@
-import type { ReceiptData, ReceiptTotals } from "./types";
+import type { LineItem, ReceiptData, ReceiptTotals } from "./types";
 
 export const CURRENCIES = [
   { code: "USD", label: "US Dollar ($)" },
@@ -24,17 +24,23 @@ export function formatMoney(amount: number, currency: string): string {
   }
 }
 
+/**
+ * One line's gross amount: quantity × (price + priced add-ons). The single
+ * definition every total uses — the renderer's line, itemsTotals and this file.
+ */
+export function itemGross(item: LineItem): number {
+  const addons = (item.addons ?? []).reduce((sum, a) => sum + (a.price || 0), 0);
+  return (item.quantity || 0) * ((item.price || 0) + addons);
+}
+
 export function calcTotals(data: ReceiptData): ReceiptTotals {
-  const subtotal = data.items.reduce(
-    (sum, item) => sum + (item.quantity || 0) * (item.price || 0),
-    0
-  );
+  const subtotal = data.items.reduce((sum, item) => sum + itemGross(item), 0);
   const discount = Math.min(Math.max(data.discount || 0, 0), subtotal);
   const taxable = subtotal - discount;
   // Same rule as itemsTotals in lib/sections.ts: untaxed items stay out of the
   // tax base, and the discount is shared pro rata.
   const taxedGross = data.items.reduce(
-    (sum, item) => (item.notTaxed ? sum : sum + (item.quantity || 0) * (item.price || 0)),
+    (sum, item) => (item.notTaxed ? sum : sum + itemGross(item)),
     0
   );
   const taxBase = subtotal > 0 ? taxedGross - discount * (taxedGross / subtotal) : 0;

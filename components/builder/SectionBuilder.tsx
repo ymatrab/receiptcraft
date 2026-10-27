@@ -6,6 +6,7 @@ import type {
   FontFamily,
   FontScale,
   LetterSpacingPreset,
+  LineItem,
   LineSpacing,
   PaperFinish,
   TextWeight,
@@ -182,6 +183,22 @@ type ExportKind = "png" | "jpg" | "pdf" | "pdf-print";
 function getQueryTemplate(): string {
   if (typeof window === "undefined") return "";
   return new URLSearchParams(window.location.search).get("template") ?? "";
+}
+
+/**
+ * "Add Beef 2.20, Extra Cheese 0.75" → priced add-ons. A trailing number is the
+ * price; an entry without one is a free add-on that still prints.
+ */
+function parseAddons(text: string): LineItem["addons"] {
+  const list = text
+    .split(",")
+    .map((p) => p.trim())
+    .filter(Boolean)
+    .map((p) => {
+      const m = /^(.*?)\s+\$?(-?\d+(?:\.\d+)?)$/.exec(p);
+      return m ? { name: m[1], price: parseFloat(m[2]) } : { name: p, price: 0 };
+    });
+  return list.length ? list : undefined;
 }
 
 export default function SectionBuilder() {
@@ -802,6 +819,9 @@ export default function SectionBuilder() {
                     <input className={`${inputClass} col-span-2 sm:col-span-1`} defaultValue={(it.modifiers ?? []).join(", ")} placeholder="Modifiers (comma-sep)" onChange={(e) => updateItem(s, it.id, { modifiers: e.target.value.split(",").map((m) => m.trim()).filter(Boolean) })} aria-label="Modifiers" />
                     {/* Real grocery tills tax the soap and not the milk, and
                         print a flag after each price saying which is which. */}
+                    {/* "Add Beef 2.20, Extra Cheese 0.75": each priced extra prints
+                        indented under the item and is added to its total. */}
+                    <input className={`${inputClass} col-span-2 sm:col-span-3`} defaultValue={(it.addons ?? []).map((a) => (a.price ? `${a.name} ${a.price}` : a.name)).join(", ")} placeholder="Priced add-ons, e.g. Add Beef 2.20, Extra Cheese 0.75" onChange={(e) => updateItem(s, it.id, { addons: parseAddons(e.target.value) })} aria-label="Priced add-ons" />
                     <input className={inputClass} defaultValue={it.taxFlag ?? ""} placeholder="Tax flag (F, T, N…)" maxLength={4} onChange={(e) => updateItem(s, it.id, { taxFlag: e.target.value || undefined })} aria-label="Tax flag printed after the price" />
                     <label className="flex min-h-11 items-center gap-2 text-xs text-slate-600">
                       <input type="checkbox" defaultChecked={!!it.notTaxed} onChange={(e) => updateItem(s, it.id, { notTaxed: e.target.checked || undefined })} className="h-4 w-4" />
@@ -810,11 +830,19 @@ export default function SectionBuilder() {
                   </div>
                 )}
                 <button type="button" onClick={() => setItemDetails((m) => ({ ...m, [it.id]: !m[it.id] }))} className="mt-1.5 text-[11px] font-medium text-indigo-500 hover:text-indigo-700">
-                  {itemDetails[it.id] ? "− Hide details" : "+ SKU, unit, modifiers, discount, tax"}
+                  {itemDetails[it.id] ? "− Hide details" : "+ SKU, unit, modifiers, add-ons, discount, tax"}
                 </button>
               </div>
             ))}
             <SelectField label="Item layout" defaultValue={s.itemStyle ?? "table"} onChange={(v) => patchSection(s.id, { itemStyle: v })} options={ITEM_STYLES} />
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-slate-700">Print the SKU / UPC before each item name</span>
+              <Toggle checked={!!s.skuFirst} onChange={(c) => patchSection(s.id, { skuFirst: c || undefined })} />
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-slate-700">Show “You saved” after the total</span>
+              <Toggle checked={!!s.showSavings} onChange={(c) => patchSection(s.id, { showSavings: c || undefined })} />
+            </div>
             {(s.itemStyle ?? "table") === "table" && (
               <div>
                 <span className="mb-1.5 block text-xs font-medium text-slate-600">Column names</span>
@@ -933,6 +961,19 @@ export default function SectionBuilder() {
               <p className="text-xs text-slate-500">Shows “Mobile Payment” on the receipt (e.g. Apple Pay, Google Pay).</p>
             )}
 
+            {/* The terminal's own lines, in the receipt's wording. */}
+            <div className="rounded-lg bg-slate-50 p-2">
+              <span className="text-xs font-medium text-slate-600">Card terminal lines (APPROVAL #, AID, TC…)</span>
+              {(s.extraRows ?? []).map((r, i) => (
+                <div key={i} className="mt-2 flex items-center gap-2">
+                  <input className={inputClass} defaultValue={r.label ?? ""} placeholder="Label, e.g. APPROVAL #" onChange={(e) => patchSection(s.id, { extraRows: (s.extraRows ?? []).map((x, j) => (j === i ? { ...x, label: e.target.value } : x)) })} aria-label="Terminal line label" />
+                  <input className={inputClass} defaultValue={r.value} placeholder="Value" onChange={(e) => patchSection(s.id, { extraRows: (s.extraRows ?? []).map((x, j) => (j === i ? { ...x, value: e.target.value } : x)) })} aria-label="Terminal line value" />
+                  <button type="button" aria-label="Remove terminal line" onClick={() => patchSection(s.id, { extraRows: (s.extraRows ?? []).filter((_, j) => j !== i) })} className="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-lg text-red-500 transition-colors hover:bg-red-50 hover:text-red-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500"><CloseIcon className="h-4 w-4" /></button>
+                </div>
+              ))}
+              <button type="button" onClick={() => patchSection(s.id, { extraRows: [...(s.extraRows ?? []), { label: "", value: "" }] })} className="mt-2 text-xs font-semibold text-indigo-600">+ Add terminal line</button>
+            </div>
+
             {/* Split payment */}
             <div className="rounded-lg bg-slate-50 p-2">
               <div className="flex items-center justify-between">
@@ -963,6 +1004,10 @@ export default function SectionBuilder() {
               <AlignToggle value={s.align ?? "center"} onChange={(v) => patchSection(s.id, { align: v })} />
             </div>
             <TextAreaField label="Message" defaultValue={s.text} onChange={(v) => patchSection(s.id, { text: v })} />
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-slate-700">Large text (e.g. ORDER 47)</span>
+              <Toggle checked={s.size === "large"} onChange={(c) => patchSection(s.id, { size: c ? "large" : undefined })} />
+            </div>
           </div>
         );
       case "footer":
