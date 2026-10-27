@@ -2,6 +2,7 @@ import type { LayoutVariant, ReceiptData, ReceiptProfile, ReceiptTemplate } from
 import { randomReceiptNumber, todayISO, nowHHMM, uid } from "./format";
 import { BRAND_TEMPLATES } from "./brands";
 import { BRAND_SPEC_PROFILES, BRAND_SPEC_VARIANTS } from "./brand-specs";
+import { baseReceipt } from "./receipt-base";
 
 const PROFILE_BY_SLUG: Record<string, ReceiptProfile> = {
   // The "fuel" profile prints a US pump block ("Grade: Unleaded"). An Indian
@@ -312,33 +313,9 @@ function brandMetadata(template: ReceiptTemplate) {
   };
 }
 
-export function baseReceipt(): ReceiptData {
-  return {
-    businessName: "Your Business Name",
-    logoDataUrl: "",
-    addressLine1: "123 Main Street",
-    addressLine2: "City, State 00000",
-    phone: "(555) 000-0000",
-    website: "",
-    receiptNumber: randomReceiptNumber(),
-    date: todayISO(),
-    time: nowHHMM(),
-    cashier: "",
-    register: "",
-    items: [{ id: uid(), name: "Item name", quantity: 1, price: 9.99 }],
-    currency: "USD",
-    taxLabel: "Sales Tax",
-    taxRate: 0,
-    discount: 0,
-    tip: 0,
-    paymentMethod: "Credit Card",
-    cardLastFour: "4821",
-    amountTendered: 0,
-    footerMessage: "Thank you for your business!",
-    showBarcode: true,
-    paperStyle: "thermal",
-  };
-}
+// baseReceipt lives in ./receipt-base so browser code can use it without
+// pulling in every brand template; re-exported for existing callers.
+export { baseReceipt } from "./receipt-base";
 
 export function receiptFromTemplate(template: ReceiptTemplate): ReceiptData {
   const base = baseReceipt();

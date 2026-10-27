@@ -1,3 +1,4 @@
+import { BUILDER_TEMPLATE_CHIPS } from "./builder-templates";
 import type { ReceiptTemplate } from "./types";
 import type { SourceId } from "./sources";
 import { BRAND_TEMPLATES, BARE_HEAD_TERM } from "./brands";
@@ -3840,6 +3841,15 @@ export function getTemplate(slug: string): ReceiptTemplate | undefined {
 
 {
   const problems: string[] = [];
+
+  // The builder's chips are a hand-kept copy (lib/builder-templates.ts) so the
+  // page need not import this module; they must still name these templates.
+  TEMPLATES.slice(0, BUILDER_TEMPLATE_CHIPS.length).forEach((t, i) => {
+    const c = BUILDER_TEMPLATE_CHIPS[i];
+    if (c.slug !== t.slug || c.shortName !== t.shortName || c.icon !== t.icon) {
+      problems.push(`builder chip ${i} (${c.slug}) no longer matches template ${t.slug}`);
+    }
+  });
 
   /**
    * No template may promise a "realistic" version of someone else's receipt.
