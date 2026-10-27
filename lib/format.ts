@@ -13,9 +13,11 @@ export const CURRENCIES = [
   { code: "MAD", label: "Moroccan Dirham (MAD)" },
 ] as const;
 
-export function formatMoney(amount: number, currency: string, decimals?: number): string {
+export function formatMoney(amount: number, currency: string, decimals?: number, locale = "en-US"): string {
   try {
-    return new Intl.NumberFormat("en-US", {
+    // `locale` is the receipt's number style: "de-DE" prints 1.550,00 €, as
+    // German, French, Dutch and Italian tills do.
+    return new Intl.NumberFormat(locale, {
       style: "currency",
       currency,
       ...(decimals !== undefined && { minimumFractionDigits: decimals, maximumFractionDigits: decimals }),
@@ -33,6 +35,20 @@ export function itemGross(item: LineItem): number {
   if (item.heading) return 0;
   const addons = (item.addons ?? []).reduce((sum, a) => sum + (a.price || 0), 0);
   return (item.quantity || 0) * ((item.price || 0) + addons);
+}
+
+/**
+ * Items with their percentage fees priced. A `percent` item (a concession
+ * recovery fee, a service charge) costs that share of every other line, so it
+ * follows the bill when items change instead of going stale as a typed amount.
+ * Every total and the printed line read the resolved list.
+ */
+export function resolveItems(items: LineItem[]): LineItem[] {
+  if (!items.some((i) => i.percent)) return items;
+  const base = items.reduce((sum, i) => (i.percent || i.heading ? sum : sum + itemNet(i)), 0);
+  return items.map((i) =>
+    i.percent ? { ...i, quantity: 1, price: Math.round(base * i.percent) / 100, addons: undefined } : i
+  );
 }
 
 /** A line's net amount: gross less its own discount, never below zero. */
@@ -64,13 +80,14 @@ export function taxLineAmounts(items: LineItem[], lines: TaxLine[], share: numbe
 }
 
 export function calcTotals(data: ReceiptData): ReceiptTotals {
-  const subtotal = data.items.reduce((sum, item) => sum + itemGross(item), 0);
+  const items = resolveItems(data.items);
+  const subtotal = items.reduce((sum, item) => sum + itemGross(item), 0);
   const discount = Math.min(Math.max(data.discount || 0, 0), subtotal);
   const taxable = subtotal - discount;
   // Same rule as itemsTotals in lib/sections.ts (taxLineAmounts).
   const lines = data.taxLines?.length ? data.taxLines : [{ label: data.taxLabel, rate: data.taxRate || 0 }];
   const share = subtotal > 0 ? 1 - discount / subtotal : 0;
-  const tax = taxLineAmounts(data.items, lines, share, data.taxIncluded).reduce((sum, l) => sum + l.amount, 0);
+  const tax = taxLineAmounts(items, lines, share, data.taxIncluded).reduce((sum, l) => sum + l.amount, 0);
   const tip = Math.max(data.tip || 0, 0);
   const fees = Math.max(data.deliveryFee || 0, 0) + Math.max(data.serviceFee || 0, 0);
   const total = taxable + (data.taxIncluded ? 0 : tax) + tip + fees;

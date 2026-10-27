@@ -15,7 +15,7 @@ import type {
   TaxLine,
   TextWeight,
 } from "./types";
-import { addDaysISO, formatDisplayDate, itemGross, taxLineAmounts, todayISO, nowHHMM, randomReceiptNumber, uid } from "./format";
+import { addDaysISO, formatDisplayDate, itemGross, resolveItems, taxLineAmounts, todayISO, nowHHMM, randomReceiptNumber, uid } from "./format";
 
 // ---------------------------------------------------------------------------
 // Section-based document model. A receipt is an ordered list of sections the
@@ -106,6 +106,9 @@ export interface ItemsSection extends BaseSection {
   hideSubtotal?: boolean; // fuel slips and Kroger print no subtotal
   taxIncluded?: boolean; // prices include the tax (VAT/GST): the lines show it, the total doesn't add it
   subtotalNet?: boolean; // Subtotal printed after item discounts, with no separate discounts line
+  hideTaxFlags?: boolean; // tax flags route items to rates without printing
+  tipSuggestions?: number[]; // "15%  $8.40" lines after the total
+  tipOnTotal?: boolean; // tips suggested on the total incl. tax, not the pre-tax amount
   unitDecimals?: 3; // unit prices to 3 decimals ($2.799); line totals stay in cents
   showSavings?: boolean; // "You saved $x" after the total, from item + order discounts
 }
@@ -196,6 +199,8 @@ export interface DocSettings {
   itemGap?: number; // vertical gap between line items (default 4)
   /** The receipt's own wording for the fixed lines — see RECEIPT_LABELS. */
   labels?: ReceiptLabels;
+  /** How amounts print, e.g. "de-DE" for 1,99 € (default en-US). */
+  numberLocale?: string;
   /** Print the rate after each tax label, "Tax (9.5%)". Default true. */
   showTaxRate?: boolean;
 }
@@ -229,6 +234,7 @@ export const RECEIPT_LABELS = {
   status: "Status",
   approved: "APPROVED",
   feedback: "We value your feedback:",
+  tipSuggestions: "Suggested gratuity",
   itemDiscount: "item discount",
   savings: "You saved",
 } as const;
@@ -732,9 +738,13 @@ export function presetDoc(id: PresetId): ReceiptDoc {
  * "30 days from invoice date".
  */
 function resolveRowValue(value: string, data: ReceiptData): string {
-  // {{date+14}} a return-by date, {{date-3}} a date of service before the receipt.
-  const m = /^\{\{date([+-]\d+)\}\}$/.exec(value);
-  return m ? formatDisplayDate(addDaysISO(data.date, Number(m[1])), data.dateOrder) : value;
+  // Anywhere in the text: {{date}} the receipt date, {{date+14}} a return-by
+  // date, {{date-3}} a date of service, {{time}} the receipt time — so
+  // "Printed: {{date}} {{time}}" and "{{date}} – {{date+30}}" stay true when
+  // the receipt's date is edited.
+  return value
+    .replace(/\{\{date([+-]\d+)?\}\}/g, (_, n) => formatDisplayDate(addDaysISO(data.date, Number(n ?? 0)), data.dateOrder))
+    .replace(/\{\{time\}\}/g, data.time);
 }
 
 /**
@@ -876,6 +886,9 @@ export function docFromReceiptData(data: ReceiptData): ReceiptDoc {
       ...(data.hideSubtotal && { hideSubtotal: true }),
       ...(data.taxIncluded && { taxIncluded: true }),
       ...(data.subtotalNet && { subtotalNet: true }),
+      ...(data.tipSuggestions?.length && { tipSuggestions: data.tipSuggestions }),
+      ...(data.hideTaxFlags && { hideTaxFlags: true }),
+      ...(data.tipOnTotal && { tipOnTotal: true }),
       ...(data.deliveryFee && { deliveryFee: data.deliveryFee }),
       ...(data.serviceFee && { serviceFee: data.serviceFee }),
       ...(data.unitDecimals && { unitDecimals: data.unitDecimals }),
@@ -899,7 +912,9 @@ export function docFromReceiptData(data: ReceiptData): ReceiptDoc {
       amountTendered: data.amountTendered,
       showCardAuth: data.showCardAuth,
       inline: data.paymentInline,
-      ...(data.cardRows?.length && { extraRows: data.cardRows }),
+      ...(data.cardRows?.length && {
+        extraRows: data.cardRows.map((r) => ({ ...r, value: resolveRowValue(r.value, data) })),
+      }),
       ...(data.paymentName && { methodName: data.paymentName }),
     });
   }
@@ -993,6 +1008,7 @@ export function docFromReceiptData(data: ReceiptData): ReceiptDoc {
       ...(weight && { weight }),
       ...((data.paperFinish ?? paper) && { paper: data.paperFinish ?? paper }),
       ...(data.labels && { labels: data.labels }),
+      ...(data.numberLocale && { numberLocale: data.numberLocale }),
       ...(data.showTaxRate === false && { showTaxRate: false }),
     },
     sections,
@@ -1003,7 +1019,9 @@ export function docFromReceiptData(data: ReceiptData): ReceiptDoc {
  *  (flat or %), one or more tax lines, service/delivery fees, tip, cash rounding
  *  and an "amount paid → change" line. All extras are optional and default to 0
  *  so older docs keep their previous totals. `total` stays the canonical key. */
-export function itemsTotals(s: ItemsSection) {
+export function itemsTotals(sec: ItemsSection) {
+  // Percentage fees priced from the other lines first (resolveItems).
+  const s = { ...sec, items: resolveItems(sec.items) };
   let subtotal = 0; // gross, before per-item discounts
   let itemDiscount = 0;
   for (const i of s.items) {
@@ -1055,6 +1073,7 @@ export function itemsTotals(s: ItemsSection) {
     tip,
     rounding,
     total,
+    taxable, // after discounts, before tax — the base for suggested tips
     amountPaid,
     change,
   };

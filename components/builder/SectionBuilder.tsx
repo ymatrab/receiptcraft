@@ -885,6 +885,9 @@ export default function SectionBuilder() {
                     {/* "Add Beef 2.20, Extra Cheese 0.75": each priced extra prints
                         indented under the item and is added to its total. */}
                     <input className={`${inputClass} col-span-2 sm:col-span-3`} defaultValue={(it.addons ?? []).map((a) => (a.price ? `${a.name} ${a.price}` : a.name)).join(", ")} placeholder="Priced add-ons, e.g. Add Beef 2.20, Extra Cheese 0.75" onChange={(e) => updateItem(s, it.id, { addons: parseAddons(e.target.value) })} aria-label="Priced add-ons" />
+                    {/* A fee that is a share of the other lines (11.11% recovery fee):
+                        its price is computed and follows the bill. */}
+                    <input className={inputClass} type="number" step="any" defaultValue={it.percent ?? ""} placeholder="% of other items" onChange={(e) => updateItem(s, it.id, { percent: parseFloat(e.target.value) || undefined })} aria-label="Fee as a percentage of the other items" />
                     <input className={inputClass} defaultValue={it.taxFlag ?? ""} placeholder="Tax flag (F, T, N…)" maxLength={4} onChange={(e) => updateItem(s, it.id, { taxFlag: e.target.value || undefined })} aria-label="Tax flag printed after the price" />
                     <label className="flex min-h-11 items-center gap-2 text-xs text-slate-600">
                       <input type="checkbox" defaultChecked={!!it.notTaxed} onChange={(e) => updateItem(s, it.id, { notTaxed: e.target.checked || undefined })} className="h-4 w-4" />
@@ -912,6 +915,7 @@ export default function SectionBuilder() {
               <span className="text-sm text-slate-700">Prices already include tax (VAT / GST)</span>
               <Toggle checked={!!s.taxIncluded} onChange={(c) => patchSection(s.id, { taxIncluded: c || undefined })} />
             </div>
+            <TextField label="Suggested tips (%), e.g. 15, 18, 20" defaultValue={(s.tipSuggestions ?? []).join(", ")} onChange={(v) => patchSection(s.id, { tipSuggestions: v.split(",").map((x) => parseFloat(x)).filter((n) => n > 0).slice(0, 5) })} placeholder="15, 18, 20" />
             <div className="flex items-center justify-between">
               <span className="text-sm text-slate-700">Subtotal after item discounts</span>
               <Toggle checked={!!s.subtotalNet} onChange={(c) => patchSection(s.id, { subtotalNet: c || undefined })} />

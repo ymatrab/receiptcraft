@@ -7147,6 +7147,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     showBarcode: false,
     footerMessage: "Want free Chips and Salsa\nor a drink, every visit?\nChilis.com/Rewards",
     policyText: "Gift Card activation is\ndelayed by 4 hours.\n\nTELL US HOW WE'RE DOING!\nwww.chilis.com/survey\n\nSample receipt.",
+    tipSuggestions: [15, 18, 20],
   },
   // morrisons — was wrong-format. Sources:
   //   https://morrisons.com/help/morrisons-more/more-points--fivers
@@ -7744,6 +7745,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
         price: 3.79,
       },
     ],
+    tipSuggestions: [15, 18, 20],
   },
   // sephora — was missing-key-details. Sources:
   //   https://www.sephora.com/returns
@@ -7885,6 +7887,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
       },
     ],
     taxIncluded: true,
+    numberLocale: "it-IT",
   },
   // barnes-noble — was missing-key-details. Sources:
   //   https://blog.vendoo.co/barnes-and-noble-return-policy
@@ -8118,6 +8121,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
         rate: 21,
       },
     ],
+    numberLocale: "nl-NL",
   },
   // nintendo-eshop — was missing-key-details. Sources:
   //   https://en-americas-support.nintendo.com/app/answers/detail/a_id/2237/p/989/c/193
@@ -9380,6 +9384,8 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     showBarcode: false,
     footerMessage: "Thank you for dining with us!",
     policyText: "Legendary Food, Legendary Service.",
+    tipSuggestions: [15, 18, 20],
+    tipOnTotal: true,
   },
   // michael-kors — was no-source. Sources:
   "michael-kors": {
@@ -9563,6 +9569,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     showBarcode: false,
     footerMessage: "Merci de votre visite",
     policyText: "Échange possible sous 30 jours sur présentation de ce ticket. Exemple de reçu.",
+    numberLocale: "fr-FR",
   },
   // napa-auto-parts — was missing-key-details. Sources:
   //   https://www.napaonline.com/en/returns
@@ -9792,6 +9799,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     showBarcode: true,
     footerMessage: "*** Customer Copy ***",
     policyText: "",
+    tipSuggestions: [15, 18, 20],
   },
   // shake-shack — was no-source. Sources:
   //   https://displaydaily.com/shake-shack-opening-cashless-kiosk-in-new-york/
@@ -10764,6 +10772,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     footerMessage: "Merci de votre visite",
     policyText: "Échange sous 30 jours sur présentation de ce ticket. (sample policy — verify)",
     showBarcode: false,
+    numberLocale: "fr-FR",
   },
   // hertz — was wrong-format. Sources:
   //   https://images.hertz.com/pdfs/Chargesexplained-English-v8.pdf
@@ -10821,8 +10830,9 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
       {
         name: "AIRPORT CONCESSION FEE RECOVERY (ACFR)",
         quantity: 1,
-        price: 21.66,
+        price: 0,
         notTaxed: true,
+        percent: 11.11,
       },
       {
         name: "VEH. LICENSING COST RECOVERY (VLCR)",
@@ -11200,6 +11210,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     footerMessage: "Grazie per la visita",
     showBarcode: false,
     qrCode: true,
+    numberLocale: "it-IT",
   },
   // steam — was missing-key-details. Sources:
   //   https://steamcommunity.com/discussions/forum/1/350540974000742743
@@ -11566,6 +11577,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     showBarcode: false,
     footerMessage: "REWE Markt GmbH\nFür Sie da:\nMO - SA 7:00 bis 22:00 Uhr",
     policyText: "Sie haben Fragen?\nAntworten gibt es unter www.rewe.de",
+    numberLocale: "de-DE",
   },
   // apple-services — was wrong-format. Sources:
   //   https://support.apple.com/en-asia/108092
@@ -12358,6 +12370,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     showBarcode: true,
     footerMessage: "Avec la carte fidélité Carrefour, cumulez à chaque passage sur votre compte fidélité.",
     policyText: "MERCI DE VOTRE VISITE - A BIENTOT",
+    numberLocale: "fr-FR",
   },
   // racetrac — was no-source. Sources:
   //   https://racetrac.com/Rewards
@@ -13972,6 +13985,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     policyText: "**********************************\nFOR CONTACTLESS PAYMENT:\nUSE THE OUTBACK APP OR VISIT\nOUTBACK.COM/PAY AND ENTER\nTHE FOLLOWING PAYMENT CODE:\n\nKRTWQM",
     showBarcode: false,
     paperStyle: "thermal",
+    tipSuggestions: [15, 18, 20],
   },
   // longhorn-steakhouse — was wrong-format. Sources:
   //   https://www.tripadvisor.com/Restaurant_Review-g59544-d514640-Reviews-LongHorn_Steakhouse-South_Charleston_West_Virginia.html (receipt photo: https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1d/fb/d7/e1/receipt.jpg)
@@ -14109,6 +14123,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     ruleStyle: "dashed",
     itemStyle: "qtycol",
     headerAlign: "center",
+    tipSuggestions: [15, 18, 20],
   },
   // marco-s-pizza — was wrong-format. Sources:
   //   https://www.yelp.com/biz/marcos-pizza-johnson-city-2 (receipt photo: https://s3-media0.fl.yelpcdn.com/bphoto/RuMRNzEqaFMatuSC9ANr1A/l.jpg)
@@ -15179,7 +15194,8 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
       {
         name: "11.11% Concession Recovery Fee",
         quantity: 1,
-        price: 21.66,
+        price: 0,
+        percent: 11.11,
       },
     ],
     currency: "USD",
@@ -16344,6 +16360,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     ],
     footerMessage: "For to-go orders, please visit order.thecheesecakefactory.com",
     showBarcode: false,
+    tipSuggestions: [15, 18, 20],
   },
   // ralphs — was wrong-format. Sources:
   //   https://norberthaupt.com/2017/12/23/the-folly-of-supermarket-rewards-programs/
@@ -20231,6 +20248,12300 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     footerMessage: "Track your shipment at fedex.com",
     policyText: "Liability is limited as set out in the FedEx Service Guide unless a higher value is declared.",
   },
+  // blaze-pizza — was no-source. Sources:
+  //   https://edelman.sfsu.edu/sites/default/files/documents/Jumpstart%20Fundraiser_Blaze_4.17.pdf (fundraiser flyer: order in-restaurant/app/web, discount applied to your check; not a receipt)
+  //   https://apppricinglab.com/app/apple/1012031459 (app listing: in-store receipts can be uploaded for rewards; no layout)
+  "blaze-pizza": {
+    businessName: "Blaze Pizza",
+    addressLine1: "3 W Colorado Blvd",
+    addressLine2: "Pasadena, CA 91105",
+    phone: "(626) 555-0137",
+    website: "blazepizza.com",
+    hideStoreLine: true,
+    cashier: "",
+    register: "",
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "dashed",
+    itemStyle: "qtycol",
+    paperStyle: "thermal",
+    sections: [
+      {
+        rows: [
+          {
+            label: "Order:",
+            value: "4127",
+          },
+          {
+            label: "Name:",
+            value: "JORDAN",
+          },
+          {
+            value: "Dine In",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "Build Your Own Pizza",
+        quantity: 1,
+        price: 12.29,
+        modifiers: ["Original Dough", "Red Sauce", "Mozzarella", "Pepperoni", "Mushrooms", "Banana Peppers"],
+      },
+      {
+        name: "Red Vine Pizza",
+        quantity: 1,
+        price: 11.79,
+      },
+      {
+        name: "Garlic Pesto Cheesy Bread",
+        quantity: 1,
+        price: 6.49,
+      },
+      {
+        name: "Fountain Drink",
+        quantity: 2,
+        price: 3.29,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Tax",
+    taxRate: 10.25,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "Subtotal",
+    },
+    grandTotalLabel: "Total",
+    paymentMethod: "Credit Card",
+    cardLastFour: "6218",
+    showCardAuth: false,
+    cardRows: [
+      {
+        label: "Card Type:",
+        value: "VISA",
+      },
+      {
+        label: "Entry:",
+        value: "Contactless",
+      },
+      {
+        label: "Auth:",
+        value: "041736",
+      },
+    ],
+    footerMessage: "Thank you for choosing Blaze Pizza!",
+    policyText: "Earn rewards on every order in the Blaze Pizza app.",
+    showBarcode: false,
+  },
+  // family-dollar — was wrong-format. Sources:
+  //   https://commons.wikimedia.org/wiki/File:Family_Dollar_store_receipt.jpg (photo of a Family Dollar receipt, Muskogee OK, 2024)
+  //   https://commons.wikimedia.org/wiki/Category:Family_Dollar_receipts
+  "family-dollar": {
+    businessName: "FAMILY DOLLAR",
+    greeting: "my family. my family dollar.",
+    addressLine1: "STORE #08412 2210 Battlefield Blvd N",
+    addressLine2: "Chesapeake, VA, 757-555-0148",
+    phone: "",
+    website: "",
+    hideStoreLine: true,
+    cashier: "",
+    register: "",
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "none",
+    itemStyle: "lined",
+    paperStyle: "thermal",
+    items: [
+      {
+        name: "CLOROX BLEACH REG 81OZ",
+        quantity: 1,
+        price: 5.75,
+        sku: "044600322601",
+        taxFlag: "T",
+      },
+      {
+        name: "GAIN LIQ DET ORIG 50OZ",
+        quantity: 1,
+        price: 8.5,
+        sku: "037000127864",
+        taxFlag: "T",
+      },
+      {
+        name: "FAMILY PRIDE TALL KITCHEN 40CT",
+        quantity: 1,
+        price: 7.5,
+        sku: "032251081245",
+        taxFlag: "T",
+      },
+      {
+        name: "COLGATE CAVITY PROT 6OZ",
+        quantity: 2,
+        price: 2.25,
+        sku: "035000141155",
+        taxFlag: "T",
+      },
+    ],
+    currency: "USD",
+    taxLabel: "TAX1",
+    taxRate: 6,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "SUBTOTAL",
+      amountTendered: "CASH",
+      change: "CHANGE",
+    },
+    grandTotalLabel: "TOTAL",
+    paymentMethod: "Cash",
+    amountTendered: 30,
+    showCardAuth: false,
+    footerMessage: "Thank you for shopping Family Dollar",
+    showBarcode: false,
+  },
+  // youtube-premium — was wrong-format. Sources:
+  //   https://support.google.com/youtube/answer/10217125 (receipts live at payments.google.com > Activity: total, date/time, status, payment method; price and next billing date under Manage membership)
+  //   https://support.google.com/store/answer/6160235 (Google receipts carry an order number)
+  "youtube-premium": {
+    businessName: "YouTube Premium",
+    addressLine1: "",
+    addressLine2: "",
+    phone: "",
+    website: "youtube.com/paid_memberships",
+    hideStoreLine: true,
+    cashier: "",
+    register: "",
+    paperFinish: "email",
+    paperStyle: "minimal",
+    fontFamily: "roboto",
+    headerAlign: "left",
+    ruleStyle: "solid",
+    itemStyle: "lined",
+    itemHeader: {
+      left: "Item",
+      right: "Price",
+    },
+    greeting: "Thank you\nYour YouTube Premium membership has been renewed.",
+    sections: [
+      {
+        rows: [
+          {
+            label: "Order number:",
+            value: "SOP.4471-0826-3395-18402",
+          },
+          {
+            label: "Order date:",
+            value: "{{date+0}}",
+          },
+          {
+            label: "Your account:",
+            value: "jordan.sample@gmail.com",
+          },
+          {
+            label: "Status:",
+            value: "Completed",
+          },
+        ],
+      },
+      {
+        title: "Billing period",
+        rows: [
+          {
+            label: "From",
+            value: "{{date+0}}",
+          },
+          {
+            label: "To",
+            value: "{{date+30}}",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "YouTube Premium (monthly)",
+        quantity: 1,
+        price: 13.99,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Tax:",
+    taxRate: 0,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "Subtotal:",
+      paymentMethod: "Payment method:",
+    },
+    grandTotalLabel: "Total:",
+    paymentMethod: "Credit Card",
+    paymentName: "Visa",
+    cardLastFour: "3092",
+    paymentInline: true,
+    showCardAuth: false,
+    afterPayment: [
+      {
+        rows: [
+          {
+            label: "Next billing date:",
+            value: "{{date+31}}",
+          },
+        ],
+      },
+    ],
+    footerMessage: "Your membership renews automatically each month unless you cancel. Manage it at youtube.com/paid_memberships.",
+    policyText: "Please do not reply to this message.\n© Google LLC, 1600 Amphitheatre Parkway, Mountain View, CA 94043",
+    showBarcode: false,
+  },
+  // albertsons — was wrong-format. Sources:
+  //   https://www.flickr.com/photo.gne?id=54707358087 (photo: Albertsons Store 4131 Los Angeles receipt, recent; header, top barcode, department headings, Price/You Pay, Sale Savings)
+  //   https://www.flickr.com/photo.gne?id=16753726710 (photo: older Albertsons San Diego receipt, 2015)
+  //   https://www.flickr.com/photo.gne?id=43432412145 (photo: ACME Markets receipt, same Albertsons Cos. POS: TAX / **** BALANCE / CHANGE / TOTAL NUMBER OF ITEMS SOLD / survey block / YOUR CASHIER TODAY WAS SELF)
+  //   https://www.safeway.com/faq/foru.3132.html (for U program)
+  "albertsons": {
+    businessName: "Albertsons",
+    addressLine1: "Store 0952 Dir Dana Whitfield\nMain:(562) 555-0143 Rx:(562) 555-0177",
+    addressLine2: "2930 E Spring St\nLONG BEACH CA 90806",
+    phone: "",
+    website: "",
+    topBarcode: true,
+    showBarcode: false,
+    register: "YOUR CASHIER TODAY WAS SELF",
+    cashier: "",
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "dashed",
+    itemStyle: "lined",
+    itemHeader: {
+      left: "",
+      right: "You Pay",
+    },
+    paperStyle: "thermal",
+    skuFirst: true,
+    items: [
+      {
+        name: "GROCERY",
+        quantity: 0,
+        price: 0,
+        heading: true,
+      },
+      {
+        name: "4@ CG SPRING WTR",
+        quantity: 4,
+        price: 1.5,
+        sku: "7514000500",
+        discount: 1.0,
+        notTaxed: true,
+        taxFlag: "S",
+      },
+      {
+        name: "4@ CRV SFTDK SNGL NTX",
+        quantity: 4,
+        price: 0.1,
+        sku: "9451",
+        notTaxed: true,
+        taxFlag: "S",
+      },
+      {
+        name: "GROC NONEDIBLE",
+        quantity: 0,
+        price: 0,
+        heading: true,
+      },
+      {
+        name: "SIG PAPER TOWEL",
+        quantity: 1,
+        price: 7.99,
+        sku: "2113034699",
+        taxFlag: "T",
+      },
+      {
+        name: "REFRIG/FROZEN",
+        quantity: 0,
+        price: 0,
+        heading: true,
+      },
+      {
+        name: "LUCERNE MILK 2% RF",
+        quantity: 1,
+        price: 3.49,
+        sku: "2113008302",
+        notTaxed: true,
+        taxFlag: "S",
+      },
+      {
+        name: "BAKED GOODS",
+        quantity: 0,
+        price: 0,
+        heading: true,
+      },
+      {
+        name: "MINI CHOC COOKIES",
+        quantity: 1,
+        price: 5.99,
+        sku: "22048500000",
+        notTaxed: true,
+        taxFlag: "S",
+      },
+      {
+        name: "PRODUCE",
+        quantity: 0,
+        price: 0,
+        heading: true,
+      },
+      {
+        name: "YOGURT PARFAIT",
+        quantity: 1,
+        price: 3.99,
+        sku: "24111200000",
+        discount: 0.66,
+        notTaxed: true,
+        taxFlag: "S",
+      },
+      {
+        name: "BANANAS",
+        quantity: 2.4,
+        price: 0.69,
+        sku: "4011",
+        unit: "lb",
+        notTaxed: true,
+        taxFlag: "S",
+      },
+    ],
+    currency: "USD",
+    taxLabel: "TAX",
+    taxRate: 10.25,
+    showTaxRate: false,
+    hideSubtotal: true,
+    discount: 0,
+    tip: 0,
+    labels: {
+      itemDiscount: "Sale Savings",
+      change: "CHANGE",
+      itemsSold: "TOTAL NUMBER OF ITEMS SOLD =",
+      savings: "Total Savings",
+    },
+    grandTotalLabel: "**** BALANCE",
+    showItemsSold: true,
+    showSavings: true,
+    paymentMethod: "Debit Card",
+    paymentName: "Debit Purchase",
+    cardLastFour: "5527",
+    showCardAuth: false,
+    cardRows: [
+      {
+        label: "CARD #",
+        value: "************5527",
+      },
+      {
+        label: "AID:",
+        value: "A0000000042203",
+      },
+      {
+        label: "AUTH:",
+        value: "318406",
+      },
+      {
+        label: "Entry:",
+        value: "Contactless",
+      },
+    ],
+    afterPayment: [
+      {
+        title: "HOW WAS YOUR SHOPPING EXPERIENCE?",
+        rows: [
+          {
+            value: "WE VALUE YOUR FEEDBACK!",
+          },
+          {
+            value: "GO TO: WWW.ALBERTSONSSURVEY.COM",
+          },
+          {
+            value: "ENTER TO WIN A $100.00 GIFT CARD",
+          },
+        ],
+      },
+      {
+        title: "YOUR POINTS",
+        rows: [
+          {
+            label: "Points Towards Next Reward",
+            value: "62 of 100",
+          },
+        ],
+      },
+    ],
+    footerMessage: "Thank you for shopping Albertsons",
+    policyText: "For for U questions call 877-276-9637 or visit Albertsons.com",
+  },
+  // kohls — was wrong-format. Sources:
+  //   https://www.flickr.com/photo.gne?id=6853393935 (photo: Kohl's Fairfield OH receipt, 2012: item/ItemPrice/YouSave lines, SUBTOTAL, 15% SPECIAL OFFER, T1 tax, TOTAL)
+  //   https://www.flickr.com/photo.gne?id=6408422611 (photo: Kohl's receipt bottom: KOHLS CHG, APPROVED, TOTAL SAVED, Kohl's Cash activated)
+  //   https://www.flickr.com/photo.gne?id=23327754073 (photo: Kohl's survey slip, www.kohls.com/survey, store + access code, 48 hrs)
+  //   https://www.flickr.com/photo.gne?id=23586671659 (photo: Kohl's Mira Mesa receipt: ITEMS: 1, TOTAL SAVED, gift card blurb, legal notice)
+  "kohls": {
+    businessName: "KOHL'S",
+    logoText: "KOHL'S",
+    addressLine1: "Menomonee Falls",
+    addressLine2: "Menomonee Falls, WI 53051\n(262) 555-0190",
+    phone: "",
+    website: "",
+    register: "0731/0010/4418/6",
+    cashier: "",
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "none",
+    itemStyle: "lined",
+    paperStyle: "thermal",
+    sections: [
+      {
+        rows: [
+          {
+            label: "ID#",
+            value: "999-4127-3308-6615-2094-8731-5520",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "MENS KNIT TOPS",
+        quantity: 1,
+        price: 30.0,
+        sku: "400918442107",
+        discount: 18.0,
+        taxFlag: "T1",
+      },
+      {
+        name: "SONOMA FLANNEL",
+        quantity: 2,
+        price: 44.0,
+        sku: "400917736215",
+        discount: 22.0,
+        taxFlag: "T1",
+      },
+      {
+        name: "MISSES KNITS",
+        quantity: 1,
+        price: 28.0,
+        sku: "400920608971",
+        discount: 14.01,
+        taxFlag: "T1",
+      },
+      {
+        name: "BATH TOWELS",
+        quantity: 1,
+        price: 17.99,
+        sku: "400922105536",
+        discount: 5.0,
+        taxFlag: "T1",
+      },
+    ],
+    currency: "USD",
+    taxLabel: "TAX",
+    taxRate: 5.5,
+    showTaxRate: false,
+    discount: 10.0,
+    tip: 0,
+    subtotalNet: true,
+    labels: {
+      subtotal: "SUBTOTAL",
+      itemDiscount: "YouSave",
+      discount: "KOHL'S CASH",
+      savings: "TOTAL SAVED:",
+      itemsSold: "ITEMS:",
+    },
+    grandTotalLabel: "TOTAL",
+    showSavings: true,
+    showItemsSold: true,
+    paymentMethod: "Credit Card",
+    paymentName: "KOHLS CHG",
+    cardLastFour: "4807",
+    showCardAuth: false,
+    cardRows: [
+      {
+        label: "APPROVED",
+        value: "072615",
+      },
+    ],
+    afterPayment: [
+      {
+        rows: [
+          {
+            value: "THANK YOU FOR SHOPPING AT KOHL'S",
+          },
+        ],
+      },
+      {
+        title: "TELL US WHAT YOU THINK TODAY!",
+        rows: [
+          {
+            value: "GIVE US YOUR FEEDBACK ON TODAY'S STORE VISIT",
+          },
+          {
+            value: "GO TO WWW.KOHLS.COM/SURVEY",
+          },
+          {
+            label: "STORE",
+            value: "0731",
+          },
+          {
+            label: "ACCESS CODE",
+            value: "4418 2716 0935 8842",
+          },
+          {
+            value: "RESPOND WITHIN 48 HRS TO PARTICIPATE",
+          },
+        ],
+      },
+    ],
+    footerMessage: "Let them choose their gift. Find Kohl's Gift Cards in store or online, or send an e-Gift Card at kohls.com.",
+    policyText: "THIS PURCHASE IS SUBJECT TO THE TERMS/CONDITIONS FOUND IN LEGAL NOTICES AT KOHLS.COM",
+    showBarcode: true,
+  },
+  // zoom — was wrong-format. Sources:
+  //   https://www.camara.leg.br/cota-parlamentar/documentos/publ/2894/2026/8083101.pdf (Zoom Communications invoice, Mar 2026, Workplace Pro Annual - public expense record)
+  //   https://www.camara.leg.br/cota-parlamentar/documentos/publ/3626/2024/7771349.pdf (Zoom Video Communications invoice, Jun 2024 - public expense record)
+  "zoom": {
+    businessName: "Zoom Communications, Inc.",
+    addressLine1: "55 Almaden Blvd, 6th Floor",
+    addressLine2: "San Jose, CA 95113",
+    phone: "",
+    website: "zoom.us",
+    invoice: true,
+    numberLabel: "Invoice #:",
+    hideStoreLine: true,
+    cashier: "",
+    register: "",
+    paperFinish: "invoice",
+    paperStyle: "minimal",
+    fontFamily: "inter",
+    headerAlign: "left",
+    ruleStyle: "solid",
+    itemStyle: "table",
+    greeting: "Invoice",
+    sections: [
+      {
+        rows: [
+          {
+            label: "Payment Terms:",
+            value: "Due Upon Receipt",
+          },
+          {
+            label: "Due Date:",
+            value: "{{date+0}}",
+          },
+          {
+            label: "Account Number:",
+            value: "7041186357",
+          },
+          {
+            label: "Currency:",
+            value: "USD",
+          },
+          {
+            label: "Payment Method:",
+            value: "Visa ************4417",
+          },
+        ],
+      },
+      {
+        title: "Bill To Address:",
+        rows: [
+          {
+            value: "Jordan Sample\n1450 Market St, Suite 300\nSan Francisco, CA 94103\nUnited States\njordan.sample@example.com",
+          },
+        ],
+      },
+      {
+        title: "Billing Period",
+        rows: [
+          {
+            label: "From",
+            value: "{{date+0}}",
+          },
+          {
+            label: "To",
+            value: "{{date+30}}",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "Zoom Workplace Pro Monthly",
+        quantity: 1,
+        price: 15.99,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Taxes, Fees & Surcharges",
+    taxRate: 0,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "Subtotal",
+    },
+    grandTotalLabel: "Total (Including Taxes, Fees & Surcharges)",
+    paymentMethod: "Credit Card",
+    paymentName: "Visa",
+    cardLastFour: "4417",
+    paymentInline: true,
+    showCardAuth: false,
+    afterPayment: [
+      {
+        title: "Transactions",
+        rows: [
+          {
+            label: "Transaction Date",
+            value: "{{date+0}}",
+          },
+          {
+            label: "Transaction Number",
+            value: "P-427718903",
+          },
+          {
+            label: "Transaction Type",
+            value: "Payment",
+          },
+          {
+            label: "Invoice Balance",
+            value: "$0.00",
+          },
+        ],
+      },
+    ],
+    footerMessage: "Need help understanding your invoice? Visit zoom.us/billing",
+    policyText: "Recurring plans will automatically renew, charging the payment method on file. The billing period for each plan, and the total charge (plus applicable taxes and regulatory fees), per billing period for that product are set out above in the Charge Details section. You can cancel any time up until the day before your renewal date at zoom.us/billing, and the cancellation will go into effect at the end of your subscription term.",
+    showBarcode: false,
+  },
+  // valero — was wrong-format. Sources:
+  //   https://www.flickr.com/photo.gne?id=48089146083 (photo: Valero 7265 San Jose CA pump receipt, 2019)
+  //   https://www.flickr.com/photo.gne?id=5596078723 (photo: Valero Selden NY pump receipt, 2009: STATION NUMBER, MC CREDIT, GALLONS @ $/GAL, SEQ NUM, AUTH#)
+  //   https://www.flickr.com/photo.gne?id=5596661662 (photo: Valero Mt. Sinai NY pump receipt, 2009: THANK YOU!! PLEASE COME BACK AGAIN)
+  //   https://www.flickr.com/photo.gne?id=480776118 (photo: Valero store receipt 'THANK YOU COME AGAIN TO VALERO STORE 1307 VALERO.COM', PUMP/PRODUCT/PPG/GALLONS/TOTAL, 2007)
+  "valero": {
+    businessName: "VALERO 4417",
+    addressLine1: "L307715830001\n1520 FREDERICKSBURG RD",
+    addressLine2: "SAN ANTONIO       , TX\n78201",
+    phone: "",
+    website: "",
+    hideStoreLine: true,
+    cashier: "",
+    register: "",
+    fontFamily: "mono",
+    headerAlign: "left",
+    ruleStyle: "double",
+    itemStyle: "stacked",
+    paperStyle: "thermal",
+    sections: [
+      {
+        rows: [
+          {
+            value: "XXXX XXXX XXXX",
+          },
+          {
+            value: "Debit",
+          },
+          {
+            label: "INVOICE",
+            value: "417730",
+          },
+          {
+            label: "AUTH",
+            value: "082615",
+          },
+          {
+            label: "PUMP#",
+            value: "6",
+          },
+        ],
+      },
+    ],
+    fuelGrade: "Regular",
+    unitDecimals: 3,
+    items: [
+      {
+        name: "REGULAR",
+        quantity: 10.412,
+        price: 2.859,
+        unit: "G",
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Tax",
+    taxRate: 0,
+    showTaxRate: false,
+    hideSubtotal: true,
+    discount: 0,
+    tip: 0,
+    grandTotalLabel: "FUEL TOTAL",
+    paymentMethod: "Debit Card",
+    paymentName: "Debit",
+    cardLastFour: "3306",
+    showCardAuth: false,
+    cardRows: [
+      {
+        value: "Customer-activated Purchase/Capture",
+      },
+      {
+        label: "Sequence Number",
+        value: "0418",
+      },
+      {
+        value: "Chip",
+      },
+      {
+        value: "APPROVED",
+      },
+    ],
+    footerMessage: "THANK YOU!!\nPLEASE COME BACK AGAIN",
+    showBarcode: false,
+  },
+  // steak-n-shake — was wrong-format. Sources:
+  //   https://www.flickr.com/photo.gne?id=2588181991 (photo: Steak 'n Shake #306 Spring Hill FL receipt, 2005: header, ORD#, Name, modifiers, SUB / State Tax / TOTAL, footer)
+  //   https://www.flickr.com/photo.gne?id=469906579 (photo: Steak 'n Shake receipt with seat groups and SUB / State Tax)
+  //   https://www.tripadvisor.com/Restaurant_Review-g34515-d4207391-Reviews-Steak_n_Shake-Orlando_Florida.html (reviews: scan the QR code from your receipt at the drink machine)
+  //   https://www.tripadvisor.com/Restaurant_Review-g37209-d4339746-Reviews-Steak_n_Shake-Indianapolis_Indiana.html (reviews: kiosk ordering, receipt carries the order number)
+  "steak-n-shake": {
+    businessName: "Steak 'n Shake",
+    addressLine1: "STEAK 'N SHAKE #0417\n6020 E 82ND ST",
+    addressLine2: "INDIANAPOLIS IN, 46250",
+    phone: "",
+    website: "",
+    hideStoreLine: true,
+    cashier: "",
+    register: "",
+    fontFamily: "mono",
+    headerAlign: "left",
+    ruleStyle: "none",
+    itemStyle: "qtycol",
+    paperStyle: "thermal",
+    sections: [
+      {
+        rows: [
+          {
+            label: "ORD#",
+            value: "0047",
+          },
+          {
+            label: "Name :",
+            value: "JORDAN",
+          },
+          {
+            value: "KIOSK 02  TO GO",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "DBL N CHS STKBRGR",
+        quantity: 1,
+        price: 6.79,
+        modifiers: ["LETTUCE", "TOMATO", "KETCHUP"],
+      },
+      {
+        name: "GARLIC DBL STKBRGR",
+        quantity: 1,
+        price: 7.49,
+        modifiers: ["NO ONION"],
+      },
+      {
+        name: "RG FRIES",
+        quantity: 2,
+        price: 2.69,
+      },
+      {
+        name: "RG CHOC SHAKE",
+        quantity: 1,
+        price: 4.49,
+      },
+      {
+        name: "RG FTN DRINK",
+        quantity: 1,
+        price: 2.29,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Tax",
+    taxRate: 9,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "SUB",
+    },
+    grandTotalLabel: "TOTAL",
+    paymentMethod: "Credit Card",
+    cardLastFour: "2286",
+    showCardAuth: false,
+    cardRows: [
+      {
+        label: "VISA",
+        value: "XXXXXXXXXXXX2286",
+      },
+      {
+        label: "AUTH",
+        value: "304718",
+      },
+      {
+        value: "APPROVED",
+      },
+    ],
+    orderNumber: "ORDER 47",
+    afterPayment: [
+      {
+        rows: [
+          {
+            value: "Scan the code on this receipt at the drink station",
+          },
+        ],
+      },
+    ],
+    qrCode: true,
+    showBarcode: true,
+    footerMessage: "THANK YOU FOR CHOOSING\nSTEAK 'N SHAKE",
+  },
+  // harris-teeter — was wrong-format. Sources:
+  //   https://www.flickr.com/photo.gne?id=2703020527 (photo: Harris Teeter Charlotte NC full receipt, 2008: header, VIC SAVINGS / PRICE YOU PAY, coupons, 7.25% and 2% NC tax, BALANCE DUE, VIC savings totals, footer)
+  //   https://www.flickr.com/photo.gne?id=515045893 (photo: Harris Teeter Chapel Hill receipt: STORE MANAGER / YOUR CASHIER / CUSTOMER, SC VIC line, NC SALES TAX, BALANCE DUE, VF VISA)
+  //   https://www.flickr.com/photo.gne?id=2555088406 (photo: Harris Teeter receipt 2008 next to Food Lion: VIC SAVINGS / PRICE YOU PAY, TOTAL VIC SAVINGS THIS ORDER/YEAR)
+  "harris-teeter": {
+    businessName: "Harris Teeter",
+    greeting: "Your Neighborhood Food Market",
+    addressLine1: "10418 E INDEPENDENCE BLVD - MATTHEWS, NC",
+    addressLine2: "STORE # 0417 - PHONE # 704-555-0162",
+    phone: "",
+    website: "",
+    hideStoreLine: true,
+    cashier: "",
+    register: "",
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "asterisk",
+    itemStyle: "lined",
+    paperStyle: "thermal",
+    sections: [
+      {
+        rows: [
+          {
+            value: "IF YOU ARE NOT COMPLETELY SATISFIED\nWITH YOUR VISIT TODAY PLEASE CALL",
+          },
+          {
+            label: "STORE MANAGER:",
+            value: "DANA WHITLEY",
+          },
+          {
+            label: "YOUR CASHIER :",
+            value: "MARCUS T",
+          },
+          {
+            label: "CUSTOMER",
+            value: "40176128834",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "HEFTY PLATES PC",
+        quantity: 1,
+        price: 4.49,
+        discount: 1.5,
+        taxFlag: "T",
+      },
+      {
+        name: "HT ICE CREAM 56 PC",
+        quantity: 1,
+        price: 5.99,
+        discount: 2.0,
+        taxFlag: "B",
+      },
+      {
+        name: "OKRA",
+        quantity: 1,
+        price: 1.99,
+        taxFlag: "B",
+      },
+      {
+        name: "ANGEL SOFT-24 PC",
+        quantity: 1,
+        price: 10.99,
+        discount: 3.0,
+        taxFlag: "T",
+      },
+      {
+        name: "SUNFLWR CHIP",
+        quantity: 1,
+        price: 3.49,
+        taxFlag: "B",
+      },
+      {
+        name: "BANANAS",
+        quantity: 2.6,
+        price: 0.65,
+        unit: "lb",
+        taxFlag: "B",
+      },
+    ],
+    currency: "USD",
+    taxLabel: "**** 7.25% NC SALES TAX",
+    taxRate: 7.25,
+    taxLines: [
+      {
+        label: "**** 7.25% NC SALES TAX",
+        rate: 7.25,
+      },
+      {
+        label: "**** 2% NC SALES TAX",
+        rate: 2,
+        appliesTo: "B",
+      },
+    ],
+    showTaxRate: false,
+    hideSubtotal: true,
+    discount: 0,
+    tip: 0,
+    labels: {
+      itemDiscount: "SC VIC SAVINGS",
+      savings: "TOTAL VIC SAVINGS THIS ORDER $",
+      change: "CHANGE",
+    },
+    grandTotalLabel: "**** BALANCE DUE",
+    showSavings: true,
+    paymentMethod: "Credit Card",
+    paymentName: "VF VISA",
+    cardLastFour: "6604",
+    showCardAuth: false,
+    cardRows: [
+      {
+        label: "APPROVAL",
+        value: "318260",
+      },
+    ],
+    footerMessage: "THANK YOU FOR SHOPPING HARRIS TEETER",
+    policyText: "CORPORATE CUSTOMER SERV 1-800-432-6111",
+    showBarcode: false,
+  },
+  // spirit-airlines — was wrong-format. Sources:
+  //   https://htmlscript.auburn.edu/academic/education/ed/documents_uploaded/graduatetravelawards/szs0357bt2025090214213532416.pdf (Spirit Itinerary Receipt, booked Sep 2025)
+  //   https://htmlscript.auburn.edu/academic/education/ed/documents_uploaded/graduatetravelawards/azs0258bt2022052109595063221.pdf (Spirit Itinerary Receipt, 2022, with BAGS and SEATS)
+  //   https://htmlscript.auburn.edu/academic/education/ed/documents_uploaded/graduatetravelawards/jza0089bt202205272012384119.pdf (Spirit 'You're Booked' page, 2022)
+  "spirit-airlines": {
+    businessName: "Spirit Airlines",
+    addressLine1: "",
+    addressLine2: "",
+    phone: "",
+    website: "spirit.com",
+    hideStoreLine: true,
+    cashier: "",
+    register: "",
+    paperFinish: "email",
+    paperStyle: "minimal",
+    fontFamily: "open-sans",
+    headerAlign: "left",
+    ruleStyle: "solid",
+    itemStyle: "lined",
+    greeting: "Your Itinerary Receipt",
+    sections: [
+      {
+        rows: [
+          {
+            label: "Booking Date:",
+            value: "{{date+0}}",
+          },
+          {
+            label: "Status:",
+            value: "Confirmed",
+          },
+          {
+            label: "Confirmation Code:",
+            value: "KQ7TRM",
+          },
+        ],
+      },
+      {
+        title: "Flights",
+        rows: [
+          {
+            value: "{{date+21}}",
+          },
+          {
+            label: "Depart:",
+            value: "Fort Lauderdale (FLL) 7:15 AM",
+          },
+          {
+            label: "Flight:",
+            value: "NK1123",
+          },
+          {
+            label: "Arrive:",
+            value: "Atlanta (ATL) 9:12 AM",
+          },
+        ],
+      },
+      {
+        title: "Passenger",
+        rows: [
+          {
+            value: "MR. JORDAN SAMPLE",
+          },
+          {
+            label: "Free Spirit #:",
+            value: "1027734518",
+          },
+          {
+            label: "Additional Info:",
+            value: "FLL - ATL: 1 Checked Bag",
+          },
+          {
+            label: "Seat:",
+            value: "FLL - ATL: 14C",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "1 FLL - ATL",
+        quantity: 0,
+        price: 0,
+        heading: true,
+      },
+      {
+        name: "FLIGHT",
+        quantity: 1,
+        price: 39.99,
+      },
+      {
+        name: "TAXES AND CARRIER CHARGES",
+        quantity: 0,
+        price: 0,
+        heading: true,
+      },
+      {
+        name: "Federal Excise Tax",
+        quantity: 1,
+        price: 3.0,
+      },
+      {
+        name: "Security Fee",
+        quantity: 1,
+        price: 5.6,
+      },
+      {
+        name: "Segment Fee",
+        quantity: 1,
+        price: 5.3,
+      },
+      {
+        name: "Passenger Usage Charge (Non-refundable Carrier Fee)",
+        quantity: 1,
+        price: 27.99,
+      },
+      {
+        name: "Passenger Facility Fee",
+        quantity: 1,
+        price: 4.5,
+      },
+      {
+        name: "BAGS",
+        quantity: 1,
+        price: 55.0,
+      },
+      {
+        name: "SEATS",
+        quantity: 1,
+        price: 24.0,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Tax",
+    taxRate: 0,
+    showTaxRate: false,
+    hideSubtotal: true,
+    discount: 0,
+    tip: 0,
+    grandTotalLabel: "TOTAL PAID",
+    paymentMethod: "Credit Card",
+    cardLastFour: "5521",
+    showCardAuth: false,
+    afterPayment: [
+      {
+        title: "Free Spirit Points",
+        rows: [
+          {
+            label: "JORDAN SAMPLE",
+            value: "1,650 Free Spirit Points",
+          },
+        ],
+      },
+    ],
+    footerMessage: "Thank you for choosing Spirit. We look forward to serving you on your upcoming trip!\nTo make changes to your reservation, please call or text us at 855-728-3555.",
+    policyText: "To provide feedback, please contact us at www.Spirit.com/help, or write to Spirit Guest Care, 1731 Radiant Drive, Dania Beach, FL 33004.",
+    showBarcode: false,
+    hideTotals: true,
+  },
+  // tesco — was missing-key-details. Sources:
+  //   https://www.tesco.com/help/pages/clubcard-faqs/clubcard-prices/where-to-find-your-clubcard-prices
+  //   https://www.tesco.ie/help/pages/clubcard-faqs/clubcard-prices/where-to-find-your-clubcard-prices
+  //   https://www.tesco.ie/help/pages/clubcard-faqs/points/how-to-check-how-many-clubcard-points-i-have
+  //   https://www.accountingweb.co.uk/any-answers/tesco
+  "tesco": {
+    businessName: "TESCO",
+    addressLine1: "Tesco Superstore\n14 Example Way",
+    addressLine2: "Welwyn Garden City AL7 1ZZ",
+    phone: "0345 555 0163",
+    website: "tesco.com",
+    cashier: "",
+    register: "",
+    hideStoreLine: true,
+    paperStyle: "thermal",
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "dashed",
+    itemStyle: "lined",
+    dateOrder: "dmy",
+    currency: "GBP",
+    greeting: "VAT No. GB 123 4567 89",
+    items: [
+      {
+        name: "TESCO SEMI SKIMMED MILK 4PT",
+        quantity: 1,
+        price: 1.65,
+        notTaxed: true,
+      },
+      {
+        name: "HOVIS SOFT WHITE MEDIUM 800G",
+        quantity: 1,
+        price: 1.75,
+        notTaxed: true,
+        discount: 0.5,
+      },
+      {
+        name: "TESCO BRITISH CHICKEN BREAST",
+        quantity: 1,
+        price: 4.85,
+        notTaxed: true,
+      },
+      {
+        name: "TESCO BANANAS LOOSE",
+        quantity: 5,
+        price: 0.17,
+        notTaxed: true,
+      },
+      {
+        name: "YEO VALLEY NATURAL YOG 450G",
+        quantity: 1,
+        price: 2.35,
+        notTaxed: true,
+      },
+      {
+        name: "PG TIPS 80 BAGS",
+        quantity: 1,
+        price: 3.25,
+        notTaxed: true,
+        discount: 0.75,
+      },
+      {
+        name: "FAIRY ORIGINAL WASHING UP 820ML",
+        quantity: 1,
+        price: 2.5,
+        taxFlag: "*",
+      },
+      {
+        name: "ANDREX GENTLE CLEAN 9 ROLL",
+        quantity: 1,
+        price: 6.0,
+        taxFlag: "*",
+      },
+    ],
+    taxIncluded: true,
+    taxLabel: "VAT",
+    taxRate: 20,
+    taxLines: [
+      {
+        label: "VAT @ 20%",
+        rate: 20,
+      },
+    ],
+    showTaxRate: false,
+    hideSubtotal: true,
+    discount: 0,
+    tip: 0,
+    labels: {
+      itemDiscount: "Your Clubcard Price",
+      change: "CHANGE DUE",
+    },
+    grandTotalLabel: "TOTAL",
+    paymentMethod: "Debit Card",
+    paymentName: "VISA DEBIT",
+    cardLastFour: "2917",
+    showCardAuth: false,
+    cardRows: [
+      {
+        value: "************2917",
+      },
+      {
+        label: "AID",
+        value: "A0000000031010",
+      },
+      {
+        label: "AUTH CODE",
+        value: "418203",
+      },
+      {
+        value: "CONTACTLESS",
+      },
+    ],
+    afterPayment: [
+      {
+        title: "CLUBCARD STATEMENT",
+        rows: [
+          {
+            label: "CLUBCARD NUMBER",
+            value: "************5530",
+          },
+          {
+            label: "POINTS THIS VISIT",
+            value: "26",
+          },
+          {
+            label: "TOTAL POINTS",
+            value: "1,184",
+          },
+        ],
+      },
+    ],
+    showBarcode: true,
+    footerMessage: "THANK YOU FOR SHOPPING AT TESCO\nEvery little helps",
+    policyText: "Please keep your receipt as proof of purchase. VAT receipts are available on request.",
+  },
+  // hollister — was no-source. Sources:
+  //   https://www.supermoney.com/hollister-return-policy
+  //   https://donotpay.com/learn/hollister-return-policy
+  "hollister": {
+    businessName: "Hollister Co.",
+    addressLine1: "Example Town Center, 4100 Sample Blvd",
+    addressLine2: "Columbus, OH 43219",
+    phone: "(614) 555-0186",
+    website: "hollisterco.com",
+    cashier: "Associate: 41187",
+    register: "Reg 02",
+    paperStyle: "thermal",
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "dashed",
+    itemStyle: "lined",
+    skuFirst: true,
+    items: [
+      {
+        name: "ULTRA HIGH RISE DAD JEANS",
+        quantity: 1,
+        price: 59.95,
+        sku: "355-3204",
+      },
+      {
+        name: "RELAXED GRAPHIC TEE",
+        quantity: 2,
+        price: 24.95,
+        sku: "323-2491",
+      },
+      {
+        name: "FEEL GOOD FLEECE HOODIE",
+        quantity: 1,
+        price: 49.95,
+        sku: "322-1734",
+        discount: 10.0,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Sales Tax",
+    taxRate: 8.0,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "SUBTOTAL",
+      itemDiscount: "PROMOTION",
+    },
+    grandTotalLabel: "TOTAL",
+    paymentMethod: "Credit Card",
+    paymentName: "VISA",
+    cardLastFour: "6638",
+    showCardAuth: false,
+    cardRows: [
+      {
+        label: "ACCT",
+        value: "************6638",
+      },
+      {
+        label: "AUTH",
+        value: "053917",
+      },
+      {
+        label: "ENTRY",
+        value: "CONTACTLESS",
+      },
+    ],
+    showItemsSold: true,
+    showBarcode: true,
+    footerMessage: "Thank you for shopping Hollister!",
+    policyText: "Returns and exchanges accepted within 30 days with receipt. Without a receipt, refunds are issued as merchandise credit.",
+  },
+  // jamba-juice — was no-source. Sources:
+  //   https://spendgo.helpdocs.com/points/how-do-i-add-a-receipt-to-my-account
+  //   https://cdn.fly2houston.com/cdn/ff/XVpEIuZ_pVv5eOkNOgLfa9yX0efEiulMBYsxdVc6cXM/1729545754/public/2024-10/Jamba%20Juice%20Menu.pdf
+  "jamba-juice": {
+    businessName: "Jamba",
+    addressLine1: "1700 Example St",
+    addressLine2: "San Francisco, CA 94111",
+    phone: "(415) 555-0133",
+    website: "jamba.com",
+    cashier: "Kayla",
+    register: "Reg 1",
+    paperStyle: "thermal",
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "dashed",
+    itemStyle: "lined",
+    items: [
+      {
+        name: "Md Mango-A-Go-Go",
+        quantity: 1,
+        price: 7.69,
+        addons: [
+          {
+            name: "Protein Boost",
+            price: 1.29,
+          },
+        ],
+      },
+      {
+        name: "Sm Strawberry Wild",
+        quantity: 1,
+        price: 6.89,
+      },
+      {
+        name: "Acai Primo Bowl",
+        quantity: 1,
+        price: 10.49,
+        modifiers: ["No Honey"],
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Tax",
+    taxRate: 8.625,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "Subtotal",
+    },
+    grandTotalLabel: "Total",
+    paymentMethod: "Credit Card",
+    paymentName: "VISA",
+    cardLastFour: "3071",
+    showCardAuth: false,
+    cardRows: [
+      {
+        label: "Card",
+        value: "XXXXXXXXXXXX3071",
+      },
+      {
+        label: "Auth",
+        value: "602418",
+      },
+    ],
+    orderNumber: "ORDER 214",
+    afterPayment: [
+      {
+        rows: [
+          {
+            label: "Rewards code",
+            value: "7KQ2M9XA41",
+          },
+        ],
+      },
+    ],
+    showBarcode: false,
+    footerMessage: "Thank you!",
+    policyText: "Add this visit to your Jamba Rewards account with the code above.",
+  },
+  // giant-eagle — was no-source. Sources:
+  //   https://account.gianteagle.com/faqs
+  //   https://guides.supercardsapp.com/us/giant-eagle/
+  //   https://www.cspdailynews.com/company-news/giant-eagle-ends-fuelperks-loyalty-program
+  "giant-eagle": {
+    businessName: "Giant Eagle",
+    addressLine1: "318 Example Rd",
+    addressLine2: "Pittsburgh, PA 15237",
+    phone: "(412) 555-0129",
+    website: "gianteagle.com",
+    cashier: "Cashier: 2214",
+    register: "Lane 6",
+    paperStyle: "thermal",
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "dashed",
+    itemStyle: "stacked",
+    items: [
+      {
+        name: "GE 2% MILK GAL",
+        quantity: 1,
+        price: 3.49,
+        notTaxed: true,
+      },
+      {
+        name: "BANANAS",
+        quantity: 2.6,
+        price: 0.59,
+        notTaxed: true,
+        unit: "lb",
+      },
+      {
+        name: "GE LARGE EGGS 12CT",
+        quantity: 1,
+        price: 2.99,
+        notTaxed: true,
+      },
+      {
+        name: "BOARS HEAD OVEN TURKEY",
+        quantity: 1,
+        price: 7.48,
+        notTaxed: true,
+        discount: 1.5,
+      },
+      {
+        name: "CHEERIOS 18OZ",
+        quantity: 1,
+        price: 5.49,
+        notTaxed: true,
+        discount: 1.0,
+      },
+      {
+        name: "COCA-COLA 12PK CAN",
+        quantity: 1,
+        price: 8.99,
+        taxFlag: "T",
+        discount: 2.0,
+      },
+      {
+        name: "BOUNTY SELECT 6 DBL ROLL",
+        quantity: 1,
+        price: 11.99,
+        taxFlag: "T",
+      },
+    ],
+    currency: "USD",
+    taxLabel: "TAX",
+    taxRate: 7,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "SUBTOTAL",
+      itemDiscount: "ADVANTAGE CARD SAVINGS",
+      change: "CHANGE",
+    },
+    grandTotalLabel: "TOTAL",
+    showSavings: true,
+    paymentMethod: "Debit Card",
+    paymentName: "DEBIT",
+    cardLastFour: "8854",
+    showCardAuth: false,
+    cardRows: [
+      {
+        label: "ACCOUNT",
+        value: "XXXXXXXXXXXX8854",
+      },
+      {
+        label: "AUTH #",
+        value: "339170",
+      },
+      {
+        value: "PIN VERIFIED",
+      },
+    ],
+    showItemsSold: true,
+    afterPayment: [
+      {
+        title: "myPerks",
+        rows: [
+          {
+            label: "Perks earned this trip",
+            value: "38",
+          },
+          {
+            label: "Perks balance",
+            value: "1,262",
+          },
+          {
+            label: "Advantage Card",
+            value: "XXXXXXX4410",
+          },
+        ],
+      },
+    ],
+    showBarcode: true,
+    footerMessage: "Thank you for shopping Giant Eagle",
+    policyText: "Redeem perks for cents off per gallon at GetGo or savings on groceries.",
+  },
+  // foot-locker — was no-source. Sources:
+  //   https://www.rivo.io/blog/foot-locker-flx-rewards-program
+  //   https://loyalty360.org/Content-Gallery/Daily-News/FLX-Rewards-Program-Relaunched-by-Foot-Locker
+  //   https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/clothing_and_footwear.htm
+  "foot-locker": {
+    businessName: "Foot Locker",
+    addressLine1: "Store #07421\n120 Example St",
+    addressLine2: "New York, NY 10013",
+    phone: "(212) 555-0174",
+    website: "footlocker.com",
+    cashier: "Associate: 5502",
+    register: "Reg 01",
+    hideStoreLine: true,
+    paperStyle: "thermal",
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "dashed",
+    itemStyle: "lined",
+    skuFirst: true,
+    items: [
+      {
+        name: "JORDAN RETRO 4 SZ 10.5",
+        quantity: 1,
+        price: 215.0,
+        sku: "FV5029",
+      },
+      {
+        name: "NIKE EVERYDAY CUSHION CREW 3PK",
+        quantity: 1,
+        price: 22.0,
+        sku: "SX7664",
+        notTaxed: true,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Sales Tax",
+    taxRate: 8.875,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "SUBTOTAL",
+    },
+    grandTotalLabel: "TOTAL",
+    paymentMethod: "Credit Card",
+    paymentName: "MASTERCARD",
+    cardLastFour: "1190",
+    showCardAuth: false,
+    cardRows: [
+      {
+        label: "ACCT",
+        value: "************1190",
+      },
+      {
+        label: "AUTH",
+        value: "884125",
+      },
+      {
+        label: "ENTRY",
+        value: "CHIP",
+      },
+    ],
+    showItemsSold: true,
+    afterPayment: [
+      {
+        title: "FLX REWARDS",
+        rows: [
+          {
+            label: "Member",
+            value: "***-***-4471",
+          },
+          {
+            label: "Points earned",
+            value: "237",
+          },
+        ],
+      },
+    ],
+    showBarcode: true,
+    footerMessage: "Thank you for shopping at Foot Locker!",
+    policyText: "Returns and exchanges accepted with this receipt. See footlocker.com for our full return policy.",
+  },
+  // enterprise — was wrong-format. Sources:
+  //   https://static.nhtsa.gov/odi/inv/2023/INRD-PE23022-14705P1.pdf
+  //   https://static.nhtsa.gov/odi/inv/2023/INRD-PE23022-14226P1.pdf
+  "enterprise": {
+    businessName: "Enterprise Rent-A-Car",
+    addressLine1: "Rental Agreement # 8J4QK2",
+    addressLine2: "",
+    phone: "",
+    website: "enterprise.com",
+    cashier: "",
+    register: "",
+    hideStoreLine: true,
+    paperFinish: "email",
+    paperStyle: "modern",
+    fontFamily: "roboto",
+    headerAlign: "left",
+    ruleStyle: "solid",
+    itemStyle: "lined",
+    itemHeader: {
+      left: "Renter Charges",
+      right: "",
+    },
+    sections: [
+      {
+        title: "Trip Information",
+        rows: [
+          {
+            label: "Pickup",
+            value: "{{date-9}}",
+          },
+          {
+            value: "ARCHER RD\n4100 SW EXAMPLE RD\nGAINESVILLE, FL 32608\nUSA",
+          },
+          {
+            label: "Return",
+            value: "{{date+0}}",
+          },
+          {
+            value: "ARCHER RD\n4100 SW EXAMPLE RD\nGAINESVILLE, FL 32608\nUSA",
+          },
+        ],
+      },
+      {
+        title: "Vehicle Information",
+        rows: [
+          {
+            value: "MALI",
+          },
+          {
+            label: "State/Province:",
+            value: "FL",
+          },
+          {
+            label: "Vehicle Class Driven",
+            value: "Full Size 4 door/Automatic/Air",
+          },
+          {
+            label: "Vehicle Class Charged",
+            value: "Full Size 4 door/Automatic/Air",
+          },
+          {
+            label: "Odometer Starting:",
+            value: "21408",
+          },
+          {
+            label: "Ending:",
+            value: "21622",
+          },
+          {
+            label: "Total:",
+            value: "214",
+          },
+          {
+            label: "Fuel Starting:",
+            value: "8/8",
+          },
+          {
+            label: "Ending:",
+            value: "7/8",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "RENTAL RATE",
+        quantity: 0,
+        price: 0,
+        heading: true,
+      },
+      {
+        name: "Time & Distance 2 Day at $45.00 / Day",
+        quantity: 2,
+        price: 45.0,
+      },
+      {
+        name: "Time & Distance 1 Week at $225.00 / Week",
+        quantity: 1,
+        price: 225.0,
+      },
+      {
+        name: "MILEAGE: Unlimited Mileage Included",
+        quantity: 0,
+        price: 0,
+        heading: true,
+      },
+      {
+        name: "TAXES AND FEES",
+        quantity: 0,
+        price: 0,
+        heading: true,
+      },
+      {
+        name: "Sc Rec - Fl Surchg Recov ($2.00 / Day)",
+        quantity: 9,
+        price: 2.0,
+      },
+      {
+        name: "Fl Waste Tire & Battery Fee ($0.02 / Day)",
+        quantity: 9,
+        price: 0.02,
+      },
+      {
+        name: "Vehicle License Fee Recovery ($0.50 / Day)",
+        quantity: 9,
+        price: 0.5,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Sales Tax (7.50%)",
+    taxRate: 7.5,
+    taxLines: [
+      {
+        label: "Sales Tax (7.50%)",
+        rate: 7.5,
+      },
+    ],
+    showTaxRate: false,
+    hideSubtotal: true,
+    discount: 0,
+    tip: 0,
+    grandTotalLabel: "Total",
+    paymentMethod: "Credit Card",
+    paymentName: "Amount charged to VISA",
+    cardLastFour: "5182",
+    showCardAuth: false,
+    cardRows: [
+      {
+        label: "AID:",
+        value: "A0000000031010",
+      },
+      {
+        value: "Verified: Signature",
+      },
+      {
+        value: "Entry: Chip",
+      },
+    ],
+    afterPayment: [
+      {
+        rows: [
+          {
+            value: "(Subject to audit)",
+          },
+          {
+            label: "Amount Due",
+            value: "$0.00",
+          },
+        ],
+      },
+    ],
+    showBarcode: false,
+    footerMessage: "Thank you for renting with Enterprise Rent-A-Car\nWe appreciate your business!",
+    policyText: "This email was automatically generated from an unattended mailbox, so please do not reply to this e-mail. If you have any questions about your rental, please view our Frequently Asked Questions or send us a secured message by visiting our Support Center.",
+  },
+  // westin — was wrong-format. Sources:
+  //   https://www.rdcrs.ca/download/567446
+  //   https://www.mhc.ab.ca/-/media/mhc/documents/about-mhc/admin-governance/expense-reports/2025/may-1-to-june-30-2025-vp-adm--fin-expense-disclosureredacted.pdf
+  "westin": {
+    businessName: "The Westin Stamford (sample)",
+    addressLine1: "1 Example Place",
+    addressLine2: "Stamford, CT 06901",
+    phone: "Tel: 203-555-0150 Fax: 203-555-0151",
+    website: "westin.com",
+    cashier: "",
+    register: "",
+    hideStoreLine: true,
+    paperFinish: "invoice",
+    paperStyle: "modern",
+    fontFamily: "open-sans",
+    headerAlign: "left",
+    ruleStyle: "solid",
+    itemStyle: "lined",
+    itemHeader: {
+      left: "Date  Reference  Description",
+      right: "Charges (USD)",
+    },
+    greeting: "Copy Tax Invoice",
+    sections: [
+      {
+        rows: [
+          {
+            label: "Page Number :",
+            value: "1",
+          },
+          {
+            label: "Invoice Nbr :",
+            value: "1000552871",
+          },
+          {
+            label: "Guest Number :",
+            value: "2284715",
+          },
+          {
+            label: "Folio ID :",
+            value: "A",
+          },
+          {
+            label: "Arrive Date :",
+            value: "{{date-2}}",
+          },
+          {
+            label: "Depart Date :",
+            value: "{{date+0}}",
+          },
+          {
+            label: "No. Of Guest :",
+            value: "1",
+          },
+          {
+            label: "Room Number :",
+            value: "0814",
+          },
+          {
+            label: "Marriott Bonvoy Number :",
+            value: "XXXXX6208",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "RT814  Room Chrg - Corporate",
+        quantity: 2,
+        price: 279.0,
+      },
+      {
+        name: "RT814  Parking Self",
+        quantity: 2,
+        price: 32.0,
+        notTaxed: true,
+      },
+      {
+        name: "RT814  In-Room Dining",
+        quantity: 1,
+        price: 41.6,
+        notTaxed: true,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Occupancy Tax",
+    taxRate: 15,
+    showTaxRate: false,
+    hideSubtotal: true,
+    discount: 0,
+    tip: 0,
+    grandTotalLabel: "** Total",
+    paymentMethod: "Credit Card",
+    paymentName: "Visa-XXXX9036",
+    cardLastFour: "9036",
+    showCardAuth: false,
+    cardRows: [
+      {
+        value: "Approve EMV Receipt for VI - XXXX9036",
+      },
+      {
+        value: "Application Label: VISA CREDIT   AID: A0000000031010",
+      },
+      {
+        value: "ARC: 00   TSI: E800   TVR: 0080008000",
+      },
+    ],
+    afterPayment: [
+      {
+        rows: [
+          {
+            label: "*** Balance",
+            value: "0.00",
+          },
+        ],
+      },
+    ],
+    showBarcode: false,
+    footerMessage: "Stay well, no matter where you travel. Reconnect with your well-being and find your next destination at westin.com.",
+    policyText: "Tell us about your stay. www.westin.com/reviews",
+  },
+  // winco-foods — was wrong-format. Sources:
+  //   https://thenonconsumeradvocate.com/winco-haul-howd-i-do/
+  //   https://thenonconsumeradvocate.com/wp-content/uploads/2025/10/IMG_3837-768x1024.jpg
+  //   https://thenonconsumeradvocate.com/budget-shopping-how-much-does-65-89-buy-at-winco/
+  //   https://thenonconsumeradvocate.com/wp-content/uploads/2025/07/IMG_2887-768x1024.jpg
+  "winco-foods": {
+    businessName: "WinCo FOODS",
+    addressLine1: "4520 SE Example Blvd.",
+    addressLine2: "Portland, OR 97206\nStore #0147",
+    phone: "",
+    website: "",
+    cashier: "Cashier: Dana R",
+    register: "",
+    hideStoreLine: true,
+    paperStyle: "thermal",
+    fontFamily: "courier",
+    headerAlign: "center",
+    ruleStyle: "none",
+    itemStyle: "stacked",
+    items: [
+      {
+        name: "HOMAI RICE",
+        quantity: 1,
+        price: 8.32,
+        taxFlag: "FS",
+      },
+      {
+        name: "POTATOES,10#",
+        quantity: 1,
+        price: 3.68,
+        taxFlag: "FS",
+      },
+      {
+        name: "WINCO SUGAR",
+        quantity: 1,
+        price: 1.78,
+        taxFlag: "FS",
+      },
+      {
+        name: "ROOT,GINGER",
+        quantity: 0.19,
+        price: 3.48,
+        taxFlag: "FS",
+        unit: "lb",
+      },
+      {
+        name: "BANANAS",
+        quantity: 2.36,
+        price: 0.62,
+        taxFlag: "FS",
+        unit: "lb",
+      },
+      {
+        name: "CHICKEN THIGHS",
+        quantity: 1,
+        price: 8.14,
+        taxFlag: "FS",
+      },
+      {
+        name: "LETT,ROMAINE",
+        quantity: 1,
+        price: 3.28,
+        taxFlag: "FS",
+      },
+      {
+        name: "ONIONS,YELLOW",
+        quantity: 1.39,
+        price: 0.68,
+        taxFlag: "FS",
+        unit: "lb",
+      },
+      {
+        name: "WINCO STRNG CHS",
+        quantity: 2,
+        price: 2.48,
+        taxFlag: "FS",
+      },
+      {
+        name: "FAGE YOGURT",
+        quantity: 1,
+        price: 6.2,
+        taxFlag: "FS",
+      },
+      {
+        name: "WINCO WIPES",
+        quantity: 1,
+        price: 2.98,
+        taxFlag: "TO",
+      },
+    ],
+    currency: "USD",
+    taxLabel: "TOTAL TAX",
+    taxRate: 0,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "SUBTOTAL",
+      change: "CASH  CHANGE",
+      itemsSold: "NUMBER OF ITEMS",
+    },
+    grandTotalLabel: "TOTAL",
+    paymentMethod: "Debit Card",
+    paymentName: "DEBIT CARD  TENDER",
+    cardLastFour: "3318",
+    showCardAuth: false,
+    cardRows: [
+      {
+        label: "C Acct:",
+        value: "xxxxxxxxxxxx3318",
+      },
+      {
+        label: "APPRVL CODE",
+        value: "071946",
+      },
+      {
+        value: "Chip Read",
+      },
+      {
+        value: "Verified By PIN",
+      },
+      {
+        label: "US DEBIT",
+        value: "PURCHASE",
+      },
+      {
+        label: "AID:",
+        value: "A0000000980840",
+      },
+      {
+        label: "Mode:",
+        value: "Issuer",
+      },
+    ],
+    showItemsSold: true,
+    afterPayment: [
+      {
+        rows: [
+          {
+            label: "Oper #",
+            value: "280417",
+          },
+          {
+            label: "Trx #",
+            value: "118",
+          },
+          {
+            label: "Term #",
+            value: "7",
+          },
+          {
+            label: "Store",
+            value: "#0147",
+          },
+        ],
+      },
+    ],
+    showBarcode: false,
+    footerMessage: "THANK YOU FOR SHOPPING AT WINCO\n(503) 555-0142",
+  },
+  // edeka — was wrong-format. Sources:
+  //   https://www.heidelberg24.de/verbraucher/edeka-supermarkt-kundin-einkaufen-einkauf-22-kassierer-gleichzeitig-kassenbon-tiktok-zr-91904450.html
+  //   https://www.heidelberg24.de/assets/images/30/243/30243520-links-ist-ein-gewoehnlicher-edeka-kassenbon-rechts-eine-nahaufnahme-die-es-bediente-sie-22-kassierer-zeigt-3o04r3glgSfe.jpg
+  //   https://de.wikipedia.org/wiki/Kassenbon
+  //   https://rundschau.de/news/edeka-und-netto-fuehren-umweltfreundliche-kassenbons-ein/
+  "edeka": {
+    businessName: "EDEKA",
+    addressLine1: "EDEKA Markt Beispiel\nMusterstraße 12",
+    addressLine2: "22085 Hamburg",
+    phone: "Tel. 040 5550 1873",
+    website: "www.edeka.de",
+    cashier: "",
+    register: "",
+    hideStoreLine: true,
+    paperStyle: "thermal",
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "dashed",
+    itemStyle: "stacked",
+    dateOrder: "dmy",
+    items: [
+      {
+        name: "EDK Junge Spinat",
+        quantity: 1,
+        price: 2.38,
+        taxFlag: "A",
+      },
+      {
+        name: "Gouda jung Scheiben",
+        quantity: 1,
+        price: 1.99,
+        taxFlag: "A",
+      },
+      {
+        name: "Zwiebeln",
+        quantity: 0.84,
+        price: 1.99,
+        taxFlag: "A",
+        unit: "kg",
+      },
+      {
+        name: "Rama Cremefine",
+        quantity: 2,
+        price: 1.19,
+        taxFlag: "A",
+      },
+      {
+        name: "Augustiner Hell 0,5l",
+        quantity: 2,
+        price: 1.19,
+        taxFlag: "B",
+      },
+      {
+        name: "Pfand",
+        quantity: 2,
+        price: 0.08,
+        taxFlag: "B",
+      },
+      {
+        name: "EDK Spülmittel",
+        quantity: 1,
+        price: 1.45,
+        taxFlag: "B",
+      },
+    ],
+    currency: "EUR",
+    taxIncluded: true,
+    taxLabel: "MwSt",
+    taxRate: 19,
+    taxLines: [
+      {
+        label: "A 7%",
+        rate: 7,
+        appliesTo: "A",
+      },
+      {
+        label: "B 19%",
+        rate: 19,
+      },
+    ],
+    showTaxRate: false,
+    hideSubtotal: true,
+    discount: 0,
+    tip: 0,
+    labels: {
+      itemsSold: "Posten:",
+      amountTendered: "Bar EUR",
+      change: "Rückgeld EUR",
+    },
+    grandTotalLabel: "SUMME EUR",
+    showItemsSold: true,
+    paymentMethod: "Cash",
+    amountTendered: 20,
+    showCardAuth: false,
+    afterPayment: [
+      {
+        rows: [
+          {
+            value: "Für Ihren Einkauf auf rabattfähige Artikel hätten Sie 5 DeutschlandCard Punkte erhalten!",
+          },
+          {
+            value: "Melden Sie sich gleich hier im Markt oder unter www.deutschlandcard.de an.",
+          },
+          {
+            value: "* Position nicht rabattberechtigt",
+          },
+        ],
+      },
+      {
+        rows: [
+          {
+            label: "Es bediente Sie:",
+            value: "Kasse 3",
+          },
+          {
+            label: "Bon-Nr.",
+            value: "0187 3304",
+          },
+        ],
+      },
+    ],
+    showBarcode: true,
+    footerMessage: "Vielen Dank für Ihren Einkauf!",
+    numberLocale: "de-DE",
+  },
+  // best-western — was wrong-format. Sources:
+  //   https://www.mhc.ab.ca/-/media/mhc/documents/about-mhc/admin-governance/expense-reports/2025/july-1-to-aug-31-2025-vp-adm--fin-expense-disclosureredacted.pdf
+  //   https://help.visualmatrix.com/portal/en/kb/articles/faq-best-western-forms-documents
+  "best-western": {
+    businessName: "Best Western Plus Example Inn",
+    addressLine1: "2400 W Example Rd",
+    addressLine2: "Phoenix, AZ 85027",
+    phone: "Phone: (602)555-0148  Fax: (602)555-0149",
+    website: "Web: www.bestwestern.com",
+    cashier: "",
+    register: "",
+    hideStoreLine: true,
+    paperFinish: "invoice",
+    paperStyle: "modern",
+    fontFamily: "roboto",
+    headerAlign: "left",
+    ruleStyle: "solid",
+    itemStyle: "lined",
+    itemHeader: {
+      left: "Department  Reference  Room",
+      right: "Charge",
+    },
+    greeting: "Guest Charges",
+    sections: [
+      {
+        rows: [
+          {
+            label: "Best Western Rewards # :",
+            value: "6006 6371 0428 5519",
+          },
+          {
+            label: "Folio #:",
+            value: "538216",
+          },
+          {
+            label: "Room #:",
+            value: "214",
+          },
+          {
+            label: "Payment Method :",
+            value: "Credit Card",
+          },
+          {
+            label: "Rate :",
+            value: "$129.00",
+          },
+          {
+            label: "Conf #:",
+            value: "472905",
+          },
+          {
+            label: "BWR Tier :",
+            value: "BLUE",
+          },
+          {
+            label: "Arrival:",
+            value: "{{date-2}}",
+          },
+          {
+            label: "Departure:",
+            value: "{{date+0}}",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "ROOM  Auto Posted Rate: BAR  214",
+        quantity: 2,
+        price: 129.0,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "RTAX",
+    taxRate: 12.57,
+    taxLines: [
+      {
+        label: "RTAX",
+        rate: 12.57,
+      },
+    ],
+    showTaxRate: false,
+    hideSubtotal: true,
+    discount: 0,
+    tip: 0,
+    grandTotalLabel: "Amount Paid:",
+    paymentMethod: "Credit Card",
+    paymentName: "VA  214",
+    cardLastFour: "7720",
+    showCardAuth: false,
+    cardRows: [
+      {
+        label: "Payment Type:",
+        value: "Credit Card",
+      },
+      {
+        label: "Account:",
+        value: "XXXXXXXXXXXX7720",
+      },
+      {
+        label: "Approval Code:",
+        value: "_048213_",
+      },
+    ],
+    afterPayment: [
+      {
+        rows: [
+          {
+            label: "Balance",
+            value: "$0.00",
+          },
+        ],
+      },
+    ],
+    showBarcode: false,
+    footerMessage: "Each BWH® Hotels property is independently owned and operated.",
+    policyText: "I agree that my liability for all charges is not waived and agree to be held personally liable in the event that the indicated person, company, or association fails to pay for any part of the amount of these charges.\nGuest Signature ________________________",
+  },
+  // culvers — was missing-key-details. Sources:
+  //   https://www.yelp.com/biz/culvers-aurora-3 (receipt photo s3-media0.fl.yelpcdn.com/bphoto/QDerm4UC8W8sOsXJQb2TNg/o.jpg)
+  //   https://fr.tripadvisor.be/Restaurant_Review-g34230-d6864819-Reviews-Culver_s-Fort_Myers_Florida.html (receipt photo 02-26-20-culver-s-receipt.jpg)
+  //   https://www.yelp.com/biz/culvers-knoxville (kitchen-style ticket photo GW1JCorcioLmuA02zg7QDw)
+  //   https://www.thedailymeal.com/1399761/restaurants-you-should-always-ask-for-receipt-why/
+  "culvers": {
+    businessName: "Waukesha WI - 2150 Arcadian Ave",
+    addressLine1: "2150 Arcadian Avenue",
+    addressLine2: "Waukesha, WI 53189",
+    phone: "Phone 262-555-0148",
+    website: "",
+    cashier: "",
+    register: "",
+    hideStoreLine: true,
+    headerAlign: "center",
+    fontFamily: "ibm-plex-mono",
+    itemStyle: "qtycol",
+    ruleStyle: "none",
+    paperStyle: "thermal",
+    sections: [
+      {
+        rows: [
+          {
+            label: "Order Id:",
+            value: "AAAB7QHMRK2T",
+          },
+          {
+            value: "14 Kayla - Dine In",
+          },
+          {
+            label: "Employee:",
+            value: "Reg2",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "ButterBurger Deluxe Dbl",
+        quantity: 1,
+        price: 8.49,
+        modifiers: ["No Tomato"],
+      },
+      {
+        name: "Cheese Curds Reg",
+        quantity: 1,
+        price: 4.79,
+      },
+      {
+        name: "Kids Meal",
+        quantity: 1,
+        price: 6.29,
+        modifiers: ["Kids ButterBurger Cheese", "Plain", "Dish Kids Van/Choc", "Apple Juice"],
+        addons: [
+          {
+            name: "Steamed Broccoli M",
+            price: 0.2,
+          },
+        ],
+      },
+      {
+        name: "Concrete Mixer Short",
+        quantity: 1,
+        price: 5.49,
+        modifiers: ["Vanilla", "Oreo"],
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Sales Tax",
+    taxRate: 5.5,
+    showTaxRate: false,
+    labels: {
+      subtotal: "Sub Total",
+    },
+    grandTotalLabel: "Order Total",
+    discount: 0,
+    tip: 0,
+    paymentMethod: "Credit Card",
+    cardLastFour: "4821",
+    showCardAuth: false,
+    cardRows: [
+      {
+        label: "Visa",
+        value: "XXXXXXXXXXXX4821",
+      },
+      {
+        label: "Auth Code:",
+        value: "042913",
+      },
+    ],
+    orderNumber: "GUEST 47",
+    policyText: "FREE SINGLE DISH OR CAKE CONE\nWITH YOUR NEXT PURCHASE\n1) Visit tellculvers.com within 48 hrs\n2) Enter survey code:\n   77200-00512-0927-1400\n3) Take brief survey\n4) Write validation code ______\nand bring this receipt with you on\nyour next purchase at this location\nFrequency limitations apply.",
+    footerMessage: "Welcome to Delicious!",
+    showBarcode: false,
+  },
+  // priceline — was wrong-format. Sources:
+  //   https://www.scribd.com/document/823733629/Gmail-Your-Hotel-Receipt-From-Priceline-Trip-156-942-473-95
+  //   https://ke.liturgicalcommission.org/comfort-inn-and-suites-receipt/ (2010 priceline.com hotel receipt image i.pinimg.com/originals/c2/e0/3c/... - watermarked, layout only)
+  //   https://www.priceline.com/customer-self-service/document-submission
+  "priceline": {
+    businessName: "",
+    addressLine1: "",
+    addressLine2: "",
+    phone: "",
+    website: "priceline.com",
+    cashier: "",
+    register: "",
+    paperFinish: "email",
+    paperStyle: "minimal",
+    fontFamily: "inter",
+    headerAlign: "left",
+    ruleStyle: "solid",
+    itemStyle: "lined",
+    dividers: "minimal",
+    hideStoreLine: true,
+    showBarcode: false,
+    greeting: "Your receipt from Priceline",
+    sections: [
+      {
+        title: "Your hotel stay is confirmed",
+        rows: [
+          {
+            label: "Priceline Trip Number:",
+            value: "284-517-903-62",
+          },
+        ],
+      },
+      {
+        title: "The Larimer Square Hotel Denver",
+        rows: [
+          {
+            label: "Check-in",
+            value: "{{date+21}}",
+          },
+          {
+            label: "Check-out",
+            value: "{{date+23}}",
+          },
+          {
+            label: "Check-in time",
+            value: "after 3:00 PM",
+          },
+          {
+            label: "Confirmation #:",
+            value: "5718340926",
+          },
+        ],
+      },
+      {
+        title: "Payment Summary",
+        rows: [
+          {
+            label: "Priceline trip number",
+            value: "284-517-903-62",
+          },
+          {
+            label: "Billing name",
+            value: "Jordan Ellis",
+          },
+          {
+            label: "Number of rooms",
+            value: "1",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "Price per night (nights)",
+        quantity: 2,
+        price: 164.0,
+      },
+    ],
+    currency: "USD",
+    labels: {
+      subtotal: "Hotel subtotal",
+      paymentMethod: "Payment method",
+      amountPaid: "You pay today",
+    },
+    taxLabel: "Taxes and fees",
+    taxRate: 15.75,
+    showTaxRate: false,
+    grandTotalLabel: "Total cost",
+    discount: 0,
+    tip: 0,
+    paymentMethod: "Credit Card",
+    cardLastFour: "4417",
+    paymentInline: true,
+    showCardAuth: false,
+    policyText: "Manage your booking any time in My Trips on priceline.com or the Priceline app.",
+  },
+  // michaels — was missing-key-details. Sources:
+  //   https://www.yelp.com/biz/michaels-mableton (receipt photo s3-media0.fl.yelpcdn.com/bphoto/mPDAMZ2q2w7ma-ize4gSJg/o.jpg)
+  //   https://www.michaels.com/return-policy
+  "michaels": {
+    businessName: "MICHAELS STORE #3817  972-555-0144",
+    addressLine1: "STORE MANAGER: DANA R.\n2601 PRESTON RD, STE 1100",
+    addressLine2: "FRISCO,TX,75034-1218",
+    phone: "",
+    website: "",
+    cashier: "",
+    register: "",
+    hideStoreLine: true,
+    topBarcode: true,
+    headerAlign: "center",
+    fontFamily: "roboto-mono",
+    itemStyle: "stacked",
+    ruleStyle: "none",
+    paperStyle: "thermal",
+    sections: [
+      {
+        rows: [
+          {
+            label: "REWARDS NUMBER:",
+            value: "LMR90184627713",
+          },
+        ],
+      },
+      {
+        rows: [
+          {
+            value: "100 SALE 2214 3817 061",
+          },
+          {
+            value: "ITEM INFORMATION",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "ACRYLIC PAINT 2OZ",
+        sku: "00088677502113",
+        quantity: 3,
+        price: 1.99,
+        taxFlag: "N",
+      },
+      {
+        name: "11X14 FRAME BLK",
+        sku: "00886946231580",
+        quantity: 1,
+        price: 24.99,
+        discount: 12.5,
+        taxFlag: "N",
+      },
+      {
+        name: "FOAM BRUSH SET 10PC",
+        sku: "00041457108822",
+        quantity: 1,
+        price: 3.99,
+        taxFlag: "N",
+      },
+    ],
+    currency: "USD",
+    labels: {
+      subtotal: "SUBTOTAL",
+      savings: "YOU SAVED",
+      itemDiscount: "Sale",
+    },
+    showSavings: true,
+    taxLabel: "SALES TAX",
+    taxRate: 8.25,
+    showTaxRate: true,
+    grandTotalLabel: "TOTAL",
+    discount: 0,
+    tip: 0,
+    paymentMethod: "Debit Card",
+    paymentName: "debit",
+    cardLastFour: "2290",
+    showCardAuth: false,
+    cardRows: [
+      {
+        label: "ACCOUNT NUMBER",
+        value: "************2290",
+      },
+      {
+        label: "APPROVAL:",
+        value: "610482 CONTACTLESS",
+      },
+      {
+        value: "PIN Verified",
+      },
+      {
+        label: "Application label:",
+        value: "US DEBIT",
+      },
+      {
+        label: "AID:",
+        value: "A0000000980840",
+      },
+      {
+        label: "TVR:",
+        value: "0000000000",
+      },
+    ],
+    afterPayment: [
+      {
+        rows: [
+          {
+            label: "This receipt expires at 60 days on",
+            value: "{{date+60}}",
+          },
+          {
+            label: "Previous Michaels Rewards Balance:",
+            value: ".00",
+          },
+        ],
+      },
+    ],
+    footerMessage: "Click. Buy. Create. Shop michaels.com today!\nGet Savings & Inspiration! Text* SIGNUP to 273283",
+    showBarcode: false,
+  },
+  // comfort-inn — was no-source. Sources:
+  //   https://www.consumeraffairs.com/travel/comfort-inn.html (photo of a Choice Hotels booking confirmation, media.consumeraffairs.com/files/reviews/comfort-inn_37136.jpg)
+  //   https://onemileatatime.com/insights/hotels-emailing-folios
+  //   https://navan.com/resources/glossary/hotel-folio
+  "comfort-inn": {
+    businessName: "Comfort Inn & Suites",
+    addressLine1: "1820 Research Blvd",
+    addressLine2: "Rockville, MD 20850",
+    phone: "(301) 555-0136",
+    website: "choicehotels.com",
+    cashier: "",
+    register: "",
+    invoice: true,
+    numberLabel: "Folio No.",
+    paperFinish: "invoice",
+    paperStyle: "modern",
+    fontFamily: "sans",
+    headerAlign: "center",
+    itemStyle: "table",
+    ruleStyle: "solid",
+    hideStoreLine: true,
+    showBarcode: false,
+    sections: [
+      {
+        rows: [
+          {
+            label: "Guest",
+            value: "Jordan Ellis",
+          },
+          {
+            label: "Room",
+            value: "214",
+          },
+          {
+            label: "Room Type",
+            value: "1 King Bed, Non-Smoking",
+          },
+          {
+            label: "Arrival",
+            value: "{{date-2}}",
+          },
+          {
+            label: "Nights",
+            value: "2",
+          },
+          {
+            label: "Choice Privileges #",
+            value: "BF1739205",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "Room Charge",
+        quantity: 2,
+        price: 129.0,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Room Tax",
+    taxRate: 13,
+    showTaxRate: false,
+    grandTotalLabel: "Total",
+    discount: 0,
+    tip: 0,
+    paymentMethod: "Credit Card",
+    cardLastFour: "3308",
+    showCardAuth: false,
+    cardRows: [
+      {
+        label: "Visa",
+        value: "XXXXXXXXXXXX3308",
+      },
+    ],
+    policyText: "Thank you for staying with us. Your Choice Privileges points are credited after checkout.",
+  },
+  // hobby-lobby — was missing-key-details. Sources:
+  //   https://hip2save.com/2023/08/18/heres-how-one-reader-saved-75-off-home-goods-gifts/
+  //   https://www.pinterest.com/pin/hobby-lobby-receipt--733031276874971609/
+  //   https://yarnybookkeeper.com/keeping-track-of-business-receipts/
+  //   https://querysprout.com/why-doesnt-hobby-lobby-use-barcodes/
+  "hobby-lobby": {
+    businessName: "",
+    greeting: "Super Savings, Super Selection!",
+    addressLine1: "1425 N Interstate Dr",
+    addressLine2: "Norman, OK 73072\nHobby Lobby Store #612  (405) 555-0163",
+    phone: "",
+    website: "",
+    cashier: "",
+    register: "",
+    hideStoreLine: true,
+    headerAlign: "center",
+    fontFamily: "noto-sans-mono",
+    itemStyle: "stacked",
+    ruleStyle: "none",
+    paperStyle: "thermal",
+    skuFirst: true,
+    subtotalNet: true,
+    sections: [
+      {
+        rows: [
+          {
+            label: "S-612  R-3  T-2417 MEGAN L",
+            value: "SALE",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        sku: "105000000",
+        name: "Crafts",
+        quantity: 2,
+        price: 3.99,
+      },
+      {
+        sku: "102000000",
+        name: "Needle Art",
+        quantity: 1,
+        price: 6.99,
+      },
+      {
+        sku: "102000000",
+        name: "Needle Art",
+        quantity: 3,
+        price: 2.29,
+      },
+      {
+        sku: "104500000",
+        name: "Spring",
+        quantity: 1,
+        price: 15.99,
+        discount: 8.0,
+      },
+    ],
+    currency: "USD",
+    labels: {
+      subtotal: "SUBTOTAL",
+      itemDiscount: "Promo 50% Off",
+    },
+    taxLabel: "TAX TOTAL",
+    taxRate: 8.75,
+    showTaxRate: false,
+    grandTotalLabel: "TOTAL",
+    discount: 0,
+    tip: 0,
+    paymentMethod: "Debit Card",
+    paymentName: "DEBIT",
+    cardLastFour: "7714",
+    showCardAuth: false,
+    cardRows: [
+      {
+        label: "ACCOUNT #:",
+        value: "************7714",
+      },
+      {
+        label: "AUTH#:",
+        value: "512087",
+      },
+      {
+        label: "ACCT :",
+        value: "Debit   INSERTED",
+      },
+    ],
+    afterPayment: [
+      {
+        title: "US DEBIT",
+        rows: [
+          {
+            label: "CARD #",
+            value: "************7714  INSERTED",
+          },
+          {
+            label: "REF #",
+            value: "218604093517",
+          },
+          {
+            label: "AUTH #",
+            value: "512087",
+          },
+          {
+            label: "RESP",
+            value: "00",
+          },
+          {
+            label: "AID:",
+            value: "A0000000980840",
+          },
+          {
+            label: "TVR:",
+            value: "8000048000",
+          },
+          {
+            label: "APP:",
+            value: "US DEBIT",
+          },
+        ],
+      },
+    ],
+    footerMessage: "",
+    showBarcode: false,
+  },
+  // checkers — was wrong-format. Sources:
+  //   https://www.tripadvisor.com/Restaurant_Review-g58318-d10118757-Reviews-Checkers-Winchester_Virginia.html (receipt.jpg)
+  //   https://www.tripadvisor.com/Restaurant_Review-g42747-d4633071-Reviews-Checkers-Taylor_Michigan.html (my-receipt.jpg)
+  //   https://www.thedailymeal.com/1399761/restaurants-you-should-always-ask-for-receipt-why/
+  //   https://www.complaintsboard.com/checkers-survey-on-the-back-of-the-receipt-c1130999
+  "checkers": {
+    logoDataUrl: "",
+    businessName: "STORE#3712",
+    addressLine1: "(813) 555-0174\n4910 N Florida Ave",
+    addressLine2: "Tampa, FL",
+    phone: "(813) 555-0174",
+    website: "",
+    cashier: "",
+    register: "",
+    hideStoreLine: true,
+    headerAlign: "center",
+    fontFamily: "courier",
+    itemStyle: "lined",
+    ruleStyle: "none",
+    paperStyle: "thermal",
+    sections: [
+      {
+        rows: [
+          {
+            value: "DS301",
+          },
+        ],
+      },
+      {
+        rows: [
+          {
+            label: "Host:",
+            value: "Andre",
+          },
+          {
+            value: "DS301",
+          },
+          {
+            value: "80412",
+          },
+          {
+            label: "Area:",
+            value: "Driver's Side",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "#Combo",
+        quantity: 1,
+        price: 7.49,
+        modifiers: ["Big Buford Cmb", "NO Pickles", "Fries - Med (in Cmb)", "Coke - Med (in Cmb)"],
+      },
+      {
+        name: "Spicy Chicken Sandwich",
+        quantity: 1,
+        price: 3.49,
+      },
+      {
+        name: "Fries - Lg",
+        quantity: 1,
+        price: 3.29,
+      },
+    ],
+    currency: "USD",
+    labels: {
+      subtotal: "Subtotal",
+      change: "Change",
+    },
+    taxLabel: "Tax",
+    taxRate: 7.5,
+    showTaxRate: false,
+    grandTotalLabel: "Order Total",
+    discount: 0,
+    tip: 0,
+    paymentMethod: "Cash",
+    paymentName: "CASH",
+    amountTendered: 20.0,
+    showCardAuth: false,
+    policyText: "Tell us how we are doing\nand receive a FREE sandwich\nwith purchase of large drink\nwww.guestobsessed.com\n\n--- Check Closed ---",
+    footerMessage: "",
+    showBarcode: false,
+  },
+  // boba-guys — was no-source. Sources:
+  //   https://www.bobaguys.com/ (Order Ahead and gift cards link to boba-guys.square.site / squareup.com)
+  //   https://www.bobaguys.com/english-menu
+  //   https://order.online/store/-550299 (Boba Guys Culver City prices)
+  //   https://order.online/store/-724691/ (Boba Guys Divisadero St prices)
+  "boba-guys": {
+    businessName: "Boba Guys",
+    addressLine1: "1428 Valencia St",
+    addressLine2: "San Francisco, CA 94110",
+    phone: "(415) 555-0119",
+    website: "bobaguys.com",
+    cashier: "",
+    register: "",
+    hideStoreLine: true,
+    headerAlign: "center",
+    fontFamily: "inter",
+    itemStyle: "lined",
+    ruleStyle: "solid",
+    paperStyle: "modern",
+    items: [
+      {
+        name: "Classic Black Milk Tea",
+        quantity: 1,
+        price: 6.5,
+        modifiers: ["Regular", "50% Sweet", "Oat Milk"],
+      },
+      {
+        name: "Strawberry Matcha Latte",
+        quantity: 1,
+        price: 7.75,
+        modifiers: ["Less Ice"],
+      },
+      {
+        name: "Hojicha Latte",
+        quantity: 1,
+        price: 7.25,
+        addons: [
+          {
+            name: "Boba",
+            price: 0.75,
+          },
+        ],
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Sales Tax",
+    taxRate: 8.625,
+    showTaxRate: false,
+    grandTotalLabel: "Total",
+    discount: 0,
+    tip: 2.0,
+    paymentMethod: "Credit Card",
+    cardLastFour: "6631",
+    showCardAuth: false,
+    cardRows: [
+      {
+        label: "Visa",
+        value: "6631 (Contactless)",
+      },
+      {
+        label: "Auth code",
+        value: "081537",
+      },
+    ],
+    footerMessage: "Thank you!",
+    showBarcode: false,
+  },
+  // victorias-secret — was missing-key-details. Sources:
+  //   https://www.yelp.com/biz/victorias-secret-riverside-2 (receipt photo s3-media0.fl.yelpcdn.com/bphoto/0f9Q-rGllZeleoR1dr-ShA/o.jpg)
+  //   https://thekrazycouponlady.com/tips/store-hacks/these-20-victorias-secret-shopping-strategies-will-save-you-hundreds
+  "victorias-secret": {
+    businessName: "Crossroads Mall",
+    addressLine1: "4500 Crossroads Blvd\nSpace #E214",
+    addressLine2: "Columbus, OH 43219",
+    phone: "614-555-0187",
+    website: "",
+    cashier: "",
+    register: "",
+    greeting: "Sign up to get our emails at\nVictoriasSecret.com/StoreSignUp",
+    hideStoreLine: true,
+    headerAlign: "center",
+    fontFamily: "courier",
+    itemStyle: "stacked",
+    ruleStyle: "none",
+    paperStyle: "thermal",
+    topBarcode: true,
+    sections: [
+      {
+        rows: [
+          {
+            label: "Trans.:",
+            value: "4182",
+          },
+          {
+            label: "Store:",
+            value: "31406",
+          },
+          {
+            label: "Reg.:",
+            value: "003",
+          },
+          {
+            label: "Till:",
+            value: "1003",
+          },
+          {
+            label: "Cashier:",
+            value: "2209531",
+          },
+        ],
+      },
+      {
+        rows: [
+          {
+            value: "SALE",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "VS ICON PUSH UP",
+        sku: "0667552184007",
+        quantity: 1,
+        price: 59.95,
+        discount: 23.98,
+        taxFlag: "T",
+      },
+      {
+        name: "PINK CHEEKY PANTY",
+        sku: "0667553012774",
+        quantity: 1,
+        price: 14.95,
+        taxFlag: "T",
+      },
+      {
+        name: "BOMBSHELL MIST 8.4OZ",
+        sku: "0667551908201",
+        quantity: 1,
+        price: 22.95,
+        taxFlag: "T",
+      },
+    ],
+    currency: "USD",
+    labels: {
+      itemDiscount: "Deal Discount",
+    },
+    taxLabel: "Tax",
+    taxRate: 8,
+    showTaxRate: false,
+    grandTotalLabel: "Total",
+    discount: 0,
+    tip: 0,
+    paymentMethod: "Credit Card",
+    cardLastFour: "5172",
+    showCardAuth: true,
+    footerMessage: "",
+    showBarcode: false,
+  },
+  // big-lots — was missing-key-details. Sources:
+  //   https://myfloridaretail.blogspot.com/2025/08/the-comeback-begins-big-lots-big-winn.html
+  //   https://www.sweepstakesbible.com/giveaways/biglotssurveycom (old-format receipt diagram)
+  //   https://techbullion.com/biglots-everything-you-need-to-know-about/
+  "big-lots": {
+    businessName: "Big Lots Store #4127",
+    greeting: "Live Big Save Lots!",
+    addressLine1: "1850 W Memorial Blvd",
+    addressLine2: "Lakeland, FL 33815",
+    phone: "863-555-0192",
+    website: "",
+    cashier: "",
+    register: "",
+    hideStoreLine: true,
+    headerAlign: "center",
+    fontFamily: "courier",
+    itemStyle: "lined",
+    ruleStyle: "dashed",
+    paperStyle: "thermal",
+    sections: [
+      {
+        rows: [
+          {
+            value: "REGULAR SALE",
+          },
+        ],
+      },
+      {
+        rows: [
+          {
+            value: "REG014 TILL402 TRN3318",
+          },
+          {
+            label: "Store Number:",
+            value: "4127",
+          },
+          {
+            label: "Cashier:",
+            value: "N/A",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "THROW PILLOW 18IN",
+        quantity: 1,
+        price: 10.0,
+      },
+      {
+        name: "BATH TOWEL",
+        quantity: 2,
+        price: 6.0,
+      },
+      {
+        name: "CEREAL FAMILY SIZE",
+        quantity: 1,
+        price: 3.5,
+        notTaxed: true,
+      },
+    ],
+    currency: "USD",
+    showItemsSold: true,
+    labels: {
+      itemsSold: "Total # of item(s):",
+      subtotal: "SUBTOTAL",
+      change: "CHANGE",
+    },
+    taxLabel: "FL STD Tax",
+    taxRate: 7,
+    showTaxRate: false,
+    grandTotalLabel: "TOTAL",
+    discount: 0,
+    tip: 0,
+    paymentMethod: "Cash",
+    paymentName: "CASH",
+    amountTendered: 30.0,
+    showCardAuth: false,
+    footerMessage: "THANK YOU FOR SHOPPING WITH US\n\nREFUNDS ACCEPTED UP TO 30 DAYS\nWITH SALES RECEIPT/EXCEPTIONS APPLY\n\nLike Us On Facebook\n\nLIVE BIG SAVE LOTS!\nWWW.BIGLOTS.COM",
+    showBarcode: true,
+  },
+  // regal-cinemas — was wrong-format. Sources:
+  //   https://www.complaintsboard.com/regal-cinemas-b120791 (receipt photo complaint/full/1814939/1693892074717716701.jpg)
+  //   https://www.thepricer.org/regal-cinemas-ticket-and-concession-prices/
+  //   https://thereturnguide.com/blogs/retail-store-returns/regal-cinemas-return-policy-refunds-exchanges
+  "regal-cinemas": {
+    logoDataUrl: "",
+    businessName: "Brandermill Crossing 12",
+    addressLine1: "4120 Old Hundred Rd",
+    addressLine2: "Midlothian, VA 23113",
+    phone: "",
+    website: "",
+    cashier: "",
+    register: "",
+    hideStoreLine: true,
+    headerAlign: "center",
+    fontFamily: "roboto-mono",
+    itemStyle: "table",
+    ruleStyle: "dashed",
+    paperStyle: "thermal",
+    sections: [
+      {
+        rows: [
+          {
+            value: "SALES RECEIPT",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "FTN - Large Coca-Cola",
+        quantity: 1,
+        price: 8.29,
+      },
+      {
+        name: "Popcorn - Large",
+        quantity: 1,
+        price: 10.49,
+      },
+      {
+        name: "Adult Starfall4",
+        quantity: 2,
+        price: 14.29,
+        notTaxed: true,
+      },
+    ],
+    currency: "USD",
+    labels: {
+      subtotal: "Subtotal:",
+      paymentMethod: "Payments:",
+    },
+    taxLabel: "TAX:",
+    taxRate: 11.3,
+    showTaxRate: false,
+    grandTotalLabel: "TOTAL:",
+    discount: 0,
+    tip: 0,
+    paymentMethod: "Credit Card",
+    paymentName: "CREDIT Card",
+    cardLastFour: "6027",
+    showCardAuth: false,
+    qrCode: true,
+    showBarcode: true,
+    afterPayment: [
+      {
+        rows: [
+          {
+            label: "Trans #:",
+            value: "04271186",
+          },
+          {
+            label: "Cashier:",
+            value: "Dana",
+          },
+          {
+            label: "Register:",
+            value: "N03",
+          },
+          {
+            value: "*****************************",
+          },
+          {
+            value: "Not valid for admission.",
+          },
+          {
+            value: "*****************************",
+          },
+        ],
+      },
+      {
+        title: "Win Free Movies!",
+        rows: [
+          {
+            value: "Give us feedback about your experience.\nComplete a short survey for a\nchance to win a $100 Regal gift card!\nSurvey and sweepstakes rules at\nwww.talktoregal.com",
+          },
+          {
+            label: "Your Survey Access Code",
+            value: "2417-102626-1911-003-04271186",
+          },
+          {
+            value: "Access code is valid for 7 days",
+          },
+        ],
+      },
+      {
+        title: "REGAL CROWN CLUB",
+        rows: [
+          {
+            value: "Login or join on the Regal Mobile App",
+          },
+          {
+            label: "Your Credit Claim Code",
+            value: "82417-04271186-1026-1911-03N03",
+          },
+          {
+            value: "Claim credits within 7 days. Excludes purchases of gift cards or alcohol. Restrictions apply.",
+          },
+        ],
+      },
+    ],
+    footerMessage: "",
+  },
+  // dsw — was wrong-format. Sources:
+  //   https://www.yelp.com/biz/dsw-designer-shoe-warehouse-san-antonio (receipt photo s3-media0.fl.yelpcdn.com/bphoto/7X0BGjCni8TlgHnMYxmtxw/o.jpg, 2023)
+  //   https://www.yelp.com/biz/dsw-designer-shoe-warehouse-augusta (receipt photo s3-media1.fl.yelpcdn.com/bphoto/_2SA2Wy2HfyY917Kv4UNxw/o.jpg)
+  //   https://rebeccamajor.blogspot.com/2014/01/ (2013 Tustin receipt photo with YOU SAVED box)
+  //   https://www.dsw.com/en/us/customer-service/vip-rewards (VIP number printed on receipts)
+  "dsw": {
+    businessName: "DSW",
+    greeting: "Designer shoes. Warehouse prices.",
+    addressLine1: "1150 Polaris Pkwy",
+    addressLine2: "Columbus, OH 43240",
+    phone: "(614) 555-0187",
+    website: "",
+    cashier: "",
+    register: "",
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "none",
+    itemStyle: "lined",
+    paperStyle: "thermal",
+    hideStoreLine: true,
+    showBarcode: true,
+    sections: [
+      {
+        rows: [
+          {
+            label: "S-29417  R-1",
+            value: "T-6208",
+          },
+          {
+            label: "A-CH512274",
+            value: "",
+          },
+          {
+            value: "SALE",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "Vans Ward Sneaker",
+        quantity: 1,
+        price: 64.99,
+        sku: "196244581203",
+      },
+      {
+        name: "Crew Sock 6 Pack",
+        quantity: 1,
+        price: 12.99,
+        sku: "195830227741",
+      },
+    ],
+    showItemsSold: true,
+    currency: "USD",
+    taxLabel: "SALE TAX",
+    taxRate: 7.5,
+    showTaxRate: true,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "SUBTOTAL",
+      itemsSold: "Sale item(s)",
+      change: "CHANGE DUE",
+      itemDiscount: "ITEM CLEARANCE DISC",
+    },
+    grandTotalLabel: "TOTAL",
+    paymentMethod: "Debit Card",
+    paymentName: "Debit",
+    cardLastFour: "4393",
+    showCardAuth: false,
+    cardRows: [
+      {
+        label: "ACCOUNT#:",
+        value: "************4393",
+      },
+      {
+        label: "AUTH#:",
+        value: "218604",
+      },
+    ],
+    afterPayment: [
+      {
+        title: "-------TRANSACTION RECORD-------",
+        rows: [
+          {
+            label: "Account:",
+            value: "************4393",
+          },
+          {
+            label: "Card Entry Mode:",
+            value: "Contactless",
+          },
+          {
+            label: "Result:",
+            value: "CAPTURED",
+          },
+          {
+            label: "Authorization Code:",
+            value: "218604",
+          },
+          {
+            value: "PIN Captured",
+          },
+          {
+            label: "AID:",
+            value: "A0000000042203",
+          },
+        ],
+      },
+      {
+        rows: [
+          {
+            value: "NON-MEMBER",
+          },
+        ],
+      },
+    ],
+    footerMessage: "THANKS FOR SHOPPING AT DSW. NOW SHOP 24/7 AT DSW.COM. QUESTIONS? CALL 866.DSW.SHOES",
+  },
+  // ihop — was wrong-format. Sources:
+  //   https://www.yelp.com/biz/ihop-jonesboro (guest-check photo s3-media0.fl.yelpcdn.com/bphoto/JJRQCx9V5IaYPKVxvyA_aA/o.jpg, May 2023)
+  //   https://www.allaroundstl.com/reviews/restaurants/ihop/ (guest-check photo, Mar 2024)
+  //   https://www.tripadvisor.co.uk/Restaurant_Review-g57629-d7342870-Reviews-Ihop-Colonial_Heights_Virginia.html (receipt photo listed, not opened)
+  "ihop": {
+    businessName: "IHOP #1527",
+    addressLine1: "2860 S Kirkwood Rd",
+    addressLine2: "St. Louis, MO 63122",
+    phone: "(314) 555-0164",
+    website: "",
+    cashier: "",
+    register: "",
+    fontFamily: "roboto-mono",
+    headerAlign: "center",
+    ruleStyle: "solid",
+    itemStyle: "lined",
+    paperStyle: "thermal",
+    hideStoreLine: true,
+    showBarcode: false,
+    sections: [
+      {
+        rows: [
+          {
+            label: "Eat In",
+            value: "30",
+          },
+          {
+            label: "0041127 MARIA L",
+            value: "Check #93816402",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "Happy Face Pancake Combo",
+        quantity: 1,
+        price: 7.99,
+        modifiers: ["* Strawberries", "Scrambled", "1 BAC/1 SA"],
+      },
+      {
+        name: "Original Buttermilk - Short",
+        quantity: 1,
+        price: 9.49,
+      },
+      {
+        name: "Big Steak Omelette",
+        quantity: 1,
+        price: 16.99,
+        modifiers: ["Hash Browns", "Buttermilk Pancakes"],
+      },
+      {
+        name: "Coffee",
+        quantity: 1,
+        price: 3.79,
+      },
+      {
+        name: "Water",
+        quantity: 1,
+        price: 0.0,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Tax",
+    taxRate: 9.4,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "Base",
+    },
+    grandTotalLabel: "Subtotal",
+    paymentMethod: "Credit Card",
+    paymentName: "Please pay your server",
+    cardLastFour: "",
+    showCardAuth: false,
+    afterPayment: [
+      {
+        rows: [
+          {
+            value: "PLEASE PAY YOUR SERVER",
+          },
+        ],
+      },
+    ],
+    footerMessage: "To receive the latest news and offers right to your computer go to www.IHOP.com and click on \"Receive our E-mails\"",
+    tipSuggestions: [15, 18, 20],
+  },
+  // raising-canes — was wrong-format. Sources:
+  //   https://www.yelp.com/biz/raising-canes-chicken-fingers-san-marcos (receipt photo s3-media0.fl.yelpcdn.com/bphoto/51ZakUf9KzxHySiL-0BOVQ/o.jpg, 2022, cash)
+  //   https://www.yelp.com/biz/raising-canes-chicken-fingers-arlington-2 (receipt photo s3-media0.fl.yelpcdn.com/bphoto/pybXsaKCcnWvrT_o1rwqug/o.jpg, 2020, Visa)
+  //   https://www.yelp.com/biz/raising-canes-chicken-fingers-seattle-2 (receipt photo, Mar 2026, Dine In, 'KIDS MEAL COMBO')
+  "raising-canes": {
+    businessName: "Raising Cane's",
+    addressLine1: "4518 S Cooper St",
+    addressLine2: "Arlington, TX 76017",
+    phone: "(817) 555-0129",
+    website: "",
+    cashier: "",
+    register: "",
+    fontFamily: "courier",
+    headerAlign: "center",
+    ruleStyle: "none",
+    itemStyle: "lined",
+    paperStyle: "thermal",
+    hideStoreLine: true,
+    showBarcode: false,
+    sections: [
+      {
+        rows: [
+          {
+            label: "Check Number:",
+            value: "164093",
+          },
+          {
+            label: "Fiscal Transaction ID:",
+            value: "20261027140648",
+          },
+          {
+            label: "Order Type:",
+            value: "Drive Thru",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "'CANIAC COMBO'",
+        quantity: 1,
+        price: 17.99,
+        modifiers: ["'LG SWEET TEA'"],
+      },
+      {
+        name: "'BOX COMBO'",
+        quantity: 1,
+        price: 12.99,
+        modifiers: ["'LG LEMONADE'"],
+      },
+      {
+        name: "'CANE'S SAUCE'",
+        quantity: 2,
+        price: 0.69,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Total Tax",
+    taxRate: 8.25,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "Subtotal",
+    },
+    grandTotalLabel: "Drive Thru Total",
+    paymentMethod: "Credit Card",
+    paymentName: "VISA",
+    cardLastFour: "0566",
+    showCardAuth: false,
+    cardRows: [
+      {
+        label: "VISA",
+        value: "#XXXXXXXXXXXX0566",
+      },
+    ],
+    afterPayment: [
+      {
+        rows: [
+          {
+            value: "* * Customer's Copy * *",
+          },
+        ],
+      },
+    ],
+    footerMessage: "Questions or Comments?\nCustomer Relations\nWWW.HICANES.COM\n833-HI-CANES (833-442-2637)",
+    policyText: "--- Check Closed ---",
+  },
+  // rite-aid — was wrong-format. Sources:
+  //   https://www.flickr.com/photos/parrot32x/48120806538/ (2019 Whitesburg KY receipt photo, cash)
+  //   https://slickdeals.net/f/16278007-rite-aid-12-04-22-12-10-22 (Dec 2022 receipt photo with rewards sale, savings and BonusCash block)
+  //   https://www.wral.com/story/10494893 (wellness+ rewards printed at the bottom of register receipts)
+  "rite-aid": {
+    businessName: "Rite Aid",
+    greeting: "With us, it's personal.",
+    addressLine1: "Store #04128\n1840 Lincoln Way East",
+    addressLine2: "Chambersburg, PA 17201",
+    phone: "(717) 555-0142",
+    website: "",
+    cashier: "",
+    register: "",
+    fontFamily: "courier",
+    headerAlign: "left",
+    ruleStyle: "none",
+    itemStyle: "qtycol",
+    paperStyle: "thermal",
+    hideStoreLine: true,
+    showBarcode: false,
+    sections: [
+      {
+        rows: [
+          {
+            value: "Register #2 Transaction #318604",
+          },
+          {
+            value: "Cashier #20511873",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "RA BTTRY ALKLN AA 8PK",
+        quantity: 1,
+        price: 9.99,
+        discount: 3.0,
+        taxFlag: "T",
+      },
+      {
+        name: "TYLENOL XS CPLT 100CT",
+        quantity: 1,
+        price: 13.49,
+        taxFlag: "H",
+        notTaxed: true,
+      },
+      {
+        name: "TOOTSIE ROLL POPS 10.125Z",
+        quantity: 1,
+        price: 3.99,
+        discount: 2.0,
+        taxFlag: "TF",
+      },
+    ],
+    subtotalNet: true,
+    showItemsSold: true,
+    showSavings: true,
+    currency: "USD",
+    taxLabel: "Tax",
+    taxRate: 6,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "Subtotal",
+      itemsSold: "Items",
+      itemDiscount: "Discount",
+      amountTendered: "Tendered",
+      change: "Cash Change",
+      savings: "Your Rite Aid Rewards Savings:",
+    },
+    grandTotalLabel: "Total",
+    paymentMethod: "Cash",
+    paymentName: "* CASH PAYMENT *",
+    amountTendered: 30.0,
+    cardLastFour: "",
+    footerMessage: "THANK YOU FOR SHOPPING AT RITE AID",
+  },
+  // ola — was wrong-format. Sources:
+  //   https://www.scribd.com/document/780902511/OLA-Receipt-CRN8529230451-240729-212608 (Jul 2024 Bengaluru invoice, page image)
+  //   https://www.scribd.com/document/870351202/Crn-9409259614 (May 2025 Ahmedabad airport invoice, page image)
+  //   https://www.scribd.com/document/978506708/Crn-10248951695 (Dec 2025 invoice summary)
+  //   https://studycafe.in/implications-of-gst-on-ola-eco-before-and-after-amendment-140063.html (5% on ride, 18% on convenience fee)
+  "ola": {
+    businessName: "Ola",
+    logoText: "OLA",
+    addressLine1: "",
+    addressLine2: "",
+    phone: "",
+    website: "",
+    cashier: "",
+    register: "",
+    paperFinish: "email",
+    paperStyle: "minimal",
+    fontFamily: "inter",
+    headerAlign: "left",
+    ruleStyle: "solid",
+    itemStyle: "lined",
+    dividers: "minimal",
+    hideStoreLine: true,
+    showBarcode: false,
+    dateOrder: "dmy",
+    greeting: "Thanks for travelling with us, Arjun",
+    sections: [
+      {
+        rows: [
+          {
+            value: "CRN8640219735",
+          },
+        ],
+      },
+      {
+        title: "Ride Details",
+        rows: [
+          {
+            label: "Driver",
+            value: "Ramesh K",
+          },
+          {
+            value: "17.5 km  44 min",
+          },
+          {
+            value: "Prime Sedan - White Dzire",
+          },
+          {
+            label: "09:23 PM",
+            value: "100 Feet Rd, Indiranagar, Bengaluru, Karnataka 560038, India",
+          },
+          {
+            label: "09:59 PM",
+            value: "80 Feet Rd, Koramangala, Bengaluru, Karnataka 560095, India",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "Your Trip",
+        quantity: 1,
+        price: 396.0,
+      },
+    ],
+    hideSubtotal: true,
+    taxIncluded: true,
+    currency: "INR",
+    taxLabel: "Includes Taxes",
+    taxRate: 5,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    grandTotalLabel: "Total Bill (rounded)",
+    labels: {
+      paymentMethod: "Payment",
+    },
+    paymentMethod: "Cash",
+    paymentName: "Paid by Cash",
+    amountTendered: 0,
+    cardLastFour: "",
+    paymentInline: true,
+    policyText: "We've fulfilled our promise to take you to destination for pre-agreed Total Fare. Modifying the drop/route can change this fare.\nIn case of any complaint/grievance against this invoice, write to us at: Grievance officer, ANI Technologies Private Limited, Koramangala, Bengaluru, Karnataka 560095",
+  },
+  // church-s-chicken — was wrong-format. Sources:
+  //   https://www.yelp.com/biz/church-s-chicken-lytle (receipt photo s3-media0.fl.yelpcdn.com/bphoto/oj407UvNjrpoXz0gmnzGGw/o.jpg, 2022)
+  //   https://www.yelp.com/biz/churchs-texas-chicken-bethany (receipt photo s3-media0.fl.yelpcdn.com/bphoto/v2HJEskaSwBeFrvjVvpZLw/o.jpg, Feb 2023)
+  //   https://www.yelp.com/biz/churchs-chicken-fort-worth-13 (receipt photo s3-media0.fl.yelpcdn.com/bphoto/LFe3oDIFB48AHPhzzzj4Cw/o.jpg, Jan 2024)
+  //   https://www.churchs.com/?p=203 (receipt barcode scanned in app for points)
+  "church-s-chicken": {
+    businessName: "Church's Texas Chicken",
+    greeting: "Welcome to Church's",
+    addressLine1: "Restaurant #11426\n4710 Bandera Rd",
+    addressLine2: "San Antonio, TX 78238",
+    phone: "(210) 555-0173",
+    website: "",
+    cashier: "Dana R",
+    register: "",
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "dashed",
+    itemStyle: "lined",
+    itemHeader: {
+      left: "Item",
+      right: "Price",
+    },
+    paperStyle: "thermal",
+    hideStoreLine: true,
+    showBarcode: false,
+    sections: [
+      {
+        rows: [
+          {
+            label: "Check:",
+            value: "40517",
+          },
+          {
+            value: "Drive-Thru",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "Combo 2PC Spicy Mix",
+        quantity: 1,
+        price: 8.99,
+        modifiers: ["Spicy Dark PC", "Spicy White PC", "Honey-Butter Biscuit", "French Fries Regular", "Dr. Pepper Regular"],
+        addons: [
+          {
+            name: "Baked Mac & Cheese Regular",
+            price: 0.5,
+          },
+        ],
+      },
+      {
+        name: "Combo 5 Tender",
+        quantity: 1,
+        price: 10.99,
+        modifiers: ["5 Tender PC", "Honey-Butter Biscuit", "White Gravy, Regular", "Diet Coke Regular"],
+      },
+      {
+        name: "Jalapeno Peppers",
+        quantity: 2,
+        price: 0.49,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Sales Tax",
+    taxRate: 8.25,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "Subtotal",
+    },
+    grandTotalLabel: "Total",
+    paymentMethod: "Credit Card",
+    paymentName: "Visa Tendered",
+    cardLastFour: "7731",
+    showCardAuth: false,
+    cardRows: [
+      {
+        label: "Card Type:",
+        value: "VIC",
+      },
+      {
+        label: "Card Number:",
+        value: "************7731",
+      },
+      {
+        label: "Authorization:",
+        value: "582207",
+      },
+      {
+        label: "Entry Mode:",
+        value: "I",
+      },
+      {
+        label: "Application Label:",
+        value: "VISA CREDIT",
+      },
+      {
+        label: "AID:",
+        value: "A0000000031010",
+      },
+    ],
+    footerMessage: "Bringing That Down Home Flavor\nThank You",
+  },
+  // microsoft-store — was wrong-format. Sources:
+  //   https://www.scribd.com/document/720405364/Your-Microsoft-order-8298678565-1-9 (Oct 2021 order email, page image)
+  //   https://learn.microsoft.com/en-us/answers/questions/5421331/received-email-microsoft-subscription-purchase-con (2025 business subscription purchase email screenshot)
+  //   https://flightsimulator.zendesk.com/hc/en-us/articles/4402148693650-How-to-send-a-copy-of-your-Microsoft-Store-Receipt (order history / receipt help page)
+  "microsoft-store": {
+    businessName: "Microsoft",
+    addressLine1: "",
+    addressLine2: "",
+    phone: "",
+    website: "",
+    cashier: "",
+    register: "",
+    paperFinish: "email",
+    paperStyle: "minimal",
+    fontFamily: "open-sans",
+    headerAlign: "left",
+    ruleStyle: "solid",
+    itemStyle: "lined",
+    dividers: "minimal",
+    hideStoreLine: true,
+    showBarcode: false,
+    greeting: "Hello,\nThank you for shopping with us.\nAny downloads you bought, except preorders, are available now.",
+    sections: [
+      {
+        rows: [
+          {
+            label: "Order",
+            value: "8417702953",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "Microsoft 365 Personal - 1 year",
+        quantity: 1,
+        price: 99.99,
+      },
+      {
+        name: "Xbox Game Pass Ultimate - 1 month",
+        quantity: 1,
+        price: 29.99,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Tax",
+    taxRate: 10.1,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "Subtotal",
+      paymentMethod: "Payment method 1",
+    },
+    grandTotalLabel: "Total",
+    paymentMethod: "Credit Card",
+    paymentName: "Visa",
+    cardLastFour: "3092",
+    paymentInline: true,
+    showCardAuth: false,
+    policyText: "You are receiving this email because you completed a transaction with Microsoft Store. This email is sent from a notification-only address. Please visit our Support page if you have any questions.",
+  },
+  // pep-boys — was wrong-format. Sources:
+  //   https://www.scribd.com/document/334605667/077710508380920161215-RCT-pdf (Dec 2016 Fresno CA service receipt, page image)
+  //   https://www.scribd.com/document/727014687/092310518438620230116-RCT (Jan 2023 Ponce PR service receipt, page image)
+  "pep-boys": {
+    businessName: "Pep Boys",
+    addressLine1: "Pep Boys #1142\n3315 E Colonial Dr",
+    addressLine2: "Orlando, FL 32803",
+    phone: "(407) 555-0136",
+    website: "www.pepboys.com",
+    cashier: "",
+    register: "",
+    fontFamily: "courier",
+    headerAlign: "left",
+    ruleStyle: "none",
+    itemStyle: "stacked",
+    paperStyle: "thermal",
+    hideStoreLine: true,
+    showBarcode: false,
+    sections: [
+      {
+        rows: [
+          {
+            label: "Trans.: 184386",
+            value: "Store: 1142",
+          },
+          {
+            label: "Reg.: 105",
+            value: "Till:105",
+          },
+          {
+            label: "Cashier:",
+            value: "330793",
+          },
+          {
+            value: "Service Work Order: COMPLETE",
+          },
+          {
+            label: "Order #:",
+            value: "2317221",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "PENNZOIL PLATINUM SYNTHE",
+        quantity: 1,
+        price: 89.99,
+        sku: "5308257",
+        taxFlag: "T",
+      },
+      {
+        name: "COMP WHL ALIGN",
+        quantity: 1,
+        price: 119.99,
+        sku: "8581349",
+        discount: 24.0,
+        taxFlag: "N",
+        notTaxed: true,
+      },
+      {
+        name: "TIRE ROTATION",
+        quantity: 1,
+        price: 0.0,
+        sku: "0676681",
+        taxFlag: "N",
+        notTaxed: true,
+      },
+      {
+        name: "AIR FILTER INSTALLATION",
+        quantity: 1,
+        price: 29.99,
+        sku: "0609492",
+        taxFlag: "T",
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Total Sales Tax",
+    taxRate: 6.5,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "Sub-Total",
+      itemDiscount: "Store Coupon 20%",
+      itemDiscounts: "Total Discount",
+      change: "Change Due",
+      amountPaid: "Total Tender",
+    },
+    grandTotalLabel: "Total",
+    paymentMethod: "Debit Card",
+    paymentName: "Debit Card (S)",
+    cardLastFour: "4707",
+    showCardAuth: false,
+    cardRows: [
+      {
+        label: "Account:",
+        value: "XXXXXXXXXXXX4707",
+      },
+      {
+        label: "Trace #:",
+        value: "60894166",
+      },
+      {
+        label: "Auth:",
+        value: "302512 (A)",
+      },
+    ],
+    footerMessage: "",
+  },
+  // williams-sonoma — was missing-key-details. Sources:
+  //   https://baymard.com/checkout-usability/benchmark (Williams Sonoma checkout receipt screenshot: baymard-assets.imgix.net/benchmark_webpages/screenshots/8480/original/williams-sonoma-checkout-step-1-receipt.png)
+  //   https://storage.googleapis.com/dctexmoqnbdhce/williams-sonoma-payment-options.html (page embedding the same receipt screenshot)
+  "williams-sonoma": {
+    businessName: "Williams Sonoma",
+    logoText: "WILLIAMS SONOMA",
+    addressLine1: "",
+    addressLine2: "",
+    phone: "",
+    website: "williams-sonoma.com",
+    cashier: "",
+    register: "",
+    paperFinish: "email",
+    paperStyle: "modern",
+    fontFamily: "mulish",
+    headerAlign: "left",
+    ruleStyle: "solid",
+    itemStyle: "lined",
+    dividers: "minimal",
+    hideStoreLine: true,
+    showBarcode: false,
+    greeting: "Thanks! Your Order's all set!",
+    sections: [
+      {
+        rows: [
+          {
+            label: "Your order number is:",
+            value: "311958204716",
+          },
+        ],
+      },
+      {
+        title: "Shipping To",
+        rows: [
+          {
+            value: "Jordan Ellis\n482 Alder Lane\nSan Francisco, CA 94117\n(415) 555-0148",
+          },
+        ],
+      },
+      {
+        title: "Delivery and Gift Options",
+        rows: [
+          {
+            label: "Shipping Method",
+            value: "Standard",
+          },
+          {
+            label: "Gift Wrap",
+            value: "No",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "All-Clad D3 Stainless-Steel Fry Pan, 10\"",
+        quantity: 1,
+        price: 129.95,
+        sku: "#12-4417829",
+      },
+      {
+        name: "Williams Sonoma Classic Stripe Towels, Set of 4",
+        quantity: 1,
+        price: 15.96,
+        sku: "#79-2205814",
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Tax",
+    taxRate: 8.625,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    deliveryFee: 5.99,
+    labels: {
+      subtotal: "Items to Jordan Ellis",
+      deliveryFee: "Shipping & Processing",
+      paymentMethod: "Payment Methods",
+    },
+    grandTotalLabel: "Order Total",
+    paymentMethod: "Credit Card",
+    paymentName: "MasterCard",
+    cardLastFour: "2418",
+    paymentInline: true,
+    showCardAuth: false,
+    policyText: "Please note: rewards, gift cards and merchant cards are deducted after the order total; the net amount appears on your card statement.",
+  },
+  // golden-corral — was wrong-format. Sources:
+  //   https://www.yelp.com/biz/golden-corral-buffet-and-grill-kenner-2 (receipt photo s3-media0.fl.yelpcdn.com/bphoto/DR7vK0PK4cOyTsLX566Pmw/o.jpg, May 2024)
+  //   https://www.yelp.com/biz/golden-corral-buffet-and-grill-aberdeen-4 (full-length receipt photo s3-media0.fl.yelpcdn.com/bphoto/tCgeAqxibqnE45aL35tFyw/o.jpg, 2024, Visa)
+  //   https://www.mygcexperience.com/ (official survey site; sample receipt survey-code block image)
+  "golden-corral": {
+    businessName: "Golden Corral",
+    greeting: "Buffet & Grill",
+    addressLine1: "#0917 MESQUITE, TX",
+    addressLine2: "",
+    phone: "",
+    website: "",
+    cashier: "",
+    register: "",
+    fontFamily: "courier",
+    headerAlign: "center",
+    ruleStyle: "asterisk",
+    itemStyle: "lined",
+    paperStyle: "thermal",
+    hideStoreLine: true,
+    showBarcode: false,
+    sections: [
+      {
+        rows: [
+          {
+            value: "SHARE YOUR EXPERIENCE FOR A CHANCE\nTO WIN ONE OF FIVE MONTHLY\n$50 GOLDEN CORRAL GIFT CARDS!",
+          },
+          {
+            label: "Visit",
+            value: "www.MyGCExperience.com",
+          },
+          {
+            label: "SURVEY CODE:",
+            value: "917204-451093-618275",
+          },
+          {
+            value: "For complete rules, eligibility,\nsweepstakes and previous winners\nvisit www.MyGCExperience.com\nDisponible En Espanol",
+          },
+        ],
+      },
+      {
+        rows: [
+          {
+            label: "F-0112",
+            value: "#Party 3",
+          },
+          {
+            label: "SvrCk:",
+            value: "112",
+          },
+          {
+            value: "DINE IN",
+          },
+          {
+            value: "TERM 2",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "PREM DINNER BUFFET",
+        quantity: 2,
+        price: 19.49,
+      },
+      {
+        name: "CHILD BUFFET 9-12 YRS",
+        quantity: 1,
+        price: 7.99,
+      },
+      {
+        name: "32 OZ BEVERAGE",
+        quantity: 2,
+        price: 3.69,
+      },
+      {
+        name: "WATER",
+        quantity: 1,
+        price: 0.0,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Tax:",
+    taxRate: 8.25,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "Sub Total:",
+    },
+    grandTotalLabel: "TOTAL:",
+    paymentMethod: "Credit Card",
+    paymentName: "VISA",
+    cardLastFour: "1067",
+    showCardAuth: false,
+    cardRows: [
+      {
+        label: "AUTH:",
+        value: "248917 Approved",
+      },
+      {
+        label: "ENTRY:",
+        value: "EMV CHIP READ",
+      },
+      {
+        label: "AID:",
+        value: "A0000000031010",
+      },
+      {
+        label: "Mode:",
+        value: "Issuer",
+      },
+    ],
+    afterPayment: [
+      {
+        rows: [
+          {
+            value: "** Introducing GOLDEN CORRAL REWARDS! **\n$1 = 1 point, 100 points = $10 Off Reward\nDownload the NEW Golden Corral app and\nstart earning points today!\n*** Enter the code below in the app ***",
+          },
+          {
+            value: "2047719305581",
+          },
+          {
+            value: "Code must be entered within 3 days",
+          },
+        ],
+      },
+    ],
+    footerMessage: "",
+  },
+  // waitrose — was no-source. Sources:
+  //   https://becleverwithyourcash.com/whats-going-on-with-mywaitrose-vouchers/
+  //   https://www.thegrocer.co.uk/waitrose/waitrose-forced-to-make-u-turn-on-loyalty-scheme-following-flood-of-customer-complaints/665205.article
+  "waitrose": {
+    businessName: "Waitrose",
+    addressLine1: "Waitrose Bracknell\nThe Peel Centre",
+    addressLine2: "Bracknell RG12 1ZZ",
+    phone: "Tel: 01344 555 027",
+    website: "waitrose.com",
+    hideStoreLine: true,
+    cashier: "",
+    register: "",
+    sections: [
+      {
+        rows: [
+          {
+            value: "VAT No. GB 987 6543 21",
+          },
+        ],
+      },
+    ],
+    paperStyle: "thermal",
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "dashed",
+    itemStyle: "lined",
+    currency: "GBP",
+    dateOrder: "dmy",
+    taxLabel: "VAT",
+    taxRate: 20,
+    taxIncluded: true,
+    taxLines: [
+      {
+        label: "VAT @ 20% incl.",
+        rate: 20,
+      },
+    ],
+    showTaxRate: false,
+    items: [
+      {
+        name: "ESSENTIAL SEMI SKIMMED MILK 4PT",
+        quantity: 1,
+        price: 1.65,
+        notTaxed: true,
+      },
+      {
+        name: "DUCHY ORGANIC SOURDOUGH 400G",
+        quantity: 1,
+        price: 2.75,
+        notTaxed: true,
+      },
+      {
+        name: "WAITROSE FREE RANGE EGGS 6",
+        quantity: 1,
+        price: 2.4,
+        notTaxed: true,
+      },
+      {
+        name: "NO.1 SMOKED SALMON 100G",
+        quantity: 1,
+        price: 5.5,
+        notTaxed: true,
+      },
+      {
+        name: "ESSENTIAL BANANAS 5 PACK",
+        quantity: 1,
+        price: 0.89,
+        notTaxed: true,
+      },
+      {
+        name: "ECOVER WASHING UP LIQ 450ML",
+        quantity: 1,
+        price: 2.5,
+      },
+      {
+        name: "WAITROSE SAUV BLANC 75CL",
+        quantity: 1,
+        price: 8.99,
+      },
+    ],
+    discount: 0,
+    tip: 0,
+    grandTotalLabel: "TOTAL",
+    paymentMethod: "Debit Card",
+    paymentName: "VISA DEBIT",
+    cardLastFour: "5281",
+    showCardAuth: false,
+    cardRows: [
+      {
+        value: "CONTACTLESS",
+      },
+      {
+        label: "CARD",
+        value: "************5281",
+      },
+      {
+        label: "AUTH CODE",
+        value: "418362",
+      },
+    ],
+    showBarcode: true,
+    footerMessage: "THANK YOU FOR SHOPPING AT WAITROSE",
+    policyText: "Please keep your receipt as proof of purchase. Sample receipt.",
+  },
+  // micro-center — was no-source. Sources:
+  //   https://community.microcenter.com/kb/articles/4-how-do-i-get-a-copy-of-my-receipt
+  //   https://community.microcenter.com/discussion/comment/32900
+  "micro-center": {
+    businessName: "Micro Center",
+    addressLine1: "3710 Fishinger Blvd",
+    addressLine2: "Hilliard, OH 43026",
+    phone: "(614) 555-0177",
+    website: "microcenter.com",
+    paperStyle: "thermal",
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "dashed",
+    itemStyle: "lined",
+    items: [
+      {
+        name: "Samsung 990 EVO Plus 1TB NVMe SSD",
+        quantity: 1,
+        price: 84.99,
+      },
+      {
+        name: "AMD Ryzen 7 9800X3D Processor",
+        quantity: 1,
+        price: 469.99,
+      },
+      {
+        name: "2 Yr Replacement Plan - CPU",
+        quantity: 1,
+        price: 49.99,
+      },
+      {
+        name: "Corsair K70 Core Mechanical Keyboard",
+        quantity: 1,
+        price: 99.99,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Tax",
+    taxRate: 8,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    grandTotalLabel: "Total",
+    paymentMethod: "Credit Card",
+    cardLastFour: "6703",
+    showCardAuth: true,
+    footerMessage: "Thank you for shopping at Micro Center!",
+    showBarcode: true,
+  },
+  // applebees — was wrong-format. Sources:
+  //   https://github.com/premAI-io/InvoiceDataExtractor/blob/main/dataset/originalData/applebees_8267120140431.pdf
+  //   https://github.com/premAI-io/InvoiceDataExtractor/blob/main/dataset/mdData/applebees_8267120140431.md
+  "applebees": {
+    businessName: "APPLEBEE'S",
+    addressLine1: "NEIGHBORHOOD GRILL & BAR\n4120 S. Rainbow Blvd",
+    addressLine2: "Las Vegas, Nevada, 89103",
+    phone: "702-555-0162",
+    website: "",
+    hideStoreLine: true,
+    cashier: "",
+    register: "",
+    paperStyle: "thermal",
+    fontFamily: "courier",
+    headerAlign: "center",
+    ruleStyle: "asterisk",
+    itemStyle: "qtycol",
+    sections: [
+      {
+        rows: [
+          {
+            label: "DANIELLE R",
+            value: "TB#14",
+          },
+          {
+            label: "DATE:",
+            value: "{{date+0}}",
+          },
+          {
+            label: "GUESTS:",
+            value: "2",
+          },
+          {
+            label: "Check #:",
+            value: "8312-2047815",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "BONELESS WINGS APP",
+        quantity: 1,
+        price: 11.99,
+      },
+      {
+        name: "BOURBON ST STEAK",
+        quantity: 1,
+        price: 19.99,
+      },
+      {
+        name: "FIESTA LIME CHX",
+        quantity: 1,
+        price: 16.49,
+      },
+      {
+        name: "SAM ADAMS BRW",
+        quantity: 1,
+        price: 7.49,
+      },
+      {
+        name: "NA STR LM QNCHR",
+        quantity: 1,
+        price: 3.99,
+        modifiers: ["NON ALCOHOLIC"],
+      },
+    ],
+    currency: "USD",
+    taxLabel: "TAX:",
+    taxRate: 8.375,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "Check TOTAL:",
+    },
+    grandTotalLabel: "Total Due:",
+    paymentMethod: "Credit Card",
+    cardLastFour: "",
+    showCardAuth: false,
+    afterPayment: [
+      {
+        title: "We value your feedback!",
+        rows: [
+          {
+            value: "Visit www.talktoapplebees.com in the next 3 days & tell us about your experience.",
+          },
+          {
+            value: "To enter the survey, you will need to use the following code.",
+          },
+          {
+            label: "* Survey Code:",
+            value: "8312204781596 *",
+          },
+        ],
+      },
+    ],
+    footerMessage: "Thank you for joining us today!",
+    showBarcode: false,
+    tipSuggestions: [15, 18, 20],
+  },
+  // avis — was wrong-format. Sources:
+  //   https://www.vielfliegertreff.de/forum/threads/frage-zu-avis-was-ist-eine-e-receipt.135565/post-3008994
+  //   https://avis.ca/en/customer-service/faqs/canada/fees-taxes
+  //   https://www.avis.com/pt/customer-service/faqs/usa/customer-service
+  //   https://static.nhtsa.gov/odi/inv/2023/INRD-PE23022-14785P1.pdf
+  "avis": {
+    businessName: "AVIS",
+    addressLine1: "NEWARK LIBERTY INTL AIRPORT",
+    addressLine2: "NEWARK, NJ 07114",
+    phone: "",
+    website: "avis.com",
+    hideStoreLine: true,
+    cashier: "",
+    register: "",
+    paperFinish: "email",
+    paperStyle: "modern",
+    fontFamily: "courier",
+    headerAlign: "left",
+    ruleStyle: "dashed",
+    itemStyle: "lined",
+    itemHeader: {
+      left: "YOUR CHARGES",
+      right: "AMOUNT",
+    },
+    sections: [
+      {
+        rows: [
+          {
+            label: "RENTAL AGREEMENT NUMBER",
+            value: "604218735",
+          },
+          {
+            label: "Method of Payment:",
+            value: "VISA",
+          },
+          {
+            label: "Avis Car #:",
+            value: "61847203",
+          },
+          {
+            label: "Plate Number:",
+            value: "NJ Z41-KPR",
+          },
+          {
+            label: "Veh Description:",
+            value: "GRY TOYOTA CAMRY",
+          },
+          {
+            label: "Odometer Out:",
+            value: "21384 miles",
+          },
+          {
+            label: "Fuel Gauge Reading:",
+            value: "Full",
+          },
+        ],
+      },
+      {
+        rows: [
+          {
+            label: "Pickup Date/Time:",
+            value: "{{date-3}}",
+          },
+          {
+            label: "Pickup Location:",
+            value: "NEWARK LIBERTY INTL AIRPORT\nNEWARK, NJ 07114",
+          },
+          {
+            label: "Return Date/Time:",
+            value: "{{date+0}}",
+          },
+          {
+            label: "Return Location:",
+            value: "NEWARK LIBERTY INTL AIRPORT\nNEWARK, NJ 07114",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "TIME & MILEAGE",
+        quantity: 0,
+        price: 0,
+        heading: true,
+      },
+      {
+        name: "DLY: 3 DY @ 62.00 (MILES: UNLIMITED)",
+        quantity: 3,
+        price: 62.0,
+      },
+      {
+        name: "Customer Facility Charge 4.00/DY",
+        quantity: 3,
+        price: 4.0,
+      },
+      {
+        name: "Vehicle License Recovery Fee 0.95/DY",
+        quantity: 3,
+        price: 0.95,
+      },
+      {
+        name: "Energy Recovery Fee 0.69/DY",
+        quantity: 3,
+        price: 0.69,
+      },
+      {
+        name: "NJ Domestic Security Fee 5.00/DY",
+        quantity: 3,
+        price: 5.0,
+      },
+      {
+        name: "11.11% Concession Recovery Fee",
+        quantity: 1,
+        price: 0,
+        percent: 11.11,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Sales Tax 6.625%",
+    taxRate: 6.625,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "Subtotal Charges",
+    },
+    grandTotalLabel: "TOTAL CHARGES",
+    paymentMethod: "Credit Card",
+    paymentName: "VISA",
+    cardLastFour: "3092",
+    showCardAuth: false,
+    cardRows: [
+      {
+        value: "XXXXXXXXXXXX3092",
+      },
+    ],
+    afterPayment: [
+      {
+        title: "YOUR OPTIONAL PRODUCTS/SERVICES",
+        rows: [
+          {
+            label: "Loss Damage Waiver",
+            value: "Declined",
+          },
+          {
+            label: "Additional Liability Insurance",
+            value: "Declined",
+          },
+          {
+            label: "Personal Accident/Effects",
+            value: "Declined",
+          },
+        ],
+      },
+      {
+        rows: [
+          {
+            label: "Odometer In:",
+            value: "21702 miles",
+          },
+          {
+            label: "Fuel Gauge Reading In:",
+            value: "Full",
+          },
+        ],
+      },
+    ],
+    footerMessage: "Thank you for renting with Avis. Questions about this rental? Visit avis.com/customer-service.",
+    policyText: "Tolls, fines and related administrative fees incurred during the rental are billed separately after the rental.",
+    showBarcode: false,
+  },
+  // amazon-prime — was no-source. Sources:
+  //   https://digprjsurvey.amazon.co.uk/csad/help/node/GRPUHK7RCNVRBURD
+  //   https://www.accountingweb.co.uk/any-answers/amazon-prime-vat
+  "amazon-prime": {
+    businessName: "",
+    logoText: "amazon",
+    addressLine1: "",
+    addressLine2: "",
+    phone: "",
+    website: "",
+    hideStoreLine: true,
+    cashier: "",
+    register: "",
+    paperFinish: "email",
+    paperStyle: "modern",
+    fontFamily: "sans",
+    headerAlign: "left",
+    ruleStyle: "solid",
+    itemStyle: "lined",
+    itemHeader: {
+      left: "Membership",
+      right: "Price",
+    },
+    greeting: "Amazon Prime membership receipt\nPrint this page for your records.",
+    sections: [
+      {
+        rows: [
+          {
+            label: "Payment date:",
+            value: "{{date+0}}",
+          },
+          {
+            label: "Plan:",
+            value: "Annual Prime membership",
+          },
+          {
+            label: "Membership renews:",
+            value: "{{date+365}}",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "Amazon Prime Membership (Annual)",
+        quantity: 1,
+        price: 139.0,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Tax",
+    taxRate: 0,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    grandTotalLabel: "Total:",
+    paymentMethod: "Credit Card",
+    cardLastFour: "4417",
+    paymentInline: true,
+    showCardAuth: false,
+    footerMessage: "",
+    policyText: "Conditions of Use | Privacy Notice\n© 1996-2026, Amazon.com, Inc. or its affiliates",
+    showBarcode: false,
+  },
+  // red-lobster — was no-source. Sources:
+  //   https://www.redlobster.com/rewards/faq
+  //   https://www.couponcabin.com/coupons/red-lobster/
+  //   https://merchants.letsweel.com/merchants/red-lobster
+  "red-lobster": {
+    businessName: "Red Lobster",
+    addressLine1: "5502 International Dr",
+    addressLine2: "Orlando, FL 32819",
+    phone: "(407) 555-0136",
+    website: "redlobster.com",
+    hideStoreLine: true,
+    cashier: "",
+    register: "",
+    paperStyle: "thermal",
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "dashed",
+    itemStyle: "qtycol",
+    sections: [
+      {
+        rows: [
+          {
+            label: "Server:",
+            value: "Tasha",
+          },
+          {
+            label: "Table:",
+            value: "32",
+          },
+          {
+            label: "Guests:",
+            value: "2",
+          },
+          {
+            label: "Check:",
+            value: "4417",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "Ultimate Feast",
+        quantity: 1,
+        price: 34.99,
+      },
+      {
+        name: "Walt's Favorite Shrimp",
+        quantity: 1,
+        price: 19.49,
+      },
+      {
+        name: "Lobster Bisque Cup",
+        quantity: 1,
+        price: 7.99,
+      },
+      {
+        name: "Strawberry Lemonade",
+        quantity: 2,
+        price: 4.29,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Tax",
+    taxRate: 6.5,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    grandTotalLabel: "Total",
+    paymentMethod: "Credit Card",
+    cardLastFour: "2846",
+    showCardAuth: true,
+    footerMessage: "Thank you for dining with us!",
+    policyText: "Members: scan the QR code in the My Red Lobster Rewards app to earn points.",
+    showBarcode: true,
+    qrCode: true,
+  },
+  // white-castle — was wrong-format. Sources:
+  //   https://github.com/premAI-io/InvoiceDataExtractor/blob/main/dataset/originalData/whitecastle_20221016_010.pdf
+  //   https://github.com/premAI-io/InvoiceDataExtractor/blob/main/dataset/mdData/whitecastle_20221016_010.md
+  "white-castle": {
+    businessName: "White Castle",
+    addressLine1: "",
+    addressLine2: "",
+    phone: "",
+    website: "",
+    hideStoreLine: true,
+    cashier: "",
+    register: "",
+    paperStyle: "thermal",
+    fontFamily: "courier",
+    headerAlign: "center",
+    ruleStyle: "asterisk",
+    itemStyle: "qtycol",
+    sections: [
+      {
+        title: "**GUEST SATISFACTION SURVEY**",
+        rows: [
+          {
+            value: "You can get\nAny 2 Free\nSingle Sliders\nby completing this\nsurvey at",
+          },
+          {
+            value: "https://survey.whitecastle.com",
+          },
+          {
+            value: "White Castle 110587",
+          },
+          {
+            label: "Sale #",
+            value: "138206517",
+          },
+        ],
+      },
+      {
+        rows: [
+          {
+            value: "You are invited to participate in a Guest Satisfaction Survey regarding your most recent visit to our restaurant!",
+          },
+          {
+            value: "You will need your receipt to complete the survey online",
+          },
+          {
+            value: "As our way of saying THANK YOU, at the end of the survey, you will receive a validation code good for Any 2 FREE SLIDERS",
+          },
+        ],
+      },
+      {
+        title: "Enter Validation Code Here",
+        rows: [
+          {
+            value: "______________________",
+          },
+          {
+            value: "One coupon per customer per visit\nNo Facsimiles  No Substitutions\nNot valid with any other coupon/offer\nNot valid on frozen products\nNot redeemable for cash",
+          },
+          {
+            value: "Coupon Expires Three Weeks\nAfter Receipt Date",
+          },
+          {
+            value: "Este estudio de mercado esta\ndisponible en espanol",
+          },
+          {
+            label: "Team Member",
+            value: "#4127",
+          },
+        ],
+      },
+      {
+        rows: [
+          {
+            label: "*** To Go ***",
+            value: "Register # 2",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "ORIG SLIDER",
+        quantity: 2,
+        price: 1.89,
+      },
+      {
+        name: "D CBR",
+        quantity: 1,
+        price: 3.79,
+      },
+      {
+        name: "RNG 9",
+        quantity: 1,
+        price: 5.29,
+      },
+      {
+        name: "MED FRY",
+        quantity: 1,
+        price: 3.19,
+      },
+      {
+        name: "MED COKE",
+        quantity: 1,
+        price: 2.69,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Tax",
+    taxRate: 7.5,
+    showTaxRate: false,
+    hideSubtotal: true,
+    discount: 0,
+    tip: 0,
+    grandTotalLabel: "Grand Total",
+    paymentMethod: "Credit Card",
+    paymentName: "Credit Card",
+    cardLastFour: "",
+    showCardAuth: false,
+    orderNumber: "Customer #418",
+    afterPayment: [
+      {
+        rows: [
+          {
+            value: "Comments and Concerns",
+          },
+          {
+            value: "www.whitecastle.com/feedback",
+          },
+        ],
+      },
+    ],
+    footerMessage: "Thank you! Now serving\nANYTHING, ANYTIME\nIncluding Breakfast ALL DAY!!!\nSave Time, Order Online.\nwww.whitecastle.com",
+    policyText: "Make a BOLD Move today!!!\nJoin us - careers.whitecastle.com",
+    showBarcode: false,
+  },
+  // texaco — was no-source. Sources:
+  //   https://greerheritage.com/omeka-s/s/museum/item/3803
+  //   https://www.flickr.com/groups/vintagetexaco/
+  "texaco": {
+    businessName: "TEXACO # 3172",
+    addressLine1: "8410 Westheimer Rd",
+    addressLine2: "Houston TX 77063",
+    phone: "",
+    website: "",
+    hideStoreLine: true,
+    cashier: "",
+    register: "Pump# 4",
+    sections: [
+      {
+        rows: [
+          {
+            label: "Invoice#",
+            value: "0261937",
+          },
+          {
+            label: "Auth#",
+            value: "318405",
+          },
+        ],
+      },
+    ],
+    paperStyle: "thermal",
+    fontFamily: "mono",
+    headerAlign: "left",
+    ruleStyle: "none",
+    itemStyle: "stacked",
+    fuelGrade: "Regular",
+    unitDecimals: 3,
+    items: [
+      {
+        name: "Regular/Self",
+        quantity: 12.418,
+        price: 2.799,
+        unit: "G",
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Tax",
+    taxRate: 0,
+    showTaxRate: false,
+    hideSubtotal: true,
+    discount: 0,
+    tip: 0,
+    grandTotalLabel: "Total",
+    paymentMethod: "Credit Card",
+    cardLastFour: "2259",
+    showCardAuth: false,
+    footerMessage: "THANK YOU\nPLEASE COME AGAIN",
+    policyText: "Save on every fill-up with\nChevron Texaco Rewards.",
+    showBarcode: false,
+  },
+  // rei — was no-source. Sources:
+  //   https://www.rei.com/membership
+  //   https://baymard.com/checkout-usability/benchmark/step-type/receipt/4441-rei-step-11
+  "rei": {
+    businessName: "REI Co-op",
+    addressLine1: "6750 S 228th St",
+    addressLine2: "Kent, WA 98032",
+    phone: "(253) 555-0114",
+    website: "rei.com",
+    paperStyle: "thermal",
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "dashed",
+    itemStyle: "lined",
+    items: [
+      {
+        name: "HOKA Speedgoat 6 Trail Running Shoes",
+        quantity: 1,
+        price: 155.0,
+      },
+      {
+        name: "REI Co-op Flash 22 Pack",
+        quantity: 1,
+        price: 39.95,
+      },
+      {
+        name: "Smartwool Hike Light Cushion Socks",
+        quantity: 2,
+        price: 25.95,
+      },
+      {
+        name: "Nalgene Wide-Mouth Bottle 32 fl. oz.",
+        quantity: 1,
+        price: 15.95,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Tax",
+    taxRate: 10.4,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    grandTotalLabel: "Total",
+    paymentMethod: "Credit Card",
+    cardLastFour: "9184",
+    showCardAuth: true,
+    footerMessage: "Thank you for shopping at REI!",
+    showBarcode: true,
+  },
+  // potbelly — was wrong-format. Sources:
+  //   https://github.com/premAI-io/InvoiceDataExtractor/blob/main/dataset/originalData/potbelly_20221016_009.pdf
+  //   https://github.com/premAI-io/InvoiceDataExtractor/blob/main/dataset/mdData/potbelly_20221016_009.md
+  "potbelly": {
+    businessName: "Potbelly Sandwich Shop",
+    addressLine1: "www.potbelly.com\n220 W. Madison St",
+    addressLine2: "Chicago, IL 60606",
+    phone: "(312) 555-0148",
+    website: "",
+    hideStoreLine: true,
+    cashier: "",
+    register: "",
+    paperStyle: "thermal",
+    fontFamily: "courier",
+    headerAlign: "center",
+    ruleStyle: "none",
+    itemStyle: "lined",
+    sections: [
+      {
+        rows: [
+          {
+            label: "Host:",
+            value: "{{date+0}}",
+          },
+          {
+            label: "Order204",
+            value: "41862",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "ORG Italian",
+        quantity: 1,
+        price: 10.49,
+      },
+      {
+        name: "BIG A Wreck",
+        quantity: 1,
+        price: 12.29,
+      },
+      {
+        name: "Chips",
+        quantity: 1,
+        price: 1.99,
+      },
+      {
+        name: "Fountain Drink",
+        quantity: 1,
+        price: 2.89,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Total Tax",
+    taxRate: 11.75,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "Subtotal",
+    },
+    grandTotalLabel: "Dine in Total",
+    paymentMethod: "Credit Card",
+    paymentName: "FP M.C.",
+    cardLastFour: "7316",
+    showCardAuth: false,
+    cardRows: [
+      {
+        value: "#XXXXXXXXXXXX7316",
+      },
+      {
+        label: "Auth:",
+        value: "K47QWR",
+      },
+    ],
+    afterPayment: [
+      {
+        rows: [
+          {
+            value: "Tell us about your experience today and enjoy a FREE COOKIE on your next order with a purchase of a sandwich or entree salad. Offer not valid with any other discount or coupon. One offer per receipt. No cash value.",
+          },
+          {
+            value: "Go to www.potbellylistens.com in the next three days to give us your feedback",
+          },
+          {
+            label: "Survey number:",
+            value: "121 014 207 031 486 920 57",
+          },
+          {
+            value: "Bring back this receipt with validation code to redeem offer",
+          },
+          {
+            label: "Validation code:",
+            value: "____________",
+          },
+        ],
+      },
+    ],
+    footerMessage: "You deserve free sandwiches!\nJoin Potbelly Perks today to learn more\nDownload the app or visit www.potbelly.com",
+    policyText: "--- Check Closed ---",
+    showBarcode: false,
+  },
+  // microsoft-365 — was missing-key-details. Sources:
+  //   https://edithwestonparishcouncil.gov.uk/media/Meetings/March 25/App 3- renewal of Microsoft 365 account.pdf
+  //   https://diswww.mit.edu/menelaus/moira/6624
+  //   https://learn.microsoft.com/en-us/answers/a/11874550
+  //   https://learn.microsoft.com/en-us/answers/a/12407523
+  "microsoft-365": {
+    businessName: "Microsoft",
+    logoText: "Microsoft",
+    addressLine1: "One Microsoft Way",
+    addressLine2: "Redmond, WA 98052",
+    phone: "",
+    website: "account.microsoft.com",
+    hideStoreLine: true,
+    cashier: "",
+    register: "",
+    greeting: "Thanks for your Microsoft order",
+    sections: [
+      {
+        rows: [
+          {
+            label: "Order number",
+            value: "6018-2743-9951",
+          },
+          {
+            label: "Order date",
+            value: "{{date+0}}",
+          },
+          {
+            label: "Microsoft account",
+            value: "j*****@outlook.com",
+          },
+        ],
+      },
+    ],
+    paperStyle: "modern",
+    paperFinish: "email",
+    fontFamily: "open-sans",
+    headerAlign: "left",
+    ruleStyle: "solid",
+    itemStyle: "table",
+    items: [
+      {
+        name: "Microsoft 365 Family (1-year subscription)",
+        quantity: 1,
+        price: 129.99,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Tax",
+    taxRate: 6,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "Subtotal",
+    },
+    grandTotalLabel: "Total",
+    paymentMethod: "Credit Card",
+    cardLastFour: "7305",
+    showCardAuth: false,
+    cardRows: [
+      {
+        label: "Payment method",
+        value: "Visa **7305",
+      },
+    ],
+    afterPayment: [
+      {
+        rows: [
+          {
+            label: "Renews on",
+            value: "{{date+365}}",
+          },
+          {
+            value: "Manage your subscription in your Microsoft account dashboard.",
+          },
+        ],
+      },
+    ],
+    showBarcode: false,
+    footerMessage: "Did you find this email helpful? Yes  No",
+    policyText: "Dates are displayed per Coordinated Universal Time. Order date may vary based on your location.\nPrivacy Statement\nMicrosoft Corporation, One Microsoft Way, Redmond, WA 98052",
+  },
+  // cabelas — was wrong-format. Sources:
+  //   https://buffalonews.com/news/local/crime-courts/court-ruling-in-elma-shooting-suit-shows-gun-retailers-not-completely-above-the-law/article_68eed3a6-186a-11eb-bbfd-b79cf2ae7817.html
+  //   https://bloximages.chicago2.vip.townnews.com/buffalonews.com/content/tncms/assets/v3/editorial/7/15/715c1162-1873-11eb-9b80-77661ca492d2/5f9850818323b.image.jpg
+  //   https://www.bridgeandtunnelclub.com/bigmap/outoftown/pennsylvania/berkscounty/hamburg/cabelas/index.htm
+  "cabelas": {
+    businessName: "Cabela's",
+    greeting: "WORLD'S FOREMOST OUTFITTER",
+    addressLine1: "1415 Sample Outfitter Dr",
+    addressLine2: "Sidney, NE 69162",
+    phone: "(308) 555-0142",
+    website: "cabelas.com",
+    hideStoreLine: true,
+    cashier: "",
+    register: "",
+    sections: [
+      {
+        rows: [
+          {
+            value: "ST#00021 RG# 004 TR# 5127",
+          },
+        ],
+      },
+    ],
+    paperStyle: "thermal",
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "none",
+    itemStyle: "lined",
+    skuFirst: true,
+    items: [
+      {
+        name: "CABELAS OUTFITTER CAMO CAP",
+        sku: "004518832",
+        quantity: 1,
+        price: 19.99,
+        taxFlag: "1T",
+      },
+      {
+        name: "BERKLEY POWERBAIT TROUT DOUGH",
+        sku: "003129476",
+        quantity: 2,
+        price: 6.49,
+        taxFlag: "1T",
+      },
+      {
+        name: "BLAZE ORANGE SAFETY VEST",
+        sku: "002871154",
+        quantity: 1,
+        price: 14.99,
+        taxFlag: "1T",
+      },
+      {
+        name: "SUNFLOWER SEEDS",
+        sku: "003451205",
+        quantity: 1,
+        price: 2.29,
+        taxFlag: "1N",
+        notTaxed: true,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Tax",
+    taxRate: 7.0,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "Subtotal",
+      itemsSold: "# ITEMS SOLD",
+    },
+    grandTotalLabel: "Total",
+    showItemsSold: true,
+    paymentMethod: "Credit Card",
+    cardLastFour: "3381",
+    paymentName: "Visa",
+    showCardAuth: false,
+    cardRows: [
+      {
+        label: "Acct#",
+        value: "************3381",
+      },
+      {
+        label: "Auth#",
+        value: "417206",
+      },
+    ],
+    showBarcode: true,
+    footerMessage: "Ask how to join Cabela's CLUB!",
+    policyText: "100% Satisfaction Guaranteed. If you are not satisfied with our product, return it with your original receipt and we will promptly exchange or refund it.",
+  },
+  // greggs — was wrong-format. Sources:
+  //   https://www.julianwhite.uk/greggs-2015-receipt/
+  //   https://www.julianwhite.uk/wp-content/uploads/2025/05/20150519_143714.jpg
+  //   https://www.lbc.co.uk/news/cost-living/greggs-raises-prices-sausage-roll-lattes
+  "greggs": {
+    businessName: "Greggs",
+    greeting: "Greggs - Always Fresh. Always Tasty.",
+    addressLine1: "Customer Care Team, Greggs Plc, Fernwood House",
+    addressLine2: "Clayton Road, Newcastle upon Tyne NE2 1TL",
+    phone: "08081 473447 (08081 GREGGS)",
+    website: "www.greggs.co.uk",
+    hideStoreLine: true,
+    cashier: "KAYLA",
+    register: "Till No. 3",
+    sections: [
+      {
+        rows: [
+          {
+            label: "VAT",
+            value: "GB 482 9175 30",
+          },
+        ],
+      },
+      {
+        rows: [
+          {
+            label: "Customer No.",
+            value: "117",
+          },
+          {
+            label: "Transaction No.",
+            value: "384912",
+          },
+          {
+            label: "Till No.",
+            value: "3",
+          },
+          {
+            label: "Shop No.",
+            value: "1428",
+          },
+          {
+            value: "Take Away",
+          },
+        ],
+      },
+    ],
+    paperStyle: "thermal",
+    fontFamily: "mono",
+    headerAlign: "left",
+    ruleStyle: "asterisk",
+    itemStyle: "qtycol",
+    items: [
+      {
+        name: "Sausage Roll",
+        quantity: 2,
+        price: 1.35,
+        taxFlag: "Z",
+      },
+      {
+        name: "Steak Bake",
+        quantity: 1,
+        price: 2.15,
+        taxFlag: "Z",
+      },
+      {
+        name: "Latte Regular",
+        quantity: 1,
+        price: 2.25,
+        taxFlag: "S",
+      },
+      {
+        name: "Coca Cola 500ml",
+        quantity: 1,
+        price: 1.85,
+        taxFlag: "S",
+      },
+    ],
+    currency: "GBP",
+    dateOrder: "dmy",
+    taxIncluded: true,
+    taxLabel: "VAT",
+    taxRate: 20,
+    taxLines: [
+      {
+        label: "VAT S 20%",
+        rate: 20,
+        appliesTo: "S",
+      },
+    ],
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "Sub Total",
+      change: "Change",
+    },
+    grandTotalLabel: "Total",
+    paymentMethod: "Cash",
+    amountTendered: 10.0,
+    showBarcode: false,
+    footerMessage: "Thank you for your custom",
+    policyText: "Vat Rates\n  Z :  0%\n  S :  20%",
+  },
+  // olive-garden — was wrong-format. Sources:
+  //   https://itsallaboutpurple-debbie.blogspot.com/2026/01/the-olive-garden.html
+  //   https://www.goodiesfirst.com/tag/neverending-pasta-bowl
+  //   https://www.restaurantji.com/tx/mission/olive-garden-italian-restaurant-/
+  //   https://www.tripadvisor.com/Restaurant_Review-g60950-d332236-Reviews-Olive_Garden_Italian_Restaurant-Tucson_Arizona.html
+  "olive-garden": {
+    businessName: "OLIVE GARDEN 1627",
+    logoText: "OLIVE GARDEN 1627",
+    addressLine1: "4215 Sample Pkwy",
+    addressLine2: "Orlando, FL 32839-4127",
+    phone: "",
+    website: "",
+    hideStoreLine: true,
+    cashier: "Maria T",
+    register: "",
+    sections: [
+      {
+        rows: [
+          {
+            label: "Check #",
+            value: ":48217",
+          },
+          {
+            label: "Table",
+            value: "34",
+          },
+          {
+            label: "Server",
+            value: "Maria T",
+          },
+          {
+            label: "Gst",
+            value: "2",
+          },
+        ],
+      },
+    ],
+    paperStyle: "thermal",
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "dashed",
+    itemStyle: "qtycol",
+    items: [
+      {
+        name: "Guest No.1",
+        quantity: 0,
+        price: 0,
+        heading: true,
+      },
+      {
+        name: "Bellini Peach Tea",
+        quantity: 1,
+        price: 4.29,
+      },
+      {
+        name: "Chicken Scampi",
+        quantity: 1,
+        price: 21.29,
+      },
+      {
+        name: "* Zuppa Toscana",
+        quantity: 1,
+        price: 0.0,
+      },
+      {
+        name: "Guest No.2",
+        quantity: 0,
+        price: 0,
+        heading: true,
+      },
+      {
+        name: "Soft Drink",
+        quantity: 1,
+        price: 3.69,
+        modifiers: ["Dr Pepper"],
+      },
+      {
+        name: "Lasagna Classico",
+        quantity: 1,
+        price: 18.29,
+      },
+      {
+        name: "* Salad",
+        quantity: 1,
+        price: 0.0,
+      },
+      {
+        name: "Black Tie Mousse Cake",
+        quantity: 1,
+        price: 9.99,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "TAX",
+    taxRate: 6.5,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "SUBTOTAL",
+    },
+    grandTotalLabel: "TOTAL",
+    paymentMethod: "Credit Card",
+    cardLastFour: "8823",
+    showCardAuth: false,
+    cardRows: [
+      {
+        label: "Card Number",
+        value: "XXXXXXXXXXXX8823",
+      },
+      {
+        label: "Auth Code",
+        value: "561904",
+      },
+      {
+        value: "MasterCard",
+      },
+      {
+        value: "Tip Not Included",
+      },
+    ],
+    afterPayment: [
+      {
+        rows: [
+          {
+            label: "ID #",
+            value: "1627 48217 0412",
+          },
+        ],
+      },
+    ],
+    showBarcode: false,
+    footerMessage: "We value your opinion. Please tell us about your dining experience by completing an online survey within 7 days of your visit.",
+    tipSuggestions: [15, 18, 20],
+  },
+  // crunch-fitness — was no-source. Sources:
+  //   https://www.crunch.com/faq
+  //   https://www.thepricer.org/crunch-fitness-prices/
+  //   https://www.nerdwallet.com/finance/learn/crunch-fitness-membership-cost
+  "crunch-fitness": {
+    businessName: "Crunch Fitness",
+    logoText: "CRUNCH",
+    addressLine1: "Crunch Sample Club - 2300 Example Blvd NE",
+    addressLine2: "Atlanta, GA 30324",
+    phone: "(404) 555-0119",
+    website: "crunch.com",
+    hideStoreLine: true,
+    cashier: "",
+    register: "",
+    greeting: "Payment Receipt",
+    sections: [
+      {
+        rows: [
+          {
+            label: "Member",
+            value: "Jordan Sample",
+          },
+          {
+            label: "Member #",
+            value: "30241187",
+          },
+          {
+            label: "Home Club",
+            value: "Crunch Sample Club",
+          },
+          {
+            label: "Plan",
+            value: "Peak Results",
+          },
+          {
+            label: "Billing period",
+            value: "{{date+0}}",
+          },
+          {
+            label: "Through",
+            value: "{{date+30}}",
+          },
+        ],
+      },
+    ],
+    paperStyle: "modern",
+    paperFinish: "email",
+    fontFamily: "montserrat",
+    headerAlign: "left",
+    ruleStyle: "solid",
+    itemStyle: "lined",
+    itemHeader: {
+      left: "Description",
+      right: "Amount",
+    },
+    items: [
+      {
+        name: "Peak Results Membership - Monthly Dues",
+        quantity: 1,
+        price: 34.99,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Tax",
+    taxRate: 0,
+    showTaxRate: false,
+    hideSubtotal: true,
+    discount: 0,
+    tip: 0,
+    grandTotalLabel: "Total Charged",
+    paymentMethod: "Credit Card",
+    cardLastFour: "5196",
+    showCardAuth: false,
+    cardRows: [
+      {
+        label: "Card on file",
+        value: "Mastercard ending 5196",
+      },
+      {
+        label: "Reference #",
+        value: "CRN-2610-774152",
+      },
+    ],
+    showBarcode: false,
+    footerMessage: "No Judgments. Manage your membership in the Crunch app.",
+    policyText: "Your annual fee bills separately once a year on its scheduled date. Questions about billing? Contact your home club.",
+  },
+  // arco — was wrong-format. Sources:
+  //   https://www.yahoo.com/news/customers-complain-woodburn-gas-station-110148212.html
+  //   https://intlxpatr.com/2013/08/15/arco-gas-station-something-doesnt-feel-right/
+  "arco": {
+    businessName: "ampm #82917",
+    logoText: "ARCO",
+    greeting: "Thank You!",
+    addressLine1: "7905 Sample Ave",
+    addressLine2: "La Palma, CA 90623",
+    phone: "714-555-0187",
+    website: "",
+    hideStoreLine: true,
+    cashier: "",
+    register: "Pump 04",
+    sections: [
+      {
+        rows: [
+          {
+            label: "Site",
+            value: "11902415",
+          },
+        ],
+      },
+    ],
+    paperStyle: "thermal",
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "dashed",
+    itemStyle: "lined",
+    itemHeader: {
+      left: "Description",
+      right: "Amount",
+    },
+    unitDecimals: 3,
+    fuelGrade: "UNLEADED CR #04",
+    items: [
+      {
+        name: "UNLEADED CR #04",
+        quantity: 9.712,
+        unit: "G",
+        price: 4.199,
+        modifiers: ["SELF"],
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Tax",
+    taxRate: 0,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "Subtotal",
+    },
+    grandTotalLabel: "TOTAL",
+    paymentMethod: "Debit Card",
+    cardLastFour: "6620",
+    paymentName: "DEBIT",
+    showCardAuth: false,
+    cardRows: [
+      {
+        label: "CARD #",
+        value: "XXXXXXXXXXXX6620",
+      },
+      {
+        label: "TRANS #",
+        value: "041",
+      },
+      {
+        label: "Approval Code",
+        value: "072615",
+      },
+      {
+        label: "Entry Method",
+        value: "Chip",
+      },
+      {
+        label: "Mode",
+        value: "Online",
+      },
+    ],
+    afterPayment: [
+      {
+        rows: [
+          {
+            label: "Receipt",
+            value: "2187405  ORIGINAL",
+          },
+        ],
+      },
+    ],
+    showBarcode: false,
+    footerMessage: "CUSTOMER COPY",
+  },
+  // waffle-house — was missing-key-details. Sources:
+  //   https://www.tripadvisor.ie/ShowUserReviews-g29212-d5065577-r929715952-Waffle_House-Augusta_Georgia.html
+  //   https://www.yelp.com/biz/waffle-house-huber-heights
+  //   https://ruinmyweek.com/food/waffle-house-receipts-never-charge-the-same/
+  //   https://scrolller.com/my-halloween-waffle-house-receipt-3ldch9809l
+  "waffle-house": {
+    businessName: "Waffle House 2214",
+    logoText: "Waffle House 2214",
+    addressLine1: "5180 SAMPLE PKWY NW",
+    addressLine2: "NORCROSS, GA 30071",
+    phone: "(770) 555-0136",
+    website: "",
+    hideStoreLine: true,
+    cashier: "Cashier",
+    register: "",
+    sections: [
+      {
+        rows: [
+          {
+            label: "Ticket #",
+            value: "221408715",
+          },
+          {
+            label: "User",
+            value: "Cashier",
+          },
+          {
+            label: "Sales",
+            value: "Cashier",
+          },
+        ],
+      },
+    ],
+    paperStyle: "thermal",
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "dashed",
+    itemStyle: "lined",
+    items: [
+      {
+        name: "All-Star Special",
+        quantity: 1,
+        price: 11.5,
+        modifiers: ["Eggs Scrambled", "Bacon", "Raisin Toast"],
+      },
+      {
+        name: "Hashbrowns",
+        quantity: 1,
+        price: 3.75,
+        addons: [
+          {
+            name: "Smothered",
+            price: 0.65,
+          },
+          {
+            name: "Covered",
+            price: 0.75,
+          },
+        ],
+      },
+      {
+        name: "Pecan Waffle",
+        quantity: 1,
+        price: 5.75,
+      },
+      {
+        name: "Coffee",
+        quantity: 2,
+        price: 2.5,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "TAX",
+    taxRate: 6,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "SUB TOTAL",
+    },
+    grandTotalLabel: "Amount",
+    paymentMethod: "Credit Card",
+    cardLastFour: "4471",
+    paymentName: "SALE",
+    showCardAuth: false,
+    cardRows: [
+      {
+        value: "VISA",
+      },
+      {
+        label: "CARD #",
+        value: "XXXX4471",
+      },
+      {
+        label: "Entry Method",
+        value: "Chip",
+      },
+      {
+        label: "APPROVED",
+        value: "318264",
+      },
+    ],
+    afterPayment: [
+      {
+        rows: [
+          {
+            label: "Tip",
+            value: "__________",
+          },
+          {
+            label: "Total",
+            value: "__________",
+          },
+        ],
+      },
+    ],
+    showBarcode: false,
+    footerMessage: "I agree to pay the above total amount according to the card issuer agreement",
+    policyText: "SIGN: ______________________________",
+  },
+  // deliveroo — was wrong-format. Sources:
+  //   https://www.scribd.com/document/688428347/deliveroo-order-receipt-1588174265
+  //   https://fr.scribd.com/document/707937915/Deliveroo-Order-Receipt-10190807877
+  "deliveroo": {
+    businessName: "Deliveroo",
+    logoText: "deliveroo",
+    addressLine1: "Roofoods Limited, 1 Cousin Lane",
+    addressLine2: "London, United Kingdom EC4R 3TE",
+    phone: "",
+    website: "deliveroo.co.uk",
+    hideStoreLine: true,
+    cashier: "",
+    register: "",
+    greeting: "Order receipt (information only)",
+    sections: [
+      {
+        rows: [
+          {
+            label: "Order number",
+            value: "#2047518836",
+          },
+          {
+            label: "Order date",
+            value: "{{date+0}}",
+          },
+        ],
+      },
+      {
+        title: "Recipient",
+        rows: [
+          {
+            value: "Sam Taylor",
+          },
+        ],
+      },
+      {
+        title: "Restaurant",
+        rows: [
+          {
+            value: "Sample Noodle Bar - Soho",
+          },
+          {
+            value: "12 Sample Street, London, W1D 4AB",
+          },
+        ],
+      },
+      {
+        title: "Delivery address",
+        rows: [
+          {
+            value: "Flat 3, 48 Sample Road, London, N1 7AA",
+          },
+        ],
+      },
+    ],
+    paperStyle: "modern",
+    paperFinish: "email",
+    fontFamily: "open-sans",
+    headerAlign: "left",
+    ruleStyle: "none",
+    itemStyle: "qtycol",
+    items: [
+      {
+        name: "Chicken Katsu Curry",
+        quantity: 1,
+        price: 12.95,
+        modifiers: ["Extra sticky rice"],
+      },
+      {
+        name: "Prawn Gyoza (5)",
+        quantity: 1,
+        price: 6.5,
+      },
+      {
+        name: "Coca-Cola Zero 330ml",
+        quantity: 1,
+        price: 2.2,
+      },
+    ],
+    currency: "GBP",
+    dateOrder: "dmy",
+    taxLabel: "VAT",
+    taxRate: 0,
+    showTaxRate: false,
+    discount: 0,
+    deliveryFee: 2.99,
+    serviceFee: 1.99,
+    tip: 1.0,
+    labels: {
+      subtotal: "Restaurant subtotal",
+      deliveryFee: "Delivery fee",
+      serviceFee: "Service Fee",
+      tip: "Rider tip",
+    },
+    grandTotalLabel: "Total",
+    paymentMethod: "Credit Card",
+    cardLastFour: "2209",
+    showCardAuth: false,
+    showBarcode: false,
+    footerMessage: "Roofoods Limited - registered in England and Wales\n1 Cousin Lane London EC4R 3TE\nCompany number: 08167130",
+    policyText: "The information on this receipt is provided by Deliveroo for information purposes only. This receipt does not constitute a tax invoice. For tax invoicing, please contact Deliveroo support.",
+    hideTotals: true,
+  },
+  // academy-sports — was wrong-format. Sources:
+  //   https://www.yelp.com/biz/academy-sports-outdoors-houston-4
+  //   https://s3-media2.fl.yelpcdn.com/bphoto/GDXfiOwSmu5MivC7gYT_nQ/o.jpg
+  //   https://www.academyfeedback.com/Survey.aspx?c=592316
+  //   https://www.academyfeedback.com/Projects/ACA_CSI/images/Receipt.png
+  "academy-sports": {
+    businessName: "Academy Sports + Outdoors",
+    addressLine1: "ACADEMY KATY FREEWAY   281-555-0164",
+    addressLine2: "21500 Sample Fwy, Katy, TX 77449",
+    phone: "",
+    website: "academy.com",
+    hideStoreLine: true,
+    cashier: "",
+    register: "",
+    sections: [
+      {
+        rows: [
+          {
+            value: "418207 SALE    0214 0041 307",
+          },
+        ],
+      },
+    ],
+    paperStyle: "thermal",
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "none",
+    itemStyle: "stacked",
+    items: [
+      {
+        name: "MAGELLAN OUTDOORS FISHING SHIRT / 110584213",
+        quantity: 1,
+        price: 24.99,
+        discount: 5.0,
+      },
+      {
+        name: "BCG MENS ATHLETIC SHORT / 109762451",
+        quantity: 2,
+        price: 12.99,
+      },
+      {
+        name: "WILSON NCAA EVOLUTION BSKTBALL / 108833026",
+        quantity: 1,
+        price: 69.99,
+      },
+      {
+        name: "MAGELLAN 30 OZ TUMBLER / 110230018",
+        quantity: 1,
+        price: 14.99,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "8.25% SALES TAX",
+    taxRate: 8.25,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "SUBTOTAL",
+      itemsSold: "ITEM COUNT:",
+      itemDiscount: "MARKDOWN",
+    },
+    subtotalNet: true,
+    grandTotalLabel: "TOTAL USD$",
+    showItemsSold: true,
+    paymentMethod: "Debit Card",
+    cardLastFour: "4440",
+    paymentName: "US DEBIT",
+    showCardAuth: false,
+    cardRows: [
+      {
+        label: "MID",
+        value: "328020071164",
+      },
+      {
+        label: "TID",
+        value: "08217493",
+      },
+      {
+        label: "RRN",
+        value: "402716",
+      },
+      {
+        value: "Verified by PIN",
+      },
+      {
+        value: "XXXXXXXXXXXX4440",
+      },
+      {
+        value: "Chip Read",
+      },
+      {
+        label: "Sequence",
+        value: "#3318",
+      },
+      {
+        label: "AUTH",
+        value: "206914",
+      },
+      {
+        label: "Mode",
+        value: "Issuer",
+      },
+      {
+        label: "AID",
+        value: "A0000000980840",
+      },
+    ],
+    showBarcode: true,
+    footerMessage: "RIGHT STUFF. LOW PRICE. EVERYDAY!\nShop academy.com\nHow are we doing?\nShare feedback about your experience within 72 hours at www.academyfeedback.com",
+    policyText: "After completing the survey, enter for a chance to win an Academy gift card. NO PURCHASE NECESSARY. See academyfeedback.com for complete details and official rules. Disponible en Espanol.",
+  },
+  // gap — was wrong-format. Sources:
+  //   https://thekrazycouponlady.com/tips/store-hacks/16-insider-secrets-from-a-seasoned-gap-employee
+  //   https://iwantigot.geekigirl.com/2008/06/the-gap-will-never-get-my-valuable-customer-data-again/
+  "gap": {
+    businessName: "Gap - Sample Centre",
+    addressLine1: "890 Sample Market St",
+    addressLine2: "San Francisco, CA 94102",
+    phone: "Tel.(415) 555-0193",
+    website: "gap.com",
+    hideStoreLine: true,
+    cashier: "2041187",
+    register: "Reg.: 302",
+    sections: [
+      {
+        rows: [
+          {
+            label: "Trans.:",
+            value: "7118",
+          },
+          {
+            label: "Store:",
+            value: "01426",
+          },
+          {
+            label: "Reg.:",
+            value: "302",
+          },
+          {
+            label: "Valid No:",
+            value: "4001",
+          },
+          {
+            label: "Cashier:",
+            value: "2041187",
+          },
+        ],
+      },
+    ],
+    topBarcode: true,
+    paperStyle: "thermal",
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "none",
+    itemStyle: "stacked",
+    items: [
+      {
+        name: "Vintage Soft Crewneck Sweatshirt",
+        sku: "874412-002-0014",
+        quantity: 1,
+        price: 59.95,
+        discount: 24.0,
+        taxFlag: "T",
+      },
+      {
+        name: "90s Loose Jeans",
+        sku: "592761-011-0031",
+        quantity: 1,
+        price: 79.95,
+        discount: 32.0,
+        taxFlag: "T",
+      },
+      {
+        name: "Organic Cotton Crew Socks (3-Pack)",
+        sku: "636405-001-0009",
+        quantity: 1,
+        price: 16.95,
+        taxFlag: "T",
+      },
+    ],
+    currency: "USD",
+    taxLabel: "T1 (8.625%) Tax",
+    taxRate: 8.625,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "Subtotal",
+      itemDiscount: "Item Discount",
+      itemDiscounts: "Total Discount",
+    },
+    grandTotalLabel: "Total",
+    paymentMethod: "Credit Card",
+    cardLastFour: "5308",
+    paymentName: "VISA",
+    showCardAuth: false,
+    cardRows: [
+      {
+        label: "Entry Method:",
+        value: "Chip",
+      },
+      {
+        label: "Account:",
+        value: "XXXXXXXXXXXX5308",
+      },
+      {
+        label: "Auth:",
+        value: "AUTH 03317B (A)",
+      },
+      {
+        label: "Application Label:",
+        value: "VISA",
+      },
+      {
+        label: "AID:",
+        value: "A0000000031010",
+      },
+      {
+        label: "TVR:",
+        value: "8000008000",
+      },
+      {
+        label: "TSI:",
+        value: "E800",
+      },
+    ],
+    showBarcode: false,
+    footerMessage: "Tell us about your recent shopping experience and receive a discount on a future purchase. Details at gap.com.",
+    policyText: "Merchandise may be returned or exchanged with this receipt within 30 days of purchase. See gap.com for our full return policy.",
+  },
+  // pottery-barn — was wrong-format. Sources:
+  //   https://www.yelp.com/biz/pottery-barn-indianapolis (photo: Pottery Barn Keystone Crossing receipt, BUS.DATE 03/26/2023 - image https://s3-media0.fl.yelpcdn.com/bphoto/UkO0aMpgM1Glxf6elTx_9w/o.jpg)
+  //   https://www.scribd.com/document/596113249/pottery-barn-mesa-1 (potterybarn.com checkout summary 2022: Subtotal / Shipping & Processing / Tax / Total; online flow only)
+  "pottery-barn": {
+    businessName: "Pottery Barn",
+    logoText: "Pottery Barn",
+    addressLine1: "4800 Example Mall Dr, Space 214",
+    addressLine2: "Indianapolis, IN 46240",
+    phone: "(317) 555-0164",
+    website: "",
+    cashier: "",
+    register: "",
+    hideStoreLine: true,
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "none",
+    itemStyle: "lined",
+    paperStyle: "thermal",
+    sections: [
+      {
+        rows: [
+          {
+            label: "S-112  R-3",
+            value: "T-4126  A-208744",
+          },
+          {
+            label: "BUS.DATE",
+            value: "{{date+0}}",
+          },
+        ],
+      },
+      {
+        rows: [
+          {
+            value: "SALE",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "PB BEDDING",
+        quantity: 0,
+        price: 0,
+        heading: true,
+      },
+      {
+        name: "PB Classic Organic Sheet Set King",
+        quantity: 1,
+        price: 169.0,
+        sku: "2133208",
+      },
+      {
+        name: "Lassen Printed Quilt King",
+        quantity: 1,
+        price: 349.0,
+        sku: "1959917",
+        discount: 35.0,
+        addons: [
+          {
+            name: "62151 SALE MARKDOWN",
+            price: 0,
+          },
+        ],
+      },
+      {
+        name: "Belgian Flax Linen Sham Std",
+        quantity: 2,
+        price: 79.5,
+        sku: "8820610",
+        discount: 8.0,
+        addons: [
+          {
+            name: "62151 SALE MARKDOWN",
+            price: 0,
+          },
+        ],
+      },
+      {
+        name: "PB DECOR",
+        quantity: 0,
+        price: 0,
+        heading: true,
+      },
+      {
+        name: "Faux Fur Throw 50x60",
+        quantity: 1,
+        price: 89.0,
+        sku: "4417306",
+      },
+    ],
+    currency: "USD",
+    taxLabel: "TAX Househol 7.00%",
+    taxRate: 7,
+    taxLines: [
+      {
+        label: "TAX Househol 7.00%",
+        rate: 7,
+      },
+    ],
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    subtotalNet: true,
+    showItemsSold: true,
+    labels: {
+      subtotal: "SUBTOTAL",
+      itemsSold: "Sale item(s):",
+      itemDiscount: "MARKDOWN",
+    },
+    grandTotalLabel: "TOTAL",
+    paymentMethod: "Credit Card",
+    paymentName: "VISA",
+    cardLastFour: "3381",
+    showCardAuth: false,
+    cardRows: [
+      {
+        label: "AUTH",
+        value: "074219",
+      },
+    ],
+    footerMessage: "Thank you for shopping at Pottery Barn",
+    policyText: "Return and exchange terms apply; see potterybarn.com for the current policy. (unverified wording)",
+    showBarcode: true,
+  },
+  // gopuff — was no-source. Sources:
+  //   https://gopuff.com/e/faq (order fee as low as $3.95, FAM members pay no order fee, $3.95 regulated-products fee, Small Order Fee below a basket value; total includes fees, taxes and tip)
+  //   https://help.gopuff.com/ (support@gopuff.com)
+  "gopuff": {
+    businessName: "Gopuff",
+    addressLine1: "Order #G7K4-29183",
+    addressLine2: "Delivered to 2200 Example St, Apt 4B, Philadelphia, PA",
+    phone: "",
+    website: "gopuff.com",
+    cashier: "",
+    register: "",
+    hideStoreLine: true,
+    paperFinish: "email",
+    paperStyle: "minimal",
+    fontFamily: "inter",
+    headerAlign: "left",
+    ruleStyle: "solid",
+    itemStyle: "qtycol",
+    greeting: "Thanks for your order!",
+    sections: [
+      {
+        title: "Order details",
+        rows: [
+          {
+            label: "Order",
+            value: "#G7K4-29183",
+          },
+          {
+            label: "Delivered",
+            value: "{{date+0}}",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "Celsius Sparkling Orange 12oz",
+        quantity: 2,
+        price: 2.99,
+      },
+      {
+        name: "Tide PODS Original 16ct",
+        quantity: 1,
+        price: 7.49,
+      },
+      {
+        name: "Ben & Jerry's Half Baked Pint",
+        quantity: 1,
+        price: 6.49,
+        notTaxed: true,
+      },
+      {
+        name: "Doritos Nacho Cheese Party Size",
+        quantity: 1,
+        price: 6.29,
+        notTaxed: true,
+      },
+      {
+        name: "Advil Tablets 50ct",
+        quantity: 1,
+        price: 10.99,
+        notTaxed: true,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Tax",
+    taxRate: 8,
+    showTaxRate: false,
+    discount: 0,
+    deliveryFee: 3.95,
+    tip: 3.0,
+    labels: {
+      subtotal: "Subtotal",
+      deliveryFee: "Order Fee",
+      tip: "Driver Tip",
+    },
+    grandTotalLabel: "Total",
+    paymentMethod: "Credit Card",
+    cardLastFour: "6092",
+    paymentInline: true,
+    showCardAuth: false,
+    footerMessage: "Questions about your order? Contact support@gopuff.com",
+    showBarcode: false,
+  },
+  // philz-coffee — was wrong-format. Sources:
+  //   https://www.validity.com/blog/7-great-examples-of-a-perfect-e-receipt/ (real Square e-receipt 'Receipt from Philz Coffee Inc.', 2016 - image https://www.validity.com/wp-content/uploads/2020/06/philz_coffee.png)
+  //   https://www.doordash.com/en-CA/store/philz-coffee-torrance-25754545/ (current drink names; delivery prices run above in-store)
+  //   https://www.philzcoffee.com/menu (drink names: Mint Mojito, Tesora, Philharmonic)
+  "philz-coffee": {
+    businessName: "Philz Coffee Inc.",
+    addressLine1: "1480 Example St, Suite 110",
+    addressLine2: "San Francisco, CA 94107",
+    phone: "415-555-0192",
+    website: "",
+    cashier: "",
+    register: "",
+    hideStoreLine: true,
+    paperFinish: "email",
+    paperStyle: "minimal",
+    fontFamily: "inter",
+    headerAlign: "center",
+    ruleStyle: "solid",
+    itemStyle: "lined",
+    itemHeader: {
+      left: "",
+      right: "",
+    },
+    greeting: "How was your experience?",
+    items: [
+      {
+        name: "Mint Mojito Iced Coffee (Large)",
+        quantity: 1,
+        price: 7.25,
+      },
+      {
+        name: "Tesora (Small)",
+        quantity: 1,
+        price: 4.75,
+      },
+      {
+        name: "Philharmonic (Large)",
+        quantity: 1,
+        price: 5.75,
+        modifiers: ["Cream & Sugar"],
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Tax",
+    taxRate: 0,
+    showTaxRate: false,
+    discount: 0,
+    tip: 1.5,
+    hideSubtotal: true,
+    grandTotalLabel: "Total",
+    paymentMethod: "Credit Card",
+    paymentName: "Visa",
+    cardLastFour: "4417",
+    showCardAuth: false,
+    cardRows: [
+      {
+        value: "VISA",
+      },
+      {
+        value: "SAMPLE CUSTOMER",
+      },
+    ],
+    afterPayment: [
+      {
+        rows: [
+          {
+            value: "#7KD",
+          },
+        ],
+      },
+    ],
+    footerMessage: "Reply to this email to leave feedback for Philz Coffee Inc.",
+    policyText: "Not your receipt? Manage preferences for digital receipts.",
+    showBarcode: false,
+  },
+  // american-eagle — was wrong-format. Sources:
+  //   https://thekrazycouponlady.com/tips/store-hacks/american-eagle-clearance (photo of a real AE receipt, Magic Valley Mall Twin Falls ID, 2022 - image https://content-images.thekrazycouponlady.com/nie44ndm9bqr/4wrZHmewlmc0MVB4M8LzLy/adbc992115b43727cb6455238f9661c9/american-eagle-black-friday-price-match-2022-2-1662751802-1662751802.jpg)
+  //   https://www.scribd.com/document/791805770/receipt-American-Eagle (real AE e-receipt from the Saudi franchise, 2023 - Customer Copy, Sales Person, Receipt#, Auth Code; not the US format)
+  //   https://p1.hiclipart.com/preview/1009/188/929/random-s-american-eagle-receipt.jpg (back of an older AE receipt: 'AE Return Policy')
+  "american-eagle": {
+    businessName: "American Eagle",
+    logoText: "AMERICAN EAGLE",
+    addressLine1: "SAMPLE TOWN CENTER\n4100 Example Blvd Suite 1180",
+    addressLine2: "Columbus,OH 43219\n(614)555-0147",
+    phone: "",
+    website: "",
+    cashier: "",
+    register: "",
+    hideStoreLine: true,
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "none",
+    itemStyle: "lined",
+    paperStyle: "thermal",
+    topBarcode: true,
+    sections: [
+      {
+        rows: [
+          {
+            label: "Trans.:",
+            value: "4417",
+          },
+          {
+            label: "Store:",
+            value: "01386",
+          },
+          {
+            label: "Reg.:",
+            value: "002",
+          },
+          {
+            label: "Sales:",
+            value: "KM2241",
+          },
+          {
+            label: "Cashier:",
+            value: "KM2241",
+          },
+        ],
+      },
+      {
+        rows: [
+          {
+            value: "Sale",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "SUPER SOFT GRAPHIC T-SHIRT",
+        quantity: 1,
+        price: 19.95,
+        sku: "003692063",
+        discount: 11.97,
+        taxFlag: "T",
+        addons: [
+          {
+            name: "60% OFF SLCT AE CLEARANCE",
+            price: 0,
+          },
+        ],
+      },
+      {
+        name: "AE STRETCH MOM JEAN",
+        quantity: 1,
+        price: 59.95,
+        sku: "004318227",
+        discount: 17.99,
+        taxFlag: "T",
+        addons: [
+          {
+            name: "30% OFF JEANS",
+            price: 0,
+          },
+        ],
+      },
+      {
+        name: "AE FLEECE OVERSIZED HOODIE",
+        quantity: 1,
+        price: 49.95,
+        sku: "002917604",
+        taxFlag: "T",
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Total Sales Tax",
+    taxRate: 7.5,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    showItemsSold: true,
+    showSavings: true,
+    labels: {
+      subtotal: "Subtotal",
+      itemDiscount: "Deal Discount Amt.",
+      itemDiscounts: "Total Discount",
+      itemsSold: "Number of Items Sold",
+      savings: "You Saved",
+    },
+    grandTotalLabel: "Total",
+    paymentMethod: "Debit Card",
+    paymentName: "Debit",
+    cardLastFour: "5832",
+    showCardAuth: false,
+    footerMessage: "AE Return Policy: if you are not completely happy with a purchase, return it for an exchange or full refund with your receipt. (wording approximate)",
+    policyText: "Las devoluciones con recibo se reembolsan en la forma de pago original. (Spanish policy text; wording approximate)",
+    showBarcode: false,
+  },
+  // sixt — was wrong-format. Sources:
+  //   https://static.nhtsa.gov/odi/inv/2024/INRD-PE24024-86583P1.pdf (real Sixt Rent a Car, LLC invoice, May 2025, SFO pick-up/return, 2 pages - public NHTSA exhibit)
+  //   https://www.sixt.com/help-center/sections/invoices-and-receipts/ (invoices are PDFs in the bookings area; final invoice after return; rental agreement number as reference)
+  //   https://www.sixt.com/help-center/articles/how-do-i-read-my-sixt-rental-agreement/ (rental agreement contents)
+  "sixt": {
+    businessName: "Sixt Rent a Car, LLC",
+    addressLine1: "P.O. Box 8188",
+    addressLine2: "Fort Lauderdale, FL 33310",
+    phone: "",
+    website: "sixt.com",
+    cashier: "",
+    register: "",
+    hideStoreLine: true,
+    invoice: true,
+    numberLabel: "Doc. no.:",
+    paperFinish: "invoice",
+    paperStyle: "minimal",
+    fontFamily: "inter",
+    headerAlign: "left",
+    ruleStyle: "solid",
+    itemStyle: "table",
+    sections: [
+      {
+        title: "Pick-up",
+        rows: [
+          {
+            label: "Date",
+            value: "{{date-3}}",
+          },
+          {
+            label: "Time",
+            value: "09:42 AM",
+          },
+          {
+            label: "Branch",
+            value: "San Francisco Int Airport",
+          },
+        ],
+      },
+      {
+        title: "Return",
+        rows: [
+          {
+            label: "Date",
+            value: "{{date+0}}",
+          },
+          {
+            label: "Time",
+            value: "10:15 AM",
+          },
+          {
+            label: "Branch",
+            value: "San Francisco Int Airport",
+          },
+        ],
+      },
+      {
+        title: "Invoice",
+        rows: [
+          {
+            label: "Customer no.:",
+            value: "110583264",
+          },
+          {
+            label: "Debtor ID:",
+            value: "0901274418",
+          },
+          {
+            label: "Driver's name:",
+            value: "Jordan Lee",
+          },
+          {
+            label: "Vehicle category:",
+            value: "IFAR",
+          },
+          {
+            label: "Res. no.:",
+            value: "9721446038",
+          },
+          {
+            label: "RA no.:",
+            value: "9601338172",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "Rental days",
+        quantity: 3,
+        price: 52.4,
+        taxFlag: "A1",
+      },
+      {
+        name: "Vehicle License Fee",
+        quantity: 3,
+        price: 1.93,
+        taxFlag: "A3",
+      },
+      {
+        name: "Transport. Facility Charge",
+        quantity: 1,
+        price: 16.0,
+        taxFlag: "A0",
+        notTaxed: true,
+      },
+      {
+        name: "Customer Facility Charge",
+        quantity: 1,
+        price: 10.0,
+        taxFlag: "A0",
+        notTaxed: true,
+      },
+      {
+        name: "AP Concession Recovery Fee",
+        quantity: 1,
+        price: 18.33,
+        taxFlag: "A3",
+      },
+    ],
+    currency: "USD",
+    taxLabel: "A1 Rental Car Tax 3.50% + Sales Tax 11.875%",
+    taxRate: 15.375,
+    taxLines: [
+      {
+        label: "A1 Rental Car Tax 3.50% + Sales Tax 11.875%",
+        rate: 15.375,
+        appliesTo: "A1",
+      },
+      {
+        label: "A3 Sales Tax 9.375%",
+        rate: 9.375,
+        appliesTo: "A3",
+      },
+    ],
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "Total net amount",
+      paymentMethod: "Payment:",
+    },
+    grandTotalLabel: "Total gross amount",
+    paymentMethod: "Credit Card",
+    paymentName: "MASTERCARD",
+    cardLastFour: "2291",
+    paymentInline: true,
+    showCardAuth: false,
+    afterPayment: [
+      {
+        rows: [
+          {
+            label: "Outstanding amount",
+            value: "0.00 USD",
+          },
+        ],
+      },
+      {
+        title: "SIXT contact",
+        rows: [
+          {
+            label: "E-mail:",
+            value: "customerservice-usa@sixt.com",
+          },
+        ],
+      },
+    ],
+    footerMessage: "Thank you for choosing Sixt!",
+    policyText: "The service has been rendered between pick-up date and return date. Due to changed plans the final amount may vary from the initially calculated rental price.",
+    showBarcode: false,
+  },
+  // equinox — was no-source. Sources:
+  //   https://luxe.digital/scene/equinox-membership-cost.md (third-party price guide; dues widely reported in the several-hundred-dollar range; not a receipt)
+  //   https://www.19pine.ai/complaint-filing/gym-memberships-and-wellness/equinox (third-party: billing questions go to the club, membership agreement and statements; not a receipt)
+  "equinox": {
+    businessName: "Equinox",
+    logoText: "EQUINOX",
+    addressLine1: "Sample Club - 200 Example Ave",
+    addressLine2: "New York, NY 10011",
+    phone: "",
+    website: "equinox.com",
+    cashier: "",
+    register: "",
+    hideStoreLine: true,
+    paperFinish: "email",
+    paperStyle: "minimal",
+    fontFamily: "montserrat",
+    headerAlign: "left",
+    ruleStyle: "solid",
+    itemStyle: "lined",
+    itemHeader: {
+      left: "Description",
+      right: "Amount",
+    },
+    greeting: "Payment Receipt",
+    sections: [
+      {
+        title: "Membership",
+        rows: [
+          {
+            label: "Member",
+            value: "Alex Morgan",
+          },
+          {
+            label: "Member ID",
+            value: "EQ-0048213",
+          },
+          {
+            label: "Membership",
+            value: "All Access",
+          },
+          {
+            label: "Home club",
+            value: "Sample Club",
+          },
+          {
+            label: "Billing period",
+            value: "{{date+0}}",
+          },
+          {
+            label: "Through",
+            value: "{{date+30}}",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "All Access Membership - Monthly Dues",
+        quantity: 1,
+        price: 365.0,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Sales Tax",
+    taxRate: 4.875,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    grandTotalLabel: "Total",
+    paymentMethod: "Credit Card",
+    cardLastFour: "1048",
+    paymentInline: true,
+    showCardAuth: false,
+    footerMessage: "Questions about your billing? Contact your home club.",
+    showBarcode: false,
+  },
+  // lidl — was wrong-format. Sources:
+  //   https://commons.wikimedia.org/wiki/File:Lidl_Emsstra%C3%9Fe_receipt,_Aurich_(2019)_01.jpg (photo: complete German Lidl receipt, 2019)
+  //   https://commons.wikimedia.org/wiki/File:Lidl_Hesel_receipt,_Hesel_(2019)_01.jpg (photo: second German Lidl receipt, same set)
+  //   https://www.flickr.com/photo.gne?id=53281827666 (photo: UK Lidl receipt 2023 - VAT NO. header, '2 x £1.69' qty lines, A/B VAT codes; uploader notes A = no tax, B = 20%)
+  "lidl": {
+    businessName: "Lidl",
+    logoText: "LIDL",
+    addressLine1: "Hauptstraße 48",
+    addressLine2: "49074 Osnabrück",
+    phone: "",
+    website: "",
+    cashier: "",
+    register: "",
+    hideStoreLine: true,
+    currency: "EUR",
+    dateOrder: "dmy",
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "dashed",
+    itemStyle: "stacked",
+    paperStyle: "thermal",
+    items: [
+      {
+        name: "Dattelcherrytomaten",
+        quantity: 1,
+        price: 1.49,
+        taxFlag: "A",
+      },
+      {
+        name: "Grüne Oliven o. Kern",
+        quantity: 1,
+        price: 1.39,
+        taxFlag: "A",
+      },
+      {
+        name: "Gemüsemais",
+        quantity: 2,
+        price: 0.89,
+        taxFlag: "A",
+      },
+      {
+        name: "Milchbrötchen",
+        quantity: 1,
+        price: 1.29,
+        taxFlag: "A",
+      },
+      {
+        name: "Frische Vollmilch 3,5%",
+        quantity: 1,
+        price: 1.15,
+        taxFlag: "A",
+      },
+      {
+        name: "Cien Duschgel",
+        quantity: 2,
+        price: 0.95,
+        taxFlag: "B",
+      },
+      {
+        name: "W5 Spülmittel",
+        quantity: 1,
+        price: 1.29,
+        taxFlag: "B",
+      },
+    ],
+    taxIncluded: true,
+    taxLabel: "MWST",
+    taxRate: 7,
+    taxLines: [
+      {
+        label: "MWST A 7 %",
+        rate: 7,
+        appliesTo: "A",
+      },
+      {
+        label: "MWST B 19 %",
+        rate: 19,
+        appliesTo: "B",
+      },
+    ],
+    showTaxRate: false,
+    hideSubtotal: true,
+    discount: 0,
+    tip: 0,
+    grandTotalLabel: "zu zahlen",
+    paymentMethod: "Debit Card",
+    paymentName: "Karte",
+    cardLastFour: "4471",
+    showCardAuth: false,
+    afterPayment: [
+      {
+        rows: [
+          {
+            label: "USt-ID-Nr.",
+            value: "DE812345678",
+          },
+        ],
+      },
+      {
+        title: "K-U-N-D-E-N-B-E-L-E-G",
+        rows: [
+          {
+            label: "Terminal-ID :",
+            value: "58204417",
+          },
+          {
+            label: "TA-Nr",
+            value: "318072",
+          },
+          {
+            label: "BNr",
+            value: "2264",
+          },
+          {
+            value: "Kartenzahlung",
+          },
+          {
+            value: "contactless",
+          },
+          {
+            value: "girocard",
+          },
+        ],
+      },
+    ],
+    footerMessage: "",
+    showBarcode: true,
+    numberLocale: "de-DE",
+  },
+  // urban-outfitters — was wrong-format. Sources:
+  //   https://keystonemallincident.blogspot.com/2024/06/of-successful-shopping-trip-on-521-tue.html (photos: full Urban Outfitters Keystone Crossing receipt, May 2024 - header, item lines, totals, card block, UO Rewards footer)
+  //   https://www.yelp.com/biz/urban-outfitters-tucson (photo: UO Tucson receipt item lines 'USD 19.99 T' / '1 @ 19.99' - image https://s3-media0.fl.yelpcdn.com/bphoto/_FlhzkGk-ZXUh4ShB1Q68Q/o.jpg)
+  //   https://www.flickr.com/photo.gne?id=4748752305 (photo: UO Leeds UK receipt, 2010; older UK format)
+  "urban-outfitters": {
+    businessName: "Urban Outfitters",
+    logoText: "URBAN\nOUTFITTERS",
+    addressLine1: "6100 Example Crossing\n#210 SAMPLE FASHION MALL",
+    addressLine2: "INDIANAPOLIS IN 46240-2115\n(317) 555-0178",
+    phone: "",
+    website: "",
+    cashier: "",
+    register: "",
+    hideStoreLine: true,
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "dashed",
+    itemStyle: "lined",
+    paperStyle: "thermal",
+    topBarcode: true,
+    sections: [
+      {
+        rows: [
+          {
+            label: "Trans.:",
+            value: "2716",
+          },
+          {
+            label: "Store:",
+            value: "00418",
+          },
+          {
+            label: "Reg.:",
+            value: "001",
+          },
+          {
+            label: "Till:",
+            value: "#:T1",
+          },
+          {
+            label: "Cashier:",
+            value: "402871",
+          },
+          {
+            label: "Sales:",
+            value: "402871",
+          },
+          {
+            label: "Customer:",
+            value: "672041938825",
+          },
+        ],
+      },
+      {
+        rows: [
+          {
+            value: "SALE",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "BDG Baggy Skate Fit Jean",
+        quantity: 1,
+        price: 79.0,
+        sku: "88213406",
+        taxFlag: "T",
+      },
+      {
+        name: "Out From Under Seamless Tank",
+        quantity: 1,
+        price: 24.0,
+        sku: "86520117",
+        discount: 9.6,
+        taxFlag: "T",
+        addons: [
+          {
+            name: "40% OFF SELECT STYLES",
+            price: 0,
+          },
+        ],
+      },
+      {
+        name: "UO Vintage Graphic Tee",
+        quantity: 1,
+        price: 39.0,
+        sku: "85647741",
+        discount: 15.6,
+        taxFlag: "T",
+        addons: [
+          {
+            name: "40% OFF SELECT STYLES",
+            price: 0,
+          },
+        ],
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Tax",
+    taxRate: 7,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "Subtotal",
+      itemDiscount: "Transaction Discount Amt.",
+      itemDiscounts: "Total Discount",
+    },
+    grandTotalLabel: "Total",
+    paymentMethod: "Credit Card",
+    paymentName: "Credit",
+    cardLastFour: "7316",
+    showCardAuth: false,
+    cardRows: [
+      {
+        label: "Card:",
+        value: "Visa",
+      },
+      {
+        label: "Account:",
+        value: "7316",
+      },
+      {
+        label: "Entry:",
+        value: "Chip",
+      },
+      {
+        label: "Auth:",
+        value: "08251R (A)",
+      },
+    ],
+    afterPayment: [
+      {
+        rows: [
+          {
+            value: "Please retain for your records.",
+          },
+        ],
+      },
+      {
+        title: "Join UO Rewards",
+        rows: [
+          {
+            value: "Get 10% off your next purchase when you join",
+          },
+          {
+            value: "100 Points = $5 Reward",
+          },
+        ],
+      },
+    ],
+    footerMessage: "urbanoutfitters.com",
+    policyText: "Return policy printed on the receipt; see urbanoutfitters.com for current terms. (wording unverified)",
+    showBarcode: false,
+  },
+  // radisson — was no-source. Sources:
+  //   https://www.scribd.com/document/842268014/Hotel-Invoice (Radisson Collection, The Edwardian Manchester 'Copy of Invoice', Dec 2024 - UK, provenance unverified)
+  //   https://www.scribd.com/document/708294163/Radisson-Blu-Hotel (Radisson Blu invoice listing; not opened)
+  //   https://navan.com/resources/glossary/hotel-folio (what a folio contains; general)
+  "radisson": {
+    businessName: "Radisson Hotel Sample City",
+    logoText: "RADISSON",
+    addressLine1: "35 Example St S",
+    addressLine2: "Minneapolis, MN 55402",
+    phone: "(612) 555-0133",
+    website: "radissonhotels.com",
+    cashier: "",
+    register: "",
+    hideStoreLine: true,
+    paperFinish: "invoice",
+    paperStyle: "modern",
+    fontFamily: "montserrat",
+    headerAlign: "left",
+    ruleStyle: "solid",
+    itemStyle: "lined",
+    itemHeader: {
+      left: "DESCRIPTION",
+      right: "DEBIT",
+    },
+    invoice: true,
+    numberLabel: "Invoice No.",
+    greeting: "COPY OF INVOICE",
+    sections: [
+      {
+        rows: [
+          {
+            label: "Room No.",
+            value: "0714",
+          },
+          {
+            label: "Arrival",
+            value: "{{date-2}}",
+          },
+          {
+            label: "Departure",
+            value: "{{date+0}}",
+          },
+          {
+            label: "Guest",
+            value: "Ms. Taylor Reed",
+          },
+          {
+            label: "Reference No.",
+            value: "4211-7360",
+          },
+          {
+            label: "Choice Privileges #",
+            value: "XXXXXX4825",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "Accommodation 159.00 / Room / Night",
+        quantity: 2,
+        price: 159.0,
+      },
+      {
+        name: "Parking - Self",
+        quantity: 2,
+        price: 24.0,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Room Tax",
+    taxRate: 9.875,
+    taxLines: [
+      {
+        label: "State Sales Tax",
+        rate: 6.875,
+      },
+      {
+        label: "City Lodging Tax",
+        rate: 3,
+      },
+    ],
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "Total Charges",
+    },
+    grandTotalLabel: "Total USD",
+    paymentMethod: "Credit Card",
+    paymentName: "MasterCard Chip and Pin",
+    cardLastFour: "9104",
+    showCardAuth: false,
+    cardRows: [
+      {
+        label: "Card Number",
+        value: "************9104",
+      },
+    ],
+    afterPayment: [
+      {
+        rows: [
+          {
+            label: "Balance",
+            value: "0.00",
+          },
+        ],
+      },
+    ],
+    footerMessage: "Thank you for staying with us.",
+    policyText: "Signature ____________________\nChoice Privileges members may earn points on eligible charges. (wording unverified)",
+    showBarcode: false,
+  },
+  // dropbox — was wrong-format. Sources:
+  //   https://www.arts.gov/sites/default/files/dropbox-receipt.pdf (real Dropbox receipt, 2014, public NEA record)
+  //   https://help.dropbox.com/billing/invoices-receipts (receipts and invoices for every payment under Billing; statement descriptor DROPBOX*<transaction number>; updated 2026)
+  "dropbox": {
+    businessName: "Dropbox, Inc.",
+    addressLine1: "1800 Owens St",
+    addressLine2: "San Francisco, CA 94158\nUnited States\nbilling-support@dropbox.com",
+    phone: "",
+    website: "",
+    cashier: "",
+    register: "",
+    hideStoreLine: true,
+    paperFinish: "email",
+    paperStyle: "minimal",
+    fontFamily: "open-sans",
+    headerAlign: "left",
+    ruleStyle: "solid",
+    itemStyle: "lined",
+    itemHeader: {
+      left: "Description",
+      right: "Amount",
+    },
+    greeting: "Receipt for alex.sample@example.com",
+    sections: [
+      {
+        rows: [
+          {
+            label: "Payment",
+            value: "Visa ending in 4417 approved",
+          },
+          {
+            label: "Date",
+            value: "{{date+0}}",
+          },
+          {
+            label: "Receipt ID",
+            value: "8KQ2VT7MZRWX",
+          },
+        ],
+      },
+      {
+        title: "Service period",
+        rows: [
+          {
+            label: "From",
+            value: "{{date+0}}",
+          },
+          {
+            label: "To",
+            value: "{{date+365}}",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "Dropbox Plus - 2 TB (yearly)",
+        quantity: 1,
+        price: 119.88,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Tax",
+    taxRate: 0,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    hideSubtotal: true,
+    grandTotalLabel: "Total",
+    hideTotals: true,
+    paymentMethod: "Credit Card",
+    cardLastFour: "4417",
+    showCardAuth: false,
+    footerMessage: "",
+    policyText: "All amounts shown are in USD. This is not an invoice. No additional payment is required.",
+    showBarcode: false,
+  },
+  // anytime-fitness — was no-source. Sources:
+  //   https://thepricer.org/anytime-fitness-costs (third-party: enrollment, key fob and annual enhancement fees vary by franchise; not a receipt)
+  //   https://info.clubwise.com/whats-new-and-improved-2025-af (club software vendor page for Anytime Fitness agreements; not a receipt)
+  "anytime-fitness": {
+    businessName: "Anytime Fitness",
+    logoText: "ANYTIME FITNESS",
+    addressLine1: "Sample Club - 7200 Example Pkwy",
+    addressLine2: "Woodbury, MN 55125",
+    phone: "(651) 555-0119",
+    website: "anytimefitness.com",
+    cashier: "",
+    register: "",
+    hideStoreLine: true,
+    paperFinish: "email",
+    paperStyle: "minimal",
+    fontFamily: "roboto",
+    headerAlign: "left",
+    ruleStyle: "solid",
+    itemStyle: "lined",
+    itemHeader: {
+      left: "Description",
+      right: "Amount",
+    },
+    greeting: "Membership Payment Receipt",
+    sections: [
+      {
+        title: "Membership",
+        rows: [
+          {
+            label: "Member",
+            value: "Sam Rivera",
+          },
+          {
+            label: "Agreement #",
+            value: "AF-2093-118274",
+          },
+          {
+            label: "Plan",
+            value: "Month-to-Month",
+          },
+          {
+            label: "Home club",
+            value: "Sample Club",
+          },
+          {
+            label: "Billing date",
+            value: "{{date+0}}",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "Monthly Membership Dues",
+        quantity: 1,
+        price: 49.99,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Sales Tax",
+    taxRate: 7.125,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    grandTotalLabel: "Total",
+    paymentMethod: "Debit Card",
+    cardLastFour: "3360",
+    paymentInline: true,
+    showCardAuth: false,
+    footerMessage: "Questions about your membership or billing? Contact your home club.",
+    showBarcode: false,
+  },
+  // tiffany-co — was wrong-format. Sources:
+  //   https://sheprescue.org/images/tiffany%20bracelet%20receipt.JPG
+  //   https://www.1stdibs.com/jewelry/rings/engagement-rings/tiffany-co-109ct-i-vs1-round-brilliant-diamond-solitaire-engagement-ring/id-j_13984762/
+  //   https://www.catherinetrentonjewellery.com/products/tiffany-co-1-74ct-i-vvs2-diamond-classic-engagement-ring-receipt-val-boxes
+  //   https://www.tiffany.com/policy/return-policy/
+  "tiffany-co": {
+    businessName: "Tiffany & Co.",
+    logoText: "TIFFANY & CO.",
+    addressLine1: "SHORT HILLS",
+    addressLine2: "",
+    phone: "(973) 555-0162",
+    website: "",
+    hideStoreLine: true,
+    paperStyle: "thermal",
+    fontFamily: "courier",
+    headerAlign: "center",
+    ruleStyle: "none",
+    itemStyle: "lined",
+    cashier: "",
+    register: "",
+    sections: [
+      {
+        rows: [
+          {
+            label: "Sales Professional:",
+            value: "A.Moreno",
+          },
+        ],
+      },
+      {
+        rows: [
+          {
+            label: "STORE: 0071  REG: 022",
+            value: "TRAN: 4518/2",
+          },
+          {
+            label: "RSP: 03311",
+            value: "TAKE/1",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "RTT HEART TAG PENDANT SS 16IN",
+        quantity: 1,
+        price: 400.0,
+        sku: "190-68-27445316",
+      },
+      {
+        name: "T1 NARROW HINGED BANGLE 18K RG",
+        quantity: 1,
+        price: 7300.0,
+        sku: "171-28-60531207",
+        modifiers: ["SIZE MEDIUM"],
+      },
+    ],
+    currency: "USD",
+    taxLabel: "07078  6.625%  0503719007",
+    taxRate: 6.625,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "Subtotal",
+    },
+    grandTotalLabel: "Total",
+    paymentMethod: "Credit Card",
+    paymentName: "VISA CHARGE",
+    cardLastFour: "7717",
+    showCardAuth: false,
+    cardRows: [
+      {
+        label: "ACCT # /K(4)",
+        value: "XXXXXXXXXXXX7717",
+      },
+      {
+        label: "AUTH:",
+        value: "011905",
+      },
+    ],
+    afterPayment: [
+      {
+        rows: [
+          {
+            value: "TIFFANY & CO.",
+          },
+          {
+            value: "{{date}} {{time}}  0071202604518",
+          },
+        ],
+      },
+    ],
+    showBarcode: true,
+    footerMessage: "CUSTOMER COPY",
+    policyText: "REVERSE SIDE OF RECEIPT STATES THE\nTERMS AND CONDITIONS OF SALE",
+  },
+  // apple-tv-plus — was missing-key-details. Sources:
+  //   https://support.apple.com/en-us/118223
+  //   https://cdsassets.apple.com/live/7WUAS350/images/apple-account/your-receipt-from-apple-email-subscription-bill-apple-account.png
+  //   https://support.apple.com/en-gb/HT201382
+  //   https://help.airmailapp.com/en-us/article/finding-your-apple-app-store-receipt-and-managing-airmail-subscription-billing-q7ajtn/
+  "apple-tv-plus": {
+    businessName: "Apple",
+    addressLine1: "",
+    addressLine2: "",
+    phone: "",
+    website: "",
+    hideStoreLine: true,
+    paperFinish: "email",
+    paperStyle: "modern",
+    fontFamily: "inter",
+    headerAlign: "left",
+    ruleStyle: "solid",
+    greeting: "Receipt",
+    sections: [
+      {
+        rows: [
+          {
+            label: "APPLE ACCOUNT",
+            value: "alex.sample@icloud.com",
+          },
+          {
+            label: "DATE",
+            value: "{{date}}",
+          },
+          {
+            label: "ORDER ID",
+            value: "MQ7X2KL9TB",
+          },
+          {
+            label: "DOCUMENT NO.",
+            value: "194820736518",
+          },
+          {
+            label: "BILLED TO",
+            value: "Visa •••• 4821\nAlex Sample\n123 Sample Street\nAustin, TX 78701\nUSA",
+          },
+        ],
+      },
+      {
+        title: "Apple Services",
+        rows: [
+          {
+            label: "Renews",
+            value: "{{date+30}}",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "Apple TV+",
+        quantity: 1,
+        price: 12.99,
+        addons: [
+          {
+            name: "Apple TV+ (Automatic Renewal) (Monthly)",
+            price: 0,
+          },
+        ],
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Tax",
+    taxRate: 0,
+    showTaxRate: false,
+    hideSubtotal: true,
+    discount: 0,
+    tip: 0,
+    grandTotalLabel: "TOTAL",
+    paymentMethod: "Credit Card",
+    cardLastFour: "4821",
+    showCardAuth: false,
+    hideTotals: true,
+    showBarcode: false,
+    footerMessage: "",
+    policyText: "",
+  },
+  // scooter-s-coffee — was no-source. Sources:
+  //   https://emma-app.com/who-charged-me/scooters-coffee
+  //   https://apple.co/2lW0UlO
+  //   https://en.wikipedia.org/wiki/Scooter%27s_Coffee
+  "scooter-s-coffee": {
+    businessName: "Scooter's Coffee",
+    addressLine1: "Store #0418\n4120 S 84th St",
+    addressLine2: "Omaha, NE 68127",
+    phone: "(402) 555-0148",
+    website: "scooterscoffee.com",
+    hideStoreLine: true,
+    paperStyle: "thermal",
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "dashed",
+    itemStyle: "qtycol",
+    sections: [
+      {
+        rows: [
+          {
+            label: "Order",
+            value: "#2184",
+          },
+          {
+            label: "Drive-Thru",
+            value: "Lane 1",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "M Caramelicious",
+        quantity: 1,
+        price: 5.79,
+        modifiers: ["Iced"],
+        addons: [
+          {
+            name: "Oat Milk",
+            price: 0.75,
+          },
+        ],
+      },
+      {
+        name: "L Americano",
+        quantity: 1,
+        price: 4.29,
+        addons: [
+          {
+            name: "Extra Shot",
+            price: 0.85,
+          },
+        ],
+      },
+      {
+        name: "Blueberry Muffin",
+        quantity: 1,
+        price: 3.29,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Tax",
+    taxRate: 7.0,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "Subtotal",
+    },
+    grandTotalLabel: "Total",
+    paymentMethod: "Credit Card",
+    cardLastFour: "4821",
+    showCardAuth: false,
+    cardRows: [
+      {
+        label: "Card",
+        value: "XXXXXXXXXXXX4821",
+      },
+      {
+        label: "Auth",
+        value: "082615",
+      },
+    ],
+    footerMessage: "Thank you! Earn Smiles on every order\nin the Scooter's Coffee app.",
+    showBarcode: false,
+  },
+  // adidas — was wrong-format. Sources:
+  //   https://www.solereview.com/proof-of-purchase-for-the-reviewed-products/
+  //   https://www.solereview.com/wp-content/uploads/2025/02/adidas_adizero_EVO_SL_invoice.jpg
+  //   https://www.scribd.com/document/801885868/adidas-receipt
+  "adidas": {
+    businessName: "adidas",
+    addressLine1: "0417 - Chicago Michigan Ave\n800 N Example Ave",
+    addressLine2: "Chicago, IL 60611",
+    phone: "Phone: (312)555-0187",
+    website: "",
+    hideStoreLine: true,
+    paperStyle: "thermal",
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "dashed",
+    itemStyle: "lined",
+    itemHeader: {
+      left: "Item",
+      right: "Selling Price",
+    },
+    greeting: "*****\nSales Receipt",
+    skuFirst: true,
+    items: [
+      {
+        name: "Samba OG M  FTWWHT ,10",
+        sku: "B75806",
+        quantity: 1,
+        price: 100.0,
+        taxFlag: "T",
+      },
+      {
+        name: "Adicolor Trefoil Hoodie M  BLACK ,L",
+        sku: "IM4489",
+        quantity: 1,
+        price: 70.0,
+        taxFlag: "T",
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Total tax",
+    taxRate: 10.25,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "SUBTOTAL",
+    },
+    grandTotalLabel: "TOTAL",
+    paymentMethod: "Credit Card",
+    paymentName: "Card",
+    cardLastFour: "4821",
+    showCardAuth: false,
+    cardRows: [
+      {
+        label: "Pref. name",
+        value: "VISA CREDIT",
+      },
+      {
+        label: "Auth. code",
+        value: "318254",
+      },
+      {
+        label: "Card",
+        value: "****4821",
+      },
+    ],
+    footerMessage: "Thank you\n\nORIGINAL",
+    showBarcode: true,
+    policyText: "REFUND POLICY: MERCHANDISE MAY BE RETURNED OR EXCHANGED WITHIN 30 DAYS. FOR DETAILS PLEASE GO TO: adidas.com/storereturns",
+  },
+  // bolt — was wrong-format. Sources:
+  //   https://www.scribd.com/document/660109665/Ride-Invoice-From-Bolt
+  //   https://www.scribd.com/document/803371190/Ride-Invoice-From-Bolt
+  //   https://bolt.eu/en-lv/support/articles/360017382159/
+  "bolt": {
+    businessName: "Bolt",
+    addressLine1: "",
+    addressLine2: "",
+    phone: "",
+    website: "bolt.eu",
+    hideStoreLine: true,
+    paperFinish: "email",
+    paperStyle: "modern",
+    fontFamily: "inter",
+    headerAlign: "left",
+    ruleStyle: "solid",
+    itemStyle: "lined",
+    invoice: true,
+    numberLabel: "Invoice no.",
+    dateOrder: "dmy",
+    currency: "EUR",
+    sections: [
+      {
+        rows: [
+          {
+            label: "Recipient:",
+            value: "Alex Sample",
+          },
+        ],
+      },
+      {
+        title: "Invoice issued by Bolt Operations OÜ on behalf of:",
+        rows: [
+          {
+            value: "SAMPLE VTC SAS",
+          },
+          {
+            value: "12 Rue Exemple 93100 Montreuil",
+          },
+          {
+            label: "Reg. code:",
+            value: "91234567800012",
+          },
+          {
+            label: "VAT no.:",
+            value: "FR12912345678",
+          },
+        ],
+      },
+      {
+        rows: [
+          {
+            label: "Start:",
+            value: "14 Rue de Rivoli, Paris 75004 ({{date}} {{time}})",
+          },
+          {
+            label: "Finish:",
+            value: "Gare de Lyon, Place Louis-Armand, Paris 75012",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "Trip Fee",
+        quantity: 1,
+        price: 21.4,
+      },
+    ],
+    taxIncluded: true,
+    taxLabel: "VAT 10%:",
+    taxRate: 10,
+    showTaxRate: false,
+    taxLines: [
+      {
+        label: "VAT 10%:",
+        rate: 10,
+      },
+    ],
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "Total (EUR):",
+    },
+    grandTotalLabel: "Total including VAT (EUR):",
+    paymentMethod: "Credit Card",
+    paymentName: "Charged Visa ••4821:",
+    cardLastFour: "4821",
+    showCardAuth: false,
+    footerMessage: "",
+    showBarcode: false,
+    policyText: "Issued on behalf of SAMPLE VTC SAS by Bolt Operations OÜ / Vana-Lõuna 15, Tallinn 10134, Estonia, VAT: EE102090374, Reg. n. 14532901",
+    numberLocale: "fr-FR",
+  },
+  // h-r-block — was no-source. Sources:
+  //   https://www.hrblock.com/price-match
+  //   https://claimyr.com/government-services/irs/How-to-View-HR-Block-Pathward-Bank-Fee-Deductions-from-Tax-Refund/2025-03-09
+  //   https://investors.hrblock.com/node/26236/pdf
+  "h-r-block": {
+    businessName: "H&R Block",
+    addressLine1: "One H&R Block Way",
+    addressLine2: "Kansas City, MO 64105",
+    phone: "",
+    website: "hrblock.com",
+    hideStoreLine: true,
+    paperFinish: "email",
+    paperStyle: "modern",
+    fontFamily: "inter",
+    headerAlign: "left",
+    ruleStyle: "solid",
+    greeting: "Thanks for filing with H&R Block",
+    sections: [
+      {
+        rows: [
+          {
+            label: "Order number",
+            value: "HRB-58210473",
+          },
+          {
+            label: "Tax year",
+            value: "2025",
+          },
+          {
+            label: "Account",
+            value: "alex.sample@example.com",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "H&R Block Deluxe Online",
+        quantity: 1,
+        price: 55.0,
+      },
+      {
+        name: "State return",
+        quantity: 1,
+        price: 39.0,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Tax",
+    taxRate: 0,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    paymentMethod: "Credit Card",
+    cardLastFour: "4821",
+    showCardAuth: false,
+    paymentInline: true,
+    footerMessage: "Keep this receipt for your records.",
+    showBarcode: false,
+  },
+  // carl-s-jr — was wrong-format. Sources:
+  //   https://www.flickr.com/photo.gne?id=7038082225
+  //   https://www.flickr.com/photo.gne?id=6892014984
+  "carl-s-jr": {
+    businessName: "Carl's Jr.",
+    addressLine1: "Restaurant 1104382\n1820 S Example Blvd.",
+    addressLine2: "Anaheim, CA 92802",
+    phone: "",
+    website: "",
+    hideStoreLine: true,
+    paperStyle: "thermal",
+    fontFamily: "share-tech-mono",
+    headerAlign: "center",
+    ruleStyle: "none",
+    itemStyle: "qtycol",
+    sections: [
+      {
+        rows: [
+          {
+            label: "Order 504117",
+            value: "Cashier: JOSE R",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "Lg Famous Star Cbo",
+        quantity: 1,
+        price: 10.29,
+        addons: [
+          {
+            name: "Famous Star w/Chs",
+            price: 0,
+          },
+          {
+            name: "Lg Fries",
+            price: 0.9,
+          },
+          {
+            name: "Lg Bev Bar",
+            price: 0.8,
+          },
+        ],
+      },
+      {
+        name: "Western Bacon Chsbgr",
+        quantity: 1,
+        price: 7.99,
+      },
+      {
+        name: "Choc Chip Cookie",
+        quantity: 2,
+        price: 1.79,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Tax",
+    taxRate: 7.75,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "SubTotal",
+    },
+    grandTotalLabel: "Total",
+    paymentMethod: "Credit Card",
+    paymentName: "Visa",
+    cardLastFour: "4821",
+    showCardAuth: false,
+    cardRows: [
+      {
+        label: "Acct:",
+        value: "XXXXXXXX4821",
+      },
+      {
+        label: "Approval:",
+        value: "614203",
+      },
+      {
+        label: "Remaining Balance:",
+        value: "0.00",
+      },
+    ],
+    orderNumber: "Table Tent # 56",
+    footerMessage: "Dine In\nThank you for visiting!\nItems in bag(s): 3",
+    showBarcode: false,
+  },
+  // crate-barrel — was wrong-format. Sources:
+  //   https://www.pinterest.com/pin/red-wine-receipt-from-crate-barrel--499055202462122082/
+  //   https://baymard.com/checkout-usability/benchmark/step-type/receipt/19851-crate-barrel
+  "crate-barrel": {
+    businessName: "Crate & Barrel",
+    logoText: "Crate&Barrel",
+    addressLine1: "1400 Example St",
+    addressLine2: "Natick, MA 01760",
+    phone: "(508) 555-0143",
+    website: "",
+    hideStoreLine: true,
+    paperStyle: "thermal",
+    fontFamily: "mono",
+    headerAlign: "left",
+    ruleStyle: "solid",
+    itemStyle: "qtycol",
+    sections: [
+      {
+        rows: [
+          {
+            value: "#118:2:Dana R",
+          },
+        ],
+      },
+      {
+        rows: [
+          {
+            value: "60214837251",
+          },
+          {
+            value: "TAKE",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "Marin White Dinner Plate",
+        quantity: 4,
+        price: 10.95,
+        sku: "266035",
+        taxFlag: "A",
+      },
+      {
+        name: "Hip Red Wine 19oz.",
+        quantity: 6,
+        price: 6.95,
+        sku: "308402",
+        taxFlag: "A",
+      },
+      {
+        name: "Oregon Champagne Glass 8oz.",
+        quantity: 6,
+        price: 6.95,
+        sku: "437525",
+        taxFlag: "A",
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Sales Tax",
+    taxRate: 6.25,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "Subtotal",
+    },
+    grandTotalLabel: "Total",
+    paymentMethod: "Credit Card",
+    cardLastFour: "4821",
+    showCardAuth: false,
+    cardRows: [
+      {
+        label: "VISA",
+        value: "XXXXXXXXXXXX4821",
+      },
+      {
+        label: "AUTH",
+        value: "072914",
+      },
+    ],
+    footerMessage: "Thank you for shopping Crate & Barrel",
+    showBarcode: true,
+  },
+  // national-car-rental — was wrong-format. Sources:
+  //   https://static.nhtsa.gov/odi/inv/2023/INRD-PE23022-14660P1.pdf
+  //   https://static.nhtsa.gov/odi/inv/2023/INRD-PE23022-14548P1.pdf
+  "national-car-rental": {
+    businessName: "National",
+    addressLine1: "",
+    addressLine2: "",
+    phone: "",
+    website: "nationalcar.com",
+    hideStoreLine: true,
+    paperFinish: "email",
+    paperStyle: "modern",
+    fontFamily: "roboto",
+    headerAlign: "left",
+    ruleStyle: "solid",
+    itemStyle: "lined",
+    invoice: true,
+    numberLabel: "Invoice #",
+    greeting: "Rental Agreement # 812345670",
+    sections: [
+      {
+        title: "Renter Information",
+        rows: [
+          {
+            label: "Renter Name",
+            value: "ALEX SAMPLE",
+          },
+          {
+            label: "Renter Address",
+            value: "BEACON, NY\nUSA",
+          },
+        ],
+      },
+      {
+        title: "Vehicle Information",
+        rows: [
+          {
+            label: "Vehicle Class Driven",
+            value: "Standard SUV AWD",
+          },
+          {
+            label: "Vehicle Class Charged",
+            value: "Midsize 2/4 door/Automatic/Air",
+          },
+          {
+            label: "Odometer Starting",
+            value: "21,418",
+          },
+          {
+            label: "Odometer Ending",
+            value: "22,036",
+          },
+          {
+            label: "Total",
+            value: "618",
+          },
+          {
+            label: "Fuel",
+            value: "Starting: Full  Ending: Full",
+          },
+        ],
+      },
+      {
+        title: "Pickup",
+        rows: [
+          {
+            value: "{{date-4}}  11:18 AM",
+          },
+          {
+            value: "STEWART AIRPORT (SWF)\n1 Example Airport Rd\nNEW WINDSOR, NY 12553\nUSA",
+          },
+        ],
+      },
+      {
+        title: "Return",
+        rows: [
+          {
+            value: "{{date}}  {{time}}",
+          },
+          {
+            value: "STEWART AIRPORT (SWF)\n1 Example Airport Rd\nNEW WINDSOR, NY 12553\nUSA",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "Rental Rate — Time & Distance (per Day)",
+        quantity: 4,
+        price: 68.99,
+      },
+      {
+        name: "Coverages — Loss Damage Waiver Full (Included)",
+        quantity: 1,
+        price: 0,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Taxes and Fees",
+    taxRate: 34.42,
+    showTaxRate: true,
+    taxLines: [
+      {
+        label: "Car Rental Sales Tax 12 Pct",
+        rate: 12,
+      },
+      {
+        label: "Local Sales Tax",
+        rate: 3.75,
+      },
+      {
+        label: "State Sales Tax",
+        rate: 4,
+      },
+      {
+        label: "Concession Recovery Fee 14.29 Pct",
+        rate: 14.29,
+      },
+      {
+        label: "Mctd Tax",
+        rate: 0.38,
+      },
+    ],
+    discount: 0,
+    tip: 0,
+    hideSubtotal: true,
+    grandTotalLabel: "Total",
+    paymentMethod: "Credit Card",
+    paymentName: "Amount charged to VISA",
+    cardLastFour: "4821",
+    showCardAuth: false,
+    afterPayment: [
+      {
+        rows: [
+          {
+            label: "Charged on",
+            value: "{{date}}",
+          },
+          {
+            label: "Amount Due",
+            value: "$0.00",
+          },
+        ],
+      },
+    ],
+    policyText: "(Subject to audit)\n\nThank you for renting with National Car Rental\nWe appreciate your business!\nThis email was automatically generated from an unattended mailbox, so please do not reply to this e-mail.",
+    footerMessage: "",
+    showBarcode: false,
+  },
+  // slack — was missing-key-details. Sources:
+  //   https://www.scribd.com/document/1030165358/Slack-Invoice-SBIE-11455417
+  //   https://www.scribd.com/document/744588224/Slack-Invoice-SBIE-6292571
+  //   https://slack.com/help/articles/115005855543-Vendor-and-remittance-details-for-Slack
+  //   https://slack.com/help/articles/201723133
+  "slack": {
+    businessName: "Slack",
+    addressLine1: "Slack Technologies, LLC\nA Salesforce company",
+    addressLine2: "San Francisco, CA",
+    phone: "",
+    website: "feedback@slack.com",
+    hideStoreLine: true,
+    paperFinish: "email",
+    paperStyle: "modern",
+    fontFamily: "inter",
+    headerAlign: "left",
+    ruleStyle: "solid",
+    itemStyle: "table",
+    greeting: "Receipt",
+    invoice: true,
+    numberLabel: "Invoice number",
+    sections: [
+      {
+        rows: [
+          {
+            label: "Receipt number",
+            value: "2381-5047-6629",
+          },
+          {
+            label: "Date paid",
+            value: "{{date}}",
+          },
+          {
+            label: "Payment method",
+            value: "Visa - 4821",
+          },
+        ],
+      },
+      {
+        title: "Bill to",
+        rows: [
+          {
+            value: "Sample Studio LLC\n200 Example Ave\nAustin, TX 78701\nUnited States",
+          },
+        ],
+      },
+      {
+        rows: [
+          {
+            label: "Billing period",
+            value: "{{date}} – {{date+29}}",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "Pro monthly plan start",
+        quantity: 8,
+        price: 8.75,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Tax",
+    taxRate: 0,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "Subtotal",
+      amountPaid: "Amount paid",
+    },
+    grandTotalLabel: "Total",
+    paymentMethod: "Credit Card",
+    cardLastFour: "4821",
+    showCardAuth: false,
+    footerMessage: "All amounts in USD\nsamplestudio.slack.com",
+    showBarcode: false,
+  },
+  // cinemark — was wrong-format. Sources:
+  //   https://www.scribd.com/document/820364841/Cinemark-Purchase-Confirmation-2
+  //   https://www.leanderlookout.com/abusing-ourselves-to-death-neil-postman-abusement/
+  //   https://cinemark.com/faq-tickets-purchases-refunds
+  //   https://www.flickr.com/photo.gne?id=2138660279
+  "cinemark": {
+    businessName: "Cinemark",
+    addressLine1: "Cinemark Sample Valley 14 and XD",
+    addressLine2: "Plano, TX",
+    phone: "",
+    website: "cinemark.com",
+    hideStoreLine: true,
+    paperFinish: "email",
+    paperStyle: "modern",
+    fontFamily: "montserrat",
+    headerAlign: "left",
+    ruleStyle: "solid",
+    itemStyle: "lined",
+    greeting: "Transaction Details",
+    qrCode: true,
+    topBarcode: true,
+    sections: [
+      {
+        rows: [
+          {
+            label: "Order Number",
+            value: "4827",
+          },
+          {
+            label: "Confirmation Number",
+            value: "2614938207715",
+          },
+        ],
+      },
+      {
+        title: "Sample Feature (PG-13)",
+        rows: [
+          {
+            label: "Showtime",
+            value: "{{date}} 7:15 PM",
+          },
+          {
+            label: "Seats",
+            value: "H7, H8",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "XD General Admission",
+        quantity: 2,
+        price: 16.25,
+      },
+      {
+        name: "Large Drink",
+        quantity: 1,
+        price: 7.69,
+        modifiers: ["Coca-Cola"],
+      },
+      {
+        name: "Large Popcorn",
+        quantity: 1,
+        price: 9.99,
+        modifiers: ["Regular Butter"],
+      },
+    ],
+    serviceFee: 3.78,
+    deliveryFee: 0.5,
+    currency: "USD",
+    taxLabel: "Tax",
+    taxRate: 8.25,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      serviceFee: "Online Ticket Fees",
+      deliveryFee: "Pickup Charge",
+    },
+    grandTotalLabel: "Purchase Total",
+    paymentMethod: "Credit Card",
+    paymentName: "Master Card ...4821",
+    cardLastFour: "4821",
+    showCardAuth: false,
+    cardRows: [
+      {
+        value: "Your payment was successfully charged on {{date}} at {{time}}",
+      },
+    ],
+    footerMessage: "",
+    showBarcode: false,
+    policyText: "©2026 Cinemark USA, Inc. Century Theatres, CinéArts, Rave, Tinseltown, and XD are Cinemark brands.",
+  },
+  // pandora — was wrong-format. Sources:
+  //   https://www.depop.com/products/daniellejadethirlaway-pandora-receipt-for-the-pave/ (photo of a Pandora UK till receipt, Norwich, 2013: item no. / design no. / name blocks, Total:, Paid By: EFT, No Change Due, Items: 1)
+  //   https://www.retailcustomerexperience.com/news/pandora-deploys-digital-receipts-for-uk-locations/ (Pandora e-receipts via Ecrebo, gift/returns/warranty use)
+  //   https://www.ebay.de/itm/135398748276 (590702HV Moments Snake Chain design number and size-suffix format; US ~$75)
+  "pandora": {
+    businessName: "",
+    logoText: "PANDORA",
+    addressLine1: "Store 2417, Level 2\nSouthpark Mall, Charlotte",
+    addressLine2: "NC 28211",
+    phone: "T: (704) 555-0147",
+    website: "",
+    hideTitle: true,
+    hideStoreLine: true,
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "dashed",
+    itemStyle: "lined",
+    skuFirst: true,
+    items: [
+      {
+        name: "MOMENTS SNAKE CHAIN BRACELET",
+        sku: "590702HV-19",
+        quantity: 1,
+        price: 75.0,
+      },
+      {
+        name: "SPARKLING HEART PAVE CHARM",
+        sku: "791493CZ",
+        quantity: 1,
+        price: 65.0,
+      },
+      {
+        name: "FAMILY TREE CLIP CHARM",
+        sku: "798878C00",
+        quantity: 1,
+        price: 55.0,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Sales Tax",
+    taxRate: 7.25,
+    showTaxRate: false,
+    grandTotalLabel: "Total:",
+    paymentMethod: "Credit Card",
+    paymentName: "EFT",
+    cardLastFour: "4417",
+    showCardAuth: false,
+    labels: {
+      subtotal: "Subtotal:",
+      paymentMethod: "Paid By:",
+      change: "No Change Due",
+      itemsSold: "Items:",
+    },
+    showItemsSold: true,
+    cashier: "MAYA",
+    register: "001-01-48213",
+    showBarcode: true,
+    footerMessage: "Thank you for shopping at PANDORA",
+    policyText: "Returns and exchanges within 30 days with this receipt. Please keep your receipt for warranty purposes.",
+    paperStyle: "thermal",
+    paperFinish: "thermal",
+  },
+  // boots-pharmacy — was wrong-format. Sources:
+  //   https://www.mumsnet.com/talk/am_i_being_unreasonable/3833440-Another-boots-receipt (photo of a Boots till receipt, Chester, Feb 2020: header, Served by, NOW prices, deal banners, TOTAL TO PAY, CARD SALES, Total Saving Today, ADVANTAGE CARD STATEMENT)
+  //   https://www.mumsnet.com/talk/am_i_being_unreasonable/3826545-Please-someone-help-me-work-out-this-boots-receipt (second Boots receipt photo, same branch, points redemption: 'Served by: SCO TILL 1', TOTAL TO REDEEM, Total Saving Today)
+  //   https://moneytothemasses.com/news/how-to-avoid-losing-your-boots-advantage-card-points (points statement printed at the bottom of the till receipt; 4 points per £1)
+  "boots-pharmacy": {
+    businessName: "Boots UK Limited",
+    addressLine1: "LEEDS BRIGGATE BR.1184 - 1184",
+    addressLine2: "",
+    phone: "(0113) 496 0712",
+    website: "",
+    hideTitle: true,
+    hideStoreLine: true,
+    cashier: "Served by: Priya",
+    register: "",
+    dateOrder: "dmy",
+    currency: "GBP",
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "dashed",
+    itemStyle: "lined",
+    itemHeader: {
+      left: "",
+      right: "£",
+    },
+    items: [
+      {
+        name: "No7 P&P Int Srm 30ml",
+        quantity: 1,
+        price: 39.95,
+        discount: 9.99,
+      },
+      {
+        name: "Bts Paracetamol 16s",
+        quantity: 1,
+        price: 0.55,
+      },
+      {
+        name: "Lemsip Max C&F Caps 16",
+        quantity: 1,
+        price: 5.29,
+      },
+      {
+        name: "Bts Vit C 1000mg 60s",
+        quantity: 1,
+        price: 4.5,
+        discount: 1.5,
+      },
+      {
+        name: "Simple Face Wash 150ml",
+        quantity: 1,
+        price: 4.99,
+      },
+    ],
+    taxIncluded: true,
+    taxLabel: "VAT",
+    taxRate: 20,
+    showTaxRate: false,
+    taxLines: [
+      {
+        label: "VAT @ 20%",
+        rate: 20,
+      },
+    ],
+    hideSubtotal: true,
+    grandTotalLabel: "TOTAL TO PAY",
+    paymentMethod: "Debit Card",
+    paymentName: "CARD SALES",
+    cardLastFour: "6031",
+    showCardAuth: false,
+    labels: {
+      itemDiscount: "SAVING",
+      savings: "Total Saving Today",
+      change: "CHANGE",
+    },
+    showSavings: true,
+    afterPayment: [
+      {
+        title: "ADVANTAGE CARD STATEMENT",
+        rows: [
+          {
+            label: "Points Received",
+            value: "164",
+          },
+          {
+            label: "Points Balance",
+            value: "1,872",
+          },
+          {
+            label: "Card No.",
+            value: "633597**********4418",
+          },
+        ],
+      },
+    ],
+    footerMessage: "Thank you for shopping at Boots",
+    policyText: "Please retain your receipt as proof of purchase. Medicines cannot be returned unless faulty.",
+    showBarcode: true,
+    paperStyle: "thermal",
+    paperFinish: "thermal",
+  },
+  // vons — was wrong-format. Sources:
+  //   https://www.complaintsboard.com/vons-b122669 (photo of two Vons receipts, Imperial Beach CA, Jan 2024: header, top barcode, Price/You Pay, GROCERY, **** BALANCE, CARD #, TRACE/AUTH, TOTAL NUMBER OF ITEMS SOLD, YOUR REWARDS, Vons for U footer)
+  //   https://www.flickr.com/photo.gne?id=14273552193 (Vons receipt photo, 2014: STORE MGR line, CRV SFTDK SNGL TAX, RegPrice/Card Savings, **** TAX … BAL, NUMBER OF ITEMS, YOUR CASHIER TODAY WAS, Your Savings)
+  //   https://www.milehighonthecheap.com/safeway-nestle-bonus-coupon-discount/ (sister-banner Safeway receipt on the same Albertsons POS, 2025)
+  "vons": {
+    businessName: "",
+    logoText: "VONS",
+    addressLine1: "Store 2184 Dir M Okafor\nMain:(714) 555-0186",
+    addressLine2: "1440 S Harbor Blvd\nFullerton CA 92832",
+    phone: "",
+    website: "",
+    hideTitle: true,
+    hideStoreLine: true,
+    topBarcode: true,
+    showBarcode: false,
+    register: "YOUR CASHIER TODAY WAS ANGIE",
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "dashed",
+    itemStyle: "lined",
+    itemHeader: {
+      left: "",
+      right: "You Pay",
+    },
+    skuFirst: true,
+    items: [
+      {
+        name: "GROCERY",
+        quantity: 0,
+        price: 0,
+        heading: true,
+      },
+      {
+        name: "LUCERNE 2% MILK GAL",
+        sku: "2113000510",
+        quantity: 1,
+        price: 4.99,
+        discount: 1.0,
+        notTaxed: true,
+        taxFlag: "S",
+      },
+      {
+        name: "SIG SEL WHT BREAD",
+        sku: "2113045672",
+        quantity: 1,
+        price: 2.99,
+        notTaxed: true,
+        taxFlag: "S",
+      },
+      {
+        name: "COCA COLA 12PK 12OZ",
+        sku: "4900000634",
+        quantity: 1,
+        price: 10.99,
+        discount: 3.5,
+        notTaxed: true,
+        taxFlag: "S",
+      },
+      {
+        name: "CRV SFTDK MULTI TAX",
+        quantity: 1,
+        price: 0.6,
+      },
+      {
+        name: "TILLAMOOK MED CHDR 2LB",
+        sku: "7203600052",
+        quantity: 1,
+        price: 13.99,
+        discount: 3.0,
+        notTaxed: true,
+        taxFlag: "S",
+      },
+      {
+        name: "BANANAS",
+        sku: "4011",
+        quantity: 2.3,
+        price: 0.79,
+        unit: "lb",
+        notTaxed: true,
+        taxFlag: "S",
+      },
+      {
+        name: "BOUNTY SAS 6 DBL RL",
+        sku: "3700074312",
+        quantity: 1,
+        price: 12.99,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "TAX",
+    taxRate: 7.75,
+    showTaxRate: false,
+    grandTotalLabel: "**** BALANCE",
+    paymentMethod: "Credit Card",
+    cardLastFour: "7333",
+    showCardAuth: false,
+    cardRows: [
+      {
+        label: "VISA Purchase",
+        value: "{{date+0}}",
+      },
+      {
+        label: "CARD #",
+        value: "************7333",
+      },
+      {
+        label: "TRACE:",
+        value: "1534081733",
+      },
+      {
+        label: "AUTH:",
+        value: "00851732",
+      },
+    ],
+    labels: {
+      itemDiscount: "Member Savings",
+      change: "CHANGE",
+      itemsSold: "TOTAL NUMBER OF ITEMS SOLD =",
+    },
+    showItemsSold: true,
+    afterPayment: [
+      {
+        title: "YOUR REWARDS",
+        rows: [
+          {
+            label: "Points Earned Today",
+            value: "44",
+          },
+          {
+            label: "REWARDS AVAILABLE",
+            value: "2",
+          },
+        ],
+      },
+    ],
+    footerMessage: "Thank you for shopping Vons!\nFor VONS FOR U questions call\n877-276-9637 or Vons.com/foru",
+    paperStyle: "thermal",
+    paperFinish: "thermal",
+  },
+  // jetblue — was wrong-format. Sources:
+  //   https://www.jetblue.com/help/receipts-and-itineraries (official list of what a JetBlue receipt includes)
+  //   https://cs.nyu.edu/~shasha/papers/losangeles_april2017.html (forwarded JetBlue itinerary email, 2017: YOUR ITINERARY columns, 'This is not your boarding pass', YOUR PAYMENT: FORM OF PAYMENT / FARE TYPE / FARE / EXTRAS / TAXES & FEES / TOTAL)
+  //   https://thepointsguy.global.ssl.fastly.net/us/originals/2022/06/3jetbluecheckedbagreceipt.jpg (JetBlue bag-fee receipt screenshot, 2022: QTY / FEE TYPE / COST / TAX / TOTAL, Payment(s))
+  //   https://www.scribd.com/doc/78786522/JetBlue-eTicket-Receipt-Test (older 'eTicket Receipt' layout with Fare / Taxes/Fees/Charges / Total Fare; titled 'Test', low confidence)
+  "jetblue": {
+    businessName: "JetBlue",
+    addressLine1: "",
+    addressLine2: "",
+    phone: "",
+    website: "jetblue.com",
+    hideTitle: true,
+    hideStoreLine: true,
+    greeting: "Your trip receipt\nThis is not your boarding pass.",
+    sections: [
+      {
+        rows: [
+          {
+            label: "Confirmation code",
+            value: "QWTKZM",
+          },
+          {
+            label: "Date of request",
+            value: "{{date+0}}",
+          },
+        ],
+      },
+      {
+        title: "Flight 1 · B6 1015",
+        rows: [
+          {
+            label: "Date",
+            value: "{{date+12}}",
+          },
+          {
+            label: "Route",
+            value: "New York, NY (JFK) → Fort Lauderdale, FL (FLL)",
+          },
+          {
+            label: "Departs / Arrives",
+            value: "8:15 AM / 11:24 AM",
+          },
+          {
+            label: "Fare",
+            value: "Blue",
+          },
+          {
+            label: "Seat",
+            value: "14C",
+          },
+        ],
+      },
+      {
+        title: "Flight 2 · B6 1016",
+        rows: [
+          {
+            label: "Date",
+            value: "{{date+16}}",
+          },
+          {
+            label: "Route",
+            value: "Fort Lauderdale, FL (FLL) → New York, NY (JFK)",
+          },
+          {
+            label: "Departs / Arrives",
+            value: "12:30 PM / 3:25 PM",
+          },
+          {
+            label: "Fare",
+            value: "Blue",
+          },
+          {
+            label: "Seat",
+            value: "15D",
+          },
+        ],
+      },
+      {
+        title: "Traveler",
+        rows: [
+          {
+            value: "SAMPLE/JORDAN",
+          },
+          {
+            label: "Ticket number",
+            value: "2792148830516",
+          },
+          {
+            label: "TrueBlue",
+            value: "XXXXXX4821",
+          },
+        ],
+      },
+    ],
+    itemStyle: "lined",
+    itemHeader: {
+      left: "YOUR PAYMENT",
+      right: "USD",
+    },
+    items: [
+      {
+        name: "Fare",
+        quantity: 1,
+        price: 238.14,
+      },
+      {
+        name: "Extras: Even More Space (14C)",
+        quantity: 1,
+        price: 49.0,
+      },
+      {
+        name: "U.S. Transportation Tax",
+        quantity: 1,
+        price: 17.86,
+      },
+      {
+        name: "U.S. Flight Segment Tax",
+        quantity: 1,
+        price: 10.6,
+      },
+      {
+        name: "September 11th Security Fee",
+        quantity: 1,
+        price: 11.2,
+      },
+      {
+        name: "Passenger Facility Charge",
+        quantity: 1,
+        price: 9.0,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Taxes & fees",
+    taxRate: 0,
+    showTaxRate: false,
+    hideSubtotal: true,
+    grandTotalLabel: "Total paid",
+    paymentMethod: "Credit Card",
+    cardLastFour: "4417",
+    paymentInline: true,
+    showCardAuth: false,
+    labels: {
+      paymentMethod: "Form of payment",
+    },
+    footerMessage: "Receipt total includes air fare, taxes and fees applicable to air fare, and extras purchased with this booking.",
+    policyText: "Carriage and other services provided by the carrier are subject to conditions of carriage, which are hereby incorporated by reference. ©JetBlue Airways",
+    showBarcode: false,
+    fontFamily: "sans",
+    headerAlign: "left",
+    ruleStyle: "solid",
+    paperStyle: "modern",
+    paperFinish: "email",
+  },
+  // shipt — was wrong-format. Sources:
+  //   https://www.mom4real.com/home-grocery-delivery-is-here/ (Shipt emailed receipt screenshot, 2017: banner, Total, 12 Items, '$0.79 × 3.0' item lines, $0.00 × 0.0 out-of-stock line)
+  //   https://www.mealplanningmagic.com/how-to-save-with-groceries-delivered-to-your-door/ (second Shipt receipt screenshot, H-E-B order, 18 Items, same layout)
+  //   https://help.shipt.com/why-was-i-charged-multiple-times-by-shipt (pre-authorisation, digital receipt on delivery, tips as separate charge)
+  //   https://help.shipt.com/what-is-a-service-fee (service fee for non-members)
+  "shipt": {
+    businessName: "",
+    logoText: "SHIPT",
+    addressLine1: "",
+    addressLine2: "",
+    phone: "",
+    website: "shipt.com",
+    hideTitle: true,
+    hideStoreLine: true,
+    greeting: "Your Shipt Grocery Order Receipt",
+    sections: [
+      {
+        rows: [
+          {
+            label: "Store",
+            value: "Target",
+          },
+          {
+            label: "Delivered",
+            value: "{{date+0}}",
+          },
+          {
+            label: "Order",
+            value: "#84219736",
+          },
+        ],
+      },
+    ],
+    itemStyle: "stacked",
+    items: [
+      {
+        name: "Good & Gather 2% Reduced Fat Milk - 1gal",
+        quantity: 1,
+        price: 4.29,
+        notTaxed: true,
+      },
+      {
+        name: "Yellow Squash",
+        quantity: 3,
+        price: 0.89,
+        notTaxed: true,
+      },
+      {
+        name: "Mission Carb Balance Soft Taco Flour Tortillas - 8ct",
+        quantity: 1,
+        price: 4.99,
+        notTaxed: true,
+      },
+      {
+        name: "Good & Gather Large Grade A Eggs - 12ct",
+        quantity: 1,
+        price: 3.49,
+        notTaxed: true,
+      },
+      {
+        name: "Cheerios Cereal - 18oz",
+        quantity: 2,
+        price: 5.79,
+        notTaxed: true,
+      },
+      {
+        name: "Bananas - each",
+        quantity: 6,
+        price: 0.29,
+        notTaxed: true,
+      },
+      {
+        name: "Up & Up Paper Towels - 6 Mega Rolls",
+        quantity: 1,
+        price: 11.99,
+      },
+      {
+        name: "Diet 7UP Soda - 6pk/0.5L Bottles",
+        quantity: 0,
+        price: 0.0,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Tax",
+    taxRate: 8.25,
+    showTaxRate: false,
+    showItemsSold: true,
+    labels: {
+      itemsSold: "Items",
+      subtotal: "Subtotal",
+    },
+    grandTotalLabel: "Total",
+    paymentMethod: "Credit Card",
+    cardLastFour: "2290",
+    paymentInline: true,
+    showCardAuth: false,
+    footerMessage: "Prices on Shipt may be higher than in store. Items that were out of stock have not been charged.",
+    showBarcode: false,
+    fontFamily: "sans",
+    headerAlign: "center",
+    ruleStyle: "solid",
+    paperStyle: "modern",
+    paperFinish: "email",
+  },
+  // stockx — was missing-key-details. Sources:
+  //   https://stockx.com/help/articles/what-are-stockx-fees-for-buyers (official buyer fees: processing fee, shipping, sales tax; 3% / $3.95 min on Listings Marketplace; $12.50 optional verification)
+  //   https://news.solesavy.com/stockx-introduces-processing-fee-for-us-buyers-raises-fee-on-international-orders/ (processing fee introduced for US buyers)
+  //   https://www.supdropshipping.com/de/?p=18499 (buyer email sequence: purchase confirmation, shipped to StockX, verified, delivered; secondary)
+  "stockx": {
+    businessName: "",
+    logoText: "StockX",
+    addressLine1: "",
+    addressLine2: "",
+    phone: "",
+    website: "stockx.com",
+    hideTitle: true,
+    hideStoreLine: true,
+    greeting: "Order Confirmed",
+    sections: [
+      {
+        rows: [
+          {
+            label: "Order Number",
+            value: "73819462-73719462",
+          },
+          {
+            label: "Order Date",
+            value: "{{date+0}}",
+          },
+        ],
+      },
+      {
+        title: "Item Details",
+        rows: [
+          {
+            label: "Style ID",
+            value: "DD1391-100",
+          },
+          {
+            label: "Size",
+            value: "US M 10",
+          },
+          {
+            label: "Condition",
+            value: "New",
+          },
+          {
+            label: "Verification",
+            value: "StockX Verified",
+          },
+        ],
+      },
+      {
+        title: "Shipping Address",
+        rows: [
+          {
+            value: "Sample Buyer",
+          },
+          {
+            value: "218 Atlantic Ave Apt 3",
+          },
+          {
+            value: "Brooklyn, NY 11201",
+          },
+        ],
+      },
+    ],
+    itemStyle: "lined",
+    items: [
+      {
+        name: "Nike Dunk Low Retro White Black Panda",
+        quantity: 1,
+        price: 112.0,
+      },
+    ],
+    labels: {
+      subtotal: "Purchase Price",
+      serviceFee: "Processing Fee",
+      deliveryFee: "Shipping",
+    },
+    serviceFee: 6.72,
+    deliveryFee: 14.95,
+    currency: "USD",
+    taxLabel: "Sales Tax",
+    taxRate: 8.875,
+    showTaxRate: false,
+    grandTotalLabel: "Total",
+    paymentMethod: "Credit Card",
+    cardLastFour: "4417",
+    paymentInline: true,
+    showCardAuth: false,
+    footerMessage: "We'll email you when your item ships.",
+    showBarcode: false,
+    fontFamily: "sans",
+    headerAlign: "left",
+    ruleStyle: "solid",
+    paperStyle: "modern",
+    paperFinish: "email",
+  },
+  // noodles-company — was missing-key-details. Sources:
+  //   https://thereyouarejesus.com/noodlesco1112-receipt-1/ (scan of a Noodles & Company receipt, Lexington Park MD, 2016: header, Host line, indented add-ons, After Order Add-On, Subtotal, Tax, TO GO Total, VISA #XXXX, SIGNATURE, Balance Due)
+  //   https://thereyouarejesus.com/noodles-11-12-receipt-v4/ (second scan of the same receipt, totals block)
+  //   https://pointed-bean-06f.notion.site/TellNoodles-Your-Guide-to-Sharing-Feedback-and-Earning-Rewards-at-Noodles-Company-1372d0b9bf09803da23ce577691c4d32 (TellNoodles survey: receipt code + date + location; secondary)
+  "noodles-company": {
+    businessName: "Noodles & Company",
+    logoDataUrl: "",
+    addressLine1: "7445 Mineral Point Rd",
+    addressLine2: "Madison WI 53717",
+    phone: "608-555-0193",
+    website: "",
+    hideTitle: true,
+    hideStoreLine: true,
+    cashier: "Host: Cash 2\nKAYLA",
+    register: "40218",
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "none",
+    itemStyle: "lined",
+    items: [
+      {
+        name: "Pad Thai",
+        quantity: 1,
+        price: 10.29,
+        addons: [
+          {
+            name: "Grilled Chicken",
+            price: 3.49,
+          },
+        ],
+      },
+      {
+        name: "Wisconsin Mac & Cheese",
+        quantity: 1,
+        price: 9.79,
+        addons: [
+          {
+            name: "Parmesan Crusted Chicken",
+            price: 3.49,
+          },
+        ],
+      },
+      {
+        name: "Fountain Drink Reg",
+        quantity: 1,
+        price: 3.29,
+      },
+      {
+        name: "After Order Add-On",
+        quantity: 1,
+        price: 0,
+        addons: [
+          {
+            name: "SdOf Broccoli",
+            price: 1.79,
+          },
+        ],
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Tax",
+    taxRate: 5.5,
+    showTaxRate: false,
+    grandTotalLabel: "TO GO Total",
+    paymentMethod: "Credit Card",
+    cardLastFour: "6696",
+    showCardAuth: false,
+    cardRows: [
+      {
+        value: "VISA #XXXXXXXXXXXX6696",
+      },
+      {
+        value: "Authorizing...",
+      },
+      {
+        label: "SIGNATURE :",
+        value: "____________________",
+      },
+    ],
+    labels: {
+      subtotal: "Subtotal",
+    },
+    footerMessage: "How'd we do?\nTell us at tellnoodles.com\nand get a reward on your next visit.",
+    afterPayment: [
+      {
+        rows: [
+          {
+            label: "Survey code",
+            value: "4021 8847 3310",
+          },
+        ],
+      },
+    ],
+    showBarcode: false,
+    paperStyle: "thermal",
+    paperFinish: "thermal",
+  },
+  // party-city — was wrong-format. Sources:
+  //   https://www.breitbart.com/politics/2022/07/12/exclusive-new-mexico-gov-michelle-lujan-grisham-uses-taxpayer-funds-for-baby-shower-decorations/ (photo of a Party City receipt, Santa Fe NM, 2022: tagline, UPC-first items, 'n @ $x', T flags, SUBTOTAL, GEN MERCH TAX @ 8.438%, CR VISA, ITEMS = 12)
+  //   https://exactconnections.com/media/party-city-receipt-program (Party City receipt scan, 2016; secondary)
+  //   https://dailydot.com/?p=1608999 (Party City full-service balloon inflation statement)
+  "party-city": {
+    businessName: "",
+    addressLine1: "1820 Route 22 East",
+    addressLine2: "UNION, NJ 07083\n908-555-0128",
+    phone: "",
+    website: "",
+    greeting: "NOBODY HAS MORE PARTY FOR LESS",
+    hideTitle: true,
+    hideStoreLine: true,
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "dashed",
+    itemStyle: "stacked",
+    skuFirst: true,
+    items: [
+      {
+        name: "20CT 9OZ BRT PNK CUP",
+        sku: "048419531173",
+        quantity: 3,
+        price: 2.99,
+        taxFlag: "T",
+      },
+      {
+        name: "50CT BRT PNK BEV NAPKIN",
+        sku: "048419630562",
+        quantity: 2,
+        price: 2.99,
+        taxFlag: "T",
+      },
+      {
+        name: "8CT LG PNK PLATE",
+        sku: "013051668204",
+        quantity: 2,
+        price: 3.49,
+        taxFlag: "T",
+      },
+      {
+        name: "HAPPY BDAY FOIL 18IN",
+        sku: "026635327895",
+        quantity: 1,
+        price: 3.99,
+        taxFlag: "T",
+      },
+      {
+        name: "LATEX 11IN HELIUM FILL",
+        sku: "048419785412",
+        quantity: 12,
+        price: 1.29,
+        taxFlag: "T",
+      },
+      {
+        name: "CURLING RIBBON PNK",
+        sku: "048419744948",
+        quantity: 1,
+        price: 2.49,
+        taxFlag: "T",
+      },
+    ],
+    currency: "USD",
+    taxLabel: "GEN MERCH TAX @",
+    taxRate: 6.625,
+    showTaxRate: true,
+    labels: {
+      subtotal: "SUBTOTAL",
+      itemsSold: "ITEMS =",
+      change: "CHANGE",
+    },
+    showItemsSold: true,
+    grandTotalLabel: "TOTAL",
+    paymentMethod: "Credit Card",
+    paymentName: "CR VISA",
+    cardLastFour: "3381",
+    showCardAuth: false,
+    footerMessage: "THANK YOU FOR SHOPPING PARTY CITY",
+    policyText: "Returns accepted with receipt within 30 days. Helium balloons and opened items are non-returnable.",
+    showBarcode: true,
+    paperStyle: "thermal",
+    paperFinish: "thermal",
+  },
+  // alamo — was wrong-format. Sources:
+  //   https://travelwithgrant.boardingarea.com/2021/08/12/autoslash-saved-me-1300-on-2-hawaii-car-rental-final-results/ (screenshot of an Alamo Rental Receipt, Kona HI, 2021: header, PICK-UP/RETURN, Final Total, RENTAL RATE / TAXES AND FEES lines, Total)
+  //   https://carinsurent.com/car-rental-insurance/alamo-collision-damage-waiver-know-your-options/ (closed Alamo rental agreement PDF, Heathrow 2023: Renter Charges, odometer/fuel, Amount charged … to VISA, APN/AID/Entry, Amount Due)
+  //   https://www.alamo.com/en_US/car-rental-faqs/taxes-surcharges-fees.html (official names of Concession Recovery Fee, Customer Facility Charge, VLRF)
+  //   https://tour.alamo.com/en_US/car-rental/travel-tools/rental-agreement.html (agreement sections; total line shows balance due)
+  "alamo": {
+    businessName: "Alamo Rental Receipt",
+    addressLine1: "",
+    addressLine2: "",
+    phone: "Customer Support: 1 (844) 357-5138",
+    website: "alamo.com",
+    hideTitle: true,
+    hideStoreLine: true,
+    sections: [
+      {
+        rows: [
+          {
+            label: "Rental Agreement #",
+            value: "7HQK2RT4",
+          },
+          {
+            label: "Renter",
+            value: "Sample Renter",
+          },
+        ],
+      },
+      {
+        title: "PICK-UP",
+        rows: [
+          {
+            value: "Kona International Airport (KOA)\nKailua Kona, HI, US, 96740",
+          },
+          {
+            label: "Date",
+            value: "{{date-4}}",
+          },
+          {
+            label: "Time",
+            value: "09:52 AM",
+          },
+        ],
+      },
+      {
+        title: "RETURN",
+        rows: [
+          {
+            value: "Kona International Airport (KOA)\nKailua Kona, HI, US, 96740",
+          },
+          {
+            label: "Date",
+            value: "{{date+0}}",
+          },
+          {
+            label: "Time",
+            value: "08:29 AM",
+          },
+        ],
+      },
+      {
+        title: "VEHICLE",
+        rows: [
+          {
+            label: "Class",
+            value: "Midsize SUV",
+          },
+          {
+            label: "Odometer",
+            value: "18,412 – 18,697 (285 mi)",
+          },
+          {
+            label: "Fuel",
+            value: "FULL / FULL",
+          },
+        ],
+      },
+    ],
+    itemStyle: "lined",
+    itemHeader: {
+      left: "Rental Charges",
+      right: "",
+    },
+    items: [
+      {
+        name: "RENTAL RATE",
+        quantity: 0,
+        price: 0,
+        heading: true,
+      },
+      {
+        name: "TIME & DISTANCE",
+        quantity: 4,
+        price: 61.99,
+        unit: "day",
+      },
+      {
+        name: "YOUR RESERVATION INCLUDED UNLIMITED MILEAGE",
+        quantity: 1,
+        price: 0,
+      },
+      {
+        name: "TAXES AND FEES",
+        quantity: 0,
+        price: 0,
+        heading: true,
+      },
+      {
+        name: "CONCESSION RECOVERY FEE 11.11 PCT",
+        quantity: 1,
+        price: 27.55,
+      },
+      {
+        name: "CUSTOMER FACILITY CHARGE 4.50/DAY",
+        quantity: 4,
+        price: 4.5,
+      },
+      {
+        name: "RENT TAX SURCHARGE 5.00/DAY",
+        quantity: 4,
+        price: 5.0,
+      },
+      {
+        name: "VEH LICENSE & ENVIRONMENTAL FEE",
+        quantity: 1,
+        price: 2.28,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "GENERAL EXCISE TAX",
+    taxRate: 4.0,
+    taxLines: [
+      {
+        label: "GENERAL EXCISE TAX",
+        rate: 4.0,
+      },
+      {
+        label: "HAWAII COUNTY TAX",
+        rate: 0.5,
+      },
+    ],
+    showTaxRate: false,
+    hideSubtotal: true,
+    grandTotalLabel: "Total",
+    paymentMethod: "Credit Card",
+    cardLastFour: "4417",
+    showCardAuth: false,
+    cardRows: [
+      {
+        label: "Charged to",
+        value: "VISA ••••4417",
+      },
+      {
+        label: "Entry",
+        value: "Chip",
+      },
+      {
+        label: "Amount Due",
+        value: "0.00",
+      },
+    ],
+    footerMessage: "Thank you for renting with Alamo",
+    policyText: "Charges are subject to audit.",
+    showBarcode: false,
+    fontFamily: "sans",
+    headerAlign: "left",
+    ruleStyle: "solid",
+    paperStyle: "modern",
+    paperFinish: "email",
+  },
+  // twitch — was wrong-format. Sources:
+  //   https://www.scribd.com/document/599482034/invoice-290711175 (Twitch subscription invoice PDF, Hungary, Feb 2022: header, Invoice #, Billed On, Terms On-Receipt, PAID, item table, HU VAT 27%, Amount Due, Payment from PayPal, Notes)
+  //   https://www.droid-life.com/2024/06/04/twitch-is-also-raising-subscription-prices/ (US Tier 1 subscription $5.99 from July 11, 2024)
+  //   https://www.tomsguide.com/entertainment/streaming/twitch-will-raise-its-subscription-rates-for-the-first-time-heres-what-youll-pay-now (price change confirmation)
+  "twitch": {
+    businessName: "Twitch",
+    addressLine1: "350 Bush Street, Suite 200",
+    addressLine2: "San Francisco, CA 94104\nUnited States",
+    phone: "",
+    website: "Email: purchase-noreply@twitch.tv",
+    invoice: true,
+    numberLabel: "Invoice #",
+    hideTitle: true,
+    hideStoreLine: true,
+    sections: [
+      {
+        rows: [
+          {
+            label: "Billed On",
+            value: "{{date+0}}",
+          },
+          {
+            label: "Terms",
+            value: "On-Receipt",
+          },
+          {
+            label: "Due On",
+            value: "{{date+0}}",
+          },
+        ],
+      },
+      {
+        title: "Bill To",
+        rows: [
+          {
+            value: "19103",
+          },
+          {
+            value: "United States",
+          },
+        ],
+      },
+    ],
+    itemStyle: "table",
+    items: [
+      {
+        name: "Tier 1 - 1 Month Subscription - US",
+        quantity: 1,
+        price: 5.99,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "PA Sales Tax",
+    taxRate: 6,
+    showTaxRate: true,
+    grandTotalLabel: "Total",
+    paymentMethod: "Mobile Payment",
+    paymentName: "PayPal",
+    showCardAuth: false,
+    labels: {
+      amountPaid: "Paid",
+    },
+    afterPayment: [
+      {
+        title: "Payments",
+        rows: [
+          {
+            label: "Date",
+            value: "{{date+0}}",
+          },
+          {
+            value: "Payment from PayPal",
+          },
+        ],
+      },
+      {
+        title: "Notes",
+        rows: [
+          {
+            value: "samplechannel",
+          },
+          {
+            value: "All amounts in US Dollars (USD)",
+          },
+        ],
+      },
+    ],
+    footerMessage: "",
+    showBarcode: false,
+    fontFamily: "sans",
+    headerAlign: "left",
+    ruleStyle: "solid",
+    paperStyle: "modern",
+    paperFinish: "invoice",
+  },
+  // cartier — was wrong-format. Sources:
+  //   https://www.1stdibs.com/jewelry/bracelets/bangles/cartier-love-bracelet-bangle-18-karat-white-gold/id-j_4532441/ (Cartier Miami boutique invoice photo, Jun 2018: a.1stdibscdn.com/.../GBR_299_receipt_master.jpg)
+  //   https://www.1stdibs.com/jewelry/rings/band-rings/cartier-love-ring-paved-18k-white-gold-diamonds-4mm-525-us-50-eu/id-j_24988532/ (Cartier Fifth Avenue invoice scan, Nov 2024: a.1stdibscdn.com/.../Cartier_ring_receip_1452194_master.jpeg)
+  //   https://forum.purseblog.com/threads/cartier-receipt.916601/ (search snippet only - page behind Cloudflare: receipts list line, item, size, metal and serial number)
+  "cartier": {
+    businessName: "Cartier",
+    logoText: "Cartier",
+    greeting: "JOAILLIERS\nPARIS · LONDRES · NEW YORK",
+    addressLine1: "",
+    addressLine2: "",
+    phone: "",
+    website: "",
+    cashier: "",
+    register: "",
+    invoice: true,
+    numberLabel: "Sales Invoice",
+    hideStoreLine: true,
+    paperStyle: "minimal",
+    paperFinish: "invoice",
+    fontFamily: "playfair",
+    headerAlign: "center",
+    ruleStyle: "solid",
+    dividers: "minimal",
+    itemStyle: "qtycol",
+    sections: [
+      {
+        title: "Purchased by:",
+        rows: [
+          {
+            value: "Ms. Alex Sample",
+          },
+          {
+            value: "220 West 19th Street, Apt 5C",
+          },
+          {
+            value: "New York, NY 10011",
+          },
+          {
+            value: "USA",
+          },
+        ],
+      },
+      {
+        rows: [
+          {
+            label: "Your model",
+            value: ": LOVE BRACELET, YELLOW GOLD",
+          },
+          {
+            label: "Serial #",
+            value: ": WM4172",
+          },
+          {
+            label: "Sold by",
+            value: ": Jordan MERCER 204817",
+          },
+          {
+            value: "Client copy",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "LOVE bracelet, 18K yellow gold, size 17",
+        quantity: 1,
+        price: 11100.0,
+        sku: "B6067517",
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Tax",
+    taxRate: 8.875,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "Subtotal",
+      paymentMethod: "Means of Payment",
+    },
+    grandTotalLabel: "Total",
+    paymentMethod: "Credit Card",
+    paymentName: "American Express",
+    cardLastFour: "1009",
+    paymentInline: true,
+    showCardAuth: false,
+    showBarcode: false,
+    footerMessage: "418 Fifth Avenue - New York - New York 10018 - TEL 212-555-0147\nThank You for Your Visit",
+    policyText: "Subscribe to the Cartier e-newsletter on www.Cartier.us to receive all our latest news.",
+  },
+  // red-robin — was wrong-format. Sources:
+  //   https://www.tripadvisor.ch/Restaurant_Review-g52053-d461293-Reviews-Red_Robin_America_s_Gourmet_Burgers_and_Spirits-Salem_Oregon.html (receipt photo 'the-receipt.jpg', Oct 2016: dynamic-media-cdn.tripadvisor.com/media/photo-o/0d/73/e6/e5/the-receipt.jpg)
+  //   https://surveyassistants.com/red-robin-feedback/ (2012 Red Robin receipt image with Thank You For Dining! header, Server/Table/Guests/Reprint block and tellredrobin.com footer)
+  //   https://www.inside-las-vegas.com/1618/Red-Robin-Henderson (online-order receipt: '1 x' items with bulleted modifiers, SUBTOTAL/REDEEMED/TAX/TOTAL)
+  //   https://hospitalitytech.com/red-robin-gourmet-burgers-completes-rollout-guest-facing-tabletop-tablets (Ziosk tablets can print the receipt)
+  "red-robin": {
+    businessName: "Red Robin Gourmet Burgers",
+    greeting: "Thank You For Dining!",
+    addressLine1: "8460 Park Meadows Center Dr",
+    addressLine2: "Lone Tree, CO 80124",
+    phone: "(303) 555-0172",
+    website: "",
+    cashier: "",
+    register: "",
+    hideStoreLine: true,
+    paperStyle: "thermal",
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "none",
+    itemStyle: "lined",
+    sections: [
+      {
+        rows: [
+          {
+            label: "Server: Jordan",
+            value: "{{date+0}}",
+          },
+          {
+            label: "Table 23/1",
+            value: "20418",
+          },
+          {
+            label: "Guests: 2",
+            value: "",
+          },
+          {
+            label: "Reprint #: 1",
+            value: "",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "ROYAL RED ROBIN BURGER",
+        quantity: 1,
+        price: 17.29,
+        addons: [
+          {
+            name: "STEAK FRIES",
+            price: 0,
+          },
+        ],
+      },
+      {
+        name: "WHISKEY RIVER BBQ CHICKEN WRAP",
+        quantity: 1,
+        price: 15.79,
+        addons: [
+          {
+            name: "SIDE CAESAR",
+            price: 0,
+          },
+        ],
+      },
+      {
+        name: "FRECKLED LEMONADE",
+        quantity: 1,
+        price: 5.49,
+      },
+      {
+        name: "SODA",
+        quantity: 1,
+        price: 3.79,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Tax",
+    taxRate: 7.5,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "Subtotal",
+      change: "Change",
+    },
+    grandTotalLabel: "Total",
+    paymentMethod: "Credit Card",
+    paymentName: "VISA",
+    cardLastFour: "6630",
+    showCardAuth: false,
+    showBarcode: false,
+    footerMessage: "Provide your review at www.tellredrobin.com for CHANCES TO WIN DAILY CASH and OTHER WEEKLY PRIZES\nSee www.tellredrobin.com for contest details.",
+    tipSuggestions: [15, 18, 20],
+  },
+  // old-navy — was wrong-format. Sources:
+  //   https://thekrazycouponlady.com/tips/store-hacks/21-proven-ways-to-save-at-old-navy (2021 Old Navy receipt photo, header/meta/items: prod-cdn-thekrazycouponlady.imgix.net/wp-content/uploads/2015/08/old-navy-receipt-2021-1623560888-1623560888.jpg)
+  //   https://thekrazycouponlady.com/tips/store-hacks/old-navy-cyber-monday (2021 receipt photo, Total Tender/Change Due/survey/return policy: .../old-navy-receipt-return-2021-1623560900-1623560900.jpg)
+  //   https://www.flickr.com/photo.gne?id=3658047234 ('SAVINGS!!', Old Navy receipt June 2009: item/discount/tax/tender block)
+  "old-navy": {
+    businessName: "OLD NAVY - 04718",
+    addressLine1: "2601 Preston Rd, Suite 1140",
+    addressLine2: "FRISCO TX 75034",
+    phone: "Tel.(972) 555-0193",
+    website: "",
+    cashier: "",
+    register: "",
+    hideStoreLine: true,
+    paperStyle: "thermal",
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "none",
+    itemStyle: "stacked",
+    topBarcode: true,
+    sections: [
+      {
+        rows: [
+          {
+            label: "Trans.: 5821",
+            value: "Store: 04718",
+          },
+          {
+            label: "Reg.: 302",
+            value: "Valid No: 2287",
+          },
+          {
+            label: "Cashier: 3318640",
+            value: "",
+          },
+          {
+            value: "SALE",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "Soft-Washed Crew-Neck Tee for Men",
+        quantity: 2,
+        price: 14.99,
+        sku: "691662-021-0001",
+        taxFlag: "T",
+        addons: [
+          {
+            name: "Q7RTM4KXBDCT, $0.00 Off",
+            price: 0,
+          },
+        ],
+      },
+      {
+        name: "Wow Straight Jeans for Men",
+        quantity: 1,
+        price: 39.99,
+        sku: "512409-002-0032",
+        taxFlag: "T",
+        discount: 12.0,
+      },
+      {
+        name: "Logo-Graphic Jersey Shorts for Girls",
+        quantity: 1,
+        price: 14.99,
+        sku: "833489-011-0003",
+        taxFlag: "T",
+      },
+      {
+        name: "Softest Printed Scoop-Neck Tee for Girls",
+        quantity: 1,
+        price: 12.99,
+        sku: "692028-001-0004",
+        taxFlag: "T",
+      },
+    ],
+    currency: "USD",
+    taxLabel: "T1 Tax",
+    taxRate: 8.25,
+    taxLines: [
+      {
+        label: "T1 Tax",
+        rate: 8.25,
+      },
+    ],
+    showTaxRate: true,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "Subtotal",
+      itemDiscount: "Item Discount 30%",
+      itemDiscounts: "Total Discount",
+      amountPaid: "Total Tender",
+      change: "Change Due",
+    },
+    grandTotalLabel: "Total",
+    paymentMethod: "Credit Card",
+    paymentName: "Visa (S)",
+    cardLastFour: "4417",
+    showCardAuth: false,
+    cardRows: [
+      {
+        label: "Account:",
+        value: "XXXXXXXXXXXX4417",
+      },
+      {
+        label: "Auth:",
+        value: "052913 (A)",
+      },
+    ],
+    showBarcode: false,
+    footerMessage: "We would love to hear your feedback!\nPlease take our two minute survey:\nhttps://survey.medallia.com/oldnavy-feedback",
+    policyText: "Unwashed and unworn merchandise, accompanied by an original sales receipt, may be returned to any U.S. store within 45 days of purchase for full refund in original form of payment. A one-time price adjustment may be made within 14 days of purchase with an original receipt. Valid photo ID required for unreceipted returns. Additional terms and restrictions apply. See store for full return policy details.",
+  },
+  // british-airways — was wrong-format. Sources:
+  //   https://lists.spline.de/pipermail/eisfair/2012-October/002956.html (archived BA 'e-ticket receipt' email body and notice headings)
+  //   https://www.headforpoints.com/forums/topic/companion-voucher-booking-anything-else-needed (BA tickets start 125-, receipt vs ticket)
+  //   https://www.britishairways.com/travel/seccharge/public/en_gb (carrier imposed charge appears on the e-ticket receipt; via search snippet - page timed out)
+  //   https://www.britishairways.com/content/en/tt/information/help/faqs/payments (air travel not subject to VAT; via search snippet - page timed out)
+  "british-airways": {
+    businessName: "British Airways",
+    logoText: "BRITISH AIRWAYS",
+    greeting: "e-ticket receipt",
+    addressLine1: "",
+    addressLine2: "",
+    phone: "",
+    website: "ba.com",
+    cashier: "",
+    register: "",
+    hideStoreLine: true,
+    paperStyle: "minimal",
+    paperFinish: "email",
+    fontFamily: "open-sans",
+    headerAlign: "left",
+    ruleStyle: "solid",
+    itemStyle: "lined",
+    dateOrder: "dmy",
+    sections: [
+      {
+        rows: [
+          {
+            value: "Dear Mr Sample,",
+          },
+          {
+            label: "Booking reference:",
+            value: "X7KQ2P",
+          },
+          {
+            label: "Ticket Type:",
+            value: "e-ticket",
+          },
+          {
+            value: "Thank you for booking with British Airways. Your ticket is held in our system; you will not receive a paper ticket.",
+          },
+        ],
+      },
+      {
+        title: "Passenger",
+        rows: [
+          {
+            label: "MR ALEX SAMPLE",
+            value: "e-ticket 125-2418836604",
+          },
+        ],
+      },
+      {
+        title: "BA0478  London Heathrow (T5) - Barcelona",
+        rows: [
+          {
+            label: "Date",
+            value: "{{date+21}}",
+          },
+          {
+            label: "Depart 07:25",
+            value: "Arrive 10:40",
+          },
+          {
+            label: "Cabin",
+            value: "Euro Traveller (Economy)",
+          },
+        ],
+      },
+      {
+        title: "BA0479  Barcelona - London Heathrow (T5)",
+        rows: [
+          {
+            label: "Date",
+            value: "{{date+25}}",
+          },
+          {
+            label: "Depart 11:35",
+            value: "Arrive 12:55",
+          },
+          {
+            label: "Cabin",
+            value: "Euro Traveller (Economy)",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "Fare",
+        quantity: 1,
+        price: 96.0,
+      },
+      {
+        name: "Carrier imposed charge (YQ)",
+        quantity: 1,
+        price: 36.0,
+      },
+      {
+        name: "Air Passenger Duty (GB)",
+        quantity: 1,
+        price: 15.0,
+      },
+      {
+        name: "Passenger Service Charge (UB)",
+        quantity: 1,
+        price: 38.92,
+      },
+      {
+        name: "Spanish airport charges (JD/OG)",
+        quantity: 1,
+        price: 14.36,
+      },
+    ],
+    currency: "GBP",
+    taxLabel: "VAT (air travel not subject to VAT)",
+    taxRate: 0,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "Fare and charges",
+      paymentMethod: "Payment",
+    },
+    grandTotalLabel: "Total",
+    paymentMethod: "Debit Card",
+    paymentName: "Visa Debit",
+    cardLastFour: "2209",
+    paymentInline: true,
+    showCardAuth: false,
+    showBarcode: false,
+    footerMessage: "Yours sincerely,\nBritish Airways Customer Services",
+    policyText: "Passenger notices: Dangerous articles in baggage · Notice (Warsaw/Montreal Conventions) · Conditions of Carriage · Notice of liability limitations · Passenger service charge and security/insurance and fuel surcharge · Notice of government and airport imposed taxes, fees and charges · Overbooking. Carrier-imposed charges shown in the TAX/FEE/CHARGE area are levied by British Airways and are not a government tax.",
+  },
+  // caviar — was no-source. Sources:
+  //   https://help.doordash.com/en-ca/consumers/article/what-fees-do-i-pay (fees on Caviar and DoorDash: delivery fee, service fee, DashPass)
+  //   https://dribbble.com/shots/3329959-Caviar-Email-Templates (design mock-up only - not a real receipt)
+  "caviar": {
+    businessName: "Caviar",
+    logoText: "Caviar",
+    addressLine1: "",
+    addressLine2: "",
+    phone: "",
+    website: "trycaviar.com",
+    cashier: "",
+    register: "",
+    hideStoreLine: true,
+    greeting: "Thanks for your order, Alex",
+    paperStyle: "minimal",
+    paperFinish: "email",
+    fontFamily: "inter",
+    headerAlign: "left",
+    ruleStyle: "solid",
+    itemStyle: "lined",
+    dividers: "minimal",
+    sections: [
+      {
+        title: "Order details",
+        rows: [
+          {
+            label: "Order",
+            value: "#C4E19B72",
+          },
+          {
+            label: "Placed",
+            value: "{{date+0}}",
+          },
+        ],
+      },
+      {
+        title: "Ordered from",
+        rows: [
+          {
+            value: "Nopalito Sample Kitchen",
+          },
+          {
+            value: "306 Broderick St, San Francisco, CA 94117",
+          },
+        ],
+      },
+      {
+        title: "Delivered to",
+        rows: [
+          {
+            value: "Alex",
+          },
+          {
+            value: "1450 Sample St, Apt 3, San Francisco, CA 94115",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "Carnitas Tacos (3)",
+        quantity: 1,
+        price: 18.5,
+        modifiers: ["Corn tortillas"],
+      },
+      {
+        name: "Guacamole & Chips",
+        quantity: 1,
+        price: 12.0,
+      },
+      {
+        name: "Agua Fresca",
+        quantity: 2,
+        price: 5.5,
+      },
+    ],
+    deliveryFee: 3.99,
+    serviceFee: 6.23,
+    currency: "USD",
+    taxLabel: "Estimated Tax",
+    taxRate: 8.625,
+    showTaxRate: false,
+    discount: 0,
+    tip: 6.0,
+    labels: {
+      subtotal: "Subtotal",
+      deliveryFee: "Delivery Fee",
+      serviceFee: "Service Fee",
+      tip: "Dasher Tip",
+    },
+    grandTotalLabel: "Total",
+    paymentMethod: "Credit Card",
+    cardLastFour: "3318",
+    paymentInline: true,
+    showCardAuth: false,
+    showBarcode: false,
+    footerMessage: "Get help with your order in the Caviar app.",
+    policyText: "Menu prices and taxes are set by the restaurant. Sample receipt.",
+  },
+  // hulu — was no-source. Sources:
+  //   https://conductatlas.com/platform/hulu/hulu-subscriber-agreement/payment-charged-at-billing-period-start/ (payment charged at the start of each billing period)
+  //   https://huluu.helpwise.help/articles/243684-how-to-sign-in-hulu-tv-for-billing--subscription (third-party: dashboard shows plan, billing cycle, payment history)
+  "hulu": {
+    businessName: "Hulu",
+    logoText: "hulu",
+    addressLine1: "2500 Broadway",
+    addressLine2: "Santa Monica, CA 90404",
+    phone: "",
+    website: "hulu.com",
+    cashier: "",
+    register: "",
+    hideStoreLine: true,
+    paperStyle: "minimal",
+    paperFinish: "email",
+    fontFamily: "inter",
+    headerAlign: "left",
+    ruleStyle: "solid",
+    itemStyle: "lined",
+    dividers: "minimal",
+    greeting: "Thanks for your payment",
+    sections: [
+      {
+        rows: [
+          {
+            label: "Account",
+            value: "alex.sample@example.com",
+          },
+        ],
+      },
+      {
+        title: "Billing period",
+        rows: [
+          {
+            label: "From",
+            value: "{{date+0}}",
+          },
+          {
+            label: "To",
+            value: "{{date+30}}",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "Hulu (No Ads) - Monthly",
+        quantity: 1,
+        price: 18.99,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Tax",
+    taxRate: 0,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "Subtotal",
+      paymentMethod: "Payment method",
+    },
+    grandTotalLabel: "Total",
+    paymentMethod: "Credit Card",
+    cardLastFour: "7714",
+    paymentInline: true,
+    showCardAuth: false,
+    showBarcode: false,
+    footerMessage: "View your billing history any time in Account > Payment Info.",
+    policyText: "Sample receipt. Charges are billed at the start of each billing period.",
+  },
+  // caffe-nero — was wrong-format. Sources:
+  //   https://chelsham-garage.co.uk/nero tour cornbury abc.html (photo of two full Caffe Nero receipts, Jul 2022: 'CN Cornbury receipts IMG_2782 (2).jpg')
+  //   https://www.flickr.com/photo.gne?id=55216713966 ('Caffe Nero 863 Stansted Airport Drive Thru receipt headers', May 2024: VAT line, Download our App, QR, CHK, Drive Thru/Drink In/Take Away)
+  //   https://www.mobiletransaction.org/vat-rates-on-food-and-drink-takeaway/ (hot drinks standard-rated 20%; cold take-away food zero-rated)
+  "caffe-nero": {
+    businessName: "Caffe Nero",
+    addressLine1: "Caffe Nero Manchester King Street",
+    addressLine2: "VAT: 418 2093 57",
+    phone: "",
+    website: "",
+    greeting: "Download our App",
+    cashier: "",
+    register: "",
+    hideStoreLine: true,
+    paperStyle: "thermal",
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "dashed",
+    itemStyle: "qtycol",
+    dateOrder: "dmy",
+    sections: [
+      {
+        rows: [
+          {
+            value: "418 SHIFTL1 TEMP",
+          },
+        ],
+      },
+      {
+        rows: [
+          {
+            value: "CHK 20416",
+          },
+          {
+            value: "{{date+0}}",
+          },
+        ],
+      },
+      {
+        rows: [
+          {
+            value: "Take Away",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "Latte Regular",
+        quantity: 1,
+        price: 3.75,
+        addons: [
+          {
+            name: "Classico",
+            price: 0,
+          },
+          {
+            name: "Oat Milk",
+            price: 0,
+          },
+        ],
+      },
+      {
+        name: "Americano Regular",
+        quantity: 1,
+        price: 3.25,
+        addons: [
+          {
+            name: "Classico",
+            price: 0,
+          },
+          {
+            name: "Semi Skimmed Milk",
+            price: 0,
+          },
+        ],
+      },
+      {
+        name: "Stem Ginger Biscuit 2Pk",
+        quantity: 1,
+        price: 1.85,
+        notTaxed: true,
+      },
+    ],
+    currency: "GBP",
+    taxLabel: "VAT 20 %",
+    taxRate: 20,
+    taxIncluded: true,
+    taxLines: [
+      {
+        label: "VAT 20 %",
+        rate: 20,
+      },
+    ],
+    showTaxRate: false,
+    hideSubtotal: true,
+    discount: 0,
+    tip: 0,
+    labels: {
+      amountPaid: "Payment",
+      change: "Change Due",
+    },
+    grandTotalLabel: "Subtotal",
+    paymentMethod: "Credit Card",
+    paymentName: "Credit Card MPG",
+    cardLastFour: "5300",
+    showCardAuth: false,
+    cardRows: [
+      {
+        value: "1072916480023817400",
+      },
+    ],
+    afterPayment: [
+      {
+        title: "----------- Check Closed -----------",
+        rows: [
+          {
+            value: "{{date+0}}",
+          },
+        ],
+      },
+    ],
+    showBarcode: false,
+    footerMessage: "Our coffee is available to enjoy at home.\nVisit shop.caffenero.com",
+  },
+  // kate-spade — was missing-key-details. Sources:
+  //   https://www.flickr.com/photo.gne?id=4500152046 (Kate Spade Outlet gift receipt with wallet, receipt dated May 2009 - header, Str/Reg/Tran and Dt/Tim/Assoc lines, policy, barcode)
+  //   https://www.pinterest.com/pin/vintage-kate-spade-new-minu-clutch-lol-original-receipt-included--444097213266813953/ (same-format Kate Spade gift receipt in box photo, low resolution)
+  "kate-spade": {
+    businessName: "kate spade new york",
+    addressLine1: "Store 1186 · 454 Broome St",
+    addressLine2: "New York, NY 10013",
+    phone: "Phone: 212-555-0168",
+    website: "katespade.com",
+    cashier: "",
+    register: "",
+    hideStoreLine: true,
+    paperStyle: "thermal",
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "none",
+    itemStyle: "stacked",
+    sections: [
+      {
+        rows: [
+          {
+            value: "Str: 1186  Reg: 02  Tran: 027415",
+          },
+          {
+            label: "Assoc:",
+            value: "081362",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "Knott Medium Satchel",
+        quantity: 1,
+        price: 398.0,
+        sku: "K6825 001",
+        taxFlag: "T",
+      },
+      {
+        name: "Morgan Small Bifold Wallet",
+        quantity: 1,
+        price: 168.0,
+        sku: "K8917 650",
+        taxFlag: "T",
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Sales Tax",
+    taxRate: 8.875,
+    showTaxRate: true,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "Subtotal",
+      change: "Change Due",
+    },
+    grandTotalLabel: "Total",
+    paymentMethod: "Credit Card",
+    paymentName: "VISA",
+    cardLastFour: "2851",
+    showCardAuth: false,
+    cardRows: [
+      {
+        label: "Acct:",
+        value: "XXXXXXXXXXXX2851",
+      },
+      {
+        label: "Auth:",
+        value: "64190B",
+      },
+    ],
+    showBarcode: true,
+    footerMessage: "Thank you for shopping at kate spade new york",
+    policyText: "Merchandise may be returned or exchanged within 30 days with this receipt. Please call or visit a store for our detailed Return Policy.",
+  },
+  // paramount-plus — was missing-key-details. Sources:
+  //   https://www.reddit.com/r/Scams/comments/17efdcv/paramount_hello_ive_got_this_email_today_seems/ (Oct 2023 Paramount+ account email screenshot from noreply@paramountplus.com: shell, footer, entity lines - image via preview.redd.it)
+  //   https://www.19pine.ai/paramount-plus (third-party: platform-billed subscribers get receipts from Apple/Google/Roku/Amazon; web sign-ups billed by Paramount+)
+  "paramount-plus": {
+    businessName: "Paramount+",
+    logoText: "Paramount+",
+    addressLine1: "",
+    addressLine2: "",
+    phone: "",
+    website: "paramountplus.com",
+    cashier: "",
+    register: "",
+    hideStoreLine: true,
+    greeting: "Hello Alex,",
+    paperStyle: "minimal",
+    paperFinish: "email",
+    fontFamily: "inter",
+    headerAlign: "left",
+    ruleStyle: "solid",
+    itemStyle: "lined",
+    dividers: "minimal",
+    sections: [
+      {
+        rows: [
+          {
+            label: "From",
+            value: "Paramount+ Account · noreply@paramountplus.com",
+          },
+          {
+            value: "Thanks for your payment. Here are the details of your subscription charge.",
+          },
+        ],
+      },
+      {
+        title: "Subscription",
+        rows: [
+          {
+            label: "Billing date",
+            value: "{{date+0}}",
+          },
+          {
+            label: "Next billing date",
+            value: "{{date+30}}",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "Paramount+ Premium - Monthly",
+        quantity: 1,
+        price: 13.99,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Tax",
+    taxRate: 0,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "Subtotal",
+      paymentMethod: "Payment method",
+    },
+    grandTotalLabel: "Total",
+    paymentMethod: "Credit Card",
+    cardLastFour: "5582",
+    paymentInline: true,
+    showCardAuth: false,
+    showBarcode: false,
+    footerMessage: "Thank you,\nYour Paramount+ Team\nparamountplus.com",
+    policyText: "If you have any questions, please visit our help center or contact us at support@paramountplus.com. See the Subscription Terms (https://www.pplus.legal/subscription) for more information regarding your subscription. Review our Privacy Policy (https://www.pplus.legal/privacy). This email was sent to: alex.sample@example.com. Please do not reply to this email as this address is not monitored.",
+  },
+  // patreon — was wrong-format. Sources:
+  //   https://www.scribd.com/document/925405414/Patreon-2024-01-01 ('Patreon Receipt for Cfx.re Element Club' PDF page image, 2024-01-01)
+  //   https://support.patreon.com/hc/en-us/articles/115002958303-Where-do-I-find-my-billing-history (billing history; download receipts incl. VAT breakdown)
+  //   https://support.patreon.com/hc/en-gb/articles/360043055071-Sales-Tax-on-Patreon-for-Members (sales tax appears as an additional line on the receipt; via search snippet)
+  "patreon": {
+    businessName: "Patreon",
+    logoText: "PATREON",
+    addressLine1: "600 Townsend Street, St. 500",
+    addressLine2: "San Francisco, CA 94103 US",
+    phone: "",
+    website: "",
+    cashier: "",
+    register: "",
+    invoice: true,
+    numberLabel: "Receipt #",
+    hideStoreLine: true,
+    paperStyle: "minimal",
+    paperFinish: "invoice",
+    fontFamily: "roboto",
+    headerAlign: "left",
+    ruleStyle: "solid",
+    itemStyle: "table",
+    sections: [
+      {
+        title: "Provided by:",
+        rows: [
+          {
+            value: "Patreon",
+          },
+          {
+            value: "600 Townsend Street, St. 500",
+          },
+          {
+            value: "San Francisco, CA",
+          },
+          {
+            value: "94103 US",
+          },
+        ],
+      },
+      {
+        title: "Provided to:",
+        rows: [
+          {
+            value: "Alex Sample",
+          },
+          {
+            value: "alex.sample@example.com",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "Sample Studio Podcast - Supporter tier",
+        quantity: 1,
+        price: 7.0,
+      },
+      {
+        name: "Pixel Forge Comics - Insider tier",
+        quantity: 1,
+        price: 10.0,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Tax",
+    taxRate: 0,
+    showTaxRate: true,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "Subtotal",
+    },
+    grandTotalLabel: "Total",
+    paymentMethod: "Credit Card",
+    cardLastFour: "4092",
+    hideTotals: true,
+    showCardAuth: false,
+    showBarcode: false,
+    footerMessage: "",
+    policyText: "",
+  },
+  // four-seasons — was no-source. Sources:
+  //   https://docs.oracle.com/cd/F18689_01/doc.193/f45872/c_cashiering_finance_foliostyle_group_folio_package_25.htm
+  //   https://www.bing.com/images/search?q=four+seasons+hotel+folio+receipt (only generator templates found)
+  "four-seasons": {
+    businessName: "Four Seasons Hotel Sample City",
+    addressLine1: "27 Example Street",
+    addressLine2: "New York, NY 10007",
+    phone: "(212) 555-0177",
+    website: "fourseasons.com",
+    cashier: "",
+    register: "",
+    hideStoreLine: true,
+    paperFinish: "invoice",
+    paperStyle: "modern",
+    fontFamily: "serif",
+    headerAlign: "left",
+    ruleStyle: "solid",
+    itemStyle: "lined",
+    itemHeader: {
+      left: "Description",
+      right: "Charges",
+    },
+    greeting: "GUEST FOLIO",
+    sections: [
+      {
+        rows: [
+          {
+            label: "Guest",
+            value: "SAMPLE, JORDAN",
+          },
+          {
+            label: "Room",
+            value: "2214",
+          },
+          {
+            label: "Arrival",
+            value: "{{date-2}}",
+          },
+          {
+            label: "Departure",
+            value: "{{date+0}}",
+          },
+          {
+            label: "Confirmation No.",
+            value: "48261937",
+          },
+          {
+            label: "Folio No.",
+            value: "775104",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "Accommodation — Deluxe King",
+        quantity: 2,
+        price: 1195.0,
+      },
+      {
+        name: "NYC Hotel Unit Fee",
+        quantity: 2,
+        price: 2.0,
+        notTaxed: true,
+      },
+      {
+        name: "Javits Center Fee",
+        quantity: 2,
+        price: 1.5,
+        notTaxed: true,
+      },
+      {
+        name: "In-Room Dining",
+        quantity: 1,
+        price: 86.0,
+        notTaxed: true,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Room Tax",
+    taxRate: 14.75,
+    taxLines: [
+      {
+        label: "State & City Sales Tax",
+        rate: 8.875,
+      },
+      {
+        label: "NYC Hotel Occupancy Tax",
+        rate: 5.875,
+      },
+    ],
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "Total Charges",
+    },
+    grandTotalLabel: "Balance Due",
+    paymentMethod: "Credit Card",
+    paymentName: "AMERICAN EXPRESS",
+    cardLastFour: "1009",
+    showCardAuth: false,
+    afterPayment: [
+      {
+        rows: [
+          {
+            label: "Balance",
+            value: "0.00",
+          },
+        ],
+      },
+    ],
+    showBarcode: false,
+    footerMessage: "Thank you for staying with us.",
+    policyText: "I agree that my liability for this bill is not waived and I agree to be held personally liable in the event that the indicated person, company or association fails to pay any part or the full amount of these charges.\nGuest Signature ____________________",
+  },
+  // denny-s — was wrong-format. Sources:
+  //   https://www.flickr.com/photo.gne?id=10783871846
+  //   https://www.flickr.com/photo.gne?id=3253293886
+  //   https://www.flickr.com/photo.gne?id=2299327122
+  "denny-s": {
+    businessName: "Denny's",
+    addressLine1: "Restaurant #2318\n1480 N Sample Ave",
+    addressLine2: "Ontario, CA 91764",
+    phone: "(909) 555-0142",
+    website: "",
+    cashier: "",
+    register: "",
+    hideStoreLine: true,
+    greeting: "Dine In",
+    sections: [
+      {
+        rows: [
+          {
+            label: "Order:",
+            value: "614372",
+          },
+          {
+            label: "Server:",
+            value: "MARIA L",
+          },
+          {
+            label: "Table:",
+            value: "18    Guests: 2",
+          },
+        ],
+      },
+    ],
+    paperStyle: "thermal",
+    fontFamily: "courier",
+    headerAlign: "center",
+    ruleStyle: "asterisk",
+    itemStyle: "qtycol",
+    items: [
+      {
+        name: "SEAT: 1",
+        quantity: 0,
+        price: 0,
+        heading: true,
+      },
+      {
+        name: "Orig Grand Slam",
+        quantity: 1,
+        price: 11.99,
+        modifiers: ["Scrambled", "Bacon"],
+      },
+      {
+        name: "Lg Orange Ju",
+        quantity: 1,
+        price: 4.29,
+      },
+      {
+        name: "SEAT: 2",
+        quantity: 0,
+        price: 0,
+        heading: true,
+      },
+      {
+        name: "Lumberjack Slam",
+        quantity: 1,
+        price: 15.49,
+      },
+      {
+        name: "Coffee",
+        quantity: 1,
+        price: 3.79,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Tax",
+    taxRate: 7.75,
+    showTaxRate: false,
+    discount: 2.0,
+    tip: 0,
+    labels: {
+      subtotal: "SubTotal",
+      discount: "Coupons",
+      amountTendered: "Cash",
+      change: "Change",
+    },
+    grandTotalLabel: "Total",
+    paymentMethod: "Cash",
+    amountTendered: 50.0,
+    cardLastFour: "",
+    showCardAuth: false,
+    showBarcode: false,
+    footerMessage: "Contact us at www.Dennys.com",
+    policyText: "Go to www.dennys.com and join Denny's Rewards to receive exclusive offers and the latest news delivered right to your inbox.",
+    tipSuggestions: [15, 18, 20],
+  },
+  // banana-republic — was wrong-format. Sources:
+  //   https://expressexpense.com/view-receipts.php?page=85 (Banana Republic receipt photo, receiptDB/40651-ls.jpg)
+  //   https://thekrazycouponlady.com/tips/store-hacks/16-insider-secrets-from-a-seasoned-gap-employee (sister Gap Inc. receipt photo)
+  //   https://www.mytotalretail.com/aggregatedcontent/shopping-paper-trail-goes-paperless/
+  "banana-republic": {
+    businessName: "Banana Republic - Sample Centre",
+    addressLine1: "1220 Sample Market St",
+    addressLine2: "San Francisco, CA 94102",
+    phone: "Tel.(415) 555-0186",
+    website: "bananarepublic.com",
+    hideStoreLine: true,
+    cashier: "2409915",
+    register: "",
+    sections: [
+      {
+        rows: [
+          {
+            label: "Trans.:",
+            value: "5821",
+          },
+          {
+            label: "Store:",
+            value: "08317",
+          },
+          {
+            label: "Reg.:",
+            value: "2",
+          },
+          {
+            label: "Valid No:",
+            value: "6874",
+          },
+          {
+            label: "Cashier:",
+            value: "2409915",
+          },
+        ],
+      },
+    ],
+    topBarcode: true,
+    paperStyle: "thermal",
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "none",
+    itemStyle: "stacked",
+    skuFirst: false,
+    items: [
+      {
+        name: "Italian Wool Blazer",
+        sku: "791034 0002",
+        quantity: 1,
+        price: 250.0,
+        discount: 100.0,
+        taxFlag: "T",
+      },
+      {
+        name: "Slim Rapid Movement Chino",
+        sku: "648217 0031",
+        quantity: 1,
+        price: 90.0,
+        discount: 36.0,
+        taxFlag: "T",
+      },
+      {
+        name: "Cashmere Crew-Neck Sweater",
+        sku: "513902 0014",
+        quantity: 1,
+        price: 160.0,
+        discount: 64.0,
+        taxFlag: "T",
+      },
+    ],
+    currency: "USD",
+    taxLabel: "T1 (8.625%) Tax",
+    taxRate: 8.625,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "Subtotal",
+      itemDiscount: "Item Discount 40%",
+      itemDiscounts: "Total Discount",
+      savings: "You Saved",
+    },
+    showSavings: true,
+    grandTotalLabel: "Total",
+    paymentMethod: "Credit Card",
+    cardLastFour: "7742",
+    paymentName: "VISA",
+    showCardAuth: false,
+    cardRows: [
+      {
+        label: "Entry Method:",
+        value: "Chip",
+      },
+      {
+        label: "Account:",
+        value: "XXXXXXXXXXXX7742",
+      },
+      {
+        label: "Auth:",
+        value: "AUTH 03817C (A)",
+      },
+      {
+        label: "Application Label:",
+        value: "VISA",
+      },
+      {
+        label: "AID:",
+        value: "A0000000031010",
+      },
+    ],
+    showBarcode: false,
+    footerMessage: "Tell us about your shopping experience and receive a discount on a future purchase.",
+    policyText: "Returns and exchanges accepted with receipt within 30 days of purchase. See bananarepublic.com for full return policy.",
+  },
+  // days-inn — was wrong-format. Sources:
+  //   https://www.ciatej.mx/comprobantes/2018/4toTrim/180858/Hospedaje.pdf
+  //   https://history.unt.edu/images/history.unt.edu/files/hotel_receipt_example.pdf
+  "days-inn": {
+    businessName: "DAYS INN BY WYNDHAM KISSIMMEE SAMPLE",
+    logoText: "DAYS INN by WYNDHAM",
+    addressLine1: "4120 W Example Pkwy",
+    addressLine2: "KISSIMMEE, FL 34746 US\nPhone: (407) 555-0163\nFax: (407) 555-0164",
+    phone: "",
+    website: "",
+    cashier: "",
+    register: "",
+    hideStoreLine: true,
+    greeting: "Folio (Detailed)",
+    sections: [
+      {
+        rows: [
+          {
+            label: "Name:",
+            value: "SAMPLE, JORDAN",
+          },
+          {
+            label: "Confirmation Number:",
+            value: "62815EC048193",
+          },
+          {
+            label: "Account Number:",
+            value: "508-311947",
+          },
+        ],
+      },
+      {
+        rows: [
+          {
+            label: "Room:",
+            value: "118",
+          },
+          {
+            label: "Rate Plan:",
+            value: "SRB",
+          },
+          {
+            label: "Room Type:",
+            value: "NQQ1, 2 QUEEN BEDS NONSMOKING",
+          },
+          {
+            label: "Arrival:",
+            value: "{{date-2}}",
+          },
+          {
+            label: "Departure:",
+            value: "{{date+0}}",
+          },
+          {
+            label: "Nights:",
+            value: "2",
+          },
+          {
+            label: "Guests:",
+            value: "2/1",
+          },
+          {
+            label: "GTD:",
+            value: "VI - VISA  XXXX XXXX XXXX 6029",
+          },
+        ],
+      },
+    ],
+    paperFinish: "invoice",
+    paperStyle: "modern",
+    fontFamily: "inter",
+    headerAlign: "left",
+    ruleStyle: "double",
+    itemStyle: "lined",
+    itemHeader: {
+      left: "Code   Description",
+      right: "Amount",
+    },
+    items: [
+      {
+        name: "RM   ROOM CHARGE",
+        quantity: 2,
+        price: 79.99,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "TAX1  LOCAL TAX",
+    taxRate: 12.5,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "Room",
+    },
+    grandTotalLabel: "Balance",
+    paymentMethod: "Credit Card",
+    paymentName: "VI  VISA (6029)",
+    cardLastFour: "6029",
+    showCardAuth: false,
+    afterPayment: [
+      {
+        rows: [
+          {
+            label: "Balance",
+            value: "$0.00",
+          },
+        ],
+      },
+    ],
+    showBarcode: false,
+    footerMessage: "Wyndham Rewards members earn valuable points on qualifying stays. Points can be redeemed for free nights, gift cards, merchandise and more. If you're not already a member, join at the front desk, visit us at www.wyndhamrewards.com or call 1-866-WYN-RWDS.",
+    policyText: "Guest Signature: ____________________\n(1) Regardless of charge instructions, the undersigned acknowledges the above as personal indebtedness. (2) This property is privately owned and management reserves the right to refuse services to anyone.",
+  },
+  // hbo-max — was no-source. Sources:
+  //   https://help.hbomax.com/gb/Answer/Detail/000002528
+  //   https://www.fox5ny.com/news/hbo-max-price-hike-2025
+  "hbo-max": {
+    businessName: "HBO Max",
+    logoText: "HBO max",
+    addressLine1: "",
+    addressLine2: "",
+    phone: "",
+    website: "hbomax.com",
+    cashier: "",
+    register: "",
+    hideStoreLine: true,
+    paperFinish: "email",
+    paperStyle: "minimal",
+    fontFamily: "inter",
+    headerAlign: "left",
+    ruleStyle: "solid",
+    dividers: "minimal",
+    greeting: "Thanks for your payment. Here's your receipt.",
+    sections: [
+      {
+        rows: [
+          {
+            label: "Account",
+            value: "j•••••@example.com",
+          },
+          {
+            label: "Plan",
+            value: "Standard (Monthly)",
+          },
+          {
+            label: "Billing period",
+            value: "{{date+0}} – {{date+30}}",
+          },
+          {
+            label: "Next billing date",
+            value: "{{date+30}}",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "HBO Max Standard — Monthly",
+        quantity: 1,
+        price: 18.49,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Tax",
+    taxRate: 0,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    grandTotalLabel: "Total",
+    paymentMethod: "Credit Card",
+    cardLastFour: "3317",
+    paymentInline: true,
+    showCardAuth: false,
+    showBarcode: false,
+    footerMessage: "Manage your subscription anytime in Settings > Subscription.",
+  },
+  // playstation-store — was missing-key-details. Sources:
+  //   https://www.niksula.hut.fi/~atiainen/sony.html
+  //   https://kotaku.com/thank-you-for-your-purchase-please-stop-this-sony-1846841924
+  //   https://imagetotable.ai/extract/console-store-purchase-screenshot
+  "playstation-store": {
+    businessName: "PlayStation Store",
+    addressLine1: "",
+    addressLine2: "",
+    phone: "",
+    website: "store.playstation.com",
+    cashier: "",
+    register: "",
+    hideStoreLine: true,
+    paperFinish: "email",
+    paperStyle: "minimal",
+    fontFamily: "inter",
+    headerAlign: "left",
+    ruleStyle: "solid",
+    itemStyle: "lined",
+    itemHeader: {
+      left: "Item",
+      right: "Price",
+    },
+    greeting: "Thank you for your purchase. Please keep these details for future reference.",
+    sections: [
+      {
+        rows: [
+          {
+            label: "Online ID",
+            value: "sample_player88",
+          },
+          {
+            label: "Order Number",
+            value: "20418377561",
+          },
+          {
+            label: "Date and Time of Purchase",
+            value: "{{date+0}}",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "Marvel's Spider-Man 2 (Full Game)",
+        quantity: 1,
+        price: 69.99,
+      },
+      {
+        name: "PlayStation Plus Essential: 12 Month Subscription",
+        quantity: 1,
+        price: 79.99,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Tax",
+    taxRate: 8.25,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    grandTotalLabel: "Total",
+    paymentMethod: "Credit Card",
+    cardLastFour: "5521",
+    paymentName: "Visa",
+    paymentInline: true,
+    showCardAuth: false,
+    afterPayment: [
+      {
+        rows: [
+          {
+            label: "Current Wallet Amount",
+            value: "$0.00",
+          },
+        ],
+      },
+    ],
+    showBarcode: false,
+    footerMessage: "You requested immediate access to digital content; your right to cancel may not apply once download or streaming has started. See the PlayStation Network Terms of Service.",
+    policyText: "This email was sent on behalf of Sony Interactive Entertainment LLC. Please do not reply to this send-only address.",
+  },
+  // mercadona — was wrong-format. Sources:
+  //   https://github.com/d3vv3/mercaticket (src/app/assets/example.png — photo of a 09/12/2023 Mercadona ticket)
+  //   https://github.com/juanlu70/Mercadona/blob/main/ticket_text.py
+  //   https://github.com/dinnbier/Tickets-mercadona/blob/main/tickets.py
+  //   https://taxdown.es/informacion-autonomos/factura-simplificada
+  "mercadona": {
+    businessName: "MERCADONA, S.A. A-46103834",
+    addressLine1: "C/ DE EJEMPLO, 24",
+    addressLine2: "46010 VALENCIA",
+    phone: "TELÉFONO: 963 555 014",
+    website: "",
+    cashier: "",
+    register: "",
+    hideStoreLine: true,
+    dateOrder: "dmy",
+    sections: [
+      {
+        rows: [
+          {
+            label: "OP:",
+            value: "204517",
+          },
+          {
+            label: "FACTURA SIMPLIFICADA:",
+            value: "2947-031-118406",
+          },
+        ],
+      },
+    ],
+    topBarcode: true,
+    paperStyle: "thermal",
+    fontFamily: "share-tech-mono",
+    headerAlign: "center",
+    ruleStyle: "none",
+    itemStyle: "qtycol",
+    items: [
+      {
+        name: "LECHE ENTERA",
+        quantity: 6,
+        price: 0.97,
+        taxFlag: "A",
+      },
+      {
+        name: "BARRA DE PAN",
+        quantity: 1,
+        price: 0.5,
+        taxFlag: "A",
+      },
+      {
+        name: "12 HUEVOS GRANDES",
+        quantity: 1,
+        price: 2.75,
+        taxFlag: "A",
+      },
+      {
+        name: "QUESO HAVARTI LIGHT",
+        quantity: 1,
+        price: 2.8,
+        taxFlag: "A",
+      },
+      {
+        name: "BANANA",
+        quantity: 1.094,
+        unit: "kg",
+        price: 1.45,
+        taxFlag: "A",
+      },
+      {
+        name: "SALMOREJO FRESCO",
+        quantity: 3,
+        price: 1.25,
+        taxFlag: "B",
+      },
+      {
+        name: "PANCETA",
+        quantity: 1,
+        price: 2.25,
+        taxFlag: "B",
+      },
+      {
+        name: "HIGIENICO DOBLE ROLL",
+        quantity: 2,
+        price: 4.4,
+      },
+      {
+        name: "BOLSA PLASTICO",
+        quantity: 3,
+        price: 0.15,
+      },
+    ],
+    currency: "EUR",
+    taxIncluded: true,
+    taxLabel: "IVA",
+    taxRate: 21,
+    taxLines: [
+      {
+        label: "IVA 4%",
+        rate: 4,
+        appliesTo: "A",
+      },
+      {
+        label: "IVA 10%",
+        rate: 10,
+        appliesTo: "B",
+      },
+      {
+        label: "IVA 21%",
+        rate: 21,
+      },
+    ],
+    showTaxRate: false,
+    hideSubtotal: true,
+    discount: 0,
+    tip: 0,
+    grandTotalLabel: "TOTAL (€)",
+    paymentMethod: "Debit Card",
+    paymentName: "TARJETA BANCARIA",
+    cardLastFour: "6183",
+    showCardAuth: false,
+    showBarcode: false,
+    footerMessage: "",
+    policyText: "",
+    numberLocale: "es-ES",
+    hideTaxFlags: true,
+  },
+  // air-canada — was wrong-format. Sources:
+  //   https://www.ipc.on.ca/en/media/986/download
+  //   https://www.ipc.on.ca/en/media/2477/download
+  //   https://www.leg.bc.ca/content-committees/AccountabilityDocuments/mlas/2021-22/Q4/Ind-Current-MLA/Compensation-Travel-Receipts/Stewart-Travel-Receipts-Q4-FY2021-22.pdf
+  //   https://www.aircanada.com/shared/en/common/flights/pop_surcharge.html
+  "air-canada": {
+    businessName: "Air Canada",
+    addressLine1: "",
+    addressLine2: "",
+    phone: "",
+    website: "aircanada.com",
+    cashier: "",
+    register: "",
+    hideStoreLine: true,
+    paperFinish: "email",
+    paperStyle: "modern",
+    fontFamily: "inter",
+    headerAlign: "left",
+    ruleStyle: "solid",
+    itemStyle: "lined",
+    itemHeader: {
+      left: "Air Transportation Charges",
+      right: "CAD",
+    },
+    greeting: "Itinerary/Receipt — Booking Confirmed",
+    sections: [
+      {
+        rows: [
+          {
+            label: "Booking Reference",
+            value: "QX7R2M",
+          },
+          {
+            label: "Date of issue",
+            value: "{{date+0}}",
+          },
+        ],
+      },
+      {
+        title: "Passenger",
+        rows: [
+          {
+            value: "SAMPLE/ALEX MR",
+          },
+          {
+            label: "Ticket Number",
+            value: "014 2417735091",
+          },
+          {
+            label: "Aeroplan",
+            value: "*****4826",
+          },
+        ],
+      },
+      {
+        title: "Flights",
+        rows: [
+          {
+            label: "AC 405",
+            value: "{{date+14}}",
+          },
+          {
+            value: "Toronto (YYZ) 07:00 > Montreal (YUL) 08:15",
+          },
+          {
+            label: "Cabin",
+            value: "Economy (Standard)",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "Departing Flight - Standard",
+        quantity: 1,
+        price: 199.0,
+      },
+      {
+        name: "Surcharges",
+        quantity: 1,
+        price: 24.0,
+      },
+      {
+        name: "Canada - Airport Improvement Fee",
+        quantity: 1,
+        price: 35.0,
+      },
+      {
+        name: "Canada - Air Travellers Security Charge",
+        quantity: 1,
+        price: 9.46,
+      },
+    ],
+    currency: "CAD",
+    taxLabel: "Canada - Harmonized Sales Tax - 100092287 RT0001",
+    taxRate: 13,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "Air Transp. Charges - per ticket",
+    },
+    grandTotalLabel: "Grand Total - Canadian dollars",
+    paymentMethod: "Credit Card",
+    paymentName: "Visa",
+    cardLastFour: "4408",
+    showCardAuth: false,
+    showBarcode: false,
+    footerMessage: "Please retain this page for your financial records (e.g. taxation, expense claims or payment card reconciliation).",
+    policyText: "Air Canada's Conditions of Carriage and tariffs apply. Fare rules for your booking are available on aircanada.com.",
+  },
+  // peacock — was no-source. Sources:
+  //   https://www.peacocktv.com/help/article/how-do-i-view-my-payment-history-or-upcoming-payments
+  //   https://www.peacocktv.com/help/article/price-increase
+  "peacock": {
+    businessName: "Peacock",
+    logoText: "peacock",
+    addressLine1: "",
+    addressLine2: "",
+    phone: "",
+    website: "peacocktv.com",
+    cashier: "",
+    register: "",
+    hideStoreLine: true,
+    paperFinish: "email",
+    paperStyle: "minimal",
+    fontFamily: "inter",
+    headerAlign: "left",
+    ruleStyle: "solid",
+    dividers: "minimal",
+    greeting: "Thanks for your payment. Here are the details of your Peacock subscription.",
+    sections: [
+      {
+        rows: [
+          {
+            label: "Account",
+            value: "a•••••@example.com",
+          },
+          {
+            label: "Plan",
+            value: "Peacock Premium Plus (Monthly)",
+          },
+          {
+            label: "Payment date",
+            value: "{{date+0}}",
+          },
+          {
+            label: "Next payment",
+            value: "{{date+30}}",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "Peacock Premium Plus — Monthly",
+        quantity: 1,
+        price: 16.99,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Tax",
+    taxRate: 0,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    grandTotalLabel: "Total",
+    paymentMethod: "Credit Card",
+    cardLastFour: "8820",
+    paymentInline: true,
+    showCardAuth: false,
+    showBarcode: false,
+    footerMessage: "View your payment history anytime in Account > Plans & Payment.",
+  },
+  // godaddy — was wrong-format. Sources:
+  //   https://www.mdd.uscourts.gov/sites/mdd/files/DEF-017%205.30.19%20email%20from%20GoDaddy%20to%20M%20Mosby%20Ofc%20365%20Acct_Redacted.pdf
+  //   https://godaddy.com/help/resend-or-reprint-a-receipt-40796
+  //   https://central.ballerina.io/ballerinax/godaddy.orders/latest
+  "godaddy": {
+    businessName: "GoDaddy",
+    addressLine1: "24/7 Support: (480) 505-8877",
+    addressLine2: "Customer Number: 418273566",
+    phone: "",
+    website: "godaddy.com",
+    cashier: "",
+    register: "",
+    hideStoreLine: true,
+    paperFinish: "email",
+    paperStyle: "minimal",
+    fontFamily: "open-sans",
+    headerAlign: "left",
+    ruleStyle: "solid",
+    itemStyle: "lined",
+    itemHeader: {
+      left: "Product",
+      right: "Price",
+    },
+    greeting: "Thanks for your order. Here's your confirmation. Review your receipt and get started using your products.",
+    sections: [
+      {
+        rows: [
+          {
+            label: "Order Number:",
+            value: "3814620957",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: ".COM Domain Registration — 1 Domain, 1 Year\nsamplebakery.com",
+        quantity: 1,
+        price: 11.99,
+      },
+      {
+        name: "ICANN Fee",
+        quantity: 1,
+        price: 0.2,
+      },
+      {
+        name: "Full Domain Protection — 1 Year\nsamplebakery.com",
+        quantity: 1,
+        price: 14.99,
+      },
+      {
+        name: "Microsoft 365 Email Essentials — 1 User, 1 Year",
+        quantity: 1,
+        price: 35.88,
+      },
+      {
+        name: "Private Domain Registration\nsamplebakery.com",
+        quantity: 1,
+        price: 0.0,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Tax:",
+    taxRate: 0,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "Subtotal:",
+    },
+    grandTotalLabel: "Total:",
+    paymentMethod: "Credit Card",
+    cardLastFour: "2291",
+    paymentInline: true,
+    showCardAuth: false,
+    showBarcode: false,
+    footerMessage: "NOTE: Your purchase includes enrollment in our automatic renewal service, which keeps your products running by charging then-current renewal fees to your payment method on file. You can cancel on the Renewals and Billing page in your account.",
+    policyText: "Please do not reply to this email. Emails sent to this address will not be answered.\nCopyright © 1999-2026 GoDaddy Operating Company, LLC. All rights reserved.",
+  },
+  // careem — was wrong-format. Sources:
+  //   https://help.careem.com/hc/en-us/articles/360001592268-How-can-I-get-my-trip-receipt
+  //   https://gulfnews.com/your-money/taxation/careem-uber-raise-uae-prices-1.2155326
+  //   https://help.pemo.io/en/articles/12569253-how-to-add-your-pemo-receipt-inbox-on-uber-careem
+  "careem": {
+    businessName: "Careem",
+    logoText: "careem",
+    addressLine1: "",
+    addressLine2: "",
+    phone: "",
+    website: "careem.com",
+    cashier: "",
+    register: "",
+    paperFinish: "email",
+    paperStyle: "minimal",
+    fontFamily: "inter",
+    headerAlign: "left",
+    ruleStyle: "solid",
+    itemStyle: "lined",
+    dividers: "minimal",
+    hideStoreLine: true,
+    showBarcode: false,
+    dateOrder: "dmy",
+    greeting: "Thanks for riding with Careem, Omar\nHere is your receipt for your ride this evening.",
+    items: [
+      {
+        name: "Ride fare",
+        quantity: 1,
+        price: 41.6,
+        notTaxed: true,
+      },
+      {
+        name: "Salik (toll)",
+        quantity: 1,
+        price: 4.0,
+        notTaxed: true,
+      },
+      {
+        name: "Booking fee",
+        quantity: 1,
+        price: 3.0,
+      },
+    ],
+    currency: "AED",
+    taxLabel: "VAT",
+    taxRate: 5,
+    taxIncluded: true,
+    showTaxRate: true,
+    hideSubtotal: true,
+    discount: 0,
+    tip: 0,
+    grandTotalLabel: "Total",
+    labels: {
+      paymentMethod: "Paid with",
+    },
+    paymentMethod: "Credit Card",
+    cardLastFour: "6031",
+    paymentInline: true,
+    showCardAuth: false,
+    afterPayment: [
+      {
+        title: "Your ride with Captain Imran",
+        rows: [
+          {
+            label: "Comfort",
+            value: "18.4 km | 26 min",
+          },
+          {
+            label: "8:12 PM",
+            value: "Dubai Mall, Financial Centre Rd, Dubai",
+          },
+          {
+            label: "8:38 PM",
+            value: "Al Barsha 1, Dubai",
+          },
+        ],
+      },
+      {
+        rows: [
+          {
+            label: "Booking ID",
+            value: "1029384756",
+          },
+        ],
+      },
+    ],
+    footerMessage: "Careem Networks FZ LLC, Dubai, UAE",
+    policyText: "Prices include VAT where applicable. Ride fares for transport are VAT-exempt in the UAE.",
+  },
+  // portillos — was no-source. Sources:
+  //   https://www.phoenixnewtimes.com/?p=40500429
+  //   https://nbcchicago.com/news/local/portillos-reveals-how-most-customers-order-their-hot-dogs/2563383
+  "portillos": {
+    businessName: "Portillo's",
+    logoText: "Portillo's",
+    addressLine1: "520 W Taylor St (sample)",
+    addressLine2: "Chicago, IL 60607",
+    phone: "(312) 555-0172",
+    website: "portillos.com",
+    cashier: "Cashier: Dana",
+    register: "Reg 3",
+    paperStyle: "thermal",
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "dashed",
+    itemStyle: "qtycol",
+    items: [
+      {
+        name: "Hot Dog",
+        quantity: 2,
+        price: 4.79,
+        modifiers: ["Everything"],
+      },
+      {
+        name: "Italian Beef",
+        quantity: 1,
+        price: 10.99,
+        modifiers: ["Hot Peppers", "Dipped"],
+      },
+      {
+        name: "Large Fries",
+        quantity: 1,
+        price: 4.29,
+      },
+      {
+        name: "Chocolate Cake Slice",
+        quantity: 1,
+        price: 5.89,
+      },
+      {
+        name: "Medium Lemonade",
+        quantity: 1,
+        price: 3.79,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Tax",
+    taxRate: 11.75,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    grandTotalLabel: "TOTAL",
+    paymentMethod: "Credit Card",
+    cardLastFour: "7724",
+    paymentName: "VISA",
+    showCardAuth: false,
+    cardRows: [
+      {
+        label: "AUTH",
+        value: "084215",
+      },
+      {
+        label: "ENTRY",
+        value: "CONTACTLESS",
+      },
+    ],
+    orderNumber: "ORDER 214",
+    showBarcode: false,
+    footerMessage: "Thank you for choosing Portillo's!",
+    policyText: "Order online at portillos.com",
+  },
+  // forever-21 — was wrong-format. Sources:
+  //   https://www.flickr.com/photo.gne?id=3331983641
+  //   https://refinery29.com/2017/01/136526/forever-21-new-return-policy
+  "forever-21": {
+    businessName: "Forever 21",
+    logoText: "FOREVER 21",
+    addressLine1: "Store #0104 - Sample Galleria",
+    addressLine2: "Los Angeles, CA 90036",
+    phone: "(323) 555-0119",
+    website: "forever21.com",
+    cashier: "",
+    register: "",
+    hideStoreLine: true,
+    paperStyle: "thermal",
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "dashed",
+    itemStyle: "qtycol",
+    sections: [
+      {
+        rows: [
+          {
+            label: "Trans:",
+            value: "0104-03-20481736",
+          },
+          {
+            label: "Date :",
+            value: "{{date+0}}",
+          },
+          {
+            label: "Cashier :",
+            value: "kayla 1048213",
+          },
+        ],
+      },
+    ],
+    skuFirst: true,
+    items: [
+      {
+        sku: "57410170011",
+        name: "ACCESSORIES/HANDBAGS/OTHER/N/",
+        quantity: 1,
+        price: 14.99,
+        taxFlag: "T",
+        addons: [
+          {
+            name: "PINK/BLACK",
+            price: 0,
+          },
+        ],
+      },
+      {
+        sku: "47674024022",
+        name: "ACCESSORIES/SHOES/LOW/FLAT/N/",
+        quantity: 1,
+        price: 19.99,
+        taxFlag: "T",
+        addons: [
+          {
+            name: "FINAL SALE PINK",
+            price: 0,
+          },
+        ],
+      },
+      {
+        sku: "48360949012",
+        name: "DRESS/SHRT LNGTH DRS/SLVLS/N/",
+        quantity: 1,
+        price: 12.99,
+        taxFlag: "T",
+        addons: [
+          {
+            name: "FINAL SALE ORANGE",
+            price: 0,
+          },
+        ],
+      },
+    ],
+    currency: "USD",
+    taxLabel: "9.750% Tax",
+    taxRate: 9.75,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "Sub Total",
+      change: "Change:",
+    },
+    grandTotalLabel: "Total",
+    paymentMethod: "Debit Card",
+    cardLastFour: "3318",
+    paymentName: "DEBIT CARD",
+    showCardAuth: false,
+    showBarcode: true,
+    footerMessage: "THANK YOU FOR SHOPPING AT FOREVER 21",
+    policyText: "Returns and exchanges allowed within 30 days with receipt. Final sale items cannot be returned or exchanged.",
+  },
+  // ritz-carlton — was wrong-format. Sources:
+  //   https://expenses.alberta.ca/files/2019-10/img_826569657846806969828320190712105156.pdf
+  //   https://www.ombudsman.ab.ca/wp-content/uploads/2019/11/Ombudsman-Travel-and-Hosting-2019-19-Q1.pdf
+  //   https://www.hotelexecutive.com/newswire/2089/marriott-expands-efolio-in-us-canada
+  //   https://www.businesstravelnews.com/Hotel-News/Amex-To-Provide-Ritz-Carlton-E-Folio
+  "ritz-carlton": {
+    businessName: "The Ritz-Carlton, Washington, D.C. (sample)",
+    addressLine1: "1150 Sample St NW",
+    addressLine2: "Washington, DC 20037",
+    phone: "(202) 555-0155",
+    website: "ritzcarlton.com",
+    cashier: "",
+    register: "",
+    paperFinish: "invoice",
+    paperStyle: "modern",
+    fontFamily: "playfair",
+    headerAlign: "center",
+    ruleStyle: "solid",
+    itemStyle: "lined",
+    itemHeader: {
+      left: "DESCRIPTION",
+      right: "CHARGES",
+    },
+    greeting: "GUEST FOLIO",
+    hideStoreLine: true,
+    sections: [
+      {
+        rows: [
+          {
+            label: "ROOM",
+            value: "712",
+          },
+          {
+            label: "NAME",
+            value: "BENNETT/C",
+          },
+          {
+            label: "RATE",
+            value: "695.00",
+          },
+          {
+            label: "ARRIVE",
+            value: "{{date-2}}",
+          },
+          {
+            label: "DEPART",
+            value: "{{date+0}}",
+          },
+          {
+            label: "FOLIO",
+            value: "381946",
+          },
+          {
+            label: "MARRIOTT BONVOY #",
+            value: "XXXXX5872",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "ROOM 712",
+        quantity: 2,
+        price: 695.0,
+      },
+      {
+        name: "IN-ROOM DINING",
+        quantity: 1,
+        price: 86.4,
+        notTaxed: true,
+      },
+      {
+        name: "VALET PARKING",
+        quantity: 2,
+        price: 62.0,
+        notTaxed: true,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "ROOM TAX",
+    taxRate: 14.95,
+    showTaxRate: false,
+    labels: {
+      subtotal: "TOTAL CHARGES",
+    },
+    discount: 0,
+    tip: 0,
+    grandTotalLabel: "TOTAL",
+    paymentMethod: "Credit Card",
+    cardLastFour: "1009",
+    paymentName: "AMEX CARD",
+    showCardAuth: false,
+    afterPayment: [
+      {
+        rows: [
+          {
+            label: "BALANCE",
+            value: ".00",
+          },
+        ],
+      },
+    ],
+    showBarcode: false,
+    footerMessage: "Thank you for staying at The Ritz-Carlton. Marriott Bonvoy points for eligible charges will be credited to your account.",
+    policyText: "This statement is your only receipt. You have agreed to pay for all amounts charged to you on this account.",
+  },
+  // gnc — was missing-key-details. Sources:
+  //   https://www.flickr.com/photo.gne?id=8923898312
+  //   https://www.gnc.com/my-rewards/terms-conditions.html
+  //   https://www.rivo.io/blog/mygnc-rewards-program
+  "gnc": {
+    businessName: "GNC",
+    logoText: "GNC",
+    addressLine1: "GNC #2187 - Sample Commons",
+    addressLine2: "Pittsburgh, PA 15222",
+    phone: "(412) 555-0163",
+    website: "gnc.com",
+    cashier: "Assoc: 40817",
+    register: "Reg 01",
+    paperStyle: "thermal",
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "dashed",
+    itemStyle: "lined",
+    items: [
+      {
+        name: "GNC AMP WHEY ISO VAN 2LB",
+        quantity: 1,
+        price: 59.99,
+        discount: 6.0,
+      },
+      {
+        name: "GNC MEGA MEN 90CT",
+        quantity: 1,
+        price: 39.99,
+        discount: 4.0,
+      },
+      {
+        name: "BEYOND RAW LIT PRE MANGO 30SV",
+        quantity: 1,
+        price: 44.99,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Sales Tax",
+    taxRate: 7,
+    showTaxRate: true,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "Subtotal",
+      itemDiscount: "PRO ACCESS Price",
+      savings: "You Saved",
+    },
+    showSavings: true,
+    grandTotalLabel: "Total",
+    paymentMethod: "Credit Card",
+    cardLastFour: "5520",
+    paymentName: "VISA",
+    showCardAuth: false,
+    cardRows: [
+      {
+        label: "ACCT",
+        value: "XXXXXXXXXXXX5520",
+      },
+      {
+        label: "AUTH",
+        value: "731602",
+      },
+    ],
+    afterPayment: [
+      {
+        title: "myGNC Rewards",
+        rows: [
+          {
+            label: "Member",
+            value: "XXXXXX4419",
+          },
+          {
+            label: "Status",
+            value: "PRO ACCESS",
+          },
+        ],
+      },
+    ],
+    showBarcode: true,
+    footerMessage: "THANK YOU FOR SHOPPING AT GNC - LIVE WELL",
+    policyText: "Tell us about your visit at gnc.com/survey",
+  },
+  // zelle — was missing-key-details. Sources:
+  //   https://info.bankofamerica.com/en/digital-banking/how-to/mobile-banking-send-money-demo.html
+  //   https://imagetotable.ai/blog/zelle-screenshot-transaction-details
+  //   https://info.bankofamerica.com/en/digital-banking/zelle.html
+  "zelle": {
+    businessName: "Zelle",
+    logoText: "Zelle",
+    addressLine1: "",
+    addressLine2: "",
+    phone: "",
+    website: "",
+    cashier: "",
+    register: "",
+    paperFinish: "email",
+    paperStyle: "minimal",
+    fontFamily: "inter",
+    headerAlign: "center",
+    ruleStyle: "solid",
+    itemStyle: "lined",
+    dividers: "minimal",
+    itemHeader: {
+      left: "Message",
+      right: "Amount",
+    },
+    hideStoreLine: true,
+    showBarcode: false,
+    greeting: "You sent money with Zelle",
+    items: [
+      {
+        name: "October rent",
+        quantity: 1,
+        price: 320.0,
+      },
+    ],
+    hideSubtotal: true,
+    currency: "USD",
+    taxLabel: "Tax",
+    taxRate: 0,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    grandTotalLabel: "Amount",
+    paymentMethod: "Mobile Payment",
+    paymentName: "Checking ••4821",
+    cardLastFour: "",
+    paymentInline: true,
+    showCardAuth: false,
+    labels: {
+      paymentMethod: "From",
+    },
+    sections: [
+      {
+        rows: [
+          {
+            label: "To",
+            value: "Sam Carter",
+          },
+          {
+            label: "Enrolled with Zelle as",
+            value: "sam.carter@email.com",
+          },
+          {
+            label: "Sent on",
+            value: "{{date+0}}",
+          },
+        ],
+      },
+    ],
+    afterPayment: [
+      {
+        rows: [
+          {
+            label: "Confirmation number",
+            value: "Z7K4M2Q9X1",
+          },
+          {
+            label: "Status",
+            value: "Completed",
+          },
+        ],
+      },
+    ],
+    footerMessage: "Keep this confirmation with your records.",
+    policyText: "Zelle and the Zelle related marks are wholly owned by Early Warning Services, LLC. Payments are sent from your bank or credit union account.",
+  },
+  // uniqlo — was wrong-format. Sources:
+  //   https://commons.wikimedia.org/wiki/File:Taiwan_Uniqlo_Miramar_Store_receipt_2012-05-07.jpg
+  //   https://faq-ph.uniqlo.com/articles/en_US/Knowledge/About-Receipts-FAQs
+  //   https://faq-dk.uniqlo.com/articles/en_US/Knowledge/What-is-the-in-store-e-receipt-DK
+  "uniqlo": {
+    businessName: "UNIQLO 34th Street (sample)",
+    logoText: "UNIQLO",
+    addressLine1: "31 W 34th St (sample)",
+    addressLine2: "New York, NY 10001",
+    phone: "TEL (212) 555-0186",
+    website: "WWW.UNIQLO.COM",
+    cashier: "",
+    register: "",
+    hideStoreLine: true,
+    paperStyle: "thermal",
+    fontFamily: "mono",
+    headerAlign: "left",
+    ruleStyle: "dashed",
+    itemStyle: "stacked",
+    sections: [
+      {
+        title: "*** RECEIPT ***",
+        rows: [
+          {
+            label: "Date",
+            value: "{{date+0}}",
+          },
+          {
+            label: "Register",
+            value: "<0007>",
+          },
+          {
+            value: "CP00284716",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "ULTRA LIGHT DOWN JACKET",
+        sku: "2000041573826",
+        quantity: 1,
+        price: 79.9,
+        notTaxed: true,
+      },
+      {
+        name: "SUPIMA COTTON CREW NECK T-SHIRT",
+        sku: "2000039916274",
+        quantity: 2,
+        price: 14.9,
+        notTaxed: true,
+      },
+      {
+        name: "WOOL BLEND CHESTERFIELD COAT",
+        sku: "2000044108325",
+        quantity: 1,
+        price: 149.9,
+        taxFlag: "TX",
+      },
+    ],
+    showItemsSold: true,
+    labels: {
+      itemsSold: "Item count",
+      change: "CHANGE",
+    },
+    currency: "USD",
+    taxLabel: "Sales Tax",
+    taxRate: 8.875,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    grandTotalLabel: "TOTAL",
+    paymentMethod: "Credit Card",
+    cardLastFour: "2290",
+    paymentName: "VISA",
+    showCardAuth: false,
+    afterPayment: [
+      {
+        rows: [
+          {
+            label: "Staff",
+            value: "0548423",
+          },
+          {
+            label: "Inquiry No.",
+            value: "02-00067",
+          },
+          {
+            label: "Receipt No.",
+            value: "00054",
+          },
+        ],
+      },
+    ],
+    showBarcode: true,
+    footerMessage: "SHOP ONLINE AT WWW.UNIQLO.COM",
+    policyText: "UNIQLO RETURN AND EXCHANGE POLICY\n1. Returns and exchanges within 30 days of purchase with this receipt.\n2. Items must be unworn, unwashed and with tags attached.\n3. Altered items and undergarments cannot be returned.",
+  },
+  // holiday-inn — was wrong-format. Sources:
+  //   https://psc.ky.gov/pscecf/2020-00290/kyunker@mcbrayerfirm.com/05292021095845/Favor.pdf
+  //   https://travel.umbc.edu/wp-content/uploads/sites/801/2025/08/Sample-hotel-folio.pdf
+  //   https://ebsc.grainger.illinois.edu/travel-and-reimbursements/emburse-guides/t-card-expense-report-instructions/adding-hotel-expense
+  //   https://www.floridapsc.com/library/FILINGS/2017/04599-2017/04599-2017.pdf
+  "holiday-inn": {
+    businessName: "Holiday Inn Atlanta-Sample Downtown",
+    addressLine1: "175 Sample Blvd NE",
+    addressLine2: "Atlanta, GA 30303",
+    phone: "(404) 555-0131",
+    website: "holidayinn.com",
+    cashier: "Clerk: FD04",
+    register: "",
+    paperFinish: "invoice",
+    paperStyle: "modern",
+    fontFamily: "roboto",
+    headerAlign: "left",
+    ruleStyle: "solid",
+    itemStyle: "lined",
+    itemHeader: {
+      left: "DESCRIPTION",
+      right: "AMOUNT",
+    },
+    greeting: "GUEST FOLIO",
+    hideStoreLine: true,
+    sections: [
+      {
+        rows: [
+          {
+            label: "Room No",
+            value: "418",
+          },
+          {
+            label: "Arrival",
+            value: "{{date-2}}",
+          },
+          {
+            label: "Departure",
+            value: "{{date+0}}",
+          },
+          {
+            label: "Adults/Children",
+            value: "1/0",
+          },
+          {
+            label: "Rate",
+            value: "149.00",
+          },
+          {
+            label: "Folio No",
+            value: "604218",
+          },
+          {
+            label: "Confirmation No",
+            value: "48271936",
+          },
+          {
+            label: "IHG One Rewards #",
+            value: "XXXXX7731",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "GUEST ROOM",
+        quantity: 2,
+        price: 149.0,
+      },
+      {
+        name: "GA HOTEL FEE",
+        quantity: 2,
+        price: 5.0,
+        notTaxed: true,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "STATE/LOCAL SALES TAX",
+    taxRate: 16.9,
+    taxLines: [
+      {
+        label: "STATE/LOCAL SALES TAX",
+        rate: 8.9,
+      },
+      {
+        label: "CITY HOTEL/MOTEL TAX",
+        rate: 8.0,
+      },
+    ],
+    showTaxRate: false,
+    hideSubtotal: true,
+    discount: 0,
+    tip: 0,
+    grandTotalLabel: "TOTAL",
+    paymentMethod: "Credit Card",
+    cardLastFour: "4420",
+    paymentName: "VISA *4420",
+    showCardAuth: false,
+    afterPayment: [
+      {
+        rows: [
+          {
+            label: "BALANCE",
+            value: "0.00",
+          },
+        ],
+      },
+    ],
+    showBarcode: false,
+    footerMessage: "Thank you for staying at Holiday Inn. IHG One Rewards points post after checkout.",
+    policyText: "I agree that my liability for this bill is not waived and I agree to be held personally liable in the event that the indicated person, company or association fails to pay for any part or the full amount of these charges.",
+  },
+  // audible — was wrong-format. Sources:
+  //   https://help.audible.ca/s/article/view-purchase-history
+  //   https://help.audible.ca/s/article/learn-about-credits
+  //   https://help.audible.in/s/article/view-your-transaction-history
+  "audible": {
+    businessName: "Audible",
+    logoText: "audible",
+    addressLine1: "",
+    addressLine2: "",
+    phone: "",
+    website: "audible.com",
+    cashier: "",
+    register: "",
+    paperFinish: "email",
+    paperStyle: "minimal",
+    fontFamily: "inter",
+    headerAlign: "left",
+    ruleStyle: "solid",
+    itemStyle: "lined",
+    dividers: "minimal",
+    itemHeader: {
+      left: "Item",
+      right: "Price",
+    },
+    hideStoreLine: true,
+    showBarcode: false,
+    greeting: "Order Details\nThanks for being an Audible member, Jamie.",
+    sections: [
+      {
+        rows: [
+          {
+            label: "Order number",
+            value: "D01-4829173-5530218",
+          },
+          {
+            label: "Order date",
+            value: "{{date+0}}",
+          },
+          {
+            label: "Next billing date",
+            value: "{{date+30}}",
+          },
+        ],
+      },
+    ],
+    items: [
+      {
+        name: "Audible Premium Plus - Monthly",
+        quantity: 1,
+        price: 14.95,
+        addons: [
+          {
+            name: "1 credit added to your account",
+            price: 0,
+          },
+        ],
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Tax",
+    taxRate: 6.625,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "Subtotal",
+      paymentMethod: "Payment method",
+    },
+    grandTotalLabel: "Total",
+    paymentMethod: "Credit Card",
+    cardLastFour: "8812",
+    paymentName: "Visa",
+    paymentInline: true,
+    showCardAuth: false,
+    footerMessage: "Audible, Inc. - Newark, NJ",
+    policyText: "Your membership renews monthly until cancelled. Credits expire 12 months after they are issued.",
+  },
+  // duane-reade — was wrong-format. Sources:
+  //   https://www.flickr.com/photo.gne?id=140116150
+  //   https://www.flickr.com/photo.gne?id=140117127
+  //   https://www.walgreens.com/balancerewards/balance-rewards.jsp
+  //   https://commons.wikimedia.org/wiki/File:Walgreens_customer_receipt_with_RX_number.jpg
+  "duane-reade": {
+    businessName: "Duane Reade",
+    logoText: "duane reade",
+    addressLine1: "#14287 1350 SAMPLE AVE",
+    addressLine2: "NEW YORK, NY 10019",
+    phone: "(212) 555-0147",
+    website: "www.duanereade.com",
+    cashier: "",
+    register: "",
+    hideStoreLine: true,
+    greeting: "Refunds Require A Receipt",
+    sections: [
+      {
+        rows: [
+          {
+            value: "REG 3 TRAN 6624 STORE 14287",
+          },
+        ],
+      },
+    ],
+    paperStyle: "thermal",
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "none",
+    itemStyle: "lined",
+    items: [
+      {
+        name: "TYLENOL EX STR CAPLETS 100CT",
+        quantity: 1,
+        price: 15.99,
+        notTaxed: true,
+        discount: 3.0,
+      },
+      {
+        name: "DR DELISH SPRING WATER 1L",
+        quantity: 2,
+        price: 1.99,
+      },
+      {
+        name: "CHAPSTICK CLASSIC ORIGINAL",
+        quantity: 1,
+        price: 3.49,
+      },
+      {
+        name: "KIND BAR DK CHOC NUTS SEA SALT",
+        quantity: 1,
+        price: 2.79,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "SALES TAX",
+    taxRate: 8.875,
+    showTaxRate: true,
+    labels: {
+      subtotal: "SUBTOTAL",
+      itemDiscount: "myWalgreens Savings",
+      change: "CHANGE",
+    },
+    grandTotalLabel: "TOTAL",
+    showSavings: true,
+    discount: 0,
+    tip: 0,
+    paymentMethod: "Debit Card",
+    cardLastFour: "6158",
+    showCardAuth: false,
+    cardRows: [
+      {
+        label: "DEBIT",
+        value: "XXXXXXXXXXXX6158",
+      },
+      {
+        label: "AUTH CODE",
+        value: "602931",
+      },
+    ],
+    afterPayment: [
+      {
+        rows: [
+          {
+            value: "FOR FULL DETAILS SEE MYWALGREENS.COM",
+          },
+          {
+            value: "RFN# 1428-7027-6624-1027-1149",
+          },
+        ],
+      },
+    ],
+    showBarcode: true,
+    footerMessage: "REFUNDS REQUIRE A RECEIPT\nTHANKS FOR SHOPPING AT DUANE READE",
+    policyText: "Tell us about your visit at www.walgreenslistens.com",
+  },
 };
 
 /** Profiles the research corrected (e.g. Wawa food is not a fuel receipt). */
@@ -20352,6 +32663,108 @@ export const BRAND_SPEC_PROFILES: Record<string, ReceiptProfile> = {
   sprouts: "grocery",
   coles: "grocery",
   fedex: "retail",
+  "blaze-pizza": "restaurant",
+  "family-dollar": "retail",
+  "youtube-premium": "digital",
+  albertsons: "grocery",
+  kohls: "fashion",
+  zoom: "digital",
+  valero: "fuel",
+  "steak-n-shake": "restaurant",
+  "harris-teeter": "grocery",
+  "spirit-airlines": "airline",
+  enterprise: "rental",
+  westin: "hotel",
+  "best-western": "hotel",
+  priceline: "travel",
+  "comfort-inn": "hotel",
+  dsw: "fashion",
+  ihop: "restaurant",
+  "raising-canes": "restaurant",
+  "rite-aid": "pharmacy",
+  ola: "ride",
+  "church-s-chicken": "restaurant",
+  "microsoft-store": "digital",
+  "pep-boys": "auto",
+  "williams-sonoma": "home",
+  "golden-corral": "restaurant",
+  waitrose: "grocery",
+  "micro-center": "electronics",
+  applebees: "restaurant",
+  avis: "rental",
+  "amazon-prime": "digital",
+  "red-lobster": "restaurant",
+  "white-castle": "restaurant",
+  texaco: "fuel",
+  rei: "sporting",
+  potbelly: "restaurant",
+  "microsoft-365": "digital",
+  cabelas: "sporting",
+  greggs: "coffee",
+  "olive-garden": "restaurant",
+  "crunch-fitness": "digital",
+  arco: "fuel",
+  "waffle-house": "restaurant",
+  deliveroo: "delivery",
+  "academy-sports": "sporting",
+  gap: "fashion",
+  "pottery-barn": "home",
+  gopuff: "delivery",
+  "philz-coffee": "coffee",
+  "american-eagle": "fashion",
+  sixt: "rental",
+  equinox: "digital",
+  lidl: "grocery",
+  "urban-outfitters": "fashion",
+  radisson: "hotel",
+  dropbox: "digital",
+  "anytime-fitness": "digital",
+  "apple-tv-plus": "digital",
+  bolt: "ride",
+  "h-r-block": "digital",
+  "national-car-rental": "rental",
+  slack: "digital",
+  cinemark: "digital",
+  pandora: "fashion",
+  "boots-pharmacy": "pharmacy",
+  vons: "grocery",
+  jetblue: "airline",
+  shipt: "delivery",
+  stockx: "digital",
+  "noodles-company": "restaurant",
+  "party-city": "retail",
+  alamo: "rental",
+  twitch: "digital",
+  cartier: "fashion",
+  "red-robin": "restaurant",
+  "old-navy": "fashion",
+  "british-airways": "airline",
+  caviar: "delivery",
+  hulu: "digital",
+  "caffe-nero": "coffee",
+  "kate-spade": "fashion",
+  "paramount-plus": "digital",
+  patreon: "digital",
+  "four-seasons": "hotel",
+  "denny-s": "restaurant",
+  "banana-republic": "fashion",
+  "days-inn": "hotel",
+  "hbo-max": "digital",
+  "playstation-store": "digital",
+  mercadona: "grocery",
+  "air-canada": "airline",
+  peacock: "digital",
+  godaddy: "digital",
+  careem: "ride",
+  portillos: "restaurant",
+  "forever-21": "fashion",
+  "ritz-carlton": "hotel",
+  gnc: "pharmacy",
+  zelle: "digital",
+  uniqlo: "fashion",
+  "holiday-inn": "hotel",
+  audible: "digital",
+  "duane-reade": "pharmacy",
 };
 
 /** Layouts the research pinned. */

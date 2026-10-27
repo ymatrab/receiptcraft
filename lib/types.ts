@@ -17,6 +17,7 @@ export interface LineItem {
   taxFlag?: string; // printed after the line total, as tills do: "F", "T", "N", "A"
   addons?: { name: string; price: number }[]; // priced extras ("Add Beef 2.20"), per unit, added to the line
   heading?: boolean; // a department heading ("GROCERY") inside the list: prints, counts for nothing
+  percent?: number; // a fee worked out from the other items: 11.11 = 11.11% of them (price is computed)
 }
 
 /** One tax line in a totals block (supports multiple tax rates). */
@@ -207,6 +208,8 @@ export interface ReceiptData {
   fuelGrade?: string; // the fuel block's grade, "Regular" / "Supreme" / "Diesel" (default "Unleaded")
   taxLines?: TaxLine[]; // several tax rates, each optionally limited to one tax flag
   hideSubtotal?: boolean; // fuel slips and Kroger print no subtotal line
+  tipSuggestions?: number[]; // suggested-gratuity lines after the total, e.g. [15, 18, 20]
+  tipOnTotal?: boolean; // suggest tips on the total incl. tax (default: on the pre-tax amount)
   showItemsSold?: boolean; // print the item count ("ITEMS 5") on any receipt, not only grocery/warehouse
   subtotalNet?: boolean; // the Subtotal already has item discounts taken off (JCPenney, Burlington)
   taxIncluded?: boolean; // prices already include the tax (UK/EU VAT, AU GST): shown, not added
@@ -214,6 +217,8 @@ export interface ReceiptData {
   serviceFee?: number; // likewise
   unitDecimals?: 3; // unit prices to 3 decimals ($2.799/gal); line totals stay in cents
   paymentName?: string; // the tender as printed, when it is not Cash/Card ("Wire transfer", "GrabPay")
+  hideTaxFlags?: boolean; // flags still route items to their tax rate, but don't print (Mercadona)
+  numberLocale?: string; // how amounts print: "de-DE" → 1,99 €, "fr-FR", "nl-NL", "it-IT", "es-ES" (default en-US)
   paperFinish?: PaperFinish; // force a paper finish, e.g. "email" for emailed receipts
   labels?: ReceiptLabels; // the receipt's own wording for fixed lines ("SUBTOTAL", "CHANGE DUE")
   showTaxRate?: boolean; // false = "TAX 1" without "(9.5%)"

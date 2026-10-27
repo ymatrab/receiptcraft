@@ -52,8 +52,8 @@ function lineNet(i: LineItem): number {
 }
 
 /** Line total as printed, with the till's tax flag after it ("3.42 F"). */
-function lineTotal(i: LineItem, money: (n: number) => string): string {
-  return i.taxFlag ? `${money(lineNet(i))} ${i.taxFlag}` : money(lineNet(i));
+function lineTotal(i: LineItem, money: (n: number) => string, hideFlag?: boolean): string {
+  return i.taxFlag && !hideFlag ? `${money(lineNet(i))} ${i.taxFlag}` : money(lineNet(i));
 }
 
 /** How an item's own details print: whether the SKU leads the name, and the
@@ -63,6 +63,8 @@ interface ItemOpts {
   discountLabel?: string;
   /** Unit prices at more than cents ($2.799/gal); line totals keep `money`. */
   unitMoney?: (n: number) => string;
+  /** Tax flags still pick the rate but are not printed. */
+  hideTaxFlags?: boolean;
 }
 
 /** A department heading inside the list ("GROCERY"): a label, never a line. */
@@ -144,7 +146,7 @@ export function Items({
               {itemName(item, opts)}
               <ItemMeta item={item} money={money} opts={opts} />
             </span>
-            <span className="tabular-nums">{lineTotal(item, money)}</span>
+            <span className="tabular-nums">{lineTotal(item, money, opts.hideTaxFlags)}</span>
           </div>
         ))}
       </div>
@@ -168,7 +170,7 @@ export function Items({
                 {itemName(item, opts)}
                 <ItemMeta item={item} money={money} opts={opts} />
               </span>
-              <span className="tabular-nums">{lineTotal(item, money)}</span>
+              <span className="tabular-nums">{lineTotal(item, money, opts.hideTaxFlags)}</span>
             </div>
           ))}
         </div>
@@ -185,7 +187,7 @@ export function Items({
               {item.quantity} {itemName(item, opts)}
               <ItemMeta item={item} money={money} opts={opts} />
             </span>
-            <span className="tabular-nums">= {lineTotal(item, money)}</span>
+            <span className="tabular-nums">= {lineTotal(item, money, opts.hideTaxFlags)}</span>
           </div>
         ))}
       </div>
@@ -199,7 +201,7 @@ export function Items({
           <div key={item.id}>
             <div className="flex justify-between gap-2">
               <span className="break-words pr-2">{itemName(item, opts)}</span>
-              <span className="font-medium tabular-nums">{lineTotal(item, money)}</span>
+              <span className="font-medium tabular-nums">{lineTotal(item, money, opts.hideTaxFlags)}</span>
             </div>
             {item.quantity !== 1 && (
               <div className="text-[11px] text-slate-500">
@@ -247,7 +249,7 @@ export function Items({
                 {item.unit ? ` ${item.unit}` : ""}
               </td>
               <td className="text-right text-slate-600" style={pad}>{(opts.unitMoney ?? money)(item.price)}</td>
-              <td className="text-right font-medium" style={pad}>{lineTotal(item, money)}</td>
+              <td className="text-right font-medium" style={pad}>{lineTotal(item, money, opts.hideTaxFlags)}</td>
             </tr>
           );
         })}
