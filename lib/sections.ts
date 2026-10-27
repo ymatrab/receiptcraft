@@ -106,6 +106,7 @@ export interface ItemsSection extends BaseSection {
   hideSubtotal?: boolean; // fuel slips and Kroger print no subtotal
   taxIncluded?: boolean; // prices include the tax (VAT/GST): the lines show it, the total doesn't add it
   subtotalNet?: boolean; // Subtotal printed after item discounts, with no separate discounts line
+  hideTaxFlags?: boolean; // tax flags route items to rates without printing
   tipSuggestions?: number[]; // "15%  $8.40" lines after the total
   tipOnTotal?: boolean; // tips suggested on the total incl. tax, not the pre-tax amount
   unitDecimals?: 3; // unit prices to 3 decimals ($2.799); line totals stay in cents
@@ -886,6 +887,7 @@ export function docFromReceiptData(data: ReceiptData): ReceiptDoc {
       ...(data.taxIncluded && { taxIncluded: true }),
       ...(data.subtotalNet && { subtotalNet: true }),
       ...(data.tipSuggestions?.length && { tipSuggestions: data.tipSuggestions }),
+      ...(data.hideTaxFlags && { hideTaxFlags: true }),
       ...(data.tipOnTotal && { tipOnTotal: true }),
       ...(data.deliveryFee && { deliveryFee: data.deliveryFee }),
       ...(data.serviceFee && { serviceFee: data.serviceFee }),

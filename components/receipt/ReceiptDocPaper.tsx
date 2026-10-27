@@ -174,6 +174,7 @@ export default function ReceiptDocPaper({ doc }: Props) {
               gap={doc.settings.itemGap}
               opts={{
                 skuFirst: s.skuFirst,
+                hideTaxFlags: s.hideTaxFlags,
                 discountLabel: doc.settings.labels?.itemDiscount,
                 unitMoney: s.unitDecimals ? (n: number) => formatMoney(n, doc.settings.currency, s.unitDecimals, doc.settings.numberLocale) : undefined,
               }}
