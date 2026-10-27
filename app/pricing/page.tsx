@@ -363,6 +363,15 @@ export default function PricingPage() {
         <p className="mx-auto mt-4 max-w-2xl text-lg text-slate-600">
           Start free. Upgrade when you need watermark-free, professional receipts.
         </p>
+        {/* The one-sentence answer to "how much does it cost", for people and
+            for AI engines, which quote prose and skip the cards below. Prices
+            come from lib/plans.ts. */}
+        <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-slate-500">
+          {SITE.name} is free to build, preview and download with a small watermark, with no
+          account. A watermark-free download needs a Pro pass: {formatPlanPrice(PLANS.pro_weekly)} for
+          7 days, {formatPlanPrice(PLANS.pro_monthly)} for a month or {formatPlanPrice(PLANS.pro_yearly)} for
+          a year, each paid once and never renewed automatically.
+        </p>
       </div>
 
       {/* The free tier has four distinct states and they were previously only

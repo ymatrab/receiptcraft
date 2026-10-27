@@ -44,6 +44,14 @@ Typical legitimate uses: replacing lost or faded receipts for real purchases, ex
 - [Gas Station Receipt Generator](/templates/gas-station): Fuel receipts with gallons and price per gallon
 - [Taxi Receipt Generator](/templates/taxi): Trip receipts with fare breakdown
 - [Hotel Receipt Generator](/templates/hotel): Folio-style receipts with nightly rates and occupancy tax
+- [Payment Receipt Generator](/templates/payment-receipt): Proof of a payment between two parties
+- [Invoice Generator](/templates/invoice): Itemized invoices with due date and payment terms
+- [PayPal Receipt Generator](/brands/paypal): PayPal-style payment confirmations with payee, amount and transaction ID
+- [Walmart Receipt Generator](/brands/walmart): Itemized Walmart-style receipts with quantities, tax and payment details
+- [Amazon Receipt Generator](/brands/amazon): Amazon-style order receipts with items, shipping and payment details
+- [Home Depot Receipt Generator](/brands/home-depot): Itemized hardware and building-materials receipts
+- [Starbucks Receipt Generator](/brands/starbucks): Coffee-shop receipts with drinks, food and tax
+- [Uber Receipt Generator](/brands/uber): Rideshare receipts with base fare, distance and tip
 
 ## Key facts
 

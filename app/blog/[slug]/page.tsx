@@ -8,6 +8,7 @@ import { urlForImage } from "@/lib/sanity/client";
 import { fitSeoDescription } from "@/lib/seo-description";
 import { absoluteUrl, SITE } from "@/lib/site";
 import { PLANS, formatPlanPrice } from "@/lib/plans";
+import { hubForPost } from "@/lib/related-posts";
 
 /**
  * Posts where the builder is what the visitor came for, not a footnote.
@@ -252,6 +253,25 @@ export default async function BlogPostPage({
           rest: bodyBlocks.slice(OFFER_AFTER_BLOCKS),
         }
       : null;
+  // The one contextual link up to the page that owns this post's subject (see
+  // hubForPost). Same placement as the builder offer: after the lead, so the
+  // article answers first. Posts too short to split get it after the body.
+  const hub = offerBody ? null : hubForPost(slug);
+  const hubSplit = hub && bodyBlocks.length > OFFER_AFTER_BLOCKS ? OFFER_AFTER_BLOCKS : bodyBlocks.length;
+  const hubAside = hub && (
+    <aside className="not-prose my-8 rounded-2xl border border-indigo-200 bg-indigo-50/60 px-5 py-4">
+      <p className="leading-relaxed text-slate-700">
+        <strong className="font-semibold text-slate-900">Making one?</strong> Start from the{" "}
+        <Link
+          href={hub.href}
+          className="font-medium text-indigo-700 underline decoration-indigo-300 underline-offset-2 hover:decoration-indigo-700"
+        >
+          {hub.label}
+        </Link>
+        : the fields this guide covers are already laid out, and it is free to build and preview.
+      </p>
+    </aside>
+  );
   const faqJsonLd =
     faqs.length > 0
       ? {
@@ -370,6 +390,12 @@ export default async function BlogPostPage({
                   </p>
                 </aside>
                 <PortableText value={offerBody.rest as never} components={portableComponents} />
+              </>
+            ) : hubAside ? (
+              <>
+                <PortableText value={bodyBlocks.slice(0, hubSplit) as never} components={portableComponents} />
+                {hubAside}
+                <PortableText value={bodyBlocks.slice(hubSplit) as never} components={portableComponents} />
               </>
             ) : (
               <PortableText value={post.body as never} components={portableComponents} />

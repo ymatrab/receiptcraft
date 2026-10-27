@@ -15,7 +15,7 @@ import { citationJsonLd } from "@/lib/sources";
 import RelatedPosts from "@/components/RelatedPosts";
 import { docViewUrl, googleDocFor } from "@/lib/google-docs-templates";
 import { BRAND_TEMPLATES, brandCategoryFor } from "@/lib/brands";
-import { hubTemplateForBrand, relatedTemplateSlugs } from "@/lib/topic-clusters";
+import { byDemand, hubTemplateForBrand, relatedTemplateSlugs } from "@/lib/topic-clusters";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -77,7 +77,9 @@ export default async function TemplatePage({ params }: Props) {
     .filter((t): t is NonNullable<typeof t> => Boolean(t));
   const brands = BRAND_TEMPLATES.filter(
     (b) => hubTemplateForBrand(b.slug, brandCategoryFor(b.slug)) === template.slug,
-  ).slice(0, 8);
+  )
+    .sort(byDemand)
+    .slice(0, 8);
 
   // A sourced figure for templates that carry none of their own. Its sources
   // join the page's own so the footer list and the JSON-LD citations both cover

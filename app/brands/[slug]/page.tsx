@@ -204,6 +204,23 @@ export default async function BrandTemplatePage({ params }: Props) {
               only — not a proof of purchase.
             </p>
 
+            {/* A self-contained answer an AI engine can quote whole. Brand pages
+                had none (the intro is one line), while the receipt-help pages
+                AI Overviews cite do. Facts come from the template and
+                lib/plans.ts, never typed here. */}
+            <h2 className="mt-12 text-xl font-bold text-slate-900">
+              What is the {template.shortName} receipt generator?
+            </h2>
+            <p className="mt-3 leading-relaxed text-slate-600">
+              The {template.shortName} receipt generator is a {SITE.name} template that
+              lays out a {template.shortName}-style receipt with{" "}
+              {d.hideItems ? "the payee, amount, date and transaction details" : CATEGORY_NOUN[category]}{" "}
+              already filled in. You edit every field in your browser with a live
+              preview and download a PDF or PNG with no account. Free downloads carry
+              a small watermark; a one-time Pro pass from {formatPlanPrice(PLANS.pro_weekly)}{" "}
+              removes it.
+            </p>
+
             <h2 className="mt-12 text-xl font-bold text-slate-900">
               Common uses for a {template.name.toLowerCase()}
             </h2>

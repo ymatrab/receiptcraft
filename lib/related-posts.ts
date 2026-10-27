@@ -1,5 +1,7 @@
 import { getAllPosts, type BlogPostStub } from "./sanity/queries";
 import { CONSOLIDATED_POSTS } from "./consolidated-posts";
+import { BRAND_TEMPLATES } from "./brands";
+import { TEMPLATES } from "./templates";
 
 export interface RelatedPost {
   slug: string;
@@ -15,21 +17,45 @@ export interface RelatedPost {
 const POSTS_BY_HUB: Record<string, RelatedPost[]> = {
   "/create": [
     { slug: "how-to-make-a-receipt", title: "How to Make a Receipt" },
-    { slug: "how-to-make-a-receipt-of-payment", title: "How to Make a Receipt of Payment" },
     { slug: "photography-receipt-generator", title: "Photography Receipt Generator" },
-    { slug: "veterinary-receipt-generator", title: "Veterinary Receipt Generator" },
-    { slug: "florist-receipt-generator-custom-logo", title: "Florist Receipt Generator" },
     { slug: "food-truck-receipt-generator-tax-tip", title: "Food Truck Receipt Generator" },
-    { slug: "gym-membership-receipt-generator", title: "Gym Membership Receipt Generator" },
-    { slug: "dry-cleaning-receipt-generator", title: "Dry Cleaning Receipt Generator" },
-    { slug: "towing-service-receipt-generator", title: "Towing Service Receipt Generator" },
     { slug: "pet-grooming-receipt-generator", title: "Pet Grooming Receipt Generator" },
-    { slug: "electronics-store-receipt-generator-sku", title: "Electronics Store Receipt Generator" },
-    { slug: "clothing-store-receipt-generator-discount", title: "Clothing Store Receipt Generator" },
-    { slug: "hardware-store-receipt-generator-itemized-materials", title: "Hardware Store Receipt Generator" },
-    { slug: "pharmacy-receipt-generator-itemized-products", title: "Pharmacy Receipt Generator" },
     { slug: "receipts-ui-ux-mockups", title: "Using Realistic Receipts in UI/UX Mockups" },
     { slug: "how-to-make-a-receipt-online", title: "How to Make a Receipt Online" },
+  ],
+  // 2026-10-27: these posts were spokes of /create from before their subjects
+  // had template pages. /create already has ~1,160 internal links; the
+  // template page is the one that should rank for "{x} receipt generator", and
+  // GSC showed the pharmacy post splitting that query with /templates/pharmacy.
+  "/templates/payment-receipt": [
+    { slug: "how-to-make-a-receipt-of-payment", title: "How to Make a Receipt of Payment" },
+  ],
+  "/templates/veterinary-receipt": [
+    { slug: "veterinary-receipt-generator", title: "Veterinary Receipt Generator" },
+  ],
+  "/templates/florist-receipt": [
+    { slug: "florist-receipt-generator-custom-logo", title: "Florist Receipt Generator" },
+  ],
+  "/templates/gym-membership-receipt": [
+    { slug: "gym-membership-receipt-generator", title: "Gym Membership Receipt Generator" },
+  ],
+  "/templates/dry-cleaning-receipt": [
+    { slug: "dry-cleaning-receipt-generator", title: "Dry Cleaning Receipt Generator" },
+  ],
+  "/templates/towing-receipt": [
+    { slug: "towing-service-receipt-generator", title: "Towing Service Receipt Generator" },
+  ],
+  "/templates/electronics-store-receipt": [
+    { slug: "electronics-store-receipt-generator-sku", title: "Electronics Store Receipt Generator" },
+  ],
+  "/templates/clothing-store-receipt": [
+    { slug: "clothing-store-receipt-generator-discount", title: "Clothing Store Receipt Generator" },
+  ],
+  "/templates/hardware-store-receipt": [
+    { slug: "hardware-store-receipt-generator-itemized-materials", title: "Hardware Store Receipt Generator" },
+  ],
+  "/templates/pharmacy": [
+    { slug: "pharmacy-receipt-generator-itemized-products", title: "Pharmacy Receipt Generator" },
   ],
   "/alternatives": [
     { slug: "best-free-receipt-generator", title: "Best Free Receipt Generator" },
@@ -207,4 +233,86 @@ export async function relatedPostsForHub(
     out.push(post);
   }
   return out;
+}
+
+export interface HubLink {
+  href: string;
+  label: string;
+}
+
+/**
+ * Posts whose slug names a template by accident: "cash back" is not a cash
+ * receipt. Checked against all 230 published slugs on 2026-10-27.
+ */
+const NO_HUB: ReadonlySet<string> = new Set(["cash-back-receipt-meaning"]);
+
+const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+/** Index of the first hyphen-delimited occurrence of `term` in `slug`, or -1. */
+function termAt(slug: string, term: string): number {
+  const m = new RegExp(`(^|-)${escapeRe(term)}(?=-|$)`).exec(slug);
+  return m ? m.index + (m[1] ? 1 : 0) : -1;
+}
+
+/** The term that appears earliest in the slug wins: "dental-payment-receipt" is a dental receipt. */
+function earliest<T>(slug: string, items: T[], term: (t: T) => string): T | undefined {
+  let best: T | undefined;
+  let bestAt = Infinity;
+  for (const t of items) {
+    const at = termAt(slug, term(t));
+    if (at >= 0 && at < bestAt) {
+      best = t;
+      bestAt = at;
+    }
+  }
+  return best;
+}
+
+const brandLabel = (name: string) => `${name} receipt generator`;
+const templateLabel = (name: string) => `${name.toLowerCase()} template`;
+
+/**
+ * The page a post should hand its authority to: the brand or template page
+ * that owns the post's subject.
+ *
+ * Until Oct 2026 links only ran hub → post (the map above), and every post's
+ * own links went to /create. 230 posts linked brand pages 22 times in total,
+ * and the Walmart posts ranked p29–37 for "walmart receipt generator" beside
+ * /brands/walmart at p7, splitting the query instead of feeding it. One link
+ * up, with the owner page's own keyword as the anchor, tells Google which of
+ * the pages is the main one.
+ *
+ * Three tiers: the curated map (reversed), then a brand named in the slug,
+ * then a template named in the slug. A brand counts only when "-receipt",
+ * "-invoice" or "-bill" follows it, so "coach" never matches a life-coach
+ * receipt. Posts with no owner page (definitions, "amount tendered") get null
+ * and keep only the /create CTA.
+ */
+export function hubForPost(slug: string): HubLink | null {
+  if (NO_HUB.has(slug)) return null;
+
+  for (const [hub, posts] of Object.entries(POSTS_BY_HUB)) {
+    if (!posts.some((p) => p.slug === slug)) continue;
+    const [, kind, key] = hub.split("/");
+    if (kind === "brands") {
+      const b = BRAND_TEMPLATES.find((t) => t.slug === key);
+      if (b) return { href: hub, label: brandLabel(b.shortName) };
+    }
+    if (kind === "templates") {
+      const t = TEMPLATES.find((x) => x.slug === key);
+      if (t) return { href: hub, label: templateLabel(t.name) };
+    }
+  }
+
+  const brand = earliest(
+    slug,
+    BRAND_TEMPLATES.filter((b) => new RegExp(`(^|-)${escapeRe(b.slug)}-(receipt|invoice|bill)`).test(slug)),
+    (b) => b.slug
+  );
+  if (brand) return { href: `/brands/${brand.slug}`, label: brandLabel(brand.shortName) };
+
+  const template = earliest(slug, TEMPLATES, (t) => t.slug.replace(/-receipt$/, ""));
+  if (template) return { href: `/templates/${template.slug}`, label: templateLabel(template.name) };
+
+  return null;
 }
