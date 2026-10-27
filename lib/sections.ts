@@ -735,9 +735,13 @@ export function presetDoc(id: PresetId): ReceiptDoc {
  * "30 days from invoice date".
  */
 function resolveRowValue(value: string, data: ReceiptData): string {
-  // {{date+14}} a return-by date, {{date-3}} a date of service before the receipt.
-  const m = /^\{\{date([+-]\d+)\}\}$/.exec(value);
-  return m ? formatDisplayDate(addDaysISO(data.date, Number(m[1])), data.dateOrder) : value;
+  // Anywhere in the text: {{date}} the receipt date, {{date+14}} a return-by
+  // date, {{date-3}} a date of service, {{time}} the receipt time — so
+  // "Printed: {{date}} {{time}}" and "{{date}} – {{date+30}}" stay true when
+  // the receipt's date is edited.
+  return value
+    .replace(/\{\{date([+-]\d+)?\}\}/g, (_, n) => formatDisplayDate(addDaysISO(data.date, Number(n ?? 0)), data.dateOrder))
+    .replace(/\{\{time\}\}/g, data.time);
 }
 
 /**
@@ -904,7 +908,9 @@ export function docFromReceiptData(data: ReceiptData): ReceiptDoc {
       amountTendered: data.amountTendered,
       showCardAuth: data.showCardAuth,
       inline: data.paymentInline,
-      ...(data.cardRows?.length && { extraRows: data.cardRows }),
+      ...(data.cardRows?.length && {
+        extraRows: data.cardRows.map((r) => ({ ...r, value: resolveRowValue(r.value, data) })),
+      }),
       ...(data.paymentName && { methodName: data.paymentName }),
     });
   }
