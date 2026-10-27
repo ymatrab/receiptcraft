@@ -2,7 +2,7 @@ import type { CSSProperties } from "react";
 import type { FontFamily } from "@/lib/types";
 import type { ReceiptDoc, Section, SectionAlign } from "@/lib/sections";
 import { itemsTotals, receiptLabel, SPACING_DEFAULTS, type ReceiptLabelKey } from "@/lib/sections";
-import { formatMoney, formatDisplayDate } from "@/lib/format";
+import { formatMoney, formatDisplayDate, resolveItems } from "@/lib/format";
 import Barcode from "./Barcode";
 import Qr from "./Qr";
 import { CardAuth, Items, KeyValueRows, LogoImg, Rule } from "./parts";
@@ -166,7 +166,7 @@ export default function ReceiptDocPaper({ doc }: Props) {
         return (
           <>
             <Items
-              items={s.items}
+              items={resolveItems(s.items)}
               style={s.itemStyle ?? "table"}
               money={money}
               header={s.itemHeader}
@@ -250,6 +250,19 @@ export default function ReceiptDocPaper({ doc }: Props) {
               </div>
               {/* Grocery receipts total what the shopper saved; computed, so it
                   stays right when an item's discount is edited. */}
+              {/* Restaurant checks print what a tip would come to; computed, so
+                  it follows the bill (on the pre-tax amount unless tipOnTotal). */}
+              {!!s.tipSuggestions?.length && (
+                <div className="mt-2 space-y-0.5 text-xs">
+                  <p className="text-slate-500">{L("tipSuggestions")}</p>
+                  {s.tipSuggestions.map((pct) => (
+                    <div key={pct} className="flex justify-between">
+                      <span>{pct}%</span>
+                      <span>{money(((s.tipOnTotal ? t.total : t.taxable) * pct) / 100)}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
               {s.showSavings && t.itemDiscount + t.discount > 0 && (
                 <div className="flex justify-between font-semibold text-slate-700">
                   <span>{L("savings")}</span>
