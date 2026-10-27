@@ -6,6 +6,7 @@ import type {
   FontFamily,
   FontScale,
   LetterSpacingPreset,
+  LineItem,
   LineSpacing,
   PaperFinish,
   TextWeight,
@@ -28,9 +29,11 @@ import {
   newSection,
   presetDoc,
   PRESETS,
+  RECEIPT_LABELS,
   SECTION_LABEL,
   SPACING_DEFAULTS,
   WIDTH_PRESETS,
+  type ReceiptLabelKey,
 } from "@/lib/sections";
 import { getTemplate, TEMPLATES } from "@/lib/templates";
 import { receiptFromTemplate } from "@/lib/receipt";
@@ -44,8 +47,7 @@ import {
 } from "@/lib/local-templates";
 import { CURRENCIES, formatMoney, uid } from "@/lib/format";
 import { SITE } from "@/lib/site";
-import type { ReceiptData } from "@/lib/types";
-import type { AiReceiptResult } from "@/lib/ai-receipt";
+import { receiptFromAi, type AiReceiptResult } from "@/lib/ai-receipt";
 import { downloadPng, downloadJpg, downloadPdf, exportFilename } from "@/lib/download";
 import { analytics, eventIdentity } from "@/lib/analytics";
 import ReviewPrompt, { reviewAlreadyAsked } from "./ReviewPrompt";
@@ -183,6 +185,22 @@ function getQueryTemplate(): string {
   return new URLSearchParams(window.location.search).get("template") ?? "";
 }
 
+/**
+ * "Add Beef 2.20, Extra Cheese 0.75" → priced add-ons. A trailing number is the
+ * price; an entry without one is a free add-on that still prints.
+ */
+function parseAddons(text: string): LineItem["addons"] {
+  const list = text
+    .split(",")
+    .map((p) => p.trim())
+    .filter(Boolean)
+    .map((p) => {
+      const m = /^(.*?)\s+\$?(-?\d+(?:\.\d+)?)$/.exec(p);
+      return m ? { name: m[1], price: parseFloat(m[2]) } : { name: p, price: 0 };
+    });
+  return list.length ? list : undefined;
+}
+
 export default function SectionBuilder() {
   // Seed with a deterministic blank doc so the server and client render
   // identical HTML (no hydration mismatch / #418). The mount effect below swaps
@@ -228,6 +246,8 @@ export default function SectionBuilder() {
   const [aiLoading, setAiLoading] = useState(false);
   const [aiError, setAiError] = useState<string | null>(null);
   const [aiNeedsAuth, setAiNeedsAuth] = useState(false);
+  // Set by a successful generation, for the one-line "now download it" nudge.
+  const [aiMade, setAiMade] = useState(false);
   const [saveState, setSaveState] = useState<"idle" | "saving" | "saved">("idle");
   // The download paywall: the export a non-Pro visitor asked for, held while
   // they choose between the pass and a watermarked copy.
@@ -273,7 +293,11 @@ export default function SectionBuilder() {
     if (handoff) {
       sessionStorage.removeItem("rc_ai_receipt");
       try {
-        applyAi(JSON.parse(handoff) as AiReceiptResult);
+        // { receipt, template } since the generator became brand-aware; a bare
+        // receipt from a tab opened before that deploy still loads.
+        const parsed = JSON.parse(handoff) as { receipt?: AiReceiptResult; template?: string | null } & AiReceiptResult;
+        if (parsed.receipt) applyAi(parsed.receipt, parsed.template);
+        else applyAi(parsed);
         analytics.builderOpened("ai");
         return;
       } catch {
@@ -305,7 +329,7 @@ export default function SectionBuilder() {
       // No draft/template/AI — replace the deterministic SSR seed with a real
       // blank doc (fills today's date, time and a random receipt number
       // client-side, after hydration).
-      setDoc(blankDoc());
+      setDoc({ ...blankDoc(), origin: "blank" });
       analytics.builderOpened("blank");
     }
   }, []);
@@ -454,7 +478,7 @@ export default function SectionBuilder() {
   const applyTemplate = (slug: string) => {
     const t = getTemplate(slug);
     if (!t) return;
-    setDoc(keepId(docFromReceiptData(receiptFromTemplate(t))));
+    setDoc(keepId({ ...docFromReceiptData(receiptFromTemplate(t)), origin: "template" }));
     setActiveTemplate(slug);
     setCollapsed({});
     analytics.selectTemplate(slug);
@@ -463,7 +487,7 @@ export default function SectionBuilder() {
   const reset = () => {
     // Explicit "start over" — a genuinely new receipt gets a fresh id (and thus
     // its own download credit).
-    setDoc({ ...blankDoc(), id: newDocId() });
+    setDoc({ ...blankDoc(), id: newDocId(), origin: "blank" });
     setActiveTemplate("");
   };
 
@@ -489,35 +513,14 @@ export default function SectionBuilder() {
   };
   const removeMyTemplate = (id: string) => setMyTemplates(deleteTemplate(id));
 
-  // Convert the AI result into a full ReceiptData and load it into the builder.
-  const applyAi = (r: AiReceiptResult) => {
-    const data: ReceiptData = {
-      businessName: r.businessName,
-      logoDataUrl: "",
-      addressLine1: r.addressLine1,
-      addressLine2: r.addressLine2,
-      phone: r.phone,
-      website: r.website,
-      receiptNumber: r.receiptNumber,
-      date: r.date,
-      time: r.time,
-      cashier: "",
-      register: "",
-      items: r.items.map((it) => ({ id: uid(), name: it.name, quantity: it.quantity, price: it.price })),
-      currency: r.currency || "USD",
-      taxLabel: r.taxLabel || "Sales Tax",
-      taxRate: r.taxRate || 0,
-      discount: 0,
-      tip: 0,
-      paymentMethod: (r.paymentMethod as ReceiptData["paymentMethod"]) || "Credit Card",
-      cardLastFour: "",
-      amountTendered: 0,
-      footerMessage: r.footerMessage,
-      showBarcode: true,
-      paperStyle: "thermal",
-    };
-    setDoc(keepId(docFromReceiptData(data)));
-    setActiveTemplate("");
+  // Load an AI result into the builder — on top of the template it was made
+  // for, when the server matched one (the prompt named a brand, or this page
+  // is a brand's). Brand look from the template, transaction from the AI.
+  const applyAi = (r: AiReceiptResult, slug?: string | null) => {
+    const t = slug ? getTemplate(slug) : undefined;
+    const data = receiptFromAi(r, t ? receiptFromTemplate(t) : undefined);
+    setDoc(keepId({ ...docFromReceiptData(data), origin: "ai" }));
+    setActiveTemplate(t ? t.slug : "");
     setCollapsed({});
   };
 
@@ -526,12 +529,13 @@ export default function SectionBuilder() {
     setAiLoading(true);
     setAiError(null);
     setAiNeedsAuth(false);
+    setAiMade(false);
     analytics.aiGenerate("start", activeTemplate || undefined);
     try {
       const res = await fetch("/api/ai/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt: aiPrompt }),
+        body: JSON.stringify({ prompt: aiPrompt, template: activeTemplate || undefined }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -540,14 +544,15 @@ export default function SectionBuilder() {
         setAiError(data.error ?? "Generation failed.");
         return;
       }
-      analytics.aiGenerate("success", activeTemplate || undefined);
+      analytics.aiGenerate("success", data.template || activeTemplate || undefined);
       // Spend one from the visible allowance. The status effect only refetches
       // when the receipt or the account changes, and a generation changes
       // neither — so without this the counter would still read "3 of 3" after
       // using one, which is worse than showing no number at all.
       setDl((d) => (d.aiRemaining === null ? d : { ...d, aiRemaining: Math.max(0, d.aiRemaining - 1) }));
-      applyAi(data.receipt as AiReceiptResult);
+      applyAi(data.receipt as AiReceiptResult, data.template);
       setAiPrompt("");
+      setAiMade(true);
     } catch {
       analytics.aiGenerate("error", activeTemplate || undefined);
       setAiError("Generation failed. Please try again.");
@@ -557,7 +562,7 @@ export default function SectionBuilder() {
   };
 
   const applyPreset = (id: PresetId) => {
-    setDoc(keepId(presetDoc(id)));
+    setDoc(keepId({ ...presetDoc(id), origin: "preset" }));
     setActiveTemplate("");
     setCollapsed({});
   };
@@ -611,6 +616,7 @@ export default function SectionBuilder() {
           // page's traffic can be followed to a finished file.
           receiptKey: doc.id,
           template: activeTemplate || undefined,
+          origin: doc.origin,
           ...eventIdentity(),
         }),
       }).catch(() => {});
@@ -654,7 +660,7 @@ export default function SectionBuilder() {
     if (account.isPro) return handleExport(kind, false);
 
     const fmt = kind === "pdf-print" ? "pdf" : kind;
-    analytics.paywallShown(fmt, account.isLoggedIn ? "free" : "anon", doc.id || undefined);
+    analytics.paywallShown(fmt, account.isLoggedIn ? "free" : "anon", doc.id || undefined, doc.origin);
     analytics.watermarkPrompt(fmt);
     setPendingExport(kind);
   };
@@ -811,14 +817,32 @@ export default function SectionBuilder() {
                     <input className={inputClass} defaultValue={it.category ?? ""} placeholder="Category" onChange={(e) => updateItem(s, it.id, { category: e.target.value || undefined })} aria-label="Category" />
                     <input className={inputClass} defaultValue={it.taxCategory ?? ""} placeholder="Tax category" onChange={(e) => updateItem(s, it.id, { taxCategory: e.target.value || undefined })} aria-label="Tax category" />
                     <input className={`${inputClass} col-span-2 sm:col-span-1`} defaultValue={(it.modifiers ?? []).join(", ")} placeholder="Modifiers (comma-sep)" onChange={(e) => updateItem(s, it.id, { modifiers: e.target.value.split(",").map((m) => m.trim()).filter(Boolean) })} aria-label="Modifiers" />
+                    {/* Real grocery tills tax the soap and not the milk, and
+                        print a flag after each price saying which is which. */}
+                    {/* "Add Beef 2.20, Extra Cheese 0.75": each priced extra prints
+                        indented under the item and is added to its total. */}
+                    <input className={`${inputClass} col-span-2 sm:col-span-3`} defaultValue={(it.addons ?? []).map((a) => (a.price ? `${a.name} ${a.price}` : a.name)).join(", ")} placeholder="Priced add-ons, e.g. Add Beef 2.20, Extra Cheese 0.75" onChange={(e) => updateItem(s, it.id, { addons: parseAddons(e.target.value) })} aria-label="Priced add-ons" />
+                    <input className={inputClass} defaultValue={it.taxFlag ?? ""} placeholder="Tax flag (F, T, N…)" maxLength={4} onChange={(e) => updateItem(s, it.id, { taxFlag: e.target.value || undefined })} aria-label="Tax flag printed after the price" />
+                    <label className="flex min-h-11 items-center gap-2 text-xs text-slate-600">
+                      <input type="checkbox" defaultChecked={!!it.notTaxed} onChange={(e) => updateItem(s, it.id, { notTaxed: e.target.checked || undefined })} className="h-4 w-4" />
+                      Not taxed
+                    </label>
                   </div>
                 )}
                 <button type="button" onClick={() => setItemDetails((m) => ({ ...m, [it.id]: !m[it.id] }))} className="mt-1.5 text-[11px] font-medium text-indigo-500 hover:text-indigo-700">
-                  {itemDetails[it.id] ? "− Hide details" : "+ SKU, unit, modifiers, discount"}
+                  {itemDetails[it.id] ? "− Hide details" : "+ SKU, unit, modifiers, add-ons, discount, tax"}
                 </button>
               </div>
             ))}
             <SelectField label="Item layout" defaultValue={s.itemStyle ?? "table"} onChange={(v) => patchSection(s.id, { itemStyle: v })} options={ITEM_STYLES} />
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-slate-700">Print the SKU / UPC before each item name</span>
+              <Toggle checked={!!s.skuFirst} onChange={(c) => patchSection(s.id, { skuFirst: c || undefined })} />
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-slate-700">Show “You saved” after the total</span>
+              <Toggle checked={!!s.showSavings} onChange={(c) => patchSection(s.id, { showSavings: c || undefined })} />
+            </div>
             {(s.itemStyle ?? "table") === "table" && (
               <div>
                 <span className="mb-1.5 block text-xs font-medium text-slate-600">Column names</span>
@@ -937,6 +961,19 @@ export default function SectionBuilder() {
               <p className="text-xs text-slate-500">Shows “Mobile Payment” on the receipt (e.g. Apple Pay, Google Pay).</p>
             )}
 
+            {/* The terminal's own lines, in the receipt's wording. */}
+            <div className="rounded-lg bg-slate-50 p-2">
+              <span className="text-xs font-medium text-slate-600">Card terminal lines (APPROVAL #, AID, TC…)</span>
+              {(s.extraRows ?? []).map((r, i) => (
+                <div key={i} className="mt-2 flex items-center gap-2">
+                  <input className={inputClass} defaultValue={r.label ?? ""} placeholder="Label, e.g. APPROVAL #" onChange={(e) => patchSection(s.id, { extraRows: (s.extraRows ?? []).map((x, j) => (j === i ? { ...x, label: e.target.value } : x)) })} aria-label="Terminal line label" />
+                  <input className={inputClass} defaultValue={r.value} placeholder="Value" onChange={(e) => patchSection(s.id, { extraRows: (s.extraRows ?? []).map((x, j) => (j === i ? { ...x, value: e.target.value } : x)) })} aria-label="Terminal line value" />
+                  <button type="button" aria-label="Remove terminal line" onClick={() => patchSection(s.id, { extraRows: (s.extraRows ?? []).filter((_, j) => j !== i) })} className="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-lg text-red-500 transition-colors hover:bg-red-50 hover:text-red-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500"><CloseIcon className="h-4 w-4" /></button>
+                </div>
+              ))}
+              <button type="button" onClick={() => patchSection(s.id, { extraRows: [...(s.extraRows ?? []), { label: "", value: "" }] })} className="mt-2 text-xs font-semibold text-indigo-600">+ Add terminal line</button>
+            </div>
+
             {/* Split payment */}
             <div className="rounded-lg bg-slate-50 p-2">
               <div className="flex items-center justify-between">
@@ -967,6 +1004,10 @@ export default function SectionBuilder() {
               <AlignToggle value={s.align ?? "center"} onChange={(v) => patchSection(s.id, { align: v })} />
             </div>
             <TextAreaField label="Message" defaultValue={s.text} onChange={(v) => patchSection(s.id, { text: v })} />
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-slate-700">Large text (e.g. ORDER 47)</span>
+              <Toggle checked={s.size === "large"} onChange={(c) => patchSection(s.id, { size: c ? "large" : undefined })} />
+            </div>
           </div>
         );
       case "footer":
@@ -1052,13 +1093,20 @@ export default function SectionBuilder() {
             </span>
           )}
           {!account.isPro && account.isLoggedIn && dl.aiRemaining === 0 && (
-            <Link
-              href="/pricing"
-              onClick={() => analytics.upgradeClick("builder_ai_counter")}
+            // Straight to checkout: the 11 accounts that hit the cap by
+            // October were sent to /pricing and none of them bought.
+            <a
+              href="/api/checkout?plan=pro_weekly"
+              rel="nofollow"
+              onClick={() => {
+                rememberPendingExport(null);
+                analytics.upgradeClick("builder_ai_counter");
+                analytics.beginCheckout("weekly", "builder_ai_counter");
+              }}
               className="text-[11px] font-semibold text-indigo-600 hover:text-indigo-700"
             >
-              Go unlimited
-            </Link>
+              Unlimited for {formatPlanPrice(PLANS.pro_weekly)}
+            </a>
           )}
         </div>
         <div className="mt-3 flex flex-col gap-2 sm:flex-row">
@@ -1094,14 +1142,40 @@ export default function SectionBuilder() {
                 Create a free account
               </Link>
             ) : aiError.includes("Upgrade") || aiError.includes("upgrade") ? (
-              <Link
-                href="/pricing"
-                onClick={() => analytics.upgradeClick("builder_ai_limit")}
+              <a
+                href="/api/checkout?plan=pro_weekly"
+                rel="nofollow"
+                onClick={() => {
+                  rememberPendingExport(null);
+                  analytics.upgradeClick("builder_ai_limit");
+                  analytics.beginCheckout("weekly", "builder_ai_limit");
+                }}
                 className="font-semibold underline"
               >
-                See plans
-              </Link>
+                Get unlimited AI — {formatPlanPrice(PLANS.pro_weekly)} for 7 days
+              </a>
             ) : null}
+          </p>
+        )}
+        {/* Most people who generated a receipt never downloaded it (77 of 124
+            accounts by October). Say what the next step is, and what it costs,
+            while the receipt is on screen. */}
+        {aiMade && !aiError && !account.isPro && (
+          <p className="mt-2 text-xs text-slate-600">
+            Your receipt is ready. Edit anything, then download it free with a watermark, or{" "}
+            <a
+              href="/api/checkout?plan=pro_weekly"
+              rel="nofollow"
+              onClick={() => {
+                rememberPendingExport(null);
+                analytics.upgradeClick("builder_ai_ready");
+                analytics.beginCheckout("weekly", "builder_ai_ready");
+              }}
+              className="font-semibold underline"
+            >
+              watermark-free for {formatPlanPrice(PLANS.pro_weekly)}
+            </a>
+            .
           </p>
         )}
       </div>
@@ -1237,6 +1311,29 @@ export default function SectionBuilder() {
                     <input type="range" min={0} max={20} value={doc.settings.itemGap ?? SPACING_DEFAULTS.itemGap} onChange={(e) => patchSettings({ itemGap: parseInt(e.target.value) })} className="mt-1 w-full" />
                   </label>
                 </div>
+                {/* Every word the receipt prints on its own. Free on every plan:
+                    matching the real receipt is the product, and the paywall
+                    is on the clean download alone. */}
+                <details className="rounded-lg border border-slate-100 p-3">
+                  <summary className="cursor-pointer text-xs font-semibold text-slate-700">
+                    Receipt wording — rename Subtotal, Change, card lines…
+                  </summary>
+                  <div className="mt-3 flex items-center justify-between">
+                    <span className="text-sm text-slate-700">Show the rate after each tax line, e.g. “Tax (9.5%)”</span>
+                    <Toggle checked={doc.settings.showTaxRate !== false} onChange={(c) => patchSettings({ showTaxRate: c })} />
+                  </div>
+                  <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                    {(Object.keys(RECEIPT_LABELS) as ReceiptLabelKey[]).map((k) => (
+                      <TextField
+                        key={k}
+                        label={RECEIPT_LABELS[k]}
+                        defaultValue={doc.settings.labels?.[k] ?? ""}
+                        placeholder={RECEIPT_LABELS[k]}
+                        onChange={(v) => patchSettings({ labels: { ...doc.settings.labels, [k]: v || undefined } })}
+                      />
+                    ))}
+                  </div>
+                </details>
               </div>
             )}
           </div>

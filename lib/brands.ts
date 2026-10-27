@@ -9,6 +9,7 @@ import {
   EXISTING_BRAND_CATEGORY,
 } from "./brand-categories";
 import { fitSeoDescription } from "./seo-description";
+import { BRAND_SPECS } from "./brand-specs";
 
 /**
  * Brand logo URL for a company domain. Prefers the official Wikimedia wordmark
@@ -1654,14 +1655,16 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     ],
     defaults: {
       logoDataUrl: brandLogo("publix.com"),
-      businessName: "White Oak Village",
-      addressLine1: "4591 South Laburnum Ave",
-      addressLine2: "Richmond, VA 23231",
-      phone: "(804) 226-1915",
+      // Replaced by lib/brand-specs.ts. These lines once copied a real store and
+      // a real cashier's name from a photo, so they hold sample values now.
+      businessName: "Publix",
+      addressLine1: "100 Sample Pkwy",
+      addressLine2: "Lakeland, FL 33801",
+      phone: "",
       taxLabel: "Sales Tax",
       taxRate: 6.5,
       register: "",
-      cashier: "Your cashier was Dominic",
+      cashier: "",
       footerMessage: "",
       fontFamily: "sans",
       headerAlign: "center",
@@ -4324,12 +4327,13 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     defaults: {
       logoDataUrl: brandLogo("7-eleven.com"),
       businessName: "7-Eleven",
-      addressLine1: "3992 Havana St",
-      addressLine2: "Denver, CO 80239",
-      phone: "(303) 371-9329",
+      // Replaced by lib/brand-specs.ts; the real store's address once sat here.
+      addressLine1: "100 Sample St",
+      addressLine2: "Denver, CO 80202",
+      phone: "",
       taxLabel: "Sales Tax",
       taxRate: 8.25,
-      register: "Store #35053",
+      register: "Store #00000",
       fontFamily: "mono",
       headerAlign: "center",
       ruleStyle: "dashed",
@@ -6348,12 +6352,25 @@ const TITLE_KEEPS_FREE: ReadonlySet<string> = new Set([
   "walmart", "whole-foods", "zara",
 ]);
 
+/**
+ * A template's defaults with its researched receipt applied (lib/brand-specs.ts).
+ * "replace" specs drop the old defaults except the logo; "merge" specs only
+ * correct the fields they name.
+ */
+function withSpec(t: ReceiptTemplate): ReceiptTemplate["defaults"] {
+  const spec = BRAND_SPECS[t.slug];
+  if (!spec) return t.defaults;
+  const { mode, items, ...fields } = spec;
+  const base = mode === "merge" ? t.defaults : { logoDataUrl: t.defaults.logoDataUrl };
+  return { ...base, ...fields, items: items.map((it) => ({ id: id(), ...it })) };
+}
+
 export const BRAND_TEMPLATES: ReceiptTemplate[] = [...HAND_BRANDS, ...GENERATED_BRANDS].map((t) => {
   const seoTitle = fitBrandTitle(
     TITLE_KEEPS_FREE.has(t.slug) ? t.seoTitle : stripFree(t.seoTitle),
     t.shortName
   );
-  return { ...t, seoTitle, seoDescription: fitSeoDescription(t.seoDescription) };
+  return { ...t, defaults: withSpec(t), seoTitle, seoDescription: fitSeoDescription(t.seoDescription) };
 });
 
 const NEW_BRAND_CATEGORY: Record<string, BrandCategory> = {};

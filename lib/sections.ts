@@ -15,7 +15,7 @@ import type {
   TaxLine,
   TextWeight,
 } from "./types";
-import { addDaysISO, formatDisplayDate, todayISO, nowHHMM, randomReceiptNumber, uid } from "./format";
+import { addDaysISO, formatDisplayDate, itemGross, todayISO, nowHHMM, randomReceiptNumber, uid } from "./format";
 
 // ---------------------------------------------------------------------------
 // Section-based document model. A receipt is an ordered list of sections the
@@ -102,6 +102,8 @@ export interface ItemsSection extends BaseSection {
   grandTotalLabel?: string;
   totalsDivider?: RuleStyle;
   showItemsSold?: boolean; // "Items sold: N" line (grocery / warehouse)
+  skuFirst?: boolean; // print each item's SKU/UPC before its name, as tills do
+  showSavings?: boolean; // "You saved $x" after the total, from item + order discounts
 }
 export type PaymentMethodKind = "Cash" | "Card" | "Mobile" | "Gift Card";
 export interface PaymentSplit {
@@ -119,10 +121,12 @@ export interface PaymentSection extends BaseSection {
   showCardAuth?: boolean;
   inline?: boolean;
   splits?: PaymentSplit[]; // split payment across methods
+  extraRows?: ReceiptRow[]; // the terminal's own lines: APPROVAL #, AID, TC, "DEBIT TEND"
 }
 export interface MessageSection extends BaseSection {
   type: "message";
   text: string;
+  size?: "normal" | "large"; // large = the big "ORDER 47" of a counter ticket
 }
 export interface FooterSection extends BaseSection {
   type: "footer";
@@ -185,6 +189,50 @@ export interface DocSettings {
   contentPadding?: number; // inner padding of the receipt (default 24)
   sectionGap?: number; // extra vertical gap between sections (default 0)
   itemGap?: number; // vertical gap between line items (default 4)
+  /** The receipt's own wording for the fixed lines — see RECEIPT_LABELS. */
+  labels?: ReceiptLabels;
+  /** Print the rate after each tax label, "Tax (9.5%)". Default true. */
+  showTaxRate?: boolean;
+}
+
+/**
+ * Every word the renderer prints on its own, with its default.
+ *
+ * These were hard-coded, so no receipt could say "SUBTOTAL", "CHANGE DUE",
+ * "APPROVAL #" or "Debit Tend" the way the real one does — and anyone matching
+ * a specific receipt hit a line they could not change. Each one is now the
+ * user's to rename in the builder's "Receipt wording" panel.
+ */
+export const RECEIPT_LABELS = {
+  subtotal: "Subtotal",
+  itemDiscounts: "Item discounts",
+  discount: "Discount",
+  serviceFee: "Service fee",
+  deliveryFee: "Delivery fee",
+  tip: "Tip",
+  rounding: "Rounding",
+  amountPaid: "Amount paid",
+  change: "Change",
+  itemsSold: "Items sold:",
+  paymentMethod: "Payment Method",
+  amountTendered: "Amount Tendered",
+  splitPayment: "Split payment",
+  cardNumber: "Card number",
+  cardType: "Card type",
+  cardEntry: "Card entry",
+  reference: "Reference #",
+  status: "Status",
+  approved: "APPROVED",
+  feedback: "We value your feedback:",
+  itemDiscount: "item discount",
+  savings: "You saved",
+} as const;
+export type ReceiptLabelKey = keyof typeof RECEIPT_LABELS;
+export type ReceiptLabels = Partial<Record<ReceiptLabelKey, string>>;
+
+/** The receipt's wording for one fixed line, falling back to the default. */
+export function receiptLabel(labels: ReceiptLabels | undefined, key: ReceiptLabelKey): string {
+  return labels?.[key] || RECEIPT_LABELS[key];
 }
 
 /** Spacing defaults, in px — single source of truth for renderer + builder. */
@@ -206,6 +254,13 @@ export interface ReceiptDoc {
    * autosave and saved-receipt data so re-downloads reuse the same credit.
    */
   id?: string;
+  /**
+   * How this receipt was started. Rides along on download and paywall events so
+   * "do AI receipts get paid for" is a query rather than a reconstruction —
+   * and survives autosave, because a draft restored tomorrow is still the AI
+   * receipt it was today. Absent on drafts saved before it existed.
+   */
+  origin?: "ai" | "template" | "blank" | "preset";
   settings: DocSettings;
   sections: Section[];
 }
@@ -700,7 +755,7 @@ export function docFromReceiptData(data: ReceiptData): ReceiptDoc {
     divider: d(true),
     logoDataUrl: data.logoText ? undefined : data.logoDataUrl || undefined,
     logoText: data.logoText,
-    title: data.greeting ? undefined : RECEIPT_TITLE[profile],
+    title: data.greeting || data.hideTitle ? undefined : RECEIPT_TITLE[profile],
     storeName: data.businessName,
     address: [data.addressLine1, data.addressLine2].filter(Boolean).join("\n"),
     phone: data.phone || undefined,
@@ -729,17 +784,21 @@ export function docFromReceiptData(data: ReceiptData): ReceiptDoc {
   if (!isService) {
     const storeNumber = 100 + (seed % 8900);
     const reg = 1 + (seed % 12);
+    // A brand that lays out its own pump block (Shell's PUMP# / GALLONS /
+    // PRICE/GAL) would otherwise print it twice, once with "Grade: Unleaded".
+    const ownPumpBlock = (data.sections ?? []).some((s) => s.rows.some((r) => /pump/i.test(r.label ?? "")));
     if (profile === "fuel") {
-      sections.push({
+      if (!ownPumpBlock) sections.push({
         id: uid(),
         type: "twocol",
         divider: "none",
         rows: [
           { label: "Pump", value: data.register?.replace(/[^0-9]/g, "") || "04" },
-          { label: "Grade", value: "Unleaded" },
+          { label: "Grade", value: data.fuelGrade || "Unleaded" },
           { label: "Auth", value: data.receiptNumber.slice(-4) },
         ],
       });
+      // otherwise its own block follows with the other sections
     } else if (profile === "pharmacy") {
       sections.push({
         id: uid(),
@@ -758,17 +817,22 @@ export function docFromReceiptData(data: ReceiptData): ReceiptDoc {
         divider: "none",
         rows: [{ label: "Member", value: `111${String(100000 + ((seed * 9301) % 899999))}` }],
       });
-    } else if (!isTicket && !data.register && !data.hideStoreLine) {
-      sections.push({
-        id: uid(),
-        type: "twocol",
-        divider: "none",
-        flow: true,
-        rows: [
-          { label: "Store #", value: String(storeNumber) },
-          { label: "Reg", value: String(reg) },
-        ],
-      });
+    } else if (!data.hideStoreLine) {
+      // `register` and `cashier` used to be read nowhere outside the fuel and
+      // pharmacy blocks: "REG #03", "Window #2" and every cashier a template or
+      // the AI set were silently dropped. Both values carry their own wording
+      // ("Bartender: Mike"), so they print as given — only a bare name is
+      // labelled.
+      const rows: ReceiptRow[] = data.register
+        ? [{ value: data.register }]
+        : isTicket
+          ? []
+          : [
+              { label: "Store #", value: String(storeNumber) },
+              { label: "Reg", value: String(reg) },
+            ];
+      if (data.cashier) rows.push(data.cashier.includes(":") ? { value: data.cashier } : { label: "Cashier", value: data.cashier });
+      if (rows.length > 0) sections.push({ id: uid(), type: "twocol", divider: "none", flow: true, rows });
     }
   }
 
@@ -801,6 +865,8 @@ export function docFromReceiptData(data: ReceiptData): ReceiptDoc {
       grandTotalLabel: data.grandTotalLabel,
       totalsDivider: d(true),
       showItemsSold: profile === "grocery" || profile === "warehouse",
+      ...(data.skuFirst && { skuFirst: true }),
+      ...(data.showSavings && { showSavings: true }),
     });
   }
 
@@ -820,7 +886,23 @@ export function docFromReceiptData(data: ReceiptData): ReceiptDoc {
       amountTendered: data.amountTendered,
       showCardAuth: data.showCardAuth,
       inline: data.paymentInline,
+      ...(data.cardRows?.length && { extraRows: data.cardRows }),
     });
+  }
+
+  // What a real receipt prints after the tender: TC#, survey code, pager.
+  (data.afterPayment ?? []).forEach((s) => {
+    sections.push({
+      id: uid(),
+      type: "twocol",
+      divider: "none",
+      title: s.title,
+      rows: s.rows.map((r) => ({ ...r, value: resolveRowValue(r.value, data) })),
+      flow: data.sectionStyle === "flow",
+    });
+  });
+  if (data.orderNumber) {
+    sections.push({ id: uid(), type: "message", align: "center", divider: "none", text: data.orderNumber, size: "large" });
   }
 
   if (data.footerMessage) {
@@ -895,7 +977,9 @@ export function docFromReceiptData(data: ReceiptData): ReceiptDoc {
       ...(lineSpacing && { lineSpacing }),
       ...(letterSpacing && { letterSpacing }),
       ...(weight && { weight }),
-      ...(paper && { paper }),
+      ...((data.paperFinish ?? paper) && { paper: data.paperFinish ?? paper }),
+      ...(data.labels && { labels: data.labels }),
+      ...(data.showTaxRate === false && { showTaxRate: false }),
     },
     sections,
   };
@@ -909,7 +993,7 @@ export function itemsTotals(s: ItemsSection) {
   let subtotal = 0; // gross, before per-item discounts
   let itemDiscount = 0;
   for (const i of s.items) {
-    const gross = (i.quantity || 0) * (i.price || 0);
+    const gross = itemGross(i);
     subtotal += gross;
     itemDiscount += Math.min(Math.max(i.discount || 0, 0), Math.max(gross, 0));
   }
@@ -921,6 +1005,16 @@ export function itemsTotals(s: ItemsSection) {
   const discount = Math.min(rawDiscount, afterItemDisc);
   const taxable = afterItemDisc - discount;
 
+  // Tax falls only on items not marked untaxed — a grocery receipt taxes the
+  // soap, not the milk. An order-level discount is shared pro rata, so it
+  // lowers the taxed and untaxed parts alike.
+  const taxedNet = s.items.reduce((sum, i) => {
+    if (i.notTaxed) return sum;
+    const gross = itemGross(i);
+    return sum + gross - Math.min(Math.max(i.discount || 0, 0), Math.max(gross, 0));
+  }, 0);
+  const taxBase = afterItemDisc > 0 ? taxedNet - discount * (taxedNet / afterItemDisc) : 0;
+
   // One or more tax lines. Multiple lines override the single taxLabel/taxRate.
   const lines = s.taxLines && s.taxLines.length > 0
     ? s.taxLines
@@ -930,7 +1024,7 @@ export function itemsTotals(s: ItemsSection) {
   const taxLines = lines.map((l) => ({
     label: l.label || "Tax",
     rate: l.rate,
-    amount: taxable * ((l.rate || 0) / 100),
+    amount: taxBase * ((l.rate || 0) / 100),
   }));
   const tax = taxLines.reduce((sum, l) => sum + l.amount, 0);
 

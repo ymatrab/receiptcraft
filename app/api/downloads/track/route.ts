@@ -29,11 +29,13 @@ export async function POST(req: Request) {
     watermark?: boolean;
     receiptKey?: string;
     template?: string;
+    origin?: string;
     anonymous_id?: string;
     session_id?: string;
   };
   const format = typeof body.format === "string" ? body.format.slice(0, 16) : "unknown";
   const template = typeof body.template === "string" ? body.template.slice(0, 64) : null;
+  const origin = ["ai", "template", "blank", "preset"].includes(body.origin ?? "") ? body.origin : null;
 
   const anonymousId = normalizeId(body.anonymous_id);
   // A signed-out row with no browser id could never be tied to anyone.
@@ -53,6 +55,9 @@ export async function POST(req: Request) {
         // download is where that gets answered.
         template_type: template ? "brand" : "generic",
         ...(template ? { template } : {}),
+        // How the receipt was started — the AI generator's conversion is
+        // read off this rather than pieced together from session order.
+        ...(origin ? { origin } : {}),
       },
       // The receipt this download was of. Without it, one person downloading
       // the same receipt as PNG and PDF is indistinguishable from someone

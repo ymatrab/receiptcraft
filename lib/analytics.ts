@@ -497,8 +497,8 @@ export const analytics = {
    * The denominator for the paywall's own CTA, upgrade_click{download_paywall},
    * and for "Download with watermark". `state` is free (logged in) or anon.
    */
-  paywallShown: (format: string, state: "free" | "anon", receiptId?: string) =>
-    track("paywall_shown", { format, state, receipt_id: receiptId }),
+  paywallShown: (format: string, state: "free" | "anon", receiptId?: string, origin?: string) =>
+    track("paywall_shown", { format, state, receipt_id: receiptId, ...(origin ? { origin } : {}) }),
   /**
    * A clean download was asked for and refused, and why.
    *

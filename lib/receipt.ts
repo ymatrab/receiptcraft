@@ -1,6 +1,7 @@
 import type { LayoutVariant, ReceiptData, ReceiptProfile, ReceiptTemplate } from "./types";
 import { randomReceiptNumber, todayISO, nowHHMM, uid } from "./format";
 import { BRAND_TEMPLATES } from "./brands";
+import { BRAND_SPEC_PROFILES, BRAND_SPEC_VARIANTS } from "./brand-specs";
 
 const PROFILE_BY_SLUG: Record<string, ReceiptProfile> = {
   // The "fuel" profile prints a US pump block ("Grade: Unleaded"). An Indian
@@ -225,6 +226,9 @@ const PROFILE_KEYWORDS: [RegExp, ReceiptProfile][] = [
 ];
 
 function inferProfile(template: ReceiptTemplate): ReceiptProfile {
+  // Researched corrections first: Wawa's food receipt is not a pump receipt,
+  // and Amazon's printable order summary is paper, not a service card.
+  if (BRAND_SPEC_PROFILES[template.slug]) return BRAND_SPEC_PROFILES[template.slug];
   if (PROFILE_BY_SLUG[template.slug]) return PROFILE_BY_SLUG[template.slug];
   if (COFFEE_SLUGS.has(template.slug)) return "coffee";
   if (RESTAURANT_SLUGS.has(template.slug)) return "restaurant";
@@ -284,14 +288,20 @@ const VARIANT_BY_SLUG: Record<string, LayoutVariant> = (() => {
     const p = inferProfile(t);
     const i = seen[p] ?? 0;
     seen[p] = i + 1;
-    map[t.slug] = VARIANT_OVERRIDE[t.slug] ?? VARIANT_ORDER[i % VARIANT_ORDER.length];
+    map[t.slug] = BRAND_SPEC_VARIANTS[t.slug] ?? VARIANT_OVERRIDE[t.slug] ?? VARIANT_ORDER[i % VARIANT_ORDER.length];
   }
   return map;
 })();
 
+const BRAND_SLUGS = new Set(BRAND_TEMPLATES.map((t) => t.slug));
+
 function brandMetadata(template: ReceiptTemplate) {
   return {
     receiptProfile: inferProfile(template),
+    // A generic template is a category ("Sales receipt"), so naming it fits. A
+    // brand's own receipt never prints "SALES RECEIPT" over the logo, and the
+    // heading was one of the things marking ours as not the real thing.
+    hideTitle: BRAND_SLUGS.has(template.slug) || undefined,
     brandAccent: BRAND_ACCENTS[template.slug] ?? "#4f46e5",
     logoScale: LOGO_SCALE[template.slug] ?? 1,
     layoutSeed: hashSlug(template.slug),

@@ -1,7 +1,7 @@
 import type { CSSProperties } from "react";
 import type { FontFamily } from "@/lib/types";
 import type { ReceiptDoc, Section, SectionAlign } from "@/lib/sections";
-import { itemsTotals, SPACING_DEFAULTS } from "@/lib/sections";
+import { itemsTotals, receiptLabel, SPACING_DEFAULTS, type ReceiptLabelKey } from "@/lib/sections";
 import { formatMoney, formatDisplayDate } from "@/lib/format";
 import Barcode from "./Barcode";
 import Qr from "./Qr";
@@ -62,6 +62,8 @@ export default function ReceiptDocPaper({ doc }: Props) {
   const money = (n: number) => formatMoney(n, doc.settings.currency);
   const accent = doc.settings.accent || "#4f46e5";
   const card = doc.settings.style === "card";
+  // The receipt's own wording for every fixed line (settings.labels).
+  const L = (key: ReceiptLabelKey) => receiptLabel(doc.settings.labels, key);
 
   // Grand total across all item sections (used for cash change).
   const grandTotal = doc.sections.reduce(
@@ -91,7 +93,11 @@ export default function ReceiptDocPaper({ doc }: Props) {
                 {s.title}
               </p>
             )}
-            {s.storeName && <p className="text-base font-bold">{s.storeName}</p>}
+            {/* A wordmark that already says the name ("SHELL") is the name; a
+                second, smaller copy under it is what no real receipt prints. */}
+            {s.storeName && s.storeName.trim().toLowerCase() !== s.logoText?.trim().toLowerCase() && (
+              <p className="text-base font-bold">{s.storeName}</p>
+            )}
             {s.address &&
               s.address.split("\n").map((line, i) => (
                 <p key={i} className="text-slate-600">
@@ -166,60 +172,62 @@ export default function ReceiptDocPaper({ doc }: Props) {
               header={s.itemHeader}
               columns={s.columns}
               gap={doc.settings.itemGap}
+              opts={{ skuFirst: s.skuFirst, discountLabel: doc.settings.labels?.itemDiscount }}
             />
             {/* A weighed line (1.5 lb) counts as one item, as tills count it. */}
             {s.showItemsSold && (
               <p className="mt-2 text-[11px] uppercase tracking-wide text-slate-500">
-                Items sold: {Math.max(1, s.items.reduce((n, i) => n + (Number.isInteger(i.quantity) ? i.quantity : 1), 0))}
+                {L("itemsSold")} {Math.max(1, s.items.reduce((n, i) => n + (Number.isInteger(i.quantity) ? i.quantity : 1), 0))}
               </p>
             )}
             {s.totalsDivider && s.totalsDivider !== "none" && <Rule rule={s.totalsDivider} />}
             <div className="space-y-1 text-slate-600">
               <div className="flex justify-between">
-                <span>Subtotal</span>
+                <span>{L("subtotal")}</span>
                 <span>{money(t.subtotal)}</span>
               </div>
               {t.itemDiscount > 0 && (
                 <div className="flex justify-between text-emerald-700">
-                  <span>Item discounts</span>
+                  <span>{L("itemDiscounts")}</span>
                   <span>-{money(t.itemDiscount)}</span>
                 </div>
               )}
               {t.discount > 0 && (
                 <div className="flex justify-between text-emerald-700">
-                  <span>Discount{s.discountPercent ? ` (${s.discount}%)` : ""}</span>
+                  <span>{L("discount")}{s.discountPercent ? ` (${s.discount}%)` : ""}</span>
                   <span>-{money(t.discount)}</span>
                 </div>
               )}
               {t.taxLines.map((l, i) => (
                 <div key={i} className="flex justify-between">
                   <span>
-                    {l.label} ({l.rate}%)
+                    {l.label}
+                    {doc.settings.showTaxRate !== false && ` (${l.rate}%)`}
                   </span>
                   <span>{money(l.amount)}</span>
                 </div>
               ))}
               {t.serviceFee > 0 && (
                 <div className="flex justify-between">
-                  <span>Service fee{s.serviceFeePercent ? ` (${s.serviceFee}%)` : ""}</span>
+                  <span>{L("serviceFee")}{s.serviceFeePercent ? ` (${s.serviceFee}%)` : ""}</span>
                   <span>{money(t.serviceFee)}</span>
                 </div>
               )}
               {t.deliveryFee > 0 && (
                 <div className="flex justify-between">
-                  <span>Delivery fee</span>
+                  <span>{L("deliveryFee")}</span>
                   <span>{money(t.deliveryFee)}</span>
                 </div>
               )}
               {t.tip > 0 && (
                 <div className="flex justify-between">
-                  <span>Tip</span>
+                  <span>{L("tip")}</span>
                   <span>{money(t.tip)}</span>
                 </div>
               )}
               {t.rounding !== 0 && (
                 <div className="flex justify-between">
-                  <span>Rounding</span>
+                  <span>{L("rounding")}</span>
                   <span>
                     {t.rounding > 0 ? "+" : "-"}
                     {money(Math.abs(t.rounding))}
@@ -230,14 +238,22 @@ export default function ReceiptDocPaper({ doc }: Props) {
                 <span>{s.grandTotalLabel ?? "TOTAL"}</span>
                 <span style={{ color: accent }}>{money(t.total)}</span>
               </div>
+              {/* Grocery receipts total what the shopper saved; computed, so it
+                  stays right when an item's discount is edited. */}
+              {s.showSavings && t.itemDiscount + t.discount > 0 && (
+                <div className="flex justify-between font-semibold text-slate-700">
+                  <span>{L("savings")}</span>
+                  <span>{money(t.itemDiscount + t.discount)}</span>
+                </div>
+              )}
               {t.amountPaid > 0 && (
                 <>
                   <div className="flex justify-between">
-                    <span>Amount paid</span>
+                    <span>{L("amountPaid")}</span>
                     <span>{money(t.amountPaid)}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span>Change</span>
+                    <span>{L("change")}</span>
                     <span>{money(t.change)}</span>
                   </div>
                 </>
@@ -247,26 +263,34 @@ export default function ReceiptDocPaper({ doc }: Props) {
         );
       }
       case "payment": {
+        // The terminal's own lines (APPROVAL #, AID, "DEBIT TEND"), in the
+        // receipt's wording rather than our generic card block's.
+        const terminalRows = s.extraRows?.length ? (
+          <div className="mt-2">
+            <KeyValueRows rows={s.extraRows} />
+          </div>
+        ) : null;
         if (s.method === "Cash") {
           const change = (s.amountTendered ?? 0) > grandTotal ? (s.amountTendered ?? 0) - grandTotal : 0;
           return (
             <div className="space-y-1 text-xs text-slate-600">
               <div className="flex justify-between">
-                <span>Payment Method</span>
+                <span>{L("paymentMethod")}</span>
                 <span className="font-medium text-slate-800">Cash</span>
               </div>
               {(s.amountTendered ?? 0) > 0 && (
                 <>
                   <div className="flex justify-between">
-                    <span>Amount Tendered</span>
+                    <span>{L("amountTendered")}</span>
                     <span>{money(s.amountTendered ?? 0)}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span>Change</span>
+                    <span>{L("change")}</span>
                     <span>{money(change)}</span>
                   </div>
                 </>
               )}
+              {terminalRows}
             </div>
           );
         }
@@ -277,12 +301,12 @@ export default function ReceiptDocPaper({ doc }: Props) {
           <div className="space-y-1 text-xs text-slate-600">
             {s.inline ? (
               <p className="text-slate-700">
-                Payment Method: {methodLabel}
+                {L("paymentMethod")}: {methodLabel}
                 {showLast4 ? ` •••• ${s.cardLastFour}` : ""}
               </p>
             ) : (
               <div className="flex justify-between">
-                <span>Payment Method</span>
+                <span>{L("paymentMethod")}</span>
                 <span className="font-medium text-slate-800">
                   {methodLabel}
                   {showLast4 ? ` •••• ${s.cardLastFour}` : ""}
@@ -291,13 +315,13 @@ export default function ReceiptDocPaper({ doc }: Props) {
             )}
             {s.method === "Card" && s.entryMode && !s.showCardAuth && (
               <div className="flex justify-between">
-                <span>Card entry</span>
+                <span>{L("cardEntry")}</span>
                 <span>{s.entryMode}</span>
               </div>
             )}
             {splits.length > 0 && (
               <div className="mt-1 border-t border-dashed border-slate-300 pt-1">
-                <p className="text-[11px] uppercase tracking-wide text-slate-500">Split payment</p>
+                <p className="text-[11px] uppercase tracking-wide text-slate-500">{L("splitPayment")}</p>
                 {splits.map((p, i) => (
                   <div key={i} className="flex justify-between">
                     <span>{p.method || "Payment"}</span>
@@ -312,13 +336,20 @@ export default function ReceiptDocPaper({ doc }: Props) {
                 cardType={s.cardType}
                 refCode={s.authCode}
                 entry={s.entryMode}
+                labels={doc.settings.labels}
               />
             )}
+            {terminalRows}
           </div>
         );
       }
       case "message":
-        return <p className="whitespace-pre-line text-xs leading-relaxed text-slate-600">{s.text}</p>;
+        // Large is the counter ticket's "ORDER 47", read across the room.
+        return s.size === "large" ? (
+          <p className="whitespace-pre-line text-3xl font-black leading-tight text-slate-900">{s.text}</p>
+        ) : (
+          <p className="whitespace-pre-line text-xs leading-relaxed text-slate-600">{s.text}</p>
+        );
       case "footer":
         return (
           <div className="space-y-1.5 text-[11px] leading-relaxed text-slate-500">
@@ -327,7 +358,7 @@ export default function ReceiptDocPaper({ doc }: Props) {
             {s.warranty && <p className="whitespace-pre-line">{s.warranty}</p>}
             {s.surveyUrl && (
               <p>
-                We value your feedback: <span className="text-slate-700">{s.surveyUrl}</span>
+                {L("feedback")} <span className="text-slate-700">{s.surveyUrl}</span>
               </p>
             )}
           </div>

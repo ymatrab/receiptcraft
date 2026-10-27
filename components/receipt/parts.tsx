@@ -1,4 +1,6 @@
 import type { ItemColumns, ItemStyle, LineItem, ReceiptSection, RuleStyle } from "@/lib/types";
+import { receiptLabel, type ReceiptLabelKey, type ReceiptLabels } from "@/lib/sections";
+import { itemGross } from "@/lib/format";
 
 // Shared receipt primitives used by both the fixed ReceiptPaper renderer and the
 // section-based ReceiptDocPaper renderer, so the two never drift visually.
@@ -43,29 +45,61 @@ export function Rule({ rule }: { rule: RuleStyle }) {
   return <div className={`my-2 ${cls}`} />;
 }
 
-/** Net line total = qty × price − per-item discount (never below 0). */
+/** Net line total = qty × (price + add-ons) − per-item discount (never below 0). */
 function lineNet(i: LineItem): number {
-  const gross = (i.quantity || 0) * (i.price || 0);
+  const gross = itemGross(i);
   return gross - Math.min(Math.max(i.discount || 0, 0), Math.max(gross, 0));
 }
 
+/** Line total as printed, with the till's tax flag after it ("3.42 F"). */
+function lineTotal(i: LineItem, money: (n: number) => string): string {
+  return i.taxFlag ? `${money(lineNet(i))} ${i.taxFlag}` : money(lineNet(i));
+}
+
+/** How an item's own details print: whether the SKU leads the name, and the
+ *  receipt's wording for a per-item saving ("SC KROGER SAVINGS"). */
+interface ItemOpts {
+  skuFirst?: boolean;
+  discountLabel?: string;
+}
+
+/** The name as printed: "007874235186 GV 2% MLK GAL" when the SKU leads. */
+function itemName(item: LineItem, opts: ItemOpts): string {
+  const name = item.name || "—";
+  return opts.skuFirst && item.sku ? `${item.sku} ${name}` : name;
+}
+
 /** Small secondary line under an item name: SKU / unit / category / modifiers /
- *  per-item discount. Renders nothing when the item has no extra detail. */
-function ItemMeta({ item, money }: { item: LineItem; money: (n: number) => string }) {
+ *  priced add-ons / per-item discount. Renders nothing when the item has no
+ *  extra detail. */
+function ItemMeta({ item, money, opts = {} }: { item: LineItem; money: (n: number) => string; opts?: ItemOpts }) {
   const bits: string[] = [];
-  if (item.sku) bits.push(`SKU ${item.sku}`);
+  if (item.sku && !opts.skuFirst) bits.push(`SKU ${item.sku}`);
   if (item.unit) bits.push(item.unit);
   if (item.category) bits.push(item.category);
   const mods = item.modifiers?.filter(Boolean) ?? [];
+  const addons = item.addons?.filter((a) => a.name) ?? [];
   const hasDiscount = !!item.discount && item.discount > 0;
-  if (!bits.length && !mods.length && !hasDiscount) return null;
+  if (!bits.length && !mods.length && !addons.length && !hasDiscount) return null;
   return (
     <div className="text-[10px] leading-snug text-slate-500">
       {bits.length > 0 && <div>{bits.join(" · ")}</div>}
       {mods.map((m, i) => (
         <div key={i}>+ {m}</div>
       ))}
-      {hasDiscount && <div className="text-emerald-700">− {money(item.discount!)} item discount</div>}
+      {/* Priced extras print indented with their own price, and are already
+          in the line total (itemGross). */}
+      {addons.map((a, i) => (
+        <div key={`a${i}`} className="flex justify-between gap-2 pl-2">
+          <span>{a.name}</span>
+          {a.price ? <span className="tabular-nums">{money(a.price)}</span> : null}
+        </div>
+      ))}
+      {hasDiscount && (
+        <div className="text-emerald-700">
+          − {money(item.discount!)} {opts.discountLabel || "item discount"}
+        </div>
+      )}
     </div>
   );
 }
@@ -77,6 +111,7 @@ export function Items({
   header,
   columns,
   gap,
+  opts = {},
 }: {
   items: LineItem[];
   style: ItemStyle;
@@ -84,6 +119,7 @@ export function Items({
   header?: { left: string; right: string };
   columns?: ItemColumns;
   gap?: number; // px vertical spacing between items (per-style default when omitted)
+  opts?: ItemOpts;
 }) {
   if (style === "qtycol") {
     return (
@@ -92,10 +128,10 @@ export function Items({
           <div key={item.id} className="flex items-baseline gap-2">
             <span className="w-4 shrink-0 text-[11px] text-slate-500">{item.quantity}</span>
             <span className="flex-1 break-words">
-              {item.name || "—"}
-              <ItemMeta item={item} money={money} />
+              {itemName(item, opts)}
+              <ItemMeta item={item} money={money} opts={opts} />
             </span>
-            <span className="tabular-nums">{money(lineNet(item))}</span>
+            <span className="tabular-nums">{lineTotal(item, money)}</span>
           </div>
         ))}
       </div>
@@ -116,10 +152,10 @@ export function Items({
             <div key={item.id} className="flex justify-between gap-2">
               <span className="break-words pr-2">
                 {item.quantity !== 1 ? `${item.quantity} ` : ""}
-                {item.name || "—"}
-                <ItemMeta item={item} money={money} />
+                {itemName(item, opts)}
+                <ItemMeta item={item} money={money} opts={opts} />
               </span>
-              <span className="tabular-nums">{money(lineNet(item))}</span>
+              <span className="tabular-nums">{lineTotal(item, money)}</span>
             </div>
           ))}
         </div>
@@ -133,10 +169,10 @@ export function Items({
         {items.map((item) => (
           <div key={item.id} className="flex justify-between gap-2">
             <span className="break-words pr-2">
-              {item.quantity} {item.name || "—"}
-              <ItemMeta item={item} money={money} />
+              {item.quantity} {itemName(item, opts)}
+              <ItemMeta item={item} money={money} opts={opts} />
             </span>
-            <span className="tabular-nums">= {money(lineNet(item))}</span>
+            <span className="tabular-nums">= {lineTotal(item, money)}</span>
           </div>
         ))}
       </div>
@@ -149,15 +185,15 @@ export function Items({
         {items.map((item) => (
           <div key={item.id}>
             <div className="flex justify-between gap-2">
-              <span className="break-words pr-2">{item.name || "—"}</span>
-              <span className="font-medium tabular-nums">{money(lineNet(item))}</span>
+              <span className="break-words pr-2">{itemName(item, opts)}</span>
+              <span className="font-medium tabular-nums">{lineTotal(item, money)}</span>
             </div>
             {item.quantity !== 1 && (
               <div className="text-[11px] text-slate-500">
                 {item.quantity} @ {money(item.price)}
               </div>
             )}
-            <ItemMeta item={item} money={money} />
+            <ItemMeta item={item} money={money} opts={opts} />
           </div>
         ))}
       </div>
@@ -181,15 +217,15 @@ export function Items({
           return (
             <tr key={item.id} className="align-top">
               <td className="max-w-40 break-words pr-2" style={pad}>
-                {item.name || "—"}
-                <ItemMeta item={item} money={money} />
+                {itemName(item, opts)}
+                <ItemMeta item={item} money={money} opts={opts} />
               </td>
               <td className="text-center text-slate-600" style={pad}>
                 {item.quantity}
                 {item.unit ? ` ${item.unit}` : ""}
               </td>
               <td className="text-right text-slate-600" style={pad}>{money(item.price)}</td>
-              <td className="text-right font-medium" style={pad}>{money(lineNet(item))}</td>
+              <td className="text-right font-medium" style={pad}>{lineTotal(item, money)}</td>
             </tr>
           );
         })}
@@ -203,35 +239,38 @@ export function CardAuth({
   cardType,
   refCode,
   entry,
+  labels,
 }: {
   last4?: string;
   cardType?: string;
   refCode?: string;
   entry?: string;
+  labels?: ReceiptLabels;
 }) {
+  const L = (key: ReceiptLabelKey) => receiptLabel(labels, key);
   return (
     <div className="mt-3 space-y-0.5 text-xs text-slate-600">
       <div className="flex justify-between">
-        <span>Card number</span>
+        <span>{L("cardNumber")}</span>
         <span>**** **** **** {last4 || "4922"}</span>
       </div>
       <div className="flex justify-between">
-        <span>Card type</span>
+        <span>{L("cardType")}</span>
         <span>{cardType || "Credit"}</span>
       </div>
       <div className="flex justify-between">
-        <span>Card entry</span>
+        <span>{L("cardEntry")}</span>
         <span>{entry || "Chip"}</span>
       </div>
       {refCode && (
         <div className="flex justify-between">
-          <span>Reference #</span>
+          <span>{L("reference")}</span>
           <span>{refCode}</span>
         </div>
       )}
       <div className="flex justify-between">
-        <span>Status</span>
-        <span>APPROVED</span>
+        <span>{L("status")}</span>
+        <span>{L("approved")}</span>
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
 import type { ReceiptTemplate } from "./types";
-import { sourcedFigure } from "./templates";
+import { getTemplate, sourcedFigure } from "./templates";
+import { BRAND_SPECS } from "./brand-specs";
 import { hasOfficialSource } from "./intent-pages";
 import { COMPETITORS, LAST_UPDATED } from "./comparisons";
 
@@ -57,7 +58,10 @@ export const TOOLS_INDEX_UPDATED = "2026-08-31";
 // and device stored against the visit id.
 // 2026-10-20: Google Analytics is now on by default outside the EEA, UK and
 // Switzerland (opt-out via Decline); opt-in there is unchanged.
-export const PRIVACY_UPDATED = "2026-10-20";
+// 2026-10-27: the AI generator section now says the prompt, the result's
+// business name and the matched template are stored, and the prompt is deleted
+// after 90 days.
+export const PRIVACY_UPDATED = "2026-10-27";
 // 2026-09-04: sections 3 and 4 now describe the billing model that actually
 // runs. The old text said a plan "continues for successive periods until
 // cancelled" and that you "authorize the recurring charge until you cancel",
@@ -332,8 +336,27 @@ const BRANDS_ADDED: Readonly<Record<string, string>> = {
  * if its body copy also moved on 09-01, because <lastmod> answers "when did
  * this page last change", not "when did each part of it change".
  */
+// 2026-10-27: the receipt preview on brand pages changed. The researched brands
+// (lib/brand-specs.ts) were rebuilt to match their real receipts; on the rest,
+// the generic "SALES RECEIPT"-style heading that printed when a template had no
+// greeting is gone, a template's own register/cashier line now prints, and a
+// wordmark that spells the store name no longer has the name repeated under it.
+// Computed from exactly those conditions, so a page whose preview did not move
+// keeps its date.
+const BRANDS_RECEIPT_UPDATED = "2026-10-27";
+function brandReceiptChanged(slug: string): boolean {
+  const d = getTemplate(slug)?.defaults;
+  const named = (s?: string) => s?.trim().toLowerCase();
+  return (
+    !!d &&
+    (slug in BRAND_SPECS || !d.greeting || !!d.register || !!d.cashier ||
+      (!!d.logoText && named(d.logoText) === named(d.businessName)))
+  );
+}
+
 export function brandReviewedAt(slug: string): string {
   return newest(
+    brandReceiptChanged(slug) ? BRANDS_RECEIPT_UPDATED : null,
     BRANDS_UPDATED,
     BRANDS_ARTICLE_FIXED.has(slug) ? BRANDS_ARTICLE_UPDATED : null,
     BRANDS_TITLE_TRIMMED.has(slug) ? BRANDS_TITLE_UPDATED : null,
@@ -441,7 +464,9 @@ export const LOGIN_UPDATED = "2026-08-31";
 // and plan switching explained; the "use the same email" warning removed.
 // 2026-10-24: paywall change — no free watermark-free download, no Pro brand
 // templates, and Pro can be bought at checkout without an account.
-export const PRICING_UPDATED = "2026-10-24";
+// 2026-10-27: the watermark demo receipt now prints its register and cashier
+// line, which the renderer had been dropping.
+export const PRICING_UPDATED = "2026-10-27";
 // 2026-08-23: the hero grid no longer stretches to the 380px receipt, so the
 // primary CTA is reachable again on phones under 412px — a visible change to
 // the page's most important element.
@@ -463,7 +488,9 @@ export const PRICING_UPDATED = "2026-10-24";
 // 2026-10-24: paywall change — the hero note, feature card, steps (and their
 // HowTo JSON-LD), closing CTA and the two download FAQs (and FAQPage JSON-LD)
 // say downloading needs no account and Pro removes the watermark.
-export const HOME_UPDATED = "2026-10-24";
+// 2026-10-27: the hero receipt now prints its "Register 2 · Cashier: Maya"
+// line — the renderer dropped it, though the anatomy copy beside it names both.
+export const HOME_UPDATED = "2026-10-27";
 // 2026-08-31: free-tier limits changed — see STATIC_UPDATED above.
 // 2026-10-11: links to the new Google Docs templates page from under the intro.
 // 2026-10-18: lists the new pro forma invoice and credit note templates.
@@ -492,8 +519,13 @@ export function compareReviewedAt(slug: string): string {
   return newest(
     COMPETITORS.find((c) => c.slug === slug)?.updated ?? COMPARISONS_UPDATED,
     COMPARE_COPY_UPDATED,
+    COMPARE_PREVIEW_UPDATED,
   );
 }
+
+// 2026-10-27: the Starbucks receipt preview on every comparison page lost its
+// generic heading and now prints its "Barista" line (see BRANDS_RECEIPT_UPDATED).
+const COMPARE_PREVIEW_UPDATED = "2026-10-27";
 
 // 2026-10-24: our own column, pricing card, closing CTA and FAQ answers on every
 // comparison page state the new paywall (watermarked download with no account,
@@ -609,9 +641,14 @@ const TEMPLATES_PAYWALL_FIXED: ReadonlySet<string> = new Set([
 ]);
 const TEMPLATES_PAYWALL_UPDATED = "2026-10-24";
 
+// 2026-10-27: a template's own register/cashier line ("Table 12", "Stylist:
+// Ana") now prints on its preview — it was read nowhere before.
+const TEMPLATES_STAFF_LINE_UPDATED = "2026-10-27";
+
 export function templateReviewedAt(t: ReceiptTemplate): string {
   const latest = templateReviewedAtSamples(t);
-  return TEMPLATES_PAYWALL_FIXED.has(t.slug) && TEMPLATES_PAYWALL_UPDATED > latest ? TEMPLATES_PAYWALL_UPDATED : latest;
+  const paywall = TEMPLATES_PAYWALL_FIXED.has(t.slug) && TEMPLATES_PAYWALL_UPDATED > latest ? TEMPLATES_PAYWALL_UPDATED : latest;
+  return (t.defaults.register || t.defaults.cashier) && TEMPLATES_STAFF_LINE_UPDATED > paywall ? TEMPLATES_STAFF_LINE_UPDATED : paywall;
 }
 
 function templateReviewedAtSamples(t: ReceiptTemplate): string {

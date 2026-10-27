@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { analytics } from "@/lib/analytics";
 import { AI_RESUME_PATH } from "@/lib/new-account";
 import { SparkleIcon, SpinnerIcon } from "@/components/Icons";
@@ -122,7 +121,9 @@ export default function HomeAiGenerator() {
         return;
       }
       analytics.aiGenerate("success");
-      sessionStorage.setItem(AI_HANDOFF_KEY, JSON.stringify(data.receipt));
+      // The template rides along so the builder lays the receipt onto the brand
+      // the prompt named ("Walmart groceries") rather than a blank roll.
+      sessionStorage.setItem(AI_HANDOFF_KEY, JSON.stringify({ receipt: data.receipt, template: data.template ?? null }));
       router.push("/create");
     } catch {
       analytics.aiGenerate("error");
@@ -164,13 +165,18 @@ export default function HomeAiGenerator() {
         <p id="home-ai-error" role="alert" className="mt-2 text-xs font-medium text-red-700">
           {error}{" "}
           {/upgrade|limit/i.test(error) && (
-            <Link
-              href="/pricing"
-              onClick={() => analytics.upgradeClick("home_ai_limit")}
+            // Straight to checkout, as the builder's limit link does.
+            <a
+              href="/api/checkout?plan=pro_weekly"
+              rel="nofollow"
+              onClick={() => {
+                analytics.upgradeClick("home_ai_limit");
+                analytics.beginCheckout("weekly", "home_ai_limit");
+              }}
               className="font-semibold underline"
             >
-              See plans
-            </Link>
+              Get unlimited
+            </a>
           )}
         </p>
       ) : (
