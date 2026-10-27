@@ -185,6 +185,9 @@ function getQueryTemplate(): string {
   return new URLSearchParams(window.location.search).get("template") ?? "";
 }
 
+/** Sections whose rarely-needed fields sit behind "More options". */
+const HAS_MORE: ReadonlySet<string> = new Set(["header", "datetime", "items", "payment"]);
+
 /**
  * "Add Beef 2.20, Extra Cheese 0.75" → priced add-ons. A trailing number is the
  * price; an entry without one is a free add-on that still prints.
@@ -207,7 +210,14 @@ export default function SectionBuilder() {
   // in a real blankDoc() — with today's date and a random receipt number — once
   // we're on the client, unless a draft/template/AI/receipt takes over.
   const [doc, setDoc] = useState<ReceiptDoc>(blankDocSeed);
+  // Which section cards are folded. Absent means the default: every section
+  // starts folded except the items, which is the one part every receipt needs
+  // edited. A first receipt used to open as a wall of ~60 fields, most of them
+  // for edge cases, and the build is where the funnel loses people.
   const [collapsed, setCollapsed] = useState<Record<string, boolean>>({});
+  const isCollapsed = (s: Section) => collapsed[s.id] ?? s.type !== "items";
+  // Per section: are the rarely-needed fields ("More options") showing?
+  const [moreOpen, setMoreOpen] = useState<Record<string, boolean>>({});
   const [itemDetails, setItemDetails] = useState<Record<string, boolean>>({});
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [showAdd, setShowAdd] = useState(false);
@@ -726,15 +736,49 @@ export default function SectionBuilder() {
   const updateRow = (sec: TwoColSection, idx: number, patch: Record<string, unknown>) =>
     patchSection(sec.id, { rows: sec.rows.map((r, i) => (i === idx ? { ...r, ...patch } : r)) });
 
+  /** The "More options" switch under a section's core fields. */
+  function moreButton(id: string, hint: string) {
+    const open = !!moreOpen[id];
+    return (
+      <button
+        type="button"
+        onClick={() => setMoreOpen((m) => ({ ...m, [id]: !open }))}
+        aria-expanded={open}
+        className="flex min-h-11 items-center gap-1.5 text-left text-xs font-semibold text-indigo-600 hover:text-indigo-800"
+      >
+        <ChevronDownIcon className={`h-3.5 w-3.5 shrink-0 transition-transform ${open ? "rotate-180" : ""}`} />
+        {open ? "Fewer options" : <span>More options <span className="font-normal text-slate-500">— {hint}</span></span>}
+      </button>
+    );
+  }
+
+  /** One line saying what a folded section holds, so it need not be opened to check. */
+  function sectionSummary(s: Section): string {
+    switch (s.type) {
+      case "header":
+        return [s.storeName, s.address?.split("\n")[0]].filter(Boolean).join(" · ");
+      case "datetime":
+        return [s.date, s.time, s.receiptNumber && `#${s.receiptNumber}`].filter(Boolean).join(" · ");
+      case "items": {
+        const n = s.items.filter((i) => !i.heading).length;
+        return `${n} item${n === 1 ? "" : "s"}`;
+      }
+      case "payment":
+        return s.methodName || (s.method === "Card" ? `${s.cardType || "Card"}${s.cardLastFour ? ` •••• ${s.cardLastFour}` : ""}` : s.method);
+      case "twocol":
+        return s.title || s.rows.map((r) => [r.label, r.value].filter(Boolean).join(" ")).join(" · ");
+      case "message":
+        return s.text;
+      default:
+        return "";
+    }
+  }
+
   function sectionBody(s: Section) {
     switch (s.type) {
       case "header":
         return (
           <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-medium text-slate-600">Alignment</span>
-              <AlignToggle value={s.align ?? "center"} onChange={(v) => patchSection(s.id, { align: v })} />
-            </div>
             <div>
               <span className="mb-1.5 block text-xs font-medium text-slate-600">Logo</span>
               <input
@@ -744,41 +788,53 @@ export default function SectionBuilder() {
                 className="text-sm text-slate-600 file:mr-3 file:rounded-lg file:border-0 file:bg-indigo-50 file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-indigo-700"
               />
             </div>
-            <TextField label="Document heading (optional)" defaultValue={s.title ?? ""} onChange={(v) => patchSection(s.id, { title: v || undefined })} placeholder="e.g. INVOICE, PURCHASE ORDER, QUOTE" />
-            <TextField label="Big logo text (optional)" defaultValue={s.logoText ?? ""} onChange={(v) => patchSection(s.id, { logoText: v || undefined })} placeholder="e.g. ACME" />
             <TextField label="Store name" defaultValue={s.storeName} onChange={(v) => patchSection(s.id, { storeName: v })} />
             <TextAreaField label="Address" defaultValue={s.address} onChange={(v) => patchSection(s.id, { address: v })} placeholder={"123 Main St\nCity, ST 00000"} />
-            <div className="grid gap-3 sm:grid-cols-2">
-              <TextField label="Phone" defaultValue={s.phone ?? ""} onChange={(v) => patchSection(s.id, { phone: v })} />
-              <TextField label="Website / Email" defaultValue={s.website ?? ""} onChange={(v) => patchSection(s.id, { website: v })} />
+            <TextField label="Phone" defaultValue={s.phone ?? ""} onChange={(v) => patchSection(s.id, { phone: v })} />
+            {moreButton(s.id, "website, tax ID, cashier, heading")}
+            {moreOpen[s.id] && (
+              <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-medium text-slate-600">Alignment</span>
+              <AlignToggle value={s.align ?? "center"} onChange={(v) => patchSection(s.id, { align: v })} />
             </div>
+            <TextField label="Website / Email" defaultValue={s.website ?? ""} onChange={(v) => patchSection(s.id, { website: v })} />
+            <TextField label="Document heading (optional)" defaultValue={s.title ?? ""} onChange={(v) => patchSection(s.id, { title: v || undefined })} placeholder="e.g. INVOICE, PURCHASE ORDER, QUOTE" />
+            <TextField label="Big logo text (optional)" defaultValue={s.logoText ?? ""} onChange={(v) => patchSection(s.id, { logoText: v || undefined })} placeholder="e.g. ACME" />
             <div className="grid gap-3 sm:grid-cols-2">
               <TextField label="Tax ID / VAT / GST" defaultValue={s.taxId ?? ""} onChange={(v) => patchSection(s.id, { taxId: v || undefined })} placeholder="e.g. VAT GB123456789" />
               <TextField label="Branch / store #" defaultValue={s.branch ?? ""} onChange={(v) => patchSection(s.id, { branch: v || undefined })} />
               <TextField label="Cashier" defaultValue={s.cashier ?? ""} onChange={(v) => patchSection(s.id, { cashier: v || undefined })} />
               <TextField label="Register ID" defaultValue={s.registerId ?? ""} onChange={(v) => patchSection(s.id, { registerId: v || undefined })} />
             </div>
+              </div>
+            )}
           </div>
         );
       case "datetime":
         return (
           <div className="space-y-3">
+            <div className="grid gap-3 sm:grid-cols-3">
+              <TextField label="Date" type="date" defaultValue={s.date} onChange={(v) => patchSection(s.id, { date: v })} />
+              <TextField label="Time" type="time" defaultValue={s.time} onChange={(v) => patchSection(s.id, { time: v })} />
+              <TextField label="Receipt number" defaultValue={s.receiptNumber ?? ""} onChange={(v) => patchSection(s.id, { receiptNumber: v })} />
+            </div>
+            {moreButton(s.id, "order, transaction & invoice IDs")}
+            {moreOpen[s.id] && (
+              <div className="space-y-3">
             <div className="flex items-center justify-between">
               <span className="text-xs font-medium text-slate-600">Alignment</span>
               <AlignToggle value={s.align ?? "left"} onChange={(v) => patchSection(s.id, { align: v })} />
             </div>
             <div className="grid gap-3 sm:grid-cols-2">
-              <TextField label="Date" type="date" defaultValue={s.date} onChange={(v) => patchSection(s.id, { date: v })} />
-              <TextField label="Time" type="time" defaultValue={s.time} onChange={(v) => patchSection(s.id, { time: v })} />
-            </div>
-            <div className="grid gap-3 sm:grid-cols-2">
-              <TextField label="Receipt number" defaultValue={s.receiptNumber ?? ""} onChange={(v) => patchSection(s.id, { receiptNumber: v })} />
               <TextField label="Timezone" defaultValue={s.timezone ?? ""} onChange={(v) => patchSection(s.id, { timezone: v || undefined })} placeholder="e.g. EST" />
               <TextField label="Order ID" defaultValue={s.orderId ?? ""} onChange={(v) => patchSection(s.id, { orderId: v || undefined })} />
               <TextField label="Transaction ID" defaultValue={s.transactionId ?? ""} onChange={(v) => patchSection(s.id, { transactionId: v || undefined })} />
               <TextField label="Invoice ID" defaultValue={s.invoiceId ?? ""} onChange={(v) => patchSection(s.id, { invoiceId: v || undefined })} />
               <TextField label="Customer ID" defaultValue={s.customerId ?? ""} onChange={(v) => patchSection(s.id, { customerId: v || undefined })} />
             </div>
+              </div>
+            )}
           </div>
         );
       case "twocol":
@@ -841,6 +897,14 @@ export default function SectionBuilder() {
                 </button>
               </div>
             ))}
+            {/* The one totals field nearly every receipt needs; the rest waits
+                behind More options so the first receipt stays a short form. */}
+            {!s.taxLines?.length && (
+              <NumberField label="Tax rate (%)" defaultValue={s.taxRate} onChange={(v) => patchSection(s.id, { taxRate: v })} />
+            )}
+            {moreButton(s.id, "discount, tip, fees, extra tax lines, layout")}
+            {moreOpen[s.id] && (
+              <div className="space-y-3">
             <SelectField label="Item layout" defaultValue={s.itemStyle ?? "table"} onChange={(v) => patchSection(s.id, { itemStyle: v })} options={ITEM_STYLES} />
             <div className="flex items-center justify-between">
               <span className="text-sm text-slate-700">Show the Subtotal line</span>
@@ -882,8 +946,7 @@ export default function SectionBuilder() {
                 <input className={inputClass} placeholder="Right header" defaultValue={s.itemHeader?.right ?? ""} onChange={(e) => patchSection(s.id, { itemHeader: { left: s.itemHeader?.left ?? "", right: e.target.value } })} aria-label="Right header" />
               </div>
             )}
-            <div className="grid items-start gap-3 sm:grid-cols-3">
-              <NumberField label="Tax rate (%)" defaultValue={s.taxRate} onChange={(v) => patchSection(s.id, { taxRate: v })} />
+            <div className="grid items-start gap-3 sm:grid-cols-2">
               <div>
                 <div className="mb-1.5 flex items-center justify-between gap-2">
                   <span className="text-xs font-medium text-slate-600">
@@ -944,6 +1007,8 @@ export default function SectionBuilder() {
 
             <TextField label="Total label" defaultValue={s.grandTotalLabel ?? ""} onChange={(v) => patchSection(s.id, { grandTotalLabel: v || undefined })} placeholder="TOTAL" />
             <DividerRow label="Divider after totals" value={s.totalsDivider ?? "none"} onChange={(v) => patchSection(s.id, { totalsDivider: v })} />
+              </div>
+            )}
           </div>
         );
       case "payment": {
@@ -956,18 +1021,7 @@ export default function SectionBuilder() {
               ))}
             </div>
             {s.method === "Card" && (
-              <>
-                <SelectField label="Card type" defaultValue={s.cardType ?? "Credit"} onChange={(v) => patchSection(s.id, { cardType: v })} options={CARD_TYPES.map((c) => ({ value: c, label: c }))} />
-                <div className="grid gap-3 sm:grid-cols-2">
-                  <TextField label="Card last 4" defaultValue={s.cardLastFour ?? ""} onChange={(v) => patchSection(s.id, { cardLastFour: v.replace(/\D/g, "").slice(0, 4) })} placeholder="1234" />
-                  <TextField label="Auth code" defaultValue={s.authCode ?? ""} onChange={(v) => patchSection(s.id, { authCode: v })} placeholder="123456" />
-                </div>
-                <SelectField label="Card entry" defaultValue={s.entryMode ?? "Chip"} onChange={(v) => patchSection(s.id, { entryMode: v as "Chip" | "Tap" | "Swipe" | "Manual" })} options={ENTRY_MODES} />
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-slate-700">Show card authorisation block</span>
-                  <Toggle checked={!!s.showCardAuth} onChange={(c) => patchSection(s.id, { showCardAuth: c })} />
-                </div>
-              </>
+              <TextField label="Card last 4" defaultValue={s.cardLastFour ?? ""} onChange={(v) => patchSection(s.id, { cardLastFour: v.replace(/\D/g, "").slice(0, 4) })} placeholder="1234" />
             )}
             {s.method === "Gift Card" && (
               <TextField label="Gift card last 4" defaultValue={s.cardLastFour ?? ""} onChange={(v) => patchSection(s.id, { cardLastFour: v.replace(/\D/g, "").slice(0, 4) })} placeholder="1234" />
@@ -979,6 +1033,22 @@ export default function SectionBuilder() {
               <p className="text-xs text-slate-500">Shows “Mobile Payment” on the receipt (e.g. Apple Pay, Google Pay).</p>
             )}
 
+            {moreButton(s.id, "card type, terminal lines, split payment")}
+            {moreOpen[s.id] && (
+              <div className="space-y-3">
+            {s.method === "Card" && (
+              <>
+                <SelectField label="Card type" defaultValue={s.cardType ?? "Credit"} onChange={(v) => patchSection(s.id, { cardType: v })} options={CARD_TYPES.map((c) => ({ value: c, label: c }))} />
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <TextField label="Auth code" defaultValue={s.authCode ?? ""} onChange={(v) => patchSection(s.id, { authCode: v })} placeholder="123456" />
+                  <SelectField label="Card entry" defaultValue={s.entryMode ?? "Chip"} onChange={(v) => patchSection(s.id, { entryMode: v as "Chip" | "Tap" | "Swipe" | "Manual" })} options={ENTRY_MODES} />
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-slate-700">Show card authorisation block</span>
+                  <Toggle checked={!!s.showCardAuth} onChange={(c) => patchSection(s.id, { showCardAuth: c })} />
+                </div>
+              </>
+            )}
             {/* Any tender the four buttons don't name: "Wire transfer",
                 "GrabPay", "DEBIT TEND". Replaces the method on the receipt. */}
             <TextField label="Printed as (optional)" defaultValue={s.methodName ?? ""} onChange={(v) => patchSection(s.id, { methodName: v || undefined })} placeholder="e.g. Wire transfer, GrabPay, DEBIT TEND" />
@@ -1015,6 +1085,8 @@ export default function SectionBuilder() {
               <span className="text-sm text-slate-700">Inline payment line</span>
               <Toggle checked={!!s.inline} onChange={(c) => patchSection(s.id, { inline: c })} />
             </div>
+              </div>
+            )}
           </div>
         );
       }
@@ -1382,20 +1454,25 @@ export default function SectionBuilder() {
                 >
                   <GripIcon className="h-5 w-5" />
                 </span>
-                <span className="min-w-0 flex-1 truncate text-sm font-semibold text-slate-900">{SECTION_LABEL[s.type]}</span>
+                {/* The title is the big target for opening and closing. */}
+                <button type="button" onClick={() => setCollapsed((c) => ({ ...c, [s.id]: !isCollapsed(s) }))} aria-expanded={!isCollapsed(s)} className="min-h-11 min-w-0 flex-1 cursor-pointer text-left">
+                  <span className="block truncate text-sm font-semibold text-slate-900">{SECTION_LABEL[s.type]}</span>
+                  {isCollapsed(s) && sectionSummary(s) && (
+                    <span className="block truncate text-xs text-slate-500">{sectionSummary(s)}</span>
+                  )}
+                </button>
                 <button type="button" onClick={() => reorder(i, i - 1)} disabled={i === 0} className="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-lg text-slate-500 transition-colors hover:bg-slate-50 hover:text-slate-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-40" aria-label="Move up"><ArrowUpIcon className="h-4 w-4" /></button>
                 <button type="button" onClick={() => reorder(i, i + 1)} disabled={i === doc.sections.length - 1} className="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-lg text-slate-500 transition-colors hover:bg-slate-50 hover:text-slate-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-40" aria-label="Move down"><ArrowDownIcon className="h-4 w-4" /></button>
-                <button type="button" onClick={() => setCollapsed((c) => ({ ...c, [s.id]: !c[s.id] }))} aria-expanded={!collapsed[s.id]} className="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-lg text-slate-500 transition-colors hover:bg-slate-50 hover:text-slate-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500" aria-label={collapsed[s.id] ? "Expand section" : "Collapse section"}><ChevronDownIcon className={`h-4 w-4 transition-transform ${collapsed[s.id] ? "" : "rotate-180"}`} /></button>
+                <button type="button" onClick={() => setCollapsed((c) => ({ ...c, [s.id]: !isCollapsed(s) }))} aria-expanded={!isCollapsed(s)} className="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-lg text-slate-500 transition-colors hover:bg-slate-50 hover:text-slate-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500" aria-label={isCollapsed(s) ? "Expand section" : "Collapse section"}><ChevronDownIcon className={`h-4 w-4 transition-transform ${isCollapsed(s) ? "" : "rotate-180"}`} /></button>
                 <button type="button" onClick={() => removeSection(s.id)} className="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-lg text-red-500 transition-colors hover:bg-red-50 hover:text-red-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500" aria-label="Remove section"><CloseIcon className="h-4 w-4" /></button>
               </div>
-              {!collapsed[s.id] && (
+              {!isCollapsed(s) && (
                 <div className="space-y-4 p-4">
                   {sectionBody(s)}
-                  {s.type !== "items" && (
-                    <DividerRow value={s.divider ?? "none"} onChange={(v) => patchSection(s.id, { divider: v })} />
-                  )}
-                  {s.type === "items" && (
-                    <DividerRow label="Divider after items" value={s.divider ?? "none"} onChange={(v) => patchSection(s.id, { divider: v })} />
+                  {/* Dividers are styling: shown with the section's More options,
+                      or always for the short sections that have no such switch. */}
+                  {(moreOpen[s.id] || !HAS_MORE.has(s.type)) && (
+                    <DividerRow label={s.type === "items" ? "Divider after items" : undefined} value={s.divider ?? "none"} onChange={(v) => patchSection(s.id, { divider: v })} />
                   )}
                 </div>
               )}
