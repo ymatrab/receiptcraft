@@ -15,7 +15,7 @@ import type {
   TaxLine,
   TextWeight,
 } from "./types";
-import { addDaysISO, formatDisplayDate, itemGross, todayISO, nowHHMM, randomReceiptNumber, uid } from "./format";
+import { addDaysISO, formatDisplayDate, itemGross, taxLineAmounts, todayISO, nowHHMM, randomReceiptNumber, uid } from "./format";
 
 // ---------------------------------------------------------------------------
 // Section-based document model. A receipt is an ordered list of sections the
@@ -103,6 +103,8 @@ export interface ItemsSection extends BaseSection {
   totalsDivider?: RuleStyle;
   showItemsSold?: boolean; // "Items sold: N" line (grocery / warehouse)
   skuFirst?: boolean; // print each item's SKU/UPC before its name, as tills do
+  hideSubtotal?: boolean; // fuel slips and Kroger print no subtotal
+  unitDecimals?: 3; // unit prices to 3 decimals ($2.799); line totals stay in cents
   showSavings?: boolean; // "You saved $x" after the total, from item + order discounts
 }
 export type PaymentMethodKind = "Cash" | "Card" | "Mobile" | "Gift Card";
@@ -121,6 +123,7 @@ export interface PaymentSection extends BaseSection {
   showCardAuth?: boolean;
   inline?: boolean;
   splits?: PaymentSplit[]; // split payment across methods
+  methodName?: string; // the tender as printed when it is not Cash/Card: "Wire transfer", "GrabPay", "DEBIT TEND"
   extraRows?: ReceiptRow[]; // the terminal's own lines: APPROVAL #, AID, TC, "DEBIT TEND"
 }
 export interface MessageSection extends BaseSection {
@@ -866,6 +869,9 @@ export function docFromReceiptData(data: ReceiptData): ReceiptDoc {
       totalsDivider: d(true),
       showItemsSold: profile === "grocery" || profile === "warehouse",
       ...(data.skuFirst && { skuFirst: true }),
+      ...(data.taxLines?.length && { taxLines: data.taxLines }),
+      ...(data.hideSubtotal && { hideSubtotal: true }),
+      ...(data.unitDecimals && { unitDecimals: data.unitDecimals }),
       ...(data.showSavings && { showSavings: true }),
     });
   }
@@ -887,6 +893,7 @@ export function docFromReceiptData(data: ReceiptData): ReceiptDoc {
       showCardAuth: data.showCardAuth,
       inline: data.paymentInline,
       ...(data.cardRows?.length && { extraRows: data.cardRows }),
+      ...(data.paymentName && { methodName: data.paymentName }),
     });
   }
 
@@ -1005,27 +1012,16 @@ export function itemsTotals(s: ItemsSection) {
   const discount = Math.min(rawDiscount, afterItemDisc);
   const taxable = afterItemDisc - discount;
 
-  // Tax falls only on items not marked untaxed — a grocery receipt taxes the
-  // soap, not the milk. An order-level discount is shared pro rata, so it
-  // lowers the taxed and untaxed parts alike.
-  const taxedNet = s.items.reduce((sum, i) => {
-    if (i.notTaxed) return sum;
-    const gross = itemGross(i);
-    return sum + gross - Math.min(Math.max(i.discount || 0, 0), Math.max(gross, 0));
-  }, 0);
-  const taxBase = afterItemDisc > 0 ? taxedNet - discount * (taxedNet / afterItemDisc) : 0;
-
-  // One or more tax lines. Multiple lines override the single taxLabel/taxRate.
+  // One or more tax lines (several override the single taxLabel/taxRate).
+  // Tax falls only on taxed items — a grocery receipt taxes the soap, not the
+  // milk — and a line can be limited to one tax flag, so groceries can carry
+  // their own rate. An order-level discount lowers every base pro rata.
   const lines = s.taxLines && s.taxLines.length > 0
     ? s.taxLines
     : s.taxRate > 0
       ? [{ label: s.taxLabel || "Tax", rate: s.taxRate }]
       : [];
-  const taxLines = lines.map((l) => ({
-    label: l.label || "Tax",
-    rate: l.rate,
-    amount: taxBase * ((l.rate || 0) / 100),
-  }));
+  const taxLines = taxLineAmounts(s.items, lines, afterItemDisc > 0 ? 1 - discount / afterItemDisc : 0);
   const tax = taxLines.reduce((sum, l) => sum + l.amount, 0);
 
   const serviceFee = s.serviceFeePercent

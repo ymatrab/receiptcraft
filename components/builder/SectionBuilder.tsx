@@ -798,15 +798,22 @@ export default function SectionBuilder() {
       case "items":
         return (
           <div className="space-y-3">
-            <div className="flex justify-end">
+            <div className="flex justify-end gap-4">
+              {/* A department heading ("GROCERY") prints in the list and adds nothing. */}
+              <button type="button" onClick={() => patchSection(s.id, { items: [...s.items, { id: uid(), name: "", quantity: 0, price: 0, heading: true }] })} className="text-sm font-semibold text-slate-500 hover:text-indigo-600">+ Add heading</button>
               <button type="button" onClick={() => patchSection(s.id, { items: [...s.items, { id: uid(), name: "", quantity: 1, price: 0 }] })} className="text-sm font-semibold text-indigo-600">+ Add item</button>
             </div>
-            {s.items.map((it) => (
+            {s.items.map((it) => it.heading ? (
+              <div key={it.id} className="flex items-center gap-2 rounded-lg border border-dashed border-slate-200 p-2">
+                <input className={`${inputClass} font-semibold uppercase`} defaultValue={it.name} placeholder="Heading, e.g. GROCERY" onChange={(e) => updateItem(s, it.id, { name: e.target.value })} aria-label="Heading" />
+                <button type="button" aria-label="Remove heading" onClick={() => patchSection(s.id, { items: s.items.filter((x) => x.id !== it.id) })} className="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-lg text-red-500 transition-colors hover:bg-red-50 hover:text-red-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500"><CloseIcon className="h-4 w-4" /></button>
+              </div>
+            ) : (
               <div key={it.id} className="rounded-lg border border-slate-100 bg-slate-50/50 p-2">
                 <div className="grid grid-cols-[48px_1fr_72px_40px] items-center gap-2">
                   <input className={inputClass} type="number" defaultValue={it.quantity} onChange={(e) => updateItem(s, it.id, { quantity: parseFloat(e.target.value) || 0 })} aria-label="Qty" />
                   <input className={inputClass} defaultValue={it.name} placeholder="Item name" onChange={(e) => updateItem(s, it.id, { name: e.target.value })} aria-label="Name" />
-                  <input className={inputClass} type="number" step="0.01" defaultValue={it.price} onChange={(e) => updateItem(s, it.id, { price: parseFloat(e.target.value) || 0 })} aria-label="Price" />
+                  <input className={inputClass} type="number" step="any" defaultValue={it.price} onChange={(e) => updateItem(s, it.id, { price: parseFloat(e.target.value) || 0 })} aria-label="Price" />
                   <button type="button" aria-label="Remove item" onClick={() => patchSection(s.id, { items: s.items.filter((x) => x.id !== it.id) })} className="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-lg text-red-500 transition-colors hover:bg-red-50 hover:text-red-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500"><CloseIcon className="h-4 w-4" /></button>
                 </div>
                 {itemDetails[it.id] && (
@@ -835,6 +842,14 @@ export default function SectionBuilder() {
               </div>
             ))}
             <SelectField label="Item layout" defaultValue={s.itemStyle ?? "table"} onChange={(v) => patchSection(s.id, { itemStyle: v })} options={ITEM_STYLES} />
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-slate-700">Show the Subtotal line</span>
+              <Toggle checked={!s.hideSubtotal} onChange={(c) => patchSection(s.id, { hideSubtotal: c ? undefined : true })} />
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-slate-700">Unit prices to 3 decimals ($2.799 / gal)</span>
+              <Toggle checked={s.unitDecimals === 3} onChange={(c) => patchSection(s.id, { unitDecimals: c ? 3 : undefined })} />
+            </div>
             <div className="flex items-center justify-between">
               <span className="text-sm text-slate-700">Print the SKU / UPC before each item name</span>
               <Toggle checked={!!s.skuFirst} onChange={(c) => patchSection(s.id, { skuFirst: c || undefined })} />
@@ -891,7 +906,10 @@ export default function SectionBuilder() {
                 {s.taxLines.map((tl, i) => (
                   <div key={i} className="flex items-center gap-2">
                     <input className={inputClass} defaultValue={tl.label} placeholder="Label (e.g. GST)" onChange={(e) => patchSection(s.id, { taxLines: s.taxLines!.map((x, j) => (j === i ? { ...x, label: e.target.value } : x)) })} aria-label="Tax label" />
-                    <input className={`${inputClass} w-24`} type="number" step="0.01" defaultValue={tl.rate} placeholder="%" onChange={(e) => patchSection(s.id, { taxLines: s.taxLines!.map((x, j) => (j === i ? { ...x, rate: parseFloat(e.target.value) || 0 } : x)) })} aria-label="Tax rate" />
+                    <input className={`${inputClass} w-24`} type="number" step="any" defaultValue={tl.rate} placeholder="%" onChange={(e) => patchSection(s.id, { taxLines: s.taxLines!.map((x, j) => (j === i ? { ...x, rate: parseFloat(e.target.value) || 0 } : x)) })} aria-label="Tax rate" />
+                    {/* Limit this rate to items with one tax flag: "F" makes it
+                        the grocery rate, and an unlimited line taxes the rest. */}
+                    <input className={`${inputClass} w-20`} defaultValue={tl.appliesTo ?? ""} placeholder="Flag" maxLength={4} onChange={(e) => patchSection(s.id, { taxLines: s.taxLines!.map((x, j) => (j === i ? { ...x, appliesTo: e.target.value || undefined } : x)) })} aria-label="Only items with this tax flag" title="Only items with this tax flag (leave empty for all other taxed items)" />
                     <button type="button" aria-label="Remove tax line" onClick={() => patchSection(s.id, { taxLines: s.taxLines!.filter((_, j) => j !== i) })} className="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-lg text-red-500 transition-colors hover:bg-red-50 hover:text-red-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500"><CloseIcon className="h-4 w-4" /></button>
                   </div>
                 ))}
@@ -960,6 +978,10 @@ export default function SectionBuilder() {
             {s.method === "Mobile" && (
               <p className="text-xs text-slate-500">Shows “Mobile Payment” on the receipt (e.g. Apple Pay, Google Pay).</p>
             )}
+
+            {/* Any tender the four buttons don't name: "Wire transfer",
+                "GrabPay", "DEBIT TEND". Replaces the method on the receipt. */}
+            <TextField label="Printed as (optional)" defaultValue={s.methodName ?? ""} onChange={(v) => patchSection(s.id, { methodName: v || undefined })} placeholder="e.g. Wire transfer, GrabPay, DEBIT TEND" />
 
             {/* The terminal's own lines, in the receipt's wording. */}
             <div className="rounded-lg bg-slate-50 p-2">

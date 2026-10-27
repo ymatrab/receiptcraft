@@ -172,20 +172,26 @@ export default function ReceiptDocPaper({ doc }: Props) {
               header={s.itemHeader}
               columns={s.columns}
               gap={doc.settings.itemGap}
-              opts={{ skuFirst: s.skuFirst, discountLabel: doc.settings.labels?.itemDiscount }}
+              opts={{
+                skuFirst: s.skuFirst,
+                discountLabel: doc.settings.labels?.itemDiscount,
+                unitMoney: s.unitDecimals ? (n: number) => formatMoney(n, doc.settings.currency, s.unitDecimals) : undefined,
+              }}
             />
             {/* A weighed line (1.5 lb) counts as one item, as tills count it. */}
             {s.showItemsSold && (
               <p className="mt-2 text-[11px] uppercase tracking-wide text-slate-500">
-                {L("itemsSold")} {Math.max(1, s.items.reduce((n, i) => n + (Number.isInteger(i.quantity) ? i.quantity : 1), 0))}
+                {L("itemsSold")} {Math.max(1, s.items.reduce((n, i) => (i.heading ? n : n + (Number.isInteger(i.quantity) ? i.quantity : 1)), 0))}
               </p>
             )}
             {s.totalsDivider && s.totalsDivider !== "none" && <Rule rule={s.totalsDivider} />}
             <div className="space-y-1 text-slate-600">
-              <div className="flex justify-between">
-                <span>{L("subtotal")}</span>
-                <span>{money(t.subtotal)}</span>
-              </div>
+              {!s.hideSubtotal && (
+                <div className="flex justify-between">
+                  <span>{L("subtotal")}</span>
+                  <span>{money(t.subtotal)}</span>
+                </div>
+              )}
               {t.itemDiscount > 0 && (
                 <div className="flex justify-between text-emerald-700">
                   <span>{L("itemDiscounts")}</span>
@@ -276,7 +282,7 @@ export default function ReceiptDocPaper({ doc }: Props) {
             <div className="space-y-1 text-xs text-slate-600">
               <div className="flex justify-between">
                 <span>{L("paymentMethod")}</span>
-                <span className="font-medium text-slate-800">Cash</span>
+                <span className="font-medium text-slate-800">{s.methodName || "Cash"}</span>
               </div>
               {(s.amountTendered ?? 0) > 0 && (
                 <>
@@ -294,7 +300,7 @@ export default function ReceiptDocPaper({ doc }: Props) {
             </div>
           );
         }
-        const methodLabel = s.method === "Card" ? s.cardType || "Card" : s.method;
+        const methodLabel = s.methodName || (s.method === "Card" ? s.cardType || "Card" : s.method);
         const showLast4 = (s.method === "Card" || s.method === "Gift Card") && s.cardLastFour;
         const splits = s.splits?.filter((p) => p.method || p.amount) ?? [];
         return (

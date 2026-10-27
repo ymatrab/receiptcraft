@@ -604,6 +604,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
       },
     ],
     fuelGrade: "Regular",
+    hideSubtotal: true,
     showTaxRate: false,
   },
   // panda-express — was missing-key-details. Sources:
@@ -1358,6 +1359,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
         value: "VISA CREDIT",
       },
     ],
+    skuFirst: true,
     showTaxRate: false,
   },
   // southwest-airlines — was wrong-format. Sources:
@@ -2127,6 +2129,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
         unit: "G",
       },
     ],
+    hideSubtotal: true,
     showTaxRate: false,
   },
   // panera-bread — was missing-key-details. Sources:
@@ -2247,6 +2250,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
         category: "Salesperson: 1061937 (Marco)",
       },
     ],
+    skuFirst: true,
     showTaxRate: false,
   },
   // whole-foods — was missing-key-details. Sources:
@@ -2503,6 +2507,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
         price: 34.86,
       },
     ],
+    hideSubtotal: true,
     showTaxRate: false,
   },
   // tim-hortons — was missing-key-details. Sources:
@@ -2759,6 +2764,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     labels: {
       subtotal: "SUBTOTAL",
     },
+    skuFirst: true,
   },
   // exxon — was wrong-format. Sources:
   //   https://thepointsguy.com/news/exxon-mobil-rewards-app/
@@ -2838,6 +2844,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
         price: 10.0,
       },
     ],
+    hideSubtotal: true,
     showTaxRate: false,
   },
   // grab — was wrong-format. Sources:
@@ -3123,6 +3130,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     policyText: "Earn points on every gallon with Sheetz Rewardz.",
     showBarcode: false,
     fuelGrade: "Unleaded 87",
+    hideSubtotal: true,
     showTaxRate: false,
   },
   // peet-s-coffee — was missing-key-details. Sources:
@@ -3237,6 +3245,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     labels: {
       subtotal: "SUBTOTAL",
     },
+    skuFirst: true,
     showTaxRate: false,
   },
   // ulta-beauty — was missing-key-details. Sources:
@@ -3358,6 +3367,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
         value: "418236",
       },
     ],
+    skuFirst: true,
   },
   // costco — was missing-key-details. Sources:
   //   https://www.makemyreceipt.com/blog/costco-receipt-codes
@@ -3453,6 +3463,7 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
         value: "APPROVED",
       },
     ],
+    skuFirst: true,
     showTaxRate: false,
   },
   // autozone — was missing-key-details. Sources:

@@ -61,6 +61,13 @@ function lineTotal(i: LineItem, money: (n: number) => string): string {
 interface ItemOpts {
   skuFirst?: boolean;
   discountLabel?: string;
+  /** Unit prices at more than cents ($2.799/gal); line totals keep `money`. */
+  unitMoney?: (n: number) => string;
+}
+
+/** A department heading inside the list ("GROCERY"): a label, never a line. */
+function ItemHeading({ name }: { name: string }) {
+  return <p className="mt-1.5 text-[11px] font-bold uppercase tracking-wide text-slate-700">{name || "—"}</p>;
 }
 
 /** The name as printed: "007874235186 GV 2% MLK GAL" when the SKU leads. */
@@ -124,7 +131,7 @@ export function Items({
   if (style === "qtycol") {
     return (
       <div className="flex flex-col" style={{ rowGap: gap ?? 4 }}>
-        {items.map((item) => (
+        {items.map((item) => item.heading ? <ItemHeading key={item.id} name={item.name} /> : (
           <div key={item.id} className="flex items-baseline gap-2">
             <span className="w-4 shrink-0 text-[11px] text-slate-500">{item.quantity}</span>
             <span className="flex-1 break-words">
@@ -148,7 +155,7 @@ export function Items({
           </div>
         )}
         <div className="mt-1 flex flex-col" style={{ rowGap: gap ?? 2 }}>
-          {items.map((item) => (
+          {items.map((item) => item.heading ? <ItemHeading key={item.id} name={item.name} /> : (
             <div key={item.id} className="flex justify-between gap-2">
               <span className="break-words pr-2">
                 {item.quantity !== 1 ? `${item.quantity} ` : ""}
@@ -166,7 +173,7 @@ export function Items({
   if (style === "equals") {
     return (
       <div className="flex flex-col" style={{ rowGap: gap ?? 2 }}>
-        {items.map((item) => (
+        {items.map((item) => item.heading ? <ItemHeading key={item.id} name={item.name} /> : (
           <div key={item.id} className="flex justify-between gap-2">
             <span className="break-words pr-2">
               {item.quantity} {itemName(item, opts)}
@@ -182,7 +189,7 @@ export function Items({
   if (style === "stacked") {
     return (
       <div className="flex flex-col" style={{ rowGap: gap ?? 6 }}>
-        {items.map((item) => (
+        {items.map((item) => item.heading ? <ItemHeading key={item.id} name={item.name} /> : (
           <div key={item.id}>
             <div className="flex justify-between gap-2">
               <span className="break-words pr-2">{itemName(item, opts)}</span>
@@ -190,7 +197,7 @@ export function Items({
             </div>
             {item.quantity !== 1 && (
               <div className="text-[11px] text-slate-500">
-                {item.quantity} @ {money(item.price)}
+                {item.quantity} @ {(opts.unitMoney ?? money)(item.price)}
               </div>
             )}
             <ItemMeta item={item} money={money} opts={opts} />
@@ -213,6 +220,15 @@ export function Items({
       </thead>
       <tbody>
         {items.map((item) => {
+          if (item.heading) {
+            return (
+              <tr key={item.id}>
+                <td colSpan={4} className="pt-1.5 text-[11px] font-bold uppercase tracking-wide text-slate-700">
+                  {item.name || "—"}
+                </td>
+              </tr>
+            );
+          }
           const pad = { paddingTop: (gap ?? 4) / 2, paddingBottom: (gap ?? 4) / 2 };
           return (
             <tr key={item.id} className="align-top">
@@ -224,7 +240,7 @@ export function Items({
                 {item.quantity}
                 {item.unit ? ` ${item.unit}` : ""}
               </td>
-              <td className="text-right text-slate-600" style={pad}>{money(item.price)}</td>
+              <td className="text-right text-slate-600" style={pad}>{(opts.unitMoney ?? money)(item.price)}</td>
               <td className="text-right font-medium" style={pad}>{lineTotal(item, money)}</td>
             </tr>
           );

@@ -16,12 +16,19 @@ export interface LineItem {
   notTaxed?: boolean; // left out of the tax base — groceries, exempt goods
   taxFlag?: string; // printed after the line total, as tills do: "F", "T", "N", "A"
   addons?: { name: string; price: number }[]; // priced extras ("Add Beef 2.20"), per unit, added to the line
+  heading?: boolean; // a department heading ("GROCERY") inside the list: prints, counts for nothing
 }
 
 /** One tax line in a totals block (supports multiple tax rates). */
 export interface TaxLine {
   label: string;
   rate: number; // percent
+  /**
+   * Tax only the items carrying this tax flag ("F" for a grocery rate). A line
+   * without one taxes every taxed item that no other line claims — so "TAX 1
+   * 9.5%" plus "TAX 2 0.125% on F" is Walmart's general and grocery split.
+   */
+  appliesTo?: string;
 }
 
 export type PaperStyle = "thermal" | "modern" | "minimal";
@@ -198,6 +205,10 @@ export interface ReceiptData {
   skuFirst?: boolean; // item number before the name (UPC / SKU / DPCI), not a "SKU" line under it
   showSavings?: boolean; // a "You saved $x" line summing item and order discounts
   fuelGrade?: string; // the fuel block's grade, "Regular" / "Supreme" / "Diesel" (default "Unleaded")
+  taxLines?: TaxLine[]; // several tax rates, each optionally limited to one tax flag
+  hideSubtotal?: boolean; // fuel slips and Kroger print no subtotal line
+  unitDecimals?: 3; // unit prices to 3 decimals ($2.799/gal); line totals stay in cents
+  paymentName?: string; // the tender as printed, when it is not Cash/Card ("Wire transfer", "GrabPay")
   paperFinish?: PaperFinish; // force a paper finish, e.g. "email" for emailed receipts
   labels?: ReceiptLabels; // the receipt's own wording for fixed lines ("SUBTOTAL", "CHANGE DUE")
   showTaxRate?: boolean; // false = "TAX 1" without "(9.5%)"
