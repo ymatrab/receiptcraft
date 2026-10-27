@@ -28,7 +28,7 @@ const norm = (s: string) =>
  */
 const COMMON_WORDS = new Set(
   ["target", "subway", "budget", "enterprise", "max", "steam", "coach", "gap", "boots", "marathon", "notion",
-    "slack", "zoom", "bolt", "staples", "checkers", "goat", "equinox", "sonic", "shell", "national", "giant"]
+    "slack", "zoom", "bolt", "staples", "checkers", "goat", "equinox", "sonic", "national", "giant"]
 );
 
 /** Longest names first, so "Uber Eats" wins over "Uber" and "Sam's Club" over nothing shorter. */

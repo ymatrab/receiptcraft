@@ -339,13 +339,19 @@ const BRANDS_ADDED: Readonly<Record<string, string>> = {
 // 2026-10-27: the receipt preview on brand pages changed. The researched brands
 // (lib/brand-specs.ts) were rebuilt to match their real receipts; on the rest,
 // the generic "SALES RECEIPT"-style heading that printed when a template had no
-// greeting is gone, and a template's own register/cashier line now prints.
+// greeting is gone, a template's own register/cashier line now prints, and a
+// wordmark that spells the store name no longer has the name repeated under it.
 // Computed from exactly those conditions, so a page whose preview did not move
 // keeps its date.
 const BRANDS_RECEIPT_UPDATED = "2026-10-27";
 function brandReceiptChanged(slug: string): boolean {
   const d = getTemplate(slug)?.defaults;
-  return !!d && (slug in BRAND_SPECS || !d.greeting || !!d.register || !!d.cashier);
+  const named = (s?: string) => s?.trim().toLowerCase();
+  return (
+    !!d &&
+    (slug in BRAND_SPECS || !d.greeting || !!d.register || !!d.cashier ||
+      (!!d.logoText && named(d.logoText) === named(d.businessName)))
+  );
 }
 
 export function brandReviewedAt(slug: string): string {

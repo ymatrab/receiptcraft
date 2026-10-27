@@ -91,7 +91,11 @@ export default function ReceiptDocPaper({ doc }: Props) {
                 {s.title}
               </p>
             )}
-            {s.storeName && <p className="text-base font-bold">{s.storeName}</p>}
+            {/* A wordmark that already says the name ("SHELL") is the name; a
+                second, smaller copy under it is what no real receipt prints. */}
+            {s.storeName && s.storeName.trim().toLowerCase() !== s.logoText?.trim().toLowerCase() && (
+              <p className="text-base font-bold">{s.storeName}</p>
+            )}
             {s.address &&
               s.address.split("\n").map((line, i) => (
                 <p key={i} className="text-slate-600">
