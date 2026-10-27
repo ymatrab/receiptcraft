@@ -105,6 +105,7 @@ export interface ItemsSection extends BaseSection {
   skuFirst?: boolean; // print each item's SKU/UPC before its name, as tills do
   hideSubtotal?: boolean; // fuel slips and Kroger print no subtotal
   taxIncluded?: boolean; // prices include the tax (VAT/GST): the lines show it, the total doesn't add it
+  subtotalNet?: boolean; // Subtotal printed after item discounts, with no separate discounts line
   unitDecimals?: 3; // unit prices to 3 decimals ($2.799); line totals stay in cents
   showSavings?: boolean; // "You saved $x" after the total, from item + order discounts
 }
@@ -874,6 +875,7 @@ export function docFromReceiptData(data: ReceiptData): ReceiptDoc {
       ...(data.taxLines?.length && { taxLines: data.taxLines }),
       ...(data.hideSubtotal && { hideSubtotal: true }),
       ...(data.taxIncluded && { taxIncluded: true }),
+      ...(data.subtotalNet && { subtotalNet: true }),
       ...(data.deliveryFee && { deliveryFee: data.deliveryFee }),
       ...(data.serviceFee && { serviceFee: data.serviceFee }),
       ...(data.unitDecimals && { unitDecimals: data.unitDecimals }),

@@ -913,6 +913,10 @@ export default function SectionBuilder() {
               <Toggle checked={!!s.taxIncluded} onChange={(c) => patchSection(s.id, { taxIncluded: c || undefined })} />
             </div>
             <div className="flex items-center justify-between">
+              <span className="text-sm text-slate-700">Subtotal after item discounts</span>
+              <Toggle checked={!!s.subtotalNet} onChange={(c) => patchSection(s.id, { subtotalNet: c || undefined })} />
+            </div>
+            <div className="flex items-center justify-between">
               <span className="text-sm text-slate-700">Show the Subtotal line</span>
               <Toggle checked={!s.hideSubtotal} onChange={(c) => patchSection(s.id, { hideSubtotal: c ? undefined : true })} />
             </div>
