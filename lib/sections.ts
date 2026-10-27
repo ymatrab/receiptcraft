@@ -198,6 +198,8 @@ export interface DocSettings {
   itemGap?: number; // vertical gap between line items (default 4)
   /** The receipt's own wording for the fixed lines — see RECEIPT_LABELS. */
   labels?: ReceiptLabels;
+  /** How amounts print, e.g. "de-DE" for 1,99 € (default en-US). */
+  numberLocale?: string;
   /** Print the rate after each tax label, "Tax (9.5%)". Default true. */
   showTaxRate?: boolean;
 }
@@ -1004,6 +1006,7 @@ export function docFromReceiptData(data: ReceiptData): ReceiptDoc {
       ...(weight && { weight }),
       ...((data.paperFinish ?? paper) && { paper: data.paperFinish ?? paper }),
       ...(data.labels && { labels: data.labels }),
+      ...(data.numberLocale && { numberLocale: data.numberLocale }),
       ...(data.showTaxRate === false && { showTaxRate: false }),
     },
     sections,

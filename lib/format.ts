@@ -13,9 +13,11 @@ export const CURRENCIES = [
   { code: "MAD", label: "Moroccan Dirham (MAD)" },
 ] as const;
 
-export function formatMoney(amount: number, currency: string, decimals?: number): string {
+export function formatMoney(amount: number, currency: string, decimals?: number, locale = "en-US"): string {
   try {
-    return new Intl.NumberFormat("en-US", {
+    // `locale` is the receipt's number style: "de-DE" prints 1.550,00 €, as
+    // German, French, Dutch and Italian tills do.
+    return new Intl.NumberFormat(locale, {
       style: "currency",
       currency,
       ...(decimals !== undefined && { minimumFractionDigits: decimals, maximumFractionDigits: decimals }),

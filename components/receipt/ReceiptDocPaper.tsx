@@ -59,7 +59,7 @@ interface Props {
 
 /** Renders a section-based receipt document. Shares primitives with ReceiptPaper. */
 export default function ReceiptDocPaper({ doc }: Props) {
-  const money = (n: number) => formatMoney(n, doc.settings.currency);
+  const money = (n: number) => formatMoney(n, doc.settings.currency, undefined, doc.settings.numberLocale);
   const accent = doc.settings.accent || "#4f46e5";
   const card = doc.settings.style === "card";
   // The receipt's own wording for every fixed line (settings.labels).
@@ -175,7 +175,7 @@ export default function ReceiptDocPaper({ doc }: Props) {
               opts={{
                 skuFirst: s.skuFirst,
                 discountLabel: doc.settings.labels?.itemDiscount,
-                unitMoney: s.unitDecimals ? (n: number) => formatMoney(n, doc.settings.currency, s.unitDecimals) : undefined,
+                unitMoney: s.unitDecimals ? (n: number) => formatMoney(n, doc.settings.currency, s.unitDecimals, doc.settings.numberLocale) : undefined,
               }}
             />
             {/* A weighed line (1.5 lb) counts as one item, as tills count it. */}

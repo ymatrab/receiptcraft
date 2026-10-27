@@ -217,6 +217,7 @@ export interface ReceiptData {
   serviceFee?: number; // likewise
   unitDecimals?: 3; // unit prices to 3 decimals ($2.799/gal); line totals stay in cents
   paymentName?: string; // the tender as printed, when it is not Cash/Card ("Wire transfer", "GrabPay")
+  numberLocale?: string; // how amounts print: "de-DE" → 1,99 €, "fr-FR", "nl-NL", "it-IT", "es-ES" (default en-US)
   paperFinish?: PaperFinish; // force a paper finish, e.g. "email" for emailed receipts
   labels?: ReceiptLabels; // the receipt's own wording for fixed lines ("SUBTOTAL", "CHANGE DUE")
   showTaxRate?: boolean; // false = "TAX 1" without "(9.5%)"
