@@ -3682,6 +3682,91 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     paperFinish: "email",
     showTaxRate: false,
   },
+  // ralph-lauren — was no-source. Sources:
+  //   https://www.ralphlauren.com/can-i-return-merchandise-purchased-in-a-store-online%3F/returns-exchanges-return-stores.html (help page: in-store returns need store number, transaction number, register number and purchase date from the store receipt; Polo Factory Store purchases excluded; read via search snippet because the page 307-redirects for fetchers)
+  //   https://www.ralphlauren.com/hidden-men-polo-shirts/the-iconic-custom-slim-fit-mesh-polo/0080101637.html (The Iconic Custom Slim Fit Mesh Polo, standard price $118, from a search snippet)
+  //   https://www.ralphlauren.com/639663.html (Polo Bear Cotton-Blend Sweater, standard price $398, from a search snippet)
+  //   https://www.ebay.de/itm/236451515197 (Stretch Slim Fit Chino tag price $98; the current $125 is an estimate and unverified)
+  "ralph-lauren": {
+    businessName: "Ralph Lauren Chicago",
+    logoText: "RALPH LAUREN",
+    addressLine1: "811 N Michigan Avenue",
+    addressLine2: "Chicago, IL 60611",
+    phone: "(312) 555-0146",
+    website: "RalphLauren.com",
+    hideTitle: true,
+    hideStoreLine: true,
+    cashier: "",
+    register: "",
+    sections: [
+      {
+        rows: [
+          {
+            label: "Store",
+            value: "0427",
+          },
+          {
+            label: "Reg",
+            value: "03",
+          },
+          {
+            label: "Trans",
+            value: "58213",
+          },
+          {
+            label: "Associate",
+            value: "104876",
+          },
+          {
+            label: "Date",
+            value: "{{date}} {{time}}",
+          },
+        ],
+      },
+    ],
+    paperStyle: "thermal",
+    fontFamily: "mono",
+    headerAlign: "center",
+    ruleStyle: "dashed",
+    itemStyle: "lined",
+    itemHeader: {
+      left: "DESCRIPTION",
+      right: "AMOUNT",
+    },
+    items: [
+      {
+        name: "Polo Bear Cotton-Blend Sweater",
+        quantity: 1,
+        price: 398.0,
+      },
+      {
+        name: "Custom Slim Fit Mesh Polo",
+        quantity: 1,
+        price: 118.0,
+      },
+      {
+        name: "Stretch Slim Fit Chino Pant",
+        quantity: 1,
+        price: 125.0,
+      },
+    ],
+    currency: "USD",
+    taxLabel: "Sales Tax",
+    taxRate: 10.25,
+    showTaxRate: false,
+    discount: 0,
+    tip: 0,
+    labels: {
+      subtotal: "Subtotal",
+    },
+    grandTotalLabel: "Total",
+    paymentMethod: "Credit Card",
+    cardLastFour: "4418",
+    showCardAuth: true,
+    showBarcode: true,
+    footerMessage: "Thank you for shopping Ralph Lauren",
+    policyText: "Please retain this receipt for returns and exchanges.\nSee RalphLauren.com for our return policy.",
+  },
   // uber — was wrong-format. Sources:
   //   https://static.nhtsa.gov/odi/inv/2023/INRD-PE23022-14940P1.pdf
   //   https://www.camara.leg.br/cota-parlamentar/documentos/publ/3211/2024/7773378.pdf
