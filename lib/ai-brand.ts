@@ -12,13 +12,27 @@ import type { ReceiptTemplate } from "./types";
  * back as an unbranded receipt, which is the version nobody needs to pay for.
  */
 
-/** "McDonald's" → "mcdonalds", "7-Eleven" → "7 eleven": apostrophes vanish, other punctuation becomes a space. */
+/**
+ * "McDonald's" → "mcdonalds", "7-Eleven" → "7 eleven": apostrophes vanish,
+ * other punctuation becomes a space, and a split "Mc Donald's" closes up, as
+ * people type it (seen in the saved prompts, 2026-10-28).
+ */
 const norm = (s: string) =>
   ` ${s
     .toLowerCase()
     .replace(/['’®™.]/g, "")
     .replace(/[^a-z0-9]+/g, " ")
+    .replace(/\bmc (?=[a-z])/g, "mc")
     .trim()} `;
+
+/**
+ * Category words people leave off a brand's name: "dominos" for Domino's
+ * Pizza, "panda" for Panda Express, "papa johns" for Papa John's Pizza. A
+ * brand also answers to its name without one of these, when what is left is
+ * still distinctive (5+ letters, not an everyday word, not another brand).
+ */
+const GENERIC_TAIL =
+  /\s(pizza|coffee|burgers?|grill|express|chicken|steakhouse|stores?|shops|pharmacy|airlines?|market|foods|cafe|bakery|kitchen|bagels|subs|tea leaf|drive in|sporting goods|auto parts|car rental|club)\s$/;
 
 /**
  * Brand names that are also ordinary words. "subway ticket", "a budget hotel"
@@ -32,12 +46,26 @@ const COMMON_WORDS = new Set(
 );
 
 /** Longest names first, so "Uber Eats" wins over "Uber" and "Sam's Club" over nothing shorter. */
-const NAMES: { slug: string; name: string; display: string }[] = BRAND_TEMPLATES.flatMap((t) =>
+const FULL_NAMES: { slug: string; name: string; display: string }[] = BRAND_TEMPLATES.flatMap((t) =>
   [...new Set([t.shortName, t.name.replace(/\s+Receipt$/i, "")])]
     .map((display) => ({ slug: t.slug, name: norm(display), display }))
     // A one- or two-letter name ("H M" from "H&M") would match inside ordinary prompts.
     .filter((n) => n.name.trim().length >= 3)
-).sort((a, b) => b.name.length - a.name.length);
+);
+const TAKEN = new Set(FULL_NAMES.map((n) => n.name));
+/** Shortened names that are everyday words or places ("american cheese", "Costa Rica"). */
+const NOT_ALONE = new Set([
+  "whole", "apple", "microsoft", "american", "united", "southwest", "blaze", "costa", "world",
+  "advance", "alaska", "spirit", "frontier", "national",
+]);
+const SHORT_NAMES = FULL_NAMES.flatMap((n) => {
+  const short = n.name.replace(GENERIC_TAIL, " ");
+  const bare = short.trim();
+  return short !== n.name && bare.length >= 5 && !COMMON_WORDS.has(bare) && !NOT_ALONE.has(bare) && !TAKEN.has(short)
+    ? [{ ...n, name: short }]
+    : [];
+});
+const NAMES = [...FULL_NAMES, ...SHORT_NAMES].sort((a, b) => b.name.length - a.name.length);
 
 /** The brand template a prompt names, by whole words, or null. */
 export function detectBrand(prompt: string): string | null {
