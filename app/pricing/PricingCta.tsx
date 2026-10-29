@@ -60,6 +60,8 @@ export default function PricingCta({ planId, label, className }: Props) {
   return (
     <a
       href={`/api/checkout?plan=${planId}`}
+      // Crawlers that follow every link opened a live Stripe session per plan.
+      rel="nofollow"
       onClick={() => {
         analytics.beginCheckout(planLabel, "pricing");
         setBusy(true);
