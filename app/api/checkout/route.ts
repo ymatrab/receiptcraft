@@ -7,6 +7,7 @@ import { absoluteUrl } from "@/lib/site";
 import { stripeConfigured, stripeTestConfigured } from "@/lib/stripe";
 import { createPassCheckout } from "@/lib/stripe-passes";
 import { recordServerEvent, errorText } from "@/lib/server-events";
+import { BOT_UA } from "@/lib/analytics-events";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -54,9 +55,34 @@ function go(url: string, status: 302 | 303 = 303) {
   });
 }
 
+/**
+ * A request that no person made: a crawler, a link checker, or a browser
+ * prefetching the link ahead of a click that may never come.
+ *
+ * Because the CTA is a plain link, anything that walks /pricing hits all three
+ * plans in a row — on 2026-10-29 two such bursts opened weekly, monthly and
+ * yearly inside a second, with no click recorded, and each one created three
+ * live Stripe sessions and three "Checkout started" alerts. Only clear signals
+ * count here: a missed bot costs one false alert, a misjudged buyer costs a sale.
+ */
+function isAutomated(request: Request): boolean {
+  const h = request.headers;
+  const ua = h.get("user-agent") ?? "";
+  if (!ua || BOT_UA.test(ua)) return true;
+  const purpose = `${h.get("sec-purpose") ?? ""} ${h.get("purpose") ?? ""} ${h.get("x-moz") ?? ""}`;
+  if (/prefetch|prerender/i.test(purpose)) return true;
+  // A click or a typed URL is a navigation; a fetch(), an <img> or a scanner's
+  // no-cors probe is not. Browsers that send no Sec-Fetch-Mode are let through.
+  const mode = h.get("sec-fetch-mode");
+  return mode !== null && mode !== "navigate";
+}
+
 export async function GET(request: Request) {
   const plan = new URL(request.url).searchParams.get("plan");
   if (!isPlan(plan)) return go(absoluteUrl("/pricing"));
+  // No session, no alert, no event. A person who somehow lands here is sent to
+  // /pricing, one click from trying again.
+  if (isAutomated(request)) return go(absoluteUrl("/pricing"));
 
   const account = await getAccountStatus();
 
