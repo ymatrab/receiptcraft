@@ -218,6 +218,7 @@ export interface ReceiptData {
   unitDecimals?: 3; // unit prices to 3 decimals ($2.799/gal); line totals stay in cents
   paymentName?: string; // the tender as printed, when it is not Cash/Card ("Wire transfer", "GrabPay")
   hideTaxFlags?: boolean; // flags still route items to their tax rate, but don't print (Mercadona)
+  itemColumns?: ItemColumns; // table-style column names ("Item / Qty / Price / Amount")
   numberLocale?: string; // how amounts print: "de-DE" → 1,99 €, "fr-FR", "nl-NL", "it-IT", "es-ES" (default en-US)
   paperFinish?: PaperFinish; // force a paper finish, e.g. "email" for emailed receipts
   labels?: ReceiptLabels; // the receipt's own wording for fixed lines ("SUBTOTAL", "CHANGE DUE")

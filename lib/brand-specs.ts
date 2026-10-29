@@ -3682,90 +3682,144 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     paperFinish: "email",
     showTaxRate: false,
   },
-  // ralph-lauren — was no-source. Sources:
-  //   https://www.ralphlauren.com/can-i-return-merchandise-purchased-in-a-store-online%3F/returns-exchanges-return-stores.html (help page: in-store returns need store number, transaction number, register number and purchase date from the store receipt; Polo Factory Store purchases excluded; read via search snippet because the page 307-redirects for fetchers)
-  //   https://www.ralphlauren.com/hidden-men-polo-shirts/the-iconic-custom-slim-fit-mesh-polo/0080101637.html (The Iconic Custom Slim Fit Mesh Polo, standard price $118, from a search snippet)
-  //   https://www.ralphlauren.com/639663.html (Polo Bear Cotton-Blend Sweater, standard price $398, from a search snippet)
-  //   https://www.ebay.de/itm/236451515197 (Stretch Slim Fit Chino tag price $98; the current $125 is an estimate and unverified)
+  // ralph-lauren — was close. Sources:
+  //   Photo of a real Ralph Lauren London New Bond Street flagship receipt, 28/05/2025, supplied by the site owner
   "ralph-lauren": {
-    businessName: "Ralph Lauren Chicago",
     logoText: "RALPH LAUREN",
-    addressLine1: "811 N Michigan Avenue",
-    addressLine2: "Chicago, IL 60611",
-    phone: "(312) 555-0146",
-    website: "RalphLauren.com",
-    hideTitle: true,
+    businessName: "RL FLAG LONDON SAMPLE STREET",
+    addressLine1: "1 Sample Street",
+    addressLine2: "W1S 0AA London - UK\nGB 000 0000 00\nUnited Kingdom",
+    phone: "4402000000000",
+    currency: "GBP",
+    dateOrder: "dmy",
+    fontFamily: "mono",
+    paperStyle: "thermal",
+    headerAlign: "center",
+    ruleStyle: "solid",
     hideStoreLine: true,
-    cashier: "",
-    register: "",
     sections: [
       {
         rows: [
           {
-            label: "Store",
-            value: "0427",
+            label: "Store:",
+            value: "900",
           },
           {
-            label: "Reg",
-            value: "03",
+            label: "Register:",
+            value: "2",
           },
           {
-            label: "Trans",
-            value: "58213",
+            label: "Ticket:",
+            value: "40518",
           },
           {
-            label: "Associate",
-            value: "104876",
+            label: "Salesperson:",
+            value: "700123 (Alex)",
           },
           {
-            label: "Date",
-            value: "{{date}} {{time}}",
+            label: "Cashier:",
+            value: "700123",
+          },
+          {
+            label: "ID:",
+            value: "1000000001",
+          },
+          {
+            label: "Customer:",
+            value: "Sample Customer",
           },
         ],
       },
     ],
-    paperStyle: "thermal",
-    fontFamily: "mono",
-    headerAlign: "center",
-    ruleStyle: "dashed",
-    itemStyle: "lined",
-    itemHeader: {
-      left: "DESCRIPTION",
-      right: "AMOUNT",
-    },
+    itemStyle: "table",
     items: [
       {
-        name: "Polo Bear Cotton-Blend Sweater",
+        name: "COTTON S",
         quantity: 1,
-        price: 398.0,
+        price: 189.0,
+        taxFlag: "20%",
+        addons: [
+          {
+            name: "3616850000017",
+            price: 0,
+          },
+        ],
       },
       {
-        name: "Custom Slim Fit Mesh Polo",
+        name: "WW CTSWTR",
         quantity: 1,
-        price: 118.0,
+        price: 189.0,
+        taxFlag: "20%",
+        addons: [
+          {
+            name: "3616850000024",
+            price: 0,
+          },
+        ],
       },
       {
-        name: "Stretch Slim Fit Chino Pant",
+        name: "M-SPORT",
         quantity: 1,
-        price: 125.0,
+        price: 95.0,
+        taxFlag: "20%",
+        addons: [
+          {
+            name: "3616850000031",
+            price: 0,
+          },
+        ],
+      },
+      {
+        name: "M-SPORT",
+        quantity: 1,
+        price: 55.0,
+        taxFlag: "20%",
+        addons: [
+          {
+            name: "3616850000048",
+            price: 0,
+          },
+        ],
       },
     ],
-    currency: "USD",
-    taxLabel: "Sales Tax",
-    taxRate: 10.25,
-    showTaxRate: false,
-    discount: 0,
-    tip: 0,
-    labels: {
-      subtotal: "Subtotal",
-    },
+    taxIncluded: true,
+    taxLabel: "Tax Amt.",
+    taxRate: 20,
+    showTaxRate: true,
+    hideSubtotal: true,
     grandTotalLabel: "Total",
     paymentMethod: "Credit Card",
-    cardLastFour: "4418",
-    showCardAuth: true,
-    showBarcode: true,
-    footerMessage: "Thank you for shopping Ralph Lauren",
-    policyText: "Please retain this receipt for returns and exchanges.\nSee RalphLauren.com for our return policy.",
+    cardLastFour: "4417",
+    showCardAuth: false,
+    cardRows: [
+      {
+        value: "CARDHOLDER COPY",
+      },
+      {
+        label: "Date",
+        value: "{{date}}",
+      },
+      {
+        label: "Time",
+        value: "{{time}}",
+      },
+      {
+        label: "Card",
+        value: "****4417",
+      },
+      {
+        label: "Card type",
+        value: "visastandardcredit",
+      },
+    ],
+    showBarcode: false,
+    itemColumns: {
+      item: "Item",
+      qty: "Qty",
+      price: "Price",
+      total: "Amount",
+    },
+    footerMessage: "",
   },
   // uber — was wrong-format. Sources:
   //   https://static.nhtsa.gov/odi/inv/2023/INRD-PE23022-14940P1.pdf
