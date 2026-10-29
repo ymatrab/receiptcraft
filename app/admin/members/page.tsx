@@ -13,6 +13,44 @@ function providerLabel(provider: string): string {
   return provider.charAt(0).toUpperCase() + provider.slice(1);
 }
 
+const DAY_MS = 864e5;
+
+/** "Nov 4, 2026" — the year included, since yearly passes cross it. */
+function shortDate(iso: string): string {
+  return new Date(iso).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
+/** When the member's Pro ends, and how long is left. */
+function PassEnd({ end, status, pro }: { end: string | null | undefined; status?: string; pro: boolean }) {
+  if (!end) return <span className="text-slate-400">—</span>;
+  if (!pro) {
+    // Revoking marks the row canceled but leaves the date where it was.
+    const revoked = status === "canceled" && Date.parse(end) > Date.now();
+    return (
+      <span className="text-xs text-slate-400">
+        {revoked ? "Revoked" : `Ended ${shortDate(end)}`}
+      </span>
+    );
+  }
+  const days = Math.ceil((Date.parse(end) - Date.now()) / DAY_MS);
+  return (
+    <span className="whitespace-nowrap">
+      <span className="text-slate-600">{shortDate(end)}</span>
+      <span
+        className={`ml-2 rounded-full px-2 py-0.5 text-xs font-medium ${
+          days <= 2 ? "bg-amber-100 text-amber-700" : "bg-emerald-50 text-emerald-700"
+        }`}
+      >
+        {days <= 1 ? "under 1 day left" : `${days} days left`}
+      </span>
+    </span>
+  );
+}
+
 async function getMembers() {
   const admin = createAdminClient();
   // Pull recent profiles and their latest subscription in two queries, then join
@@ -25,7 +63,11 @@ async function getMembers() {
 
   const { data: subs } = await admin
     .from("subscriptions")
-    .select("user_id, plan, status, current_period_end");
+    .select("user_id, plan, status, current_period_end")
+    // Every pass is its own row, and an extension stacks on the previous end,
+    // so the latest end is the member's real one — and the first row kept below.
+    // Unordered, an extended member could show their old, expired pass.
+    .order("current_period_end", { ascending: false, nullsFirst: false });
 
   const subByUser = new Map<
     string,
@@ -156,6 +198,7 @@ export default async function AdminMembers() {
               <th className="px-4 py-3">Name</th>
               <th className="px-4 py-3">Signup</th>
               <th className="px-4 py-3">Plan</th>
+              <th className="px-4 py-3">Pro until</th>
               <th className="px-4 py-3">Downloads</th>
               <th className="px-4 py-3">AI gens</th>
               <th className="px-4 py-3">Joined</th>
@@ -220,6 +263,9 @@ export default async function AdminMembers() {
                     >
                       {pro ? m.sub?.plan ?? "pro" : "free"}
                     </span>
+                  </td>
+                  <td className="px-4 py-3">
+                    <PassEnd end={m.sub?.current_period_end} status={m.sub?.status} pro={pro} />
                   </td>
                   <td className="px-4 py-3 font-medium text-slate-600 tabular-nums">
                     {m.downloads.total}
