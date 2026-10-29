@@ -278,26 +278,96 @@ function isBot(): boolean {
   return navigator.webdriver === true || BOT_UA.test(navigator.userAgent);
 }
 
+/* -------------------------------------------------------------------------
+ * Proof of a person
+ *
+ * A user-agent check only catches bots that say what they are. From 2026-10-20
+ * a crawler posing as desktop Chrome — GA4 places it in Singapore, ~15–30
+ * sessions a day — loaded /receipt-help/united-airlines-refund-policy and left,
+ * and was 184 of the week's 1,720 "visits" here.
+ *
+ * So nothing reaches `events` until the browser reports real input: a pointer
+ * moving or pressing, a key, a touch, a wheel. `isTrusted` is false for any
+ * event a script dispatches, so a page that is loaded and never touched sends
+ * nothing at all. Scroll is left out on purpose — a script's scrollTo() fires
+ * a trusted scroll event. Proof is kept per browser, so a returning person
+ * counts from their first page view instead of their first touch.
+ *
+ * The cost: someone who opens a page and leaves without moving the mouse or
+ * touching the screen is no longer a visit. That is the same line GA4's
+ * "engaged session" draws, and a nicer one than counting a crawler.
+ * ---------------------------------------------------------------------------- */
+
+const HUMAN_KEY = "mkc_human";
+const HUMAN_INPUTS = ["pointermove", "pointerdown", "keydown", "touchstart", "wheel"] as const;
+/** Held events per page, before proof. A real page view queues a handful. */
+const MAX_HELD = 50;
+
+let humanSeen = false;
+let held: (() => void)[] = [];
+let listening = false;
+
+function provenHuman(): boolean {
+  if (humanSeen) return true;
+  try {
+    humanSeen = localStorage.getItem(HUMAN_KEY) === "1";
+  } catch {
+    /* storage blocked: proof lasts for this page only */
+  }
+  return humanSeen;
+}
+
+function onHumanInput(e: Event): void {
+  if (!e.isTrusted) return;
+  humanSeen = true;
+  try {
+    localStorage.setItem(HUMAN_KEY, "1");
+  } catch {
+    /* proof still holds for this page */
+  }
+  for (const type of HUMAN_INPUTS) window.removeEventListener(type, onHumanInput, true);
+  // In order, so the visit lands before the events that followed it.
+  const queued = held;
+  held = [];
+  for (const send of queued) send();
+}
+
+/** Run now if a person is confirmed; otherwise hold until one is, or drop. */
+function whenHuman(send: () => void): void {
+  if (provenHuman()) return send();
+  if (held.length < MAX_HELD) held.push(send);
+  if (listening) return;
+  listening = true;
+  for (const type of HUMAN_INPUTS) {
+    window.addEventListener(type, onHumanInput, { capture: true, passive: true });
+  }
+}
+
+/** The session whose visit this page has already sent or is holding. */
+let visitSession: string | null = null;
+
 /**
  * Record the start of a session — the dashboard's "visits" — if this session
  * has not been recorded yet. Safe to call on every page and before every event.
  *
  * First-party only. GA4 counts sessions itself and reserves the name
  * `session_start`; sending ours too would only add a duplicate custom event.
- * Fires after the page has hydrated, so the gap between a search engine's
- * clicks and these visits is the people who left before the page loaded
- * (plus script blockers).
+ * Fires after the page has hydrated, and is held until the visitor proves to
+ * be a person (see above), so the gap between a search engine's clicks and
+ * these visits is the people who left before the page loaded or without
+ * touching it (plus script blockers).
  */
 export function recordVisit(landing: string): void {
   if (typeof window === "undefined" || isBot()) return;
   const sessionId = currentSessionId();
+  if (visitSession === sessionId) return;
   try {
     if (localStorage.getItem(VISITED_KEY) === sessionId) return;
-    localStorage.setItem(VISITED_KEY, sessionId);
   } catch {
     // Storage blocked: the session id is per page anyway, so one visit per
     // page load is the honest count.
   }
+  visitSession = sessionId;
 
   let ref = "";
   try {
@@ -305,12 +375,23 @@ export function recordVisit(landing: string): void {
   } catch {
     /* malformed referrer */
   }
-  sendFirstParty("visit", {
+  const props: Record<string, string> = {
     src: sessionSource(sessionId),
     landing: landing.slice(0, 120),
     device: window.matchMedia("(max-width: 767px)").matches ? "mobile" : "desktop",
-    ...(ref ? { ref } : {}),
+  };
+  if (ref) props.ref = ref;
+  // Marked visited only once a person is confirmed. A held visit that is
+  // dropped leaves the session open, so if they touch the next page instead,
+  // that page records it.
+  whenHuman(() => {
+    try {
+      localStorage.setItem(VISITED_KEY, sessionId);
+    } catch {
+      /* see above */
+    }
   });
+  sendFirstParty("visit", props);
 }
 
 /**
@@ -344,6 +425,16 @@ function sendFirstParty(event: string, params: Record<string, string | number | 
       // Only the events that are about a particular receipt carry one.
       receipt_id: typeof params.receipt_id === "string" ? params.receipt_id : undefined,
     });
+    // Built now, sent once a person is confirmed — so a held event keeps the
+    // session it happened in.
+    whenHuman(() => transmit(body));
+  } catch {
+    /* never let a measurement failure surface to the user */
+  }
+}
+
+function transmit(body: string): void {
+  try {
     const blob = new Blob([body], { type: "application/json" });
     if (navigator.sendBeacon?.("/api/events", blob)) return;
 
