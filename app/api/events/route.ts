@@ -55,6 +55,10 @@ export async function POST(req: Request) {
   }
 
   const props = sanitizeProps(body?.props);
+  // Country from Vercel's edge, on visits only — enough to see where traffic
+  // comes from (and spot a datacenter crawler) without stamping every row.
+  const country = req.headers.get("x-vercel-ip-country");
+  if (name === "visit" && props && country && /^[A-Z]{2}$/.test(country)) props.country = country;
   const account = await getAccountStatus();
 
   // Grouping keys, validated to a short safe shape by normalizeId. Unlike the
