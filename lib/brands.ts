@@ -6109,6 +6109,9 @@ const NEW_BRAND_SEEDS: BrandSeed[] = [
   { slug: "coach", name: "Coach", domain: "coach.com", category: "Retail", city: "New York, NY", paper: "minimal", items: [{ name: "Leather Tote Bag", quantity: 1, price: 395.0 }] },
   { slug: "michael-kors", name: "Michael Kors", domain: "michaelkors.com", category: "Retail", city: "New York, NY" },
   { slug: "kate-spade", name: "Kate Spade", domain: "katespade.com", category: "Retail", city: "New York, NY" },
+  // Added 2026-10-28: asked for by name in the AI generator's saved prompts
+  // ("Ralph Lauren Flagship", "Ralph Lauren store in Chicago") with no template.
+  { slug: "ralph-lauren", name: "Ralph Lauren", domain: "ralphlauren.com", category: "Retail", city: "Chicago, IL", paper: "minimal" },
   { slug: "burberry", name: "Burberry", domain: "burberry.com", category: "Retail", city: "London, UK", paper: "minimal", items: [{ name: "Cashmere Scarf", quantity: 1, price: 470.0 }] },
   { slug: "prada", name: "Prada", domain: "prada.com", category: "Retail", city: "Milan, Italy", paper: "minimal", items: [{ name: "Leather Wallet", quantity: 1, price: 590.0 }] },
   { slug: "chanel", name: "Chanel", domain: "chanel.com", category: "Retail", city: "Paris, France", paper: "minimal", items: [{ name: "Chanel No. 5 EDP 100ml", quantity: 1, price: 168.0 }] },

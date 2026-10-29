@@ -130,7 +130,8 @@ export const BRANDS_UPDATED = "2026-08-31";
 // longer says "Use This Template — Free" on templates that need Pro.
 // 2026-10-24: the "Pro" badges are gone from the explorer, and the intro, meta
 // description and watermark FAQ (page + FAQPage JSON-LD) state the new paywall.
-export const BRANDS_INDEX_UPDATED = "2026-10-24";
+// 2026-10-28: Ralph Lauren joins the list.
+export const BRANDS_INDEX_UPDATED = "2026-10-28";
 
 /**
  * The 36 brands whose visible copy changed with the article fix on 2026-09-01.
@@ -333,6 +334,7 @@ const BRANDS_ADDED: Readonly<Record<string, string>> = {
   goat: "2026-10-05",
   "cash-app": "2026-10-19",
   zelle: "2026-10-19",
+  "ralph-lauren": "2026-10-28",
 };
 
 /**

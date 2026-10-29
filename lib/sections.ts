@@ -882,6 +882,7 @@ export function docFromReceiptData(data: ReceiptData): ReceiptDoc {
       totalsDivider: d(true),
       showItemsSold: data.showItemsSold ?? (profile === "grocery" || profile === "warehouse"),
       ...(data.skuFirst && { skuFirst: true }),
+      ...(data.itemColumns && { columns: data.itemColumns }),
       ...(data.taxLines?.length && { taxLines: data.taxLines }),
       ...(data.hideSubtotal && { hideSubtotal: true }),
       ...(data.taxIncluded && { taxIncluded: true }),

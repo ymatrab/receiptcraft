@@ -3682,6 +3682,145 @@ export const BRAND_SPECS: Record<string, BrandSpec & { mode?: "merge" }> = {
     paperFinish: "email",
     showTaxRate: false,
   },
+  // ralph-lauren — was close. Sources:
+  //   Photo of a real Ralph Lauren London New Bond Street flagship receipt, 28/05/2025, supplied by the site owner
+  "ralph-lauren": {
+    logoText: "RALPH LAUREN",
+    businessName: "RL FLAG LONDON SAMPLE STREET",
+    addressLine1: "1 Sample Street",
+    addressLine2: "W1S 0AA London - UK\nGB 000 0000 00\nUnited Kingdom",
+    phone: "4402000000000",
+    currency: "GBP",
+    dateOrder: "dmy",
+    fontFamily: "mono",
+    paperStyle: "thermal",
+    headerAlign: "center",
+    ruleStyle: "solid",
+    hideStoreLine: true,
+    sections: [
+      {
+        rows: [
+          {
+            label: "Store:",
+            value: "900",
+          },
+          {
+            label: "Register:",
+            value: "2",
+          },
+          {
+            label: "Ticket:",
+            value: "40518",
+          },
+          {
+            label: "Salesperson:",
+            value: "700123 (Alex)",
+          },
+          {
+            label: "Cashier:",
+            value: "700123",
+          },
+          {
+            label: "ID:",
+            value: "1000000001",
+          },
+          {
+            label: "Customer:",
+            value: "Sample Customer",
+          },
+        ],
+      },
+    ],
+    itemStyle: "table",
+    items: [
+      {
+        name: "COTTON S",
+        quantity: 1,
+        price: 189.0,
+        taxFlag: "20%",
+        addons: [
+          {
+            name: "3616850000017",
+            price: 0,
+          },
+        ],
+      },
+      {
+        name: "WW CTSWTR",
+        quantity: 1,
+        price: 189.0,
+        taxFlag: "20%",
+        addons: [
+          {
+            name: "3616850000024",
+            price: 0,
+          },
+        ],
+      },
+      {
+        name: "M-SPORT",
+        quantity: 1,
+        price: 95.0,
+        taxFlag: "20%",
+        addons: [
+          {
+            name: "3616850000031",
+            price: 0,
+          },
+        ],
+      },
+      {
+        name: "M-SPORT",
+        quantity: 1,
+        price: 55.0,
+        taxFlag: "20%",
+        addons: [
+          {
+            name: "3616850000048",
+            price: 0,
+          },
+        ],
+      },
+    ],
+    taxIncluded: true,
+    taxLabel: "Tax Amt.",
+    taxRate: 20,
+    showTaxRate: true,
+    hideSubtotal: true,
+    grandTotalLabel: "Total",
+    paymentMethod: "Credit Card",
+    cardLastFour: "4417",
+    showCardAuth: false,
+    cardRows: [
+      {
+        value: "CARDHOLDER COPY",
+      },
+      {
+        label: "Date",
+        value: "{{date}}",
+      },
+      {
+        label: "Time",
+        value: "{{time}}",
+      },
+      {
+        label: "Card",
+        value: "****4417",
+      },
+      {
+        label: "Card type",
+        value: "visastandardcredit",
+      },
+    ],
+    showBarcode: false,
+    itemColumns: {
+      item: "Item",
+      qty: "Qty",
+      price: "Price",
+      total: "Amount",
+    },
+    footerMessage: "",
+  },
   // uber — was wrong-format. Sources:
   //   https://static.nhtsa.gov/odi/inv/2023/INRD-PE23022-14940P1.pdf
   //   https://www.camara.leg.br/cota-parlamentar/documentos/publ/3211/2024/7773378.pdf
