@@ -6,7 +6,8 @@ import { supabaseConfigured } from "@/lib/supabase/config";
 import { useAccount } from "@/lib/useAccount";
 import { useConsent } from "@/lib/consent";
 import { SITE } from "@/lib/site";
-import { EMAIL_RE, MAX_MESSAGE, isSeen, type ChatMessage, type ChatThread } from "@/lib/chat";
+import { EMAIL_RE, MAX_MESSAGE, deliveryOf, type ChatMessage, type ChatThread } from "@/lib/chat";
+import Ticks from "./Ticks";
 
 /** Poll while the panel is open, so replies and "Seen" show up within seconds. */
 const OPEN_POLL_MS = 4_000;
@@ -46,8 +47,8 @@ const ERRORS: Record<string, string> = {
  * Floating support chat for every visitor, signed in or not. All reads and
  * writes go through /api/chat, which works out whose thread it is (account or
  * guest cookie). Opens with a greeting that asks a guest for their email and
- * what they need. Shows Sent/Seen on the visitor's last message and whether
- * support is online, and doubles as the visitor's presence heartbeat for
+ * what they need. Shows ✓✓ / blue ✓✓ Seen on the visitor's messages, and
+ * doubles as the visitor's presence heartbeat for
  * /admin/chat. Hidden entirely on admin pages and when the backend isn't
  * configured.
  */
@@ -158,7 +159,6 @@ export default function ChatWidget() {
         messages: [...(prev?.messages ?? []).filter((m) => m.id !== sent.id), sent],
         adminLastReadAt: prev?.adminLastReadAt ?? null,
         visitorLastReadAt: prev?.visitorLastReadAt ?? null,
-        supportOnline: prev?.supportOnline ?? false,
       }));
     } catch {
       setError(`Couldn't send that. Try again, or email us at ${SITE.email}.`);
@@ -189,9 +189,7 @@ export default function ChatWidget() {
         (!thread?.visitorLastReadAt ||
           new Date(m.created_at) > new Date(thread.visitorLastReadAt))
     );
-  const lastMine = [...messages].reverse().find((m) => m.sender_role === "user");
   const unavailable = thread?.available === false && !thread.conversationId;
-  const online = thread?.supportOnline ?? false;
 
   const greeting = account.isLoggedIn
     ? "Hi there 👋 How can we help you today?"
@@ -217,11 +215,10 @@ export default function ChatWidget() {
           <div className="border-b border-slate-100 bg-slate-50 px-4 py-3">
             <p className="text-sm font-semibold text-slate-900">Support</p>
             <p className="flex items-center gap-1.5 text-xs text-slate-600">
-              <span
-                aria-hidden
-                className={`h-2 w-2 rounded-full ${online ? "bg-emerald-500" : "bg-slate-300"}`}
-              />
-              {online ? "Online now" : "We usually reply within a day."}
+              {/* Support always reads as available to visitors; whether the
+                  owner is at the desk is the owner's business, not theirs. */}
+              <span aria-hidden className="h-2 w-2 rounded-full bg-emerald-500" />
+              Online · we&apos;ll reply here
             </p>
           </div>
 
@@ -252,10 +249,9 @@ export default function ChatWidget() {
                     >
                       {m.body}
                     </div>
-                    {m.id === lastMine?.id && (
-                      <p className="mt-0.5 pr-1 text-right text-[11px] text-slate-500">
-                        {isSeen(m, thread?.adminLastReadAt) ? "✓✓ Seen" : "✓ Sent"}
-                      </p>
+                    {/* Support is always there, so a visitor's message is at least ✓✓. */}
+                    {m.sender_role === "user" && (
+                      <Ticks state={deliveryOf(m, thread?.adminLastReadAt)} />
                     )}
                   </div>
                 ))}

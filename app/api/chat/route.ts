@@ -8,7 +8,7 @@ import { supabaseConfigured } from "@/lib/supabase/config";
 import { notify } from "@/lib/telegram";
 import { absoluteUrl } from "@/lib/site";
 import { BOT_UA } from "@/lib/analytics-events";
-import { EMAIL_RE, MAX_MESSAGE, ONLINE_WINDOW_MS, type ChatMessage, type ChatThread } from "@/lib/chat";
+import { EMAIL_RE, MAX_MESSAGE, type ChatMessage, type ChatThread } from "@/lib/chat";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -35,8 +35,8 @@ export const dynamic = "force-dynamic";
  *
  * The heartbeat is what "seen" and "on the website" are made of: each GET
  * stamps visitor_last_seen_at and the page, and with read=1 (panel open)
- * visitor_last_read_at. Admin pages stamp the other side (AdminPresence,
- * AdminChatThread). Before migration 0009 those updates fail and are ignored;
+ * visitor_last_read_at. The admin thread stamps admin_last_read_at
+ * (AdminChatThread). Before migration 0009 those updates fail and are ignored;
  * signed-in chat keeps working and guests are told chat is unavailable.
  */
 
@@ -103,16 +103,6 @@ async function findConversation(
   return { convo, claimed: false };
 }
 
-async function isSupportOnline(db: SupabaseClient): Promise<boolean> {
-  const { data, error } = await db
-    .from("profiles")
-    .select("id")
-    .eq("is_admin", true)
-    .gte("last_seen_at", new Date(Date.now() - ONLINE_WINDOW_MS).toISOString())
-    .limit(1);
-  return !error && (data?.length ?? 0) > 0;
-}
-
 /** Cached once true: the columns don't disappear once added. */
 let guestColumnsExist = false;
 
@@ -140,7 +130,6 @@ export async function GET(req: Request) {
     messages: [],
     adminLastReadAt: null,
     visitorLastReadAt: null,
-    supportOnline: false,
   };
   if (!supabaseConfigured) return respond(empty);
 
@@ -152,17 +141,13 @@ export async function GET(req: Request) {
   const token = (await cookies()).get(COOKIE)?.value;
   const db = createAdminClient();
 
-  const [{ convo, claimed }, supportOnline] = await Promise.all([
-    findConversation(db, user?.id ?? null, token),
-    isSupportOnline(db),
-  ]);
+  const { convo, claimed } = await findConversation(db, user?.id ?? null, token);
 
   if (!convo) {
     return respond({
       ...empty,
       available: user ? true : await guestChatAvailable(db),
       email: user?.email ?? null,
-      supportOnline,
     } satisfies ChatThread);
   }
 
@@ -189,7 +174,6 @@ export async function GET(req: Request) {
       messages: ((rows as ChatMessage[] | null) ?? []).reverse(),
       adminLastReadAt: convo.admin_last_read_at ?? null,
       visitorLastReadAt: reading ? now : convo.visitor_last_read_at ?? null,
-      supportOnline,
     } satisfies ChatThread,
     { clearCookie: claimed }
   );

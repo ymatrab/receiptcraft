@@ -19,14 +19,11 @@ export interface ChatThread {
   adminLastReadAt: string | null;
   /** The last time the visitor had the panel open. Support replies after it are unread. */
   visitorLastReadAt: string | null;
-  /** Someone has /admin open right now. */
-  supportOnline: boolean;
 }
 
 /**
  * How long a heartbeat counts as "here". The widget beats every 20s while the
- * tab is visible and admin pages every 30s, so a single missed beat doesn't
- * flip anyone to away.
+ * tab is visible, so a single missed beat doesn't flip anyone to away.
  */
 export const ONLINE_WINDOW_MS = 75_000;
 
@@ -35,10 +32,28 @@ export function isOnline(lastSeenAt: string | null | undefined, now = Date.now()
   return now - new Date(lastSeenAt).getTime() < ONLINE_WINDOW_MS;
 }
 
-/** True when `readAt` is at or after the message was sent. */
-export function isSeen(message: ChatMessage, readAt: string | null | undefined): boolean {
-  if (!readAt) return false;
-  return new Date(readAt).getTime() >= new Date(message.created_at).getTime();
+/** True when `at` is at or after the message was sent. */
+function atOrAfter(message: ChatMessage, at: string | null | undefined): boolean {
+  if (!at) return false;
+  return new Date(at).getTime() >= new Date(message.created_at).getTime();
+}
+
+export type Delivery = "sent" | "delivered" | "seen";
+
+/**
+ * Where a message stands with the person it was sent to: seen once they had
+ * the chat open after it arrived, delivered once they were on the site after
+ * it arrived, otherwise just sent. Pass no `recipientSeenAt` for a recipient
+ * who is always there (support, from the visitor's side).
+ */
+export function deliveryOf(
+  message: ChatMessage,
+  recipientReadAt: string | null | undefined,
+  recipientSeenAt?: string | null
+): Delivery {
+  if (atOrAfter(message, recipientReadAt)) return "seen";
+  if (recipientSeenAt === undefined || atOrAfter(message, recipientSeenAt)) return "delivered";
+  return "sent";
 }
 
 /** "just now", "5 min ago", "3 h ago", or a date. */

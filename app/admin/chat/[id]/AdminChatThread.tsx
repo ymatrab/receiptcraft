@@ -2,7 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { isOnline, isSeen, timeAgo, type ChatMessage } from "@/lib/chat";
+import { deliveryOf, isOnline, timeAgo, type ChatMessage } from "@/lib/chat";
+import Ticks from "@/components/chat/Ticks";
 
 export interface VisitorState {
   lastSeenAt: string | null;
@@ -22,8 +23,8 @@ const POLL_MS = 5_000;
 
 /**
  * Admin-side conversation view: realtime messages, reply box, whether the
- * visitor is on the site right now (and which page), and Seen on the last
- * reply. While this tab is visible it stamps admin_last_read_at, which is
+ * visitor is on the site right now (and which page), and ✓ / ✓✓ / blue ✓✓
+ * on every reply. While this tab is visible it stamps admin_last_read_at, which is
  * what the visitor's widget turns into "Seen".
  */
 export default function AdminChatThread({
@@ -126,7 +127,6 @@ export default function AdminChatThread({
   }
 
   const online = isOnline(visitor.lastSeenAt, now);
-  const lastReply = [...messages].reverse().find((m) => m.sender_role === "admin");
 
   return (
     <div className="mt-6 flex h-[32rem] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white">
@@ -161,10 +161,8 @@ export default function AdminChatThread({
             >
               {m.body}
             </div>
-            {m.id === lastReply?.id && (
-              <p className="mt-0.5 pr-1 text-right text-[11px] text-slate-500">
-                {isSeen(m, visitor.lastReadAt) ? "✓✓ Seen" : "✓ Sent"}
-              </p>
+            {m.sender_role === "admin" && (
+              <Ticks state={deliveryOf(m, visitor.lastReadAt, visitor.lastSeenAt ?? null)} />
             )}
           </div>
         ))}
