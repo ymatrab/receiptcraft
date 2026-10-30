@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { requireAdmin } from "@/lib/admin";
+import AdminPresence from "./AdminPresence";
 
 export const metadata: Metadata = {
   title: "Admin",
@@ -23,10 +24,11 @@ const NAV = [
 ];
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
-  await requireAdmin();
+  const admin = await requireAdmin();
 
   return (
     <div className="mx-auto flex max-w-7xl flex-col gap-8 px-4 py-10 sm:px-6 lg:flex-row lg:px-8">
+      <AdminPresence userId={admin.userId} />
       <aside className="lg:w-52 lg:shrink-0">
         <h2 className="px-3 text-xs font-semibold uppercase tracking-wide text-slate-500">
           Admin
