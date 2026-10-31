@@ -35,17 +35,25 @@ function weekChange(all: Point[], partialFrom?: string): number | null {
  * One metric per day as bars, with its 30-day total and the week-on-week move.
  * `partialFrom` greys out trailing days whose data is known to be incomplete
  * (Search Console lags two to three days).
+ *
+ * `base` splits each bar: that part of the day's value is drawn at the bottom
+ * in its own colour, the rest stacked above it in `color`. `label` names the
+ * part above. The headline numbers stay those of `points`, the whole.
  */
 export function DailyBars({
   title,
   points,
   color = "#4f46e5",
+  label,
+  base,
   hint,
   partialFrom,
 }: {
   title: string;
   points: Point[];
   color?: string;
+  label?: string;
+  base?: { label: string; color: string; points: Point[] };
   hint?: string;
   partialFrom?: string;
 }) {
@@ -54,6 +62,7 @@ export function DailyBars({
   const max = Math.max(1, ...points.map((p) => p.value));
   const bw = W / Math.max(1, points.length);
   const change = weekChange(points, partialFrom);
+  const baseByDate = new Map(base?.points.map((p) => [p.date, p.value]));
 
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
@@ -78,12 +87,29 @@ export function DailyBars({
         {points.map((p, i) => {
           const h = (p.value / max) * (H - 4);
           const partial = partialFrom !== undefined && p.date >= partialFrom;
+          const x = i * bw + bw * 0.15;
+          const w = bw * 0.7;
+          if (base) {
+            const low = Math.min(baseByDate.get(p.date) ?? 0, p.value);
+            const lowH = (low / max) * (H - 4);
+            return (
+              <g key={p.date}>
+                <title>{`${shortDate(p.date)}: ${fmt(p.value - low)} ${label ?? ""}, ${fmt(low)} ${base.label}`}</title>
+                {low > 0 && (
+                  <rect x={x} y={H - lowH} width={w} height={Math.max(lowH, 1)} rx="1" fill={base.color} />
+                )}
+                {p.value > low && (
+                  <rect x={x} y={H - h} width={w} height={Math.max(h - lowH, 1)} rx="1" fill={color} />
+                )}
+              </g>
+            );
+          }
           return (
             <rect
               key={p.date}
-              x={i * bw + bw * 0.15}
+              x={x}
               y={H - h}
-              width={bw * 0.7}
+              width={w}
               height={Math.max(h, p.value > 0 ? 1 : 0)}
               rx="1"
               fill={partial ? "#cbd5e1" : color}
@@ -100,6 +126,18 @@ export function DailyBars({
         </span>
         <span>{points.at(-1) && shortDate(points.at(-1)!.date)}</span>
       </div>
+      {base && (
+        <div className="mt-2 flex gap-4 text-xs text-slate-600">
+          <span className="flex items-center gap-1.5">
+            <span aria-hidden className="h-2.5 w-2.5 rounded-sm" style={{ background: color }} />
+            {label} {fmt(sum(points) - sum(base.points))}
+          </span>
+          <span className="flex items-center gap-1.5">
+            <span aria-hidden className="h-2.5 w-2.5 rounded-sm" style={{ background: base.color }} />
+            {base.label} {fmt(sum(base.points))}
+          </span>
+        </div>
+      )}
       {hint && <p className="mt-2 text-xs text-slate-500">{hint}</p>}
     </div>
   );

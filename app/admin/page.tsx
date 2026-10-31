@@ -387,7 +387,14 @@ export default async function AdminOverview() {
           points={traffic.visits}
           hint="Browser sessions that loaded a page. Bots excluded."
         />
-        <DailyBars title="Sign-ups" points={traffic.signups} color="#059669" hint="New accounts, counted from the database." />
+        <DailyBars
+          title="Sign-ups"
+          points={traffic.signups}
+          color="#059669"
+          label="Free"
+          base={{ label: "Paid", color: "#eab308", points: traffic.signupsPaid }}
+          hint="New accounts, counted from the database. Paid: the account has bought a pass since (admin grants don't count)."
+        />
         <DailyBars
           title={`Search clicks${connected ? ` · ${connected}` : ""}`}
           points={searchClicks}
