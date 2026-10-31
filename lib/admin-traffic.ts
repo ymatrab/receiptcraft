@@ -78,18 +78,39 @@ async function pagedEvents(sinceIso: string): Promise<{ rows: EventRow[]; trunca
   return { rows, truncated: rows.length >= ROW_CAP };
 }
 
-async function pagedSignups(sinceIso: string): Promise<string[]> {
+async function pagedSignups(sinceIso: string): Promise<{ id: string; created_at: string }[]> {
   const admin = createAdminClient();
-  const out: string[] = [];
+  const out: { id: string; created_at: string }[] = [];
   for (let from = 0; from < ROW_CAP; from += PAGE) {
     const { data, error } = await admin
       .from("profiles")
-      .select("created_at")
+      .select("id, created_at")
       .gte("created_at", sinceIso)
       .order("created_at", { ascending: true })
       .range(from, from + PAGE - 1);
     if (error || !data) break;
-    out.push(...data.map((r) => r.created_at as string));
+    out.push(...(data as { id: string; created_at: string }[]));
+    if (data.length < PAGE) break;
+  }
+  return out;
+}
+
+/**
+ * Accounts that have bought something. A Stripe purchase is keyed by its
+ * session or subscription id; a Pro grant from /admin/members is keyed
+ * `manual_<user>`, and a grant is not a sale.
+ */
+async function paidUserIds(): Promise<Set<string>> {
+  const admin = createAdminClient();
+  const out = new Set<string>();
+  for (let from = 0; from < ROW_CAP; from += PAGE) {
+    const { data, error } = await admin
+      .from("subscriptions")
+      .select("user_id")
+      .not("id", "like", "manual%")
+      .range(from, from + PAGE - 1);
+    if (error || !data) break;
+    for (const r of data) out.add(r.user_id as string);
     if (data.length < PAGE) break;
   }
   return out;
@@ -106,11 +127,15 @@ const emptySteps = (): Record<StepKey, number> =>
 export async function getTraffic(days: number) {
   const keys = dayKeys(days);
   const sinceIso = new Date(Date.parse(keys[0])).toISOString();
-  const [{ rows, truncated }, signups] = await Promise.all([pagedEvents(sinceIso), pagedSignups(sinceIso)]);
+  const [{ rows, truncated }, signups, paid] = await Promise.all([
+    pagedEvents(sinceIso),
+    pagedSignups(sinceIso),
+    paidUserIds(),
+  ]);
 
   // ---- daily series ----
   const series: Record<string, Map<string, number>> = {};
-  for (const name of [...DAILY_EVENTS, "signups"]) series[name] = new Map(keys.map((k) => [k, 0]));
+  for (const name of [...DAILY_EVENTS, "signups", "signups_paid"]) series[name] = new Map(keys.map((k) => [k, 0]));
   // Visits per day from each search engine, so the search funnel can compare
   // an engine's clicks with its visits over exactly the same days.
   const engineVisits: Record<string, Map<string, number>> = {
@@ -126,11 +151,15 @@ export async function getTraffic(days: number) {
     if (e?.has(day)) e.set(day, e.get(day)! + 1);
   }
   // Sign-ups from profiles, not the sign_up event: an account row is exact,
-  // and it has history from before any event was tracked.
-  for (const at of signups) {
-    const day = isoDay(Date.parse(at));
-    const m = series.signups;
-    if (m.has(day)) m.set(day, m.get(day)! + 1);
+  // and it has history from before any event was tracked. Each account is
+  // counted once, on the day it was made; signups_paid is the part of that
+  // day's count that has bought something since (guest buyers' accounts are
+  // made at checkout, so for them it is the same day).
+  for (const p of signups) {
+    const day = isoDay(Date.parse(p.created_at));
+    for (const m of paid.has(p.id) ? [series.signups, series.signups_paid] : [series.signups]) {
+      if (m.has(day)) m.set(day, m.get(day)! + 1);
+    }
   }
   const daily = (name: string) => keys.map((date) => ({ date, value: series[name].get(date) ?? 0 }));
 
@@ -169,6 +198,7 @@ export async function getTraffic(days: number) {
     days: keys,
     visits: daily("visit"),
     signups: daily("signups"),
+    signupsPaid: daily("signups_paid"),
     started: daily("edit_started"),
     downloads: daily("receipt_downloaded"),
     checkouts: daily("begin_checkout"),
