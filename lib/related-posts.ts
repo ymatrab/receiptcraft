@@ -113,10 +113,21 @@ const POSTS_BY_HUB: Record<string, RelatedPost[]> = {
   "/templates/rent-receipt": [
     { slug: "security-deposit-receipt", title: "What Must a Security Deposit Receipt Include?" },
   ],
+  // 2026-11-03: the invoice hub lists the invoice how-tos instead of three
+  // receipt-keeping posts that were here before any invoice post existed.
+  // Listed last-first: the page shows the last four, newest-listed first.
   "/templates/invoice": [
-    { slug: "switch-to-digital-receipts", title: "How to Switch Your Business to Digital Receipts" },
-    { slug: "home-office-deduction-receipts", title: "Receipts for the Home Office Deduction" },
-    { slug: "small-business-deductions-receipts", title: "Which Small-Business Deductions Need Receipts?" },
+    { slug: "invoice-payment-terms", title: "Invoice Payment Terms: Net 30, 2/10 Net 30 and Late Fees" },
+    { slug: "invoice-number", title: "Invoice Number: What It Is and How to Number Invoices" },
+    { slug: "how-to-send-an-invoice", title: "How to Send an Invoice by Email" },
+    { slug: "how-to-make-an-invoice", title: "How to Make an Invoice: Fields, Steps and a Worked Example" },
+  ],
+  "/templates/estimate": [
+    { slug: "estimate-vs-invoice", title: "Estimate vs. Invoice: The Difference and When to Send Each" },
+  ],
+  // The slug spells "pro-forma", so the template match below never finds it.
+  "/templates/proforma-invoice": [
+    { slug: "pro-forma-invoice-vs-receipt", title: "What Is a Pro Forma Invoice (and Is It a Receipt)?" },
   ],
   "/compare/makereceipt": [{ slug: "makereceipt-alternative", title: "MakeReceipt Alternative" }],
   "/compare/receiptfaker": [{ slug: "receiptfaker-alternative", title: "ReceiptFaker Alternative" }],
@@ -246,6 +257,20 @@ export interface HubLink {
  */
 const NO_HUB: ReadonlySet<string> = new Set(["cash-back-receipt-meaning"]);
 
+/**
+ * Posts whose owner the slug cannot name. Here rather than in the curated map
+ * because these are scheduled (Nov 8–16): the map also links hub → post, and
+ * that link would 404 until the post goes live, while this one only renders on
+ * the post itself. 2026-11-03, for the invoice cluster: a purchase order is
+ * answered by an invoice, a quote is an estimate, a credit memo a credit note.
+ */
+const HUB_FOR_POST: Readonly<Record<string, string>> = {
+  "how-to-write-a-purchase-order": "invoice",
+  "purchase-order-number": "invoice",
+  "how-to-write-a-quote": "estimate",
+  "credit-memo": "credit-note",
+};
+
 const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 /** Index of the first hyphen-delimited occurrence of `term` in `slug`, or -1. */
@@ -290,6 +315,12 @@ const templateLabel = (name: string) => `${name.toLowerCase()} template`;
  */
 export function hubForPost(slug: string): HubLink | null {
   if (NO_HUB.has(slug)) return null;
+
+  const fixed = HUB_FOR_POST[slug];
+  if (fixed) {
+    const t = TEMPLATES.find((x) => x.slug === fixed);
+    if (t) return { href: `/templates/${t.slug}`, label: templateLabel(t.name) };
+  }
 
   for (const [hub, posts] of Object.entries(POSTS_BY_HUB)) {
     if (!posts.some((p) => p.slug === slug)) continue;
