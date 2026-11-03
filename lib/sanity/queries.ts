@@ -89,6 +89,23 @@ export async function getPost(slug: string): Promise<BlogPost | null> {
   }
 }
 
+const LIVE_QUERY = groq`defined(*[${PUBLISHED} && slug.current == $slug][0]._id)`;
+
+/**
+ * Whether a post is live right now, read past the CDN. The publish webhook asks
+ * this seconds after Sanity's write, before the CDN has caught up, and a stale
+ * "no" would keep a fresh post from being submitted to IndexNow until the cron.
+ * Scheduled posts answer false until their publishedAt passes.
+ */
+export async function isPostLive(slug: string): Promise<boolean> {
+  if (!sanityConfigured || CONSOLIDATED_POSTS.has(slug)) return false;
+  try {
+    return await sanityClient.withConfig({ useCdn: false }).fetch(LIVE_QUERY, { slug });
+  } catch {
+    return false;
+  }
+}
+
 /* -------------------------------------------------------------------------- */
 /*  Authors                                                                   */
 /* -------------------------------------------------------------------------- */

@@ -1,5 +1,8 @@
 import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
+import { submitToIndexNow } from "@/lib/indexnow";
+import { isPostLive } from "@/lib/sanity/queries";
+import { SITE } from "@/lib/site";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -14,6 +17,9 @@ export const dynamic = "force-dynamic";
  * still served a cached notFound() for up to an hour. Real-time revalidation
  * closes that window entirely; the page's short `revalidate` is only the
  * fallback for when this webhook isn't configured.
+ *
+ * It also streams the post's URL to IndexNow when the post is live, so Bing
+ * hears about it at publish time instead of in the next day's cron batch.
  *
  * Setup (Sanity → Manage → API → Webhooks):
  *   URL:     https://www.makecepeit.com/api/revalidate
@@ -53,9 +59,19 @@ async function run(req: Request) {
   revalidatePath("/sitemap.xml");
   revalidatePath("/llms-full.txt");
 
+  // Tell IndexNow about this one post now, rather than leaving it for the daily
+  // cron's bulk request — Bing flags once-a-day bulk submission as "batch mode"
+  // and asks for URLs to be streamed as they change. Only a live post goes out:
+  // a scheduled one is skipped here and picked up by the cron on its date.
+  const indexNow =
+    slug && (await isPostLive(slug))
+      ? await submitToIndexNow([`${SITE.url}/blog/${slug}`])
+      : null;
+
   return NextResponse.json({
     revalidated: true,
     slug: slug ?? null,
+    indexNow,
     now: Date.now(),
   });
 }
