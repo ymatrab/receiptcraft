@@ -13,7 +13,7 @@ import { generateJson, AiProviderError, AI_ATTEMPT_TIMEOUT_MS } from "@/lib/ai-p
 import { FREE_LIMITS, PLANS, formatPlanPrice } from "@/lib/plans";
 import { startOfUsageMonth } from "@/lib/usage";
 import { AI_RECEIPT_SCHEMA, receiptSystemPrompt, type AiReceiptResult } from "@/lib/ai-receipt";
-import { brandPrompt, detectBrand } from "@/lib/ai-brand";
+import { brandPrompt, detectBrand, isBrandName } from "@/lib/ai-brand";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -193,8 +193,15 @@ export async function POST(req: Request) {
   // typed on the Walmart page means Starbucks), else from the template the
   // builder is showing. Either way the receipt comes back with the slug, so the
   // builder lays it onto that template instead of a blank roll.
-  const slug = detectBrand(prompt) ?? (typeof requested === "string" ? requested.slice(0, 64) : "");
-  const brand = slug ? brandPrompt(slug) : null;
+  //
+  // A brand that only comes from the screen is a guess, not an instruction:
+  // "Krispy Kreme" typed on the Shell page came back as a Shell receipt, twice
+  // (saved prompts, 2026-11-02), because the model was told to write "Shell".
+  // So it is told to defer to a business the prompt names, and the result is
+  // checked below.
+  const typed = detectBrand(prompt);
+  const slug = typed ?? (typeof requested === "string" ? requested.slice(0, 64) : "");
+  const brand = slug ? brandPrompt(slug, { fromScreen: !typed }) : null;
   const system = receiptSystemPrompt(new Date(), brand?.text);
   let result: AiReceiptResult | null = null;
   let servedBy: string | null = null;
@@ -300,6 +307,12 @@ export async function POST(req: Request) {
   // should not pay a settings write (or even a read) for nothing.
   if (servedBy && cooling[servedBy]) await clearAiCooldown(servedBy).catch(() => {});
 
+  // The model wrote another business than the on-screen brand, so the prompt
+  // named one we have no template for. Send it back unbranded: laying Krispy
+  // Kreme's items under Shell's logo is worse than a plain roll.
+  const template =
+    brand && (typed || isBrandName(result.businessName || "", brand.template.slug)) ? brand.template.slug : null;
+
   // Record the generation. Every one of them, not just the free-tier ones the
   // limiter cares about: this table is also where "AI generations per user" on
   // the admin dashboard comes from, and while Pro was excluded that figure read
@@ -317,7 +330,7 @@ export async function POST(req: Request) {
       user_id: account.userId,
       pro: account.isPro,
       prompt: prompt.trim().slice(0, 600),
-      template: brand?.template.slug ?? null,
+      template,
       business_name: (result.businessName || "").slice(0, 120) || null,
     });
     if (error) {
@@ -338,5 +351,5 @@ export async function POST(req: Request) {
     });
   }
 
-  return NextResponse.json({ receipt: result, template: brand?.template.slug ?? null });
+  return NextResponse.json({ receipt: result, template });
 }
