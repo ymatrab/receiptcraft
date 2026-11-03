@@ -16,6 +16,7 @@ import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
 import RelatedPosts from "@/components/RelatedPosts";
 import { TEMPLATES } from "@/lib/templates";
 import { templatesForBrand } from "@/lib/topic-clusters";
+import { BRAND_DEPTH } from "@/lib/brand-depth";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -88,6 +89,9 @@ export default async function BrandTemplatePage({ params }: Props) {
   const d = template.defaults;
   const money = (n: number) => formatMoney(n, preview.currency);
   const addr = [d.addressLine1, d.addressLine2].filter(Boolean).join(", ");
+  // Brand-specific receipt anatomy for the ~15 brands with real search demand;
+  // undefined for the rest, which keep only the data-driven section above.
+  const depth = BRAND_DEPTH[template.slug];
 
   const faqJsonLd = {
     "@context": "https://schema.org",
@@ -330,6 +334,39 @@ export default async function BrandTemplatePage({ params }: Props) {
           )}
         </section>
 
+        {depth && (
+          <section className="mt-20" aria-labelledby="real-receipt-heading">
+            <h2 id="real-receipt-heading" className="text-2xl font-bold text-slate-900">
+              How to read a {template.shortName} receipt
+            </h2>
+            <p className="mt-4 max-w-3xl leading-relaxed text-slate-600">{depth.note}</p>
+            <dl className="mt-6 max-w-3xl divide-y divide-slate-100 rounded-2xl border border-slate-200 bg-white">
+              {depth.lines.map((line) => (
+                <div key={line.label} className="grid gap-1 px-6 py-4 sm:grid-cols-[12rem_1fr] sm:gap-6">
+                  <dt className="font-mono text-sm font-semibold text-slate-900">{line.label}</dt>
+                  <dd className="text-sm leading-relaxed text-slate-600">{line.meaning}</dd>
+                </div>
+              ))}
+            </dl>
+            <p className="mt-4 max-w-3xl text-sm text-slate-500">
+              The template follows this layout with invented sample numbers. Replace
+              them with the details of a real transaction.
+            </p>
+            {depth.sources && depth.sources.length > 0 && (
+              <p className="mt-3 max-w-3xl text-xs text-slate-500">
+                Sources:{" "}
+                {depth.sources.map((src, i) => (
+                  <span key={src.url}>
+                    {i > 0 && " · "}
+                    <a href={src.url} rel="nofollow noopener" target="_blank" className="underline underline-offset-2 hover:text-slate-700">
+                      {src.title}
+                    </a>
+                  </span>
+                ))}
+              </p>
+            )}
+          </section>
+        )}
         {/* FAQ */}
         {template.faqs.length > 0 && (
           <section className="mt-20" aria-labelledby="template-faq-heading">
