@@ -67,6 +67,28 @@ const SHORT_NAMES = FULL_NAMES.flatMap((n) => {
 });
 const NAMES = [...FULL_NAMES, ...SHORT_NAMES].sort((a, b) => b.name.length - a.name.length);
 
+/**
+ * How people actually type brands the names above cannot catch, from the saved
+ * prompts (2026-10-27 → 11-03). Tried only after every real name has failed,
+ * so "KFC, paid with Apple Pay" stays KFC: an alias never outranks a brand the
+ * prompt spells out.
+ *
+ * Patterns run against the raw prompt where case or punctuation carries the
+ * meaning ("Apple" is the company, "apple" the fruit; "7-11" is a shop, "7/11"
+ * a date), and against the normalised one otherwise.
+ */
+const ALIASES: { slug: string; raw?: RegExp; normed?: RegExp }[] = [
+  // "Apple receipt airpods pro 3", "Apple proof of purchase" — 5 prompts, 4
+  // accounts, all missed: "apple" is in NOT_ALONE because of the fruit.
+  { slug: "apple-store", raw: /(?<!Big )\bApple\b(?!\s+(?:Pay|Card|Cash|Music|TV|One|Arcade|Care|Bee)\b)/ },
+  { slug: "apple-store", normed: / (?:airpods|iphone|ipad|macbook|imac|apple watch) / },
+  { slug: "7-eleven", raw: /(?<![\d/.:,#-])7(?:-11|[- ]?eleven)(?![\d/.:,-])/i },
+  // COMMON_WORDS wants "Subway" capitalised; "create subway receipt" is not a ticket.
+  { slug: "subway", normed: / subway (?:receipt|sandwich|sub|footlong|order|meal) / },
+  { slug: "little-caesars", normed: / little c(?:ae|ea|e|a)s[ae]rs? / },
+  { slug: "chick-fil-a", normed: / chick fil / },
+];
+
 /** The brand template a prompt names, by whole words, or null. */
 export function detectBrand(prompt: string): string | null {
   const p = norm(prompt);
@@ -75,7 +97,20 @@ export function detectBrand(prompt: string): string | null {
       p.includes(n.name) &&
       (!COMMON_WORDS.has(n.name.trim()) || new RegExp(`\\b${n.display}\\b`).test(prompt))
   );
-  return hit?.slug ?? null;
+  if (hit) return hit.slug;
+  return ALIASES.find((a) => (a.raw ? a.raw.test(prompt) : a.normed!.test(p)))?.slug ?? null;
+}
+
+/**
+ * Whether the business name the model wrote is the brand's own. Used when the
+ * brand came from the template on screen rather than the prompt: someone on the
+ * Shell page who types "Krispy Kreme" gets a Krispy Kreme receipt, and it must
+ * not then be laid onto Shell's logo and layout.
+ */
+export function isBrandName(businessName: string, slug: string): boolean {
+  const template = getTemplate(slug);
+  if (!template) return false;
+  return norm(businessName).includes(norm(template.shortName));
 }
 
 /**
@@ -86,7 +121,10 @@ export function detectBrand(prompt: string): string | null {
  * model told only "Walmart" writes "Milk". The detail labels are the template's
  * own rows, so the values come back keyed to rows that actually render.
  */
-export function brandPrompt(slug: string): { template: ReceiptTemplate; text: string } | null {
+export function brandPrompt(
+  slug: string,
+  { fromScreen = false }: { fromScreen?: boolean } = {}
+): { template: ReceiptTemplate; text: string } | null {
   const template = getTemplate(slug);
   if (!template) return null;
   const d = template.defaults;
@@ -96,7 +134,9 @@ export function brandPrompt(slug: string): { template: ReceiptTemplate; text: st
     .join(", ");
   const labels = (d.sections ?? []).flatMap((s) => s.rows.map((r) => r.label).filter(Boolean));
   const lines = [
-    `This receipt is from ${template.shortName}. Use exactly "${template.shortName}" as the business name.`,
+    fromScreen
+      ? `The user is working on the ${template.shortName} template. If the description names a different business, the receipt is from that business: use its name and ignore every ${template.shortName} instruction below. Otherwise this receipt is from ${template.shortName}; use exactly "${template.shortName}" as the business name.`
+      : `This receipt is from ${template.shortName}. Use exactly "${template.shortName}" as the business name.`,
     d.hideItems
       ? `It is a payment/transaction record, not an itemised receipt: put the single amount as one item.`
       : `Items must be things ${template.shortName} really sells at current prices, written the way its receipts print them — for example ${examples}. Do not reuse these examples; follow their style.`,
