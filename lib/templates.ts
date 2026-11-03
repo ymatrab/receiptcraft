@@ -65,9 +65,76 @@ export const TEMPLATES: ReceiptTemplate[] = [
       "Make an editable grocery store receipt online in seconds. Add items, prices, tax and store details, then download as PDF or PNG. Free, no sign-up needed.",
     heading: "Grocery Store Receipt Generator",
     intro:
-      "Create an editable supermarket or grocery store receipt with itemized products, quantities, sales tax and payment details. Perfect for replacing lost receipts, expense reports, bookkeeping records or design mockups.",
+      "Create an editable supermarket or grocery store receipt with itemized products, weighed produce, coupons, sales tax and payment details. Use it for expense reports, shared-household and office-supply reimbursements, and bookkeeping records.",
+    // 2026-11-03: deepened (Notion "Get the 7 templates closest to page 1 into
+    // the top 10"): field list, weighed-item maths, taxable vs exempt lines.
+    leadAnswer:
+      "A grocery receipt shows the store's name and address, the date, time and lane, then one line per product with its price. Items sold by weight print the weight and the price per pound. Below come any coupons or savings, the subtotal, sales tax, the total, the payment and, on most tills, a count of items sold. Many states tax food at a lower rate or not at all, so the tax is often smaller than the rate times the subtotal.",
+    fields: [
+      {
+        name: "Store, lane and cashier",
+        description:
+          "The store's name, address and phone, then the lane and the cashier. Enter the lane in the Register ID field, for example Lane 4.",
+      },
+      {
+        name: "Product lines",
+        description:
+          "One line per product in short till abbreviations, such as WHL MILK 1GAL. Add a SKU or UPC to an item and turn on the option to print it before the name, as many supermarkets do.",
+      },
+      {
+        name: "Weighed items",
+        description:
+          "Produce and meat sold by weight print the weight and the price per pound. Enter the weight as the quantity, for example 1.5, and the price per pound as the price.",
+      },
+      {
+        name: "Coupons and savings",
+        description:
+          "A coupon or loyalty price prints as a minus line under the item. Use the item discount, and turn on the 'You saved' line to total them after the total.",
+      },
+      {
+        name: "Tax flags",
+        description:
+          "A letter after the price, such as T or F, marks how each line was taxed. Set it in the item's Tax flag field.",
+      },
+      {
+        name: "Subtotal, tax and total",
+        description:
+          "Tax is charged on the taxable lines only. Tick 'Not taxed' on exempt items and the tax is worked out on the rest.",
+      },
+      {
+        name: "Items sold",
+        description:
+          "Most supermarket receipts print the number of items under the total. A weighed line counts as one item, whatever it weighs.",
+      },
+      {
+        name: "Payment",
+        description:
+          "Cash with the change given, or the card type with the last four digits only.",
+      },
+    ],
+    howToSteps: [
+      "Open the Grocery Store template: it loads with a supermarket, five food lines (two of them sold by weight) and one taxable household item.",
+      "Enter the store's name, address and phone, set the date and time, and put the lane in the Register ID field.",
+      "Add each product with its quantity and price. For produce or meat sold by weight, enter the weight as the quantity and the price per pound as the price.",
+      "Tick 'Not taxed' on the lines your state exempts, set the sales tax rate, and add any coupons as item discounts.",
+      `Choose the payment method, then download a PDF or PNG with no account — free with a small watermark, or watermark-free with Pro from ${PRO_FROM}.`,
+    ],
+    guidance: [
+      {
+        heading: "Weighed items: the quantity is the weight",
+        body:
+          "A line sold by weight is weight × price per pound, rounded to the cent. The chicken on this template's sample is 1.5 lb at $5.99 a pound: 1.5 × $5.99 = $8.985, which rounds to $8.99. The bananas are 2 lb at $0.59 a pound, or $1.18.\n\n" +
+          "When you copy a line from a till slip, check it the other way round: the line total divided by the weight should give back the price per pound. If it does not quite, the slip rounded the weight, and the line total is the figure to keep.",
+      },
+      {
+        heading: "Why the tax is smaller than the rate times the subtotal",
+        body:
+          "Most US states exempt groceries from sales tax or tax them at a reduced rate, while household goods, alcohol and prepared food are taxed at the full rate. A supermarket receipt therefore charges tax on some lines only, and marks each line with a tax flag.\n\n" +
+          "This template follows that. The food lines are set to 'Not taxed' and the paper towels are taxed at 6.25%, so the tax is 6.25% of $7.99, or $0.50, not 6.25% of the whole subtotal. If your state taxes food, untick 'Not taxed' and the rate applies to every line. Check the rate your state and city charge before you rely on the total.",
+      },
+    ],
     useCases: [
-      "Replace a lost grocery receipt for your expense report",
+      "Grocery and catering costs on an expense report",
       "Reimbursement documentation for household or office supplies",
       "Bookkeeping and budget tracking records",
       "Props for film, theatre and UI design mockups",
@@ -83,6 +150,16 @@ export const TEMPLATES: ReceiptTemplate[] = [
         answer:
           "Yes. You can add unlimited line items to your receipt, each with its own name, quantity and unit price. Subtotal, tax and total are recalculated automatically as you type.",
       },
+      {
+        question: "How do I show weight and price per pound on a grocery receipt?",
+        answer:
+          "Enter the weight as the quantity (decimals such as 1.5 work) and the price per pound as the price, and name the line with the unit, for example Chicken Breast (lb). The line total is weight × price, rounded to the cent.",
+      },
+      {
+        question: "Why do some lines on a grocery receipt have no tax?",
+        answer:
+          "Most states exempt food from sales tax or tax it at a lower rate, while non-food items are taxed in full. Tick 'Not taxed' on the exempt lines and the tax is calculated on the taxable lines only.",
+      },
     ],
     defaults: {
       businessName: "FreshMart Supermarket",
@@ -91,14 +168,16 @@ export const TEMPLATES: ReceiptTemplate[] = [
       phone: "(217) 555-0148",
       taxLabel: "Sales Tax",
       taxRate: 6.25,
+      register: "Lane 4",
       footerMessage: "Thank you for shopping with us!",
       paperStyle: "thermal",
       items: [
-        { id: id(), name: "Whole Milk 1 Gal", quantity: 1, price: 3.49 },
-        { id: id(), name: "Bananas (lb)", quantity: 2, price: 0.59 },
-        { id: id(), name: "Wheat Bread", quantity: 1, price: 2.79 },
-        { id: id(), name: "Eggs Large 12ct", quantity: 1, price: 4.29 },
-        { id: id(), name: "Chicken Breast (lb)", quantity: 1.5, price: 5.99 },
+        { id: id(), name: "Whole Milk 1 Gal", quantity: 1, price: 3.49, notTaxed: true },
+        { id: id(), name: "Bananas (lb)", quantity: 2, price: 0.59, notTaxed: true },
+        { id: id(), name: "Wheat Bread", quantity: 1, price: 2.79, notTaxed: true },
+        { id: id(), name: "Eggs Large 12ct", quantity: 1, price: 4.29, notTaxed: true },
+        { id: id(), name: "Chicken Breast (lb)", quantity: 1.5, price: 5.99, notTaxed: true },
+        { id: id(), name: "Paper Towels 6 Roll", quantity: 1, price: 7.99 },
       ],
     },
   },
@@ -107,10 +186,12 @@ export const TEMPLATES: ReceiptTemplate[] = [
     name: "Restaurant Receipt",
     shortName: "Restaurant",
     icon: "🍽️",
-    seoTitle: "Free Restaurant Receipt Generator — Itemized Bill with Tip",
+    // 2026-11-03: "restaurant receipt template" ranked p44 against p29 for
+    // "restaurant receipt"; the title and H1 now name the template.
+    seoTitle: "Restaurant Receipt Template & Generator — Itemized Bill with Tip",
     seoDescription:
       "Generate an itemized restaurant receipt with food items, tax and tip. Download instantly as PDF or PNG. Free restaurant bill maker, no sign-up needed.",
-    heading: "Restaurant Receipt Generator",
+    heading: "Restaurant Receipt Template & Generator",
     intro:
       "Build an itemized restaurant bill with dishes, drinks, sales tax, tip and payment method. Ideal for business meal expense claims, per-diem documentation and replacing lost dinner receipts.",
     leadAnswer:
@@ -504,18 +585,90 @@ export const TEMPLATES: ReceiptTemplate[] = [
       "Make a retail or department store receipt with items, tax and payment details. Free receipt maker with live preview and PDF/PNG download.",
     heading: "Retail Store Receipt Generator",
     intro:
-      "Create a department store or boutique receipt with SKU-style line items, sales tax and card payment details. Handy for warranty claims, returns documentation and expense records.",
+      "Create a department store or boutique receipt with SKU-style line items, sales tax and card payment details. Handy for a shop's own sales, expense records and point-of-sale mockups.",
+    // 2026-11-03: deepened (Notion "Get the 7 templates closest to page 1 into
+    // the top 10"). The FAQ that said retailers accept a recreated receipt for
+    // a warranty claim is gone: it was untrue as a rule and invited misuse.
+    leadAnswer:
+      "A retail store receipt shows the store's name, address and store number, the date and time, and the register, transaction and cashier. Each item prints with its SKU or UPC and price, with any discount underneath. After the subtotal come sales tax, the total and the payment, then the return policy and, on many receipts, a barcode the store scans to find the sale for a return.",
+    fields: [
+      {
+        name: "Store number and register",
+        description:
+          "Chains print a store number with the register, transaction and cashier, so a return can be traced to the original sale.",
+      },
+      {
+        name: "SKU or UPC",
+        description:
+          "An item code on every line, under the name or before it. Turn on the option to print the SKU or UPC before each item name to put it first.",
+      },
+      {
+        name: "Quantity and unit price",
+        description:
+          "Several of the same item print as a quantity and unit price, for example 2 @ $19.99.",
+      },
+      {
+        name: "Discounts",
+        description:
+          "An item discount prints under the item it reduces; a whole-order coupon comes off before tax.",
+      },
+      {
+        name: "Sales tax",
+        description:
+          "One tax line at the combined state, county and city rate for the store's address.",
+      },
+      {
+        name: "Barcode",
+        description:
+          "Encodes the transaction so the store can find the sale for a return or exchange. Switch it on in the builder.",
+      },
+      {
+        name: "Return policy",
+        description:
+          "The return window in the footer, for example Returns accepted within 30 days with receipt.",
+      },
+      {
+        name: "Payment",
+        description:
+          "Cash with change, or the card type with the last four digits only.",
+      },
+    ],
+    howToSteps: [
+      "Open the Retail Store template: it loads with a store, three items and the 10.25% combined sales tax rate charged in Chicago.",
+      "Enter the store's name, address and phone, the date and time, and the register and cashier.",
+      "Add each item with its SKU, quantity and unit price, and any discounts.",
+      "Set the tax rate for your store's address, turn on the barcode if you want one, and put your return policy in the footer.",
+      `Choose the payment method, then download a PDF or PNG with no account — free with a small watermark, or watermark-free with Pro from ${PRO_FROM}.`,
+    ],
+    guidance: [
+      {
+        heading: "What the numbers on a store receipt are for",
+        body:
+          "A store checks a return against its own sales record. The store, register and transaction numbers, or the barcode, point back to the sale in the store's system, and the date is checked against the return window. That is why a store receipt prints those numbers at all.\n\n" +
+          "If you run a shop, keep them unique and in sequence so any receipt you issue can be matched to its sale later. If you are a customer who has lost a receipt, ask the store to look the sale up by card or loyalty account; that is the route a return desk accepts.",
+      },
+      {
+        heading: "How the tax line is worked out",
+        body:
+          "The tax line is the combined state, county and city rate applied to the taxable subtotal after discounts. This template's sample uses 10.25%, the combined rate in Chicago: $114.43 of goods carries $11.73 of tax. Use the rate for your own store's address, which you can find on your state revenue department's website.",
+      },
+    ],
     useCases: [
-      "Proof of purchase for warranty claims",
-      "Returns and exchange documentation",
+      "Receipts for a shop's own sales",
+      "Itemized records of a purchase",
       "Office supply expense reports",
       "Retail POS system mockups",
     ],
     faqs: [
       {
-        question: "Can I use a recreated receipt for a warranty claim?",
+        question: "Can I use a receipt from this template for a warranty claim?",
         answer:
-          "Many retailers and manufacturers accept a recreated receipt alongside a bank statement showing the original transaction. Recreate the purchase with the exact date, store, item and price, and present both documents together. Always check the specific retailer's policy first.",
+          "A warranty claim needs proof of the original purchase, which the retailer or manufacturer checks against its own records. If you have lost the receipt, ask the store to look up or reprint the sale, or use your card statement and order history. Use this template for your own records and for receipts you issue from your own shop.",
+      },
+      {
+        question: "What is the SKU on a store receipt?",
+        answer:
+          "The store's item code. It prints under or before each item name so the store can identify exactly what was sold. Enter it in the item's SKU field.",
       },
     ],
     defaults: {
@@ -545,17 +698,90 @@ export const TEMPLATES: ReceiptTemplate[] = [
     heading: "Pharmacy Receipt Generator",
     intro:
       "Create a drugstore receipt for over-the-counter medicine, health and personal care items. Useful for HSA/FSA reimbursement records and medical expense tracking.",
+    // 2026-11-03: deepened (Notion "Get the 7 templates closest to page 1 into
+    // the top 10"): prescription vs OTC lines and how each is taxed. The FAQ
+    // that offered a recreated receipt for an HSA claim is gone.
+    leadAnswer:
+      "A pharmacy receipt mixes two kinds of line. Over-the-counter items ring up like any store sale, with a short product name, the pack size and the price. A prescription usually prints as an Rx number with the amount you paid, which is the copay rather than the drug's full price. Prescription lines are normally untaxed, while over-the-counter medicine is taxed in some states and not others.",
+    fields: [
+      {
+        name: "Pharmacy name and address",
+        description:
+          "The store or pharmacy name, address and phone. Chains also print a store number.",
+      },
+      {
+        name: "Register, transaction and cashier",
+        description:
+          "The register, transaction and cashier near the top. Use the Register ID and Cashier fields.",
+      },
+      {
+        name: "Over-the-counter items",
+        description:
+          "Medicine, vitamins and personal-care items with a short name, strength and pack size, for example IBUPROFEN 200MG 100CT.",
+      },
+      {
+        name: "Prescription line",
+        description:
+          "An Rx number and the amount you paid. Enter it as an item named with the Rx number, the copay as the price, and tick 'Not taxed'.",
+      },
+      {
+        name: "Sales tax",
+        description:
+          "Tax on the taxable lines only. Cosmetics and household items are taxed in full; over-the-counter medicine depends on the state.",
+      },
+      {
+        name: "Savings",
+        description:
+          "Sale prices and loyalty savings print under the item they reduce, and many drugstores total them after the total.",
+      },
+      {
+        name: "Payment",
+        description:
+          "Cash, or the card type with the last four digits only. Many drugstores mark which items were HSA or FSA eligible so the card is charged for those lines.",
+      },
+    ],
+    howToSteps: [
+      "Open the Pharmacy template: it loads with a drugstore and three over-the-counter items.",
+      "Enter the pharmacy's name, address and phone, the date and time, and the register and cashier.",
+      "Add each item with its strength and pack size in the name. For a prescription, name the line with its Rx number, enter the copay as the price and tick 'Not taxed'.",
+      "Set the sales tax rate your state charges on over-the-counter items, and tick 'Not taxed' on anything it exempts.",
+      `Choose the payment method, then download a PDF or PNG with no account — free with a small watermark, or watermark-free with Pro from ${PRO_FROM}.`,
+    ],
+    guidance: [
+      {
+        heading: "Prescription and over-the-counter lines are taxed differently",
+        body:
+          "Prescription medicine is exempt from sales tax in almost every US state, so a prescription line normally prints with no tax. Over-the-counter medicine is a state-by-state question: some states exempt it like a prescription, others tax it as ordinary merchandise. Cosmetics, snacks and household items are taxed at the full rate.\n\n" +
+          "That is why a pharmacy receipt can show a tax line far smaller than the rate times the subtotal. Tick 'Not taxed' on the lines your state exempts, and the tax is worked out on the rest.",
+      },
+      {
+        heading: "What an HSA or FSA administrator looks for",
+        body:
+          "Plan administrators generally ask for an itemized receipt that shows the seller, the date, what was bought and the amount. A card statement alone does not say what the money was spent on, which is why an itemized receipt is the usual request. Administrators decide which items qualify, so check your plan's list before you submit a claim.\n\n" +
+          "A receipt built here is a record for your own files. If your plan asks for the pharmacy's own receipt, ask the store: most chains can reprint one or show the purchase in your account history.",
+      },
+    ],
     useCases: [
-      "HSA / FSA reimbursement documentation",
+      "HSA / FSA expense records",
       "Medical expense tax records",
-      "Replace faded pharmacy receipts",
+      "Household health budgeting",
       "Healthcare app design mockups",
     ],
     faqs: [
       {
         question: "Can I use this receipt for HSA or FSA reimbursement?",
         answer:
-          "A recreated receipt can support an HSA/FSA claim when the original is lost, but administrators usually also require proof of payment such as a card statement. Include the pharmacy name, date, item names and amounts, and check your plan administrator's documentation rules.",
+          "Your plan administrator decides what it accepts. Most ask for an itemized receipt from the pharmacy showing the date, each item and the amount paid. Use this template to keep a clear record of what you bought, and if your plan needs the pharmacy's own receipt, ask the store to reprint it.",
+      },
+      {
+        question: "How do I add a prescription to a pharmacy receipt?",
+        answer:
+          "Add a line named with the Rx number, for example RX 4471920, enter the amount you paid as the price, and tick 'Not taxed'. Prescription lines usually show the copay rather than the drug's full price.",
+      },
+      {
+        question: "Is medicine taxed on a pharmacy receipt?",
+        answer:
+          "Prescription medicine is untaxed in almost every US state. Over-the-counter medicine is taxed in some states and exempt in others, and cosmetics and household items are taxed in full, so set the rate and the 'Not taxed' boxes to match your state.",
       },
     ],
     defaults: {
@@ -2992,6 +3218,66 @@ export const TEMPLATES: ReceiptTemplate[] = [
     heading: "Daycare & Childcare Receipt Generator",
     intro:
       "Create a childcare or babysitting receipt showing the provider, dates, hours and rate. Parents use it for childcare tax credits and employer benefits; providers use it to give families a professional record.",
+    // 2026-11-03: deepened (Notion "Get the 7 templates closest to page 1 into
+    // the top 10") around IRS Pub 503's provider identification test. Citing
+    // it replaces the Pub 463 business-expense figure, which never fitted
+    // childcare: it is a credit claim, not a business expense.
+    leadAnswer:
+      "A childcare receipt shows the provider's name, address and taxpayer identification number, who was cared for and the dates of care, the rate and quantity, the amount paid and how it was paid. The provider details matter most at tax time: to claim the US child and dependent care credit, parents must give the IRS the provider's name, address and SSN, ITIN or EIN.",
+    fields: [
+      {
+        name: "Provider name and address",
+        description:
+          "The daycare's or babysitter's name and address, in the business fields.",
+      },
+      {
+        name: "Provider tax ID",
+        description:
+          "An EIN for a daycare business, or an SSN or ITIN for an individual. A tax-exempt provider such as a church or school writes Tax-Exempt instead. Put it in the footer.",
+      },
+      {
+        name: "Child and dates of care",
+        description:
+          "Who was cared for and the days or weeks covered, for example Full-day care, Mon–Fri. Name the line with them.",
+      },
+      {
+        name: "Rate and quantity",
+        description:
+          "Days, weeks or hours as the quantity and the rate as the price, so the line shows how the amount was worked out.",
+      },
+      {
+        name: "Amount paid",
+        description:
+          "The total for the period. The template's tax is 0%, as childcare is generally not subject to sales tax.",
+      },
+      {
+        name: "Date and payment method",
+        description:
+          "When the family paid and how: cash, check, card or a payment app.",
+      },
+    ],
+    howToSteps: [
+      "Open the Childcare template: it loads with a daycare, one line of 5 full days at $55 a day, and no sales tax.",
+      "Enter the provider's name and address, and put the provider's EIN, SSN or ITIN, or Tax-Exempt, in the footer.",
+      "Name the line with the child and the period of care, then enter days, weeks or hours as the quantity and the rate as the price.",
+      "Set the date paid and the payment method.",
+      `Download a PDF or PNG with no account — free with a small watermark, or watermark-free with Pro from ${PRO_FROM}.`,
+    ],
+    guidance: [
+      {
+        heading: "The provider details the IRS asks for",
+        body:
+          "To claim the child and dependent care credit, {cite:irs-pub-503|IRS Publication 503} says you must identify the care provider on your return: their name, address and taxpayer identification number. For an individual that is a Social Security number or ITIN; for a daycare business it is the EIN. A tax-exempt provider such as a church or school needs no number, and Form 2441 takes Tax-Exempt in its place.\n\n" +
+          "If the details are wrong or missing, the credit may not be allowed unless you can show you used due diligence to get them. The same publication names Form W-10 as the way to ask a provider for them. A receipt that carries the provider's name, address and number keeps all three in one place.",
+      },
+      {
+        heading: "Dates of care and the amount",
+        body:
+          "Write the period of care on the receipt, not only the date paid. Dependent-care FSA plans generally reimburse care once it has been provided, so a receipt that names the days answers the first question a claim reviewer asks.\n\n" +
+          "This template's sample charges 5 full days at $55, a total of $275, with no sales tax. Use hours for a babysitter paid by the hour, or weeks for a weekly rate, so the line shows how the total was reached.",
+      },
+    ],
+    sources: ["irs-pub-503"],
     useCases: [
       "Childcare tax credit documentation",
       "Dependent-care FSA reimbursement",
@@ -3002,22 +3288,27 @@ export const TEMPLATES: ReceiptTemplate[] = [
       {
         question: "What should a childcare receipt show for a tax credit?",
         answer:
-          "Childcare receipts for tax credits usually need the provider's name, the dates of care, the amount paid and often the provider's tax ID. Use the business field for the provider, line items for sessions or weeks, and the footer or cashier field for any required identifier.",
+          "The provider's name, address and taxpayer identification number (an EIN, SSN or ITIN), the dates of care and the amount paid. IRS Publication 503 requires the provider's name, address and number to claim the child and dependent care credit. Put the provider in the business fields, each period of care as a line, and the tax ID in the footer.",
+      },
+      {
+        question: "Can a babysitter use this template?",
+        answer:
+          "Yes. Enter the hours as the quantity and the hourly rate as the price, for example 6 hours at $20, and name the line with the child and the date. Add your SSN, ITIN or EIN in the footer if the family needs it for their taxes, or give it to them on Form W-10 instead.",
       },
     ],
     defaults: {
       businessName: "Sunshine Childcare",
-      addressLine1: "Care Provider",
+      addressLine1: "1420 NW Everett Street",
       addressLine2: "Portland, OR 97205",
       phone: "(503) 555-0181",
       taxLabel: "Tax",
       taxRate: 0,
       cashier: "Provider: L. Nguyen",
-      footerMessage: "Thank you for trusting us with your family.",
+      footerMessage: "Provider EIN: 00-0000000. Thank you for trusting us with your family.",
       paymentMethod: "Mobile Payment",
       paperStyle: "modern",
       items: [
-        { id: id(), name: "Full-Day Care (days)", quantity: 5, price: 55.0 },
+        { id: id(), name: "Full-Day Care, Mon–Fri (days)", quantity: 5, price: 55.0 },
       ],
     },
   },
@@ -3228,9 +3519,71 @@ export const TEMPLATES: ReceiptTemplate[] = [
       "Make an editable clothing or apparel store receipt with items, sizes, sales tax and payment details. Download as PDF or PNG. Free, no sign-up needed.",
     heading: "Clothing Store Receipt Generator",
     intro:
-      "Create an editable clothing or fashion retail receipt with apparel items, quantities, discounts and sales tax. Useful for returns documentation, expense reports, bookkeeping or props.",
+      "Create an editable clothing or fashion retail receipt with apparel items, sizes, markdowns and sales tax. Useful for a boutique's own sales, expense reports, bookkeeping or props.",
+    // 2026-11-03: deepened (Notion "Get the 7 templates closest to page 1 into
+    // the top 10"): garment lines, markdowns before tax, clothing-exempt states.
+    leadAnswer:
+      "A clothing store receipt shows the store and its address, the date, the register and the sales associate, then each garment with its size and colour, a style or SKU number, and the price. Markdowns and coupons print as minus lines under the item they reduce, and sales tax is worked out on the price after them. Most end with the payment and the store's return policy.",
+    fields: [
+      {
+        name: "Store, register and associate",
+        description:
+          "The store's name and address, the register, and the sales associate who rang the sale. Use the Cashier field for the associate.",
+      },
+      {
+        name: "Garment lines",
+        description:
+          "Each item with its size and colour in the name, for example Crewneck Sweater — Navy / M. Add a style or SKU number in the item's SKU field.",
+      },
+      {
+        name: "Markdowns and coupons",
+        description:
+          "A sale price or coupon prints as a minus line under the item. Use the item discount for one item, or the order discount, in dollars or percent, for a whole-basket coupon.",
+      },
+      {
+        name: "You saved",
+        description:
+          "Many apparel receipts total the markdowns as 'You saved $x' after the total. Turn on the 'You saved' line to show it.",
+      },
+      {
+        name: "Sales tax",
+        description:
+          "Charged on the price after discounts. A few states exempt clothing, or clothing up to a price limit, from sales tax.",
+      },
+      {
+        name: "Return policy",
+        description:
+          "The return window in the footer, for example Returns accepted within 30 days with receipt.",
+      },
+      {
+        name: "Payment",
+        description:
+          "Cash, store credit or the card type with the last four digits only.",
+      },
+    ],
+    howToSteps: [
+      "Open the Clothing Store template: it loads with a boutique, three garments with sizes and colours, and 9.5% sales tax.",
+      "Enter the store's name, address and phone, the date and time, the register and the sales associate.",
+      "Add each garment with its size and colour in the name and its style number in the SKU field.",
+      "Add markdowns as item discounts and any whole-basket coupon as the order discount, then check the tax rate.",
+      `Set the payment method and the return policy in the footer, then download a PDF or PNG with no account — free with a small watermark, or watermark-free with Pro from ${PRO_FROM}.`,
+    ],
+    guidance: [
+      {
+        heading: "Discounts come off before the tax",
+        body:
+          "Sales tax is charged on what the customer paid for the goods, so a store coupon lowers the tax as well as the price. On this template's sample, $124.97 of clothing at 9.5% carries $11.87 of tax. Take a $20 coupon off first and the tax falls to $9.97, because it is now 9.5% of $104.97.\n\n" +
+          "Manufacturer coupons are treated differently in many states, where tax is still charged on the price before the coupon, so a real receipt's tax line may not drop by as much.",
+      },
+      {
+        heading: "States that do not tax clothing",
+        body:
+          "New Jersey, Pennsylvania and Minnesota exempt most clothing from sales tax, and New York and Massachusetts exempt clothing up to a price limit. Accessories such as jewellery and handbags are usually still taxed.\n\n" +
+          "If the sale happened in one of those states, tick 'Not taxed' on the exempt lines or set the rate to 0%. Everywhere else, use the combined state and local rate for the store's address.",
+      },
+    ],
     useCases: [
-      "Proof of purchase for a return or exchange",
+      "Receipts for a boutique's or resale shop's own sales",
       "Wardrobe and business-attire expense records",
       "Bookkeeping for a boutique or resale shop",
       "Styling and design mockups",
@@ -3238,6 +3591,11 @@ export const TEMPLATES: ReceiptTemplate[] = [
     faqs: [
       { question: "Can I add a discount or coupon?", answer: "Yes — the builder supports a flat or percentage discount that's applied before tax, so you can show a sale price or coupon." },
       { question: "Can I include sizes and colors?", answer: "Yes. Put the size or color right in the item name (e.g. \"T-Shirt — Black / M\") so the receipt reads naturally." },
+      {
+        question: "Is sales tax charged before or after a discount on a clothing receipt?",
+        answer:
+          "After a store discount: the tax is worked out on the discounted price. On the sample, a $20 coupon on $124.97 of clothing lowers the 9.5% tax from $11.87 to $9.97.",
+      },
     ],
     defaults: {
       businessName: "Urban Thread Apparel",

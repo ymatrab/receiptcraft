@@ -680,12 +680,22 @@ const TEMPLATES_HUB_UPDATED = "2026-10-27";
 const hasMoreThanEightBrands = (slug: string) =>
   BRAND_TEMPLATES.filter((b) => hubTemplateForBrand(b.slug, brandCategoryFor(b.slug)) === slug).length > 8;
 
+// 2026-11-03: the templates nearest page 1 gained a field list, a how-to and
+// worked guidance (grocery, pharmacy, clothing, retail, childcare), and
+// restaurant's title and H1 now say "template". Gas station was already
+// deepened on 10-19 and is unchanged, so it keeps its date.
+const TEMPLATES_NOV_DEPTH: ReadonlySet<string> = new Set([
+  "grocery-store", "pharmacy", "clothing-store-receipt", "retail-store", "childcare-receipt", "restaurant",
+]);
+const TEMPLATES_NOV_DEPTH_UPDATED = "2026-11-03";
+
 export function templateReviewedAt(t: ReceiptTemplate): string {
   const latest = templateReviewedAtSamples(t);
   const paywall = TEMPLATES_PAYWALL_FIXED.has(t.slug) && TEMPLATES_PAYWALL_UPDATED > latest ? TEMPLATES_PAYWALL_UPDATED : latest;
   const staffed = (t.defaults.register || t.defaults.cashier) && TEMPLATES_STAFF_LINE_UPDATED > paywall ? TEMPLATES_STAFF_LINE_UPDATED : paywall;
   const hubbed = TEMPLATES_HUB_FIXED.has(t.slug) || hasMoreThanEightBrands(t.slug);
-  return hubbed && TEMPLATES_HUB_UPDATED > staffed ? TEMPLATES_HUB_UPDATED : staffed;
+  const hub = hubbed && TEMPLATES_HUB_UPDATED > staffed ? TEMPLATES_HUB_UPDATED : staffed;
+  return TEMPLATES_NOV_DEPTH.has(t.slug) && TEMPLATES_NOV_DEPTH_UPDATED > hub ? TEMPLATES_NOV_DEPTH_UPDATED : hub;
 }
 
 function templateReviewedAtSamples(t: ReceiptTemplate): string {

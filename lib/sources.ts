@@ -47,6 +47,16 @@ export const SOURCES = S({
     supports:
       "What a receipt must show to substantiate a business expense: amount, date, place and the nature of the expense.",
   },
+  "irs-pub-503": {
+    id: "irs-pub-503",
+    title: "Publication 503: Child and Dependent Care Expenses",
+    publisher: "Internal Revenue Service",
+    url: "https://www.irs.gov/publications/p503",
+    jurisdiction: "US",
+    verifiedAt: "2026-11-03",
+    supports:
+      "The care provider identification test: the provider's name, address and taxpayer identification number (or 'Tax-Exempt'), Form W-10, and due diligence.",
+  },
   "irs-pub-583": {
     id: "irs-pub-583",
     title: "Publication 583: Starting a Business and Keeping Records",
