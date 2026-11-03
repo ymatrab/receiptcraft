@@ -4,26 +4,39 @@ import { TEMPLATES } from "@/lib/templates";
 import NewsletterSignup from "@/components/NewsletterSignup";
 import Wordmark from "./Wordmark";
 
-// Sitewide links to the most-searched brand pages — pushes internal link
-// equity into the /brands cluster, which GSC shows queued as "Discovered –
-// currently not indexed".
+// Sitewide links: every footer slot is a link from all ~1,200 pages, more than
+// any page earns from body links, so the slots go to the pages that earn
+// clicks. 2026-11-03: re-picked by Search Console clicks for Oct 6–31. The old
+// hand-picked list left out PayPal (266 clicks, the site's top page) and Home
+// Depot while Burger King, CVS and Target held slots at 0–2 clicks. Keep in
+// step with POPULAR_BRAND_SLUGS in app/page.tsx; re-pick at each review.
 const POPULAR_BRANDS = [
+  { slug: "paypal", name: "PayPal Receipt" },
   { slug: "walmart", name: "Walmart Receipt" },
-  { slug: "starbucks", name: "Starbucks Receipt" },
-  { slug: "mcdonalds", name: "McDonald's Receipt" },
-  { slug: "uber", name: "Uber Receipt" },
   { slug: "amazon", name: "Amazon Receipt" },
-  { slug: "target", name: "Target Receipt" },
-  { slug: "best-buy", name: "Best Buy Receipt" },
-  { slug: "cvs-pharmacy", name: "CVS Receipt" },
-  { slug: "doordash", name: "DoorDash Receipt" },
-  { slug: "burger-king", name: "Burger King Receipt" },
-  { slug: "chick-fil-a", name: "Chick-fil-A Receipt" },
+  { slug: "home-depot", name: "Home Depot Receipt" },
+  { slug: "grab", name: "Grab Receipt" },
+  { slug: "petsmart", name: "PetSmart Receipt" },
+  { slug: "apple-store", name: "Apple Store Receipt" },
+  { slug: "mcdonalds", name: "McDonald's Receipt" },
   { slug: "sephora", name: "Sephora Receipt" },
+  { slug: "chick-fil-a", name: "Chick-fil-A Receipt" },
+  { slug: "uber", name: "Uber Receipt" },
+  { slug: "doordash", name: "DoorDash Receipt" },
+];
+
+// Same rule for templates. This was TEMPLATES.slice(0, 6), the builder chip
+// order, which gave sitewide links to hotel, taxi and coffee shop instead of
+// airline and pharmacy.
+const POPULAR_TEMPLATE_SLUGS = [
+  "airline-receipt", "gas-station", "clothing-store-receipt", "restaurant", "pharmacy", "retail-store",
 ];
 
 export default function Footer() {
-  const popularTemplates = TEMPLATES.slice(0, 6);
+  const popularTemplates = POPULAR_TEMPLATE_SLUGS.flatMap((slug) => {
+    const t = TEMPLATES.find((x) => x.slug === slug);
+    return t ? [t] : [];
+  });
 
   return (
     <footer className="border-t border-slate-200 bg-slate-50">

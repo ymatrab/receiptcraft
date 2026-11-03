@@ -174,19 +174,22 @@ const STEPS = [
 // these also exist to push internal links at the cluster from the homepage.
 // Resolved against BRAND_LIST rather than hard-coded, so a renamed or removed
 // brand drops out of the row instead of shipping a dead link.
+// 2026-11-03: picked by Search Console clicks for Oct 6–31, the same twelve as
+// the footer (components/layout/Footer.tsx). PayPal, the site's top page, was
+// missing from both.
 const POPULAR_BRAND_SLUGS = [
+  "paypal",
   "walmart",
-  "target",
   "amazon",
-  "starbucks",
-  "mcdonalds",
-  "uber",
-  "costco",
   "home-depot",
-  "best-buy",
-  "cvs-pharmacy",
-  "doordash",
+  "grab",
+  "petsmart",
+  "apple-store",
+  "mcdonalds",
+  "sephora",
   "chick-fil-a",
+  "uber",
+  "doordash",
 ];
 
 const POPULAR_BRANDS = POPULAR_BRAND_SLUGS.flatMap((slug) => {
