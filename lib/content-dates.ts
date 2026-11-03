@@ -500,7 +500,9 @@ export const PRICING_UPDATED = "2026-10-27";
 // say downloading needs no account and Pro removes the watermark.
 // 2026-10-27: the hero receipt now prints its "Register 2 · Cashier: Maya"
 // line — the renderer dropped it, though the anatomy copy beside it names both.
-export const HOME_UPDATED = "2026-10-27";
+// 2026-11-03: title, H1 and meta description move to "receipt templates" and
+// store receipt generators; the hero links /create as "receipt maker".
+export const HOME_UPDATED = "2026-11-03";
 // 2026-08-31: free-tier limits changed — see STATIC_UPDATED above.
 // 2026-10-11: links to the new Google Docs templates page from under the intro.
 // 2026-10-18: lists the new pro forma invoice and credit note templates.

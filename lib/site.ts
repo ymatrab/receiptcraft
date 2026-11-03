@@ -7,7 +7,12 @@ export const SITE = {
   // terms at all, so this does not undo the Aug split. /create keeps the
   // exact-match H1 and gets the "free receipt maker" anchor from the hero; the
   // Nov 2 review decides which of the two becomes the single owner.
-  tagline: "Makecepeit — Free Receipt Maker & Receipt Templates",
+  // 2026-11-03: decided — /create owns "receipt maker" (GSC Oct 19–31: /create
+  // 937 impressions at p41–84 on the maker terms, home 147 at p71–94 on the
+  // same ones). The home moves to "receipt templates" (~12,100/mo, nobody owns
+  // it; /templates sits at p75) plus the store-generator catalogue, and passes
+  // "receipt maker" to /create as anchor text from the hero.
+  tagline: "Makecepeit — Receipt Templates & 350+ Store Receipt Generators",
   // The default meta description lives in lib/counts.ts as SITE_DESCRIPTION,
   // because it quotes the real brand count and this module is imported by client
   // components — importing the catalogue here would ship it to the browser.

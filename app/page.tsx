@@ -447,22 +447,23 @@ export default function HomePage() {
               download
             </p>
             <h1 className="mt-5 text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
-              Make a receipt in{" "}
+              Receipt templates &amp;{" "}
               <span className="bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">
-                60 seconds
+                store receipt generators
               </span>
             </h1>
             <p className="mt-5 max-w-xl text-lg leading-relaxed text-slate-600">
-              Pick a receipt template for your business, customize items, tax
-              and payment details with a live preview, then download as a PDF
-              or PNG. Open the{" "}
+              Pick one of {TEMPLATE_COUNT} receipt templates for your business
+              or {BRAND_COUNT} store layouts, customize items, tax and payment
+              details with a live preview, then download as a PDF or PNG in
+              about 60 seconds. Starting from a blank receipt? Use the{" "}
               <Link
                 href="/create"
                 className="font-medium text-indigo-600 underline underline-offset-2 hover:text-indigo-700"
               >
-                free receipt maker
-              </Link>{" "}
-              to start from a blank receipt.
+                receipt maker
+              </Link>
+              .
             </p>
 
             <HomeAiGenerator />
