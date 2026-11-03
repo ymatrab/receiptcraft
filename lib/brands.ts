@@ -6020,6 +6020,11 @@ const NEW_BRAND_SEEDS: BrandSeed[] = [
   { slug: "greggs", name: "Greggs", domain: "greggs.co.uk", category: "Coffee & Cafés", city: "Newcastle, UK", items: [{ name: "Sausage Roll", quantity: 2, price: 1.3 }, { name: "Latte", quantity: 1, price: 2.35 }] },
   { slug: "caffe-nero", name: "Caffè Nero", domain: "caffenero.com", category: "Coffee & Cafés", city: "Manchester, UK" },
   { slug: "einstein-bros-bagels", name: "Einstein Bros. Bagels", domain: "einsteinbros.com", category: "Coffee & Cafés", city: "Lakewood, CO" },
+  // Added 2026-11-03: asked for by name in the AI generator's saved prompts
+  // ("Krispy Kreme", three tries by one Pro account) with no template. Prices
+  // are user-reported, not official: dozen $15.99 regular (Slickdeals thread,
+  // July 2026), single $2.59 (older price guide); they vary by shop.
+  { slug: "krispy-kreme", name: "Krispy Kreme", domain: "krispykreme.com", category: "Coffee & Cafés", city: "Charlotte, NC", items: [{ name: "Original Glazed Dozen", quantity: 1, price: 15.99 }, { name: "Original Glazed Doughnut", quantity: 2, price: 2.59 }] },
 
   // ── Grocery ──
   { slug: "meijer", name: "Meijer", domain: "meijer.com", category: "Grocery", city: "Grand Rapids, MI", taxRate: 6, items: [{ name: "Meijer Milk 1Gal", quantity: 1, price: 2.99 }, { name: "Frozen Pizza", quantity: 2, price: 4.49 }, { name: "Bananas (lb)", quantity: 3, price: 0.49 }] },
