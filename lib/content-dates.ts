@@ -689,13 +689,22 @@ const TEMPLATES_NOV_DEPTH: ReadonlySet<string> = new Set([
 ]);
 const TEMPLATES_NOV_DEPTH_UPDATED = "2026-11-03";
 
+// Same date: /templates/invoice became the hub of the invoice group
+// (lib/topic-clusters.ts GROUP_HUBS). It now lists every invoice page, each of
+// them lists it first, and the hub, estimate and pro forma list new posts.
+const TEMPLATES_INVOICE_HUB: ReadonlySet<string> = new Set([
+  "invoice", "estimate", "proforma-invoice", "credit-note", "bill-format",
+  "tax-invoice-australia", "plumbing-invoice", "hvac-invoice",
+]);
+
 export function templateReviewedAt(t: ReceiptTemplate): string {
   const latest = templateReviewedAtSamples(t);
   const paywall = TEMPLATES_PAYWALL_FIXED.has(t.slug) && TEMPLATES_PAYWALL_UPDATED > latest ? TEMPLATES_PAYWALL_UPDATED : latest;
   const staffed = (t.defaults.register || t.defaults.cashier) && TEMPLATES_STAFF_LINE_UPDATED > paywall ? TEMPLATES_STAFF_LINE_UPDATED : paywall;
   const hubbed = TEMPLATES_HUB_FIXED.has(t.slug) || hasMoreThanEightBrands(t.slug);
   const hub = hubbed && TEMPLATES_HUB_UPDATED > staffed ? TEMPLATES_HUB_UPDATED : staffed;
-  return TEMPLATES_NOV_DEPTH.has(t.slug) && TEMPLATES_NOV_DEPTH_UPDATED > hub ? TEMPLATES_NOV_DEPTH_UPDATED : hub;
+  const changed = TEMPLATES_NOV_DEPTH.has(t.slug) || TEMPLATES_INVOICE_HUB.has(t.slug);
+  return changed && TEMPLATES_NOV_DEPTH_UPDATED > hub ? TEMPLATES_NOV_DEPTH_UPDATED : hub;
 }
 
 function templateReviewedAtSamples(t: ReceiptTemplate): string {

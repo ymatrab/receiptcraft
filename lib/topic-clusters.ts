@@ -35,9 +35,7 @@ const TEMPLATE_GROUPS: string[][] = [
     "payment-receipt", "cash-receipt", "sales-receipt", "itemized-receipt", "proof-of-purchase",
     "donation-receipt", "rent-receipt", "rent-receipt-india", "rent-receipt-ontario", "vat-receipt",
   ],
-  // Invoices. Order matters: relatedTemplateSlugs takes the next four, so the
-  // /templates/invoice hub links the four document types (estimate, pro forma,
-  // credit note, GST bill) and the trade invoices are linked from the rest.
+  // Invoices. The first slug is the group's hub (see GROUP_HUBS).
   [
     "invoice", "estimate", "proforma-invoice", "credit-note", "bill-format",
     "tax-invoice-australia", "plumbing-invoice", "hvac-invoice",
@@ -45,14 +43,28 @@ const TEMPLATE_GROUPS: string[][] = [
 ];
 
 /**
+ * Groups led by a hub rather than a ring of equals. 2026-11-03: the invoice
+ * pages are new (142 queries at an average p69), so their strength is gathered
+ * on one page. Under the plain ring, /templates/invoice linked only the next
+ * four and estimate, pro forma and credit note never linked back to it. Now the
+ * hub links every member and every member links the hub first.
+ */
+const GROUP_HUBS: ReadonlySet<string> = new Set(["invoice"]);
+
+/**
  * The next `n` templates in the same group, wrapping round, so each page links
- * different neighbours instead of every page linking the same few.
+ * different neighbours instead of every page linking the same few. In a hub
+ * group the hub lists all its members and each member leads with the hub.
  */
 export function relatedTemplateSlugs(slug: string, n = 4): string[] {
   const group = TEMPLATE_GROUPS.find((g) => g.includes(slug));
   if (!group) return [];
-  const at = group.indexOf(slug);
-  return Array.from({ length: Math.min(n, group.length - 1) }, (_, i) => group[(at + 1 + i) % group.length]);
+  const hub = GROUP_HUBS.has(group[0]) ? group[0] : null;
+  if (hub === slug) return group.slice(1);
+  const ring = hub ? group.slice(1) : group;
+  const at = ring.indexOf(slug);
+  const next = Array.from({ length: Math.min(hub ? n - 1 : n, ring.length - 1) }, (_, i) => ring[(at + 1 + i) % ring.length]);
+  return hub ? [hub, ...next] : next;
 }
 
 /** The template a brand of each category is closest to, when the brand has no override below. */
