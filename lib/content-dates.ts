@@ -1,6 +1,7 @@
 import type { ReceiptTemplate } from "./types";
 import { getTemplate, sourcedFigure } from "./templates";
 import { BRAND_SPECS } from "./brand-specs";
+import { BRAND_DEPTH } from "./brand-depth";
 import { BRAND_TEMPLATES, brandCategoryFor } from "./brands";
 import { hubTemplateForBrand } from "./topic-clusters";
 import { hasOfficialSource } from "./intent-pages";
@@ -327,6 +328,11 @@ export const BRANDS_PAYWALL_UPDATED = "2026-10-24";
 // generator?" answer passage under the hero.
 export const BRANDS_ANSWER_UPDATED = "2026-10-27";
 
+// 2026-11-03: the 15 brands with the most commercial search demand gain a
+// "How to read a {brand} receipt" section (lib/brand-depth.ts).
+// Only those pages move; the other ~338 keep their date.
+export const BRANDS_DEPTH_UPDATED = "2026-11-03";
+
 // Brand pages added after the shared dates above. Without its own date a new
 // page inherits BRANDS_LINKS_UPDATED and looks older than it is.
 const BRANDS_ADDED: Readonly<Record<string, string>> = {
@@ -374,6 +380,7 @@ export function brandReviewedAt(slug: string): string {
     BRANDS_ADDED[slug] ?? null,
     BRANDS_PAYWALL_UPDATED,
     BRANDS_ANSWER_UPDATED,
+    slug in BRAND_DEPTH ? BRANDS_DEPTH_UPDATED : null,
   );
 }
 // 2026-08-31: the CTA names a Pro template before the click.
