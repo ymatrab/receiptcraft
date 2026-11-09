@@ -334,6 +334,20 @@ export const BRANDS_ANSWER_UPDATED = "2026-10-27";
 // Only those pages move; the other ~338 keep their date.
 export const BRANDS_DEPTH_UPDATED = "2026-11-03";
 
+// 2026-11-09: the 37 brand pages Search Console reported as "Crawled –
+// currently not indexed" gain the same section. They get their own date so the
+// 15 pages above keep 11-03.
+export const BRANDS_DEPTH_DROPPED_UPDATED = "2026-11-09";
+const BRANDS_DEPTH_DROPPED: ReadonlySet<string> = new Set([
+  "chipotle", "pizza-hut", "dunkin", "jamba-juice", "boba-guys", "sam-s-club",
+  "lowe-s", "autozone", "marriott", "hilton", "hyatt", "avis", "joann",
+  "raising-canes", "applebees", "red-lobster", "portillos", "noodles-company",
+  "blue-bottle-coffee", "pret-a-manger", "caffe-nero", "winco-foods",
+  "mercadona", "kohls", "williams-sonoma", "rei", "arco", "spirit-airlines",
+  "bolt", "just-eat", "gopuff", "slack", "notion", "canva", "patreon", "ups",
+  "cinemark",
+]);
+
 // Brand pages added after the shared dates above. Without its own date a new
 // page inherits BRANDS_LINKS_UPDATED and looks older than it is.
 const BRANDS_ADDED: Readonly<Record<string, string>> = {
@@ -382,7 +396,9 @@ export function brandReviewedAt(slug: string): string {
     BRANDS_ADDED[slug] ?? null,
     BRANDS_PAYWALL_UPDATED,
     BRANDS_ANSWER_UPDATED,
-    slug in BRAND_DEPTH ? BRANDS_DEPTH_UPDATED : null,
+    slug in BRAND_DEPTH
+      ? BRANDS_DEPTH_DROPPED.has(slug) ? BRANDS_DEPTH_DROPPED_UPDATED : BRANDS_DEPTH_UPDATED
+      : null,
   );
 }
 // 2026-08-31: the CTA names a Pro template before the click.
