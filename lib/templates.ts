@@ -3075,6 +3075,507 @@ export const TEMPLATES: ReceiptTemplate[] = [
     },
   },
   {
+    slug: "billing-statement",
+    // 2026-11-16: about 100 impressions a quarter for "billing statement
+    // template" / "statement of account" landed on the invoice post at ~p70.
+    // The invoice-mode builder already makes a statement; this is its page.
+    name: "Billing Statement",
+    shortName: "Billing Statement",
+    icon: "📑",
+    seoTitle: "Billing Statement Template — Free Statement of Account Maker",
+    seoDescription:
+      "Make a billing statement for a customer: the period, opening balance, invoices, payments received and balance due, with an aging summary. Download a PDF.",
+    heading: "Billing Statement Generator",
+    intro:
+      "Create a billing statement, also called a statement of account, to show a customer everything on their account for a period: what they owed at the start, the invoices you issued, the payments you received and the balance still due.",
+    leadAnswer:
+      "A billing statement summarises a customer's account over a period, usually a month. It shows the statement date and period, the business and the customer, the balance brought forward, each invoice issued and each payment received, and the balance due at the end, often with an aging summary of how long amounts have been outstanding. It asks for nothing new: it reminds the customer what is open.",
+    useCases: [
+      "Monthly statements for customers who buy on account",
+      "Chasing several unpaid invoices with one document",
+      "Confirming a customer's balance at year end",
+      "Freelancers and agencies billing clients on retainer",
+    ],
+    fields: [
+      {
+        name: "STATEMENT heading and number",
+        description:
+          "'Statement' or 'Statement of Account' at the top, with its own number and date, so the customer does not book it as a new invoice.",
+      },
+      {
+        name: "Statement period",
+        description:
+          "The dates the statement covers, for example October 1–31. Everything listed falls inside it.",
+      },
+      {
+        name: "Business and customer",
+        description:
+          "Your details and the customer's name, account number if you use one, and billing address.",
+      },
+      {
+        name: "Balance brought forward",
+        description:
+          "What the customer owed at the start of the period: the closing balance of the last statement.",
+      },
+      {
+        name: "Activity lines",
+        description:
+          "Each invoice issued in the period, with its number, date and amount, and each payment or credit received.",
+      },
+      {
+        name: "Balance due",
+        description:
+          "Balance brought forward plus new invoices, minus payments and credits. This is the one number the customer acts on.",
+      },
+      {
+        name: "Aging summary",
+        description:
+          "How much of the balance is current and how much is 31–60, 61–90 or over 90 days old, so both sides see what is overdue.",
+      },
+      {
+        name: "Payment details",
+        description:
+          "How and where to pay, and the due date. The same payment terms as your invoices.",
+      },
+    ],
+    howToSteps: [
+      "Open the Billing Statement template. The heading reads STATEMENT OF ACCOUNT and the totals say Balance due.",
+      "Enter your business details, then the customer and the statement period in the Statement for block.",
+      "Add the balance brought forward as the first line, then one line per invoice issued in the period.",
+      "Enter payments received in the Payments received line, and update the aging summary to match the open invoices.",
+      `Download the PDF and send it, no account needed — free with a small watermark, or watermark-free with Pro from ${PRO_FROM}.`,
+    ],
+    guidance: [
+      {
+        heading: "Billing statement vs. invoice",
+        body:
+          "An invoice asks for payment of one sale or one job. A billing statement lists every invoice and payment on the account over a period and shows the total still open. You send an invoice when you bill; you send a statement afterwards, usually monthly, to a customer who has several invoices or pays on account.\n\nA statement does not replace the invoices. Each sale still needs its own invoice; the statement only gathers them, so the customer can match its records to yours and pay what is outstanding in one go.",
+      },
+      {
+        heading: "Billing statement, statement of account and account statement",
+        body:
+          "These are the same document. Statement of account is common in the UK and in business-to-business billing; billing statement and account statement are more usual in the US and in healthcare and utilities. Whatever the name, it shows the opening balance, the activity and the closing balance for a period.",
+      },
+      {
+        heading: "How to read an aging summary",
+        body:
+          "The aging summary splits the balance due by how long each invoice has been unpaid: current (0–30 days), 31–60, 61–90 and over 90 days, counted from the invoice date or the due date. A balance that is all current needs no chasing. Amounts moving into the older columns are the ones to follow up first.",
+      },
+      {
+        heading: "Worked example: a monthly statement",
+        body:
+          "A design studio bills a client on account. On October 1 the client owed $1,250.00 from September. In October the studio issued INV-2048 for the monthly retainer, $1,800.00, and INV-2061 for 6 extra design hours at $95.00 = $570.00. The client paid $1,250.00 on October 12.\n\nBalance due on October 31: $1,250.00 + $1,800.00 + $570.00 − $1,250.00 = $2,370.00. September's balance is paid, so the whole $2,370.00 is current (0–30 days) and nothing is overdue.",
+      },
+    ],
+    faqs: [
+      {
+        question: "What is a billing statement?",
+        answer:
+          "A summary of a customer's account for a period: the balance at the start, the invoices issued, the payments received and the balance due at the end. It is usually sent monthly to customers who buy on account.",
+      },
+      {
+        question: "Is a billing statement the same as an invoice?",
+        answer:
+          "No. An invoice bills one sale or job. A statement lists all the invoices and payments on an account over a period and shows what is still owed. Each sale still needs its own invoice.",
+      },
+      {
+        question: "Is a statement of account the same as a billing statement?",
+        answer:
+          "Yes. Statement of account is the more common name in the UK and between businesses; billing statement is more usual in the US. Both show opening balance, activity and closing balance.",
+      },
+      {
+        question: "How often should I send a billing statement?",
+        answer:
+          "Most businesses send one a month, after the month closes. Send one whenever a customer has several open invoices or asks to confirm their balance.",
+      },
+      {
+        question: "What is an aging summary on a statement?",
+        answer:
+          "A breakdown of the balance due by how long it has been unpaid: current, 31–60, 61–90 and over 90 days. It shows at a glance which amounts are overdue.",
+      },
+    ],
+    defaults: {
+      businessName: "Northline Design Studio",
+      addressLine1: "2210 Larimer Street",
+      addressLine2: "Denver, CO 80205",
+      phone: "(303) 555-0186",
+      website: "northlinedesign.co",
+      greeting: "STATEMENT OF ACCOUNT",
+      taxLabel: "Sales Tax",
+      taxRate: 0,
+      discount: 1250,
+      labels: { subtotal: "Balance + new charges", discount: "Payments received" },
+      grandTotalLabel: "BALANCE DUE",
+      hideTotals: true,
+      invoice: true,
+      numberLabel: "Statement no.",
+      hideStoreLine: true,
+      showBarcode: false,
+      footerMessage: "Please pay the balance due within 30 days. Thank you for your business.",
+      paperStyle: "modern",
+      sections: [
+        {
+          title: "Statement for",
+          rows: [
+            { value: "Harbor & Pine Coffee Co." },
+            { label: "Account", value: "HPC-0412" },
+            { label: "Period", value: "October 1–31, 2026" },
+          ],
+        },
+        {
+          title: "Aging summary",
+          rows: [
+            { label: "Current (0–30 days)", value: "$2,370.00" },
+            { label: "31–60 days", value: "$0.00" },
+            { label: "61–90 days", value: "$0.00" },
+            { label: "Over 90 days", value: "$0.00" },
+          ],
+        },
+      ],
+      items: [
+        { id: id(), name: "Balance brought forward (Oct 1)", quantity: 1, price: 1250 },
+        { id: id(), name: "INV-2048 · Oct 6 · Monthly retainer", quantity: 1, price: 1800 },
+        { id: id(), name: "INV-2061 · Oct 20 · Extra design hours", quantity: 6, price: 95 },
+      ],
+    },
+  },
+  {
+    slug: "missing-receipt-form",
+    // 2026-11-16: "lost receipt form" and "missing receipt form template" land
+    // on /blog/missing-receipt-affidavit at p50–77. Searchers want the form.
+    name: "Missing Receipt Form",
+    shortName: "Missing Receipt Form",
+    icon: "📝",
+    seoTitle: "Missing Receipt Form Template — Free Lost Receipt Form",
+    seoDescription:
+      "Fill in a missing receipt form for an expense you paid but can't document: date, vendor, amount, business purpose, why the receipt is missing, and signatures.",
+    heading: "Missing Receipt Form Template",
+    intro:
+      "Fill in a missing receipt form when you paid a business expense but lost the receipt or never got one. It records what was bought, from whom, when and for how much, why there is no receipt, and your signed statement, for your employer or accountant to approve.",
+    leadAnswer:
+      "A missing receipt form, sometimes called a lost receipt affidavit, documents a real expense when the receipt is gone. It lists the employee, the date, the vendor, the amount, the business purpose and the reason the receipt is missing, with the employee's signed statement that the expense is genuine and not claimed elsewhere, and a manager's approval. It stands in for the receipt; it is not a copy of one.",
+    useCases: [
+      "Expense reports when a receipt was lost",
+      "Vendors that give no receipt (parking meters, tips, small cash purchases)",
+      "Documenting a cash expense for your own bookkeeping",
+      "Small businesses setting a standard lost-receipt process",
+    ],
+    fields: [
+      {
+        name: "Employee details",
+        description:
+          "Name, department and employee ID of the person who paid, so the form can be matched to the expense report.",
+      },
+      {
+        name: "Date and vendor",
+        description:
+          "When the expense was paid and the business it was paid to, as precisely as you can.",
+      },
+      {
+        name: "Description and amount",
+        description:
+          "What was bought and the exact amount paid, including tax and tip.",
+      },
+      {
+        name: "Business purpose",
+        description:
+          "Why the expense was needed for work: the trip, client meeting or project it belongs to.",
+      },
+      {
+        name: "Payment method",
+        description:
+          "Card, cash or other. If it was a card, attach the statement line; it is the strongest evidence you have.",
+      },
+      {
+        name: "Reason the receipt is missing",
+        description:
+          "Lost, never issued, faded thermal paper. One honest line.",
+      },
+      {
+        name: "Employee statement and signature",
+        description:
+          "A signed statement that the expense is real, was paid by you, and has not been and will not be claimed again.",
+      },
+      {
+        name: "Approval",
+        description:
+          "The manager's or finance team's name, signature and date accepting the form.",
+      },
+    ],
+    howToSteps: [
+      "Open the Missing Receipt Form template. The heading reads MISSING RECEIPT FORM.",
+      "Put your employer's name at the top, then your name, department and employee ID in the Employee block.",
+      "Enter the expense as the line item: what was bought, from which vendor, and the exact amount.",
+      "Fill in the date, business purpose, payment method and reason the receipt is missing, then print it to sign.",
+      `Download the PDF, no account needed — free with a small watermark, or watermark-free with Pro from ${PRO_FROM}. Attach any card statement or booking email you have.`,
+    ],
+    guidance: [
+      {
+        heading: "When a missing receipt form is accepted",
+        body:
+          "It is up to the employer. Most expense policies accept a missing receipt form for an occasional lost receipt below a set amount, with a manager's approval, and ask for more evidence above it. Some cap how many a person can file in a year. Check your company's policy before you rely on one.\n\nFor US business travel and entertainment, {cite:irs-pub-463|IRS Publication 463} asks for documentary evidence such as a receipt for any lodging expense and for any other expense of $75 or more. Below that, a written record of the amount, date, place and business purpose can be enough. A completed missing receipt form is that kind of record.",
+      },
+      {
+        heading: "Make it stronger with other evidence",
+        body:
+          "A form on its own is your word. Attach whatever else shows the payment: the card or bank statement line, a booking confirmation, an order email, a calendar entry for the meeting. A card statement proves the amount, date and vendor, and the form adds what the statement cannot: what was bought and why.",
+      },
+      {
+        heading: "Only for a real expense",
+        body:
+          "A missing receipt form records an expense you actually paid. It is not a receipt, and it must never be used to claim something you did not buy, to claim the same expense twice, or to replace a receipt with a higher amount. Signing a false statement on an expense claim is fraud. If you are not sure of the amount, write the amount on your card statement.",
+      },
+      {
+        heading: "Worked example",
+        body:
+          "Dana, a sales manager, took a taxi from the airport to a client meeting on November 4, 2026, paid $46.80 by card, and lost the paper receipt. Her form lists: Metro Cab Co., airport to the client's office, $46.80, business purpose 'client meeting, Brightwell account', paid by company card ending 4417, reason 'paper receipt lost'. She attaches the card statement line for $46.80 and her manager signs. Under $75, so the IRS documentary-evidence rule for non-lodging expenses does not apply, and her employer's policy accepts the form.",
+      },
+    ],
+    sources: ["irs-pub-463"],
+    faqs: [
+      {
+        question: "What is a missing receipt form?",
+        answer:
+          "A form an employee fills in when they paid a business expense but have no receipt. It records the date, vendor, amount, business purpose and reason the receipt is missing, with the employee's signed statement and a manager's approval.",
+      },
+      {
+        question: "Is a missing receipt form the same as a lost receipt affidavit?",
+        answer:
+          "Mostly. Many companies use the names interchangeably. An affidavit is sometimes signed before a notary, which a standard internal form does not need. Follow whatever your employer calls it and asks for.",
+      },
+      {
+        question: "Will my employer accept a missing receipt form?",
+        answer:
+          "It depends on the company's expense policy. Most accept one for an occasional lost receipt under a set amount, with approval. Larger amounts or lodging usually need more evidence, such as a card statement or the hotel's folio.",
+      },
+      {
+        question: "Does the IRS accept a missing receipt form?",
+        answer:
+          "For US travel and entertainment expenses, IRS Publication 463 asks for receipts for lodging and for other expenses of $75 or more. For smaller expenses, a written record of amount, date, place and business purpose can be adequate. A form is that record; a card statement makes it stronger.",
+      },
+      {
+        question: "Can I make a replacement receipt instead?",
+        answer:
+          "Not for an expense claim. Use a missing receipt form, which says plainly that the receipt is missing. A recreated receipt submitted as if it were the original would misrepresent the document.",
+      },
+    ],
+    defaults: {
+      businessName: "Brightwell Partners LLC",
+      addressLine1: "600 Congress Avenue, Suite 1400",
+      addressLine2: "Austin, TX 78701",
+      phone: "(512) 555-0122",
+      website: "",
+      greeting: "MISSING RECEIPT FORM",
+      taxLabel: "Sales Tax",
+      taxRate: 0,
+      grandTotalLabel: "AMOUNT CLAIMED",
+      hideTotals: true,
+      invoice: true,
+      numberLabel: "Form no.",
+      hideStoreLine: true,
+      showBarcode: false,
+      paperStyle: "modern",
+      sections: [
+        {
+          title: "Employee",
+          rows: [
+            { label: "Name", value: "Dana Whitfield" },
+            { label: "Department", value: "Sales" },
+            { label: "Employee ID", value: "E-20731" },
+          ],
+        },
+        {
+          title: "Expense",
+          rows: [
+            { label: "Date paid", value: "November 4, 2026" },
+            { label: "Vendor", value: "Metro Cab Co." },
+            { label: "Business purpose", value: "Client meeting, Brightwell account" },
+            { label: "Paid by", value: "Company card ending 4417" },
+            { label: "Receipt missing because", value: "Paper receipt lost" },
+          ],
+        },
+        {
+          title: "Statement",
+          rows: [
+            { value: "I paid this expense for business. It has not been and will not be claimed again." },
+            { label: "Employee signature", value: "______________________" },
+            { label: "Approved by", value: "______________________" },
+            { label: "Date", value: "______________________" },
+          ],
+        },
+      ],
+      items: [{ id: id(), name: "Taxi, airport to client office", quantity: 1, price: 46.8 }],
+    },
+  },
+  {
+    slug: "superbill",
+    // 2026-11-16: "sample superbill" / "superbill template" land on
+    // /blog/superbill-template at p78. A fillable sample suits that intent.
+    name: "Superbill",
+    shortName: "Superbill",
+    icon: "🩺",
+    seoTitle: "Superbill Template — Free Sample Superbill Generator",
+    seoDescription:
+      "Make a superbill for out-of-network reimbursement: provider NPI and tax ID, patient and insurance details, date of service, ICD-10 and CPT codes, fees and payment.",
+    heading: "Superbill Template & Generator",
+    intro:
+      "Create a superbill, the itemized statement a healthcare provider gives a patient who paid out of pocket, so the patient can ask their insurer for out-of-network reimbursement. It carries the provider's identifiers, the patient's details, the diagnosis and procedure codes, and what was charged and paid.",
+    leadAnswer:
+      "A superbill is an itemized record of a healthcare visit that a patient submits to their insurer for reimbursement. It shows the provider's name, address, NPI and tax ID, the patient's name, date of birth and insurance member ID, the date and place of service, the diagnosis codes (ICD-10), the procedure codes (CPT) with a fee for each, and the amount the patient paid. It is issued by the provider, from the provider's own records.",
+    useCases: [
+      "Therapists and counselors seeing out-of-network clients",
+      "Private-pay clinics giving patients a claim-ready statement",
+      "Practitioners who don't bill insurance directly",
+      "Patients asking their provider for the document",
+    ],
+    fields: [
+      {
+        name: "Provider details",
+        description:
+          "The practice or clinician's name, address and phone, the rendering provider's NPI, and the practice's tax ID (EIN). Some insurers also ask for a license number.",
+      },
+      {
+        name: "Patient details",
+        description:
+          "The patient's name, date of birth and address, and the insurance company and member ID if the patient gives them.",
+      },
+      {
+        name: "Date and place of service",
+        description:
+          "The date of each visit and where it took place, often as a place-of-service code: 11 for an office, 02 or 10 for telehealth.",
+      },
+      {
+        name: "Diagnosis codes (ICD-10)",
+        description:
+          "The diagnosis the visit treated, as ICD-10-CM codes. Only the provider can assign these.",
+      },
+      {
+        name: "Procedure codes (CPT)",
+        description:
+          "What was done at each visit, as CPT codes such as 90837 for 60 minutes of psychotherapy, with any modifiers.",
+      },
+      {
+        name: "Fees",
+        description:
+          "The fee for each procedure line and the total charged.",
+      },
+      {
+        name: "Amount paid",
+        description:
+          "What the patient paid and when, and any balance. Insurers reimburse against what was actually paid.",
+      },
+      {
+        name: "Provider signature",
+        description:
+          "The provider's signature and date, confirming the services were rendered.",
+      },
+    ],
+    howToSteps: [
+      "Open the Superbill template. The heading reads SUPERBILL and the provider block is at the top.",
+      "Enter the practice name and address, then the NPI and tax ID in the Provider block.",
+      "Fill in the patient's name, date of birth and insurance member ID, and the date and place of service.",
+      "Add the ICD-10 diagnosis codes, then one line per CPT procedure with its fee, and the amount the patient paid.",
+      `Download the PDF and give it to the patient, no account needed — free with a small watermark, or watermark-free with Pro from ${PRO_FROM}.`,
+    ],
+    guidance: [
+      {
+        heading: "Who issues a superbill",
+        body:
+          "The provider does. A superbill restates the provider's own record of a visit, with codes the provider assigned, so it must come from the practice that delivered the care. A patient cannot write their own; if you are a patient, ask the practice for one. This template is for providers and their billing staff.",
+      },
+      {
+        heading: "How patients submit a superbill",
+        body:
+          "The patient sends the superbill with the insurer's own claim form, usually through the member portal, by mail or by fax, and the insurer reimburses part of the cost under the plan's out-of-network benefits, if it has any. Whether a visit is covered, how much comes back and how long it takes depend entirely on the plan. The patient should check their out-of-network benefits and deductible before relying on reimbursement.",
+      },
+      {
+        heading: "Codes: check them before you send",
+        body:
+          "ICD-10 and CPT codes are what the insurer pays on, and a wrong or missing code is the most common reason a claim comes back. Use the codes from the visit record, keep them current to the year of service, and add any modifier the service needs, such as 95 for some telehealth visits. The codes in the sample are illustrations, not advice for a particular patient.",
+      },
+      {
+        heading: "Worked example: two therapy sessions",
+        body:
+          "A licensed counselor sees a client twice in October, on October 7 and October 21, for 60-minute psychotherapy sessions (CPT 90837) at $180.00 each, treating generalized anxiety disorder (ICD-10 F41.1), in the office (place of service 11). The superbill lists two lines: 2 × $180.00 = $360.00. The client paid $360.00 by card on the day of each session, so the balance is $0.00. The client submits it with the insurer's claim form, and the insurer reimburses whatever the plan's out-of-network benefit allows.",
+      },
+    ],
+    faqs: [
+      {
+        question: "What is a superbill?",
+        answer:
+          "An itemized statement a healthcare provider gives a patient who paid directly, listing the provider's NPI and tax ID, the patient's details, the date of service, ICD-10 diagnosis codes, CPT procedure codes, fees and payments, so the patient can claim reimbursement from their insurer.",
+      },
+      {
+        question: "What has to be on a superbill?",
+        answer:
+          "Provider name, address, NPI and tax ID; patient name, date of birth and insurance ID; date and place of service; ICD-10 diagnosis codes; CPT codes with fees; amount paid; and the provider's signature. Some insurers ask for more, so check their claim form.",
+      },
+      {
+        question: "Can a patient make their own superbill?",
+        answer:
+          "No. A superbill must come from the provider, because it restates the provider's record and uses codes the provider assigned. Ask the practice for one.",
+      },
+      {
+        question: "Will insurance reimburse a superbill?",
+        answer:
+          "Only if the plan has out-of-network benefits, and then only the share the plan allows after any deductible. Coverage varies by plan, so the patient should check with their insurer.",
+      },
+      {
+        question: "Is a superbill the same as a medical receipt?",
+        answer:
+          "No. A medical receipt shows a payment. A superbill adds the diagnosis and procedure codes and provider identifiers an insurer needs to process a claim.",
+      },
+    ],
+    defaults: {
+      businessName: "Clearwater Counseling, PLLC",
+      addressLine1: "1801 Fourth Avenue, Suite 300",
+      addressLine2: "Seattle, WA 98101",
+      phone: "(206) 555-0147",
+      website: "",
+      greeting: "SUPERBILL",
+      taxLabel: "Tax",
+      taxRate: 0,
+      grandTotalLabel: "TOTAL CHARGES",
+      invoice: true,
+      numberLabel: "Superbill no.",
+      hideStoreLine: true,
+      showBarcode: false,
+      paymentMethod: "Credit Card",
+      cardLastFour: "2290",
+      footerMessage: "Provider signature: ______________________   Date: __________",
+      paperStyle: "modern",
+      sections: [
+        {
+          title: "Provider",
+          rows: [
+            { label: "Rendering provider", value: "Jordan Ellis, LMHC" },
+            { label: "NPI", value: "1234567893" },
+            { label: "Tax ID", value: "91-1234567" },
+          ],
+        },
+        {
+          title: "Patient",
+          rows: [
+            { label: "Name", value: "Sam Rivera" },
+            { label: "Date of birth", value: "03/14/1990" },
+            { label: "Insurance member ID", value: "XYZ123456789" },
+          ],
+        },
+        {
+          title: "Services",
+          rows: [
+            { label: "Dates of service", value: "10/07/2026, 10/21/2026" },
+            { label: "Place of service", value: "11 (Office)" },
+            { label: "Diagnosis (ICD-10)", value: "F41.1 Generalized anxiety disorder" },
+          ],
+        },
+      ],
+      items: [
+        { id: id(), name: "90837 Psychotherapy, 60 min", quantity: 2, price: 180 },
+      ],
+    },
+  },
+  {
     slug: "sales-receipt",
     name: "Sales Receipt",
     shortName: "Sales",

@@ -24,7 +24,7 @@ const TEMPLATE_GROUPS: string[][] = [
     "hotel", "auto-repair", "oil-change-receipt", "towing-receipt",
   ],
   // Health
-  ["pharmacy", "medical-receipt", "dental-receipt", "veterinary-receipt"],
+  ["pharmacy", "medical-receipt", "dental-receipt", "veterinary-receipt", "superbill"],
   // Personal & home services
   [
     "salon", "barber-receipt", "spa-receipt", "gym-membership-receipt", "dry-cleaning-receipt",
@@ -34,11 +34,12 @@ const TEMPLATE_GROUPS: string[][] = [
   [
     "payment-receipt", "cash-receipt", "sales-receipt", "itemized-receipt", "proof-of-purchase",
     "donation-receipt", "rent-receipt", "rent-receipt-india", "rent-receipt-ontario", "vat-receipt",
+    "missing-receipt-form",
   ],
   // Invoices. The first slug is the group's hub (see GROUP_HUBS).
   [
     "invoice", "estimate", "proforma-invoice", "credit-note", "bill-format",
-    "tax-invoice-australia", "plumbing-invoice", "hvac-invoice",
+    "tax-invoice-australia", "plumbing-invoice", "hvac-invoice", "billing-statement",
   ],
 ];
 

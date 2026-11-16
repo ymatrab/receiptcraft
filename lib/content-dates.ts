@@ -619,7 +619,8 @@ export const HOME_UPDATED = "2026-11-03";
 // 2026-10-19: lists the new payment receipt, estimate and bill format templates.
 // 2026-10-24: the intro no longer says downloading needs a free account or that
 // the first download is watermark-free.
-export const TEMPLATES_INDEX_UPDATED = "2026-10-24";
+// 2026-11-16: three new cards (billing statement, missing receipt form, superbill).
+export const TEMPLATES_INDEX_UPDATED = "2026-11-16";
 // /templates/google-docs — new on 2026-10-11. Lists the free templates
 // published as public Google Docs (lib/google-docs-templates.ts).
 // 2026-10-21: "Preview" became "Open in Google Docs", linking each Doc's /edit
@@ -718,6 +719,11 @@ const TEMPLATES_ADDED: Readonly<Record<string, string>> = {
   // cites other sites for "proformainvoice" and "credit note" and never us.
   "proforma-invoice": "2026-10-18",
   "credit-note": "2026-10-18",
+  // 2026-11-16: template pages for creation demand that landed on blog posts
+  // (strategy: billing statement, missing receipt form, superbill welcome).
+  "billing-statement": "2026-11-16",
+  "missing-receipt-form": "2026-11-16",
+  superbill: "2026-11-16",
   "payment-receipt": TEMPLATE_GAPS_ADDED,
   estimate: TEMPLATE_GAPS_ADDED,
   "bill-format": TEMPLATE_GAPS_ADDED,
@@ -819,8 +825,21 @@ const TEMPLATES_SELL_PAGES: ReadonlySet<string> = new Set([
 ]);
 const TEMPLATES_SELL_PAGES_UPDATED = "2026-11-16";
 
+// 2026-11-16: these pages' "related templates" links changed when the three
+// new templates joined their groups (lib/topic-clusters.ts). Worked out from
+// relatedTemplateSlugs before and after, so pages whose links did not move
+// keep their dates.
+const TEMPLATES_NEW_NEIGHBOURS: ReadonlySet<string> = new Set([
+  "pharmacy", "medical-receipt", "dental-receipt", "veterinary-receipt",
+  "rent-receipt", "rent-receipt-india", "rent-receipt-ontario", "vat-receipt",
+  "invoice", "tax-invoice-australia", "plumbing-invoice", "hvac-invoice",
+]);
+const TEMPLATES_NEW_NEIGHBOURS_UPDATED = "2026-11-16";
+
 export function templateReviewedAt(t: ReceiptTemplate): string {
-  return TEMPLATES_SELL_PAGES.has(t.slug) ? TEMPLATES_SELL_PAGES_UPDATED : templateReviewedAtNov(t);
+  if (TEMPLATES_SELL_PAGES.has(t.slug)) return TEMPLATES_SELL_PAGES_UPDATED;
+  if (TEMPLATES_NEW_NEIGHBOURS.has(t.slug)) return TEMPLATES_NEW_NEIGHBOURS_UPDATED;
+  return templateReviewedAtNov(t);
 }
 
 function templateReviewedAtNov(t: ReceiptTemplate): string {

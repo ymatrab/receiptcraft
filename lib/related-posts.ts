@@ -269,6 +269,10 @@ const HUB_FOR_POST: Readonly<Record<string, string>> = {
   "purchase-order-number": "invoice",
   "how-to-write-a-quote": "estimate",
   "credit-memo": "credit-note",
+  // 2026-11-16: the affidavit post and the statement-of-account post (live
+  // Nov 24) hand their readers to the new fillable templates.
+  "missing-receipt-affidavit": "missing-receipt-form",
+  "statement-of-account": "billing-statement",
 };
 
 const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
