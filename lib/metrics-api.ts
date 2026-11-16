@@ -53,15 +53,15 @@ const ROW_CAP = 200000;
 const ISO_DAY = /^\d{4}-\d{2}-\d{2}$/;
 
 type Row = { date: string; value: number };
-type Range = { from: string; to: string; startIso: string; endIso: string };
+export type Range = { from: string; to: string; startIso: string; endIso: string };
 
 const noStore = { "Cache-Control": "no-store" };
 
-function json(body: unknown, status = 200) {
+export function json(body: unknown, status = 200) {
   return NextResponse.json(body, { status, headers: noStore });
 }
 
-const isoDay = (ms: number) => new Date(ms).toISOString().slice(0, 10);
+export const isoDay = (ms: number) => new Date(ms).toISOString().slice(0, 10);
 
 /** A real calendar date in YYYY-MM-DD form, as a UTC midnight timestamp, or null. */
 function parseDay(value: string | null): number | null {
@@ -78,7 +78,7 @@ function sameSecret(given: string, expected: string): boolean {
 }
 
 /** Every day of the range, oldest first. */
-function eachDay(range: Range): string[] {
+export function eachDay(range: Range): string[] {
   const out: string[] = [];
   const end = Date.parse(`${range.to}T00:00:00Z`);
   for (let t = Date.parse(`${range.from}T00:00:00Z`); t <= end; t += DAY) out.push(isoDay(t));
@@ -99,13 +99,13 @@ function add(totals: Map<string, number>, iso: string, amount: number, range: Ra
   totals.set(day, (totals.get(day) ?? 0) + amount);
 }
 
-type Admin = ReturnType<typeof createAdminClient>;
+export type Admin = ReturnType<typeof createAdminClient>;
 
 /**
  * Reads every page of a query. Supabase caps one response at 1,000 rows, and a
  * short read would silently undercount (see lib/admin-traffic.ts).
  */
-async function paged<T>(
+export async function paged<T>(
   label: string,
   page: (from: number, to: number) => PromiseLike<{ data: unknown[] | null; error: { message: string } | null }>
 ): Promise<T[]> {
@@ -121,7 +121,7 @@ async function paged<T>(
 }
 
 /** A sale, not a manual grant or a sandbox purchase. */
-const isSale = (id: string) => id.startsWith("cs_live_") || id.startsWith("sub_");
+export const isSale = (id: string) => id.startsWith("cs_live_") || id.startsWith("sub_");
 
 async function signups(admin: Admin, range: Range): Promise<Row[]> {
   const rows = await paged<{ created_at: string }>("profiles", (a, b) =>
@@ -222,37 +222,47 @@ const COUNTERS: Record<Metric, (admin: Admin, range: Range) => Promise<Row[]>> =
   purchases,
 };
 
+/**
+ * The checks every metrics route makes before it reads anything: the key, the
+ * database, and a valid `from`/`to` range of at most `maxDays` UTC days.
+ * Returns the range, or the error response to send.
+ */
+export function readRequest(req: NextRequest, maxDays: number): Range | NextResponse {
+  const expected = process.env.METRICS_API_KEY;
+  if (!expected) return json({ error: "METRICS_API_KEY is not configured" }, 503);
+  if (!supabaseConfigured || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    return json({ error: "database is not configured" }, 503);
+  }
+  if (!sameSecret(req.headers.get("x-api-key") ?? "", expected)) {
+    return json({ error: "unauthorized" }, 401);
+  }
+
+  const params = req.nextUrl.searchParams;
+  const from = params.get("from");
+  const to = params.get("to");
+  const start = parseDay(from);
+  const end = parseDay(to);
+  if (start === null || end === null) {
+    return json({ error: "from and to are required, as YYYY-MM-DD dates" }, 400);
+  }
+  if (start > end) return json({ error: "from must not be after to" }, 400);
+  if ((end - start) / DAY + 1 > maxDays) {
+    return json({ error: `at most ${maxDays} days per request` }, 400);
+  }
+
+  return {
+    from: from!,
+    to: to!,
+    startIso: new Date(start).toISOString(),
+    endIso: new Date(end + DAY).toISOString(),
+  };
+}
+
 /** The GET handler for one metric's route. */
 export function metricHandler(metric: Metric) {
   return async function GET(req: NextRequest) {
-    const expected = process.env.METRICS_API_KEY;
-    if (!expected) return json({ error: "METRICS_API_KEY is not configured" }, 503);
-    if (!supabaseConfigured || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
-      return json({ error: "database is not configured" }, 503);
-    }
-    if (!sameSecret(req.headers.get("x-api-key") ?? "", expected)) {
-      return json({ error: "unauthorized" }, 401);
-    }
-
-    const params = req.nextUrl.searchParams;
-    const from = params.get("from");
-    const to = params.get("to");
-    const start = parseDay(from);
-    const end = parseDay(to);
-    if (start === null || end === null) {
-      return json({ error: "from and to are required, as YYYY-MM-DD dates" }, 400);
-    }
-    if (start > end) return json({ error: "from must not be after to" }, 400);
-    if ((end - start) / DAY + 1 > MAX_DAYS) {
-      return json({ error: `at most ${MAX_DAYS} days per request` }, 400);
-    }
-
-    const range: Range = {
-      from: from!,
-      to: to!,
-      startIso: new Date(start).toISOString(),
-      endIso: new Date(end + DAY).toISOString(),
-    };
+    const range = readRequest(req, MAX_DAYS);
+    if (range instanceof NextResponse) return range;
 
     try {
       const data = await COUNTERS[metric](createAdminClient(), range);

@@ -13,6 +13,9 @@
 export const EVENT_NAMES = [
   // traffic — one per session, first-party only (see recordVisit)
   "visit",
+  // the first sell page a session views after its landing page — see
+  // recordSellReached and lib/landing-paths.ts
+  "sell_reached",
   // creation funnel
   "receipt_generated",
   "ai_generate",
