@@ -5316,7 +5316,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     useCases: [
       "Luxury purchase documentation",
       "Replace a lost boutique receipt",
-      "Resale authentication records",
+      "Insurance and household inventory records",
     ],
     faqs: [
       {
@@ -5406,7 +5406,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     useCases: [
       "Luxury purchase records",
       "Replace a lost LV receipt",
-      "Resale authentication",
+      "Insurance and household inventory records",
     ],
     faqs: [
       {

@@ -396,6 +396,8 @@ function brandReceiptChanged(slug: string): boolean {
 const BRANDS_SELL_PAGES: ReadonlySet<string> = new Set([
   "walmart", "paypal", "starbucks", "chipotle", "cvs-pharmacy", "home-depot",
   "lyft", "planet-fitness", "sunoco", "la-fitness", "crunch-fitness", "anytime-fitness",
+  // "Resale authentication" use case replaced (misuse review).
+  "gucci", "louis-vuitton",
 ]);
 const BRANDS_SELL_PAGES_UPDATED = "2026-11-16";
 
