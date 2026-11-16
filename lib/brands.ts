@@ -28,22 +28,33 @@ export const brandLogo = (domain: string) => {
 let n = 0;
 const id = () => `brand-${++n}`;
 
+/**
+ * "$3" — the cheapest watermark-free pass, for the hand-written entries below.
+ * PRO_FROM further down holds the same value but is declared after HAND_BRANDS,
+ * so referencing it from an entry would throw at module load.
+ */
+const PASS_FROM = formatPlanPrice(PLANS.pro_weekly);
+
 const HAND_BRANDS: ReceiptTemplate[] = [
   {
     slug: "walmart",
     name: "Walmart Receipt",
     shortName: "Walmart",
     icon: "🛒",
-    seoTitle: "Free Walmart Receipt Generator — Itemized Walmart Receipt Maker",
+    // 2026-11-16: "template" added to the title, H1 and intro — the page ranks
+    // ~10 for "walmart receipt template" — with "generator" kept first, since it
+    // brings most of the clicks. The lost-receipt and reimbursement use cases
+    // went with the misuse review (the page draws "fake walmart receipt" queries).
+    seoTitle: "Free Walmart Receipt Generator & Template — Itemized Receipt Maker",
     seoDescription:
-      "Generate an editable Walmart receipt online in seconds. Add your items, prices and tax, edit the store details and purchase date, then get a free PDF or PNG.",
-    heading: "Walmart Receipt Generator",
+      `Fill in an editable Walmart receipt template with items, prices, tax, store details and date. Free watermarked PDF or PNG; a pass from ${PASS_FROM} removes the watermark.`,
+    heading: "Walmart Receipt Generator & Template",
     intro:
-      "Create an editable Walmart receipt with itemized products, quantities, tax and payment details. Perfect for replacing lost receipts or keeping track of expenses.",
+      `Fill in a Walmart receipt template with itemized products, quantities, tax and payment details, then download it as a PDF or PNG. Building it and a watermarked download are free; a pass from ${PASS_FROM} removes the watermark.`,
     useCases: [
-      "Replace a lost Walmart receipt",
-      "Expense reports and reimbursement",
-      "Personal bookkeeping",
+      "Records of your own Walmart purchases",
+      "Personal bookkeeping and budgeting",
+      "Sample receipts for design mockups",
     ],
     faqs: [
       {
@@ -222,12 +233,14 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     name: "Starbucks Receipt",
     shortName: "Starbucks",
     icon: "☕",
-    seoTitle: "Free Starbucks Receipt Generator — Coffee Receipt Maker",
+    // 2026-11-16: this page, not the /brands hub, owns "starbucks receipt
+    // template" — the hub keeps its own title and links here with that anchor.
+    seoTitle: "Starbucks Receipt Template & Generator — Coffee Receipt Maker",
     seoDescription:
-      "Create a Starbucks coffee receipt online in seconds. Add your drinks, food and tax, edit the store details and order date, then download a free PDF or PNG.",
-    heading: "Starbucks Receipt Generator",
+      `Fill in a Starbucks receipt template with your drinks, food, tax, store details and order date. Free watermarked PDF or PNG; a pass from ${PASS_FROM} removes the watermark.`,
+    heading: "Starbucks Receipt Template & Generator",
     intro:
-      "Make a coffee shop receipt for Starbucks. Add your lattes, cold brews, and pastries for petty cash and expense reports.",
+      `Fill in a Starbucks receipt template with your lattes, cold brews and pastries, then download it as a PDF or PNG. Building it and a watermarked download are free; a pass from ${PASS_FROM} removes the watermark.`,
     useCases: [
       "Office coffee-run reimbursement",
       "Petty cash documentation",
@@ -479,10 +492,10 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🌯",
     seoTitle: "Free Chipotle Receipt Generator — Chipotle Receipt Maker",
     seoDescription:
-      "Create a Chipotle receipt online in seconds. Add burritos, bowls, chips and guac, edit the items, prices, tax and date, then download a print-ready PDF free.",
+      `Chipotle receipt generator: add burritos, bowls, chips and guac, edit the prices, tax and date. Free watermarked PDF; a pass from ${PASS_FROM} removes the watermark.`,
     heading: "Chipotle Receipt Generator",
     intro:
-      "Build a Chipotle Mexican Grill receipt with burritos, bowls, and sides. Great for lunch expense reports.",
+      `Build a Chipotle Mexican Grill receipt with burritos, bowls and sides in the Chipotle receipt generator. Building it and a watermarked download are free; a clean download needs a pass from ${PASS_FROM}.`,
     useCases: [
       "Work lunch reimbursement",
       "Replace a lost Chipotle receipt",
@@ -1820,17 +1833,17 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     name: "CVS Pharmacy Receipt",
     shortName: "CVS Pharmacy",
     icon: "💊",
-    seoTitle:
-      "Free CVS Pharmacy Receipt Generator — CVS Receipt Maker",
+    // 2026-11-16: leads with the exact "cvs receipt generator" this page owns.
+    seoTitle: "CVS Receipt Generator — CVS Pharmacy Receipt Maker",
     seoDescription:
       "Create a CVS Pharmacy receipt online. Add health, beauty and everyday items, edit the prices and tax, then download a free print-ready PDF or PNG receipt.",
     heading: "CVS Pharmacy Receipt Generator",
     intro:
       "Create a CVS Pharmacy receipt (infamously long!) with health, beauty, and ExtraBucks Rewards.",
     useCases: [
-      "Pharmacy reimbursement claims",
-      "FSA/HSA eligible item documentation",
-      "Replace a lost CVS receipt",
+      "Records of your own pharmacy and drugstore purchases",
+      "Household health and beauty budgeting",
+      "Sample receipts for app and design mockups",
     ],
     faqs: [
       {
@@ -1864,11 +1877,12 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     name: "Home Depot Receipt",
     shortName: "Home Depot",
     icon: "🛠️",
-    seoTitle:
-      "Free Home Depot Receipt Generator — Home Depot Receipt Maker",
+    // 2026-11-16: "template" added — the page gets "home depot receipt template"
+    // at ~7.8 — once the duplicate blog post was folded into it.
+    seoTitle: "Home Depot Receipt Generator & Template — Hardware Receipt Maker",
     seoDescription:
       "Create a Home Depot receipt online. Add tools, lumber and hardware supplies, edit the prices, tax and date, then download a free print-ready PDF or PNG.",
-    heading: "Home Depot Receipt Generator",
+    heading: "Home Depot Receipt Generator & Template",
     intro:
       "Create a Home Depot receipt with tools, building materials, and home improvement supplies.",
     useCases: [
@@ -3431,22 +3445,47 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     name: "Lyft Receipt",
     shortName: "Lyft",
     icon: "🚗",
-    seoTitle: "Free Lyft Receipt Generator — Lyft Ride Receipt Maker",
+    // 2026-11-16: ranks 7–11 for "lyft receipt pdf" and "lyft receipts online"
+    // but is clicked only for "generator" and "maker", so "PDF" and "ride
+    // receipt" join the title and H1 in creation terms.
+    seoTitle: "Lyft Receipt Generator — Make a Lyft Ride Receipt PDF",
     seoDescription:
-      "Create a Lyft receipt online. Add your ride fare, distance, time and tip, edit the pickup details and date, then get a free print-ready PDF or PNG receipt.",
-    heading: "Lyft Receipt Generator",
+      `Make a Lyft ride receipt online: fare, distance, time, tip and pickup. Free to build with a watermarked PDF or PNG; a pass from ${PASS_FROM} removes the watermark.`,
+    heading: "Lyft Receipt Generator: Make a Lyft Ride Receipt PDF",
     intro:
-      "Generate a Lyft rideshare receipt with base fare, distance, time, and tip. Your ride, your way.",
+      "Make a Lyft-style ride receipt with the fare, distance, time, service fee and tip, plus the ride type and timed pickup and drop-off, then download it as a PDF or PNG.",
     useCases: [
-      "Business travel ride claims",
-      "Replace a lost Lyft ride receipt",
-      "Client travel billing",
+      "Business travel records: log a ride you took with its fare, tip, route and times, so your own expense file shows what each trip cost.",
+      "Client billing: list each ride's fare and service fee on its own receipt when you pass travel costs on to a client.",
+      "Personal ride and travel budgeting",
+    ],
+    guidance: [
+      {
+        heading: "Download your Lyft receipt template as a PDF or PNG",
+        body:
+          `The editor exports a print-ready PDF or a high-resolution PNG, with no account needed. The free download carries a small watermark, and a pass from ${PASS_FROM} removes it. Print the PDF or attach the PNG wherever you keep your records.`,
+      },
+      {
+        heading: "Add the fare, service fee, ride type and tip",
+        body:
+          "The sample opens with the fare on one line, with the miles and minutes in its name, and the service fee on the next. Change either amount and the total follows. The tip is its own editable line, so a receipt can show the ride with or without one.\n\n" +
+          "The ride details block holds the ride type (the sample says Lyft Standard) and the pickup and drop-off, each with its time and address. Edit the times to match the trip, and the driver's name in the greeting at the top.",
+      },
     ],
     faqs: [
       {
-        question: "Can I customize the items on the Lyft receipt?",
+        question: "Can I download the Lyft receipt as a PDF?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
+          `Yes. Download a PDF or PNG with no account; free downloads carry a small watermark, and a pass from ${PASS_FROM} removes it.`,
+      },
+      {
+        question: "Can I add a tip to the Lyft receipt?",
+        answer: "Yes. The tip line is editable, and the total updates as you change it.",
+      },
+      {
+        question: "Is this an official Lyft receipt?",
+        answer:
+          "No. Makecepeit is not affiliated with Lyft; your official receipt comes from Lyft itself.",
       },
     ],
     defaults: {
@@ -5016,14 +5055,18 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     shortName: "PayPal",
     icon: "💸",
     seoTitle: "Free PayPal Receipt Generator — Payment Receipt Maker",
+    // 2026-11-16 misuse review: the page draws "fake paypal" queries, so the
+    // copy says plainly what it is (a sample layout for your own records, with
+    // a watermark on the free download) and drops the lost-receipt use case.
     seoDescription:
-      "Create a PayPal payment receipt online in seconds. Add the transaction details, amount, fees and date, then get a free print-ready PDF or PNG confirmation.",
+      `Lay out a PayPal-style payment receipt with payee, amount, fees and date for your own records. Free watermarked PDF or PNG; a pass from ${PASS_FROM} removes the watermark.`,
     heading: "PayPal Receipt Generator",
-    intro: "Generate a PayPal payment confirmation with payee, amount and transaction ID.",
+    intro:
+      "Lay out a PayPal-style payment receipt with payee, amount and transaction ID for your own records. It is a sample layout, not a confirmation from PayPal: only PayPal can confirm a payment.",
     useCases: [
-      "Online payment documentation",
-      "Replace a lost PayPal receipt",
-      "Freelance payment records",
+      "Records of payments you sent or received",
+      "Freelance and side-business bookkeeping",
+      "Checkout and invoicing app mockups",
     ],
     faqs: [
       {
@@ -5438,12 +5481,32 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     name: "Planet Fitness Receipt",
     shortName: "Planet Fitness",
     icon: "🏋️",
-    seoTitle: "Free Planet Fitness Receipt Generator — Gym Membership Receipt",
+    // 2026-11-16: "receipts" and "invoice" wording for the queries it ranks ~8
+    // on. No reimbursement or HSA/FSA angle, by the owner's brief.
+    seoTitle: "Planet Fitness Receipt & Invoice Template — Free to Build",
     seoDescription:
-      "Create a Planet Fitness membership receipt online in seconds. Add your plan, billing dates and monthly amounts, then download a print-ready PDF or PNG free.",
-    heading: "Planet Fitness Receipt Generator",
-    intro: "Create a Planet Fitness membership receipt with your plan, home club and billing.",
-    useCases: ["Gym membership records", "HSA/FSA documentation", "Expense reimbursement"],
+      `Make a Planet Fitness membership receipt or invoice with plan, club, billing date and dues. Watermarked download is free; a pass from ${PASS_FROM} removes it.`,
+    heading: "Planet Fitness Receipt Generator for Membership Dues",
+    intro:
+      `Make a Planet Fitness membership receipt or invoice with your plan, home club, billing date and dues. Building it and a watermarked download are free; a pass from ${PASS_FROM} removes the watermark.`,
+    useCases: [
+      "Records of your own membership payments",
+      "Household budgeting for gym dues",
+      "Sample receipts for fitness app mockups",
+    ],
+    guidance: [
+      {
+        heading: "Fields you can edit on a Planet Fitness receipt",
+        body:
+          "The membership block holds the member name and number, the plan (the sample shows Black Card; change it to Classic or whichever plan the account is on), the home club and the billing date. Below it, the dues print as a line item, and the annual fee can go on its own line or in the note at the foot of the receipt.\n\n" +
+          "The amounts on the sample are placeholders. Enter the dues and fees shown on your own account, since prices vary by club and plan.",
+      },
+      {
+        heading: "Invoice or receipt?",
+        body:
+          "An invoice asks for a payment that has not been made yet, so it shows an amount due and a due date. A receipt confirms a payment that has already gone through, with the date and how it was paid. Use the builder's Document heading field to head the same layout INVOICE or RECEIPT, depending on which one you need.",
+      },
+    ],
     faqs: [
       {
         question: "Can I customize the receipt?",
@@ -5598,6 +5661,8 @@ interface BrandSeed {
   paper?: Paper;
   icon?: string;
   items?: Omit<LineItem, "id">[];
+  /** Hand-set page title, overriding the TITLE_VARIANTS pick. */
+  title?: string;
 }
 
 // ---------------------------------------------------------------------------
@@ -5642,13 +5707,13 @@ function pickDistinct<T>(arr: T[], n: number, seed: number): T[] {
 const INTRO_VARIANTS: ((n: string, noun: string, city?: string) => string)[] = [
   (n, noun) => `Create an editable ${n} receipt with ${noun}. Perfect for replacing a lost ${n} receipt, expense reports, bookkeeping records or design mockups.`,
   (n, noun) => `Need ${anBrand(n)} receipt fast? Build one with ${noun}, then download a PDF or PNG with no account. Free downloads carry a small watermark; Pro removes it.`,
-  (n, noun) => `Recreate ${anBrand(n)} receipt that matches the real thing, complete with ${noun}. Adjust the totals and export it for expenses, reimbursements or your own records.`,
+  (n, noun) => `Lay out ${anBrand(n)}-style receipt complete with ${noun}. Adjust the totals and export it for your own records.`,
   (n, noun) => `Make ${anBrand(n)} receipt online in seconds. Lay it out with ${noun} — subtotal, tax and total included — ready to print or save.`,
   (n, noun, city) => `Build ${anBrand(n)} receipt${city ? ` for a visit to the ${city} location` : ""} with ${noun}. Edit the totals, then download it for expenses or your own records.`,
   (n, noun) => `Rebuild ${anBrand(n)} receipt from memory — add ${noun}, set the tax and total, then export a PDF or PNG in under a minute.`,
   (n, noun, city) => `Whether you're replacing a receipt from ${anBrand(n)}${city ? ` in ${city}` : ""} or issuing one yourself, this generator handles ${noun}, tax and totals in one editable layout.`,
   (n, noun) => `A ${n} receipt template with ${noun} already laid out — change the items, prices and date to match your own purchase, then download.`,
-  (n, noun) => `Generate ${anBrand(n)} receipt with ${noun} in the format the real thing uses. Free to build, with a live preview as you edit.`,
+  (n, noun) => `Generate ${anBrand(n)}-style receipt with ${noun}. Free to build, with a live preview as you edit.`,
   (n, noun, city) => `This ${n} receipt generator lays out ${noun}${city ? `, styled after the ${city} store` : ""} — edit every field, then export as PDF or PNG.`,
 ];
 
@@ -5719,10 +5784,10 @@ const USECASE_VARIANTS: ((n: string) => string[])[] = [
   (n) => [`Replace a lost ${n} receipt`, "Expense reports and reimbursement", "Personal bookkeeping and records", "Props and design mockups"],
   (n) => [`Recover a misplaced ${n} receipt`, "Business travel expense claims", "Budgeting and spend tracking", "Mockups for design or film"],
   (n) => [`Reprint ${anBrand(n)} receipt you lost`, "Submit for reimbursement at work", "Records for taxes and bookkeeping", "Sample receipts for testing or demos"],
-  (n) => [`Rebuild a faded ${n} receipt`, "Attach proof of purchase to a claim", "Keep a personal spending log", "App or website screenshot mockups"],
+  (n) => [`Rebuild a faded ${n} receipt`, "Keep an itemized record of a purchase", "Keep a personal spending log", "App or website screenshot mockups"],
   (n) => [`Document ${anBrand(n)} purchase after the fact`, "Freelance and small-business invoicing", "Tax-season bookkeeping records", "Stage or screen props"],
   (n) => [`Get a copy of ${anBrand(n)} receipt you never printed`, "Corporate expense-report backup", "Household budgeting records", "Presentation or portfolio mockups"],
-  (n) => [`Stand in for a thermal ${n} receipt that faded`, "Reimbursement paperwork for work trips", "Everyday bookkeeping and record-keeping", "Design comps that need a real-looking receipt"],
+  (n) => [`Stand in for a thermal ${n} receipt that faded`, "Reimbursement paperwork for work trips", "Everyday bookkeeping and record-keeping", "Design comps and mockups that need a sample receipt"],
   (n) => [`Recreate ${anBrand(n)} receipt for a return`, "Freelancer client expense summaries", "Personal finance tracking", "Film, theatre or app-demo props"],
 ];
 
@@ -5758,7 +5823,7 @@ const FAQ_POOL: FaqVariant[] = [
   }),
   (n) => ({ question: `Can I edit the items and prices on ${anBrand(n)} receipt?`, answer: `Every line, quantity, price and the tax rate is fully editable, so your ${n} receipt matches exactly what you need.` }),
   (n) => ({ question: `Can I download ${anBrand(n)} receipt as a PDF?`, answer: `Yes — export your ${n} receipt as a high-resolution PDF or PNG, ready to print or attach to an expense report.` }),
-  (n) => ({ question: `Does it look like a real ${n} receipt?`, answer: `The layout mirrors a genuine ${n} receipt — logo, itemized lines, subtotal, tax and total — so it reads as authentic at a glance.` }),
+  (n) => ({ question: `What does the ${n} receipt template include?`, answer: `It opens with ${anBrand(n)}-style layout: a logo, itemized lines, subtotal, tax and total, all editable. It is an independent template for your own records and mockups, not a receipt issued by ${n}.` }),
   (n) => ({
     question: `Do I need an account to make ${anBrand(n)} receipt?`,
     answer: `No. You can build, preview and download ${anBrand(n)} receipt with no account. Free downloads carry a small watermark; Pro removes it, from ${PRO_FROM} for 7 days, and you pay at checkout without creating an account.`,
@@ -5942,7 +6007,7 @@ function makeBrand(s: BrandSeed): ReceiptTemplate {
     // Free/Pro wording is applied once, at assembly — see stripFree and the
     // BRAND_TEMPLATES map. Doing it here as well would be the second mechanism
     // that made 96 hand-written titles miss the rule in the first place.
-    seoTitle: pick(TITLE_VARIANTS, seed)(s.name),
+    seoTitle: s.title ?? pick(TITLE_VARIANTS, seed)(s.name),
     seoDescription: pick(SEO_DESC_VARIANTS, seed >>> 2)(s.name, noun),
     heading: `${s.name} Receipt Generator`,
     intro: pick(INTRO_VARIANTS, seed >>> 4)(s.name, noun, s.city),
@@ -6131,7 +6196,7 @@ const NEW_BRAND_SEEDS: BrandSeed[] = [
   { slug: "marathon-gas", name: "Marathon", domain: "marathonbrand.com", category: "Gas & Convenience", city: "Findlay, OH", items: [{ name: "Regular Unleaded (gal)", quantity: 12.0, price: 3.35 }] },
   { slug: "texaco", name: "Texaco", domain: "texaco.com", category: "Gas & Convenience", city: "Houston, TX" },
   { slug: "citgo", name: "CITGO", domain: "citgo.com", category: "Gas & Convenience", city: "Houston, TX" },
-  { slug: "sunoco", name: "Sunoco", domain: "sunoco.com", category: "Gas & Convenience", city: "Dallas, TX" },
+  { slug: "sunoco", name: "Sunoco", domain: "sunoco.com", category: "Gas & Convenience", city: "Dallas, TX", title: "Sunoco Gas Receipt Generator — Fuel Receipt Maker" },
   { slug: "valero", name: "Valero", domain: "valero.com", category: "Gas & Convenience", city: "San Antonio, TX" },
   { slug: "phillips-66", name: "Phillips 66", domain: "phillips66.com", category: "Gas & Convenience", city: "Houston, TX" },
   { slug: "conoco", name: "Conoco", domain: "conoco.com", category: "Gas & Convenience", city: "Houston, TX" },

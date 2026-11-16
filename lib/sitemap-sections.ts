@@ -120,7 +120,7 @@ export async function sectionUrls(id: SectionId): Promise<MetadataRoute.Sitemap>
       return [
         ...EXAMPLES.map((e) => ({
           url: `${SITE.url}/examples/${e.slug}`,
-          lastModified: d(C.EXAMPLES_UPDATED),
+          lastModified: d(C.exampleReviewedAt(e.slug)),
         })),
         // Paginated index pages; page 1 is /examples, which lives in core.
         ...Array.from({ length: Math.max(0, EXAMPLES_TOTAL_PAGES - 1) }, (_, i) => ({

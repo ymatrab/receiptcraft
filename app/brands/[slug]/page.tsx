@@ -17,6 +17,9 @@ import RelatedPosts from "@/components/RelatedPosts";
 import { TEMPLATES } from "@/lib/templates";
 import { templatesForBrand } from "@/lib/topic-clusters";
 import { BRAND_DEPTH } from "@/lib/brand-depth";
+import { BRAND_SELL_LINKS } from "@/lib/sell-links";
+import SellLinks from "@/components/SellLinks";
+import { CitedText } from "@/components/Sources";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -182,6 +185,7 @@ export default async function BrandTemplatePage({ params }: Props) {
               {template.heading}
             </h1>
             <p className="mt-4 text-lg leading-relaxed text-slate-600">{template.intro}</p>
+            <SellLinks links={BRAND_SELL_LINKS[template.slug]} />
 
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
@@ -333,6 +337,21 @@ export default async function BrandTemplatePage({ params }: Props) {
             </p>
           )}
         </section>
+
+        {/* Hand-written sections for the few brands whose queries need them
+            (template.guidance, the same field the category templates use). */}
+        {template.guidance && template.guidance.length > 0 && (
+          <section className="mt-20">
+            <div className="max-w-3xl space-y-12">
+              {template.guidance.map((g) => (
+                <div key={g.heading}>
+                  <h2 className="text-2xl font-bold text-slate-900">{g.heading}</h2>
+                  <CitedText body={g.body} className="mt-3 leading-relaxed text-slate-600" />
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
 
         {depth && (
           <section className="mt-20" aria-labelledby="real-receipt-heading">
