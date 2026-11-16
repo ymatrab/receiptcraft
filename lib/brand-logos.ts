@@ -39,7 +39,7 @@ export const WIKIMEDIA_LOGOS: Record<string, string> = {
   "safeway.com": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Safeway_logo.svg/330px-Safeway_logo.svg.png",
   "walgreens.com": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Walgreens_1990_logo_text.svg/330px-Walgreens_1990_logo_text.svg.png",
   "cvs.com": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/CVS_Logo_2016.svg/330px-CVS_Logo_2016.svg.png",
-  "homedepot.com": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/TheHomeDepot.svg/330px-TheHomeDepot.svg.png",
+  "homedepot.com": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/The_Home_Depot_logo.svg/330px-The_Home_Depot_logo.svg.png",
   "lowes.com": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Lowes_Companies_Logo.svg/330px-Lowes_Companies_Logo.svg.png",
   "ikea.com": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Ikea_logo.svg/330px-Ikea_logo.svg.png",
   "bestbuy.com": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Best_Buy_logo_2018.svg/330px-Best_Buy_logo_2018.svg.png",
