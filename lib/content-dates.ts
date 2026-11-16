@@ -4,7 +4,7 @@ import { BRAND_SPECS } from "./brand-specs";
 import { BRAND_DEPTH } from "./brand-depth";
 import { BRAND_TEMPLATES, brandCategoryFor } from "./brands";
 import { hubTemplateForBrand } from "./topic-clusters";
-import { hasHandoff, hasOfficialSource } from "./intent-pages";
+import { hasHandoff, hasOfficialSource, INTENT_PAGES } from "./intent-pages";
 import { COMPETITORS, LAST_UPDATED } from "./comparisons";
 import { examplesForBrand, examplesForTemplate } from "./example-links";
 import { contextLinksFor } from "./contextual-links";
@@ -440,8 +440,15 @@ export function brandReviewedAt(slug: string): string {
       : null,
     linksChangedNov16(`/brands/${slug}`) || examplesForBrand(slug).length > 0 ? LINKS_NOV16_UPDATED : null,
     BRANDS_SOURCE_FIXED.has(slug) ? BRANDS_SOURCE_FIXED_UPDATED : null,
+    BRANDS_WITH_HELP_SECTION.has(slug) ? BRANDS_HELP_REMOVED_UPDATED : null,
   );
 }
+
+// 2026-11-16: the "{Brand} receipt help" section (links to the brand's
+// /receipt-help guides) came off the brand pages. Only brands that had guides
+// showed the section, so only they move.
+const BRANDS_HELP_REMOVED_UPDATED = "2026-11-16";
+const BRANDS_WITH_HELP_SECTION = new Set(INTENT_PAGES.map((p) => p.brandSlug));
 
 // 2026-11-16: internal-links pass. Brand pages link their worked examples
 // (lib/example-links.ts) and some sell pages gained a hand-written hand-off

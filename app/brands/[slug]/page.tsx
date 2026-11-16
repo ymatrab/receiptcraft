@@ -6,7 +6,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BRAND_TEMPLATES, brandCategoryFor } from "@/lib/brands";
 import { CATEGORY_NOUN } from "@/lib/brand-categories";
-import { INTENT_PAGES, intentContent } from "@/lib/intent-pages";
 import { previewFromTemplate } from "@/lib/receipt";
 import { docFromReceiptData } from "@/lib/sections";
 import { calcTotals, formatMoney } from "@/lib/format";
@@ -80,9 +79,10 @@ export default async function BrandTemplatePage({ params }: Props) {
   const related = Array.from({ length: Math.min(4, siblings.length - 1) }, (_, i) =>
     siblings[(at + 1 + i) % siblings.length],
   );
-  // Same-brand "receipt help" guides (lost receipt, get a copy, returns) — a
-  // real intra-entity link so the brand/help pages read as one cluster.
-  const helpPages = INTENT_PAGES.filter((p) => p.brandSlug === template.slug);
+  // No links from here to the same brand's /receipt-help guides. A brand page
+  // sells; those guides are retrieval pages, and a "lost your receipt?" link
+  // sends a buyer off to find the receipt they came to make (strategy: never
+  // link a sell page to a retrieval page). The guides still link here.
   // The generic template(s) this brand belongs under, so the brand links up to
   // its hub as well as across to its neighbours.
   const hubTemplates = templatesForBrand(template.slug, category)
@@ -427,32 +427,6 @@ export default async function BrandTemplatePage({ params }: Props) {
                 </div>
               ))}
             </div>
-          </section>
-        )}
-
-        {/* Same-brand receipt help — intra-entity cross-links */}
-        {helpPages.length > 0 && (
-          <section className="mt-20" aria-labelledby="brand-help-heading">
-            <h2 id="brand-help-heading" className="text-2xl font-bold text-slate-900">
-              {template.shortName} receipt help
-            </h2>
-            <p className="mt-3 max-w-3xl text-slate-600">
-              Lost your {template.shortName} receipt or need a copy? These guides
-              show how to find, reprint or replace it — and recreate one for your
-              records.
-            </p>
-            <ul className="mt-5 flex flex-wrap gap-2">
-              {helpPages.map((p) => (
-                <li key={p.slug}>
-                  <Link
-                    href={`/receipt-help/${p.slug}`}
-                    className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-600 transition-colors hover:border-indigo-300 hover:text-indigo-600"
-                  >
-                    {intentContent(p).h1}
-                  </Link>
-                </li>
-              ))}
-            </ul>
           </section>
         )}
 
