@@ -18,6 +18,7 @@ import { PLANS, formatPlanPrice } from "@/lib/plans";
 import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
 import ComparisonTable from "@/components/comparison/ComparisonTable";
 import RelatedPosts from "@/components/RelatedPosts";
+import ContextLinks from "@/components/ContextLinks";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -184,6 +185,7 @@ export default async function ComparePage({ params }: Props) {
               {c.h1}
             </h1>
             <p className="mt-4 text-lg leading-relaxed text-slate-600">{c.intro}</p>
+            <ContextLinks path={`/compare/${c.slug}`} />
 
             <div className="mt-8 flex flex-wrap gap-3">
               <Link

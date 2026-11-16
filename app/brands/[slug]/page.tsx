@@ -20,6 +20,9 @@ import { BRAND_DEPTH } from "@/lib/brand-depth";
 import { BRAND_SELL_LINKS } from "@/lib/sell-links";
 import SellLinks from "@/components/SellLinks";
 import { CitedText } from "@/components/Sources";
+import ContextLinks from "@/components/ContextLinks";
+import { examplesForBrand } from "@/lib/example-links";
+import { exampleSummary } from "@/lib/examples";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -95,6 +98,10 @@ export default async function BrandTemplatePage({ params }: Props) {
   // Brand-specific receipt anatomy for the ~15 brands with real search demand;
   // undefined for the rest, which keep only the data-driven section above.
   const depth = BRAND_DEPTH[template.slug];
+  // Worked examples of this brand's receipt. Examples linked their brand page,
+  // but until 2026-11-16 no brand page linked back, so most examples had no
+  // body link at all and several were crawled and left out of the index.
+  const examples = examplesForBrand(template.slug);
 
   const faqJsonLd = {
     "@context": "https://schema.org",
@@ -229,6 +236,9 @@ export default async function BrandTemplatePage({ params }: Props) {
               removes it.
             </p>
 
+            {/* Hand-written hand-offs to the closest sell page (lib/contextual-links.ts) */}
+            <ContextLinks path={`/brands/${template.slug}`} />
+
             <h2 className="mt-12 text-xl font-bold text-slate-900">
               Common uses for a {template.name.toLowerCase()}
             </h2>
@@ -333,6 +343,23 @@ export default async function BrandTemplatePage({ params }: Props) {
               <Link href="/create" className="font-medium text-indigo-600 hover:text-indigo-700">
                 receipt maker
               </Link>
+              .
+            </p>
+          )}
+
+          {examples.length > 0 && (
+            <p className="mt-4 max-w-3xl text-slate-600">
+              {examples.length === 1
+                ? `See a worked ${template.shortName} receipt example: `
+                : `See worked ${template.shortName} receipt examples: `}
+              {examples.map((ex, i) => (
+                <span key={ex.slug}>
+                  {i > 0 && (i === examples.length - 1 ? " and " : ", ")}
+                  <Link href={`/examples/${ex.slug}`} className="font-medium text-indigo-600 hover:text-indigo-700">
+                    {exampleSummary(ex)}
+                  </Link>
+                </span>
+              ))}
               .
             </p>
           )}

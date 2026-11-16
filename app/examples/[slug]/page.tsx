@@ -21,6 +21,7 @@ import { SITE, absoluteUrl } from "@/lib/site";
 import { creativeWorkJsonLd } from "@/lib/schema";
 import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
 import { BRAND_TEMPLATES } from "@/lib/brands";
+import { brandSlugForExample } from "@/lib/example-links";
 
 // 2026-11-16: the brand page is the sell page for these examples' queries
 // ("starbucks receipt template", "home depot receipt generator").
@@ -102,12 +103,10 @@ export default async function ExamplePage({
     : EXAMPLES.filter((e) => e.slug !== ex.slug).slice(0, 6));
 
   // The brand's own template page, when there is one: examples had no link to it.
-  // A leading "The" is dropped on both sides: the examples say "The Home Depot"
-  // where the brand page is "Home Depot", and the two never matched.
-  const norm = (s: string) => s.toLowerCase().replace(/^the\s+/, "").replace(/[^a-z0-9]/g, "");
-  const brandPage = BRAND_TEMPLATES.find(
-    (t) => norm(t.shortName) === norm(ex.brand) || norm(t.name.replace(/ Receipt$/, "")) === norm(ex.brand),
-  );
+  // Matched in lib/example-links.ts (drops a leading "The", knows aliases),
+  // which the brand page uses to link back.
+  const brandSlug = brandSlugForExample(ex);
+  const brandPage = brandSlug ? BRAND_TEMPLATES.find((t) => t.slug === brandSlug) : undefined;
   // Examples whose brand page owns the query this example also shows for: the
   // main button opens the brand page instead of the generic category template.
   const brandFirst = Boolean(brandPage) && BRAND_FIRST_EXAMPLES.has(ex.slug);

@@ -16,11 +16,9 @@ export type SellLinkPart = string | { href: string; anchor: string };
 /** One sentence, rendered as a single paragraph. */
 export type SellLink = SellLinkPart[];
 
-/** Keyed by brand slug (/brands/[slug]). */
+/** Keyed by brand slug (/brands/[slug]). Sunoco → Costco and taxi → Uber
+ *  live in lib/contextual-links.ts. */
 export const BRAND_SELL_LINKS: Readonly<Record<string, readonly SellLink[]>> = {
-  sunoco: [
-    ["Need a warehouse-club receipt instead? Use the ", { href: "/brands/costco", anchor: "Costco receipt generator" }, "."],
-  ],
   "planet-fitness": [
     ["See a filled-in sample first: ", { href: "/examples/planet-fitness-receipt-membership", anchor: "Planet Fitness membership receipt example" }, "."],
   ],
@@ -37,9 +35,6 @@ export const BRAND_SELL_LINKS: Readonly<Record<string, readonly SellLink[]>> = {
 
 /** Keyed by template slug (/templates/[slug]). */
 export const TEMPLATE_SELL_LINKS: Readonly<Record<string, readonly SellLink[]>> = {
-  taxi: [
-    ["Need an Uber-style trip receipt instead? Use the ", { href: "/brands/uber", anchor: "Uber receipt generator" }, "."],
-  ],
   "coffee-shop": [
     ["Want the Starbucks layout? Start from the ", { href: "/brands/starbucks", anchor: "Starbucks receipt template" }, "."],
   ],
