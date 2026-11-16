@@ -7,6 +7,7 @@ import { notFound } from "next/navigation";
 import {
   getIntentPage,
   intentContent,
+  intentHandoff,
   siblingIntents,
   INTENT_SLUGS,
   type IntentKind,
@@ -82,6 +83,8 @@ export default async function IntentPage({
   const c = intentContent(page);
   const logo = getTemplate(page.brandSlug)?.defaults.logoDataUrl ?? "";
   const siblings = siblingIntents(page);
+  const handoff = intentHandoff(page);
+  const passPrice = formatPlanPrice(PLANS.pro_weekly);
 
   const faqJsonLd = {
     "@context": "https://schema.org",
@@ -162,15 +165,44 @@ export default async function IntentPage({
           box under the first section and the closing CTA are both below the
           fold, and only 25% of visitors ever open the builder. This stays a
           single line so the page still answers the query first. */}
-      <p className="mt-3 text-sm text-slate-500">
-        Can&apos;t get the original back?{" "}
-        <Link
-          href={`/create?template=${encodeURIComponent(page.brandSlug)}`}
-          className="font-semibold text-indigo-700 underline decoration-indigo-300 underline-offset-2 hover:decoration-indigo-700"
-        >
-          Make a {page.brandName} receipt for your records instead →
-        </Link>
-      </p>
+      {c.seeAlso && (
+        <p className="mt-3 text-sm text-slate-600">
+          {c.seeAlso.text}{" "}
+          <Link
+            href={`/receipt-help/${c.seeAlso.slug}`}
+            className="font-medium text-indigo-700 underline decoration-indigo-300 underline-offset-2 hover:decoration-indigo-700"
+          >
+            {c.seeAlso.anchor}
+          </Link>
+          .
+        </p>
+      )}
+      {/* 2026-11-16: on brands with a sell-page hand-off, the line above the
+          fold sends readers to that page (the brand template, or the example
+          that owns the brand's "receipt template" query) instead of /create,
+          and states the download terms before the click. */}
+      {handoff ? (
+        <p className="mt-3 text-sm text-slate-600">
+          Need a {page.brandName}-style receipt for your own records? Build one with the{" "}
+          <Link
+            href={handoff.href}
+            className="font-semibold text-indigo-700 underline decoration-indigo-300 underline-offset-2 hover:decoration-indigo-700"
+          >
+            {handoff.anchor}
+          </Link>{" "}
+          — free to build with a watermarked download; a clean download needs a pass from {passPrice}.
+        </p>
+      ) : (
+        <p className="mt-3 text-sm text-slate-500">
+          Can&apos;t get the original back?{" "}
+          <Link
+            href={`/create?template=${encodeURIComponent(page.brandSlug)}`}
+            className="font-semibold text-indigo-700 underline decoration-indigo-300 underline-offset-2 hover:decoration-indigo-700"
+          >
+            Make a {page.brandName} receipt for your records instead →
+          </Link>
+        </p>
+      )}
 
       {c.sections.map((s, si) => (
         <Fragment key={s.heading}>
@@ -293,6 +325,24 @@ export default async function IntentPage({
           ))}
         </dl>
       </section>
+
+      {/* The hand-off again, for readers who reached the end without
+          getting their original back. */}
+      {handoff && (
+        <div className="mt-12 rounded-2xl border border-indigo-200 bg-indigo-50/60 px-5 py-4">
+          <p className="leading-relaxed text-slate-700">
+            <strong className="font-semibold text-slate-900">Need to make one instead?</strong>{" "}
+            Build a {page.brandName}-style receipt for your own records with the{" "}
+            <Link
+              href={handoff.href}
+              className="font-medium text-indigo-700 underline decoration-indigo-300 underline-offset-2 hover:decoration-indigo-700"
+            >
+              {handoff.anchor}
+            </Link>
+            . Building it and downloading a watermarked copy are free; a clean download needs a pass from {passPrice}.
+          </p>
+        </div>
+      )}
 
       {/* Related. Always rendered: the brand-page chip is this guide's one
           link to the page that should own "{brand} receipt generator", and it

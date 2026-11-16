@@ -703,6 +703,64 @@ export interface IntentContent {
   sections: IntentSection[];
   faqs: { question: string; answer: string }[];
   ctaHeading: string;
+  /** One line under the lead pointing at a sibling guide that answers the
+   *  other angle (lost vs. copy), for brands whose two guides split a query. */
+  seeAlso?: { text: string; slug: string; anchor: string };
+}
+
+/**
+ * Where a brand's guides hand the visitor on to a sell page.
+ *
+ * These guides answer retrieval queries ("zara recover my receipt"), which the
+ * searcher cannot satisfy here. Since 2026-11-16 the owner's rule is that every
+ * retrieval page grown for its own queries must also hand its visitors to the
+ * matching sell page — above the fold and again at the end — instead of to
+ * /create, which canonicalises to a page that needs no more links.
+ *
+ * Keyed by brand, not by guide: all of a brand's guides get the hand-off, so
+ * content-dates can date them per brand without restamping untouched siblings.
+ * `href` defaults to /brands/{slug}; `anchor` to "{Brand} receipt template".
+ */
+export interface IntentHandoff {
+  href: string;
+  anchor: string;
+}
+
+const HANDOFF: Record<string, Partial<IntentHandoff>> = {
+  zara: {},
+  mcdonalds: { anchor: "McDonald's receipt generator" },
+  lyft: {},
+  bp: {},
+  marriott: {},
+  expedia: {},
+  "best-buy": {},
+  sephora: {},
+  subway: {},
+  gucci: {},
+  doordash: {},
+  "taco-bell": {},
+  kfc: { anchor: "KFC receipt generator" },
+  "dollar-tree": { anchor: "Dollar Tree receipt generator" },
+  shell: { anchor: "Shell receipt generator" },
+  target: { anchor: "Target receipt generator" },
+  chipotle: { anchor: "Chipotle receipt generator" },
+  // "kroger receipt template" is split between this brand's copy guide and the
+  // weekly-groceries example, which is the page meant to own it.
+  kroger: { href: "/examples/kroger-receipt-weekly-groceries", anchor: "Kroger receipt template" },
+};
+
+/** Whether this brand's guides carry the sell-page hand-off (for dating). */
+export function hasHandoff(brandSlug: string): boolean {
+  return Object.prototype.hasOwnProperty.call(HANDOFF, brandSlug);
+}
+
+export function intentHandoff(p: IntentPage): IntentHandoff | undefined {
+  if (!hasHandoff(p.brandSlug)) return undefined;
+  const h = HANDOFF[p.brandSlug];
+  return {
+    href: h.href ?? `/brands/${p.brandSlug}`,
+    anchor: h.anchor ?? `${p.brandName} receipt template`,
+  };
 }
 
 /**
@@ -743,7 +801,9 @@ function composeDescription(lead: string, tails: readonly string[]): string {
  * guide still answers what the searcher asked first.
  */
 export function intentContent(p: IntentPage): IntentContent {
-  const c = baseIntentContent(p);
+  const base = baseIntentContent(p);
+  const override = CONTENT_OVERRIDES[p.slug];
+  const c = override ? override(base, p) : base;
   const n = p.brandName;
   return {
     ...c,
@@ -959,3 +1019,337 @@ function baseIntentContent(p: IntentPage): IntentContent {
     ctaHeading: `Recreate a lost ${n} receipt`,
   };
 }
+
+/**
+ * Per-guide rewrites, 2026-11-16.
+ *
+ * The generated copy aims every guide of a kind at the same generic query
+ * ("How to Get a Copy of Your X Receipt"), but Search Console shows several
+ * guides ranking page 1 for different wording — "zara receipt finder",
+ * "bp receipt lookup", "marriott folio request", "how to download lyft receipt
+ * as pdf" — under titles that never use it. These overrides retitle those
+ * guides around the queries they already hold (GSC, 28 days to 2026-11-14) and
+ * answer them in the lead. Some also fix steps the template gets wrong for the
+ * brand: there is no "customer-service desk" at Lyft or Expedia.
+ *
+ * Facts come only from BRAND_FACTS / BRAND_OFFICIAL above; where an app menu
+ * name could not be verified the copy says so instead of inventing one. Each
+ * override receives the generated content so untouched sections stay in step
+ * with the template.
+ */
+type ContentOverride = (base: IntentContent, p: IntentPage) => IntentContent;
+
+/** The generated section whose heading starts with `prefix`, if any. */
+function pick(c: IntentContent, prefix: string): IntentSection[] {
+  const s = c.sections.find((x) => x.heading.startsWith(prefix));
+  return s ? [s] : [];
+}
+
+const CONTENT_OVERRIDES: Record<string, ContentOverride> = {
+  // 4,829 impressions, 6 clicks: "zara receipt finder" (696, pos 7.2), "zara
+  // recover my receipt" (660, pos 5.4), "zara find my receipt", "zara retrieve
+  // my receipt". The page answered "zara return policy" instead.
+  "zara-return-policy": (c) => ({
+    ...c,
+    title: `Zara Receipt Finder: Recover Your Zara Receipt`,
+    description: `Lost a Zara receipt? Recover it from your Zara app or account, your order email or your card statement, plus what Zara accepts for a return without one.`,
+    h1: `Zara Receipt Finder: How to Recover Your Zara Receipt`,
+    lead: `To recover a Zara receipt, look in your Zara app or account first: Zara has largely replaced paper with QR-code receipts in store, and online orders keep their invoices in your account. If you ordered as a guest, use the “Manage Your Order” link in your order confirmation email; if neither has it, your card statement still shows the Zara transaction.`,
+    sections: [
+      {
+        heading: `How to recover your Zara receipt in the app or account`,
+        steps: [
+          `Open the Zara app, or sign in on zara.com, with the account you shopped with.`,
+          `Go to your purchases or orders. In-store purchases made with a scanned QR ticket and online orders are both kept there — the exact menu name can differ by country and app version.`,
+          `Open the purchase to see the receipt (in store) or the invoice (online), and save or screenshot it.`,
+        ],
+      },
+      {
+        heading: `Recover a Zara receipt after a guest or online order`,
+        body: `Guest orders are not attached to an account, so the route back to the receipt is the order confirmation email: search your inbox for the Zara order email and open its “Manage Your Order” link. Check spam and promotions folders too, and search for the order number if you have it.`,
+      },
+      {
+        heading: `Zara store receipt: if you paid in store and have no app`,
+        body: `A paper store receipt that is gone cannot be looked up online. Your bank or card statement still shows the date, store and amount, which is useful proof on its own, and the store where you paid may be able to help if you bring the card you used. What a store can do varies, so check Zara's official help pages before relying on it.`,
+      },
+      ...c.sections,
+    ],
+    faqs: [
+      {
+        question: `How do I recover my Zara receipt?`,
+        answer: `Check the purchases or orders section of your Zara app or account, or the “Manage Your Order” link in your confirmation email if you ordered as a guest. If neither has it, your card statement shows the transaction.`,
+      },
+      {
+        question: `Where are Zara in-store receipts kept?`,
+        answer: `Zara has largely replaced paper with QR-code receipts in store, so a purchase made with your scanned app code is kept in your app's purchase history.`,
+      },
+      ...c.faqs,
+    ],
+  }),
+
+  // 3,418 impressions, 30 clicks: "mcdonalds receipt" (945, pos 6.5) plus ~700
+  // impressions of "how to find/get receipt in the mcdonalds app" at pos 8–9.
+  // "mcdonalds receipt generator" stays out of the title and H1: /brands/mcdonalds
+  // owns it, and the hand-off below links there with that anchor.
+  "mcdonalds-receipt-copy": (c, p) => ({
+    ...c,
+    title: `McDonald's Receipt: Find It in the App or Get a Copy`,
+    description: `Find your McDonald's receipt: app orders keep a receipt under Recent Orders, email receipts sit in your inbox, and counter orders need a reprint in store.`,
+    h1: `McDonald's Receipt: How to Find or Get a Copy`,
+    lead: `Orders placed in the McDonald's app keep a full receipt under Recent Orders, so that is the first place to look. Counter orders exist only on the paper receipt and your card statement, so for those ask the restaurant for a reprint, with your card and the date, as soon as you can.`,
+    sections: [
+      {
+        heading: `How to find your receipt in the McDonald's app`,
+        steps: [
+          `Open the McDonald's app and sign in with the account you ordered with.`,
+          `Go to Recent Orders (if your app version labels it differently, look for your order history).`,
+          `Open the order to see its receipt, with the items, prices and restaurant.`,
+        ],
+      },
+      {
+        heading: `McDonald's receipt lookup: what you can find online`,
+        cite: officialCite(p.brandSlug, p.brandName, p.kind),
+        body: `Only orders that went through an app can be looked up later: Mobile Order & Pay orders in the McDonald's app, and delivery orders in Uber Eats or DoorDash, whichever carried it. Counter and drive-thru purchases are not stored anywhere you can search — the paper receipt and your card statement are the only records.`,
+      },
+      {
+        heading: `Get a McDonald's receipt reprint in store`,
+        body: `For a counter or drive-thru order, go back to the restaurant counter with the card you paid with and the approximate time. Whether a reprint is possible depends on the restaurant's register system, so ask soon after the purchase.`,
+      },
+      ...pick(c, `Good to know`),
+      ...pick(c, `Or recreate`),
+    ],
+    faqs: [
+      {
+        question: `How do I find my receipt on the McDonald's app?`,
+        answer: `Open the app and go to Recent Orders; app orders are stored there with full receipts.`,
+      },
+      {
+        question: `Can I look up a McDonald's receipt online?`,
+        answer: `Only for app or delivery orders. Counter purchases exist only on paper and your card statement.`,
+      },
+      {
+        question: `Can McDonald's reprint a receipt?`,
+        answer: `Often, if you bring the card you paid with and the approximate date to the restaurant soon after the purchase. It depends on the restaurant's register system.`,
+      },
+    ],
+  }),
+
+  // 564 impressions, 0 clicks, pos ~12: "how to download lyft receipt as pdf"
+  // (69, pos 9.6), "lyft receipt" (67, pos 12.4), "how to get lyft receipt pdf".
+  "lyft-receipt-copy": (c) => ({
+    ...c,
+    title: `Lyft Receipt: How to Get a Copy or Download a PDF`,
+    description: `Need a Lyft receipt? Every ride's receipt is in the Lyft app's ride history and can be resent by email. Here's how to get a copy and save it as a PDF.`,
+    h1: `Lyft Receipt: How to Get a Copy or Save It as a PDF`,
+    lead: `Every Lyft ride has a receipt in the app: open Ride History, select the ride, and the receipt is there to view or resend to your email. To keep it as a PDF, save that emailed receipt as a PDF from your phone or browser.`,
+    sections: [
+      {
+        heading: `How to get a copy of a Lyft receipt`,
+        steps: [
+          BRAND_FACTS.lyft.lookup,
+          `Search your email for the Lyft ride receipt — the ride date and "Lyft" are usually enough to find it.`,
+          `Can't find the ride? Check your card statement for the date and amount, then match it in Ride History.`,
+        ],
+      },
+      {
+        heading: `How to download a Lyft receipt as a PDF`,
+        body: `If you don't see a download option on the ride, resend the receipt to your email and save that email as a PDF: on a computer use Print, then Save as PDF; on a phone use Share or Print and save the preview as a PDF. If you ride for work often, a Lyft business profile forwards ride receipts to your work email, where expense tools can pick them up.`,
+      },
+      ...pick(c, `Good to know`),
+      ...pick(c, `Or recreate`),
+    ],
+    faqs: [
+      {
+        question: `How do I get a receipt from Lyft?`,
+        answer: `Open the Lyft app, go to Ride History and select the ride. The receipt is there and can be resent to your email.`,
+      },
+      {
+        question: `Can I download a Lyft receipt as a PDF?`,
+        answer: `Yes — resend the receipt to your email and save it as a PDF with your phone's or browser's print option. A Lyft business profile also forwards ride receipts to your work email.`,
+      },
+      ...c.faqs.filter((f) => !f.question.startsWith(`Can Lyft reprint`)),
+    ],
+  }),
+
+  // 546 impressions at pos ~7: "bp receipt lookup" (98, pos 3.3, the clicks),
+  // "bp gas station receipt", "bp fuel receipt", "bp gas receipt".
+  "bp-lost-receipt": (c) => ({
+    ...c,
+    title: `BP Receipt Lookup: Find a Lost BP Fuel Receipt`,
+    description: `Lost a BP fuel receipt? BPme app purchases keep their receipts in the app; pay-at-pump card purchases need your statement or the station. Here's where to look.`,
+    h1: `BP Receipt Lookup: How to Find a Lost BP Gas Station Receipt`,
+    lead: `Where you can look up a BP receipt depends on how you paid. Fuel bought through the BPme app keeps its receipt in the app, with the grade and gallons; a card used at the pump leaves the transaction on your statement, and the station may be able to reprint it if you ask soon.`,
+  }),
+
+  // 1,384 impressions, 3 clicks: "marriott receipt lookup" (243, pos 9.9),
+  // "marriott folio request" (156, pos 10.4); "sheraton receipt lookup" too.
+  "marriott-receipt-copy": (c) => ({
+    ...c,
+    title: `Marriott Receipt Lookup: Request Your Folio Online`,
+    description: `Need a Marriott receipt? The hotel bill is called a folio. Get a copy from your checkout email, your Bonvoy account or a folio request on marriott.com.`,
+    h1: `Marriott Receipt Lookup: How to Get a Copy of Your Folio`,
+    lead: `A Marriott hotel receipt is called a folio: the itemised bill for your stay. To get a copy, find the folio Marriott emailed at checkout, open the stay in your Marriott Bonvoy account, or request a folio copy on marriott.com without calling the hotel.`,
+    sections: [
+      {
+        heading: `How to get a copy of your Marriott folio`,
+        steps: [
+          `Search your email for the folio sent at checkout — the hotel name and your stay dates usually find it.`,
+          `Sign in to your Marriott Bonvoy account and open your past stays to find the one you need.`,
+          `Request a folio copy on marriott.com for the stay. Have your confirmation number and stay dates to hand.`,
+          `Or email the hotel's front desk with your name, confirmation number and dates and ask them to resend the folio.`,
+        ],
+      },
+      {
+        heading: `Requesting a Marriott folio after checkout`,
+        body: `${BRAND_FACTS.marriott.quirk} If the folio shows a $0 balance, the stay was probably paid through a travel site, and the payment receipt comes from the site you booked with rather than the hotel.`,
+      },
+      {
+        heading: `Sheraton, Westin and other Marriott hotels`,
+        body: `Sheraton, Westin, Courtyard, The Ritz-Carlton and the other Marriott Bonvoy hotels belong to Marriott, so a Sheraton receipt lookup works the same way: the stay appears in your Bonvoy account if you added your member number to the booking, and the folio request on marriott.com should cover it. If the stay is not in your account, ask the hotel directly.`,
+      },
+      ...pick(c, `Or recreate`),
+    ],
+    faqs: [
+      {
+        question: `What is a Marriott folio?`,
+        answer: `It is the itemised hotel bill for your stay — room, taxes and incidentals — and it is the document most expense reports ask for as the Marriott receipt.`,
+      },
+      {
+        question: `How do I request a Marriott folio after checkout?`,
+        answer: `Check the checkout email first, then your Marriott Bonvoy account's past stays, or request a folio copy on marriott.com. The hotel's front desk can also resend it by email.`,
+      },
+      {
+        question: `Can I look up a Sheraton receipt the same way?`,
+        answer: `Yes. Sheraton is a Marriott Bonvoy hotel, so its folio is found the same way as any Marriott stay.`,
+      },
+    ],
+  }),
+
+  // 779 impressions, 0 clicks: "expedia receipts" (202), "expedia receipt"
+  // (165), "how to get a receipt from expedia" and variants at pos 7–8.
+  "expedia-receipt-copy": (c) => ({
+    ...c,
+    title: `Expedia Receipt: How to Get a Receipt From Expedia`,
+    description: `Get your Expedia receipt: sign in, open Trips and choose the booking to view or print its itinerary and payment receipt. Plus why a hotel folio may show $0.`,
+    h1: `How to Get a Receipt From Expedia`,
+    lead: `To get a receipt from Expedia, sign in to your Expedia account, open Trips and choose the booking — its itinerary and payment receipt are kept there to view, print or download. Your booking confirmation email works as a receipt too.`,
+    sections: [
+      {
+        heading: `How to get a receipt from Expedia`,
+        steps: [
+          `Sign in to the Expedia account you booked with and open Trips.`,
+          `Select the booking. The itinerary and the payment receipt are kept with each trip; the exact button name can differ between the app and the website.`,
+          `Print it, or save it as a PDF from your browser's print option.`,
+          `Booked without signing in? Search your email for the Expedia confirmation — it carries the itinerary number you need to find the trip.`,
+        ],
+      },
+      ...pick(c, `Good to know`),
+      ...pick(c, `Or recreate`),
+    ],
+    faqs: [
+      {
+        question: `How do I get a receipt from Expedia?`,
+        answer: `Sign in, open Trips, select the booking and open its receipt. The booking confirmation email also works as a receipt.`,
+      },
+      {
+        question: `Why does my hotel folio show $0 when I booked on Expedia?`,
+        answer: `Because Expedia took the payment, not the hotel. For an expense report, use the payment receipt from your Expedia trip.`,
+      },
+    ],
+  }),
+
+  // 1,134 impressions, 3 clicks: "best buy receipt" (315, pos 7.8), "best buy
+  // receipt lookup" (190, pos 8.4), "best buy receipt pdf".
+  "best-buy-receipt-copy": (c) => ({
+    ...c,
+    title: `Best Buy Receipt Lookup: Get a Copy or Invoice`,
+    description: `Look up a Best Buy receipt in your My Best Buy purchase history, which covers online and in-store purchases. Plus where to find an invoice and reprints.`,
+    h1: `Best Buy Receipt Lookup: How to Get a Copy of Your Receipt`,
+    lead: `Best Buy receipt lookup runs through your My Best Buy account: Purchase History covers online orders and in-store purchases made with your member ID, and receipts can be reprinted from there. Best Buy also emails receipts when your account is attached, so search your inbox for the order number too.`,
+    sections: [
+      {
+        heading: `Best Buy receipt lookup and invoices`,
+        steps: [
+          `Sign in to My Best Buy and open Purchase History.`,
+          `Find the order or store purchase and open it to view the receipt, then print it or save it as a PDF.`,
+          `Paid in store without your member ID? Take the card you paid with to Customer Service — staff can often find the transaction.`,
+          `Need an invoice for an expense report? The receipt from Purchase History usually works as one; for an invoice with company details, ask Best Buy customer service whether one can be issued for that purchase.`,
+        ],
+      },
+      ...c.sections,
+    ],
+    faqs: [
+      {
+        question: `How do I look up a Best Buy receipt?`,
+        answer: `Sign in to My Best Buy and open Purchase History, which covers online orders and in-store purchases made with your member ID. Receipts can be reprinted from there.`,
+      },
+      ...c.faqs,
+    ],
+  }),
+
+  // Sephora: both guides rank for "sephora receipt". Each keeps one angle —
+  // this one the lost receipt and returning without it.
+  "sephora-lost-receipt": (c) => ({
+    ...c,
+    lead: `Lost your Sephora receipt? Your Beauty Insider account usually stands in for it: Sephora records purchases made with your account, so a store can look the purchase up and online orders stay in your purchase history. That record is normally what you need for a return without the paper receipt.`,
+    sections: [
+      ...c.sections.slice(0, 1),
+      {
+        heading: `Returning to Sephora without a receipt`,
+        body: `Ask the store to look the purchase up in your Beauty Insider account, and bring the card you paid with in case it was not linked. How you are refunded depends on how long ago you bought, so check Sephora's return policy before you go.`,
+      },
+      ...c.sections.slice(1),
+    ],
+  }),
+  "sephora-receipt-copy": (c) => ({
+    ...c,
+    lead: `To get a copy of a Sephora receipt, look in three places: Purchase History in the Sephora app or your sephora.com account, your Beauty Insider account (which logs store purchases made with it), and the order email for an online order.`,
+    seeAlso: {
+      text: `Lost the receipt and need to return something?`,
+      slug: `sephora-lost-receipt`,
+      anchor: `What to do about a lost Sephora receipt`,
+    },
+  }),
+
+  // Subway: the lost-receipt guide keeps "subway receipt" and "store id on
+  // receipt" untouched; this one is about getting a copy from the app, rewards
+  // or email.
+  "subway-receipt-copy": (c) => ({
+    ...c,
+    lead: `A copy of a Subway receipt comes from the Subway app or website: online and app orders are emailed and stored in your Subway rewards account history. Counter purchases are recorded there too if you scanned your rewards at the register.`,
+    seeAlso: {
+      text: `Lost a paper receipt from the counter?`,
+      slug: `subway-lost-receipt`,
+      anchor: `How to find a lost Subway receipt`,
+    },
+  }),
+
+  // Gucci: "gucci receipt" is split between the two guides (the copy guide
+  // ranks better over 28 days). Each gets its own angle and points to the other.
+  "gucci-lost-receipt": (c) => ({
+    ...c,
+    lead: `Lost a Gucci receipt? For a return, proof of purchase or an authentication question, what matters is a record of the purchase: Gucci boutiques keep client purchase records, and online orders keep invoices in your Gucci account. Check with Gucci before relying on either — its own policies decide what it accepts.`,
+    seeAlso: {
+      text: `Only need another copy of the receipt?`,
+      slug: `gucci-receipt-copy`,
+      anchor: `How to get a copy of a Gucci receipt`,
+    },
+    sections: [
+      ...c.sections.slice(0, 1),
+      {
+        heading: `Proof of purchase without a Gucci receipt`,
+        body: `Ask the boutique where you bought the item whether your client profile shows the purchase, and bring the card you paid with and the packaging and paperwork that came with the item. For an online order, the order record in your Gucci account is the proof. Whether that is enough for a return or an authentication request is Gucci's decision, so confirm with the boutique or Gucci's client services first.`,
+      },
+      ...c.sections.slice(1),
+    ],
+  }),
+  "gucci-receipt-copy": (c) => ({
+    ...c,
+    lead: `To get a copy of a Gucci receipt, start with your Gucci account for an online order, where the invoice is kept. For a boutique purchase, ask the boutique — it can usually reissue a receipt for a registered client — or contact Gucci's client services.`,
+    seeAlso: {
+      text: `Lost the receipt and need it for a return or authentication?`,
+      slug: `gucci-lost-receipt`,
+      anchor: `What to do without a Gucci receipt`,
+    },
+  }),
+};

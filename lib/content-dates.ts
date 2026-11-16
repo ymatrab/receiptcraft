@@ -4,7 +4,7 @@ import { BRAND_SPECS } from "./brand-specs";
 import { BRAND_DEPTH } from "./brand-depth";
 import { BRAND_TEMPLATES, brandCategoryFor } from "./brands";
 import { hubTemplateForBrand } from "./topic-clusters";
-import { hasOfficialSource } from "./intent-pages";
+import { hasHandoff, hasOfficialSource } from "./intent-pages";
 import { COMPETITORS, LAST_UPDATED } from "./comparisons";
 
 /**
@@ -763,6 +763,13 @@ export const INTENT_PAYWALL_UPDATED = "2026-10-24";
 // replacement receipt?" FAQ (visible and in the FAQ JSON-LD).
 export const INTENT_HUB_LINK_UPDATED = "2026-10-27";
 
+// 2026-11-16: guides for 18 brands (HANDOFF in lib/intent-pages.ts) hand the
+// reader to the brand's sell page above the fold and again at the end, with
+// the download terms; several of them were also retitled around the queries
+// they rank for (CONTENT_OVERRIDES). Every guide of those brands changed, so
+// the date is per brand; all other guides keep their older dates.
+export const INTENT_HANDOFF_UPDATED = "2026-11-16";
+
 /** When a receipt-help guide was last reviewed. */
 export function intentReviewedAt(brandSlug: string): string {
   return newest(
@@ -771,6 +778,7 @@ export function intentReviewedAt(brandSlug: string): string {
     INTENT_TOP_LINK_UPDATED,
     INTENT_PAYWALL_UPDATED,
     INTENT_HUB_LINK_UPDATED,
+    hasHandoff(brandSlug) ? INTENT_HANDOFF_UPDATED : null,
   );
 }
 
