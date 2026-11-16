@@ -367,7 +367,9 @@ export default async function IntentPage({
               href={`/brands/${page.brandSlug}`}
               className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-600 hover:border-indigo-300 hover:text-indigo-600"
             >
-              {page.brandName} receipt template
+              {/* When the hand-off sends "receipt template" to another page
+                  (Kroger's example), this chip must not compete for it. */}
+              {page.brandName} receipt {handoff && handoff.href !== `/brands/${page.brandSlug}` ? "generator" : "template"}
             </Link>
           </li>
         </ul>

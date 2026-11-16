@@ -519,8 +519,13 @@ export function exampleReviewedAt(slug: string): string {
     EXAMPLES_UPDATED,
     EXAMPLES_NOV16.has(slug) ? LINKS_NOV16_UPDATED : null,
     EXAMPLES_BRAND_LINKED.has(slug) ? EXAMPLES_BRAND_LINKED_UPDATED : null,
+    slug === "kroger-receipt-weekly-groceries" ? EXAMPLE_TEMPLATE_TITLE_UPDATED : null,
   );
 }
+
+// 2026-11-16: the Kroger weekly-groceries example took "Template" into its
+// title and H1 (it owns "kroger receipt template"; app/examples/[slug]).
+const EXAMPLE_TEMPLATE_TITLE_UPDATED = "2026-11-16";
 export const GUIDES_UPDATED = "2026-08-20";
 // /guides/receipt-legality — new on 2026-08-21. Its own constant so the new URL
 // carries a date newer than the IndexNow cron's last run and is actually

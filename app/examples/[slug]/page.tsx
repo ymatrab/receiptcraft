@@ -30,6 +30,20 @@ const BRAND_FIRST_EXAMPLES: ReadonlySet<string> = new Set([
   "home-depot-receipt-paint-project",
 ]);
 
+// Examples that own a brand's "{brand} receipt template" query (Search Console
+// shows Google already ranks them for it). Their title and H1 name the template
+// so the page answers the query it is shown for; the brand's /receipt-help
+// guides hand off to them with that anchor (lib/intent-pages.ts HANDOFF).
+const OWNS_TEMPLATE_QUERY: ReadonlySet<string> = new Set([
+  "kroger-receipt-weekly-groceries",
+]);
+
+function exampleHeading(slug: string, brand: string): string {
+  return OWNS_TEMPLATE_QUERY.has(slug)
+    ? `${brand} Receipt Template Example`
+    : `${brand} Receipt Example`;
+}
+
 export function generateStaticParams() {
   return EXAMPLE_SLUGS.map((slug) => ({ slug }));
 }
@@ -46,7 +60,7 @@ export async function generateMetadata({
   const total = formatMoney(exampleTotal(ex), data.currency);
   // Keep the title short enough to avoid SERP truncation (~60 chars incl. the
   // " | Makecepeit" suffix); the verbose item summary stays in the description.
-  const title = `${ex.brand} Receipt Example (${total})`;
+  const title = `${exampleHeading(slug, ex.brand)} (${total})`;
   const full = `See a sample ${ex.brand} receipt example: ${exampleSummary(ex)}, totalling ${total}. Make your own editable ${ex.brand} receipt and download it as PDF or PNG.`;
   // Long item summaries (or long brand names) can push the rich description past
   // the ~160-char SERP truncation limit — fall back to a concise variant then.
@@ -119,7 +133,7 @@ export default async function ExamplePage({
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: SITE.url },
       { "@type": "ListItem", position: 2, name: "Receipt Examples", item: absoluteUrl("/examples") },
-      { "@type": "ListItem", position: 3, name: `${ex.brand} Receipt Example`, item: absoluteUrl(`/examples/${ex.slug}`) },
+      { "@type": "ListItem", position: 3, name: exampleHeading(ex.slug, ex.brand), item: absoluteUrl(`/examples/${ex.slug}`) },
     ],
   };
 
@@ -146,7 +160,7 @@ export default async function ExamplePage({
       <div className="mt-4 grid gap-10 lg:grid-cols-[minmax(0,1fr)_360px]">
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
-            {ex.brand} Receipt Example
+            {exampleHeading(ex.slug, ex.brand)}
           </h1>
           <p className="mt-4 text-lg leading-relaxed text-slate-600">
             {exampleIntroText(ex, exampleSummary(ex), totalStr)}
