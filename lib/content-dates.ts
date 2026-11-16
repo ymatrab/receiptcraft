@@ -4,8 +4,10 @@ import { BRAND_SPECS } from "./brand-specs";
 import { BRAND_DEPTH } from "./brand-depth";
 import { BRAND_TEMPLATES, brandCategoryFor } from "./brands";
 import { hubTemplateForBrand } from "./topic-clusters";
-import { hasOfficialSource } from "./intent-pages";
+import { hasHandoff, hasOfficialSource } from "./intent-pages";
 import { COMPETITORS, LAST_UPDATED } from "./comparisons";
+import { examplesForBrand, examplesForTemplate } from "./example-links";
+import { contextLinksFor } from "./contextual-links";
 
 /**
  * When each section of the site was last genuinely reviewed.
@@ -133,7 +135,10 @@ export const BRANDS_UPDATED = "2026-08-31";
 // description and watermark FAQ (page + FAQPage JSON-LD) state the new paywall.
 // 2026-10-28: Ralph Lauren joins the list.
 // 2026-11-03: Krispy Kreme joins the list.
-export const BRANDS_INDEX_UPDATED = "2026-11-03";
+// 2026-11-16: a "Most used" line under the intro links eight brand pages by the
+// query each one owns ("Starbucks receipt template", "Chipotle receipt
+// generator"). The hub's title and H1 did not change.
+export const BRANDS_INDEX_UPDATED = "2026-11-16";
 
 /**
  * The 36 brands whose visible copy changed with the article fix on 2026-09-01.
@@ -348,6 +353,11 @@ const BRANDS_DEPTH_DROPPED: ReadonlySet<string> = new Set([
   "cinemark",
 ]);
 
+// 2026-11-16: /brands/home-depot loses its only "How to read" source link (the
+// Hunker article now 404s and has no archive copy).
+const BRANDS_SOURCE_FIXED_UPDATED = "2026-11-16";
+const BRANDS_SOURCE_FIXED: ReadonlySet<string> = new Set(["home-depot"]);
+
 // Brand pages added after the shared dates above. Without its own date a new
 // page inherits BRANDS_LINKS_UPDATED and looks older than it is.
 const BRANDS_ADDED: Readonly<Record<string, string>> = {
@@ -384,8 +394,37 @@ function brandReceiptChanged(slug: string): boolean {
   );
 }
 
+// 2026-11-16: sell-page pass. Titles, H1s, intros and meta descriptions on
+// these brand pages changed (template wording, watermark stated, misuse-prone
+// use cases removed), Lyft and Planet Fitness gained sections and FAQs, and
+// Sunoco and the three gyms gained a hand-off link (lib/sell-links.ts).
+const BRANDS_SELL_PAGES: ReadonlySet<string> = new Set([
+  "walmart", "paypal", "starbucks", "chipotle", "cvs-pharmacy", "home-depot",
+  "lyft", "planet-fitness", "sunoco", "la-fitness", "crunch-fitness", "anytime-fitness",
+  // "Resale authentication" use case replaced (misuse review).
+  "gucci", "louis-vuitton",
+]);
+const BRANDS_SELL_PAGES_UPDATED = "2026-11-16";
+
+// Same date: the shared copy pools in lib/brands.ts lost their misuse wording
+// ("real-looking", "reads as authentic", "matches the real thing", "proof of
+// purchase"). Derived from the text those pages now carry, so only the brands
+// that drew one of the rewritten variants move.
+function brandPoolCopyChanged(slug: string): boolean {
+  const t = BRAND_TEMPLATES.find((b) => b.slug === slug);
+  if (!t) return false;
+  return (
+    t.useCases.includes("Design comps and mockups that need a sample receipt") ||
+    t.useCases.includes("Keep an itemized record of a purchase") ||
+    t.faqs.some((f) => / receipt template include\?$/.test(f.question)) ||
+    /^Lay out an? .+-style receipt complete with /.test(t.intro) ||
+    /^Generate an? .+-style receipt with /.test(t.intro)
+  );
+}
+
 export function brandReviewedAt(slug: string): string {
   return newest(
+    BRANDS_SELL_PAGES.has(slug) || brandPoolCopyChanged(slug) ? BRANDS_SELL_PAGES_UPDATED : null,
     brandReceiptChanged(slug) ? BRANDS_RECEIPT_UPDATED : null,
     BRANDS_UPDATED,
     BRANDS_ARTICLE_FIXED.has(slug) ? BRANDS_ARTICLE_UPDATED : null,
@@ -399,8 +438,33 @@ export function brandReviewedAt(slug: string): string {
     slug in BRAND_DEPTH
       ? BRANDS_DEPTH_DROPPED.has(slug) ? BRANDS_DEPTH_DROPPED_UPDATED : BRANDS_DEPTH_UPDATED
       : null,
+    linksChangedNov16(`/brands/${slug}`) || examplesForBrand(slug).length > 0 ? LINKS_NOV16_UPDATED : null,
+    BRANDS_SOURCE_FIXED.has(slug) ? BRANDS_SOURCE_FIXED_UPDATED : null,
   );
 }
+
+// 2026-11-16: internal-links pass. Brand pages link their worked examples
+// (lib/example-links.ts) and some sell pages gained a hand-written hand-off
+// sentence (lib/contextual-links.ts). Derived from those two files rather than
+// listed, so the date moves on exactly the pages whose body changed.
+const LINKS_NOV16_UPDATED = "2026-11-16";
+const linksChangedNov16 = (path: string) => contextLinksFor(path).length > 0;
+
+// Same date: these examples gained a hand-written scenario and notes (four were
+// crawled and not indexed), or now link their brand page because the name match
+// ignores a leading "The" and knows "Costco Wholesale" and "Whole Foods Market".
+const EXAMPLES_NOV16: ReadonlySet<string> = new Set([
+  "marriott-receipt-weekend", "panera-receipt-soup-sandwich", "panera-receipt-you-pick-two",
+  "carrefour-receipt-france",
+  "home-depot-receipt-hardware", "home-depot-receipt-paint-project",
+  "costco-receipt-bulk-haul", "costco-receipt-monthly-stockup",
+  "whole-foods-receipt-organic", "whole-foods-receipt-prepared-foods",
+]);
+
+
+// 2026-11-16: /authors links /about from its body. Its own constant because
+// STATIC_UPDATED also stamps /blog and /contact, which did not change.
+export const AUTHORS_UPDATED = "2026-11-16";
 // 2026-08-31: the CTA names a Pro template before the click.
 // 2026-09-01: the 73 policy guides are restored after a day away. They go back
 // with their original content, so this is the date the URL became reachable
@@ -418,6 +482,25 @@ export const INTENT_CITED_UPDATED = "2026-09-01";
 // show their own currency, tax label and date order, examples link their
 // brand page, and the first batch gained hand-written scenarios and notes.
 export const EXAMPLES_UPDATED = "2026-10-08";
+
+// 2026-11-16: the Starbucks and Home Depot paint examples' main button opens
+// the brand page, and both Home Depot examples now link it at all (the
+// "The Home Depot" name never matched the brand page before).
+const EXAMPLES_BRAND_LINKED: ReadonlySet<string> = new Set([
+  "starbucks-receipt-two-lattes-muffin",
+  "home-depot-receipt-paint-project",
+  "home-depot-receipt-hardware",
+]);
+const EXAMPLES_BRAND_LINKED_UPDATED = "2026-11-16";
+
+/** When one example page was last reviewed. */
+export function exampleReviewedAt(slug: string): string {
+  return newest(
+    EXAMPLES_UPDATED,
+    EXAMPLES_NOV16.has(slug) ? LINKS_NOV16_UPDATED : null,
+    EXAMPLES_BRAND_LINKED.has(slug) ? EXAMPLES_BRAND_LINKED_UPDATED : null,
+  );
+}
 export const GUIDES_UPDATED = "2026-08-20";
 // /guides/receipt-legality — new on 2026-08-21. Its own constant so the new URL
 // carries a date newer than the IndexNow cron's last run and is actually
@@ -448,7 +531,9 @@ export const POLICY_UPDATED = "2026-08-31";
 // 2026-10-24: paywall change — the builder, its download copy and the FAQs it
 // renders (lib/faqs.ts, ReceiptMakerGuide) no longer say a free account is
 // needed to download or that the first download is watermark-free.
-export const CREATE_UPDATED = "2026-10-24";
+// 2026-11-16: title and H1 become "Free Receipt Maker & Generator" so the page
+// names both head terms it owns.
+export const CREATE_UPDATED = "2026-11-16";
 // 2026-10-13: lists the first-party measurement storage (mkc_* keys).
 // 2026-10-20: analytics section split by region — opt-in in the EEA/UK/CH,
 // on by default with Decline as the opt-out everywhere else.
@@ -557,6 +642,7 @@ export function compareReviewedAt(slug: string): string {
     COMPETITORS.find((c) => c.slug === slug)?.updated ?? COMPARISONS_UPDATED,
     COMPARE_COPY_UPDATED,
     COMPARE_PREVIEW_UPDATED,
+    linksChangedNov16(`/compare/${slug}`) ? LINKS_NOV16_UPDATED : null,
   );
 }
 
@@ -577,8 +663,17 @@ const COMPARE_COPY_UPDATED = "2026-10-24";
 export function alternativesUpdated(): string {
   // ISO dates sort lexicographically, so the last one is the newest.
   const reviewed = COMPETITORS.map((c) => c.updated).sort();
-  return newest(reviewed[reviewed.length - 1] ?? COMPARISONS_UPDATED, ALTERNATIVES_COPY_UPDATED);
+  return newest(
+    reviewed[reviewed.length - 1] ?? COMPARISONS_UPDATED,
+    ALTERNATIVES_COPY_UPDATED,
+    ALTERNATIVES_LINKS_UPDATED,
+  );
 }
+
+// 2026-11-16: our own entry links the Walmart brand page and the restaurant,
+// pharmacy and gas station templates by name. Our copy, not a competitor
+// re-check, so the visible "Last reviewed" date (LAST_UPDATED) does not move.
+const ALTERNATIVES_LINKS_UPDATED = "2026-11-16";
 
 // 2026-10-18: our own entry links "receipt maker" and the closing CTA "online
 // receipt maker" to /create, so the roundup keeps "best receipt generators"
@@ -715,14 +810,29 @@ const TEMPLATES_INVOICE_HUB: ReadonlySet<string> = new Set([
   "tax-invoice-australia", "plumbing-invoice", "hvac-invoice",
 ]);
 
+// 2026-11-16: sell-page pass — new titles, H1s and sections (pharmacy Rx/OTC,
+// retail "store receipt", auto repair "mechanic receipt", house cleaning), and
+// hand-off links between sell pages (lib/sell-links.ts) on these templates.
+const TEMPLATES_SELL_PAGES: ReadonlySet<string> = new Set([
+  "pharmacy", "retail-store", "cleaning-service-receipt", "dry-cleaning-receipt",
+  "auto-repair", "taxi", "coffee-shop",
+]);
+const TEMPLATES_SELL_PAGES_UPDATED = "2026-11-16";
+
 export function templateReviewedAt(t: ReceiptTemplate): string {
+  return TEMPLATES_SELL_PAGES.has(t.slug) ? TEMPLATES_SELL_PAGES_UPDATED : templateReviewedAtNov(t);
+}
+
+function templateReviewedAtNov(t: ReceiptTemplate): string {
   const latest = templateReviewedAtSamples(t);
   const paywall = TEMPLATES_PAYWALL_FIXED.has(t.slug) && TEMPLATES_PAYWALL_UPDATED > latest ? TEMPLATES_PAYWALL_UPDATED : latest;
   const staffed = (t.defaults.register || t.defaults.cashier) && TEMPLATES_STAFF_LINE_UPDATED > paywall ? TEMPLATES_STAFF_LINE_UPDATED : paywall;
   const hubbed = TEMPLATES_HUB_FIXED.has(t.slug) || hasMoreThanEightBrands(t.slug);
   const hub = hubbed && TEMPLATES_HUB_UPDATED > staffed ? TEMPLATES_HUB_UPDATED : staffed;
   const changed = TEMPLATES_NOV_DEPTH.has(t.slug) || TEMPLATES_INVOICE_HUB.has(t.slug);
-  return changed && TEMPLATES_NOV_DEPTH_UPDATED > hub ? TEMPLATES_NOV_DEPTH_UPDATED : hub;
+  const deepened = changed && TEMPLATES_NOV_DEPTH_UPDATED > hub ? TEMPLATES_NOV_DEPTH_UPDATED : hub;
+  const linked = linksChangedNov16(`/templates/${t.slug}`) || examplesForTemplate(t.slug).length > 0;
+  return newest(deepened, linked ? LINKS_NOV16_UPDATED : null);
 }
 
 function templateReviewedAtSamples(t: ReceiptTemplate): string {
@@ -763,6 +873,13 @@ export const INTENT_PAYWALL_UPDATED = "2026-10-24";
 // replacement receipt?" FAQ (visible and in the FAQ JSON-LD).
 export const INTENT_HUB_LINK_UPDATED = "2026-10-27";
 
+// 2026-11-16: guides for 18 brands (HANDOFF in lib/intent-pages.ts) hand the
+// reader to the brand's sell page above the fold and again at the end, with
+// the download terms; several of them were also retitled around the queries
+// they rank for (CONTENT_OVERRIDES). Every guide of those brands changed, so
+// the date is per brand; all other guides keep their older dates.
+export const INTENT_HANDOFF_UPDATED = "2026-11-16";
+
 /** When a receipt-help guide was last reviewed. */
 export function intentReviewedAt(brandSlug: string): string {
   return newest(
@@ -771,6 +888,7 @@ export function intentReviewedAt(brandSlug: string): string {
     INTENT_TOP_LINK_UPDATED,
     INTENT_PAYWALL_UPDATED,
     INTENT_HUB_LINK_UPDATED,
+    hasHandoff(brandSlug) ? INTENT_HANDOFF_UPDATED : null,
   );
 }
 

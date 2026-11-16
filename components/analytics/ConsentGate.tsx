@@ -140,10 +140,20 @@ gtag('config', '${SITE.gaId}');`}
         </Script>
       ) : null}
 
-      {consent === "unset" && (
+      {/* Rendered in the server HTML (consent is null there), not added after
+          hydration. A first-time mobile visitor's largest text block was this
+          banner, and painting it only once JS had run made it the LCP element
+          on brand pages — LCP then measured hydration, not the page. Returning
+          visitors never see it flash: the inline script in app/layout.tsx sets
+          data-consent-set on <html> before first paint and globals.css hides
+          [data-consent-banner] under it. data-nosnippet keeps the boilerplate
+          out of search snippets now that it is in every page's HTML. */}
+      {(consent === null || consent === "unset") && (
         <div
           role="dialog"
           aria-label="Cookie consent"
+          data-consent-banner=""
+          data-nosnippet=""
           className="fixed inset-x-4 bottom-4 z-50 mx-auto max-w-xl rounded-2xl border border-slate-200 bg-white p-5 shadow-2xl"
         >
           <p className="text-sm leading-relaxed text-slate-600">

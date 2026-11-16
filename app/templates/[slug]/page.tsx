@@ -14,6 +14,11 @@ import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
 import { CitedText, SourceList } from "@/components/Sources";
 import { citationJsonLd } from "@/lib/sources";
 import RelatedPosts from "@/components/RelatedPosts";
+import SellLinks from "@/components/SellLinks";
+import { TEMPLATE_SELL_LINKS } from "@/lib/sell-links";
+import ContextLinks from "@/components/ContextLinks";
+import { examplesForTemplate } from "@/lib/example-links";
+import { exampleSummary } from "@/lib/examples";
 import { docViewUrl, googleDocFor } from "@/lib/google-docs-templates";
 import { BRAND_TEMPLATES, brandCategoryFor } from "@/lib/brands";
 import { byDemand, hubTemplateForBrand, relatedTemplateSlugs } from "@/lib/topic-clusters";
@@ -84,6 +89,10 @@ export default async function TemplatePage({ params }: Props) {
   // only eight of its brands, so 213 of 352 brand pages had no link from the
   // template page they belong to and lived on five links from their neighbours.
   const moreBrands = allBrands.slice(8);
+  // Worked examples built on this template that have no brand page to link
+  // them (a vet, a plumber, a farmers market). Before 2026-11-16 nothing in
+  // any page body linked them; only the paginated /examples index did.
+  const examples = examplesForTemplate(template.slug);
 
   // A sourced figure for templates that carry none of their own. Its sources
   // join the page's own so the footer list and the JSON-LD citations both cover
@@ -170,12 +179,16 @@ export default async function TemplatePage({ params }: Props) {
               {template.heading}
             </h1>
             <p className="mt-4 text-lg leading-relaxed text-slate-600">{template.intro}</p>
+            <SellLinks links={TEMPLATE_SELL_LINKS[template.slug]} />
 
             {template.leadAnswer && (
               <p className="mt-6 rounded-2xl border-l-4 border-indigo-500 bg-indigo-50/60 px-5 py-4 text-base leading-relaxed text-slate-700">
                 {template.leadAnswer}
               </p>
             )}
+
+            {/* Hand-written hand-offs to the closest sell page (lib/contextual-links.ts) */}
+            <ContextLinks path={`/templates/${template.slug}`} />
 
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
@@ -283,6 +296,24 @@ export default async function TemplatePage({ params }: Props) {
             <Link href="/templates/google-docs" className="font-medium text-indigo-600 hover:underline">
               Google Docs templates
             </Link>
+            .
+          </p>
+        )}
+
+        {/* Worked examples on this template with no brand page of their own */}
+        {examples.length > 0 && (
+          <p className="mt-10 max-w-3xl leading-relaxed text-slate-600">
+            <span className="font-semibold text-slate-900">
+              {examples.length === 1 ? `A worked ${docLabel} example:` : `Worked ${docLabel} examples:`}
+            </span>{" "}
+            {examples.map((ex, i) => (
+              <Fragment key={ex.slug}>
+                {i > 0 && (i === examples.length - 1 ? " and " : ", ")}
+                <Link href={`/examples/${ex.slug}`} className="font-medium text-indigo-600 hover:underline">
+                  {ex.brand} ({exampleSummary(ex)})
+                </Link>
+              </Fragment>
+            ))}
             .
           </p>
         )}

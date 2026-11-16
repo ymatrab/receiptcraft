@@ -69,7 +69,7 @@ function core(): MetadataRoute.Sitemap {
     { url: `${SITE.url}/blog`, lastModified: d(C.STATIC_UPDATED) },
     { url: `${SITE.url}/about`, lastModified: d(C.ABOUT_UPDATED) },
     { url: `${SITE.url}/contact`, lastModified: d(C.STATIC_UPDATED) },
-    { url: `${SITE.url}/authors`, lastModified: d(C.STATIC_UPDATED) },
+    { url: `${SITE.url}/authors`, lastModified: d(C.AUTHORS_UPDATED) },
     { url: `${SITE.url}/editorial-policy`, lastModified: d(C.POLICY_UPDATED) },
     { url: `${SITE.url}/privacy`, lastModified: d(C.PRIVACY_UPDATED) },
     { url: `${SITE.url}/terms`, lastModified: d(C.TERMS_UPDATED) },
@@ -120,7 +120,9 @@ export async function sectionUrls(id: SectionId): Promise<MetadataRoute.Sitemap>
       return [
         ...EXAMPLES.map((e) => ({
           url: `${SITE.url}/examples/${e.slug}`,
-          lastModified: d(C.EXAMPLES_UPDATED),
+          // Per-example, so the pages that gained notes or a brand link carry
+          // their own date without restamping the other ~280.
+          lastModified: d(C.exampleReviewedAt(e.slug)),
         })),
         // Paginated index pages; page 1 is /examples, which lives in core.
         ...Array.from({ length: Math.max(0, EXAMPLES_TOTAL_PAGES - 1) }, (_, i) => ({

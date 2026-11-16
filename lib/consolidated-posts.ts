@@ -61,6 +61,14 @@ export const CONSOLIDATED_POSTS: ReadonlyMap<string, string> = new Map([
   // converts. The guide is the right owner: it answers with Amazon's own
   // invoice route, which is what the searcher actually needs.
   ["amazon-receipt-download", "/receipt-help/amazon-receipt-copy"],
+  // A blog duplicate of a brand sell page. Search Console, 2026-11-16:
+  // /brands/home-depot ranks 7.5 for "home depot receipt generator" (165
+  // impressions) while this post takes 20 at 22.3 for the same query. The
+  // owner allowed this one 301 on 2026-11-16 as an explicit exception to the
+  // no-merge ruling for our own pages — do not read it as precedent. The post's
+  // body was not merged into the brand page; nothing in it was verified as
+  // unique enough to move.
+  ["home-depot-receipt-generator", "/brands/home-depot"],
 ]);
 
 /** Where a consolidated post's URL should send readers, or null if it is live. */

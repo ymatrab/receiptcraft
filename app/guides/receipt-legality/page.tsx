@@ -93,6 +93,9 @@ const articleJsonLd = {
   headline: TITLE,
   description: DESCRIPTION,
   url: absoluteUrl("/guides/receipt-legality"),
+  // First published with commit 7779c02. Fixed: datePublished never moves when
+  // the guide is revised — that is what dateModified is for.
+  datePublished: "2026-08-21",
   dateModified: GUIDES_LEGALITY_UPDATED,
   author: { "@type": "Organization", name: SITE.name, url: SITE.url },
   publisher: {

@@ -17,6 +17,12 @@ import RelatedPosts from "@/components/RelatedPosts";
 import { TEMPLATES } from "@/lib/templates";
 import { templatesForBrand } from "@/lib/topic-clusters";
 import { BRAND_DEPTH } from "@/lib/brand-depth";
+import { BRAND_SELL_LINKS } from "@/lib/sell-links";
+import SellLinks from "@/components/SellLinks";
+import { CitedText } from "@/components/Sources";
+import ContextLinks from "@/components/ContextLinks";
+import { examplesForBrand } from "@/lib/example-links";
+import { exampleSummary } from "@/lib/examples";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -92,6 +98,10 @@ export default async function BrandTemplatePage({ params }: Props) {
   // Brand-specific receipt anatomy for the ~15 brands with real search demand;
   // undefined for the rest, which keep only the data-driven section above.
   const depth = BRAND_DEPTH[template.slug];
+  // Worked examples of this brand's receipt. Examples linked their brand page,
+  // but until 2026-11-16 no brand page linked back, so most examples had no
+  // body link at all and several were crawled and left out of the index.
+  const examples = examplesForBrand(template.slug);
 
   const faqJsonLd = {
     "@context": "https://schema.org",
@@ -182,6 +192,7 @@ export default async function BrandTemplatePage({ params }: Props) {
               {template.heading}
             </h1>
             <p className="mt-4 text-lg leading-relaxed text-slate-600">{template.intro}</p>
+            <SellLinks links={BRAND_SELL_LINKS[template.slug]} />
 
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
@@ -224,6 +235,9 @@ export default async function BrandTemplatePage({ params }: Props) {
               a small watermark; a one-time Pro pass from {formatPlanPrice(PLANS.pro_weekly)}{" "}
               removes it.
             </p>
+
+            {/* Hand-written hand-offs to the closest sell page (lib/contextual-links.ts) */}
+            <ContextLinks path={`/brands/${template.slug}`} />
 
             <h2 className="mt-12 text-xl font-bold text-slate-900">
               Common uses for a {template.name.toLowerCase()}
@@ -332,7 +346,39 @@ export default async function BrandTemplatePage({ params }: Props) {
               .
             </p>
           )}
+
+          {examples.length > 0 && (
+            <p className="mt-4 max-w-3xl text-slate-600">
+              {examples.length === 1
+                ? `See a worked ${template.shortName} receipt example: `
+                : `See worked ${template.shortName} receipt examples: `}
+              {examples.map((ex, i) => (
+                <span key={ex.slug}>
+                  {i > 0 && (i === examples.length - 1 ? " and " : ", ")}
+                  <Link href={`/examples/${ex.slug}`} className="font-medium text-indigo-600 hover:text-indigo-700">
+                    {exampleSummary(ex)}
+                  </Link>
+                </span>
+              ))}
+              .
+            </p>
+          )}
         </section>
+
+        {/* Hand-written sections for the few brands whose queries need them
+            (template.guidance, the same field the category templates use). */}
+        {template.guidance && template.guidance.length > 0 && (
+          <section className="mt-20">
+            <div className="max-w-3xl space-y-12">
+              {template.guidance.map((g) => (
+                <div key={g.heading}>
+                  <h2 className="text-2xl font-bold text-slate-900">{g.heading}</h2>
+                  <CitedText body={g.body} className="mt-3 leading-relaxed text-slate-600" />
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
 
         {depth && (
           <section className="mt-20" aria-labelledby="real-receipt-heading">

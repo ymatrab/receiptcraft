@@ -89,7 +89,11 @@ export default async function AuthorsPage() {
           , review every template for accurate fields and layout, and answer
           support ourselves. Our guides are grounded in how receipts actually
           work — what each field means, how totals are calculated, and how to
-          keep records lawfully.
+          keep records lawfully. Why we built it is on our{" "}
+          <Link href="/about" className="font-medium text-indigo-600 hover:underline">
+            about page
+          </Link>
+          .
         </p>
         <p className="mt-3 text-sm leading-relaxed text-slate-600">
           How we write, source and update content is described in our{" "}

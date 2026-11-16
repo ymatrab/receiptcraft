@@ -181,8 +181,23 @@ export default function AlternativesPage() {
               <Link href="/create" className="font-medium text-indigo-600 hover:underline">
                 receipt maker
               </Link>{" "}
-              with {BRAND_COUNT} named-brand templates (Walmart, Target, Starbucks
-              and more), live preview, and PDF plus high-resolution PNG export.
+              with {BRAND_COUNT} named-brand templates (a{" "}
+              <Link href="/brands/walmart" className="font-medium text-indigo-600 hover:underline">
+                Walmart receipt generator
+              </Link>
+              , Target, Starbucks and more), category templates such as a{" "}
+              <Link href="/templates/restaurant" className="font-medium text-indigo-600 hover:underline">
+                restaurant receipt
+              </Link>
+              , a{" "}
+              <Link href="/templates/pharmacy" className="font-medium text-indigo-600 hover:underline">
+                pharmacy receipt
+              </Link>{" "}
+              and{" "}
+              <Link href="/templates/gas-station" className="font-medium text-indigo-600 hover:underline">
+                gas receipts
+              </Link>
+              , live preview, and PDF plus high-resolution PNG export.
               You can build, preview and download with no signup; free
               downloads carry a small watermark, and Pro removes it — with
               unlimited AI generation — as a one-time pass.

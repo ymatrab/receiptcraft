@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Reviewed from "@/components/Reviewed";
-import { EXAMPLES_UPDATED } from "@/lib/content-dates";
+import { exampleReviewedAt } from "@/lib/content-dates";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
@@ -21,6 +21,14 @@ import { SITE, absoluteUrl } from "@/lib/site";
 import { creativeWorkJsonLd } from "@/lib/schema";
 import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
 import { BRAND_TEMPLATES } from "@/lib/brands";
+import { brandSlugForExample } from "@/lib/example-links";
+
+// 2026-11-16: the brand page is the sell page for these examples' queries
+// ("starbucks receipt template", "home depot receipt generator").
+const BRAND_FIRST_EXAMPLES: ReadonlySet<string> = new Set([
+  "starbucks-receipt-two-lattes-muffin",
+  "home-depot-receipt-paint-project",
+]);
 
 export function generateStaticParams() {
   return EXAMPLE_SLUGS.map((slug) => ({ slug }));
@@ -95,10 +103,13 @@ export default async function ExamplePage({
     : EXAMPLES.filter((e) => e.slug !== ex.slug).slice(0, 6));
 
   // The brand's own template page, when there is one: examples had no link to it.
-  const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, "");
-  const brandPage = BRAND_TEMPLATES.find(
-    (t) => norm(t.shortName) === norm(ex.brand) || norm(t.name.replace(/ Receipt$/, "")) === norm(ex.brand),
-  );
+  // Matched in lib/example-links.ts (drops a leading "The", knows aliases),
+  // which the brand page uses to link back.
+  const brandSlug = brandSlugForExample(ex);
+  const brandPage = brandSlug ? BRAND_TEMPLATES.find((t) => t.slug === brandSlug) : undefined;
+  // Examples whose brand page owns the query this example also shows for: the
+  // main button opens the brand page instead of the generic category template.
+  const brandFirst = Boolean(brandPage) && BRAND_FIRST_EXAMPLES.has(ex.slug);
 
   // The former ItemList of receipt line items had no per-item URLs, so it was
   // ineligible for any Google rich result — dropped as noise, and not revived.
@@ -119,7 +130,7 @@ export default async function ExamplePage({
     description: `A worked ${ex.brand} receipt example: ${exampleSummary(ex)}, totalling ${totalStr}.`,
     path: `/examples/${ex.slug}`,
     about: ex.brand,
-    dateModified: EXAMPLES_UPDATED,
+    dateModified: exampleReviewedAt(ex.slug),
   });
 
   return (
@@ -143,12 +154,12 @@ export default async function ExamplePage({
 
           <div className="mt-6">
             <Link
-              href={`/create?template=${encodeURIComponent(ex.base)}`}
+              href={brandFirst && brandPage ? `/brands/${brandPage.slug}` : `/create?template=${encodeURIComponent(ex.base)}`}
               className="inline-block rounded-full bg-indigo-600 px-7 py-3.5 text-base font-semibold text-white shadow-lg shadow-indigo-600/25 hover:bg-indigo-700"
             >
-              Make a {ex.brand} receipt
+              {brandFirst && brandPage ? `Open the ${brandPage.shortName} receipt template` : `Make a ${ex.brand} receipt`}
             </Link>
-            {brandPage && (
+            {brandPage && !brandFirst && (
               <Link
                 href={`/brands/${brandPage.slug}`}
                 className="ml-4 text-sm font-medium text-indigo-700 underline decoration-indigo-300 underline-offset-2 hover:decoration-indigo-700"
@@ -239,7 +250,7 @@ export default async function ExamplePage({
           </ul>
         </section>
       )}
-      <Reviewed date={EXAMPLES_UPDATED} />
+      <Reviewed date={exampleReviewedAt(ex.slug)} />
     </div>
   );
 }

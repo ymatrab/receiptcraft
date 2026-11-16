@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { SOURCES, getSources, lastVerified, type SourceId } from "@/lib/sources";
 
 /**
@@ -83,8 +84,12 @@ export function CitedSentence({ id, sentence }: { id: SourceId; sentence: string
  * link text, which is what you usually want mid-sentence — some of these titles
  * run to a full line. Blank lines separate paragraphs. An unknown id falls back
  * to its plain link text rather than throwing, matching getSources().
+ *
+ * `{link:/path|text}` is an internal link to one of our own pages (see
+ * lib/contextual-links.ts). It takes a site-relative path only, so data cannot
+ * slip an external URL in through it.
  */
-const CITE_MARKER = /\{cite:([a-z0-9-]+)(?:\|([^}]*))?\}/g;
+const CITE_MARKER = /\{cite:([a-z0-9-]+)(?:\|([^}]*))?\}|\{link:(\/[^|}\s]*)\|([^}]+)\}/g;
 
 function withCitations(text: string): React.ReactNode[] {
   const out: React.ReactNode[] = [];
@@ -94,12 +99,24 @@ function withCitations(text: string): React.ReactNode[] {
 
   while ((m = CITE_MARKER.exec(text)) !== null) {
     if (m.index > last) out.push(text.slice(last, m.index));
-    const [full, id, linkText] = m;
-    out.push(
-      <Cite key={`${id}-${m.index}`} id={id as SourceId}>
-        {linkText || undefined}
-      </Cite>
-    );
+    const [full, id, linkText, href, anchor] = m;
+    if (href) {
+      out.push(
+        <Link
+          key={`${href}-${m.index}`}
+          href={href}
+          className="font-medium text-indigo-600 underline decoration-indigo-300 underline-offset-2 hover:decoration-indigo-600"
+        >
+          {anchor}
+        </Link>
+      );
+    } else {
+      out.push(
+        <Cite key={`${id}-${m.index}`} id={id as SourceId}>
+          {linkText || undefined}
+        </Cite>
+      );
+    }
     last = m.index + full.length;
   }
   if (last < text.length) out.push(text.slice(last));

@@ -33,7 +33,7 @@ export const BRAND_DEPTH: Record<string, BrandDepth> = {
       { label: "# ITEMS SOLD", meaning: "A count of items in the basket, printed just above the TC#." },
       { label: "TC#", meaning: "The 20-digit transaction code. It is what Walmart's own receipt lookup and many cashback apps read." },
     ],
-    note: "A Walmart receipt is a long monospaced thermal slip. What sets it apart is the UPC printed after every item and the TC# near the bottom, plus a survey line with an ID # at the top. The template keeps that order, so a reimbursement reviewer sees the layout they expect.",
+    note: "A Walmart receipt is a long monospaced thermal slip. What sets it apart is the UPC printed after every item and the TC# near the bottom, plus a survey line with an ID # at the top. The template keeps that order.",
     sources: [
       { title: "Ibotta: sending a Walmart receipt", url: "https://help.ibotta.com/hc/en-us/articles/360012110879-How-do-I-send-my-Walmart-receipt-" },
     ],
@@ -62,9 +62,8 @@ export const BRAND_DEPTH: Record<string, BrandDepth> = {
       { label: "Card block", meaning: "Masked card, AUTH CODE, Chip Read and AID." },
     ],
     note: "Home Depot receipts are built around quantities and SKUs, because so much of what people buy there is sold by the piece: studs, screws, bags of concrete. That is why the template puts a quantity column next to every line.",
-    sources: [
-      { title: "Hunker: how to read a Home Depot receipt", url: "https://www.hunker.com/13414941/how-to-read-my-home-depot-receipt" },
-    ],
+    // No sources: the one listed (a Hunker article) 404s since Nov 2026 and has
+    // no archive copy.
   },
   amazon: {
     lines: [
