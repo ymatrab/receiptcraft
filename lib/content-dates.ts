@@ -133,7 +133,10 @@ export const BRANDS_UPDATED = "2026-08-31";
 // description and watermark FAQ (page + FAQPage JSON-LD) state the new paywall.
 // 2026-10-28: Ralph Lauren joins the list.
 // 2026-11-03: Krispy Kreme joins the list.
-export const BRANDS_INDEX_UPDATED = "2026-11-03";
+// 2026-11-16: a "Most used" line under the intro links eight brand pages by the
+// query each one owns ("Starbucks receipt template", "Chipotle receipt
+// generator"). The hub's title and H1 did not change.
+export const BRANDS_INDEX_UPDATED = "2026-11-16";
 
 /**
  * The 36 brands whose visible copy changed with the article fix on 2026-09-01.
@@ -384,8 +387,35 @@ function brandReceiptChanged(slug: string): boolean {
   );
 }
 
+// 2026-11-16: sell-page pass. Titles, H1s, intros and meta descriptions on
+// these brand pages changed (template wording, watermark stated, misuse-prone
+// use cases removed), Lyft and Planet Fitness gained sections and FAQs, and
+// Sunoco and the three gyms gained a hand-off link (lib/sell-links.ts).
+const BRANDS_SELL_PAGES: ReadonlySet<string> = new Set([
+  "walmart", "paypal", "starbucks", "chipotle", "cvs-pharmacy", "home-depot",
+  "lyft", "planet-fitness", "sunoco", "la-fitness", "crunch-fitness", "anytime-fitness",
+]);
+const BRANDS_SELL_PAGES_UPDATED = "2026-11-16";
+
+// Same date: the shared copy pools in lib/brands.ts lost their misuse wording
+// ("real-looking", "reads as authentic", "matches the real thing", "proof of
+// purchase"). Derived from the text those pages now carry, so only the brands
+// that drew one of the rewritten variants move.
+function brandPoolCopyChanged(slug: string): boolean {
+  const t = BRAND_TEMPLATES.find((b) => b.slug === slug);
+  if (!t) return false;
+  return (
+    t.useCases.includes("Design comps and mockups that need a sample receipt") ||
+    t.useCases.includes("Keep an itemized record of a purchase") ||
+    t.faqs.some((f) => / receipt template include\?$/.test(f.question)) ||
+    /^Lay out an? .+-style receipt complete with /.test(t.intro) ||
+    /^Generate an? .+-style receipt with /.test(t.intro)
+  );
+}
+
 export function brandReviewedAt(slug: string): string {
   return newest(
+    BRANDS_SELL_PAGES.has(slug) || brandPoolCopyChanged(slug) ? BRANDS_SELL_PAGES_UPDATED : null,
     brandReceiptChanged(slug) ? BRANDS_RECEIPT_UPDATED : null,
     BRANDS_UPDATED,
     BRANDS_ARTICLE_FIXED.has(slug) ? BRANDS_ARTICLE_UPDATED : null,
@@ -418,6 +448,21 @@ export const INTENT_CITED_UPDATED = "2026-09-01";
 // show their own currency, tax label and date order, examples link their
 // brand page, and the first batch gained hand-written scenarios and notes.
 export const EXAMPLES_UPDATED = "2026-10-08";
+
+// 2026-11-16: the Starbucks and Home Depot paint examples' main button opens
+// the brand page, and both Home Depot examples now link it at all (the
+// "The Home Depot" name never matched the brand page before).
+const EXAMPLES_BRAND_LINKED: ReadonlySet<string> = new Set([
+  "starbucks-receipt-two-lattes-muffin",
+  "home-depot-receipt-paint-project",
+  "home-depot-receipt-hardware",
+]);
+const EXAMPLES_BRAND_LINKED_UPDATED = "2026-11-16";
+
+/** When one example page was last reviewed. */
+export function exampleReviewedAt(slug: string): string {
+  return EXAMPLES_BRAND_LINKED.has(slug) ? EXAMPLES_BRAND_LINKED_UPDATED : EXAMPLES_UPDATED;
+}
 export const GUIDES_UPDATED = "2026-08-20";
 // /guides/receipt-legality — new on 2026-08-21. Its own constant so the new URL
 // carries a date newer than the IndexNow cron's last run and is actually
@@ -715,7 +760,20 @@ const TEMPLATES_INVOICE_HUB: ReadonlySet<string> = new Set([
   "tax-invoice-australia", "plumbing-invoice", "hvac-invoice",
 ]);
 
+// 2026-11-16: sell-page pass — new titles, H1s and sections (pharmacy Rx/OTC,
+// retail "store receipt", auto repair "mechanic receipt", house cleaning), and
+// hand-off links between sell pages (lib/sell-links.ts) on these templates.
+const TEMPLATES_SELL_PAGES: ReadonlySet<string> = new Set([
+  "pharmacy", "retail-store", "cleaning-service-receipt", "dry-cleaning-receipt",
+  "auto-repair", "taxi", "coffee-shop",
+]);
+const TEMPLATES_SELL_PAGES_UPDATED = "2026-11-16";
+
 export function templateReviewedAt(t: ReceiptTemplate): string {
+  return TEMPLATES_SELL_PAGES.has(t.slug) ? TEMPLATES_SELL_PAGES_UPDATED : templateReviewedAtNov(t);
+}
+
+function templateReviewedAtNov(t: ReceiptTemplate): string {
   const latest = templateReviewedAtSamples(t);
   const paywall = TEMPLATES_PAYWALL_FIXED.has(t.slug) && TEMPLATES_PAYWALL_UPDATED > latest ? TEMPLATES_PAYWALL_UPDATED : latest;
   const staffed = (t.defaults.register || t.defaults.cashier) && TEMPLATES_STAFF_LINE_UPDATED > paywall ? TEMPLATES_STAFF_LINE_UPDATED : paywall;

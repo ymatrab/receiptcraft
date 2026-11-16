@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BRAND_LIST } from "@/lib/brands";
@@ -7,6 +8,17 @@ import BrandExplorer from "@/components/BrandExplorer";
 import { absoluteUrl } from "@/lib/site";
 
 const PRO_FROM = formatPlanPrice(PLANS.pro_weekly);
+
+const POPULAR_BRAND_LINKS = [
+  { href: "/brands/walmart", anchor: "Walmart receipt template" },
+  { href: "/brands/starbucks", anchor: "Starbucks receipt template" },
+  { href: "/brands/mcdonalds", anchor: "McDonald's receipt generator" },
+  { href: "/brands/chipotle", anchor: "Chipotle receipt generator" },
+  { href: "/brands/costco", anchor: "Costco receipt generator" },
+  { href: "/brands/cvs-pharmacy", anchor: "CVS receipt generator" },
+  { href: "/brands/uber", anchor: "Uber receipt generator" },
+  { href: "/brands/lyft", anchor: "Lyft receipt generator" },
+];
 
 const BRAND_FAQS = [
   {
@@ -93,6 +105,20 @@ export default function BrandsPage() {
           customize the items, dates and prices. Building, previewing and a watermarked
           download are free with no sign-up; a watermark-free download is Pro, from{" "}
           {PRO_FROM} for 7 days.
+        </p>
+        {/* Named links to the brand pages that own their own queries, so the
+            hub hands "[brand] receipt template/generator" on rather than
+            competing for it. The hub's own title and H1 stay as they are. */}
+        <p className="mt-4 text-base leading-relaxed text-slate-600">
+          Most used:{" "}
+          {POPULAR_BRAND_LINKS.map((l, i) => (
+            <Fragment key={l.href}>
+              {i > 0 && " · "}
+              <Link href={l.href} className="font-medium text-indigo-600 hover:text-indigo-700">
+                {l.anchor}
+              </Link>
+            </Fragment>
+          ))}
         </p>
       </div>
 

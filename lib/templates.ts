@@ -497,7 +497,9 @@ export const TEMPLATES: ReceiptTemplate[] = [
     name: "Taxi & Rideshare Receipt",
     shortName: "Taxi",
     icon: "🚕",
-    seoTitle: "Free Taxi Receipt Generator — Cab & Rideshare Receipt Maker",
+    // 2026-11-16: "uber receipt generator" is /brands/uber's; this page keeps
+    // the taxi and cab variant and links there (lib/sell-links.ts).
+    seoTitle: "Free Taxi Receipt Generator — Cab Receipt Template",
     seoDescription:
       "Make a taxi or rideshare trip receipt with fare, distance and tip. Free cab receipt maker with instant PDF & PNG download. No sign-up to start.",
     heading: "Taxi, Cab & Rideshare Receipt Generator",
@@ -580,10 +582,11 @@ export const TEMPLATES: ReceiptTemplate[] = [
     name: "Retail Store Receipt",
     shortName: "Retail",
     icon: "🏬",
-    seoTitle: "Free Retail Store Receipt Generator — Shop Receipt Maker",
+    // 2026-11-16: "store receipt" first — the page ranks ~17 for it.
+    seoTitle: "Store Receipt Generator — Retail Receipt Template",
     seoDescription:
-      "Make a retail or department store receipt with items, tax and payment details. Free receipt maker with live preview and PDF/PNG download.",
-    heading: "Retail Store Receipt Generator",
+      `Make a store receipt online with SKUs, quantities, discounts and sales tax. Watermarked PDF or PNG is free; a pass from ${PRO_FROM} removes it.`,
+    heading: "Store Receipt Generator: Make a Retail Store Receipt",
     intro:
       "Create a department store or boutique receipt with SKU-style line items, sales tax and card payment details. Handy for a shop's own sales, expense records and point-of-sale mockups.",
     // 2026-11-03: deepened (Notion "Get the 7 templates closest to page 1 into
@@ -642,6 +645,17 @@ export const TEMPLATES: ReceiptTemplate[] = [
     ],
     guidance: [
       {
+        heading: "Store receipt: the fields to fill in",
+        body:
+          "A store receipt starts with the shop's name, address and phone, then the date and time. Each item gets its own line: the name, the SKU if you use one, the quantity and the price. Discounts go under the item they reduce, and sales tax is worked out on the subtotal after discounts. The payment line closes it: cash with change, or the card type with the last four digits.\n\n" +
+          "Fill those in on the template above and the totals work themselves out. Add a return policy in the footer if your shop has one.",
+      },
+      {
+        heading: "Retail receipt for a shop's own sales",
+        body:
+          "A retail receipt is what a shop hands a customer at the till, and a small shop without a point-of-sale system can issue one from this template. Number each receipt in sequence and keep a copy, so every sale can be matched to its receipt later. For a shop that sells one kind of goods, the specialised store templates linked at the top of this page start with the right sample items.",
+      },
+      {
         heading: "What the numbers on a store receipt are for",
         body:
           "A store checks a return against its own sales record. The store, register and transaction numbers, or the barcode, point back to the sale in the store's system, and the date is checked against the return window. That is why a store receipt prints those numbers at all.\n\n" +
@@ -692,12 +706,14 @@ export const TEMPLATES: ReceiptTemplate[] = [
     name: "Pharmacy Receipt",
     shortName: "Pharmacy",
     icon: "💊",
-    seoTitle: "Free Pharmacy Receipt Generator — Drugstore Receipt Maker",
+    // 2026-11-16: leads with "Pharmacy Receipt Template"; Rx and OTC sections
+    // added, and the HSA/FSA claim positioning removed by the owner's brief.
+    seoTitle: "Pharmacy Receipt Template — Rx & OTC Receipt Maker",
     seoDescription:
-      "Generate a pharmacy or drugstore receipt for OTC items and health products. Free PDF & PNG download for HSA/FSA and medical expense records.",
-    heading: "Pharmacy Receipt Generator",
+      `Make a pharmacy receipt with Rx lines, OTC items and sales tax. Edit online; the watermarked PDF is free and a pass from ${PRO_FROM} removes the watermark.`,
+    heading: "Pharmacy Receipt Generator for Rx and OTC Purchases",
     intro:
-      "Create a drugstore receipt for over-the-counter medicine, health and personal care items. Useful for HSA/FSA reimbursement records and medical expense tracking.",
+      "Fill in a pharmacy receipt template with prescription (Rx) lines, over-the-counter medicine and personal care items, then download it as a PDF or PNG.",
     // 2026-11-03: deepened (Notion "Get the 7 templates closest to page 1 into
     // the top 10"): prescription vs OTC lines and how each is taxed. The FAQ
     // that offered a recreated receipt for an HSA claim is gone.
@@ -737,7 +753,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
       {
         name: "Payment",
         description:
-          "Cash, or the card type with the last four digits only. Many drugstores mark which items were HSA or FSA eligible so the card is charged for those lines.",
+          "Cash, or the card type with the last four digits only.",
       },
     ],
     howToSteps: [
@@ -755,24 +771,23 @@ export const TEMPLATES: ReceiptTemplate[] = [
           "That is why a pharmacy receipt can show a tax line far smaller than the rate times the subtotal. Tick 'Not taxed' on the lines your state exempts, and the tax is worked out on the rest.",
       },
       {
-        heading: "What an HSA or FSA administrator looks for",
+        heading: "Rx lines: Rx number, quantity and copay",
         body:
-          "Plan administrators generally ask for an itemized receipt that shows the seller, the date, what was bought and the amount. A card statement alone does not say what the money was spent on, which is why an itemized receipt is the usual request. Administrators decide which items qualify, so check your plan's list before you submit a claim.\n\n" +
-          "A receipt built here is a record for your own files. If your plan asks for the pharmacy's own receipt, ask the store: most chains can reprint one or show the purchase in your account history.",
+          "A prescription line names the prescription by its Rx number rather than the drug, for example RX 4471920. Put the quantity dispensed in the line's name or quantity field, and enter the copay, the amount actually paid at the counter, as the price. Tick 'Not taxed', since prescription medicine is untaxed almost everywhere in the US.",
+      },
+      {
+        heading: "OTC lines: name, strength and pack size",
+        body:
+          "Over-the-counter items ring up like any store sale. Write each one the way a drugstore prints it, short and in capitals if you like, with the strength and pack size in the name: IBUPROFEN 200MG 100CT. Set the quantity and price, and leave tax on unless your state exempts that item.",
       },
     ],
     useCases: [
-      "HSA / FSA expense records",
-      "Medical expense tax records",
+      "Receipts for an independent pharmacy's counter sales",
+      "Personal records of health and pharmacy spending",
       "Household health budgeting",
       "Healthcare app design mockups",
     ],
     faqs: [
-      {
-        question: "Can I use this receipt for HSA or FSA reimbursement?",
-        answer:
-          "Your plan administrator decides what it accepts. Most ask for an itemized receipt from the pharmacy showing the date, each item and the amount paid. Use this template to keep a clear record of what you bought, and if your plan needs the pharmacy's own receipt, ask the store to reprint it.",
-      },
       {
         question: "How do I add a prescription to a pharmacy receipt?",
         answer:
@@ -889,10 +904,12 @@ export const TEMPLATES: ReceiptTemplate[] = [
     name: "Auto Repair Receipt",
     shortName: "Auto",
     icon: "🔧",
-    seoTitle: "Free Auto Repair Receipt Generator — Mechanic Receipt Maker",
+    // 2026-11-16: this page owns "mechanic receipt"; the how-to posts hand
+    // their readers here.
+    seoTitle: "Auto Repair & Mechanic Receipt Template — Parts & Labor",
     seoDescription:
-      "Create an auto repair shop receipt with parts, labor and tax. Free mechanic receipt maker — download as PDF or PNG, no sign-up needed.",
-    heading: "Auto Repair Receipt Generator",
+      `Make an auto repair or mechanic receipt with parts, labor, vehicle and warranty. Free watermarked PDF or PNG; a pass from ${PRO_FROM} removes the watermark.`,
+    heading: "Auto Repair & Mechanic Receipt Template",
     intro:
       "Build a mechanic shop receipt with parts, labor hours and shop fees. Useful for vehicle maintenance records, warranty documentation and resale history.",
     useCases: [
@@ -906,6 +923,14 @@ export const TEMPLATES: ReceiptTemplate[] = [
         question: "How do I show labor hours on an auto repair receipt?",
         answer:
           "Add a line item like 'Labor' with the quantity set to hours and the price set to your hourly rate — for example 2.5 × $95.00. List parts as separate items so the receipt clearly separates parts from labor, as service invoices normally do.",
+      },
+    ],
+    guidance: [
+      {
+        heading: "What a mechanic receipt includes",
+        body:
+          "Parts and labor on separate lines: each part with its name and price, and labor as hours times the shop's hourly rate. The vehicle it was done on, by year, make and model with the VIN or plate, so the receipt can only belong to one car. Add the mileage at the time of service if you record it. Then the warranty the shop gives on the work, which on the sample sits in the footer: 12 months or 12,000 miles on parts and labor.\n\n" +
+          `Put the vehicle details in a line of their own, and the warranty in the footer. The free download carries a small watermark; a clean copy needs a pass from ${PRO_FROM}.`,
       },
     ],
     defaults: {
@@ -3398,10 +3423,12 @@ export const TEMPLATES: ReceiptTemplate[] = [
     name: "Cleaning Service Receipt",
     shortName: "Cleaning",
     icon: "🧹",
-    seoTitle: "Free Cleaning Service Receipt Generator — House Cleaning Receipt",
+    // 2026-11-16: "house cleaning receipt template" first; dry cleaning stays
+    // on /templates/dry-cleaning-receipt and the two link each other.
+    seoTitle: "House Cleaning Receipt Template — Free Cleaning Receipt Generator",
     seoDescription:
       "Create a cleaning service receipt with services, hours and tax. Free receipt maker for house cleaners and clients — PDF & PNG download, no sign-up needed.",
-    heading: "Cleaning Service Receipt Generator",
+    heading: "Cleaning Service Receipt Template & Generator",
     intro:
       "Create a house-cleaning or commercial-cleaning receipt with itemized services, hours and tax. Independent cleaners use it to give clients a professional record; clients use it for expense and reimbursement tracking.",
     useCases: [

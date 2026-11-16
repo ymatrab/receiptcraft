@@ -14,6 +14,8 @@ import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
 import { CitedText, SourceList } from "@/components/Sources";
 import { citationJsonLd } from "@/lib/sources";
 import RelatedPosts from "@/components/RelatedPosts";
+import SellLinks from "@/components/SellLinks";
+import { TEMPLATE_SELL_LINKS } from "@/lib/sell-links";
 import { docViewUrl, googleDocFor } from "@/lib/google-docs-templates";
 import { BRAND_TEMPLATES, brandCategoryFor } from "@/lib/brands";
 import { byDemand, hubTemplateForBrand, relatedTemplateSlugs } from "@/lib/topic-clusters";
@@ -170,6 +172,7 @@ export default async function TemplatePage({ params }: Props) {
               {template.heading}
             </h1>
             <p className="mt-4 text-lg leading-relaxed text-slate-600">{template.intro}</p>
+            <SellLinks links={TEMPLATE_SELL_LINKS[template.slug]} />
 
             {template.leadAnswer && (
               <p className="mt-6 rounded-2xl border-l-4 border-indigo-500 bg-indigo-50/60 px-5 py-4 text-base leading-relaxed text-slate-700">
