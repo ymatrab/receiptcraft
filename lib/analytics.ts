@@ -1,6 +1,7 @@
 "use client";
 
 import { BOT_UA, isMirroredEvent } from "@/lib/analytics-events";
+import { isSellPath, normalizeLandingPath } from "@/lib/landing-paths";
 
 /**
  * Lightweight analytics dispatcher. Fires a custom event to GA4 (gtag),
@@ -368,6 +369,7 @@ export function recordVisit(landing: string): void {
     // page load is the honest count.
   }
   visitSession = sessionId;
+  rememberLanding(sessionId, landing);
 
   let ref = "";
   try {
@@ -392,6 +394,65 @@ export function recordVisit(landing: string): void {
     }
   });
   sendFirstParty("visit", props);
+}
+
+/* -------------------------------------------------------------------------
+ * Hand-off to a sell page
+ *
+ * Every page has a job, and the job of a /receipt-help or /blog page is to send
+ * its visitor on to a page that sells (lib/landing-paths.ts). `visit` records
+ * only where a session started, so without this nothing showed whether a
+ * visitor who landed on a guide ever saw a brand page afterwards — only the
+ * ones who went as far as the builder were visible. One `sell_reached` per
+ * session, at most: the landings metric (lib/landing-metrics.ts) needs to know
+ * that it happened, not every page after it.
+ * ---------------------------------------------------------------------------- */
+
+const LANDING_KEY = "mkc_landing";
+const SELL_KEY = "mkc_sell";
+let landingMemo: string | null = null;
+let sellSession: string | null = null;
+
+function rememberLanding(sessionId: string, landing: string): void {
+  landingMemo = `${sessionId}|${normalizeLandingPath(landing)}`;
+  try {
+    localStorage.setItem(LANDING_KEY, landingMemo);
+  } catch {
+    /* the module copy is enough for this page */
+  }
+}
+
+/**
+ * Record that this session has reached a sell page, the first time it views
+ * one that is not the page it landed on. Safe to call on every navigation.
+ */
+export function recordSellReached(path: string): void {
+  if (typeof window === "undefined" || isBot() || !isSellPath(path)) return;
+  const sessionId = currentSessionId();
+  if (sellSession === sessionId) return;
+  let landing = landingMemo;
+  try {
+    if (localStorage.getItem(SELL_KEY) === sessionId) return;
+    landing = localStorage.getItem(LANDING_KEY) ?? landing;
+  } catch {
+    /* fall back to the module copies */
+  }
+  // The session's visit has not been sent yet: this page is the landing page,
+  // or the visit is still waiting for proof of a person. Either way the visit
+  // row (which carries the landing) says it, and a later page will check again.
+  if (!landing || !landing.startsWith(`${sessionId}|`)) return;
+  const here = normalizeLandingPath(path);
+  // Still on the landing page: nothing has been handed on yet.
+  if (landing === `${sessionId}|${here}`) return;
+
+  sellSession = sessionId;
+  try {
+    localStorage.setItem(SELL_KEY, sessionId);
+  } catch {
+    /* see above */
+  }
+  // First party only, like `visit`: GA4 already reports page paths.
+  sendFirstParty("sell_reached", { path: here });
 }
 
 /**
