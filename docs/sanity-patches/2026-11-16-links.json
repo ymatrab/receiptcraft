@@ -1,0 +1,447 @@
+{
+  "note": "Sanity mutations for the 2026-11-16 internal-links pass. NOT APPLIED: writing to the production dataset publishes instantly, so these wait for owner approval. Apply each item's `patch` as {\"mutations\":[{\"patch\": <patch>}]} to https://3pvc71cl.api.sanity.io/v2024-01-01/data/mutate/production. ifRevisionID makes a patch fail rather than overwrite if the post was edited since 2026-11-16; re-read and rebuild it then. Each `set` path replaces one whole Portable Text block by _key (the original children are kept, new spans and link markDefs are appended), except the Home Depot one, which changes one link's href. None of these posts is among the ~20 newest, and /blog/best-receipt-scanning-apps is untouched.",
+  "project": "3pvc71cl",
+  "dataset": "production",
+  "patches": [
+    {
+      "documentId": "post-cvs-pharmacy-receipt",
+      "slug": "cvs-pharmacy-receipt",
+      "publishedAt": "2026-08-06T08:00:00Z",
+      "ifRevisionID": "Sd2n3xn1IQMrChHtWovuA1",
+      "description": "Task edce2b1b (cvs hand-off): add a 'CVS receipt generator' link to /brands/cvs-pharmacy in the opening paragraph, so the hand-off sits near the top. Task a0150b34 (pharmacy): add 'pharmacy receipt' -> /templates/pharmacy in the 'Recreate' section.",
+      "patch": {
+        "id": "post-cvs-pharmacy-receipt",
+        "ifRevisionID": "Sd2n3xn1IQMrChHtWovuA1",
+        "set": {
+          "body[_key==\"1702d4282395\"]": {
+            "_key": "1702d4282395",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "84a8a69f1ff1",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Your CVS pharmacy receipt lives in the CVS app if the purchase was tied to your ExtraCare account"
+              },
+              {
+                "_key": "1dc2ab6f03a1",
+                "_type": "span",
+                "marks": [],
+                "text": " — open the app, go to your purchase history, and view or save it. If it wasn't linked, you can still get a copy at the store or recreate an itemized one for your records. CVS receipts are famously long, and they carry the exact details you need for FSA/HSA claims. Here's how to get yours."
+              },
+              {
+                "_key": "8b369e907b95",
+                "_type": "span",
+                "marks": [],
+                "text": " Need an itemized copy for your own records instead? Use the "
+              },
+              {
+                "_key": "90bf07b4f3db",
+                "_type": "span",
+                "marks": [
+                  "c6425ae3f2cd"
+                ],
+                "text": "CVS receipt generator"
+              },
+              {
+                "_key": "feb2e3df84b6",
+                "_type": "span",
+                "marks": [],
+                "text": "."
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "c6425ae3f2cd",
+                "_type": "link",
+                "href": "/brands/cvs-pharmacy"
+              }
+            ],
+            "style": "normal"
+          },
+          "body[_key==\"b2b5d6c026db\"]": {
+            "_key": "b2b5d6c026db",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "eaf1babec2cb",
+                "_type": "span",
+                "marks": [],
+                "text": "If you've lost a receipt for a real purchase and can't retrieve it, you can "
+              },
+              {
+                "_key": "a4666d3e56a5",
+                "_type": "span",
+                "marks": [
+                  "ebdc5b365ba2"
+                ],
+                "text": "recreate a CVS pharmacy receipt"
+              },
+              {
+                "_key": "771f339489fc",
+                "_type": "span",
+                "marks": [],
+                "text": " from your card statement's facts — the store, date, items and total. The "
+              },
+              {
+                "_key": "bc7944f396ab",
+                "_type": "span",
+                "marks": [
+                  "cf7009bfaad9"
+                ],
+                "text": "CVS receipt generator"
+              },
+              {
+                "_key": "4150776a3333",
+                "_type": "span",
+                "marks": [],
+                "text": " fills in the CVS layout, and you edit the items, tax and totals in a live preview, then download a PDF or PNG. This is for your own records, reimbursement paperwork and bookkeeping — legitimate uses only, never to deceive anyone. To build one from scratch, "
+              },
+              {
+                "_key": "c86282431bfc",
+                "_type": "span",
+                "marks": [
+                  "89d76e9a1927"
+                ],
+                "text": "open the receipt maker"
+              },
+              {
+                "_key": "924a3ae26ced",
+                "_type": "span",
+                "marks": [],
+                "text": "."
+              },
+              {
+                "_key": "4b531492b735",
+                "_type": "span",
+                "marks": [],
+                "text": " For a pharmacy other than CVS, start from the "
+              },
+              {
+                "_key": "d07783060f7b",
+                "_type": "span",
+                "marks": [
+                  "8052aea5ac11"
+                ],
+                "text": "pharmacy receipt"
+              },
+              {
+                "_key": "46914ee8fe33",
+                "_type": "span",
+                "marks": [],
+                "text": " template."
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "ebdc5b365ba2",
+                "_type": "link",
+                "href": "/brands/cvs-pharmacy"
+              },
+              {
+                "_key": "cf7009bfaad9",
+                "_type": "link",
+                "href": "/brands/cvs-pharmacy"
+              },
+              {
+                "_key": "89d76e9a1927",
+                "_type": "link",
+                "href": "/create"
+              },
+              {
+                "_key": "8052aea5ac11",
+                "_type": "link",
+                "href": "/templates/pharmacy"
+              }
+            ],
+            "style": "normal"
+          }
+        }
+      }
+    },
+    {
+      "documentId": "post-pharmacy-receipt-generator-itemized-products",
+      "slug": "pharmacy-receipt-generator-itemized-products",
+      "publishedAt": "2026-08-18T14:01:02Z",
+      "ifRevisionID": "rjtjBPnLtKGX8AmOM45nyN",
+      "description": "Task a0150b34 (pharmacy): link the existing words 'pharmacy receipt' in paragraph 2 ('A well-structured pharmacy receipt can distinguish...') to /templates/pharmacy. The post competes with the template for 'pharmacy receipt generator'; this hands the query to the sell page near the top.",
+      "patch": {
+        "id": "post-pharmacy-receipt-generator-itemized-products",
+        "ifRevisionID": "rjtjBPnLtKGX8AmOM45nyN",
+        "set": {
+          "body[_key==\"1bb11d7469d0\"]": {
+            "_key": "1bb11d7469d0",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "28449ba4a591",
+                "_type": "span",
+                "marks": [],
+                "text": "The key advantage of an itemized receipt is transparency. Instead of displaying only a final amount, it explains exactly what contributed to the transaction total. A well-structured "
+              },
+              {
+                "_key": "b20c55984781",
+                "_type": "span",
+                "marks": [
+                  "ac27e2099f22"
+                ],
+                "text": "pharmacy receipt"
+              },
+              {
+                "_key": "395de693acef",
+                "_type": "span",
+                "marks": [],
+                "text": " can distinguish prescription-related purchases, over-the-counter products, personal-care items, medical supplies, discounts, taxes, and payment information without making the document unnecessarily complicated."
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "ac27e2099f22",
+                "_type": "link",
+                "href": "/templates/pharmacy"
+              }
+            ],
+            "style": "normal"
+          }
+        }
+      }
+    },
+    {
+      "documentId": "post-receipt-number-vs-order-number-vs-authorization-code",
+      "slug": "receipt-number-vs-order-number-vs-authorization-code",
+      "publishedAt": "2026-09-02T22:20:56Z",
+      "ifRevisionID": "ZSDvEpDc50METdnlxje0BH",
+      "description": "Task 4f5b2097 (restaurant): append one sentence with 'restaurant receipt' -> /templates/restaurant to the paragraph that names restaurants among the businesses issuing receipts.",
+      "patch": {
+        "id": "post-receipt-number-vs-order-number-vs-authorization-code",
+        "ifRevisionID": "ZSDvEpDc50METdnlxje0BH",
+        "set": {
+          "body[_key==\"46ca8825303f\"]": {
+            "_key": "46ca8825303f",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "171fed7e90cc",
+                "_type": "span",
+                "marks": [],
+                "text": "For U.S. freelancers, retailers, service providers, restaurants, independent contractors, and small businesses, a clearly structured receipt can make records easier to understand for customers, bookkeepers, and support teams."
+              },
+              {
+                "_key": "21e2a2dbdaf1",
+                "_type": "span",
+                "marks": [],
+                "text": " The "
+              },
+              {
+                "_key": "1ba8f0f4c94d",
+                "_type": "span",
+                "marks": [
+                  "23b9c2393fc6"
+                ],
+                "text": "restaurant receipt"
+              },
+              {
+                "_key": "5a96f73bc4ee",
+                "_type": "span",
+                "marks": [],
+                "text": " template, for example, keeps the server, the table number and the receipt number on separate lines."
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "23b9c2393fc6",
+                "_type": "link",
+                "href": "/templates/restaurant"
+              }
+            ],
+            "style": "normal"
+          }
+        }
+      }
+    },
+    {
+      "documentId": "post-proof-of-purchase-receipt-generator-pdf",
+      "slug": "proof-of-purchase-receipt-generator-pdf",
+      "publishedAt": "2026-08-25T20:39:08Z",
+      "ifRevisionID": "Yjdm0f2pwJl47Oy35hR8oh",
+      "description": "Task 478f518c (proof of purchase): cross-link to the 'without a receipt' guide with a distinct anchor, after the paragraph about asking the retailer for a duplicate. This post stays the page for 'proof of purchase'.",
+      "patch": {
+        "id": "post-proof-of-purchase-receipt-generator-pdf",
+        "ifRevisionID": "Yjdm0f2pwJl47Oy35hR8oh",
+        "set": {
+          "body[_key==\"3f7c8cc3e4ff\"]": {
+            "_key": "3f7c8cc3e4ff",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "159d6bd47344",
+                "_type": "span",
+                "marks": [],
+                "text": "If you lost a receipt from a major retailer, requesting a duplicate directly from that retailer is generally more reliable than recreating its document independently."
+              },
+              {
+                "_key": "be47ac0092dd",
+                "_type": "span",
+                "marks": [],
+                "text": " If the retailer cannot help, our guide to "
+              },
+              {
+                "_key": "91942163a046",
+                "_type": "span",
+                "marks": [
+                  "e89d4948dadf"
+                ],
+                "text": "proof of purchase without a receipt"
+              },
+              {
+                "_key": "926dcc7c7b92",
+                "_type": "span",
+                "marks": [],
+                "text": " lists the records that usually stand in for it."
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "e89d4948dadf",
+                "_type": "link",
+                "href": "/blog/prove-purchase-without-receipt"
+              }
+            ],
+            "style": "normal"
+          }
+        }
+      }
+    },
+    {
+      "documentId": "post-prove-purchase-without-receipt",
+      "slug": "prove-purchase-without-receipt",
+      "publishedAt": "2026-07-30T20:00:00Z",
+      "ifRevisionID": "0T4F0Wf3tO3T3gJMrgOugq",
+      "description": "Task 478f518c (proof of purchase): retarget strictly on 'proof of purchase without receipt' via the SEO title (the H1 'How Do You Prove a Purchase Without a Receipt?' already has no bare 'proof of purchase' and is unchanged; the six options are the six listed in the post), and cross-link to the generator post with the anchor 'proof of purchase receipt' in the bottom line. No 301, no noindex.",
+      "patch": {
+        "id": "post-prove-purchase-without-receipt",
+        "ifRevisionID": "0T4F0Wf3tO3T3gJMrgOugq",
+        "set": {
+          "seoTitle": "Proof of Purchase Without a Receipt: 6 Ways to Prove It",
+          "body[_key==\"a41fce8ea524\"]": {
+            "_key": "a41fce8ea524",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "f41238d73947",
+                "_type": "span",
+                "marks": [],
+                "text": "Prove a purchase without a receipt using a bank statement, order confirmation, loyalty history, store card lookup or product registration — matched to whoever's asking, and stacked where possible. The receipt is the easiest proof but rarely the only one; most purchases leave several traces, and combining two of them usually settles the matter."
+              },
+              {
+                "_key": "78cbad27510e",
+                "_type": "span",
+                "marks": [],
+                "text": " If you are the seller and need to issue the record yourself, see our "
+              },
+              {
+                "_key": "5037a80abbed",
+                "_type": "span",
+                "marks": [
+                  "76b2a8f81132"
+                ],
+                "text": "proof of purchase receipt"
+              },
+              {
+                "_key": "89197c891a52",
+                "_type": "span",
+                "marks": [],
+                "text": " guide."
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "76b2a8f81132",
+                "_type": "link",
+                "href": "/blog/proof-of-purchase-receipt-generator-pdf"
+              }
+            ],
+            "style": "normal"
+          }
+        }
+      }
+    },
+    {
+      "documentId": "post-how-to-make-a-receipt-of-payment",
+      "slug": "how-to-make-a-receipt-of-payment",
+      "publishedAt": "2026-08-02T09:00:00Z",
+      "ifRevisionID": "8PZUX3ShTf5214Jw1yg1Qg",
+      "description": "Task 186b1274 step 4: link the guide to /templates/payment-receipt near the top (it already links /create in its closing section, so no /create link is added).",
+      "patch": {
+        "id": "post-how-to-make-a-receipt-of-payment",
+        "ifRevisionID": "8PZUX3ShTf5214Jw1yg1Qg",
+        "set": {
+          "body[_key==\"edc60f6f0ae7\"]": {
+            "_key": "edc60f6f0ae7",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b3bf84f6945a",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "To make a receipt of payment, record the date, who paid and who received the money, what the payment was for, the amount paid, the payment method, and any remaining balance — then give it a unique number and sign it."
+              },
+              {
+                "_key": "73e54508c4d3",
+                "_type": "span",
+                "marks": [],
+                "text": " A receipt of payment (also called a payment receipt) proves money was received, which matters most for cash, deposits and installment payments where there's no bank trail. Here's how to make one."
+              },
+              {
+                "_key": "d232ccb26c99",
+                "_type": "span",
+                "marks": [],
+                "text": " To skip the blank page, start from the "
+              },
+              {
+                "_key": "9ba7d65e5e5e",
+                "_type": "span",
+                "marks": [
+                  "5a9162da529d"
+                ],
+                "text": "payment receipt template"
+              },
+              {
+                "_key": "bbd1a53eb71a",
+                "_type": "span",
+                "marks": [],
+                "text": ", which has these fields laid out."
+              }
+            ],
+            "markDefs": [
+              {
+                "_key": "5a9162da529d",
+                "_type": "link",
+                "href": "/templates/payment-receipt"
+              }
+            ],
+            "style": "normal"
+          }
+        }
+      }
+    },
+    {
+      "documentId": "post-editable-home-depot-receipt-template",
+      "slug": "editable-home-depot-receipt-template",
+      "publishedAt": "2026-10-03T14:00:00Z",
+      "ifRevisionID": "zVvqStbuVZf8PLj77hEY4s",
+      "description": "Task f107e29b follow-up: this post links 'Home Depot receipt generator' to /blog/home-depot-receipt-generator, which now 301s to /brands/home-depot (lib/consolidated-posts.ts). Point the link straight at /brands/home-depot so it does not go through a redirect.",
+      "patch": {
+        "id": "post-editable-home-depot-receipt-template",
+        "ifRevisionID": "zVvqStbuVZf8PLj77hEY4s",
+        "set": {
+          "body[_key==\"b78385381ef0\"].markDefs[_key==\"cce14cf239eb\"].href": "/brands/home-depot"
+        }
+      }
+    }
+  ]
+}

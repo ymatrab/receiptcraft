@@ -6,6 +6,8 @@ import { BRAND_TEMPLATES, brandCategoryFor } from "./brands";
 import { hubTemplateForBrand } from "./topic-clusters";
 import { hasOfficialSource } from "./intent-pages";
 import { COMPETITORS, LAST_UPDATED } from "./comparisons";
+import { examplesForBrand, examplesForTemplate } from "./example-links";
+import { contextLinksFor } from "./contextual-links";
 
 /**
  * When each section of the site was last genuinely reviewed.
@@ -399,8 +401,36 @@ export function brandReviewedAt(slug: string): string {
     slug in BRAND_DEPTH
       ? BRANDS_DEPTH_DROPPED.has(slug) ? BRANDS_DEPTH_DROPPED_UPDATED : BRANDS_DEPTH_UPDATED
       : null,
+    linksChangedNov16(`/brands/${slug}`) || examplesForBrand(slug).length > 0 ? LINKS_NOV16_UPDATED : null,
   );
 }
+
+// 2026-11-16: internal-links pass. Brand pages link their worked examples
+// (lib/example-links.ts) and some sell pages gained a hand-written hand-off
+// sentence (lib/contextual-links.ts). Derived from those two files rather than
+// listed, so the date moves on exactly the pages whose body changed.
+const LINKS_NOV16_UPDATED = "2026-11-16";
+const linksChangedNov16 = (path: string) => contextLinksFor(path).length > 0;
+
+// Same date: these examples gained a hand-written scenario and notes (four were
+// crawled and not indexed), or now link their brand page because the name match
+// ignores a leading "The" and knows "Costco Wholesale" and "Whole Foods Market".
+const EXAMPLES_NOV16: ReadonlySet<string> = new Set([
+  "marriott-receipt-weekend", "panera-receipt-soup-sandwich", "panera-receipt-you-pick-two",
+  "carrefour-receipt-france",
+  "home-depot-receipt-hardware", "home-depot-receipt-paint-project",
+  "costco-receipt-bulk-haul", "costco-receipt-monthly-stockup",
+  "whole-foods-receipt-organic", "whole-foods-receipt-prepared-foods",
+]);
+
+/** When one example page was last reviewed. */
+export function exampleReviewedAt(slug: string): string {
+  return newest(EXAMPLES_UPDATED, EXAMPLES_NOV16.has(slug) ? LINKS_NOV16_UPDATED : null);
+}
+
+// 2026-11-16: /authors links /about from its body. Its own constant because
+// STATIC_UPDATED also stamps /blog and /contact, which did not change.
+export const AUTHORS_UPDATED = "2026-11-16";
 // 2026-08-31: the CTA names a Pro template before the click.
 // 2026-09-01: the 73 policy guides are restored after a day away. They go back
 // with their original content, so this is the date the URL became reachable
@@ -557,6 +587,7 @@ export function compareReviewedAt(slug: string): string {
     COMPETITORS.find((c) => c.slug === slug)?.updated ?? COMPARISONS_UPDATED,
     COMPARE_COPY_UPDATED,
     COMPARE_PREVIEW_UPDATED,
+    linksChangedNov16(`/compare/${slug}`) ? LINKS_NOV16_UPDATED : null,
   );
 }
 
@@ -577,8 +608,17 @@ const COMPARE_COPY_UPDATED = "2026-10-24";
 export function alternativesUpdated(): string {
   // ISO dates sort lexicographically, so the last one is the newest.
   const reviewed = COMPETITORS.map((c) => c.updated).sort();
-  return newest(reviewed[reviewed.length - 1] ?? COMPARISONS_UPDATED, ALTERNATIVES_COPY_UPDATED);
+  return newest(
+    reviewed[reviewed.length - 1] ?? COMPARISONS_UPDATED,
+    ALTERNATIVES_COPY_UPDATED,
+    ALTERNATIVES_LINKS_UPDATED,
+  );
 }
+
+// 2026-11-16: our own entry links the Walmart brand page and the restaurant,
+// pharmacy and gas station templates by name. Our copy, not a competitor
+// re-check, so the visible "Last reviewed" date (LAST_UPDATED) does not move.
+const ALTERNATIVES_LINKS_UPDATED = "2026-11-16";
 
 // 2026-10-18: our own entry links "receipt maker" and the closing CTA "online
 // receipt maker" to /create, so the roundup keeps "best receipt generators"
@@ -722,7 +762,9 @@ export function templateReviewedAt(t: ReceiptTemplate): string {
   const hubbed = TEMPLATES_HUB_FIXED.has(t.slug) || hasMoreThanEightBrands(t.slug);
   const hub = hubbed && TEMPLATES_HUB_UPDATED > staffed ? TEMPLATES_HUB_UPDATED : staffed;
   const changed = TEMPLATES_NOV_DEPTH.has(t.slug) || TEMPLATES_INVOICE_HUB.has(t.slug);
-  return changed && TEMPLATES_NOV_DEPTH_UPDATED > hub ? TEMPLATES_NOV_DEPTH_UPDATED : hub;
+  const deepened = changed && TEMPLATES_NOV_DEPTH_UPDATED > hub ? TEMPLATES_NOV_DEPTH_UPDATED : hub;
+  const linked = linksChangedNov16(`/templates/${t.slug}`) || examplesForTemplate(t.slug).length > 0;
+  return newest(deepened, linked ? LINKS_NOV16_UPDATED : null);
 }
 
 function templateReviewedAtSamples(t: ReceiptTemplate): string {
