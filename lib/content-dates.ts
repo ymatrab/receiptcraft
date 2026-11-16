@@ -934,8 +934,14 @@ export function intentReviewedAt(brandSlug: string): string {
     INTENT_PAYWALL_UPDATED,
     INTENT_HUB_LINK_UPDATED,
     hasHandoff(brandSlug) ? INTENT_HANDOFF_UPDATED : null,
+    INTENT_FAQ_EXPENSE_UPDATED,
   );
 }
+
+// 2026-11-16: the shared "Can I make a replacement … receipt?" FAQ on every
+// guide dropped "or claim an expense", which contradicted the guides' own
+// "handy for an expense report" section. Every guide carries that FAQ.
+const INTENT_FAQ_EXPENSE_UPDATED = "2026-11-16";
 
 /** Latest of several ISO dates (YYYY-MM-DD sorts as text); nulls are skipped. */
 function newest(...dates: (string | null)[]): string {

@@ -811,7 +811,7 @@ export function intentContent(p: IntentPage): IntentContent {
       ...c.faqs,
       {
         question: `Can I make a replacement ${n} receipt?`,
-        answer: `For your own records, yes. ${SITE.name}'s ${n} receipt generator lays out a ${n}-style receipt that you fill in with the items, prices, date and store details of your real purchase, then download as a PDF or PNG. It is not an official ${n} document, so use it only for a purchase that actually happened — never to return goods or claim an expense.`,
+        answer: `For your own records, yes. ${SITE.name}'s ${n} receipt generator lays out a ${n}-style receipt that you fill in with the items, prices, date and store details of your real purchase, then download as a PDF or PNG. It is not an official ${n} document, so use it only for a purchase that actually happened — never to return goods.`,
       },
     ],
   };
