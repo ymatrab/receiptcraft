@@ -4,7 +4,7 @@ import { notFound, permanentRedirect } from "next/navigation";
 import { PortableText, type PortableTextComponents } from "@portabletext/react";
 import { getPost, getPostSlugs, authorSlug } from "@/lib/sanity/queries";
 import { consolidationTarget } from "@/lib/consolidated-posts";
-import { urlForImage } from "@/lib/sanity/client";
+import { urlForImage, sanityImageProps, sanityImageDimensions } from "@/lib/sanity/client";
 import { fitSeoDescription } from "@/lib/seo-description";
 import { absoluteUrl, SITE } from "@/lib/site";
 import { PLANS, formatPlanPrice } from "@/lib/plans";
@@ -52,12 +52,24 @@ const portableComponents: PortableTextComponents = {
     image: ({ value }) => {
       const img = value as { asset?: unknown; alt?: string } | undefined;
       if (!img?.asset) return null;
+      // Below the hero, so lazy. WebP + srcset instead of one 1600px PNG
+      // (1–1.6 MB each); see sanityImageProps.
+      const { src, srcSet } = sanityImageProps(img as Parameters<typeof urlForImage>[0], {
+        widths: [480, 800, 1200, 1440],
+      });
+      const dims = sanityImageDimensions(img);
       return (
         // eslint-disable-next-line @next/next/no-img-element
         <img
-          src={urlForImage(img as Parameters<typeof urlForImage>[0]).width(1600).url()}
+          src={src}
+          srcSet={srcSet}
+          sizes="(min-width: 768px) 720px, 100vw"
+          width={dims?.width}
+          height={dims?.height}
+          loading="lazy"
+          decoding="async"
           alt={img.alt ?? ""}
-          className="my-8 w-full rounded-2xl"
+          className="my-8 h-auto w-full rounded-2xl"
         />
       );
     },
@@ -354,9 +366,15 @@ export default async function BlogPostPage({
         {post.mainImage && (
           // eslint-disable-next-line @next/next/no-img-element
           <img
-            src={urlForImage(post.mainImage).width(1200).height(675).url()}
+            // Usually the post's LCP element: eager, high priority, and WebP at
+            // the widths the 720px column needs (was a 1 MB PNG).
+            {...sanityImageProps(post.mainImage, { widths: [480, 800, 1200, 1440], height: 810 })}
+            sizes="(min-width: 768px) 720px, 100vw"
+            width={1440}
+            height={810}
+            fetchPriority="high"
             alt={post.title}
-            className="mt-8 aspect-video w-full rounded-2xl object-cover"
+            className="mt-8 aspect-video h-auto w-full rounded-2xl object-cover"
           />
         )}
 

@@ -19,6 +19,12 @@
   }
 }
 
+/* Server-rendered cookie banner, hidden before first paint for a visitor who
+   already chose (the inline script in app/layout.tsx sets the attribute). */
+html[data-consent-set] [data-consent-banner] {
+  display: none;
+}
+
 html {
   scroll-behavior: smooth;
   /* No gray flash on tap (iOS); tap feedback comes from our own styles. */

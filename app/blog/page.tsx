@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getAllPosts } from "@/lib/sanity/queries";
-import { urlForImage } from "@/lib/sanity/client";
+import { sanityImageProps } from "@/lib/sanity/client";
 import { SITE, absoluteUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -45,7 +45,7 @@ export default async function BlogIndex() {
         </p>
       ) : (
         <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {posts.map((post) => (
+          {posts.map((post, i) => (
             <Link
               key={post._id}
               href={`/blog/${post.slug}`}
@@ -54,9 +54,15 @@ export default async function BlogIndex() {
               {post.mainImage && (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
-                  src={urlForImage(post.mainImage).width(600).height(338).url()}
+                  {...sanityImageProps(post.mainImage, { widths: [400, 600, 800], height: 450 })}
+                  sizes="(min-width: 1024px) 320px, (min-width: 640px) 50vw, 100vw"
+                  width={800}
+                  height={450}
+                  // Only the first row is above the fold.
+                  loading={i < 3 ? "eager" : "lazy"}
+                  decoding="async"
                   alt={post.title}
-                  className="aspect-video w-full object-cover"
+                  className="aspect-video h-auto w-full object-cover"
                 />
               )}
               <div className="flex flex-1 flex-col p-5">

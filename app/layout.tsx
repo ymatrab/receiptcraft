@@ -102,7 +102,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${fontVariables} h-full`}>
+    <html lang="en" className={`${fontVariables} h-full`} suppressHydrationWarning>
       <body className="flex min-h-full flex-col">
         <script
           type="application/ld+json"
@@ -114,6 +114,17 @@ export default function RootLayout({
         />
         {/* GA4 + Clarity set cookies, so they load behind the consent banner.
             Vercel Analytics is cookieless and can always run. */}
+        {/* Runs during HTML parse, before the consent banner below is
+            painted: a visitor who already chose gets data-consent-set on
+            <html>, which hides the server-rendered banner (globals.css) so it
+            never flashes before ConsentGate hydrates and removes it. The key
+            is CONSENT_KEY in lib/consent.ts, typed out because that module is
+            "use client" and its exports are client references here. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{var c=localStorage.getItem("rc_cookie_consent");if(c==="granted"||c==="denied")document.documentElement.setAttribute("data-consent-set","")}catch(e){}`,
+          }}
+        />
         <ConsentGate />
         {/* Auth that finishes on the server redirects here with a flag; this
             turns it into the login / sign_up event. Any page can be the
