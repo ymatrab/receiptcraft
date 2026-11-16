@@ -56,7 +56,9 @@ const CREATE_FAQS: Faq[] = [...SHARED_FAQS, ...BUILDER_FAQS];
 // chars here, 57 rendered, inside the ~60 Google shows. The previous one was 62
 // on its own and 75 once the template was applied, so it was always truncated —
 // the length that matters is the rendered one, not the string in this file.
-const CREATE_TITLE = "Free Receipt Maker — Create a Receipt Online";
+// 2026-11-16: "Generator" added so the title and H1 carry both head terms
+// /create owns ("receipt maker", "receipt generator"): 45 chars, 58 rendered.
+const CREATE_TITLE = "Free Receipt Maker & Generator — Create Online";
 
 export const metadata: Metadata = {
   title: CREATE_TITLE,
@@ -128,7 +130,7 @@ export default function CreatePage() {
           push the builder below the fold, but present in the SSR DOM. */}
       <div className="mx-auto max-w-7xl px-4 pt-8 sm:px-6 lg:px-8">
         <h1 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
-          Free Receipt Maker
+          Free Receipt Maker &amp; Generator
         </h1>
         <p className="mt-2 max-w-2xl text-sm leading-relaxed text-slate-600">
           A receipt maker is an online tool that turns the details of a sale —

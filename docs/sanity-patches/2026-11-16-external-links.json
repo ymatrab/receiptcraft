@@ -1,0 +1,26 @@
+{
+  "description": "Broken outbound links in Sanity post bodies, found 2026-11-16 by checking every external href in all 298 documents with a body. Only one is genuinely dead: assembly.ny.gov no longer resolves (DNS ENOTFOUND); the same Pet Lemon Law summary now lives on nyassembly.gov (verified 200 with title 'Pet Lemon Law'). Apply with POST https://3pvc71cl.api.sanity.io/v2024-01-01/data/mutate/production using the `mutations` array below. ifRevisionID guards against overwriting an edit made since this was written; drop it if the post has been republished in the meantime.",
+  "mutations": [
+    {
+      "patch": {
+        "id": "post-dog-bill-of-sale",
+        "ifRevisionID": "zqObMY4AZ2PLBMUzA5y1CY",
+        "set": {
+          "body[_key==\"84ce2999c805\"].markDefs[_key==\"c81e729c140f\"].href": "https://nyassembly.gov/comm/Consumer/20080501o/"
+        }
+      }
+    }
+  ],
+  "items": [
+    {
+      "documentId": "post-dog-bill-of-sale",
+      "page": "https://www.makecepeit.com/blog/dog-bill-of-sale",
+      "blockKey": "84ce2999c805",
+      "markDefKey": "c81e729c140f",
+      "anchorText": "state Assembly's summary of the Pet Lemon Law",
+      "from": "https://www.assembly.ny.gov/comm/Consumer/20080501o",
+      "to": "https://nyassembly.gov/comm/Consumer/20080501o/",
+      "description": "Old host no longer resolves (ENOTFOUND). New URL is the same NY Assembly Pet Lemon Law page on the Assembly's current domain."
+    }
+  ]
+}

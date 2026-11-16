@@ -348,6 +348,11 @@ const BRANDS_DEPTH_DROPPED: ReadonlySet<string> = new Set([
   "cinemark",
 ]);
 
+// 2026-11-16: /brands/home-depot loses its only "How to read" source link (the
+// Hunker article now 404s and has no archive copy).
+const BRANDS_SOURCE_FIXED_UPDATED = "2026-11-16";
+const BRANDS_SOURCE_FIXED: ReadonlySet<string> = new Set(["home-depot"]);
+
 // Brand pages added after the shared dates above. Without its own date a new
 // page inherits BRANDS_LINKS_UPDATED and looks older than it is.
 const BRANDS_ADDED: Readonly<Record<string, string>> = {
@@ -399,6 +404,7 @@ export function brandReviewedAt(slug: string): string {
     slug in BRAND_DEPTH
       ? BRANDS_DEPTH_DROPPED.has(slug) ? BRANDS_DEPTH_DROPPED_UPDATED : BRANDS_DEPTH_UPDATED
       : null,
+    BRANDS_SOURCE_FIXED.has(slug) ? BRANDS_SOURCE_FIXED_UPDATED : null,
   );
 }
 // 2026-08-31: the CTA names a Pro template before the click.
@@ -448,7 +454,9 @@ export const POLICY_UPDATED = "2026-08-31";
 // 2026-10-24: paywall change — the builder, its download copy and the FAQs it
 // renders (lib/faqs.ts, ReceiptMakerGuide) no longer say a free account is
 // needed to download or that the first download is watermark-free.
-export const CREATE_UPDATED = "2026-10-24";
+// 2026-11-16: title and H1 become "Free Receipt Maker & Generator" so the page
+// names both head terms it owns.
+export const CREATE_UPDATED = "2026-11-16";
 // 2026-10-13: lists the first-party measurement storage (mkc_* keys).
 // 2026-10-20: analytics section split by region — opt-in in the EEA/UK/CH,
 // on by default with Decline as the opt-out everywhere else.

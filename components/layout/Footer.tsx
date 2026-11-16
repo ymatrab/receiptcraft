@@ -52,7 +52,9 @@ export default function Footer() {
               sign-up.
             </p>
             <a
-              href="https://launchzone.co/p/makecepeit"
+              // LaunchZone moved listings from /p/<slug> to /tools/<slug>; the
+              // old URL 404s (verified 2026-11-16).
+              href="https://launchzone.co/tools/makecepeit"
               target="_blank"
               rel="noopener"
               className="mt-6 inline-block"

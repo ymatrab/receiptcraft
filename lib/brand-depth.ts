@@ -62,9 +62,8 @@ export const BRAND_DEPTH: Record<string, BrandDepth> = {
       { label: "Card block", meaning: "Masked card, AUTH CODE, Chip Read and AID." },
     ],
     note: "Home Depot receipts are built around quantities and SKUs, because so much of what people buy there is sold by the piece: studs, screws, bags of concrete. That is why the template puts a quantity column next to every line.",
-    sources: [
-      { title: "Hunker: how to read a Home Depot receipt", url: "https://www.hunker.com/13414941/how-to-read-my-home-depot-receipt" },
-    ],
+    // No sources: the one listed (a Hunker article) 404s since Nov 2026 and has
+    // no archive copy.
   },
   amazon: {
     lines: [
