@@ -53,7 +53,7 @@ export async function generateMetadata({
   const description = fitSeoDescription(
     full.length <= 160
       ? full
-      : `${ex.brand} receipt example totalling ${total}. Make your own editable version and download it free as PDF or PNG.`,
+      : `${ex.brand} receipt example totalling ${total}. Make your own editable version and download it free as a watermarked PDF or PNG.`,
   );
   return {
     title,

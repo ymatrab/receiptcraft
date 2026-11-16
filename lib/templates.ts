@@ -364,7 +364,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "⛽",
     seoTitle: "Free Gas Station Receipt Generator — Fuel Receipt Maker",
     seoDescription:
-      "Generate a gas station fuel receipt with gallons, price per gallon and pump number. Free PDF & PNG download for mileage and fuel expense claims.",
+      "Generate a gas station fuel receipt with gallons, price per gallon and pump number. Free watermarked PDF & PNG for mileage and fuel expense claims.",
     heading: "Gas Station & Fuel Receipt Generator",
     intro:
       "Create a gas station receipt that shows the station, the pump number, the fuel grade, the gallons pumped, the price per gallon and the fuel total, worked out as gallons times price. Use it for mileage and fuel expense records, fleet logs and company-card reconciliation.",
@@ -501,7 +501,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     // the taxi and cab variant and links there (lib/sell-links.ts).
     seoTitle: "Free Taxi Receipt Generator — Cab Receipt Template",
     seoDescription:
-      "Make a taxi or rideshare trip receipt with fare, distance and tip. Free cab receipt maker with instant PDF & PNG download. No sign-up to start.",
+      "Make a taxi or rideshare trip receipt with fare, distance and tip. Free cab receipt maker with a watermarked PDF & PNG. No sign-up to start.",
     heading: "Taxi, Cab & Rideshare Receipt Generator",
     intro:
       "Generate a taxi or private ride receipt with base fare, distance charges, wait time and tip. Perfect for travel expense reports when a driver couldn't provide a printed receipt.",
@@ -544,7 +544,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "🏨",
     seoTitle: "Free Hotel Receipt Generator — Lodging Invoice Maker",
     seoDescription:
-      "Create a hotel stay receipt with room rate, nights, taxes and fees. Free hotel folio maker — download as PDF or PNG instantly. No sign-up to start.",
+      "Create a hotel stay receipt with room rate, nights, taxes and fees. Free hotel folio maker — watermarked PDF or PNG download. No sign-up to start.",
     heading: "Hotel Receipt Generator",
     intro:
       "Build a hotel folio-style receipt with nightly room rate, occupancy taxes, resort fees and incidentals. Useful for travel reimbursements and lodging records when the front desk copy went missing.",
@@ -864,7 +864,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "💇",
     seoTitle: "Free Salon Receipt Generator — Spa & Beauty Receipt Maker",
     seoDescription:
-      "Make a salon, spa or barbershop receipt for services and products. Free receipt generator with instant PDF & PNG download. No sign-up to start.",
+      "Make a salon, spa or barbershop receipt for services and products. Free receipt generator with watermarked PDF & PNG download. No sign-up to start.",
     heading: "Salon & Spa Receipt Generator",
     intro:
       "Create a receipt for haircuts, styling, spa treatments and beauty products. Ideal for independent stylists who need to give clients a professional receipt, and for clients tracking personal care expenses.",
@@ -1588,7 +1588,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "🅿️",
     seoTitle: "Free Parking Receipt Generator — Parking Ticket Maker",
     seoDescription:
-      "Generate a parking garage or lot receipt with entry time, duration and rate. Free parking receipt maker with instant PDF & PNG download.",
+      "Generate a parking garage or lot receipt with entry time, duration and rate. Free parking receipt maker with watermarked PDF & PNG download.",
     heading: "Parking Receipt Generator",
     intro:
       "Create a parking garage or surface lot receipt with duration, rate and location. Perfect for business travel expense claims when the exit machine didn't print a ticket.",
@@ -1791,7 +1791,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "💵",
     seoTitle: "Free Cash Receipt Generator — Cash Payment Receipt Maker",
     seoDescription:
-      "Make a cash payment receipt with amount, payer and purpose. Free cash receipt template — download as PDF or PNG instantly. No sign-up to start.",
+      "Make a cash payment receipt with amount, payer and purpose. Free cash receipt template — watermarked PDF or PNG download. No sign-up to start.",
     heading: "Cash Receipt Generator",
     intro:
       "Create a simple cash receipt that records a payment made in cash: the amount, who paid, what it was for and the date. Ideal for any transaction where cash changed hands and both sides want a record.",
@@ -1987,7 +1987,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "🎗️",
     seoTitle: "Free Donation Receipt Generator — Charity Receipt Maker",
     seoDescription:
-      "Create a donation receipt for nonprofits and charities. Show donor, amount and date for tax records. Free PDF & PNG download, no sign-up needed.",
+      "Create a donation receipt for nonprofits and charities. Show donor, amount and date for tax records. Free watermarked PDF & PNG, no sign-up needed.",
     heading: "Donation Receipt Generator",
     intro:
       "Create a charitable donation receipt that records a gift to a nonprofit, including the donor, amount, date and organization details. Useful for charities acknowledging donations and for donors keeping tax records.",
@@ -3582,7 +3582,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "🛍️",
     seoTitle: "Free Sales Receipt Generator — Itemized Sales Receipt Maker",
     seoDescription:
-      "Create an itemized sales receipt for any product sale with tax and payment details. Free sales receipt template — download as PDF or PNG.",
+      "Create an itemized sales receipt for any product sale with tax and payment details. Free sales receipt template — watermarked PDF or PNG download.",
     heading: "Sales Receipt Generator",
     intro:
       "Create a general-purpose sales receipt for any product or service sale, with itemized lines, tax, discount and payment method. Flexible enough for market stalls, online sellers, pop-ups and side businesses.",
@@ -3621,7 +3621,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "📝",
     seoTitle: "Free Itemized Receipt Generator — Detailed Receipt Maker",
     seoDescription:
-      "Create a fully itemized receipt listing every product, quantity and price with tax. Free itemized receipt maker for expenses — PDF & PNG download.",
+      "Create a fully itemized receipt listing every product, quantity and price with tax. Free itemized receipt maker for expenses — watermarked PDF & PNG.",
     heading: "Itemized Receipt Generator",
     intro:
       "Create a fully itemized receipt that breaks out every product or service with its quantity and price. Expense systems and reimbursement policies often require an itemized receipt rather than just a total.",
@@ -3702,7 +3702,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "✅",
     seoTitle: "Free Proof of Purchase Generator — Receipt of Purchase Maker",
     seoDescription:
-      "Create a proof of purchase receipt for warranties, returns and claims. Free template with item, date and payment details — PDF & PNG download.",
+      "Create a proof of purchase receipt for warranties, returns and claims. Free template with item, date and payment details — watermarked PDF & PNG.",
     heading: "Proof of Purchase Generator",
     intro:
       "Create a proof-of-purchase receipt documenting what was bought, when, for how much and how it was paid. Commonly needed for warranty registration, returns, exchanges and insurance claims.",
@@ -3740,7 +3740,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "👶",
     seoTitle: "Daycare & Childcare Receipt Generator — Free Receipt Maker",
     seoDescription:
-      "Create a daycare, childcare or babysitting receipt with dates, hours and rate. Free receipt maker for FSA claims and tax credits — PDF & PNG download.",
+      "Create a daycare, childcare or babysitting receipt with dates, hours and rate. Free receipt maker for FSA claims and tax credits — watermarked PDF & PNG.",
     heading: "Daycare & Childcare Receipt Generator",
     intro:
       "Create a childcare or babysitting receipt showing the provider, dates, hours and rate. Parents use it for childcare tax credits and employer benefits; providers use it to give families a professional record.",
@@ -3928,7 +3928,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     // on /templates/dry-cleaning-receipt and the two link each other.
     seoTitle: "House Cleaning Receipt Template — Free Cleaning Receipt Generator",
     seoDescription:
-      "Create a cleaning service receipt with services, hours and tax. Free receipt maker for house cleaners and clients — PDF & PNG download, no sign-up needed.",
+      "Create a cleaning service receipt with services, hours and tax. Free receipt maker for house cleaners and clients — watermarked PDF & PNG, no sign-up.",
     heading: "Cleaning Service Receipt Template & Generator",
     intro:
       "Create a house-cleaning or commercial-cleaning receipt with itemized services, hours and tax. Independent cleaners use it to give clients a professional record; clients use it for expense and reimbursement tracking.",

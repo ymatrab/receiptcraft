@@ -441,8 +441,21 @@ export function brandReviewedAt(slug: string): string {
     linksChangedNov16(`/brands/${slug}`) || examplesForBrand(slug).length > 0 ? LINKS_NOV16_UPDATED : null,
     BRANDS_SOURCE_FIXED.has(slug) ? BRANDS_SOURCE_FIXED_UPDATED : null,
     BRANDS_WITH_HELP_SECTION.has(slug) ? BRANDS_HELP_REMOVED_UPDATED : null,
+    brandMetaSaysWatermarked(slug) ? META_WATERMARK_UPDATED : null,
   );
 }
+
+// 2026-11-16: meta descriptions that promised a "free PDF" now say the free
+// download is watermarked. Brands are derived from the text: every brand page
+// whose description says "watermarked" either changed today or was already on
+// today's sell-page date, so none is restamped falsely.
+const META_WATERMARK_UPDATED = "2026-11-16";
+function brandMetaSaysWatermarked(slug: string): boolean {
+  return BRAND_TEMPLATES.find((b) => b.slug === slug)?.seoDescription.includes("watermarked") ?? false;
+}
+const TEMPLATES_META_WATERMARK: ReadonlySet<string> = new Set([
+  "cash-receipt", "childcare-receipt", "cleaning-service-receipt", "donation-receipt", "gas-station", "hotel", "itemized-receipt", "parking", "proof-of-purchase", "sales-receipt", "salon", "taxi",
+]);
 
 // 2026-11-16: the "{Brand} receipt help" section (links to the brand's
 // /receipt-help guides) came off the brand pages. Only brands that had guides
@@ -846,6 +859,7 @@ const TEMPLATES_NEW_NEIGHBOURS_UPDATED = "2026-11-16";
 export function templateReviewedAt(t: ReceiptTemplate): string {
   if (TEMPLATES_SELL_PAGES.has(t.slug)) return TEMPLATES_SELL_PAGES_UPDATED;
   if (TEMPLATES_NEW_NEIGHBOURS.has(t.slug)) return TEMPLATES_NEW_NEIGHBOURS_UPDATED;
+  if (TEMPLATES_META_WATERMARK.has(t.slug)) return META_WATERMARK_UPDATED;
   return templateReviewedAtNov(t);
 }
 

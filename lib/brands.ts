@@ -87,7 +87,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🚗",
     seoTitle: "Free Uber Receipt Generator — Rideshare Receipt Maker",
     seoDescription:
-      "Create an Uber-style rideshare receipt online in seconds. Add the base fare, distance, time and tip, edit the pickup details, then download a free PDF or PNG.",
+      "Create an Uber-style rideshare receipt online. Add the base fare, distance, time and tip, edit the pickup details, then download a free watermarked PDF or PNG.",
     heading: "Uber Receipt Generator",
     intro:
       "Generate a rideshare receipt for your Uber trips. Include base fare, distance, wait time, and tip. Great for business travel expense reports.",
@@ -130,7 +130,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🎯",
     seoTitle: "Free Target Receipt Generator — Store Receipt Maker",
     seoDescription:
-      "Make an editable Target store receipt online in seconds. Itemize your purchases, tax and totals, edit the store details and date, then get a free PDF or PNG.",
+      "Make an editable Target store receipt online. Itemize your purchases, tax and totals, edit the store details and date, then get a free watermarked PDF or PNG.",
     heading: "Target Receipt Generator",
     intro:
       "Create a department store receipt for Target. Add household goods, apparel, groceries, and more for expense tracking or replacements.",
@@ -170,7 +170,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🍔",
     seoTitle: "Free McDonald's Receipt Generator — Fast Food Receipt Maker",
     seoDescription:
-      "Generate a McDonald's fast food receipt online in seconds. Add your meal, combos and tax, edit the store details and order date, then get a free PDF or PNG.",
+      "Generate a McDonald's fast food receipt online. Add your meal, combos and tax, edit the store details and order date, then get a free watermarked PDF or PNG.",
     heading: "McDonald's Receipt Generator",
     intro:
       "Recreate a fast food order from McDonald's. Perfect for per-diem travel meals and reimbursable expenses.",
@@ -284,7 +284,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     seoTitle:
       "Free Burger King Receipt Generator — Burger King Receipt Maker",
     seoDescription:
-      "Create a Burger King receipt online. Add your Whoppers, fries and drinks, edit the prices, tax and order date, then download a free print-ready PDF or PNG.",
+      "Create a Burger King receipt online. Add your Whoppers, fries and drinks, edit the prices, tax and order date, then download a free watermarked PDF or PNG.",
     heading: "Burger King Receipt Generator",
     intro:
       "Generate an editable Burger King receipt for your flame-grilled meal. Perfect for per-diem travel meals and reimbursable expenses.",
@@ -325,7 +325,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🍔",
     seoTitle: "Free Wendy's Receipt Generator — Wendy's Receipt Maker",
     seoDescription:
-      "Create a Wendy's receipt online. Add burgers, nuggets, fries and Frostys, edit the prices, tax and order date, then download a free print-ready PDF or PNG.",
+      "Create a Wendy's receipt online. Add burgers, nuggets, fries and Frostys, edit the prices, tax and order date, then download a free watermarked PDF or PNG.",
     heading: "Wendy's Receipt Generator",
     intro:
       "Generate a fresh, never-frozen Wendy's receipt. Ideal for meal expense tracking and reimbursement.",
@@ -366,7 +366,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🥪",
     seoTitle: "Free Subway Receipt Generator — Sandwich Receipt Maker",
     seoDescription:
-      "Create a Subway receipt online. Add your subs, drinks and cookies, edit the items, prices, tax and order date, then download a free print-ready PDF or PNG.",
+      "Create a Subway receipt online. Add your subs, drinks and cookies, edit the items, prices, tax and order date, then download a free watermarked PDF or PNG.",
     heading: "Subway Receipt Generator",
     intro:
       "Build a Subway sandwich receipt with sub types, sizes, and extras. Great for work-lunch reimbursements.",
@@ -408,7 +408,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🌮",
     seoTitle: "Free Taco Bell Receipt Generator — Taco Bell Receipt Maker",
     seoDescription:
-      "Create a Taco Bell receipt online. Add burritos, tacos and combos, edit the items, prices, tax and order date, then download a free print-ready PDF or PNG.",
+      "Create a Taco Bell receipt online. Add burritos, tacos and combos, edit the items, prices, tax and order date, then download a free watermarked PDF or PNG.",
     heading: "Taco Bell Receipt Generator",
     intro:
       "Generate a Taco Bell receipt with your favorite Mexican-inspired items. Perfect for on-the-go meal expense tracking.",
@@ -450,7 +450,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🍗",
     seoTitle: "Free KFC Receipt Generator — KFC Receipt Maker",
     seoDescription:
-      "Create a KFC receipt online. Add chicken meals, sides and drinks, edit the items, prices, tax and order date, then download a free print-ready PDF or PNG.",
+      "Create a KFC receipt online. Add chicken meals, sides and drinks, edit the items, prices, tax and order date, then download a free watermarked PDF or PNG.",
     heading: "KFC Receipt Generator",
     intro:
       "Generate a finger-lickin' good KFC receipt. Include chicken buckets, sides, and drinks for travel meal reimbursement.",
@@ -492,7 +492,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🌯",
     seoTitle: "Free Chipotle Receipt Generator — Chipotle Receipt Maker",
     seoDescription:
-      `Chipotle receipt generator: add burritos, bowls, chips and guac, edit the prices, tax and date. Free watermarked PDF; a pass from ${PASS_FROM} removes the watermark.`,
+      `Chipotle receipt generator: add burritos, bowls, chips and guac, edit prices, tax and date. Free watermarked PDF; a pass from ${PASS_FROM} removes the watermark.`,
     heading: "Chipotle Receipt Generator",
     intro:
       `Build a Chipotle Mexican Grill receipt with burritos, bowls and sides in the Chipotle receipt generator. Building it and a watermarked download are free; a clean download needs a pass from ${PASS_FROM}.`,
@@ -539,7 +539,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     seoTitle:
       "Free Domino's Pizza Receipt Generator — Domino's Receipt Maker",
     seoDescription:
-      "Create a Domino's Pizza receipt online in seconds. Add pizzas, wings and breadsticks, edit the prices, tax and order date, then download a free PDF or PNG.",
+      "Create a Domino's Pizza receipt online. Add pizzas, wings and breadsticks, edit the prices, tax and order date, then download a free watermarked PDF or PNG.",
     heading: "Domino's Pizza Receipt Generator",
     intro:
       "Generate a Domino's delivery or carryout receipt. Include pizzas, wings, sides, and delivery fee for expense tracking.",
@@ -581,7 +581,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🍕",
     seoTitle: "Free Pizza Hut Receipt Generator — Pizza Hut Receipt Maker",
     seoDescription:
-      "Create a Pizza Hut receipt online in seconds. Add pizzas, pasta, wings and sides, edit the prices, tax and order date, then download a print-ready PDF free.",
+      "Create a Pizza Hut receipt online in seconds. Add pizzas, pasta, wings and sides, edit the prices, tax and order date, then download a watermarked PDF free.",
     heading: "Pizza Hut Receipt Generator",
     intro:
       "Generate a Pizza Hut dine-in, delivery, or carryout receipt with pan pizzas, wings, and desserts.",
@@ -623,7 +623,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     seoTitle:
       "Free Papa John's Receipt Generator — Papa John's Receipt Maker",
     seoDescription:
-      "Create a Papa John's receipt online in seconds. Add pizzas, sides and dipping sauces, edit the prices, tax and order date, then download a free PDF or PNG.",
+      "Create a Papa John's receipt online. Add pizzas, sides and dipping sauces, edit the prices, tax and order date, then download a free watermarked PDF or PNG.",
     heading: "Papa John's Receipt Generator",
     intro:
       "Make a Papa John's pizza delivery receipt with your favorite pies, sides, and garlic dipping sauce.",
@@ -666,7 +666,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     seoTitle:
       "Free Chick-fil-A Receipt Generator — Chick-fil-A Receipt Maker",
     seoDescription:
-      "Create a Chick-fil-A receipt online in seconds. Add sandwiches, nuggets and lemonade, edit the prices, tax and order date, then download a free PDF or PNG.",
+      "Create a Chick-fil-A receipt online. Add sandwiches, nuggets and lemonade, edit the prices, tax and order date, then download a free watermarked PDF or PNG.",
     heading: "Chick-fil-A Receipt Generator",
     intro:
       "Generate a Chick-fil-A receipt featuring their signature chicken sandwiches, nuggets, and classic lemonade.",
@@ -710,7 +710,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     seoTitle:
       "Free Panera Bread Receipt Generator — Panera Bread Receipt Maker",
     seoDescription:
-      "Create a Panera Bread receipt online. Add soups, salads and sandwiches, edit the prices, tax and order date, then download a free print-ready PDF or PNG.",
+      "Create a Panera Bread receipt online. Add soups, salads and sandwiches, edit the prices, tax and order date, then download a free watermarked PDF or PNG.",
     heading: "Panera Bread Receipt Generator",
     intro:
       "Generate a Panera Bread receipt with soups, salads, sandwiches, and bakery items. Perfect for work-lunch reimbursement.",
@@ -753,7 +753,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🍔",
     seoTitle: "Free Five Guys Receipt Generator — Five Guys Receipt Maker",
     seoDescription:
-      "Create a Five Guys receipt online. Add your burgers, fries and shakes, edit the items, prices, tax and date, then download a free print-ready PDF or PNG.",
+      "Create a Five Guys receipt online. Add your burgers, fries and shakes, edit the items, prices, tax and date, then download a free watermarked PDF or PNG.",
     heading: "Five Guys Receipt Generator",
     intro:
       "Generate a Five Guys receipt with customizable burgers, Cajun fries, and milkshakes. Great for meal expense reports.",
@@ -795,7 +795,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     seoTitle:
       "Free In-N-Out Burger Receipt Generator — In-N-Out Receipt Maker",
     seoDescription:
-      "Create an In-N-Out Burger receipt online in seconds. Add Double-Doubles, Animal Fries and shakes, edit the prices and tax, then download a free PDF or PNG.",
+      "Create an In-N-Out Burger receipt online. Add Double-Doubles, Animal Fries and shakes, edit the prices and tax, then download a free watermarked PDF or PNG.",
     heading: "In-N-Out Burger Receipt Generator",
     intro:
       "Generate an In-N-Out Burger receipt with your favorite secret-menu items. Quality you can taste.",
@@ -838,7 +838,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     seoTitle:
       "Free Shake Shack Receipt Generator — Shake Shack Receipt Maker",
     seoDescription:
-      "Create a Shake Shack receipt online in seconds. Add ShackBurgers, crinkle fries and shakes, edit the prices and tax, then get a free print-ready PDF or PNG.",
+      "Create a Shake Shack receipt online in seconds. Add ShackBurgers, crinkle fries and shakes, edit the prices and tax, then get a free watermarked PDF or PNG.",
     heading: "Shake Shack Receipt Generator",
     intro:
       "Generate a Shake Shack receipt with ShackBurgers, crinkle-cut fries, and frozen custard concretes.",
@@ -881,7 +881,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     seoTitle:
       "Free Panda Express Receipt Generator — Panda Express Receipt Maker",
     seoDescription:
-      "Create a Panda Express receipt online. Add plates, bowls and entrees, edit the items, prices, tax and date, then download a free print-ready PDF or PNG.",
+      "Create a Panda Express receipt online. Add plates, bowls and entrees, edit the items, prices, tax and date, then download a free watermarked PDF or PNG.",
     heading: "Panda Express Receipt Generator",
     intro:
       "Generate a Panda Express receipt with plates, bowls, and A La Carte items. Great for quick-service meal documentation.",
@@ -925,7 +925,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     seoTitle:
       "Free Sonic Drive-In Receipt Generator — Sonic Receipt Maker",
     seoDescription:
-      "Create a Sonic Drive-In receipt online. Add burgers, tots and Slushes, edit the items, prices, tax and date, then download a free print-ready PDF or PNG.",
+      "Create a Sonic Drive-In receipt online. Add burgers, tots and Slushes, edit the items, prices, tax and date, then download a free watermarked PDF or PNG.",
     heading: "Sonic Drive-In Receipt Generator",
     intro:
       "Generate a Sonic Drive-In receipt with SuperSONIC burgers, tots, and classic Slushes. Perfect for carhop-style meal tracking.",
@@ -967,7 +967,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     seoTitle:
       "Free Dairy Queen Receipt Generator — Dairy Queen Receipt Maker",
     seoDescription:
-      "Create a Dairy Queen receipt online. Add Blizzards, baskets and cakes, edit the items, prices, tax and date, then download a free print-ready PDF or PNG.",
+      "Create a Dairy Queen receipt online. Add Blizzards, baskets and cakes, edit the items, prices, tax and date, then download a free watermarked PDF or PNG.",
     heading: "Dairy Queen Receipt Generator",
     intro:
       "Generate a DQ receipt with Blizzard treats, burger baskets, and classic dipped cones. Happy tastes good.",
@@ -1008,7 +1008,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🥪",
     seoTitle: "Free Arby's Receipt Generator — Arby's Receipt Maker",
     seoDescription:
-      "Create an Arby's receipt online. Add roast beef sandwiches, curly fries and shakes, edit the prices and tax, then download a free print-ready PDF or PNG.",
+      "Create an Arby's receipt online. Add roast beef sandwiches, curly fries and shakes, edit the prices and tax, then download a free watermarked PDF or PNG.",
     heading: "Arby's Receipt Generator",
     intro:
       "Generate an Arby's receipt with roast beef sandwiches, curly fries, and Jamocha shakes. We have the meats!",
@@ -1051,7 +1051,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     seoTitle:
       "Free Jack in the Box Receipt Generator — Jack in the Box Receipt Maker",
     seoDescription:
-      "Create a Jack in the Box receipt online. Add tacos, burgers and curly fries, edit the prices, tax and date, then download a free print-ready PDF or PNG.",
+      "Create a Jack in the Box receipt online. Add tacos, burgers and curly fries, edit the prices, tax and date, then download a free watermarked PDF or PNG.",
     heading: "Jack in the Box Receipt Generator",
     intro:
       "Generate a Jack in the Box receipt with their famous tacos, Jumbo Jack burgers, and late-night combos.",
@@ -1093,7 +1093,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🍗",
     seoTitle: "Free Popeyes Receipt Generator — Popeyes Receipt Maker",
     seoDescription:
-      "Create a Popeyes receipt online. Add chicken sandwiches, tenders and biscuits, edit the prices, tax and date, then download a free print-ready PDF or PNG.",
+      "Create a Popeyes receipt online. Add chicken sandwiches, tenders and biscuits, edit the prices, tax and date, then download a free watermarked PDF or PNG.",
     heading: "Popeyes Receipt Generator",
     intro:
       "Generate a Popeyes Louisiana Kitchen receipt with spicy chicken, tenders, and buttermilk biscuits.",
@@ -1135,7 +1135,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🍩",
     seoTitle: "Free Dunkin' Receipt Generator — Dunkin' Receipt Maker",
     seoDescription:
-      "Create a Dunkin' receipt online. Add coffee, donuts and breakfast sandwiches, edit the prices and tax, then download a free print-ready PDF or PNG receipt.",
+      "Create a Dunkin' receipt online. Add coffee, donuts and breakfast sandwiches, edit the prices and tax, then download a free watermarked PDF or PNG receipt.",
     heading: "Dunkin' Receipt Generator",
     intro:
       "Make a Dunkin' receipt with iced coffees, donuts, and bagel sandwiches. America runs on Dunkin'.",
@@ -1179,7 +1179,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     seoTitle:
       "Free Tim Hortons Receipt Generator — Tim Hortons Receipt Maker",
     seoDescription:
-      "Create a Tim Hortons receipt online. Add coffee, Timbits and sandwiches, edit the items, prices, tax and date, then download a free print-ready PDF or PNG.",
+      "Create a Tim Hortons receipt online. Add coffee, Timbits and sandwiches, edit the items, prices, tax and date, then download a free watermarked PDF or PNG.",
     heading: "Tim Hortons Receipt Generator",
     intro:
       "Make a Tim Hortons receipt with double-doubles, Timbits, and breakfast wraps. Always fresh.",
@@ -1222,7 +1222,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     seoTitle:
       "Free Peet's Coffee Receipt Generator — Peet's Coffee Receipt Maker",
     seoDescription:
-      "Create a Peet's Coffee receipt online in seconds. Add lattes, cold brews and pastries, edit the prices, tax and date, then get a free print-ready PDF or PNG.",
+      "Create a Peet's Coffee receipt online in seconds. Add lattes, cold brews and pastries, edit the prices, tax and date, then get a free watermarked PDF or PNG.",
     heading: "Peet's Coffee Receipt Generator",
     intro:
       "Make a Peet's Coffee receipt with hand-roasted espresso drinks and pastries. Coffee of exceptional quality.",
@@ -1264,7 +1264,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     seoTitle:
       "Free Caribou Coffee Receipt Generator — Caribou Coffee Receipt Maker",
     seoDescription:
-      "Create a Caribou Coffee receipt online. Add crafted drinks and bakery items, edit the prices, tax and date, then download a free print-ready PDF or PNG.",
+      "Create a Caribou Coffee receipt online. Add crafted drinks and bakery items, edit the prices, tax and date, then download a free watermarked PDF or PNG.",
     heading: "Caribou Coffee Receipt Generator",
     intro:
       "Make a Caribou Coffee receipt with handcrafted drinks and fresh bakery goods. Life is short, stay awake for it.",
@@ -1306,7 +1306,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     seoTitle:
       "Free Dutch Bros Receipt Generator — Dutch Bros Receipt Maker",
     seoDescription:
-      "Create a Dutch Bros receipt online. Add Rebels, Frosts and cold brews, edit the items, prices, tax and date, then download a free print-ready PDF or PNG.",
+      "Create a Dutch Bros receipt online. Add Rebels, Frosts and cold brews, edit the items, prices, tax and date, then download a free watermarked PDF or PNG.",
     heading: "Dutch Bros Receipt Generator",
     intro:
       "Make a Dutch Bros receipt with Rebels, Frosts, and their signature coffee drinks. Drink one for me!",
@@ -1348,7 +1348,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     seoTitle:
       "Free Jamba Juice Receipt Generator — Jamba Juice Receipt Maker",
     seoDescription:
-      "Create a Jamba Juice receipt online. Add smoothies, bowls and boosts, edit the items, prices, tax and date, then download a free print-ready PDF or PNG.",
+      "Create a Jamba Juice receipt online. Add smoothies, bowls and boosts, edit the items, prices, tax and date, then download a free watermarked PDF or PNG.",
     heading: "Jamba Juice Receipt Generator",
     intro:
       "Make a Jamba receipt with smoothies, acai bowls, and energy boosts. Blend in the good.",
@@ -1389,7 +1389,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🧋",
     seoTitle: "Free Boba Guys Receipt Generator — Boba Guys Receipt Maker",
     seoDescription:
-      "Create a Boba Guys receipt online. Add milk teas, matcha and toppings, edit the items, prices, tax and date, then download a free print-ready PDF or PNG.",
+      "Create a Boba Guys receipt online. Add milk teas, matcha and toppings, edit the items, prices, tax and date, then download a free watermarked PDF or PNG.",
     heading: "Boba Guys Receipt Generator",
     intro:
       "Make a Boba Guys receipt with premium milk teas, matcha drinks, and organic tapioca. Real ingredients, real boba.",
@@ -1430,7 +1430,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🛒",
     seoTitle: "Free Costco Receipt Generator — Costco Receipt Maker",
     seoDescription:
-      "Create a Costco receipt online in seconds. Add bulk items, electronics and groceries, edit the prices, tax and date, then get a free print-ready PDF or PNG.",
+      "Create a Costco receipt online in seconds. Add bulk items, electronics and groceries, edit the prices, tax and date, then get a free watermarked PDF or PNG.",
     heading: "Costco Receipt Generator",
     intro:
       "Create a Costco Wholesale receipt with bulk-buy items, electronics, and groceries. Member pricing included.",
@@ -1474,7 +1474,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     seoTitle:
       "Free Sam's Club Receipt Generator — Sam's Club Receipt Maker",
     seoDescription:
-      "Create a Sam's Club receipt online in seconds. Add warehouse club items and groceries, edit the prices, tax and date, then get a free print-ready PDF or PNG.",
+      "Create a Sam's Club receipt online in seconds. Add warehouse club items and groceries, edit the prices, tax and date, then get a free watermarked PDF or PNG.",
     heading: "Sam's Club Receipt Generator",
     intro:
       "Create a Sam's Club warehouse receipt with bulk groceries, office supplies, and electronics.",
@@ -1517,7 +1517,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     seoTitle:
       "Free Whole Foods Receipt Generator — Whole Foods Receipt Maker",
     seoDescription:
-      "Create a Whole Foods Market receipt online in seconds. Add organic produce, groceries and prepared foods, edit prices and tax, then download a PDF free.",
+      "Create a Whole Foods Market receipt online. Add organic produce, groceries and prepared foods, edit prices and tax, then download a watermarked PDF free.",
     heading: "Whole Foods Receipt Generator",
     intro:
       "Create a Whole Foods Market receipt with organic produce, 365 brand items, and specialty groceries.",
@@ -1561,7 +1561,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     seoTitle:
       "Free Trader Joe's Receipt Generator — Trader Joe's Receipt Maker",
     seoDescription:
-      "Create a Trader Joe's receipt online. Add TJ's favorites, frozen meals and snacks, edit the prices and tax, then download a free print-ready PDF or PNG.",
+      "Create a Trader Joe's receipt online. Add TJ's favorites, frozen meals and snacks, edit the prices and tax, then download a free watermarked PDF or PNG.",
     heading: "Trader Joe's Receipt Generator",
     intro:
       "Create a Trader Joe's receipt with their iconic private-label products, frozen favorites, and specialty snacks.",
@@ -1604,7 +1604,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🛒",
     seoTitle: "Free Kroger Receipt Generator — Kroger Receipt Maker",
     seoDescription:
-      "Create a Kroger receipt online in seconds. Add groceries, produce and household items, edit the prices, tax and date, then get a free print-ready PDF or PNG.",
+      "Create a Kroger receipt online in seconds. Add groceries, produce and household items, edit the prices, tax and date, then get a free watermarked PDF or PNG.",
     heading: "Kroger Receipt Generator",
     intro:
       "Create a Kroger receipt with weekly grocery items, produce, and household essentials. Fresh for everyone.",
@@ -1650,7 +1650,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🛒",
     seoTitle: "Free Publix Receipt Generator — Publix Receipt Maker",
     seoDescription:
-      "Create a Publix receipt online in seconds. Add groceries, deli items and bakery goods, edit the prices, tax and date, then get a free print-ready PDF or PNG.",
+      "Create a Publix receipt online in seconds. Add groceries, deli items and bakery goods, edit the prices, tax and date, then get a free watermarked PDF or PNG.",
     heading: "Publix Receipt Generator",
     intro:
       "Create a Publix receipt with deli subs, bakery items, and weekly BOGO deals. Where shopping is a pleasure.",
@@ -1702,7 +1702,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🛒",
     seoTitle: "Free Safeway Receipt Generator — Safeway Receipt Maker",
     seoDescription:
-      "Create a Safeway receipt online in seconds. Add groceries, produce and Club Card savings, edit the prices and tax, then download a free PDF or PNG receipt.",
+      "Create a Safeway receipt online. Add groceries, produce and Club Card savings, edit the prices and tax, then download a free watermarked PDF or PNG receipt.",
     heading: "Safeway Receipt Generator",
     intro:
       "Create a Safeway receipt with grocery items, Club Card savings, and weekly deals.",
@@ -1751,7 +1751,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🛒",
     seoTitle: "Free Aldi Receipt Generator — Aldi Receipt Maker",
     seoDescription:
-      "Create an Aldi receipt online in seconds. Add discount groceries and specialty finds, edit the prices, tax and date, then get a free print-ready PDF or PNG.",
+      "Create an Aldi receipt online in seconds. Add discount groceries and specialty finds, edit the prices, tax and date, then get a free watermarked PDF or PNG.",
     heading: "Aldi Receipt Generator",
     intro:
       "Create an Aldi receipt with their exclusive brands, Aldi Finds, and everyday low-price groceries.",
@@ -1793,7 +1793,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "💊",
     seoTitle: "Free Walgreens Receipt Generator — Walgreens Receipt Maker",
     seoDescription:
-      "Create a Walgreens receipt online in seconds. Add pharmacy, health and convenience items, edit the prices and tax, then download a free PDF or PNG receipt.",
+      "Create a Walgreens receipt online. Add pharmacy, health and convenience items, edit the prices and tax, then download a free watermarked PDF or PNG receipt.",
     heading: "Walgreens Receipt Generator",
     intro:
       "Create a Walgreens receipt with pharmacy items, health products, and convenience store essentials.",
@@ -1836,7 +1836,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     // 2026-11-16: leads with the exact "cvs receipt generator" this page owns.
     seoTitle: "CVS Receipt Generator — CVS Pharmacy Receipt Maker",
     seoDescription:
-      "Create a CVS Pharmacy receipt online. Add health, beauty and everyday items, edit the prices and tax, then download a free print-ready PDF or PNG receipt.",
+      "Create a CVS Pharmacy receipt online. Add health, beauty and everyday items, edit the prices and tax, then download a free watermarked PDF or PNG receipt.",
     heading: "CVS Pharmacy Receipt Generator",
     intro:
       "Create a CVS Pharmacy receipt (infamously long!) with health, beauty, and ExtraBucks Rewards.",
@@ -1881,7 +1881,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     // at ~7.8 — once the duplicate blog post was folded into it.
     seoTitle: "Home Depot Receipt Generator & Template — Hardware Receipt Maker",
     seoDescription:
-      "Create a Home Depot receipt online. Add tools, lumber and hardware supplies, edit the prices, tax and date, then download a free print-ready PDF or PNG.",
+      "Create a Home Depot receipt online. Add tools, lumber and hardware supplies, edit the prices, tax and date, then download a free watermarked PDF or PNG.",
     heading: "Home Depot Receipt Generator & Template",
     intro:
       "Create a Home Depot receipt with tools, building materials, and home improvement supplies.",
@@ -1928,7 +1928,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     // keeps fitBrandTitle from treating it as a repeat to trim.
     seoTitle: "Free Lowe's Receipt Generator — Lowes Receipt Maker",
     seoDescription:
-      "Create a Lowe's receipt online. Add appliances, tools and building supplies, edit the prices, tax and date, then get a free print-ready PDF or PNG receipt.",
+      "Create a Lowe's receipt online. Add appliances, tools and building supplies, edit the prices, tax and date, then get a free watermarked PDF or PNG receipt.",
     heading: "Lowe's Receipt Generator",
     intro:
       "Make a Lowe's (Lowes) receipt with appliances, plumbing supplies and building materials, laid out like the store's thermal register receipt.",
@@ -1981,7 +1981,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🪑",
     seoTitle: "Free IKEA Receipt Generator — IKEA Receipt Maker",
     seoDescription:
-      "Create an IKEA receipt online in seconds. Add furniture, accessories and food court items, edit the prices and tax, then get a free print-ready PDF or PNG.",
+      "Create an IKEA receipt online in seconds. Add furniture, accessories and food court items, edit the prices and tax, then get a free watermarked PDF or PNG.",
     heading: "IKEA Receipt Generator",
     intro:
       "Create an IKEA receipt with flat-pack furniture, home décor, and even those famous Swedish meatballs.",
@@ -2024,7 +2024,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "💻",
     seoTitle: "Free Best Buy Receipt Generator — Best Buy Receipt Maker",
     seoDescription:
-      "Create a Best Buy receipt online in seconds. Add electronics, appliances and accessories, edit the prices and tax, then download a free PDF or PNG receipt.",
+      "Create a Best Buy receipt online. Add electronics, appliances and accessories, edit the prices and tax, then download a free watermarked PDF or PNG receipt.",
     heading: "Best Buy Receipt Generator",
     intro:
       "Create a Best Buy receipt with electronics, laptops, TVs, and Geek Squad services.",
@@ -2068,7 +2068,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "👗",
     seoTitle: "Free Macy's Receipt Generator — Macy's Receipt Maker",
     seoDescription:
-      "Create a Macy's receipt online in seconds. Add clothing, accessories and home goods, edit the prices, tax and date, then get a free print-ready PDF or PNG.",
+      "Create a Macy's receipt online in seconds. Add clothing, accessories and home goods, edit the prices, tax and date, then get a free watermarked PDF or PNG.",
     heading: "Macy's Receipt Generator",
     intro:
       "Create a Macy's department store receipt with apparel, beauty, and home products.",
@@ -2127,7 +2127,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "👔",
     seoTitle: "Free Nordstrom Receipt Generator — Nordstrom Receipt Maker",
     seoDescription:
-      "Create a Nordstrom receipt online in seconds. Add designer fashion, shoes and accessories, edit the prices and tax, then get a free print-ready PDF or PNG.",
+      "Create a Nordstrom receipt online in seconds. Add designer fashion, shoes and accessories, edit the prices and tax, then get a free watermarked PDF or PNG.",
     heading: "Nordstrom Receipt Generator",
     intro:
       "Create a Nordstrom receipt with premium fashion, shoes, and beauty products. In style since 1901.",
@@ -2176,7 +2176,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "💄",
     seoTitle: "Free Sephora Receipt Generator — Sephora Receipt Maker",
     seoDescription:
-      "Create a Sephora receipt online in seconds. Add beauty, skincare and fragrance items, edit the prices, tax and date, then get a free print-ready PDF or PNG.",
+      "Create a Sephora receipt online in seconds. Add beauty, skincare and fragrance items, edit the prices, tax and date, then get a free watermarked PDF or PNG.",
     heading: "Sephora Receipt Generator",
     intro:
       "Create a Sephora receipt with prestige beauty, skincare, and fragrance products.",
@@ -2219,7 +2219,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     seoTitle:
       "Free Ulta Beauty Receipt Generator — Ulta Beauty Receipt Maker",
     seoDescription:
-      "Create an Ulta Beauty receipt online. Add makeup, haircare and skincare, edit the items, prices, tax and date, then download a free print-ready PDF or PNG.",
+      "Create an Ulta Beauty receipt online. Add makeup, haircare and skincare, edit the items, prices, tax and date, then download a free watermarked PDF or PNG.",
     heading: "Ulta Beauty Receipt Generator",
     intro:
       "Create an Ulta Beauty receipt with drugstore and prestige beauty, plus salon services.",
@@ -2261,7 +2261,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🎮",
     seoTitle: "Free GameStop Receipt Generator — GameStop Receipt Maker",
     seoDescription:
-      "Create a GameStop receipt online. Add games, consoles and collectibles, edit the items, prices, tax and date, then download a free print-ready PDF or PNG.",
+      "Create a GameStop receipt online. Add games, consoles and collectibles, edit the items, prices, tax and date, then download a free watermarked PDF or PNG.",
     heading: "GameStop Receipt Generator",
     intro:
       "Create a GameStop receipt with video games, consoles, accessories, and collectibles.",
@@ -2304,7 +2304,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     seoTitle:
       "Free Apple Store Receipt Generator — Apple Store Receipt Maker",
     seoDescription:
-      "Create an Apple Store receipt online. Add iPhones, MacBooks and accessories, edit the prices and tax, then download a free print-ready PDF or PNG receipt.",
+      "Create an Apple Store receipt online. Add iPhones, MacBooks and accessories, edit the prices and tax, then download a free watermarked PDF or PNG receipt.",
     heading: "Apple Store Receipt Generator",
     intro:
       "Create a premium Apple Store receipt with iPhones, MacBooks, AirPods, and AppleCare protection.",
@@ -2345,7 +2345,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "👕",
     seoTitle: "Free TJ Maxx Receipt Generator — TJ Maxx Receipt Maker",
     seoDescription:
-      "Create a TJ Maxx receipt online in seconds. Add designer fashion at discount prices, edit the items, prices, tax and date, then download a free PDF or PNG.",
+      "Create a TJ Maxx receipt online. Add designer fashion at discount prices, edit the items, prices, tax and date, then download a free watermarked PDF or PNG.",
     heading: "TJ Maxx Receipt Generator",
     intro:
       "Create a TJ Maxx receipt with brand-name clothing, shoes, and home décor at off-price deals.",
@@ -2386,7 +2386,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "👕",
     seoTitle: "Free Marshalls Receipt Generator — Marshalls Receipt Maker",
     seoDescription:
-      "Create a Marshalls receipt online. Add off-price designer clothing and home goods, edit the prices and tax, then download a free print-ready PDF or PNG.",
+      "Create a Marshalls receipt online. Add off-price designer clothing and home goods, edit the prices and tax, then download a free watermarked PDF or PNG.",
     heading: "Marshalls Receipt Generator",
     intro:
       "Create a Marshalls receipt with brand-name fashion, shoes, and home goods at discount prices.",
@@ -2428,7 +2428,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     seoTitle:
       "Free Dick's Sporting Goods Receipt Generator — Dick's Receipt Maker",
     seoDescription:
-      "Create a Dick's Sporting Goods receipt online in seconds. Add athletic gear, shoes and equipment, edit the prices and tax, then download a free PDF or PNG.",
+      "Create a Dick's Sporting Goods receipt online. Add athletic gear, shoes and equipment, edit the prices and tax, then download a free watermarked PDF or PNG.",
     heading: "Dick's Sporting Goods Receipt Generator",
     intro:
       "Create a Dick's Sporting Goods receipt with athletic apparel, footwear, and sports equipment.",
@@ -2471,7 +2471,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🐕",
     seoTitle: "Free Petco Receipt Generator — Petco Receipt Maker",
     seoDescription:
-      "Create a Petco receipt online. Add pet food, toys and grooming services, edit the items, prices, tax and date, then download a free print-ready PDF or PNG.",
+      "Create a Petco receipt online. Add pet food, toys and grooming services, edit the items, prices, tax and date, then download a free watermarked PDF or PNG.",
     heading: "Petco Receipt Generator",
     intro:
       "Create a Petco receipt with pet food, treats, toys, and grooming services. Health + Happiness.",
@@ -2512,7 +2512,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🐈",
     seoTitle: "Free PetSmart Receipt Generator — PetSmart Receipt Maker",
     seoDescription:
-      "Create a PetSmart receipt online in seconds. Add pet supplies, grooming and vet services, edit the prices and tax, then download a free PDF or PNG receipt.",
+      "Create a PetSmart receipt online. Add pet supplies, grooming and vet services, edit the prices and tax, then download a free watermarked PDF or PNG receipt.",
     heading: "PetSmart Receipt Generator",
     intro:
       "Create a PetSmart receipt with pet food, toys, grooming, and Banfield vet services.",
@@ -2554,7 +2554,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🚗",
     seoTitle: "Free AutoZone Receipt Generator — AutoZone Receipt Maker",
     seoDescription:
-      "Create an AutoZone receipt online. Add auto parts, oil and accessories, edit the items, prices, tax and date, then download a free print-ready PDF or PNG.",
+      "Create an AutoZone receipt online. Add auto parts, oil and accessories, edit the items, prices, tax and date, then download a free watermarked PDF or PNG.",
     heading: "AutoZone Receipt Generator",
     intro:
       "Create an AutoZone receipt with auto parts, motor oil, and vehicle accessories. Get in the zone!",
@@ -2596,7 +2596,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     seoTitle:
       "Free O'Reilly Auto Parts Receipt Generator — O'Reilly Receipt Maker",
     seoDescription:
-      "Create an O'Reilly Auto Parts receipt online in seconds. Add auto parts, oil and supplies, edit the prices and tax, then get a free print-ready PDF or PNG.",
+      "Create an O'Reilly Auto Parts receipt online in seconds. Add auto parts, oil and supplies, edit the prices and tax, then get a free watermarked PDF or PNG.",
     heading: "O'Reilly Auto Parts Receipt Generator",
     intro:
       "Create an O'Reilly Auto Parts receipt with parts, tools, and car care products. The right parts, right price.",
@@ -2638,7 +2638,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "📦",
     seoTitle: "Free Amazon Receipt Generator — Amazon Order Receipt Maker",
     seoDescription:
-      "Create an Amazon receipt online in seconds. Add products, Prime delivery and order details, edit the prices and tax, then get a free print-ready PDF or PNG.",
+      "Create an Amazon receipt online in seconds. Add products, Prime delivery and order details, edit the prices and tax, then get a free watermarked PDF or PNG.",
     heading: "Amazon Receipt Generator",
     intro:
       "Generate an Amazon order receipt with individual items, shipping, and payment details. Great for expense claims.",
@@ -2707,7 +2707,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "📦",
     seoTitle: "Free eBay Receipt Generator — eBay Purchase Receipt Maker",
     seoDescription:
-      "Create an eBay receipt online in seconds. Add auction or Buy It Now purchases, edit the items, prices, tax and date, then get a free print-ready PDF or PNG.",
+      "Create an eBay receipt online in seconds. Add auction or Buy It Now purchases, edit the items, prices, tax and date, then get a free watermarked PDF or PNG.",
     heading: "eBay Receipt Generator",
     intro:
       "Generate an eBay marketplace receipt for auction wins or Buy It Now purchases.",
@@ -2916,7 +2916,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🎬",
     seoTitle: "Free Netflix Receipt Generator — Netflix Billing Receipt Maker",
     seoDescription:
-      "Create a Netflix billing receipt online in seconds. Document your subscription plan, charges, dates and payment method, then download a print-ready PDF free.",
+      "Create a Netflix billing receipt online in seconds. Document your subscription plan, charges, dates and payment method, then download a watermarked PDF free.",
     heading: "Netflix Receipt Generator",
     intro:
       "Generate a Netflix subscription billing receipt. Perfect for documenting entertainment expenses.",
@@ -2954,7 +2954,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🎵",
     seoTitle: "Free Spotify Receipt Generator — Spotify Billing Receipt Maker",
     seoDescription:
-      "Create a Spotify billing receipt online in seconds. Document your Premium subscription plan, charges and dates, then download a free print-ready PDF or PNG.",
+      "Create a Spotify billing receipt online in seconds. Document your Premium subscription plan, charges and dates, then download a free watermarked PDF or PNG.",
     heading: "Spotify Receipt Generator",
     intro:
       "Generate a Spotify subscription receipt for Premium individual, family, or student plans.",
@@ -2992,7 +2992,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🎬",
     seoTitle: "Free Hulu Receipt Generator — Hulu Billing Receipt Maker",
     seoDescription:
-      "Create a Hulu billing receipt online in seconds. Document your streaming subscription plan, charges and dates, then download a free print-ready PDF or PNG.",
+      "Create a Hulu billing receipt online in seconds. Document your streaming subscription plan, charges and dates, then download a free watermarked PDF or PNG.",
     heading: "Hulu Receipt Generator",
     intro:
       "Generate a Hulu subscription receipt for basic, premium, or live TV plans.",
@@ -3030,7 +3030,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🎬",
     seoTitle: "Free Disney+ Receipt Generator — Disney+ Billing Receipt Maker",
     seoDescription:
-      "Create a Disney+ billing receipt online in seconds. Document your streaming subscription plan, charges and dates, then download a print-ready PDF or PNG free.",
+      "Create a Disney+ billing receipt online in seconds. Document your streaming subscription plan, charges and dates, then download a watermarked PDF or PNG free.",
     heading: "Disney+ Receipt Generator",
     intro:
       "Generate a Disney+ subscription receipt. Where the best stories in the world all live.",
@@ -3069,7 +3069,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     seoTitle:
       "Free Apple Services Receipt Generator — Apple Billing Receipt Maker",
     seoDescription:
-      "Create an Apple Services receipt online in seconds. Document iCloud, Apple Music and Apple One charges, then download a free print-ready PDF or PNG billing.",
+      "Create an Apple Services receipt online in seconds. Document iCloud, Apple Music and Apple One charges, then download a free watermarked PDF or PNG billing.",
     heading: "Apple Services Receipt Generator",
     intro:
       "Generate an Apple Services receipt for iCloud+, Apple Music, Apple TV+, or Apple One bundles.",
@@ -3129,7 +3129,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     seoTitle:
       "Free Google Play Receipt Generator — Google Play Receipt Maker",
     seoDescription:
-      "Create a Google Play receipt online in seconds. Document app purchases and subscription charges, dates and totals, then download a free PDF or PNG receipt.",
+      "Create a Google Play receipt online. Document app purchases and subscription charges, dates and totals, then download a free watermarked PDF or PNG receipt.",
     heading: "Google Play Receipt Generator",
     intro:
       "Generate a Google Play receipt for app purchases, in-app buys, and subscription renewals.",
@@ -3191,7 +3191,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     seoTitle:
       "Free Microsoft Store Receipt Generator — Microsoft Receipt Maker",
     seoDescription:
-      "Create a Microsoft Store receipt online. Add software, subscriptions and hardware, edit the prices and tax, then download a free print-ready PDF or PNG.",
+      "Create a Microsoft Store receipt online. Add software, subscriptions and hardware, edit the prices and tax, then download a free watermarked PDF or PNG.",
     heading: "Microsoft Store Receipt Generator",
     intro:
       "Generate a Microsoft Store receipt for Microsoft 365, Xbox Game Pass, or Surface purchases.",
@@ -3230,7 +3230,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🎮",
     seoTitle: "Free Steam Receipt Generator — Steam Purchase Receipt Maker",
     seoDescription:
-      "Create a Steam receipt online in seconds. Add game purchases, DLC and wallet funds, edit the items, prices and date, then get a free print-ready PDF or PNG.",
+      "Create a Steam receipt online in seconds. Add game purchases, DLC and wallet funds, edit the items, prices and date, then get a free watermarked PDF or PNG.",
     heading: "Steam Receipt Generator",
     intro:
       "Generate a Steam digital storefront receipt for game purchases, DLC, and in-game items.",
@@ -3270,7 +3270,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     seoTitle:
       "Free PlayStation Store Receipt Generator — PS Store Receipt Maker",
     seoDescription:
-      "Create a PlayStation Store receipt online. Add game and PS Plus purchases, edit the items, prices and date, then download a free print-ready PDF or PNG.",
+      "Create a PlayStation Store receipt online. Add game and PS Plus purchases, edit the items, prices and date, then download a free watermarked PDF or PNG.",
     heading: "PlayStation Store Receipt Generator",
     intro:
       "Generate a PlayStation Store receipt for digital game purchases and PS Plus subscriptions.",
@@ -3310,7 +3310,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     seoTitle:
       "Free Xbox Store Receipt Generator — Xbox Store Receipt Maker",
     seoDescription:
-      "Create an Xbox Store receipt online in seconds. Add game and Game Pass purchases, edit the items, prices and date, then download a free PDF or PNG receipt.",
+      "Create an Xbox Store receipt online. Add game and Game Pass purchases, edit the items, prices and date, then download a free watermarked PDF or PNG receipt.",
     heading: "Xbox Store Receipt Generator",
     intro:
       "Generate an Xbox Store receipt for digital games, Game Pass, and in-game purchases.",
@@ -3349,7 +3349,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🎨",
     seoTitle: "Free Adobe Receipt Generator — Adobe Billing Receipt Maker",
     seoDescription:
-      "Create an Adobe receipt online. Document Creative Cloud and Acrobat subscription charges and dates, then get a free print-ready PDF or PNG billing receipt.",
+      "Create an Adobe receipt online. Document Creative Cloud and Acrobat subscription charges and dates, then get a free watermarked PDF or PNG billing receipt.",
     heading: "Adobe Receipt Generator",
     intro:
       "Generate an Adobe receipt for Creative Cloud, Acrobat Pro, and Stock subscriptions.",
@@ -3408,7 +3408,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "📹",
     seoTitle: "Free Zoom Receipt Generator — Zoom Billing Receipt Maker",
     seoDescription:
-      "Create a Zoom receipt online in seconds. Document your Zoom Workplace plan subscription, charges and dates, then get a free print-ready PDF or PNG billing.",
+      "Create a Zoom receipt online in seconds. Document your Zoom Workplace plan subscription, charges and dates, then get a free watermarked PDF or PNG billing.",
     heading: "Zoom Receipt Generator",
     intro:
       "Generate a Zoom receipt for Workplace Pro, Business, or Webinar plan subscriptions.",
@@ -3533,7 +3533,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🥡",
     seoTitle: "Free DoorDash Receipt Generator — DoorDash Receipt Maker",
     seoDescription:
-      "Create a DoorDash receipt online. Add food items, delivery and service fees, edit the prices, tip and date, then get a free print-ready PDF or PNG receipt.",
+      "Create a DoorDash receipt online. Add food items, delivery and service fees, edit the prices, tip and date, then get a free watermarked PDF or PNG receipt.",
     heading: "DoorDash Receipt Generator",
     intro:
       "Create a DoorDash food delivery receipt with restaurant items, delivery fee, service fee, and driver tip.",
@@ -3607,7 +3607,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🥡",
     seoTitle: "Free Uber Eats Receipt Generator — Uber Eats Receipt Maker",
     seoDescription:
-      "Create an Uber Eats receipt online. Add food items, delivery and service fees, edit the prices, tip and date, then download a free print-ready PDF or PNG.",
+      "Create an Uber Eats receipt online. Add food items, delivery and service fees, edit the prices, tip and date, then download a free watermarked PDF or PNG.",
     heading: "Uber Eats Receipt Generator",
     intro:
       "Create an Uber Eats food delivery receipt with restaurant items, fees, and tip.",
@@ -3650,7 +3650,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🥡",
     seoTitle: "Free Grubhub Receipt Generator — Grubhub Receipt Maker",
     seoDescription:
-      "Create a Grubhub receipt online in seconds. Add food delivery items, service fees and tip, edit the prices and date, then get a free print-ready PDF or PNG.",
+      "Create a Grubhub receipt online in seconds. Add food delivery items, service fees and tip, edit the prices and date, then get a free watermarked PDF or PNG.",
     heading: "Grubhub Receipt Generator",
     intro:
       "Create a Grubhub food delivery receipt with restaurant items, delivery fees, and tip.",
@@ -3716,7 +3716,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🥡",
     seoTitle: "Free Postmates Receipt Generator — Postmates Receipt Maker",
     seoDescription:
-      "Create a Postmates receipt online. Add delivery items, service fees and tip, edit the prices and date, then download a free print-ready PDF or PNG receipt.",
+      "Create a Postmates receipt online. Add delivery items, service fees and tip, edit the prices and date, then download a free watermarked PDF or PNG receipt.",
     heading: "Postmates Receipt Generator",
     intro:
       "Create a Postmates delivery receipt for food, groceries, or any on-demand delivery.",
@@ -3776,7 +3776,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🛒",
     seoTitle: "Free Instacart Receipt Generator — Instacart Receipt Maker",
     seoDescription:
-      "Create an Instacart receipt online in seconds. Add grocery delivery items, service fees and tip, edit the prices and date, then download a free PDF or PNG.",
+      "Create an Instacart receipt online. Add grocery delivery items, service fees and tip, edit the prices and date, then download a free watermarked PDF or PNG.",
     heading: "Instacart Receipt Generator",
     intro:
       "Create an Instacart grocery delivery receipt with items, delivery fee, service fee, and shopper tip.",
@@ -3819,7 +3819,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🏠",
     seoTitle: "Free Airbnb Receipt Generator — Airbnb Booking Receipt Maker",
     seoDescription:
-      "Create an Airbnb receipt online in seconds. Add nightly rates, cleaning and service fees, edit the dates and totals, then get a free print-ready PDF or PNG.",
+      "Create an Airbnb receipt online in seconds. Add nightly rates, cleaning and service fees, edit the dates and totals, then get a free watermarked PDF or PNG.",
     heading: "Airbnb Receipt Generator",
     intro:
       "Make an Airbnb receipt with nightly rates, cleaning fees, and service charges for travel reimbursement.",
@@ -3859,7 +3859,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "✈️",
     seoTitle: "Free Expedia Receipt Generator — Expedia Booking Receipt Maker",
     seoDescription:
-      "Create an Expedia receipt online in seconds. Add hotel, flight and car rental bookings, edit the dates and charges, then get a free print-ready PDF or PNG.",
+      "Create an Expedia receipt online in seconds. Add hotel, flight and car rental bookings, edit the dates and charges, then get a free watermarked PDF or PNG.",
     heading: "Expedia Receipt Generator",
     intro:
       "Make an Expedia receipt for hotel bookings, flights, or car rentals for business travel reimbursement.",
@@ -3899,7 +3899,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     seoTitle:
       "Free Booking.com Receipt Generator — Booking.com Receipt Maker",
     seoDescription:
-      "Create a Booking.com receipt online in seconds. Add hotel booking details, nightly rates and fees, edit the dates, then download a free PDF or PNG receipt.",
+      "Create a Booking.com receipt online. Add hotel booking details, nightly rates and fees, edit the dates, then download a free watermarked PDF or PNG receipt.",
     heading: "Booking.com Receipt Generator",
     intro:
       "Make a Booking.com receipt with hotel booking details, nightly rates, and taxes for trip reimbursement.",
@@ -3939,7 +3939,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     seoTitle:
       "Free Delta Airlines Receipt Generator — Delta Receipt Maker",
     seoDescription:
-      "Create a Delta Airlines receipt online. Add flight, baggage and upgrade charges, edit the route and dates, then get a free print-ready PDF or PNG receipt.",
+      "Create a Delta Airlines receipt online. Add flight, baggage and upgrade charges, edit the route and dates, then get a free watermarked PDF or PNG receipt.",
     heading: "Delta Airlines Receipt Generator",
     intro:
       "Make a Delta Air Lines receipt with flight charges, seat upgrades, and checked baggage fees.",
@@ -3980,7 +3980,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     seoTitle:
       "Free American Airlines Receipt Generator — AA Receipt Maker",
     seoDescription:
-      "Create an American Airlines receipt online in seconds. Add flight and ancillary charges, edit the route, dates and totals, then download a free PDF or PNG.",
+      "Create an American Airlines receipt online. Add flight and ancillary charges, edit the route, dates and totals, then download a free watermarked PDF or PNG.",
     heading: "American Airlines Receipt Generator",
     intro:
       "Make an American Airlines receipt with base fare, seat selection, and baggage fees.",
@@ -4021,7 +4021,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     seoTitle:
       "Free United Airlines Receipt Generator — United Receipt Maker",
     seoDescription:
-      "Create a United Airlines receipt online. Add flight, baggage and service charges, edit the route and dates, then get a free print-ready PDF or PNG receipt.",
+      "Create a United Airlines receipt online. Add flight, baggage and service charges, edit the route and dates, then get a free watermarked PDF or PNG receipt.",
     heading: "United Airlines Receipt Generator",
     intro:
       "Make a United Airlines receipt with airfare, Economy Plus upgrades, and in-flight purchases.",
@@ -4062,7 +4062,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     seoTitle:
       "Free Southwest Airlines Receipt Generator — Southwest Receipt Maker",
     seoDescription:
-      "Create a Southwest Airlines receipt online in seconds. Add flights, fare class and extras, edit the route and dates, then get a free print-ready PDF or PNG.",
+      "Create a Southwest Airlines receipt online in seconds. Add flights, fare class and extras, edit the route and dates, then get a free watermarked PDF or PNG.",
     heading: "Southwest Airlines Receipt Generator",
     intro:
       "Make a Southwest Airlines receipt with Wanna Get Away, Anytime, or Business Select fares.",
@@ -4102,7 +4102,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🏨",
     seoTitle: "Free Marriott Receipt Generator — Marriott Hotel Receipt Maker",
     seoDescription:
-      "Create a Marriott receipt online. Add room charges, resort fees and incidentals, edit the dates and totals, then get a free print-ready PDF or PNG receipt.",
+      "Create a Marriott receipt online. Add room charges, resort fees and incidentals, edit the dates and totals, then get a free watermarked PDF or PNG receipt.",
     heading: "Marriott Receipt Generator",
     intro:
       "Make a Marriott hotel receipt with room charges, resort fees, valet parking, and room service.",
@@ -4144,7 +4144,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🏨",
     seoTitle: "Free Hilton Receipt Generator — Hilton Hotel Receipt Maker",
     seoDescription:
-      "Create a Hilton receipt online. Add room charges, parking and dining, edit the stay dates and totals, then get a free print-ready PDF or PNG folio receipt.",
+      "Create a Hilton receipt online. Add room charges, parking and dining, edit the stay dates and totals, then get a free watermarked PDF or PNG folio receipt.",
     heading: "Hilton Receipt Generator",
     intro:
       "Make a Hilton hotel receipt with room rates, parking, dining charges, and Hilton Honors points.",
@@ -4185,7 +4185,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🏨",
     seoTitle: "Free Hyatt Receipt Generator — Hyatt Hotel Receipt Maker",
     seoDescription:
-      "Create a Hyatt receipt online in seconds. Add room charges, spa and dining, edit the stay dates and totals, then get a free PDF or PNG hotel folio receipt.",
+      "Create a Hyatt receipt online. Add room charges, spa and dining, edit the stay dates and totals, then get a free watermarked PDF or PNG hotel folio receipt.",
     heading: "Hyatt Receipt Generator",
     intro:
       "Make a Hyatt hotel receipt with room charges, spa treatments, and World of Hyatt loyalty details.",
@@ -4226,7 +4226,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🚙",
     seoTitle: "Free Hertz Receipt Generator — Hertz Rental Receipt Maker",
     seoDescription:
-      "Create a Hertz car rental receipt online. Add rental days, fuel and insurance, edit the dates and charges, then get a free print-ready PDF or PNG receipt.",
+      "Create a Hertz car rental receipt online. Add rental days, fuel and insurance, edit the dates and charges, then get a free watermarked PDF or PNG receipt.",
     heading: "Hertz Receipt Generator",
     intro:
       "Make a Hertz car rental receipt with daily rate, fuel charges, and insurance options.",
@@ -4267,7 +4267,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     seoTitle:
       "Free Enterprise Receipt Generator — Enterprise Rental Receipt Maker",
     seoDescription:
-      "Create an Enterprise car rental receipt online. Add rental days, insurance and extras, edit the dates and charges, then download a free PDF or PNG receipt.",
+      "Create an Enterprise car rental receipt online. Add rental days, insurance and extras, edit the dates and charges, then download a free watermarked PDF or PNG.",
     heading: "Enterprise Receipt Generator",
     intro:
       "Make an Enterprise Rent-A-Car receipt with daily rates, insurance, and fuel charges.",
@@ -4307,7 +4307,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🚙",
     seoTitle: "Free Avis Receipt Generator — Avis Rental Receipt Maker",
     seoDescription:
-      "Create an Avis car rental receipt online in seconds. Add rental days, insurance and extras, edit the dates and charges, then get a free PDF or PNG receipt.",
+      "Create an Avis car rental receipt online. Add rental days, insurance and extras, edit the dates and charges, then get a free watermarked PDF or PNG receipt.",
     heading: "Avis Receipt Generator",
     intro:
       "Make an Avis car rental receipt with daily rates, roadside assistance, and GPS add-ons.",
@@ -4347,7 +4347,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🏪",
     seoTitle: "Free 7-Eleven Receipt Generator — 7-Eleven Receipt Maker",
     seoDescription:
-      "Create a 7-Eleven receipt online. Add Slurpees, snacks, drinks and fuel, edit the items, prices, tax and date, then download a free print-ready PDF or PNG.",
+      "Create a 7-Eleven receipt online. Add Slurpees, snacks, drinks and fuel, edit the items, prices, tax and date, then download a free watermarked PDF or PNG.",
     heading: "7-Eleven Receipt Generator",
     intro:
       "Create a 7-Eleven receipt with Slurpees, Big Gulps, snacks, and fuel for mileage and expense logs.",
@@ -4398,7 +4398,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "⛽",
     seoTitle: "Free Shell Receipt Generator — Shell Gas Receipt Maker",
     seoDescription:
-      "Create a Shell gas station receipt online in seconds. Add fuel gallons and convenience items, edit the prices, tax and date, then download a free PDF or PNG.",
+      "Create a Shell gas station receipt online. Add fuel gallons and convenience items, edit the prices, tax and date, then download a free watermarked PDF or PNG.",
     heading: "Shell Receipt Generator",
     intro:
       "Create a Shell gas station receipt with fuel purchases and convenience store items for mileage logs.",
@@ -4438,7 +4438,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "⛽",
     seoTitle: "Free Chevron Receipt Generator — Chevron Gas Receipt Maker",
     seoDescription:
-      "Create a Chevron gas station receipt online in seconds. Add fuel and convenience items, edit the gallons, prices, tax and date, then get a free PDF or PNG.",
+      "Create a Chevron gas station receipt online. Add fuel and convenience items, edit the gallons, prices, tax and date, then get a free watermarked PDF or PNG.",
     heading: "Chevron Receipt Generator",
     intro:
       "Create a Chevron gas station receipt with Techron fuel and ExtraMile convenience items.",
@@ -4478,7 +4478,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "⛽",
     seoTitle: "Free Exxon Receipt Generator — Exxon Gas Receipt Maker",
     seoDescription:
-      "Create an Exxon gas station receipt online. Add fuel gallons and snacks, edit the prices, tax, pump and date, then download a free print-ready PDF or PNG.",
+      "Create an Exxon gas station receipt online. Add fuel gallons and snacks, edit the prices, tax, pump and date, then download a free watermarked PDF or PNG.",
     heading: "Exxon Receipt Generator",
     intro:
       "Create an Exxon gas station receipt with Synergy fuel and convenience purchases.",
@@ -4519,7 +4519,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "⛽",
     seoTitle: "Free Mobil Receipt Generator — Mobil Gas Receipt Maker",
     seoDescription:
-      "Create a Mobil gas station receipt online in seconds. Add fuel purchases and car care items, edit the gallons, prices and date, then get a free PDF or PNG.",
+      "Create a Mobil gas station receipt online. Add fuel purchases and car care items, edit the gallons, prices and date, then get a free watermarked PDF or PNG.",
     heading: "Mobil Receipt Generator",
     intro:
       "Create a Mobil gas station receipt with Synergy Supreme+ fuel and On the Run® convenience items.",
@@ -4559,7 +4559,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "⛽",
     seoTitle: "Free BP Receipt Generator — BP Gas Receipt Maker",
     seoDescription:
-      "Create a BP gas station receipt online in seconds. Add fuel and ampm convenience items, edit the gallons, prices, tax and date, then get a free PDF or PNG.",
+      "Create a BP gas station receipt online. Add fuel and ampm convenience items, edit the gallons, prices, tax and date, then get a free watermarked PDF or PNG.",
     heading: "BP Receipt Generator",
     intro:
       "Create a BP gas station receipt with Invigorate® fuel and ampm convenience store items.",
@@ -4610,7 +4610,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "⛽",
     seoTitle: "Free Speedway Receipt Generator — Speedway Gas Receipt Maker",
     seoDescription:
-      "Create a Speedway receipt online in seconds. Add fuel and Speedy Rewards items, edit the gallons, prices, tax and date, then get a free PDF or PNG receipt.",
+      "Create a Speedway receipt online. Add fuel and Speedy Rewards items, edit the gallons, prices, tax and date, then get a free watermarked PDF or PNG receipt.",
     heading: "Speedway Receipt Generator",
     intro:
       "Create a Speedway gas station receipt with fuel purchases and Speedy Rewards points.",
@@ -4651,7 +4651,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🏪",
     seoTitle: "Free Wawa Receipt Generator — Wawa Receipt Maker",
     seoDescription:
-      "Create a Wawa receipt online in seconds. Add hoagies, coffee, snacks and fuel, edit the items, prices, tax and date, then get a free print-ready PDF or PNG.",
+      "Create a Wawa receipt online in seconds. Add hoagies, coffee, snacks and fuel, edit the items, prices, tax and date, then get a free watermarked PDF or PNG.",
     heading: "Wawa Receipt Generator",
     intro:
       "Create a Wawa receipt with custom hoagies, fresh coffee, and fuel for East Coast travel logs.",
@@ -4692,7 +4692,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🏪",
     seoTitle: "Free QuikTrip Receipt Generator — QuikTrip Receipt Maker",
     seoDescription:
-      "Create a QuikTrip receipt online in seconds. Add fuel, drinks and QT Kitchen items, edit the prices, tax and date, then download a print-ready PDF or PNG free.",
+      "Create a QuikTrip receipt online in seconds. Add fuel, drinks and QT Kitchen items, edit the prices, tax and date, then download a watermarked PDF or PNG free.",
     heading: "QuikTrip Receipt Generator",
     intro:
       "Create a QuikTrip receipt with fuel, QT Kitchen fresh food, and convenience items.",
@@ -4740,7 +4740,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🏪",
     seoTitle: "Free Sheetz Receipt Generator — Sheetz Receipt Maker",
     seoDescription:
-      "Create a Sheetz receipt online. Add MTO food, fuel and drinks, edit the items, prices, tax and date, then get a free print-ready PDF or PNG store receipt.",
+      "Create a Sheetz receipt online. Add MTO food, fuel and drinks, edit the items, prices, tax and date, then get a free watermarked PDF or PNG store receipt.",
     heading: "Sheetz Receipt Generator",
     intro:
       "Create a Sheetz receipt with Made-To-Order food, fuel, and Sheetz Bros coffee.",
@@ -4782,7 +4782,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     seoTitle:
       "Free Barnes & Noble Receipt Generator — Barnes & Noble Receipt Maker",
     seoDescription:
-      "Create a Barnes & Noble receipt online in seconds. Add books, NOOK devices and cafe items, edit the prices and tax, then get a free print-ready PDF or PNG.",
+      "Create a Barnes & Noble receipt online in seconds. Add books, NOOK devices and cafe items, edit the prices and tax, then get a free watermarked PDF or PNG.",
     heading: "Barnes & Noble Receipt Generator",
     intro:
       "Create a Barnes & Noble receipt with bestsellers, stationery, and café drinks.",
@@ -4824,7 +4824,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🎨",
     seoTitle: "Free Michaels Receipt Generator — Michaels Receipt Maker",
     seoDescription:
-      "Create a Michaels receipt online. Add craft supplies, frames and floral items, edit the prices, tax and date, then download a free print-ready PDF or PNG.",
+      "Create a Michaels receipt online. Add craft supplies, frames and floral items, edit the prices, tax and date, then download a free watermarked PDF or PNG.",
     heading: "Michaels Receipt Generator",
     intro:
       "Create a Michaels receipt with craft supplies, picture frames, and seasonal décor.",
@@ -4865,7 +4865,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🧵",
     seoTitle: "Free Joann Receipt Generator — Joann Fabric Receipt Maker",
     seoDescription:
-      "Create a Joann receipt online in seconds. Add fabric, sewing notions and craft supplies, edit the prices, tax and date, then get a free PDF or PNG receipt.",
+      "Create a Joann receipt online. Add fabric, sewing notions and craft supplies, edit the prices, tax and date, then get a free watermarked PDF or PNG receipt.",
     heading: "Joann Receipt Generator",
     intro:
       "Create a Joann Fabrics receipt with fabric yardage, sewing supplies, and crafting materials.",
@@ -4906,7 +4906,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "👗",
     seoTitle: "Free Zara Receipt Generator — Zara Receipt Maker",
     seoDescription:
-      "Create a Zara receipt online in seconds. Add clothing, shoes and accessories, edit the items, prices, tax and date, then download a print-ready PDF free.",
+      "Create a Zara receipt online in seconds. Add clothing, shoes and accessories, edit the items, prices, tax and date, then download a watermarked PDF free.",
     heading: "Zara Receipt Generator",
     intro:
       "Create a Zara fashion receipt with on-trend clothing, shoes, and accessories.",
@@ -4956,7 +4956,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "👕",
     seoTitle: "Free H&M Receipt Generator — H&M Receipt Maker",
     seoDescription:
-      "Create an H&M receipt online. Add affordable fashion and conscious collection items, edit the prices and tax, then download a free print-ready PDF or PNG.",
+      "Create an H&M receipt online. Add affordable fashion and conscious collection items, edit the prices and tax, then download a free watermarked PDF or PNG.",
     heading: "H&M Receipt Generator",
     intro:
       "Create an H&M receipt with affordable fashion essentials, basics, and Conscious Collection items.",
@@ -4998,7 +4998,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "📦",
     seoTitle: "Free FedEx Receipt Generator — Shipping Receipt Maker",
     seoDescription:
-      "Create a FedEx shipping receipt online in seconds. Add tracking, package weight and charges, edit the service and date, then get a free PDF or PNG receipt.",
+      "Create a FedEx shipping receipt online. Add tracking, package weight and charges, edit the service and date, then get a free watermarked PDF or PNG receipt.",
     heading: "FedEx Receipt Generator",
     intro: "Generate a FedEx shipping receipt with ship-from/to details, tracking number and charges.",
     useCases: [
@@ -5112,7 +5112,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     shortName: "Venmo",
     icon: "💵",
     seoTitle: "Free Venmo Receipt Generator — Payment Receipt Maker",
-    seoDescription: "Create a Venmo payment receipt online. Add the note, amount, sender and transaction details, edit the date, then get a free print-ready PDF or PNG receipt.",
+    seoDescription: "Create a Venmo payment receipt online. Add the note, amount, sender and transaction details, edit the date, then get a free watermarked PDF or PNG receipt.",
     heading: "Venmo Receipt Generator",
     intro: "Generate a Venmo payment receipt with recipient, amount, note and transaction ID.",
     useCases: [
@@ -5310,7 +5310,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     shortName: "Gucci",
     icon: "👜",
     seoTitle: "Free Gucci Receipt Generator — Luxury Boutique Receipt Maker",
-    seoDescription: "Create a Gucci boutique receipt online. Add designer bags, apparel and accessories, edit the prices, tax and date, then download a free PDF or PNG receipt.",
+    seoDescription: "Create a Gucci boutique receipt online. Add designer bags, apparel and accessories, edit the prices, tax and date, then download a free watermarked PDF or PNG.",
     heading: "Gucci Receipt Generator",
     intro: "Create a Gucci boutique receipt with designer items, boutique details and card payment.",
     useCases: [
@@ -5354,7 +5354,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     shortName: "Rolex",
     icon: "⌚",
     seoTitle: "Free Rolex Receipt Generator — Luxury Watch Receipt Maker",
-    seoDescription: "Create a Rolex retailer receipt online. Add a luxury timepiece, model, reference and price, edit the date, then get a free print-ready PDF or PNG receipt.",
+    seoDescription: "Create a Rolex retailer receipt online. Add a luxury timepiece, model, reference and price, edit the date, then get a free watermarked PDF or PNG receipt.",
     heading: "Rolex Receipt Generator",
     intro:
       "Create an authorized-dealer Rolex receipt with the model, reference number and card payment.",
@@ -5400,7 +5400,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     shortName: "Louis Vuitton",
     icon: "👜",
     seoTitle: "Free Louis Vuitton Receipt Generator — Luxury Receipt Maker",
-    seoDescription: "Create a Louis Vuitton store receipt online. Add designer bags, apparel and accessories, edit the prices, tax and date, then get a free PDF or PNG receipt.",
+    seoDescription: "Create a Louis Vuitton store receipt online. Add designer bags, apparel and accessories, edit the prices, tax and date, then get a free watermarked PDF or PNG.",
     heading: "Louis Vuitton Receipt Generator",
     intro: "Create a Louis Vuitton receipt with monogram goods, store details and card payment.",
     useCases: [
@@ -5443,7 +5443,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     shortName: "Lidl",
     icon: "🛒",
     seoTitle: "Free Lidl Receipt Generator — Grocery Receipt Maker",
-    seoDescription: "Create a Lidl grocery receipt online in seconds. Add weekly items, produce and prices, edit the store details, tax and date, then download a free PDF or PNG.",
+    seoDescription: "Create a Lidl grocery receipt online. Add weekly items, produce and prices, edit the store details, tax and date, then download a free watermarked PDF or PNG.",
     heading: "Lidl Receipt Generator",
     intro: "Create a Lidl grocery receipt with discount-store items, prices and totals.",
     useCases: ["Grocery reimbursement", "Replace a lost Lidl receipt", "Household budgeting"],
@@ -5552,7 +5552,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🎬",
     seoTitle: "Free AMC Theatres Receipt Generator — Movie Ticket Receipt",
     seoDescription:
-      "Create an AMC movie ticket receipt online. Add the showtime, seats, tickets and snacks, edit the date, then download a free print-ready PDF or PNG receipt.",
+      "Create an AMC movie ticket receipt online. Add the showtime, seats, tickets and snacks, edit the date, then download a free watermarked PDF or PNG receipt.",
     heading: "AMC Theatres Receipt Generator",
     intro: "Create an AMC receipt with film, showtime, seats and concession items.",
     useCases: [
@@ -5606,7 +5606,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     shortName: "Dollar Tree",
     icon: "🏪",
     seoTitle: "Free Dollar Tree Receipt Generator — Discount Store Receipt",
-    seoDescription: "Create a Dollar Tree receipt online in seconds. Add everyday low-price items, edit the store details, prices, tax and date, then download a free PDF or PNG.",
+    seoDescription: "Create a Dollar Tree receipt online. Add everyday low-price items, edit the store details, prices, tax and date, then download a free watermarked PDF or PNG.",
     heading: "Dollar Tree Receipt Generator",
     intro: "Create a Dollar Tree receipt with value items and a simple itemized total.",
     useCases: ["Expense records", "Replace a lost receipt", "Budget tracking"],
@@ -5728,8 +5728,8 @@ const SEO_DESC_VARIANTS: ((n: string, noun: string) => string)[] = [
   (n, noun) => `Build ${anBrand(n)} receipt online with ${noun}, editable totals and tax. Free live preview — download as a PDF or PNG, no account needed.`,
   (n, noun) => `Free ${n} receipt maker: add ${noun}, set the date and totals, then export a PDF or PNG with no account.`,
   (n, noun) => `${n} receipt generator: lay out ${noun}, edit the totals and tax, then export a PDF or PNG. Free to build and preview.`,
-  (n, noun) => `Recreate ${anBrand(n)} receipt with ${noun} in a couple of clicks. Free live preview and PDF or PNG download, no account needed.`,
-  (n, noun) => `Build an editable ${n} receipt — ${noun}, custom tax and totals — and export it free as a PDF or PNG.`,
+  (n, noun) => `Recreate ${anBrand(n)} receipt with ${noun} in a couple of clicks. Free preview and watermarked PDF or PNG, no account needed.`,
+  (n, noun) => `Build an editable ${n} receipt — ${noun}, custom tax and totals — and get a free watermarked PDF or PNG.`,
   (n, noun) => `A free ${n} receipt template with ${noun} pre-filled. Adjust the details and download a print-ready PDF or PNG.`,
   (n, noun) => `Fast, free ${n} receipt generator. Add ${noun}, set the tax rate, preview live, then export as a PDF or PNG.`,
 ];
