@@ -1,0 +1,3424 @@
+{
+ "mutations": [
+  {
+   "patch": {
+    "id": "post-credit-receipt-vs-refund-receipt",
+    "ifRevisionID": "UHVVrX3RExnf0nb79TwTUp",
+    "set": {
+     "body": [
+      {
+       "_key": "5ca7ebf05ff9",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "27013abd54eb",
+         "_type": "span",
+         "marks": [],
+         "text": "A "
+        },
+        {
+         "_key": "6fc61c5b389b",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "credit receipt"
+        },
+        {
+         "_key": "488f7cc2c1e9",
+         "_type": "span",
+         "marks": [],
+         "text": " generally documents value credited to a customer's account, while a "
+        },
+        {
+         "_key": "fbe0406574ec",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "refund receipt"
+        },
+        {
+         "_key": "24781f1187bc",
+         "_type": "span",
+         "marks": [],
+         "text": " documents money returned to the customer. The simplest difference is cash movement: a refund normally sends funds back, while a customer credit may remain available for a future purchase or reduce an amount still owed."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "17b7455eee0e",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "43cf2faab754",
+         "_type": "span",
+         "marks": [],
+         "text": "For U.S. businesses, understanding "
+        },
+        {
+         "_key": "6b4baf8395d6",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "credit receipt vs refund receipt"
+        },
+        {
+         "_key": "84901952544c",
+         "_type": "span",
+         "marks": [],
+         "text": " is important for customer service, bookkeeping, payment reconciliation, and clear transaction records. Makecepeit can help businesses "
+        },
+        {
+         "_key": "8844ce434e2b",
+         "_type": "span",
+         "marks": [
+          "e9f6e1e2a810"
+         ],
+         "text": "create organized receipt records"
+        },
+        {
+         "_key": "e017c1282903",
+         "_type": "span",
+         "marks": [],
+         "text": ", but the document chosen should always match what actually happened in the underlying transaction."
+        }
+       ],
+       "markDefs": [
+        {
+         "_key": "e9f6e1e2a810",
+         "_type": "link",
+         "href": "/create"
+        }
+       ],
+       "style": "normal"
+      },
+      {
+       "_key": "7c724726885a",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "2a14c0af6495",
+         "_type": "span",
+         "marks": [],
+         "text": "Credit Receipt vs Refund Receipt: Quick Answer"
+        }
+       ],
+       "markDefs": [],
+       "style": "h2"
+      },
+      {
+       "_key": "2efca865c859",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "665635b345ea",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "A credit receipt records credit given to a customer without necessarily returning money immediately. A refund receipt confirms that money has actually been returned or a refund transaction has been initiated."
+        }
+       ],
+       "markDefs": [],
+       "style": "blockquote"
+      },
+      {
+       "_key": "a03b074b3ab9",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "00bfca4f923b",
+         "_type": "span",
+         "marks": [],
+         "text": "There is one important terminology issue. \"Credit receipt\" is not used consistently across every U.S. accounting or POS system. Many platforms instead use terms such as "
+        },
+        {
+         "_key": "d6bf9a66c4ef",
+         "_type": "span",
+         "marks": [
+          "strong",
+          "9a24171b90be"
+         ],
+         "text": "credit memo"
+        },
+        {
+         "_key": "6d18f6749c92",
+         "_type": "span",
+         "marks": [],
+         "text": ", "
+        },
+        {
+         "_key": "cb651c3fcd65",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "credit note"
+        },
+        {
+         "_key": "b2fd68494aee",
+         "_type": "span",
+         "marks": [],
+         "text": ", "
+        },
+        {
+         "_key": "6f17b4441bc0",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "customer credit"
+        },
+        {
+         "_key": "4b43c91c3359",
+         "_type": "span",
+         "marks": [],
+         "text": ", or "
+        },
+        {
+         "_key": "ae45deedf6a0",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "store credit"
+        },
+        {
+         "_key": "4da94d0c2130",
+         "_type": "span",
+         "marks": [],
+         "text": ". QuickBooks, for example, distinguishes a credit memo from a refund receipt, while Stripe similarly explains that a credit memo can reduce an invoice or create a customer balance without itself sending money back."
+        }
+       ],
+       "markDefs": [
+        {
+         "_key": "9a24171b90be",
+         "_type": "link",
+         "href": "/blog/credit-memo"
+        }
+       ],
+       "style": "normal"
+      },
+      {
+       "_key": "f2b8f1c25aa7",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "a230ff13dcfe",
+         "_type": "span",
+         "marks": [],
+         "text": "Therefore, when your POS system displays \"credit receipt,\" verify whether it means account credit, store credit, or a card-related transaction before recording it."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "eabacd481b92",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "c1401ee7d8e9",
+         "_type": "span",
+         "marks": [],
+         "text": "What Is a Credit Receipt?"
+        }
+       ],
+       "markDefs": [],
+       "style": "h2"
+      },
+      {
+       "_key": "3b12378fe34d",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "589d69fe13c0",
+         "_type": "span",
+         "marks": [],
+         "text": "A "
+        },
+        {
+         "_key": "dc9c947cf1cf",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "credit receipt"
+        },
+        {
+         "_key": "3fbc2bc02505",
+         "_type": "span",
+         "marks": [],
+         "text": " is commonly understood as documentation showing that a business has credited an amount to a customer's account instead of immediately returning the money. In formal accounting workflows, the corresponding document is often called a credit memo or credit note."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "27783911e2b5",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "fa672159889f",
+         "_type": "span",
+         "marks": [],
+         "text": "A business may issue customer credit after a returned product, billing adjustment, service problem, overcharge, or negotiated price reduction. The credit might reduce an unpaid invoice or remain on the customer's account for use against a future purchase."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "7f220a9318a9",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "cd716a05b64d",
+         "_type": "span",
+         "marks": [],
+         "text": "Example of a Credit Receipt"
+        }
+       ],
+       "markDefs": [],
+       "style": "h3"
+      },
+      {
+       "_key": "3c7f6cb3f6a5",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "af25d8231af5",
+         "_type": "span",
+         "marks": [],
+         "text": "Suppose a customer has a $300 unpaid invoice and the business agrees to credit $50 because part of the service was not delivered. Instead of sending the customer $50, the business reduces the balance owed to $250. Documentation of that adjustment functions as a customer credit or credit memo."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "52e3f00a53f0",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "5887d6cfc3a8",
+         "_type": "span",
+         "marks": [],
+         "text": "If the customer already paid, a merchant may sometimes leave the amount as store or account credit rather than issue a cash refund, provided that approach is consistent with the merchant's policies and applicable law."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "fffb66a9d491",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "cea45487360e",
+         "_type": "span",
+         "marks": [],
+         "text": "What Is a Refund Receipt?"
+        }
+       ],
+       "markDefs": [],
+       "style": "h2"
+      },
+      {
+       "_key": "1dcad6321a2c",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "91ac1bdceea2",
+         "_type": "span",
+         "marks": [],
+         "text": "A "
+        },
+        {
+         "_key": "dc227074a1c8",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "refund receipt"
+        },
+        {
+         "_key": "80f6ab5828f5",
+         "_type": "span",
+         "marks": [],
+         "text": " is a document confirming a refund transaction in which money is returned to a customer. The refund may go back to a credit card, debit card, bank account, digital payment method, or another permitted payment channel."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "fc07dbf14b54",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "3f9242faf4f2",
+         "_type": "span",
+         "marks": [],
+         "text": "For example, QuickBooks Online uses a refund receipt to document and process refunds for returned items or services. Its guidance distinguishes this from a credit memo and specifically warns users against creating both for the same refund because doing so could duplicate the accounting effect."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "3347fa0cd1fa",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "04872308f24a",
+         "_type": "span",
+         "marks": [],
+         "text": "Example of a Refund Receipt"
+        }
+       ],
+       "markDefs": [],
+       "style": "h3"
+      },
+      {
+       "_key": "e25bcce7d6f5",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "ab31c2e68cce",
+         "_type": "span",
+         "marks": [],
+         "text": "A customer purchases merchandise for $80 using a credit card and later returns the entire order. The merchant processes an $80 refund to the customer's card and generates documentation showing the amount, date, transaction reference, and payment method. That document is a refund receipt."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "f2acc33332b2",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "73fdf23d5b34",
+         "_type": "span",
+         "marks": [],
+         "text": "Credit Receipt vs Refund Receipt: Comparison Table"
+        }
+       ],
+       "markDefs": [],
+       "style": "h2"
+      },
+      {
+       "_key": "e2c4a55f29de",
+       "_type": "table",
+       "rows": [
+        {
+         "_key": "30e1e6d01e7c",
+         "_type": "tableRow",
+         "cells": [
+          "Feature",
+          "Credit Receipt",
+          "Refund Receipt"
+         ]
+        },
+        {
+         "_key": "4bf1eebbba7b",
+         "_type": "tableRow",
+         "cells": [
+          "Main purpose",
+          "Documents customer credit or a balance adjustment",
+          "Documents money returned to the customer"
+         ]
+        },
+        {
+         "_key": "63645ff20d84",
+         "_type": "tableRow",
+         "cells": [
+          "Money returned immediately",
+          "Usually no",
+          "Yes, or a refund is formally processed"
+         ]
+        },
+        {
+         "_key": "9d5208457818",
+         "_type": "tableRow",
+         "cells": [
+          "Common accounting term",
+          "Credit memo or credit note",
+          "Refund receipt"
+         ]
+        },
+        {
+         "_key": "8bc77e6b3453",
+         "_type": "tableRow",
+         "cells": [
+          "Typical use",
+          "Invoice reduction, account credit, store credit",
+          "Returned goods, canceled services, repayment"
+         ]
+        },
+        {
+         "_key": "de17cde82f08",
+         "_type": "tableRow",
+         "cells": [
+          "Effect on customer balance",
+          "Reduces amount owed or creates available credit",
+          "Returns funds and closes or reverses the relevant payment amount"
+         ]
+        },
+        {
+         "_key": "24d589d409e4",
+         "_type": "tableRow",
+         "cells": [
+          "Payment method involved",
+          "Not always",
+          "Normally tied to the refund method"
+         ]
+        }
+       ]
+      },
+      {
+       "_key": "f51f1e86fb79",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "751bca9e905e",
+         "_type": "span",
+         "marks": [],
+         "text": "Why the Difference Matters for U.S. Businesses"
+        }
+       ],
+       "markDefs": [],
+       "style": "h2"
+      },
+      {
+       "_key": "652921501729",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "abf523da8a96",
+         "_type": "span",
+         "marks": [],
+         "text": "The distinction is more than wording. Businesses across the United States\u2014from independent stores in Texas to service providers in New York or online merchants serving customers nationwide\u2014need transaction records that accurately describe what happened."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "48af9d322b99",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "c1a90e88ed6e",
+         "_type": "span",
+         "marks": [],
+         "text": "Accurate Bookkeeping"
+        }
+       ],
+       "markDefs": [],
+       "style": "h3"
+      },
+      {
+       "_key": "a66515a09fa5",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "81cc765be8df",
+         "_type": "span",
+         "marks": [],
+         "text": "A refund and a customer credit can affect accounting records differently. A credit memo may reduce accounts receivable or create a customer credit balance, while a refund involves an actual movement of funds. Mixing the two can create reconciliation problems or make customer balances inaccurate."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "94d2bf9e81a2",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "2cd4356d0229",
+         "_type": "span",
+         "marks": [],
+         "text": "Clear Customer Communication"
+        }
+       ],
+       "markDefs": [],
+       "style": "h3"
+      },
+      {
+       "_key": "344d53224206",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "cb809c2bd9e8",
+         "_type": "span",
+         "marks": [],
+         "text": "Customers should be able to tell whether they are receiving money back or receiving credit they can use later. A receipt labeled clearly with the transaction type, amount, date, and reference number reduces confusion."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "b14a0fc9244b",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "321324e811bb",
+         "_type": "span",
+         "marks": [],
+         "text": "Better Business Records"
+        }
+       ],
+       "markDefs": [],
+       "style": "h3"
+      },
+      {
+       "_key": "a8b518bc49f5",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "35c7acbf7aba",
+         "_type": "span",
+         "marks": [],
+         "text": "The IRS states that businesses should maintain supporting documents such as receipts, sales slips, invoices, and payment records because they support entries in business books and tax returns. Electronic records generally follow the same fundamental recordkeeping principles as paper documents."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "4db52b38d5bd",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "12191f70fa28",
+         "_type": "span",
+         "marks": [],
+         "text": "Sales Tax Considerations"
+        }
+       ],
+       "markDefs": [],
+       "style": "h3"
+      },
+      {
+       "_key": "250fc928422b",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "6b85d08075f8",
+         "_type": "span",
+         "marks": [],
+         "text": "Returns and refunds can also affect sales tax records. Because U.S. sales tax requirements vary by state and sometimes by locality, businesses should use the rules applicable to the jurisdiction where the transaction is taxable rather than assuming one nationwide procedure."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "8063dc6cd9da",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "f33fc70e7a69",
+         "_type": "span",
+         "marks": [],
+         "text": "When Should You Use a Credit Receipt?"
+        }
+       ],
+       "markDefs": [],
+       "style": "h2"
+      },
+      {
+       "_key": "e95e73ab8ece",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "45535d57e5f1",
+         "_type": "span",
+         "marks": [],
+         "text": "Use documentation for customer credit when the transaction creates or adjusts a credit rather than directly sending money back."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "fa410d39cc09",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "cc51d01fecbb",
+         "_type": "span",
+         "marks": [],
+         "text": "A customer receives store credit after an eligible return."
+        }
+       ],
+       "level": 1,
+       "listItem": "bullet",
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "8098e45da87c",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "b2579a512b6d",
+         "_type": "span",
+         "marks": [],
+         "text": "An unpaid invoice needs to be reduced because of an overcharge."
+        }
+       ],
+       "level": 1,
+       "listItem": "bullet",
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "459f66200d28",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "f088dc1e4dbe",
+         "_type": "span",
+         "marks": [],
+         "text": "A customer receives a post-sale price adjustment."
+        }
+       ],
+       "level": 1,
+       "listItem": "bullet",
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "57b1749d7e24",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "6e24b8d553cc",
+         "_type": "span",
+         "marks": [],
+         "text": "Part of a service is canceled before the invoice is fully paid."
+        }
+       ],
+       "level": 1,
+       "listItem": "bullet",
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "cc67e82c1acd",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "b74f277cf67e",
+         "_type": "span",
+         "marks": [],
+         "text": "A business grants a customer balance that can be applied to a later purchase."
+        }
+       ],
+       "level": 1,
+       "listItem": "bullet",
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "86fb047e2aaf",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "206e9cbd0857",
+         "_type": "span",
+         "marks": [],
+         "text": "A billing mistake requires reducing accounts receivable."
+        }
+       ],
+       "level": 1,
+       "listItem": "bullet",
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "100f5584fead",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "aad67b34e4f5",
+         "_type": "span",
+         "marks": [],
+         "text": "The document should reference the original transaction whenever possible so employees, customers, and bookkeepers can trace the adjustment."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "1e5f77ba0fbe",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "669d7cd6863d",
+         "_type": "span",
+         "marks": [],
+         "text": "When Should You Use a Refund Receipt?"
+        }
+       ],
+       "markDefs": [],
+       "style": "h2"
+      },
+      {
+       "_key": "3a1a5c155fd8",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "c5648a5e6a53",
+         "_type": "span",
+         "marks": [],
+         "text": "Use a refund receipt when funds are actually being returned to the customer."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "e2a32444fc08",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "f75ffe4e3160",
+         "_type": "span",
+         "marks": [],
+         "text": "Common situations include a full product return, a partial refund for several returned items, cancellation of a prepaid service, correction of an accidental duplicate charge, or repayment of an eligible customer overpayment."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "cf34e4441e18",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "cd2e1d5eada1",
+         "_type": "span",
+         "marks": [],
+         "text": "The refund receipt should accurately show the amount returned. If only part of the original purchase is refunded, do not represent the transaction as a full reversal."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "715984cae4cd",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "baac6cf48753",
+         "_type": "span",
+         "marks": [],
+         "text": "How to Choose Between a Credit Receipt and a Refund Receipt"
+        }
+       ],
+       "markDefs": [],
+       "style": "h2"
+      },
+      {
+       "_key": "f738819064e1",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "67dc554d0778",
+         "_type": "span",
+         "marks": [],
+         "text": "You can usually identify the correct document by following five simple steps:"
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "54b834910d6c",
+       "_type": "image",
+       "alt": "How to choose between a credit receipt and a refund receipt: a five-step decision guide \u2014 check the original transaction, ask whether the customer wants credit or money back, use a credit receipt when the balance stays on the account or a refund receipt when funds return, then record the transaction clearly",
+       "asset": {
+        "_ref": "image-c6406bc065d7893c8f3afb6536315b2d19268250-1600x900-jpg",
+        "_type": "reference"
+       }
+      },
+      {
+       "_key": "1265fe6261a1",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "f2041909f607",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "Check whether the customer already paid."
+        },
+        {
+         "_key": "a8c7038f8aa4",
+         "_type": "span",
+         "marks": [],
+         "text": " Determine whether there is an outstanding invoice or completed payment."
+        }
+       ],
+       "level": 1,
+       "listItem": "number",
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "a26f65f864f8",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "32ce81ecc617",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "Identify what the customer will receive."
+        },
+        {
+         "_key": "20f81ae2aac3",
+         "_type": "span",
+         "marks": [],
+         "text": " Decide whether the outcome is account credit, store credit, or money returned."
+        }
+       ],
+       "level": 1,
+       "listItem": "number",
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "41c811d3b514",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "93c8ed3500fe",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "Confirm whether funds are moving."
+        },
+        {
+         "_key": "e6a83ccb55cf",
+         "_type": "span",
+         "marks": [],
+         "text": " If money is being sent back, you generally need refund documentation."
+        }
+       ],
+       "level": 1,
+       "listItem": "number",
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "f3cfdd7e30a5",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "7b686ab6b261",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "Reference the original sale."
+        },
+        {
+         "_key": "64cdcf25641b",
+         "_type": "span",
+         "marks": [],
+         "text": " Connect the adjustment or refund with the original receipt, invoice, or transaction ID."
+        }
+       ],
+       "level": 1,
+       "listItem": "number",
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "ea3d26920d7a",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "5dc4bb176fef",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "Record the transaction once."
+        },
+        {
+         "_key": "3763403883a7",
+         "_type": "span",
+         "marks": [],
+         "text": " Avoid creating both a credit and refund entry unless your accounting workflow specifically requires both stages."
+        }
+       ],
+       "level": 1,
+       "listItem": "number",
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "5be466d546b3",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "861a8881cc5f",
+         "_type": "span",
+         "marks": [],
+         "text": "What Information Should a Credit or Refund Receipt Include?"
+        }
+       ],
+       "markDefs": [],
+       "style": "h2"
+      },
+      {
+       "_key": "c73589ff2374",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "7d61667270f1",
+         "_type": "span",
+         "marks": [],
+         "text": "A useful receipt should make the transaction understandable without requiring additional explanation. Depending on the situation and software used, include the business name, transaction date, unique receipt or reference number, customer information when appropriate, original transaction reference, returned or adjusted items, subtotal, applicable tax adjustment, credit or refund amount, payment method, and a short explanation of the transaction."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "592806e40679",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "b30148042aef",
+         "_type": "span",
+         "marks": [],
+         "text": "If a payment card is referenced, display only information appropriate for a customer receipt, such as masked card details rather than sensitive payment information."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "b53227720208",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "19ca0efa2f2b",
+         "_type": "span",
+         "marks": [],
+         "text": "Makecepeit describes transaction identifiers, line items, totals, tax, and payment details as core receipt fields and provides editable receipt layouts that allow those elements to be organized clearly."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "857f62b8a061",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "4a7b0069d9b7",
+         "_type": "span",
+         "marks": [],
+         "text": "Credit Receipt, Refund Receipt, and Chargeback Are Not the Same"
+        }
+       ],
+       "markDefs": [],
+       "style": "h2"
+      },
+      {
+       "_key": "28f877d3d7f0",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "9615801474e4",
+         "_type": "span",
+         "marks": [],
+         "text": "A "
+        },
+        {
+         "_key": "bc78edc1d3d6",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "chargeback"
+        },
+        {
+         "_key": "d14dcb7f2ba2",
+         "_type": "span",
+         "marks": [],
+         "text": " should not be confused with either customer credit or a normal merchant refund. A refund is initiated by the merchant, while a chargeback generally results from a cardholder dispute handled through the card payment system."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "d209c7ce5060",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "e9664d7c8882",
+         "_type": "span",
+         "marks": [],
+         "text": "That difference matters because a merchant refund is part of the business's normal return or adjustment workflow. A dispute introduces additional records, deadlines, and communication with the payment processor or financial institutions involved."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "afa8262572ac",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "0cebb6cf6769",
+         "_type": "span",
+         "marks": [],
+         "text": "Benefits of Documenting Credits and Refunds Correctly"
+        }
+       ],
+       "markDefs": [],
+       "style": "h2"
+      },
+      {
+       "_key": "9617d4eb5e66",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "bdf94997349d",
+         "_type": "span",
+         "marks": [],
+         "text": "Correct documentation creates a cleaner audit trail and makes everyday operations easier. Employees can confirm what was promised to the customer, accounting teams can reconcile balances, and customers have written evidence of the adjustment."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "bcfe18984328",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "26a3618d2d89",
+         "_type": "span",
+         "marks": [],
+         "text": "Consistent receipt records also help prevent the same return from being processed twice. For growing businesses with multiple locations, employees, sales channels, or payment methods, standardized documentation becomes increasingly valuable."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "4e9996ade3c6",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "29f2230fabfc",
+         "_type": "span",
+         "marks": [],
+         "text": "Why Use Makecepeit for Clear Receipt Documentation?"
+        }
+       ],
+       "markDefs": [],
+       "style": "h2"
+      },
+      {
+       "_key": "59c90b3292b8",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "95deb1c09045",
+         "_type": "span",
+         "marks": [],
+         "text": "Makecepeit provides "
+        },
+        {
+         "_key": "10c17895e43e",
+         "_type": "span",
+         "marks": [
+          "d5022ec5770d"
+         ],
+         "text": "an online receipt builder"
+        },
+        {
+         "_key": "1f0ff215ebc5",
+         "_type": "span",
+         "marks": [],
+         "text": " with editable business information, line items, tax details, payment information, and live previews. Receipts can be exported in formats including PDF and high-resolution images, making the platform useful when a business needs an organized digital transaction record."
+        }
+       ],
+       "markDefs": [
+        {
+         "_key": "d5022ec5770d",
+         "_type": "link",
+         "href": "/create"
+        }
+       ],
+       "style": "normal"
+      },
+      {
+       "_key": "287077ee11bc",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "3266a6e0d7c6",
+         "_type": "span",
+         "marks": [],
+         "text": "The practical advantage is flexibility: a business can structure a receipt so the transaction type, amounts, dates, taxes, and payment details are easy to understand rather than relying on an unclear generic document."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "b4560ff1ab1e",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "99984c5d7087",
+         "_type": "span",
+         "marks": [],
+         "text": "Any receipt created with Makecepeit should represent a legitimate transaction accurately. Generated or recreated receipts should never be used to invent purchases, falsify expense claims, misrepresent tax records, or create false proof of payment."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "3ad1487c4a8c",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "e6a11f0059d8",
+         "_type": "span",
+         "marks": [],
+         "text": "Tips Before Issuing a Credit or Refund"
+        }
+       ],
+       "markDefs": [],
+       "style": "h2"
+      },
+      {
+       "_key": "f576d19b3802",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "fac81fb0a464",
+         "_type": "span",
+         "marks": [],
+         "text": "Start by reviewing the original transaction instead of creating a new document from memory. Confirm the amount paid, returned products or canceled services, taxes, discounts, and payment method."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "aa615db2476b",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "2b2a8b7012db",
+         "_type": "span",
+         "marks": [],
+         "text": "Use consistent terminology throughout your business. If your accounting software calls the document a \"credit memo,\" use that term internally rather than switching between credit note, credit receipt, and refund receipt without explanation."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "3c50692b3be5",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "45b6a4f89766",
+         "_type": "span",
+         "marks": [],
+         "text": "For transactions involving accounting treatment, sales tax, or unusual customer agreements, verify the procedure with your accounting professional and applicable state requirements."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "cece0e23b939",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "630795c04008",
+         "_type": "span",
+         "marks": [],
+         "text": "Common Credit and Refund Receipt Mistakes to Avoid"
+        }
+       ],
+       "markDefs": [],
+       "style": "h2"
+      },
+      {
+       "_key": "08f34e75b99c",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "0a5ab98ac2a5",
+         "_type": "span",
+         "marks": [],
+         "text": "One common mistake is labeling store credit as a cash refund. Another is issuing a refund receipt before the refund has actually been submitted through the appropriate payment system."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "0b7fde672ff0",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "a9575d7d70b1",
+         "_type": "span",
+         "marks": [],
+         "text": "Businesses should also avoid entering the same adjustment twice, forgetting to reference the original transaction, omitting returned items, recording the wrong tax amount, or failing to distinguish a full refund from a partial refund."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "a1b8216a527d",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "1f3f4c2121d3",
+         "_type": "span",
+         "marks": [],
+         "text": "Finally, never delete or alter legitimate transaction history simply to make records appear cleaner. Maintaining a traceable record of the original sale and subsequent adjustment usually provides a clearer bookkeeping trail."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "488c651f95d4",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "9966087d2368",
+         "_type": "span",
+         "marks": [],
+         "text": "Credit Receipt vs Refund Receipt: Which One Do You Need?"
+        }
+       ],
+       "markDefs": [],
+       "style": "h2"
+      },
+      {
+       "_key": "1e73267f82c1",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "0d93a2bc3035",
+         "_type": "span",
+         "marks": [],
+         "text": "The decision comes down to what happens to the customer's money. If the customer receives a balance reduction or credit for future use, the transaction is generally documented through a credit memo, account credit, or what some systems call a credit receipt. If money is returned to the customer, use a refund receipt or equivalent refund transaction record."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "408ad104deb6",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "b28491344214",
+         "_type": "span",
+         "marks": [],
+         "text": "Because terminology differs between POS and accounting systems, focus on the financial event rather than the document label alone: "
+        },
+        {
+         "_key": "c84723f223fd",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "credit changes a balance; refund returns money."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "2f10bb7c7276",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "94172445fa4b",
+         "_type": "span",
+         "marks": [],
+         "text": "Clear records protect both sides of the transaction and make bookkeeping, customer support, reconciliation, and future reviews easier."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "d5bb65f6f0d2",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "802373766213",
+         "_type": "span",
+         "marks": [],
+         "text": "Create Clear, Professional Receipt Records with Makecepeit"
+        }
+       ],
+       "markDefs": [],
+       "style": "h2"
+      },
+      {
+       "_key": "8c8f85b5591d",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "1adc45cc148b",
+         "_type": "span",
+         "marks": [],
+         "text": "When you need a clean receipt that accurately reflects a real transaction, Makecepeit makes it easier to "
+        },
+        {
+         "_key": "24d67883ff86",
+         "_type": "span",
+         "marks": [
+          "33d1903c9570"
+         ],
+         "text": "organize business details"
+        },
+        {
+         "_key": "4029e36281ec",
+         "_type": "span",
+         "marks": [],
+         "text": ", items, tax, payment information, totals, and transaction references in one readable document. Review the original transaction first, choose the appropriate receipt type, and create a record that clearly communicates what occurred."
+        }
+       ],
+       "markDefs": [
+        {
+         "_key": "33d1903c9570",
+         "_type": "link",
+         "href": "/create"
+        }
+       ],
+       "style": "normal"
+      },
+      {
+       "_key": "8fc018a3a6fe",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "efd8c5d78af3",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "Use Makecepeit to create professional receipt documentation that matches your legitimate business transaction and keeps important details easy to reference."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "patch": {
+    "id": "post-how-to-fill-out-a-receipt-book",
+    "ifRevisionID": "VEJxYI2s45cR9RBv4xSdLT",
+    "set": {
+     "body": [
+      {
+       "_key": "d4d89808f26e",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "36602bac0dad",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "To fill out a receipt book, write the date, the name of the person who paid, the amount in figures and in words, what the payment was for, how it was paid (cash, check or "
+        },
+        {
+         "_key": "90ee9cfea64c",
+         "_type": "span",
+         "marks": [
+          "strong",
+          "68d1747fdf8b"
+         ],
+         "text": "money order"
+        },
+        {
+         "_key": "9f85c17d82fe",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "), any balance still due, and sign it."
+        },
+        {
+         "_key": "51d254800a3a",
+         "_type": "span",
+         "marks": [],
+         "text": " The receipt number is usually pre-printed. Press firmly so the carbon copy underneath is legible, give the customer the top copy and keep the copy in the book."
+        }
+       ],
+       "markDefs": [
+        {
+         "_key": "68d1747fdf8b",
+         "_type": "link",
+         "href": "/blog/money-order-receipt"
+        }
+       ],
+       "style": "normal"
+      },
+      {
+       "_key": "dfebd2100530",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "24656b96c9d9",
+         "_type": "span",
+         "marks": [],
+         "text": "Most receipt books, from the standard two-part pads to three-part books, use the same layout. The fields below follow it from top to bottom."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "7ce42887c826",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "4285fad42067",
+         "_type": "span",
+         "marks": [],
+         "text": "The Fields, Top to Bottom"
+        }
+       ],
+       "markDefs": [],
+       "style": "h2"
+      },
+      {
+       "_key": "d86af6db7162",
+       "_type": "table",
+       "rows": [
+        {
+         "_key": "7667d2d46151",
+         "_type": "tableRow",
+         "cells": [
+          "Field",
+          "What to write"
+         ]
+        },
+        {
+         "_key": "7524b54ac8a1",
+         "_type": "tableRow",
+         "cells": [
+          "No.",
+          "Usually pre-printed. Never skip or reuse one."
+         ]
+        },
+        {
+         "_key": "a13cd5c0584f",
+         "_type": "tableRow",
+         "cells": [
+          "Date",
+          "The day the money was received."
+         ]
+        },
+        {
+         "_key": "5f53b0850a21",
+         "_type": "tableRow",
+         "cells": [
+          "Received from",
+          "The full name of the person or business that paid."
+         ]
+        },
+        {
+         "_key": "f51bc3238f14",
+         "_type": "tableRow",
+         "cells": [
+          "Amount (figures)",
+          "The amount in numbers, for example 250.00."
+         ]
+        },
+        {
+         "_key": "dbe3ba466467",
+         "_type": "tableRow",
+         "cells": [
+          "Amount (words)",
+          "The same amount in words, for example \"Two hundred fifty and 00/100\"."
+         ]
+        },
+        {
+         "_key": "ad88414b667c",
+         "_type": "tableRow",
+         "cells": [
+          "For",
+          "What the payment covers: \"October rent, Unit 3\", \"Deposit on dining table\"."
+         ]
+        },
+        {
+         "_key": "cf2128cad4a4",
+         "_type": "tableRow",
+         "cells": [
+          "Payment method",
+          "Tick cash, check (with its number) or money order."
+         ]
+        },
+        {
+         "_key": "cb73888d64ea",
+         "_type": "tableRow",
+         "cells": [
+          "Account / Payment / Balance due",
+          "For part payments: the total owed, this payment, and what is left."
+         ]
+        },
+        {
+         "_key": "b0bc0860977a",
+         "_type": "tableRow",
+         "cells": [
+          "By (signature)",
+          "The person who received the money signs."
+         ]
+        }
+       ]
+      },
+      {
+       "_key": "109dd590890a",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "6ab175a7a946",
+         "_type": "span",
+         "marks": [],
+         "text": "Why write the amount twice?"
+        }
+       ],
+       "markDefs": [],
+       "style": "h3"
+      },
+      {
+       "_key": "4275304fe7f9",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "344268254a7b",
+         "_type": "span",
+         "marks": [],
+         "text": "The figures are easy to alter; a \"1\" becomes a \"7\" with one stroke. The amount in words is much harder to change, which is why checks use the same idea. If the two ever disagree, the words are usually taken as the intended amount."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "f11c94e5a1b7",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "21bfd8e34894",
+         "_type": "span",
+         "marks": [],
+         "text": "Step by Step"
+        }
+       ],
+       "markDefs": [],
+       "style": "h2"
+      },
+      {
+       "_key": "29636f8fd879",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "33361b3af942",
+         "_type": "span",
+         "marks": [],
+         "text": "Check the receipt number is the next in sequence."
+        }
+       ],
+       "level": 1,
+       "listItem": "number",
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "269245d2de55",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "16afba0d8827",
+         "_type": "span",
+         "marks": [],
+         "text": "Write the date."
+        }
+       ],
+       "level": 1,
+       "listItem": "number",
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "da747e1f182e",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "6c69db1c7835",
+         "_type": "span",
+         "marks": [],
+         "text": "Write the payer's full name after \"Received from\"."
+        }
+       ],
+       "level": 1,
+       "listItem": "number",
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "b045efd99831",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "4878ad6c10a9",
+         "_type": "span",
+         "marks": [],
+         "text": "Write the amount in figures, then in words."
+        }
+       ],
+       "level": 1,
+       "listItem": "number",
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "df3653b500a6",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "c85cbe91f9c9",
+         "_type": "span",
+         "marks": [],
+         "text": "Describe what the payment is for, including the period for rent or a reference for an invoice."
+        }
+       ],
+       "level": 1,
+       "listItem": "number",
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "85c4a64a93c6",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "b59fffa525ec",
+         "_type": "span",
+         "marks": [],
+         "text": "Mark the payment method and write the check number if there is one."
+        }
+       ],
+       "level": 1,
+       "listItem": "number",
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "6d3772654a5d",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "4205ce674b84",
+         "_type": "span",
+         "marks": [],
+         "text": "For a part payment, fill in the account total, this payment and the balance due."
+        }
+       ],
+       "level": 1,
+       "listItem": "number",
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "a1e3c020b8fc",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "9485674fa70b",
+         "_type": "span",
+         "marks": [],
+         "text": "Sign it, tear off the top copy for the customer, and leave the carbon copy in the book."
+        }
+       ],
+       "level": 1,
+       "listItem": "number",
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "957f639bc039",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "38838e4d8b35",
+         "_type": "span",
+         "marks": [],
+         "text": "Two-Part or Three-Part Books"
+        }
+       ],
+       "markDefs": [],
+       "style": "h2"
+      },
+      {
+       "_key": "ed4ef05c6d03",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "e65a4abbf055",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "A two-part book gives the payer the original and leaves you a copy; a three-part book adds a second copy."
+        },
+        {
+         "_key": "75bb783298d1",
+         "_type": "span",
+         "marks": [],
+         "text": " Two parts is enough for most sole traders and landlords. A three-part book suits a business where one copy goes to the customer, one stays in the book, and one goes to whoever does the bookkeeping. Whichever you use, press hard with a ballpoint pen, and slip the cardboard divider under the set you are writing on so the next receipt does not pick up your writing."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "2bd350f41a7b",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "276398d3d154",
+         "_type": "span",
+         "marks": [],
+         "text": "Using a Receipt Book for Rent"
+        }
+       ],
+       "markDefs": [],
+       "style": "h2"
+      },
+      {
+       "_key": "71f2e35878c1",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "d16d6f3d686b",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "Rent receipts need the period and the property, not just the date."
+        },
+        {
+         "_key": "ef205fb40edf",
+         "_type": "span",
+         "marks": [],
+         "text": " Write \"Rent for October 2026, Unit 3\" in the For line, not \"Rent\". A tenant may need these receipts for tax credits or benefits, and some places require a landlord to provide one on request, so a receipt that names the month and the address answers the question it will be used for."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "270912220606",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "b0dfe40c6f91",
+         "_type": "span",
+         "marks": [],
+         "text": "Mistakes and Voided Receipts"
+        }
+       ],
+       "markDefs": [],
+       "style": "h2"
+      },
+      {
+       "_key": "0c68fb0bfd2e",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "640e872d703d",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "Do not tear out a spoiled receipt."
+        },
+        {
+         "_key": "83a4cc7aa1d4",
+         "_type": "span",
+         "marks": [],
+         "text": " Write \"VOID\" across both copies, leave them in the book, and use the next number. A gap in the numbering is the first thing anyone checking your records will ask about, and a voided receipt answers the question before it is asked."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "8b3c63fdfb3f",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "83288cb6d190",
+         "_type": "span",
+         "marks": [],
+         "text": "Keep the Book"
+        }
+       ],
+       "markDefs": [],
+       "style": "h2"
+      },
+      {
+       "_key": "4fe7f73f4f35",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "e9889d9a0b17",
+         "_type": "span",
+         "marks": [],
+         "text": "The carbon copies are your record of every payment you received, so keep finished books with your business records. If you write a lot of receipts, a digital "
+        },
+        {
+         "_key": "a92dbe9dbc34",
+         "_type": "span",
+         "marks": [
+          "f37d7277bada"
+         ],
+         "text": "cash receipt template"
+        },
+        {
+         "_key": "291002cd0ccd",
+         "_type": "span",
+         "marks": [],
+         "text": " does the numbering and arithmetic for you, and our comparison of "
+        },
+        {
+         "_key": "d498b0323791",
+         "_type": "span",
+         "marks": [
+          "920c46da5649"
+         ],
+         "text": "receipt books and digital receipts"
+        },
+        {
+         "_key": "9b7b1eac7037",
+         "_type": "span",
+         "marks": [],
+         "text": " covers when each makes sense."
+        }
+       ],
+       "markDefs": [
+        {
+         "_key": "f37d7277bada",
+         "_type": "link",
+         "href": "/templates/cash-receipt"
+        },
+        {
+         "_key": "920c46da5649",
+         "_type": "link",
+         "href": "/blog/receipt-book-vs-digital"
+        }
+       ],
+       "style": "normal"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "patch": {
+    "id": "post-vat-receipt-explained",
+    "ifRevisionID": "l4wcwOom8IfVoaFeDEDr6V",
+    "set": {
+     "body": [
+      {
+       "_key": "bff43169223e",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "dcad90f6a6a5",
+         "_type": "span",
+         "marks": [],
+         "text": "A receipt is VAT-valid when it identifies the seller as a VAT-registered business \u2014 name, address and "
+        },
+        {
+         "_key": "73348f660cc4",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "VAT registration number"
+        },
+        {
+         "_key": "5f89a56cc6d7",
+         "_type": "span",
+         "marks": [],
+         "text": " \u2014 and shows the VAT charged, either as an amount per rate or (on simplified receipts) the rate with VAT-inclusive totals. The stakes are concrete: a business can only reclaim input VAT with a valid "
+        },
+        {
+         "_key": "476b6dd455c1",
+         "_type": "span",
+         "marks": [
+          "ad85bdffeca0"
+         ],
+         "text": "VAT invoice"
+        },
+        {
+         "_key": "d0641ea6ac26",
+         "_type": "span",
+         "marks": [],
+         "text": " or receipt. An ordinary till slip without the VAT number reclaims nothing, however real the expense."
+        }
+       ],
+       "markDefs": [
+        {
+         "_key": "ad85bdffeca0",
+         "_type": "link",
+         "href": "/blog/vat-invoice-requirements-uk"
+        }
+       ],
+       "style": "normal"
+      },
+      {
+       "_key": "bddd7f118756",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "226652f76c05",
+         "_type": "span",
+         "marks": [],
+         "text": "This is general information, not tax advice; VAT rules vary by country and change."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "e19424acba0d",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "b09fb6a025fc",
+         "_type": "span",
+         "marks": [],
+         "text": "The UK structure: full vs. simplified"
+        }
+       ],
+       "markDefs": [],
+       "style": "h2"
+      },
+      {
+       "_key": "74224d80cac9",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "a0f840935367",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "Full VAT invoice"
+        },
+        {
+         "_key": "4782620b0ddf",
+         "_type": "span",
+         "marks": [],
+         "text": " (required for most B2B supplies): invoice number, seller's name, address and VAT number, date/tax point, customer's name and address, description of goods or services, and per rate \u2014 the net amount, VAT rate and VAT amount, plus totals."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "1b5e865c74b0",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "56d11a3e3cd8",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "Simplified VAT invoice"
+        },
+        {
+         "_key": "0d682b1bd68b",
+         "_type": "span",
+         "marks": [],
+         "text": " (allowed for retail sales up to \u00a3250 including VAT): seller's name, address and VAT number, date, description, VAT rate, and the gross amount \u2014 no customer details, no per-rate VAT amount needed. Most shop receipts from VAT-registered UK retailers qualify by printing exactly these fields."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "a13ae234065b",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "a8c3319211ec",
+         "_type": "span",
+         "marks": [],
+         "text": "Below the registration threshold (around \u00a390,000 turnover currently), unregistered sellers issue ordinary receipts with no VAT at all \u2014 and buyers have nothing to reclaim."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "000cb494eafa",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "2876438f14d2",
+         "_type": "span",
+         "marks": [],
+         "text": "The EU pattern"
+        }
+       ],
+       "markDefs": [],
+       "style": "h2"
+      },
+      {
+       "_key": "13df8e6374ba",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "6ba87497c118",
+         "_type": "span",
+         "marks": [],
+         "text": "The VAT Directive harmonizes the skeleton \u2014 supplier identity and VAT ID, date, description, taxable amount per rate, VAT amount \u2014 with member-state variation in simplified-invoice thresholds (commonly \u20ac100\u2013400) and e-invoicing mandates (Italy's SdI, and a growing list). Many EU countries layer this on the certified-register requirements described in "
+        },
+        {
+         "_key": "1f1da52435b8",
+         "_type": "span",
+         "marks": [
+          "6d7adbce2ffa"
+         ],
+         "text": "receipt requirements by country"
+        },
+        {
+         "_key": "70caf446ffd3",
+         "_type": "span",
+         "marks": [],
+         "text": ": the receipt is simultaneously a fiscal document and a VAT document."
+        }
+       ],
+       "markDefs": [
+        {
+         "_key": "6d7adbce2ffa",
+         "_type": "link",
+         "href": "/blog/receipt-requirements-by-country"
+        }
+       ],
+       "style": "normal"
+      },
+      {
+       "_key": "0e429d90c38f",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "34e806b68f79",
+         "_type": "span",
+         "marks": [],
+         "text": "Reading a VAT receipt"
+        }
+       ],
+       "markDefs": [],
+       "style": "h2"
+      },
+      {
+       "_key": "2dfab64abb41",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "baf77e54dc4c",
+         "_type": "span",
+         "marks": [],
+         "text": "The fields to check before filing it for reclaim:"
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "3a3fa5356ee5",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "9abb918ce947",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "VAT number present?"
+        },
+        {
+         "_key": "88bea5259dcb",
+         "_type": "span",
+         "marks": [],
+         "text": " (UK format GB + digits; EU formats vary by country.) No number \u2192 not a VAT receipt."
+        }
+       ],
+       "level": 1,
+       "listItem": "number",
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "65f34e225233",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "2ec5231498ee",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "VAT shown?"
+        },
+        {
+         "_key": "ff8640be12b7",
+         "_type": "span",
+         "marks": [],
+         "text": " Amount per rate on full invoices; rate + gross on simplified."
+        }
+       ],
+       "level": 1,
+       "listItem": "number",
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "477182755dc7",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "10edb7be4038",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "Date and description"
+        },
+        {
+         "_key": "df7209790843",
+         "_type": "span",
+         "marks": [],
+         "text": " \u2014 reclaim needs the what and when."
+        }
+       ],
+       "level": 1,
+       "listItem": "number",
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "890aadbd4475",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "3ba6a979d02b",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "Your details"
+        },
+        {
+         "_key": "54adb03138cb",
+         "_type": "span",
+         "marks": [],
+         "text": " \u2014 required on full invoices for larger amounts; ask the seller to add them when B2B."
+        }
+       ],
+       "level": 1,
+       "listItem": "number",
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "c9213d660af5",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "02c51712e80b",
+         "_type": "span",
+         "marks": [],
+         "text": "Mixed-rate baskets (standard, reduced, zero) must break VAT out per rate \u2014 the reason grocery receipts in VAT countries carry rate-code letters next to items."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "7e6b3c81b770",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "98c96453bcaf",
+         "_type": "span",
+         "marks": [],
+         "text": "For US readers and sellers"
+        }
+       ],
+       "markDefs": [],
+       "style": "h2"
+      },
+      {
+       "_key": "f32d88447489",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "d98677c45a58",
+         "_type": "span",
+         "marks": [],
+         "text": "US sales tax works differently \u2014 it's shown on receipts but there's no reclaim chain, so an ordinary receipt suffices ("
+        },
+        {
+         "_key": "e0770e46c753",
+         "_type": "span",
+         "marks": [
+          "46a55cb926e5"
+         ],
+         "text": "the US picture"
+        },
+        {
+         "_key": "bd4497e4ad00",
+         "_type": "span",
+         "marks": [],
+         "text": "). US businesses selling into the UK/EU may need VAT registration and compliant invoices once thresholds or marketplace rules apply; travelers, conversely, meet VAT receipts in refund schemes at airports, where the full invoice with your details is what the refund desk validates."
+        }
+       ],
+       "markDefs": [
+        {
+         "_key": "46a55cb926e5",
+         "_type": "link",
+         "href": "/blog/are-receipts-legally-required"
+        }
+       ],
+       "style": "normal"
+      },
+      {
+       "_key": "44bcc3063cd2",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "64a8b2665df6",
+         "_type": "span",
+         "marks": [],
+         "text": "Issuing VAT-valid receipts"
+        }
+       ],
+       "markDefs": [],
+       "style": "h2"
+      },
+      {
+       "_key": "074ae6eaa01f",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "2bb0a19cfa1b",
+         "_type": "span",
+         "marks": [],
+         "text": "If you're registered: put the VAT number on everything, break out rates, and mind the full-vs-simplified line at \u00a3250 (UK) or your country's threshold. Invoicing software handles this by construction; the general receipt-craft in "
+        },
+        {
+         "_key": "08b11db39cf6",
+         "_type": "span",
+         "marks": [
+          "b015b03fd8ba"
+         ],
+         "text": "how to write a receipt"
+        },
+        {
+         "_key": "cac69c5b0bab",
+         "_type": "span",
+         "marks": [],
+         "text": " applies with the VAT block added. Buyers who receive a non-compliant receipt should request a proper VAT invoice \u2014 sellers must provide one on request for B2B supplies."
+        }
+       ],
+       "markDefs": [
+        {
+         "_key": "b015b03fd8ba",
+         "_type": "link",
+         "href": "/blog/how-to-write-a-receipt"
+        }
+       ],
+       "style": "normal"
+      },
+      {
+       "_key": "5ca72d7bd51e",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "597c87001d3a",
+         "_type": "span",
+         "marks": [],
+         "text": "The bottom line"
+        }
+       ],
+       "markDefs": [],
+       "style": "h2"
+      },
+      {
+       "_key": "fa6e11b54b65",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "6544abf9c09b",
+         "_type": "span",
+         "marks": [],
+         "text": "The VAT number is the difference between a receipt and a tax instrument: with it (plus rate and amount fields), the buyer reclaims; without it, the paper is only proof of spending. Check for the number at the counter \u2014 asking for a VAT receipt takes five seconds, and reclaim-eligible spending without one is money donated."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "patch": {
+    "id": "post-how-to-make-an-invoice",
+    "ifRevisionID": "zqObMY4AZ2PLBMUzA5y1CY",
+    "set": {
+     "body": [
+      {
+       "_key": "cc44a8909be6",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "dca91048b197",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "To make an invoice, put your business name and contact details at the top, then the client's name and address, a unique invoice number, the issue date and the due date. List each product or service on its own line with quantity, rate and amount, add any tax, show the total due, and finish with your payment terms and how the client can pay."
+        },
+        {
+         "_key": "d3d37e9ca43b",
+         "_type": "span",
+         "marks": [],
+         "text": " You can build one in our "
+        },
+        {
+         "_key": "e7ffc0d62839",
+         "_type": "span",
+         "marks": [
+          "53501c75de8f"
+         ],
+         "text": "invoice template"
+        },
+        {
+         "_key": "15ad7c653600",
+         "_type": "span",
+         "marks": [],
+         "text": ", which has the bill-to block, invoice number, issue and due dates and balance due already laid out."
+        }
+       ],
+       "markDefs": [
+        {
+         "_key": "53501c75de8f",
+         "_type": "link",
+         "href": "/templates/invoice"
+        }
+       ],
+       "style": "normal"
+      },
+      {
+       "_key": "594a3bb182ab",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "ad62af5e41cf",
+         "_type": "span",
+         "marks": [],
+         "text": "An invoice is a request for payment. A receipt comes after, and proves the money arrived. If you are unsure which one you need, our guide to "
+        },
+        {
+         "_key": "1928090e675c",
+         "_type": "span",
+         "marks": [
+          "3cdbfb369d28"
+         ],
+         "text": "receipts vs. invoices"
+        },
+        {
+         "_key": "cfb3c3fe49a8",
+         "_type": "span",
+         "marks": [],
+         "text": " covers the difference, and the "
+        },
+        {
+         "_key": "f9970d7351fe",
+         "_type": "span",
+         "marks": [
+          "ddffdec329a1"
+         ],
+         "text": "pro forma invoice guide"
+        },
+        {
+         "_key": "d8a175e9aa62",
+         "_type": "span",
+         "marks": [],
+         "text": " covers the quote-style invoice sent before work starts."
+        }
+       ],
+       "markDefs": [
+        {
+         "_key": "3cdbfb369d28",
+         "_type": "link",
+         "href": "/blog/receipt-vs-invoice"
+        },
+        {
+         "_key": "ddffdec329a1",
+         "_type": "link",
+         "href": "/blog/pro-forma-invoice-vs-receipt"
+        }
+       ],
+       "style": "normal"
+      },
+      {
+       "_key": "2f881aedcd48",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "3c0b49bb40dc",
+         "_type": "span",
+         "marks": [],
+         "text": "What to Include on an Invoice"
+        }
+       ],
+       "markDefs": [],
+       "style": "h2"
+      },
+      {
+       "_key": "8b1f1bffbe00",
+       "_type": "table",
+       "rows": [
+        {
+         "_key": "45f0078fffe8",
+         "_type": "tableRow",
+         "cells": [
+          "Field",
+          "What to write",
+          "Why it matters"
+         ]
+        },
+        {
+         "_key": "94da002ac67d",
+         "_type": "tableRow",
+         "cells": [
+          "Your details",
+          "Business name, address, email, phone",
+          "Tells the client who to pay and who to call"
+         ]
+        },
+        {
+         "_key": "5e55a11cf178",
+         "_type": "tableRow",
+         "cells": [
+          "Client details (\"Bill to\")",
+          "Name or company, billing address, contact person",
+          "Gets the invoice to the person who approves it"
+         ]
+        },
+        {
+         "_key": "ac1898c38d38",
+         "_type": "tableRow",
+         "cells": [
+          "Invoice number",
+          "A unique number, e.g. INV-1042",
+          "Lets both sides find and reference it"
+         ]
+        },
+        {
+         "_key": "ac480af8ccac",
+         "_type": "tableRow",
+         "cells": [
+          "Issue date",
+          "The date you send it",
+          "Starts the clock on the payment terms"
+         ]
+        },
+        {
+         "_key": "987079775101",
+         "_type": "tableRow",
+         "cells": [
+          "Due date",
+          "A real date, e.g. Nov 14, 2026",
+          "Clearer than \"Net 30\" alone"
+         ]
+        },
+        {
+         "_key": "418d1c8ebb6c",
+         "_type": "tableRow",
+         "cells": [
+          "Line items",
+          "Description, quantity, rate, amount",
+          "Shows exactly what is being charged"
+         ]
+        },
+        {
+         "_key": "fb27543037b8",
+         "_type": "tableRow",
+         "cells": [
+          "Subtotal, tax, total",
+          "Sum of lines, any sales tax, amount due",
+          "The number the client pays"
+         ]
+        },
+        {
+         "_key": "ddab0ba98725",
+         "_type": "tableRow",
+         "cells": [
+          "Payment terms",
+          "Net 30, late fee policy if agreed",
+          "Sets expectations in writing"
+         ]
+        },
+        {
+         "_key": "a9aa6bc0bc88",
+         "_type": "tableRow",
+         "cells": [
+          "Payment methods",
+          "Bank transfer details, check payee, payment link",
+          "Removes the reason to delay"
+         ]
+        }
+       ]
+      },
+      {
+       "_key": "c056a42f4cee",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "e2d902c5fa55",
+         "_type": "span",
+         "marks": [],
+         "text": "Optional but useful: a "
+        },
+        {
+         "_key": "7eb39354f757",
+         "_type": "span",
+         "marks": [
+          "d088a1c8f08d"
+         ],
+         "text": "purchase order (PO) number"
+        },
+        {
+         "_key": "50d4583a2bc4",
+         "_type": "span",
+         "marks": [],
+         "text": " if the client issued one, a project name, and a short thank-you note. Many larger clients will not pay an invoice that is missing their PO number, so ask for it before you bill."
+        }
+       ],
+       "markDefs": [
+        {
+         "_key": "d088a1c8f08d",
+         "_type": "link",
+         "href": "/blog/purchase-order-number"
+        }
+       ],
+       "style": "normal"
+      },
+      {
+       "_key": "ab867a1a9681",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "b0d7b9805311",
+         "_type": "span",
+         "marks": [],
+         "text": "How to Make an Invoice, Step by Step"
+        }
+       ],
+       "markDefs": [],
+       "style": "h2"
+      },
+      {
+       "_key": "db3413081f5b",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "839de8fed98f",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "Open a template."
+        },
+        {
+         "_key": "d2c964886992",
+         "_type": "span",
+         "marks": [],
+         "text": " Start from an "
+        },
+        {
+         "_key": "afe5392cbd59",
+         "_type": "span",
+         "marks": [
+          "3bbe02db2c7b"
+         ],
+         "text": "invoice template"
+        },
+        {
+         "_key": "e0e2851644c8",
+         "_type": "span",
+         "marks": [],
+         "text": " or the "
+        },
+        {
+         "_key": "7be8cc08e7a0",
+         "_type": "span",
+         "marks": [
+          "e16e0454d883"
+         ],
+         "text": "invoice builder"
+        },
+        {
+         "_key": "b3ee4bb45891",
+         "_type": "span",
+         "marks": [],
+         "text": " rather than a blank page, so no field gets forgotten."
+        }
+       ],
+       "level": 1,
+       "listItem": "number",
+       "markDefs": [
+        {
+         "_key": "3bbe02db2c7b",
+         "_type": "link",
+         "href": "/templates/invoice"
+        },
+        {
+         "_key": "e16e0454d883",
+         "_type": "link",
+         "href": "/create"
+        }
+       ],
+       "style": "normal"
+      },
+      {
+       "_key": "4865007bd254",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "4556757831cf",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "Add your business details."
+        },
+        {
+         "_key": "ff259b761230",
+         "_type": "span",
+         "marks": [],
+         "text": " Use the name your client knows you by and the email where you want replies."
+        }
+       ],
+       "level": 1,
+       "listItem": "number",
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "d1b4cfef3db2",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "20f11b2cf2d5",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "Fill in the bill-to block."
+        },
+        {
+         "_key": "162f5fae559c",
+         "_type": "span",
+         "marks": [],
+         "text": " Use the client's legal or company name and the billing address they gave you, which may differ from the job site."
+        }
+       ],
+       "level": 1,
+       "listItem": "number",
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "63d62c6a26d9",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "f4c79a3799ad",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "Assign the next invoice number."
+        },
+        {
+         "_key": "802b9ae1091a",
+         "_type": "span",
+         "marks": [],
+         "text": " Never reuse one and never skip ahead without a reason. A simple sequence such as INV-1041, INV-1042 is enough."
+        }
+       ],
+       "level": 1,
+       "listItem": "number",
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "a164cb0534ba",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "bf6a8abfaeb7",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "Set the issue date and due date."
+        },
+        {
+         "_key": "39960ba59100",
+         "_type": "span",
+         "marks": [],
+         "text": " Write the due date as a calendar date. \"Due on receipt\" works for small one-off jobs; Net 15 or Net 30 is common for business clients."
+        }
+       ],
+       "level": 1,
+       "listItem": "number",
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "c37e7f43f831",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "92b21af2994b",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "List each item on its own line."
+        },
+        {
+         "_key": "13c13f44e9c3",
+         "_type": "span",
+         "marks": [],
+         "text": " Describe the work the way the client will recognize it (\"Logo design, 3 concepts\"), then quantity, rate and amount. Hours go in the quantity column."
+        }
+       ],
+       "level": 1,
+       "listItem": "number",
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "7541714832b2",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "3deba6ff4b8a",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "Add tax if it applies."
+        },
+        {
+         "_key": "a876f67f9497",
+         "_type": "span",
+         "marks": [],
+         "text": " If your state requires sales tax on what you sold, add it as a separate line under the subtotal. Services are taxed in some states and not others, so check your state revenue department."
+        }
+       ],
+       "level": 1,
+       "listItem": "number",
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "c0600315d663",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "d239ee438ecc",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "Check the total."
+        },
+        {
+         "_key": "cb4f42958cad",
+         "_type": "span",
+         "marks": [],
+         "text": " Subtotal plus tax, minus any deposit already paid, equals the balance due."
+        }
+       ],
+       "level": 1,
+       "listItem": "number",
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "7df42435d7ed",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "5c66bfbf5729",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "Write the payment terms and methods."
+        },
+        {
+         "_key": "c5578df8d35b",
+         "_type": "span",
+         "marks": [],
+         "text": " Say how to pay and by when. If you charge a late fee, it should match what the client agreed to before the work started."
+        }
+       ],
+       "level": 1,
+       "listItem": "number",
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "8077e4911631",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "6438663552bd",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "Save as PDF and send."
+        },
+        {
+         "_key": "4515fb3ff361",
+         "_type": "span",
+         "marks": [],
+         "text": " A PDF keeps the layout fixed on every device. Then follow up if the due date passes."
+        }
+       ],
+       "level": 1,
+       "listItem": "number",
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "e6e8cb718f63",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "514c263d5e21",
+         "_type": "span",
+         "marks": [],
+         "text": "A Worked Example"
+        }
+       ],
+       "markDefs": [],
+       "style": "h2"
+      },
+      {
+       "_key": "89ff29490d8e",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "cead063190d9",
+         "_type": "span",
+         "marks": [],
+         "text": "Here is a finished invoice from a freelance designer to a bakery."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "d2b517996cd4",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "37477cb874e4",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "Rivera Design Studio"
+        },
+        {
+         "_key": "74180cf4f0ff",
+         "_type": "span",
+         "marks": [],
+         "text": " \u00b7 210 Pine St, Portland, OR \u00b7 hello@riveradesign.example"
+        }
+       ],
+       "markDefs": [],
+       "style": "blockquote"
+      },
+      {
+       "_key": "6c271ffdbc5e",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "1cb92937d45f",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "Bill to:"
+        },
+        {
+         "_key": "3d8a473e761c",
+         "_type": "span",
+         "marks": [],
+         "text": " Northside Bakery, Attn: Sam Lee, 88 Market Ave, Portland, OR"
+        }
+       ],
+       "markDefs": [],
+       "style": "blockquote"
+      },
+      {
+       "_key": "1c37ceda00da",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "a5571aacacbe",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "Invoice:"
+        },
+        {
+         "_key": "65b25d1d81b0",
+         "_type": "span",
+         "marks": [],
+         "text": " INV-1042 \u00b7 "
+        },
+        {
+         "_key": "bccbc38d7fc2",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "Issued:"
+        },
+        {
+         "_key": "aff416a9181c",
+         "_type": "span",
+         "marks": [],
+         "text": " Oct 15, 2026 \u00b7 "
+        },
+        {
+         "_key": "24d1961055c3",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "Due:"
+        },
+        {
+         "_key": "6d13a7c1dcb1",
+         "_type": "span",
+         "marks": [],
+         "text": " Nov 14, 2026 (Net 30)"
+        }
+       ],
+       "markDefs": [],
+       "style": "blockquote"
+      },
+      {
+       "_key": "21b1ffcb17c8",
+       "_type": "table",
+       "rows": [
+        {
+         "_key": "53af92a8a958",
+         "_type": "tableRow",
+         "cells": [
+          "Description",
+          "Qty",
+          "Rate",
+          "Amount"
+         ]
+        },
+        {
+         "_key": "6e88e880f86e",
+         "_type": "tableRow",
+         "cells": [
+          "Logo design, 3 concepts + final files",
+          "1",
+          "$600.00",
+          "$600.00"
+         ]
+        },
+        {
+         "_key": "46a886367461",
+         "_type": "tableRow",
+         "cells": [
+          "Business card layout",
+          "1",
+          "$150.00",
+          "$150.00"
+         ]
+        },
+        {
+         "_key": "ef06f484d98f",
+         "_type": "tableRow",
+         "cells": [
+          "Extra revision rounds",
+          "2 hr",
+          "$75.00",
+          "$150.00"
+         ]
+        },
+        {
+         "_key": "23fc53a1478a",
+         "_type": "tableRow",
+         "cells": [
+          "**Total due**",
+          "",
+          "",
+          "**$900.00**"
+         ]
+        }
+       ]
+      },
+      {
+       "_key": "23aa5c5c1c3c",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "3b42aef569da",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "Payment:"
+        },
+        {
+         "_key": "6ce5ace23581",
+         "_type": "span",
+         "marks": [],
+         "text": " bank transfer (details on request) or check payable to Rivera Design Studio. Thank you for your business."
+        }
+       ],
+       "markDefs": [],
+       "style": "blockquote"
+      },
+      {
+       "_key": "c7c89d792d14",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "0b1394a8b6c3",
+         "_type": "span",
+         "marks": [],
+         "text": "No sales tax line appears because the example assumes design services are not taxed where this designer works. Check your own state before copying that."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "2c51e069c6fe",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "21f18918a194",
+         "_type": "span",
+         "marks": [],
+         "text": "Common Invoice Mistakes"
+        }
+       ],
+       "markDefs": [],
+       "style": "h2"
+      },
+      {
+       "_key": "88fbff67c1a0",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "5b9c146b756b",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "No due date."
+        },
+        {
+         "_key": "fa1b6553e62b",
+         "_type": "span",
+         "marks": [],
+         "text": " \"Payable soon\" gets paid last. A date gets paid on time."
+        }
+       ],
+       "level": 1,
+       "listItem": "bullet",
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "cd6f3aa655e9",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "fbfa13fe6155",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "Vague line items."
+        },
+        {
+         "_key": "abb642dfa158",
+         "_type": "span",
+         "marks": [],
+         "text": " \"Services, $900\" invites questions. Itemize so the approver can sign off without emailing you."
+        }
+       ],
+       "level": 1,
+       "listItem": "bullet",
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "bf9bc572ccb4",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "72fbb6e92596",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "Wrong recipient."
+        },
+        {
+         "_key": "34b7de817515",
+         "_type": "span",
+         "marks": [],
+         "text": " In a company, the person who hired you is often not the person who pays. Ask who handles accounts payable."
+        }
+       ],
+       "level": 1,
+       "listItem": "bullet",
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "274e6994d6f2",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "8fb10a596352",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "Duplicate numbers."
+        },
+        {
+         "_key": "8771daac4d46",
+         "_type": "span",
+         "marks": [],
+         "text": " Two invoices with the same number confuse both sets of books."
+        }
+       ],
+       "level": 1,
+       "listItem": "bullet",
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "afaf3c84bc6e",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "52e1436c614b",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "Missing payment details."
+        },
+        {
+         "_key": "3f8f7952fcc8",
+         "_type": "span",
+         "marks": [],
+         "text": " If the client has to ask how to pay, you have added a week."
+        }
+       ],
+       "level": 1,
+       "listItem": "bullet",
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "c93322191900",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "70c18247dd73",
+         "_type": "span",
+         "marks": [],
+         "text": "Keep a Copy"
+        }
+       ],
+       "markDefs": [],
+       "style": "h2"
+      },
+      {
+       "_key": "fd5bae15f500",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "120bf4992b7c",
+         "_type": "span",
+         "marks": [],
+         "text": "Keep every invoice you send, paid or not. The IRS lists invoices among the "
+        },
+        {
+         "_key": "9e6bcc1ab1d2",
+         "_type": "span",
+         "marks": [
+          "456f123f9692"
+         ],
+         "text": "supporting documents for gross receipts"
+        },
+        {
+         "_key": "cb55fd754474",
+         "_type": "span",
+         "marks": [],
+         "text": " a business should keep, alongside receipt books and deposit records. When the client pays, mark the invoice paid or send a receipt."
+        }
+       ],
+       "markDefs": [
+        {
+         "_key": "456f123f9692",
+         "_type": "link",
+         "href": "https://www.irs.gov/businesses/small-businesses-self-employed/what-kind-of-records-should-i-keep"
+        }
+       ],
+       "style": "normal"
+      },
+      {
+       "_key": "ddc4b1539cd3",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "2e5990636e39",
+         "_type": "span",
+         "marks": [],
+         "text": "Making One in a Few Minutes"
+        }
+       ],
+       "markDefs": [],
+       "style": "h2"
+      },
+      {
+       "_key": "bf56019c3a69",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "0fa9dbc2abbf",
+         "_type": "span",
+         "marks": [],
+         "text": "The "
+        },
+        {
+         "_key": "230387c09796",
+         "_type": "span",
+         "marks": [
+          "5cff825bb609"
+         ],
+         "text": "invoice template"
+        },
+        {
+         "_key": "de3b6a945784",
+         "_type": "span",
+         "marks": [],
+         "text": " gives you the layout above, ready to fill in. Building it in the browser is free; a watermark-free download needs Pro. If you would rather edit a Google Doc, our "
+        },
+        {
+         "_key": "a4a812b1f397",
+         "_type": "span",
+         "marks": [
+          "257f99f8f803"
+         ],
+         "text": "Google Docs templates"
+        },
+        {
+         "_key": "4bf09cb415f8",
+         "_type": "span",
+         "marks": [],
+         "text": " include an invoice you can copy into your own Drive."
+        }
+       ],
+       "markDefs": [
+        {
+         "_key": "5cff825bb609",
+         "_type": "link",
+         "href": "/templates/invoice"
+        },
+        {
+         "_key": "257f99f8f803",
+         "_type": "link",
+         "href": "/templates/google-docs"
+        }
+       ],
+       "style": "normal"
+      }
+     ]
+    }
+   }
+  }
+ ]
+}
