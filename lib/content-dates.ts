@@ -553,6 +553,21 @@ const EXAMPLES_DROPPED: ReadonlySet<string> = new Set([
   "cleaning-receipt-move-out",
 ]);
 
+// 2026-11-17: grocery examples stop charging sales tax on food where the state
+// exempts it (OH, TX, CA, NY, MI, and Ontario's zero-rated basics go to 0%; WA
+// and FL exempt only the food lines; NC taxes food at its 2% local rate, Idaho
+// at 6%). Totals on these pages changed.
+const EXAMPLES_GROCERY_TAX_UPDATED = "2026-11-17";
+const EXAMPLES_GROCERY_TAX: ReadonlySet<string> = new Set([
+  "kroger-receipt-weekly-groceries", "kroger-receipt-bulk-shop",
+  "heb-receipt-groceries", "heb-receipt-texas-run", "trader-joes-receipt-snacks",
+  "safeway-receipt-groceries", "vons-receipt-groceries",
+  "wegmans-receipt-groceries", "wegmans-receipt-shop", "meijer-receipt-groceries",
+  "meijer-receipt-grocery", "loblaws-receipt-canada", "food-lion-receipt-groceries",
+  "albertsons-receipt-groceries", "costco-receipt-bulk-haul",
+  "costco-receipt-monthly-stockup", "publix-receipt-groceries",
+]);
+
 /** When one example page was last reviewed. */
 export function exampleReviewedAt(slug: string): string {
   return newest(
@@ -561,6 +576,7 @@ export function exampleReviewedAt(slug: string): string {
     EXAMPLES_BRAND_LINKED.has(slug) ? EXAMPLES_BRAND_LINKED_UPDATED : null,
     slug === "kroger-receipt-weekly-groceries" ? EXAMPLE_TEMPLATE_TITLE_UPDATED : null,
     EXAMPLES_DROPPED.has(slug) ? EXAMPLES_DROPPED_UPDATED : null,
+    EXAMPLES_GROCERY_TAX.has(slug) ? EXAMPLES_GROCERY_TAX_UPDATED : null,
   );
 }
 
