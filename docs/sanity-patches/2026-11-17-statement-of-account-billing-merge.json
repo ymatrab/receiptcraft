@@ -1,0 +1,1120 @@
+{
+ "mutations": [
+  {
+   "patch": {
+    "id": "post-statement-of-account",
+    "ifRevisionID": "zqObMY4AZ2PLBMUzA5y1CY",
+    "set": {
+     "title": "How to Make a Billing Statement (Statement of Account), With a Worked Sample",
+     "seoTitle": "How to Make a Billing Statement: Steps, Sample and Aging",
+     "seoDescription": "How to make a billing statement, also called a statement of account: what goes on it, how it differs from an invoice, and a worked sample with aging columns.",
+     "excerpt": "A billing statement, or statement of account, sums up every invoice, payment and credit on a customer's account for a period and shows what is still owed. Here is how to make one, how aging columns work, and a sample that reconciles to the cent.",
+     "body": [
+      {
+       "_key": "4daedcdd2296",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "45f95f3e05d7",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "To make a billing statement, also called a statement of account, list every invoice, payment and credit on one customer's account for a period, usually a month. Start from the opening balance, keep a running balance on each line, and end with the total still owed, how much of it is overdue, and how to pay. Unlike an invoice, a statement does not bill anything new; it shows where the account stands."
+        },
+        {
+         "_key": "c37b8a530624",
+         "_type": "span",
+         "marks": [],
+         "text": " Customers who buy on credit often pay from the statement rather than from each invoice."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "ed8a97775bc6",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "ef847936a048",
+         "_type": "span",
+         "marks": [],
+         "text": "Each line on a statement points back to an invoice, so the invoices come first. Our "
+        },
+        {
+         "_key": "a0a836c31bf9",
+         "_type": "span",
+         "marks": [
+          "e2ea10e5fe9f"
+         ],
+         "text": "invoice template"
+        },
+        {
+         "_key": "bd26306dcc45",
+         "_type": "span",
+         "marks": [],
+         "text": " handles those, and a clean numbering system, covered in "
+        },
+        {
+         "_key": "31ba46004e41",
+         "_type": "span",
+         "marks": [
+          "74babacd0d97"
+         ],
+         "text": "how to number invoices"
+        },
+        {
+         "_key": "44ed414b80ac",
+         "_type": "span",
+         "marks": [],
+         "text": ", is what lets a customer tick each statement line off against their own records."
+        }
+       ],
+       "markDefs": [
+        {
+         "_key": "e2ea10e5fe9f",
+         "_type": "link",
+         "href": "/templates/invoice"
+        },
+        {
+         "_key": "74babacd0d97",
+         "_type": "link",
+         "href": "/blog/invoice-number"
+        }
+       ],
+       "style": "normal"
+      },
+      {
+       "_key": "ebdb46c5aa6a",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "2420d7e9897f",
+         "_type": "span",
+         "marks": [],
+         "text": "Billing Statement vs. Invoice"
+        }
+       ],
+       "markDefs": [],
+       "style": "h2"
+      },
+      {
+       "_key": "7abd68b271fa",
+       "_type": "table",
+       "rows": [
+        {
+         "_key": "0f02b4d4abf2",
+         "_type": "tableRow",
+         "cells": [
+          "",
+          "Invoice",
+          "Billing statement"
+         ]
+        },
+        {
+         "_key": "7c2f1b0f7c1f",
+         "_type": "tableRow",
+         "cells": [
+          "Covers",
+          "One sale or job",
+          "Every transaction in a period"
+         ]
+        },
+        {
+         "_key": "09f8ebfa6c1f",
+         "_type": "tableRow",
+         "cells": [
+          "Asks for payment?",
+          "Yes, for that sale",
+          "Shows the total balance and what is overdue"
+         ]
+        },
+        {
+         "_key": "27f18eada44b",
+         "_type": "tableRow",
+         "cells": [
+          "Shows payments and credits?",
+          "Rarely",
+          "Yes, all of them"
+         ]
+        },
+        {
+         "_key": "ca31c03805a4",
+         "_type": "tableRow",
+         "cells": [
+          "Frequency",
+          "Each time you bill",
+          "Usually monthly"
+         ]
+        },
+        {
+         "_key": "f2b16cb5f876",
+         "_type": "tableRow",
+         "cells": [
+          "Main number",
+          "Invoice number",
+          "Statement date and account number"
+         ]
+        },
+        {
+         "_key": "fdf2cad9224c",
+         "_type": "tableRow",
+         "cells": [
+          "Who needs it",
+          "Every customer you bill",
+          "Customers on account (regular credit buyers)"
+         ]
+        }
+       ]
+      },
+      {
+       "_key": "1e6ffaba2734",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "acf9a3853dd2",
+         "_type": "span",
+         "marks": [],
+         "text": "If a customer pays every invoice on the spot, a statement adds little. It earns its place when one customer has several open invoices, partial payments and credits at once."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "6b95e861c387",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "72ca2cf70d0d",
+         "_type": "span",
+         "marks": [],
+         "text": "What Goes on a Billing Statement"
+        }
+       ],
+       "markDefs": [],
+       "style": "h2"
+      },
+      {
+       "_key": "3f97dde8ec6a",
+       "_type": "table",
+       "rows": [
+        {
+         "_key": "41061f83c83c",
+         "_type": "tableRow",
+         "cells": [
+          "Section",
+          "What to include"
+         ]
+        },
+        {
+         "_key": "9d342c931a4b",
+         "_type": "tableRow",
+         "cells": [
+          "Header",
+          "Your business details, a heading such as STATEMENT or STATEMENT OF ACCOUNT, statement date"
+         ]
+        },
+        {
+         "_key": "432b09a7e28d",
+         "_type": "tableRow",
+         "cells": [
+          "Customer",
+          "Name, address, account number"
+         ]
+        },
+        {
+         "_key": "bdf226f028fd",
+         "_type": "tableRow",
+         "cells": [
+          "Period",
+          "e.g. Nov 1 to Nov 30, 2026"
+         ]
+        },
+        {
+         "_key": "d05a08816045",
+         "_type": "tableRow",
+         "cells": [
+          "Opening balance",
+          "What was owed at the start of the period"
+         ]
+        },
+        {
+         "_key": "28e6472fa7b7",
+         "_type": "tableRow",
+         "cells": [
+          "Transactions",
+          "Date, reference (invoice, payment, credit memo), charge, credit, running balance"
+         ]
+        },
+        {
+         "_key": "934b2dbc2e5d",
+         "_type": "tableRow",
+         "cells": [
+          "Closing balance",
+          "Total owed at the statement date"
+         ]
+        },
+        {
+         "_key": "c9755b96e470",
+         "_type": "tableRow",
+         "cells": [
+          "Aging summary",
+          "How much of the balance is current and how much is overdue, by age"
+         ]
+        },
+        {
+         "_key": "e8c07a500e57",
+         "_type": "tableRow",
+         "cells": [
+          "Payment details",
+          "How to pay and whom to call with a query"
+         ]
+        }
+       ]
+      },
+      {
+       "_key": "16446e63a03c",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "de9b0d814d24",
+         "_type": "span",
+         "marks": [],
+         "text": "How Aging Columns Work"
+        }
+       ],
+       "markDefs": [],
+       "style": "h2"
+      },
+      {
+       "_key": "82c2788b6dec",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "fe2efa01fb73",
+         "_type": "span",
+         "marks": [],
+         "text": "An aging summary splits the closing balance by how long each amount has been past its due date. The usual buckets are:"
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "3ac436f4fb01",
+       "_type": "table",
+       "rows": [
+        {
+         "_key": "f0c539b9074c",
+         "_type": "tableRow",
+         "cells": [
+          "Bucket",
+          "Meaning"
+         ]
+        },
+        {
+         "_key": "c58b5869165a",
+         "_type": "tableRow",
+         "cells": [
+          "Current",
+          "Not yet due"
+         ]
+        },
+        {
+         "_key": "55778a32b268",
+         "_type": "tableRow",
+         "cells": [
+          "1\u201330 days",
+          "Up to 30 days past the due date"
+         ]
+        },
+        {
+         "_key": "c378cee75e56",
+         "_type": "tableRow",
+         "cells": [
+          "31\u201360 days",
+          "31 to 60 days past due"
+         ]
+        },
+        {
+         "_key": "7d612399a634",
+         "_type": "tableRow",
+         "cells": [
+          "61\u201390 days",
+          "61 to 90 days past due"
+         ]
+        },
+        {
+         "_key": "0e9e1b88b2a9",
+         "_type": "tableRow",
+         "cells": [
+          "Over 90 days",
+          "More than 90 days past due"
+         ]
+        }
+       ]
+      },
+      {
+       "_key": "f09060ab81fd",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "c81207f9baa3",
+         "_type": "span",
+         "marks": [],
+         "text": "Two rules keep it accurate. Age each invoice from its "
+        },
+        {
+         "_key": "5f381f42712d",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "due date"
+        },
+        {
+         "_key": "f8b61373c8e7",
+         "_type": "span",
+         "marks": [],
+         "text": ", not its issue date. And apply payments to the "
+        },
+        {
+         "_key": "7ac01ffc0676",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "oldest invoice first"
+        },
+        {
+         "_key": "ec8efe458a39",
+         "_type": "span",
+         "marks": [],
+         "text": " unless the customer says which invoice they are paying; a payment marked for a specific invoice goes against that one."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "9a12a1beea0c",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "8db3bdef2e99",
+         "_type": "span",
+         "marks": [],
+         "text": "How to Make a Billing Statement, Step by Step"
+        }
+       ],
+       "markDefs": [],
+       "style": "h2"
+      },
+      {
+       "_key": "53369449a0c9",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "e7d832f20561",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "Choose the period"
+        },
+        {
+         "_key": "3652fbe5dcfc",
+         "_type": "span",
+         "marks": [],
+         "text": ", usually the calendar month."
+        }
+       ],
+       "level": 1,
+       "listItem": "number",
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "71bbd52cedc8",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "32ebdcb5ff7c",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "Carry forward the opening balance"
+        },
+        {
+         "_key": "04c4720bdf34",
+         "_type": "span",
+         "marks": [],
+         "text": " from last month's closing balance."
+        }
+       ],
+       "level": 1,
+       "listItem": "number",
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "dec6f7791165",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "63798bac36a4",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "List every transaction in date order"
+        },
+        {
+         "_key": "89f6467f98b9",
+         "_type": "span",
+         "marks": [],
+         "text": ": invoices as charges, payments and credit memos as credits."
+        }
+       ],
+       "level": 1,
+       "listItem": "number",
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "73747be53cc6",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "d509e3e57ff2",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "Keep a running balance"
+        },
+        {
+         "_key": "6a4d12250195",
+         "_type": "span",
+         "marks": [],
+         "text": " on every line."
+        }
+       ],
+       "level": 1,
+       "listItem": "number",
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "fa56838cd426",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "5a320cbc3f71",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "Check the closing balance"
+        },
+        {
+         "_key": "7eed21edab51",
+         "_type": "span",
+         "marks": [],
+         "text": " against the open invoices in your records. They must agree."
+        }
+       ],
+       "level": 1,
+       "listItem": "number",
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "f54ad7cba820",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "ba1e84d79a48",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "Age what is still open"
+        },
+        {
+         "_key": "8c46ea6792e4",
+         "_type": "span",
+         "marks": [],
+         "text": " into the buckets above."
+        }
+       ],
+       "level": 1,
+       "listItem": "number",
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "4920c61df1f2",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "d81040597618",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "Send it"
+        },
+        {
+         "_key": "fc39ee7364cf",
+         "_type": "span",
+         "marks": [],
+         "text": " a day or two after the period ends, with payment details at the bottom."
+        }
+       ],
+       "level": 1,
+       "listItem": "number",
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "da880b7471e1",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "2b37ccfa13f4",
+         "_type": "span",
+         "marks": [],
+         "text": "A Worked Example"
+        }
+       ],
+       "markDefs": [],
+       "style": "h2"
+      },
+      {
+       "_key": "beecf04f8aa3",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "632a4581137e",
+         "_type": "span",
+         "marks": [],
+         "text": "Sample data: a fictional linen service and a fictional restaurant customer on Net 30 terms."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "0d0523c2086a",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "a3ef122cbb50",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "STATEMENT OF ACCOUNT"
+        },
+        {
+         "_key": "d1c609a60840",
+         "_type": "span",
+         "marks": [],
+         "text": " \u00b7 Statement date: Nov 30, 2026"
+        }
+       ],
+       "markDefs": [],
+       "style": "blockquote"
+      },
+      {
+       "_key": "a27b7df64b5c",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "393078c43482",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "From:"
+        },
+        {
+         "_key": "edbd1f5a5670",
+         "_type": "span",
+         "marks": [],
+         "text": " Harbor Linen Service, 52 Wharf St, Charleston, SC 29401"
+        }
+       ],
+       "markDefs": [],
+       "style": "blockquote"
+      },
+      {
+       "_key": "83833df8af78",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "ebbe2fa328c1",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "To:"
+        },
+        {
+         "_key": "61fe4d26d757",
+         "_type": "span",
+         "marks": [],
+         "text": " Bayside Bistro, 9 Marina Way, Charleston, SC 29412 \u00b7 Account BB-207"
+        }
+       ],
+       "markDefs": [],
+       "style": "blockquote"
+      },
+      {
+       "_key": "5ba9c50ca1d7",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "b644578c8fd0",
+         "_type": "span",
+         "marks": [
+          "strong"
+         ],
+         "text": "Period:"
+        },
+        {
+         "_key": "563803bd4e90",
+         "_type": "span",
+         "marks": [],
+         "text": " Nov 1 to Nov 30, 2026"
+        }
+       ],
+       "markDefs": [],
+       "style": "blockquote"
+      },
+      {
+       "_key": "64db807bc7eb",
+       "_type": "table",
+       "rows": [
+        {
+         "_key": "5b944dad1786",
+         "_type": "tableRow",
+         "cells": [
+          "Date",
+          "Reference",
+          "Charges",
+          "Credits",
+          "Balance"
+         ]
+        },
+        {
+         "_key": "7303048f360f",
+         "_type": "tableRow",
+         "cells": [
+          "Nov 1",
+          "Balance forward (INV-3301, Oct 15)",
+          "",
+          "",
+          "$640.00"
+         ]
+        },
+        {
+         "_key": "b2845d37e5d1",
+         "_type": "tableRow",
+         "cells": [
+          "Nov 3",
+          "Payment received, thank you",
+          "",
+          "$400.00",
+          "$240.00"
+         ]
+        },
+        {
+         "_key": "566f40b05155",
+         "_type": "tableRow",
+         "cells": [
+          "Nov 7",
+          "INV-3342",
+          "$520.00",
+          "",
+          "$760.00"
+         ]
+        },
+        {
+         "_key": "1d36615fbce4",
+         "_type": "tableRow",
+         "cells": [
+          "Nov 14",
+          "INV-3360",
+          "$480.00",
+          "",
+          "$1,240.00"
+         ]
+        },
+        {
+         "_key": "6ccdaf047d89",
+         "_type": "tableRow",
+         "cells": [
+          "Nov 20",
+          "Credit memo CM-0042 (stained napkins, INV-3360)",
+          "",
+          "$60.00",
+          "$1,180.00"
+         ]
+        },
+        {
+         "_key": "11fbb6eff13f",
+         "_type": "tableRow",
+         "cells": [
+          "Nov 28",
+          "INV-3377",
+          "$505.00",
+          "",
+          "$1,685.00"
+         ]
+        },
+        {
+         "_key": "babfb996b31c",
+         "_type": "tableRow",
+         "cells": [
+          "",
+          "**Balance due**",
+          "",
+          "",
+          "**$1,685.00**"
+         ]
+        }
+       ]
+      },
+      {
+       "_key": "e6fd1b158220",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "a70cf878f5f9",
+         "_type": "span",
+         "marks": [],
+         "text": "The $400 payment went against the oldest invoice, INV-3301, leaving $240 open on it. That invoice was due Nov 14, so on Nov 30 it is 16 days late. Everything else is not yet due."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "7bdfe69221c9",
+       "_type": "table",
+       "rows": [
+        {
+         "_key": "b37bf669a9e7",
+         "_type": "tableRow",
+         "cells": [
+          "Current",
+          "1\u201330 days",
+          "31\u201360 days",
+          "61\u201390 days",
+          "Over 90",
+          "Total"
+         ]
+        },
+        {
+         "_key": "73e697ea8365",
+         "_type": "tableRow",
+         "cells": [
+          "$1,445.00",
+          "$240.00",
+          "$0.00",
+          "$0.00",
+          "$0.00",
+          "$1,685.00"
+         ]
+        }
+       ]
+      },
+      {
+       "_key": "abc97a3bcd4c",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "ab7230dc9bf7",
+         "_type": "span",
+         "marks": [],
+         "text": "The current column is INV-3342 ($520.00), INV-3360 after its credit ($420.00) and INV-3377 ($505.00), which add to $1,445.00. With the $240.00 overdue, that matches the $1,685.00 balance. If the columns do not add to the balance, something is missing from the list. Credits like the one on Nov 20 are explained in our guide to the "
+        },
+        {
+         "_key": "931450574c30",
+         "_type": "span",
+         "marks": [
+          "2fb600eb8ff0"
+         ],
+         "text": "credit memo"
+        },
+        {
+         "_key": "26fd17d9ce49",
+         "_type": "span",
+         "marks": [],
+         "text": "."
+        }
+       ],
+       "markDefs": [
+        {
+         "_key": "2fb600eb8ff0",
+         "_type": "link",
+         "href": "/blog/credit-memo"
+        }
+       ],
+       "style": "normal"
+      },
+      {
+       "_key": "41e0e0aeda0d",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "765874bb251c",
+         "_type": "span",
+         "marks": [],
+         "text": "What a Customer Does With It"
+        }
+       ],
+       "markDefs": [],
+       "style": "h2"
+      },
+      {
+       "_key": "3d33927240cd",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "a2d76c202f2f",
+         "_type": "span",
+         "marks": [],
+         "text": "A good statement lets the customer's bookkeeper do three things quickly: match each invoice to their own records, spot anything they have not received, and pay the overdue amount first. In the sample, Bayside Bistro would pay the $240.00 now and the rest by each invoice's due date."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      },
+      {
+       "_key": "a0b50768eaba",
+       "_type": "block",
+       "style": "h2",
+       "children": [
+        {
+         "_key": "0e8c4a621088",
+         "_type": "span",
+         "text": "What If the Customer Paid Only Part?",
+         "marks": []
+        }
+       ],
+       "markDefs": []
+      },
+      {
+       "_key": "b0c3fe6dfb7e",
+       "_type": "block",
+       "style": "normal",
+       "children": [
+        {
+         "_key": "1131f96f9466",
+         "_type": "span",
+         "text": "Show the partial payment as its own line and let the running balance carry the rest forward, as the $400 payment does in the sample. Note which invoice it went against. If the customer wants proof of that payment on its own, send a receipt for it; our guide to the ",
+         "marks": []
+        },
+        {
+         "_key": "7c9b31644b80",
+         "_type": "span",
+         "text": "partial payment receipt",
+         "marks": [
+          "4a701791f5c9"
+         ]
+        },
+        {
+         "_key": "4dc04c818824",
+         "_type": "span",
+         "text": " shows what to put on one.",
+         "marks": []
+        }
+       ],
+       "markDefs": [
+        {
+         "_key": "4a701791f5c9",
+         "_type": "link",
+         "href": "/blog/partial-payment-receipt"
+        }
+       ]
+      },
+      {
+       "_key": "0185c0365750",
+       "_type": "block",
+       "style": "h2",
+       "children": [
+        {
+         "_key": "40fc3cd58d7c",
+         "_type": "span",
+         "text": "Make One With the Invoice Template",
+         "marks": []
+        }
+       ],
+       "markDefs": []
+      },
+      {
+       "_key": "90e13463bdab",
+       "_type": "block",
+       "style": "normal",
+       "children": [
+        {
+         "_key": "14997e400a5b",
+         "_type": "span",
+         "text": "Open the ",
+         "marks": []
+        },
+        {
+         "_key": "15751d72d64b",
+         "_type": "span",
+         "text": "invoice template",
+         "marks": [
+          "f752770f9dfc"
+         ]
+        },
+        {
+         "_key": "00bbdd564a6c",
+         "_type": "span",
+         "text": ", change the heading to STATEMENT, and enter the opening balance, then each invoice, payment and credit as a dated line. Enter payments and credits as negative amounts, so the total at the bottom, already labelled AMOUNT DUE, is the balance owed. The template shows one total rather than a running balance column, so keep the running balance in your own records and check the two agree.",
+         "marks": []
+        }
+       ],
+       "markDefs": [
+        {
+         "_key": "f752770f9dfc",
+         "_type": "link",
+         "href": "/templates/invoice"
+        }
+       ]
+      },
+      {
+       "_key": "912e01071d5a",
+       "_type": "block",
+       "style": "normal",
+       "children": [
+        {
+         "_key": "f0fd3e4efe2c",
+         "_type": "span",
+         "text": "Building and a watermarked download are free with no account. A clean PDF needs a one-time pass from $3.",
+         "marks": []
+        }
+       ],
+       "markDefs": []
+      },
+      {
+       "_key": "39377fb65610",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "f46c35deec3d",
+         "_type": "span",
+         "marks": [],
+         "text": "Keep the Paper Trail"
+        }
+       ],
+       "markDefs": [],
+       "style": "h2"
+      },
+      {
+       "_key": "a232d6e81291",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "77f899cefd7f",
+         "_type": "span",
+         "marks": [],
+         "text": "A statement is a summary, not a source document. The records behind it are the invoices, payment records and credit memos, and those are what the IRS lists among the "
+        },
+        {
+         "_key": "1e1951a9c594",
+         "_type": "span",
+         "marks": [
+          "33db426571d6"
+         ],
+         "text": "supporting documents for gross receipts"
+        },
+        {
+         "_key": "318a0647b79a",
+         "_type": "span",
+         "marks": [],
+         "text": ". Keep them filed by customer and number so any statement line can be traced back. This is general information, not tax or accounting advice."
+        }
+       ],
+       "markDefs": [
+        {
+         "_key": "33db426571d6",
+         "_type": "link",
+         "href": "https://www.irs.gov/businesses/small-businesses-self-employed/what-kind-of-records-should-i-keep"
+        }
+       ],
+       "style": "normal"
+      },
+      {
+       "_key": "4492d21fd4dc",
+       "_type": "block",
+       "children": [
+        {
+         "_key": "1e9134ba684b",
+         "_type": "span",
+         "marks": [],
+         "text": "A statement should list only real invoices, payments and credits on the customer's account."
+        }
+       ],
+       "markDefs": [],
+       "style": "normal"
+      }
+     ],
+     "faqs": [
+      {
+       "_key": "8095ed42ca98",
+       "_type": "object",
+       "answer": "A summary a business sends a customer, usually monthly, listing every invoice, payment and credit for the period with a running balance and the total still owed. It is also called a statement of account or customer statement.",
+       "question": "What is a billing statement?"
+      },
+      {
+       "_key": "846710b9a784",
+       "_type": "object",
+       "answer": "No. An invoice bills one sale. A statement summarizes all of a customer's invoices, payments and credits over a period and shows the overall balance and what is overdue.",
+       "question": "Is a billing statement the same as an invoice?"
+      },
+      {
+       "_key": "d40a228341b1",
+       "_type": "object",
+       "question": "Is a billing statement the same as a bill?",
+       "answer": "In everyday speech people call both a bill. Strictly, the invoice is the bill for one sale, and the statement summarizes the account, which may include several bills."
+      },
+      {
+       "_key": "91920a6b978f",
+       "_type": "object",
+       "answer": "They split the balance by how long each amount has been past its due date, typically Current, 1\u201330, 31\u201360, 61\u201390 and over 90 days. They show the customer what to pay first.",
+       "question": "What are aging columns on a statement?"
+      },
+      {
+       "_key": "2601c51fc0a4",
+       "_type": "object",
+       "answer": "Monthly is common, a day or two after the month ends. Send them to customers who buy on credit and have more than one open invoice at a time.",
+       "question": "How often should I send billing statements?"
+      },
+      {
+       "_key": "f8b642ae2ea3",
+       "_type": "object",
+       "question": "Can I send a statement if nothing is owed?",
+       "answer": "Yes. A zero-balance statement is a simple way for both sides to confirm the account is settled."
+      },
+      {
+       "_key": "70668619d976",
+       "_type": "object",
+       "answer": "Yes. Open the invoice template, change the heading to STATEMENT and enter each invoice, payment and credit as a dated line, with payments and credits as negative amounts. Building, previewing and downloading need no account; free downloads carry a small watermark, and a clean copy needs a one-time pass from $3.",
+       "question": "Can I make a billing statement on makecepeit?"
+      }
+     ]
+    }
+   }
+  }
+ ]
+}
