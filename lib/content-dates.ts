@@ -339,6 +339,18 @@ export const BRANDS_ANSWER_UPDATED = "2026-10-27";
 // Only those pages move; the other ~338 keep their date.
 export const BRANDS_DEPTH_UPDATED = "2026-11-03";
 
+// 2026-11-17: a fresh URL Inspection of every sitemap URL found 23 more brand
+// pages "Crawled – currently not indexed" (last crawled Jun–Aug), none of which
+// had the section yet. Cartier stays without one, as on 11-09.
+const BRANDS_DEPTH_DROPPED_2_UPDATED = "2026-11-17";
+const BRANDS_DEPTH_DROPPED_2: ReadonlySet<string> = new Set([
+  "wendy-s", "tim-hortons", "nordstrom", "playstation-store",
+  "southwest-airlines", "h-m", "jimmy-john-s", "white-castle",
+  "church-s-chicken", "h-e-b", "banana-republic", "adidas", "academy-sports",
+  "tiffany-co", "kay-jewelers", "jetblue", "ritz-carlton", "alamo", "sixt",
+  "roblox", "gnc", "quest-diagnostics", "regal-cinemas",
+]);
+
 // 2026-11-09: the 37 brand pages Search Console reported as "Crawled –
 // currently not indexed" gain the same section. They get their own date so the
 // 15 pages above keep 11-03.
@@ -436,7 +448,8 @@ export function brandReviewedAt(slug: string): string {
     BRANDS_PAYWALL_UPDATED,
     BRANDS_ANSWER_UPDATED,
     slug in BRAND_DEPTH
-      ? BRANDS_DEPTH_DROPPED.has(slug) ? BRANDS_DEPTH_DROPPED_UPDATED : BRANDS_DEPTH_UPDATED
+      ? BRANDS_DEPTH_DROPPED_2.has(slug) ? BRANDS_DEPTH_DROPPED_2_UPDATED
+        : BRANDS_DEPTH_DROPPED.has(slug) ? BRANDS_DEPTH_DROPPED_UPDATED : BRANDS_DEPTH_UPDATED
       : null,
     linksChangedNov16(`/brands/${slug}`) || examplesForBrand(slug).length > 0 ? LINKS_NOV16_UPDATED : null,
     BRANDS_SOURCE_FIXED.has(slug) ? BRANDS_SOURCE_FIXED_UPDATED : null,
@@ -513,6 +526,33 @@ const EXAMPLES_BRAND_LINKED: ReadonlySet<string> = new Set([
 ]);
 const EXAMPLES_BRAND_LINKED_UPDATED = "2026-11-16";
 
+// 2026-11-17: the example pages Search Console reported as "Crawled –
+// currently not indexed" (URL Inspection of the whole sitemap, 11-17) and had
+// no scenario gained their own scenario and notes. The 11 dropped examples that
+// already had them are left on their old date: nothing on them changed.
+const EXAMPLES_DROPPED_UPDATED = "2026-11-17";
+const EXAMPLES_DROPPED: ReadonlySet<string> = new Set([
+  "costco-receipt-bulk-haul", "best-buy-receipt-headphones",
+  "cvs-pharmacy-receipt-essentials", "walgreens-receipt-pharmacy",
+  "chevron-receipt-gas", "caribou-coffee-receipt-mocha",
+  "ihop-receipt-pancakes", "mercadona-receipt-spain", "boots-receipt-uk",
+  "exxon-receipt-fuel", "mobil-receipt-gas", "city-garage-parking-receipt",
+  "greggs-receipt-uk", "microsoft-store-receipt",
+  "walgreens-receipt-photo-order", "sheetz-receipt-mto", "math-tutor-receipt",
+  "plumber-receipt-repair", "freelance-invoice-example", "car-wash-receipt",
+  "chick-fil-a-receipt-breakfast", "texas-roadhouse-receipt-family-pack",
+  "arbys-receipt-meat-mountain", "sonic-receipt-happy-hour",
+  "tim-hortons-receipt-timbits", "costco-receipt-monthly-stockup",
+  "meijer-receipt-grocery", "heb-receipt-texas-run", "wegmans-receipt-shop",
+  "sprouts-receipt-organic-haul", "apple-store-receipt-iphone",
+  "sephora-receipt-skincare", "planet-fitness-receipt-membership",
+  "florist-receipt-anniversary-bouquet", "dry-cleaning-receipt-suits",
+  "liquor-store-receipt-party", "catering-receipt-office-lunch",
+  "veterinary-receipt-annual-checkup", "childcare-receipt-monthly",
+  "food-truck-receipt-tacos", "bookstore-receipt-summer-reads",
+  "cleaning-receipt-move-out",
+]);
+
 /** When one example page was last reviewed. */
 export function exampleReviewedAt(slug: string): string {
   return newest(
@@ -520,6 +560,7 @@ export function exampleReviewedAt(slug: string): string {
     EXAMPLES_NOV16.has(slug) ? LINKS_NOV16_UPDATED : null,
     EXAMPLES_BRAND_LINKED.has(slug) ? EXAMPLES_BRAND_LINKED_UPDATED : null,
     slug === "kroger-receipt-weekly-groceries" ? EXAMPLE_TEMPLATE_TITLE_UPDATED : null,
+    EXAMPLES_DROPPED.has(slug) ? EXAMPLES_DROPPED_UPDATED : null,
   );
 }
 
