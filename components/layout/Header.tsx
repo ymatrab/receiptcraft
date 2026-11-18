@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type MouseEvent } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { SITE } from "@/lib/site";
 import { useAccount } from "@/lib/useAccount";
 import Wordmark from "./Wordmark";
@@ -23,16 +23,26 @@ const NAV_LINKS = [
 export default function Header() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
   const { account } = useAccount();
   // Carry the current page as `next` so logging in returns the user right back
   // here — on /create that means their autosaved draft is restored — instead of
   // dropping them on the profile page and losing their in-progress receipt.
   const loginNext =
     pathname && pathname.startsWith("/") && pathname !== "/login" ? pathname : "/create";
-  const accountHref = account.isLoggedIn
-    ? "/account"
-    : `/login?next=${encodeURIComponent(loginNext)}`;
+  // 2026-11-18: the href is a plain /login and `next` is added on click only.
+  // Writing /login?next=<path> into the HTML gave Googlebot one new login URL
+  // per page — 130 excluded URLs in Search Console. The robots Disallow and the
+  // noindex on the variants stay as they are.
+  const accountHref = account.isLoggedIn ? "/account" : "/login";
   const accountLabel = account.isLoggedIn ? "Account" : "Log in";
+  const goToLogin = (e: MouseEvent<HTMLAnchorElement>) => {
+    if (account.isLoggedIn) return;
+    // Let modified clicks (new tab, new window) open the plain /login.
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+    e.preventDefault();
+    router.push(`/login?next=${encodeURIComponent(loginNext)}`);
+  };
 
   // A nav link is active on its page and its children (/templates/taxi → Templates).
   const isActive = (href: string) =>
@@ -66,14 +76,7 @@ export default function Header() {
           ))}
           <Link
             href={accountHref}
-            // The logged-out link is /login?next=<current-path>, so this link
-            // alone spawns a unique URL on every page. nofollow only *hints*
-            // that Google should not follow it — it has not been a directive
-            // since 2019, and Search Console caught five of these crawled on
-            // 26–27 Aug 2026. What actually stops the crawl is the
-            // `Disallow: /login?` rule in app/robots.ts; this stays as a
-            // secondary signal for crawlers that still honour it.
-            rel={account.isLoggedIn ? undefined : "nofollow"}
+            onClick={goToLogin}
             className="text-sm font-medium text-slate-600 transition-colors hover:text-slate-900"
           >
             {accountLabel}
@@ -120,8 +123,10 @@ export default function Header() {
           ))}
           <Link
             href={accountHref}
-            onClick={() => setOpen(false)}
-            rel={account.isLoggedIn ? undefined : "nofollow"}
+            onClick={(e) => {
+              setOpen(false);
+              goToLogin(e);
+            }}
             className="block rounded-lg px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50"
           >
             {accountLabel}

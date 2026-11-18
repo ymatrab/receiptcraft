@@ -918,7 +918,17 @@ const TEMPLATES_NEW_NEIGHBOURS: ReadonlySet<string> = new Set([
 ]);
 const TEMPLATES_NEW_NEIGHBOURS_UPDATED = "2026-11-16";
 
+// 2026-11-18: titles and H1s lead with "[Category] Receipt Template" on the
+// templates sitting at positions 7–12, the intro states the watermark and the
+// pass, and restaurant gained a format section with a filled sample (and a
+// sample tax fix: it was 8% in Oregon, which has no sales tax).
+const TEMPLATES_CATEGORY_TITLES: ReadonlySet<string> = new Set([
+  "grocery-store", "clothing-store-receipt", "childcare-receipt", "bar", "hardware-store-receipt", "restaurant",
+]);
+const TEMPLATES_CATEGORY_TITLES_UPDATED = "2026-11-18";
+
 export function templateReviewedAt(t: ReceiptTemplate): string {
+  if (TEMPLATES_CATEGORY_TITLES.has(t.slug)) return TEMPLATES_CATEGORY_TITLES_UPDATED;
   if (TEMPLATES_SELL_PAGES.has(t.slug)) return TEMPLATES_SELL_PAGES_UPDATED;
   if (TEMPLATES_NEW_NEIGHBOURS.has(t.slug)) return TEMPLATES_NEW_NEIGHBOURS_UPDATED;
   if (TEMPLATES_META_WATERMARK.has(t.slug)) return META_WATERMARK_UPDATED;

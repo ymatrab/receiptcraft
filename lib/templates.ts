@@ -60,12 +60,13 @@ export const TEMPLATES: ReceiptTemplate[] = [
     name: "Grocery Store Receipt",
     shortName: "Grocery",
     icon: "🛒",
-    seoTitle: "Free Grocery Store Receipt Generator — Create & Download PDF",
+    // 2026-11-18: "grocery receipt" first — the page ranks ~12 for it.
+    seoTitle: "Grocery Receipt Template — Grocery Store Receipt Generator",
     seoDescription:
-      "Make an editable grocery store receipt online in seconds. Add items, prices, tax and store details, then download as PDF or PNG. Free, no sign-up needed.",
-    heading: "Grocery Store Receipt Generator",
+      `Make a grocery receipt online with items, weighed produce, coupons and sales tax. Watermarked PDF or PNG is free; a pass from ${PRO_FROM} removes it.`,
+    heading: "Grocery Receipt Template & Generator",
     intro:
-      "Create an editable supermarket or grocery store receipt with itemized products, weighed produce, coupons, sales tax and payment details. Use it for expense reports, shared-household and office-supply reimbursements, and bookkeeping records.",
+      `Create an editable supermarket or grocery store receipt with itemized products, weighed produce, coupons, sales tax and payment details. Use it for expense reports, shared-household and office-supply reimbursements, and bookkeeping records. Fill it in on the editor; the PDF or PNG download is free with a small watermark, and a pass from ${PRO_FROM} removes it.`,
     // 2026-11-03: deepened (Notion "Get the 7 templates closest to page 1 into
     // the top 10"): field list, weighed-item maths, taxable vs exempt lines.
     leadAnswer:
@@ -190,10 +191,10 @@ export const TEMPLATES: ReceiptTemplate[] = [
     // "restaurant receipt"; the title and H1 now name the template.
     seoTitle: "Restaurant Receipt Template & Generator — Itemized Bill with Tip",
     seoDescription:
-      "Generate an itemized restaurant receipt with food items, tax and tip. Download instantly as PDF or PNG. Free restaurant bill maker, no sign-up needed.",
+      `Make an itemized restaurant receipt with dishes, drinks, tax, tip, server and table. Watermarked PDF or PNG is free; a pass from ${PRO_FROM} removes it.`,
     heading: "Restaurant Receipt Template & Generator",
     intro:
-      "Build an itemized restaurant bill with dishes, drinks, sales tax, tip and payment method. Ideal for business meal expense claims, per-diem documentation and replacing lost dinner receipts.",
+      `Build an itemized restaurant bill with dishes, drinks, sales tax, tip and payment method. Ideal for business meal expense claims, per-diem documentation and replacing lost dinner receipts. Fill it in on the editor; the PDF or PNG download is free with a small watermark, and a pass from ${PRO_FROM} removes it.`,
     leadAnswer:
       "A restaurant receipt shows the restaurant's name and location, the server and table or check number, each dish and drink with its price, the food subtotal, sales tax, an optional tip or service charge, and the final total with the payment method. Large parties often see an automatic gratuity added as its own line.",
     useCases: [
@@ -240,13 +241,25 @@ export const TEMPLATES: ReceiptTemplate[] = [
       },
     ],
     howToSteps: [
-      "Open the Restaurant template — it loads with dishes, an 8% sales tax and a sample tip already filled in.",
+      "Open the Restaurant template — it loads with dishes, an 8.25% sales tax and a sample tip already filled in.",
       "Set the restaurant name, address and phone; put the server's name in the cashier field and the table number in the register field.",
       "Add each dish and drink as its own line with quantity and price — the subtotal updates as you type.",
       "Set your local sales-tax rate, then enter the tip (or an auto-gratuity amount for a large party).",
       `Download a print-ready PDF or high-resolution PNG with no account — free with a small watermark, or watermark-free with Pro from ${PRO_FROM}.`,
     ],
     guidance: [
+      // 2026-11-18: "restaurant receipt format" and "sample restaurant receipt"
+      // are this page's; the sample below is the template's own defaults, with
+      // the totals worked from them (72.20 × 8.25% = 5.96).
+      {
+        heading: "Restaurant receipt format, with a filled sample",
+        body:
+          "A restaurant receipt follows the same order on almost every till: the header, the check details, one line per item, the totals and the payment. This is the sample the template opens with.\n\n" +
+          "Header: Congress Avenue Bistro, 88 Congress Avenue, Austin, TX 78701, (512) 555-0192. Check details: the date and time, Server: Sarah M., Table 12.\n\n" +
+          "Items: Grilled Salmon $24.95 · Caesar Salad $11.50 · Pasta Carbonara $18.75 · House Red Wine (Glass) 2 × $8.50 = $17.00.\n\n" +
+          "Totals: Subtotal $72.20 · Sales Tax (8.25%) $5.96 · Tip $9.50 · Total $87.66. The payment line follows: cash with the change given, or the card type and its last four digits.\n\n" +
+          "Tax is worked out on the food-and-drink subtotal and the tip comes after it, so the order never changes: subtotal, tax, tip, total. Change any line in the editor above and the totals recalculate.",
+      },
       {
         heading: "Tip vs. service charge — keep them separate",
         body:
@@ -297,12 +310,14 @@ export const TEMPLATES: ReceiptTemplate[] = [
     ],
     sources: ["irs-rr-2012-18", "irs-pub-531", "irs-pub-463"],
     defaults: {
-      businessName: "Harbor Street Bistro",
-      addressLine1: "88 Harbor Street",
-      addressLine2: "Portland, OR 97201",
-      phone: "(503) 555-0192",
+      // 2026-11-18: was Portland, OR at 8% — Oregon has no sales tax. Austin's
+      // combined rate (6.25% state + 2% local) applies to restaurant meals.
+      businessName: "Congress Avenue Bistro",
+      addressLine1: "88 Congress Avenue",
+      addressLine2: "Austin, TX 78701",
+      phone: "(512) 555-0192",
       taxLabel: "Sales Tax",
-      taxRate: 8.0,
+      taxRate: 8.25,
       tip: 9.5,
       cashier: "Sarah M.",
       register: "Table 12",
@@ -820,12 +835,13 @@ export const TEMPLATES: ReceiptTemplate[] = [
     name: "Bar & Pub Receipt",
     shortName: "Bar",
     icon: "🍺",
-    seoTitle: "Free Bar Receipt Generator — Pub Tab Receipt Maker",
+    // 2026-11-18: "bar receipt" first — the page ranks ~7 for it.
+    seoTitle: "Bar Receipt Template — Pub & Bar Tab Receipt Generator",
     seoDescription:
-      "Create a bar tab receipt with drinks, tax and tip. Free bar receipt maker with live preview — download as PDF or PNG with no sign-up.",
-    heading: "Bar & Pub Receipt Generator",
+      `Make a bar tab receipt with drinks, tax and tip, with a live preview. Watermarked PDF or PNG is free; a pass from ${PRO_FROM} removes it.`,
+    heading: "Bar Receipt Template: Pub & Bar Tab Receipts",
     intro:
-      "Recreate a bar tab with drinks, appetizers, tax and gratuity. Useful for client entertainment expense claims and team outing reimbursements.",
+      `Recreate a bar tab with drinks, appetizers, tax and gratuity. Useful for client entertainment expense claims and team outing reimbursements. Fill it in on the editor; the PDF or PNG download is free with a small watermark, and a pass from ${PRO_FROM} removes it.`,
     useCases: [
       "Client entertainment expense claims",
       "Team outing reimbursements",
@@ -3738,12 +3754,13 @@ export const TEMPLATES: ReceiptTemplate[] = [
     name: "Childcare Receipt",
     shortName: "Childcare",
     icon: "👶",
-    seoTitle: "Daycare & Childcare Receipt Generator — Free Receipt Maker",
+    // 2026-11-18: "childcare receipt" first — the page ranks ~11 for it.
+    seoTitle: "Childcare Receipt Template — Daycare Receipt Generator",
     seoDescription:
-      "Create a daycare, childcare or babysitting receipt with dates, hours and rate. Free receipt maker for FSA claims and tax credits — watermarked PDF & PNG.",
-    heading: "Daycare & Childcare Receipt Generator",
+      `Create a childcare, daycare or babysitting receipt with dates, hours and rate. Watermarked PDF or PNG is free; a pass from ${PRO_FROM} removes it.`,
+    heading: "Childcare Receipt Template for Daycare & Babysitting",
     intro:
-      "Create a childcare or babysitting receipt showing the provider, dates, hours and rate. Parents use it for childcare tax credits and employer benefits; providers use it to give families a professional record.",
+      `Create a childcare or babysitting receipt showing the provider, dates, hours and rate. Parents use it for childcare tax credits and employer benefits; providers use it to give families a professional record. Fill it in on the editor; the PDF or PNG download is free with a small watermark, and a pass from ${PRO_FROM} removes it.`,
     // 2026-11-03: deepened (Notion "Get the 7 templates closest to page 1 into
     // the top 10") around IRS Pub 503's provider identification test. Citing
     // it replaces the Pub 463 business-expense figure, which never fitted
@@ -4042,12 +4059,13 @@ export const TEMPLATES: ReceiptTemplate[] = [
     name: "Clothing Store Receipt",
     shortName: "Clothing",
     icon: "👕",
-    seoTitle: "Free Clothing Store Receipt Generator — Apparel Receipts",
+    // 2026-11-18: "clothing receipt" first — the page ranks ~10 for it.
+    seoTitle: "Clothing Receipt Template — Clothing Store Receipt Generator",
     seoDescription:
-      "Make an editable clothing or apparel store receipt with items, sizes, sales tax and payment details. Download as PDF or PNG. Free, no sign-up needed.",
-    heading: "Clothing Store Receipt Generator",
+      `Make a clothing store receipt with items, sizes, markdowns and sales tax. Watermarked PDF or PNG is free; a pass from ${PRO_FROM} removes it.`,
+    heading: "Clothing Receipt Template & Generator",
     intro:
-      "Create an editable clothing or fashion retail receipt with apparel items, sizes, markdowns and sales tax. Useful for a boutique's own sales, expense reports, bookkeeping or props.",
+      `Create an editable clothing or fashion retail receipt with apparel items, sizes, markdowns and sales tax. Useful for a boutique's own sales, expense reports and bookkeeping. Fill it in on the editor; the PDF or PNG download is free with a small watermark, and a pass from ${PRO_FROM} removes it.`,
     // 2026-11-03: deepened (Notion "Get the 7 templates closest to page 1 into
     // the top 10"): garment lines, markdowns before tax, clothing-exempt states.
     leadAnswer:
@@ -4183,12 +4201,13 @@ export const TEMPLATES: ReceiptTemplate[] = [
     name: "Hardware Store Receipt",
     shortName: "Hardware",
     icon: "🔨",
-    seoTitle: "Free Hardware Store Receipt Generator — Tools & Supplies",
+    // 2026-11-18: "hardware receipt" first — the page ranks ~9 for it.
+    seoTitle: "Hardware Receipt Template — Hardware Store Receipt Generator",
     seoDescription:
-      "Make an editable hardware store receipt with tools, lumber, paint and supplies plus tax. Download as PDF or PNG. Free hardware receipt maker, no sign-up needed.",
-    heading: "Hardware Store Receipt Generator",
+      `Make a hardware store receipt with tools, lumber, paint and supplies plus tax. Watermarked PDF or PNG is free; a pass from ${PRO_FROM} removes it.`,
+    heading: "Hardware Receipt Template & Generator",
     intro:
-      "Create an editable hardware or home-improvement store receipt with tools, building materials, paint and supplies. Great for contractor expense tracking, reimbursements, job costing or props.",
+      `Create an editable hardware or home-improvement store receipt with tools, building materials, paint and supplies. Great for contractor expense tracking, reimbursements and job costing. Fill it in on the editor; the PDF or PNG download is free with a small watermark, and a pass from ${PRO_FROM} removes it.`,
     useCases: [
       "Job-costing and contractor expense records",
       "Reimbursement for materials on a project",
