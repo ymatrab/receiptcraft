@@ -377,12 +377,14 @@ export const TEMPLATES: ReceiptTemplate[] = [
     name: "Gas Station Receipt",
     shortName: "Gas",
     icon: "⛽",
-    seoTitle: "Free Gas Station Receipt Generator — Fuel Receipt Maker",
+    // 2026-11-19: "Gas Station Receipt Template" first — the page sits at ~10.8
+    // with 1,090 impressions and 7 clicks in 28 days.
+    seoTitle: "Gas Station Receipt Template — Fuel & Gas Receipt Generator",
     seoDescription:
-      "Generate a gas station fuel receipt with gallons, price per gallon and pump number. Free watermarked PDF & PNG for mileage and fuel expense claims.",
-    heading: "Gas Station & Fuel Receipt Generator",
+      `Make a gas station receipt with gallons, price per gallon and pump number. Watermarked PDF or PNG is free; a pass from ${PRO_FROM} removes it.`,
+    heading: "Gas Station Receipt Template & Fuel Receipt Generator",
     intro:
-      "Create a gas station receipt that shows the station, the pump number, the fuel grade, the gallons pumped, the price per gallon and the fuel total, worked out as gallons times price. Use it for mileage and fuel expense records, fleet logs and company-card reconciliation.",
+      `Create a gas station receipt that shows the station, the pump number, the fuel grade, the gallons pumped, the price per gallon and the fuel total, worked out as gallons times price. Use it for mileage and fuel expense records, fleet logs and company-card reconciliation. Fill it in on the editor; the PDF or PNG download is free with a small watermark, and a pass from ${PRO_FROM} removes it.`,
     // 2026-10-19: deepened against makereceipt and makemyreceipt (SEO.md §6):
     // field list, the gallons × price maths, a how-to and a uses list. The
     // "pump didn't print my receipt" FAQ was retrieval intent and is gone.
@@ -4352,12 +4354,14 @@ export const TEMPLATES: ReceiptTemplate[] = [
     name: "Airline Ticket Receipt",
     shortName: "Airline",
     icon: "✈️",
-    seoTitle: "Free Airline Receipt Generator — Flight Ticket Receipts",
+    // 2026-11-19: "Airline Receipt Template" first — the page sits at ~8.3
+    // with 714 impressions in 28 days ("airline receipt", "airline ticket receipt").
+    seoTitle: "Airline Receipt Template — Flight Ticket Receipt Generator",
     seoDescription:
-      "Make an editable airline receipt with fare, taxes, baggage and seat fees. Download as PDF or PNG. Free flight receipt maker, no sign-up needed.",
-    heading: "Airline Ticket Receipt Generator",
+      `Make an airline ticket receipt with fare, taxes, baggage and seat fees. Watermarked PDF or PNG is free; a pass from ${PRO_FROM} removes it.`,
+    heading: "Airline Ticket Receipt Template & Generator",
     intro:
-      "Create an editable airline or flight ticket receipt with base fare, taxes, baggage, seat selection and booking fees. Perfect for travel expense reports and reimbursement.",
+      `Create an editable airline or flight ticket receipt with base fare, taxes, baggage, seat selection and booking fees. Perfect for travel expense reports and reimbursement. Fill it in on the editor; the PDF or PNG download is free with a small watermark, and a pass from ${PRO_FROM} removes it.`,
     useCases: [
       "Business travel expense reimbursement",
       "Proof of purchase for a flight you booked",
