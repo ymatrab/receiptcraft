@@ -733,8 +733,10 @@ export const analytics = {
     track("download_click", { format, state }),
   // The export itself threw — the file never left. Without this a paid buyer
   // whose download failed looks the same as one who never pressed the button.
-  downloadFailed: (format: string, pro: boolean) =>
-    track("download_failed", { format, pro }),
+  // `reason` (2026-11-18): the error's name and message, so the next failure
+  // can be diagnosed instead of guessed at.
+  downloadFailed: (format: string, pro: boolean, reason?: string) =>
+    track("download_failed", { format, pro, reason }),
 
   // ---- reviews ----
   // The post-download review card. shown/clicked/dismissed together give the

@@ -268,20 +268,35 @@ export default async function BlogPostPage({
   // The one contextual link up to the page that owns this post's subject (see
   // hubForPost). Same placement as the builder offer: after the lead, so the
   // article answers first. Posts too short to split get it after the body.
-  const hub = offerBody ? null : hubForPost(slug);
+  //
+  // 2026-11-18: a post with no owner page now hands off to the template
+  // library instead of nothing — every page has a next step to a sell page
+  // (strategy rule 3). /templates, not /create, which already has 1,600+ links.
+  const ownHub = offerBody ? null : hubForPost(slug);
+  const hub = offerBody ? null : ownHub ?? { href: "/templates", label: "receipt templates" };
   const hubSplit = hub && bodyBlocks.length > OFFER_AFTER_BLOCKS ? OFFER_AFTER_BLOCKS : bodyBlocks.length;
+  const hubLink = hub && (
+    <Link
+      href={hub.href}
+      className="font-medium text-indigo-700 underline decoration-indigo-300 underline-offset-2 hover:decoration-indigo-700"
+    >
+      {hub.label}
+    </Link>
+  );
   const hubAside = hub && (
     <aside className="not-prose my-8 rounded-2xl border border-indigo-200 bg-indigo-50/60 px-5 py-4">
-      <p className="leading-relaxed text-slate-700">
-        <strong className="font-semibold text-slate-900">Making one?</strong> Start from the{" "}
-        <Link
-          href={hub.href}
-          className="font-medium text-indigo-700 underline decoration-indigo-300 underline-offset-2 hover:decoration-indigo-700"
-        >
-          {hub.label}
-        </Link>
-        : the fields this guide covers are already laid out, and it is free to build and preview.
-      </p>
+      {ownHub ? (
+        <p className="leading-relaxed text-slate-700">
+          <strong className="font-semibold text-slate-900">Making one?</strong> Start from the{" "}
+          {hubLink}: the fields this guide covers are already laid out, and it is free to build and preview.
+        </p>
+      ) : (
+        <p className="leading-relaxed text-slate-700">
+          <strong className="font-semibold text-slate-900">Need to make a receipt?</strong> Pick one of the{" "}
+          {hubLink}: fill in the details and watch it build. Building and previewing are free; the free
+          download carries a small watermark.
+        </p>
+      )}
     </aside>
   );
   const faqJsonLd =

@@ -273,6 +273,18 @@ const HUB_FOR_POST: Readonly<Record<string, string>> = {
   // Nov 24) hand their readers to the new fillable templates.
   "missing-receipt-affidavit": "missing-receipt-form",
   "statement-of-account": "billing-statement",
+  // 2026-11-18: the blog posts with the most landings had no hand-off at all
+  // (GA4 Oct 21–Nov 17: 15 of the top 30 blog landings, 60% of their sessions;
+  // 4.6% of blog landings opened the builder against 21% on /receipt-help).
+  // Each goes to the template that makes the document the post is about.
+  "are-receipts-legally-required": "sales-receipt",
+  "prove-purchase-without-receipt": "proof-of-purchase",
+  "dependent-care-fsa-receipt": "childcare-receipt",
+  "how-to-replace-a-lost-receipt": "missing-receipt-form",
+  "lost-receipt-expense-report": "missing-receipt-form",
+  "amount-tendered-meaning": "cash-receipt",
+  "aid-tvr-tsi-on-emv-receipt": "itemized-receipt",
+  "receipt-number-vs-order-number-vs-authorization-code": "itemized-receipt",
 };
 
 const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");

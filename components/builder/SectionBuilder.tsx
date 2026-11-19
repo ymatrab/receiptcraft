@@ -48,7 +48,7 @@ import { CURRENCIES, formatMoney, nowHHMM, randomReceiptNumber, todayISO, uid } 
 import type { ReceiptData } from "@/lib/types";
 import { SITE } from "@/lib/site";
 import { receiptFromAi, type AiReceiptResult } from "@/lib/ai-receipt";
-import { downloadPng, downloadJpg, downloadPdf, exportFilename } from "@/lib/download";
+import { downloadPng, downloadJpg, downloadPdf, exportFilename, exportErrorReason } from "@/lib/download";
 import { analytics, eventIdentity } from "@/lib/analytics";
 import ReviewPrompt, { reviewAlreadyAsked } from "./ReviewPrompt";
 import { useAccount } from "@/lib/useAccount";
@@ -59,6 +59,20 @@ import Link from "next/link";
 import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
 import Watermark from "@/components/receipt/Watermark";
 import AddSectionModal from "./AddSectionModal";
+
+/** Brand templates offered as one-click starts on /create (slugs as in lib/brands.ts). */
+const POPULAR_STORES: ReadonlyArray<{ slug: string; name: string }> = [
+  { slug: "amazon", name: "Amazon" },
+  { slug: "walmart", name: "Walmart" },
+  { slug: "paypal", name: "PayPal" },
+  { slug: "target", name: "Target" },
+  { slug: "home-depot", name: "Home Depot" },
+  { slug: "mcdonalds", name: "McDonald's" },
+  { slug: "starbucks", name: "Starbucks" },
+  { slug: "uber", name: "Uber" },
+  { slug: "cvs-pharmacy", name: "CVS" },
+  { slug: "costco", name: "Costco" },
+];
 import Modal from "@/components/Modal";
 import {
   ArrowDownIcon,
@@ -671,8 +685,9 @@ export default function SectionBuilder() {
       ) {
         setShowReview(true);
       }
-    } catch {
-      analytics.downloadFailed(kind === "pdf-print" ? "pdf" : kind, account.isPro);
+    } catch (err) {
+      console.error("Receipt export failed", err);
+      analytics.downloadFailed(kind === "pdf-print" ? "pdf" : kind, account.isPro, exportErrorReason(err));
       notify("error", "The download failed. Your receipt is safe — press Download to try again.");
     } finally {
       setExporting(null);
@@ -1315,8 +1330,36 @@ export default function SectionBuilder() {
         )}
       </div>
 
-      {/* Start-from-scratch presets */}
+      {/* Start from a real store's layout. 2026-11-18: visitors who land on
+          /create reached Download 4% of the time (GA4 Oct 21–Nov 17) against
+          19% for visitors who arrive on a brand page's filled receipt — the
+          generic sample and type presets give them less to start from. These
+          are the brands with the most purchases and clicks; each loads the
+          same template its /brands page opens. */}
       <div className="flex flex-wrap items-center gap-2 pt-4">
+        <span className="text-xs font-medium text-slate-500">Start from a store:</span>
+        {POPULAR_STORES.map((b) => (
+          <button
+            key={b.slug}
+            type="button"
+            onClick={() => applyTemplate(b.slug)}
+            aria-pressed={activeTemplate === b.slug}
+            className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-colors ${
+              activeTemplate === b.slug
+                ? "border-indigo-400 bg-indigo-50 text-indigo-700"
+                : "border-slate-200 bg-white text-slate-600 hover:border-indigo-300 hover:text-indigo-700"
+            }`}
+          >
+            {b.name}
+          </button>
+        ))}
+        <Link href="/brands" className="text-xs font-semibold text-indigo-600 hover:text-indigo-700">
+          All stores →
+        </Link>
+      </div>
+
+      {/* Start-from-scratch presets */}
+      <div className="flex flex-wrap items-center gap-2 pt-2">
         <span className="text-xs font-medium text-slate-500">Receipt type:</span>
         {PRESETS.map((p) => (
           <button

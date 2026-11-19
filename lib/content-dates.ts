@@ -615,7 +615,8 @@ export const POLICY_UPDATED = "2026-08-31";
 // needed to download or that the first download is watermark-free.
 // 2026-11-16: title and H1 become "Free Receipt Maker & Generator" so the page
 // names both head terms it owns.
-export const CREATE_UPDATED = "2026-11-16";
+// 2026-11-19: the builder gains a "Start from a store" row of brand templates.
+export const CREATE_UPDATED = "2026-11-19";
 // 2026-10-13: lists the first-party measurement storage (mkc_* keys).
 // 2026-10-20: analytics section split by region — opt-in in the EEA/UK/CH,
 // on by default with Decline as the opt-out everywhere else.
@@ -927,7 +928,12 @@ const TEMPLATES_CATEGORY_TITLES: ReadonlySet<string> = new Set([
 ]);
 const TEMPLATES_CATEGORY_TITLES_UPDATED = "2026-11-18";
 
+// 2026-11-19: same pass for gas station and airline (title, H1, intro, meta).
+const TEMPLATES_CATEGORY_TITLES_2: ReadonlySet<string> = new Set(["gas-station", "airline-receipt"]);
+const TEMPLATES_CATEGORY_TITLES_2_UPDATED = "2026-11-19";
+
 export function templateReviewedAt(t: ReceiptTemplate): string {
+  if (TEMPLATES_CATEGORY_TITLES_2.has(t.slug)) return TEMPLATES_CATEGORY_TITLES_2_UPDATED;
   if (TEMPLATES_CATEGORY_TITLES.has(t.slug)) return TEMPLATES_CATEGORY_TITLES_UPDATED;
   if (TEMPLATES_SELL_PAGES.has(t.slug)) return TEMPLATES_SELL_PAGES_UPDATED;
   if (TEMPLATES_NEW_NEIGHBOURS.has(t.slug)) return TEMPLATES_NEW_NEIGHBOURS_UPDATED;
