@@ -757,9 +757,10 @@ export const analytics = {
   offerBarShown: (location: string) => track("offer_bar_shown", { location }),
   offerBarClick: (location: string) => track("offer_bar_click", { location }),
   offerBarDismissed: (location: string) => track("offer_bar_dismissed", { location }),
-  // Phone builder: the Preview tab was opened. `via` is "tab" (the Preview
-  // tab) or "download_bar" (the bar's Download button).
-  builderPreview: (via: "tab" | "download_bar") => track("builder_preview", { via }),
+  // Phone builder: the preview was opened. `via` is "tab" (the bar's
+  // Preview button), "peek" (Full receipt on the receipt above the form) or
+  // "download_bar" (the bar's Download button).
+  builderPreview: (via: "tab" | "peek" | "download_bar") => track("builder_preview", { via }),
   // Once per builder page view, when it is first hidden or left. Most people
   // who open the builder and never edit send nothing else, so without this
   // row a two-second bounce and a two-minute look read the same.

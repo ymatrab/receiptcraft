@@ -46,7 +46,7 @@ const BUILDER_FAQS: Faq[] = [
   {
     question: "Can I make a receipt on my phone?",
     answer:
-      "Yes. The receipt maker runs in a phone browser with nothing to install. On a small screen, a bar at the bottom switches between editing the fields and previewing the receipt, and the preview shows the running total.",
+      "Yes. The receipt maker runs in a phone browser with nothing to install. On a small screen the receipt shows above the fields as you edit, and a bar at the bottom opens the full preview, with the running total, and the download.",
   },
 ];
 
@@ -132,18 +132,26 @@ export default function CreatePage() {
         <h1 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
           Free Receipt Maker &amp; Generator
         </h1>
-        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-slate-600">
-          A receipt maker is an online tool that turns the details of a sale —
-          seller, items, prices, tax and payment — into a finished receipt you
-          can download, print or attach to an expense claim. This is{" "}
-          {SITE.name}&apos;s free receipt maker and generator — build your
-          receipt section by section with a live preview, free and no sign-up to
-          start. Pick any template or start from scratch, edit every field, then
-          download as a PDF or PNG with no account. Free downloads carry a small
-          watermark; Pro removes it from {formatPlanPrice(PLANS.pro_weekly)}.
-        </p>
       </div>
-      <SectionBuilder />
+      {/* Phones show the intro after the builder (order-last), so the first
+          screen is the tool and the receipt, as on the competitors' builders;
+          desktop keeps it under the heading. Same text, same place in the
+          HTML, so nothing changes for search. */}
+      <div className="flex flex-col lg:block">
+        <div className="order-last mx-auto w-full max-w-7xl px-4 pt-6 sm:px-6 lg:order-none lg:px-8 lg:pt-0">
+          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-slate-600">
+            A receipt maker is an online tool that turns the details of a sale —
+            seller, items, prices, tax and payment — into a finished receipt you
+            can download, print or attach to an expense claim. This is{" "}
+            {SITE.name}&apos;s free receipt maker and generator — build your
+            receipt section by section with a live preview, free and no sign-up to
+            start. Pick any template or start from scratch, edit every field, then
+            download as a PDF or PNG with no account. Free downloads carry a small
+            watermark; Pro removes it from {formatPlanPrice(PLANS.pro_weekly)}.
+          </p>
+        </div>
+        <SectionBuilder />
+      </div>
 
       <section className="mx-auto mt-16 max-w-3xl px-4 pb-16 sm:px-6 lg:px-8">
         <ReceiptMakerGuide />

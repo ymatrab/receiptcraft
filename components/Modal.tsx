@@ -12,6 +12,8 @@ interface ModalProps {
   /** id of the caller's visible heading — becomes the dialog's accessible name. */
   labelledBy: string;
   panelClassName?: string;
+  /** Below `sm`, sit at the bottom of the screen as a sheet instead of in the middle. */
+  sheet?: boolean;
   children: ReactNode;
 }
 
@@ -24,7 +26,7 @@ interface ModalProps {
  * role, no Escape, no trap — so keyboard users tabbed straight through to the
  * page behind the scrim and screen readers never announced a dialog at all.
  */
-export default function Modal({ onClose, labelledBy, panelClassName = "", children }: ModalProps) {
+export default function Modal({ onClose, labelledBy, panelClassName = "", sheet = false, children }: ModalProps) {
   const panelRef = useRef<HTMLDivElement>(null);
   // Remember what had focus so it can be handed back on close — otherwise
   // focus falls to the top of the document and keyboard users lose their place.
@@ -71,7 +73,9 @@ export default function Modal({ onClose, labelledBy, panelClassName = "", childr
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 p-4"
+      className={`fixed inset-0 z-50 flex justify-center bg-slate-900/50 ${
+        sheet ? "items-end sm:items-center sm:p-4" : "items-center p-4"
+      }`}
       // mouseDown rather than click: a click handler also fires when a drag
       // that *started* inside the panel ends on the backdrop, closing the
       // dialog on what the user experienced as a text selection.

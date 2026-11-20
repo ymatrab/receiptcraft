@@ -84,7 +84,6 @@ import {
   CloseIcon,
   GripIcon,
   SpinnerIcon,
-  TagIcon,
   WarningIcon,
 } from "@/components/Icons";
 import {
@@ -281,6 +280,8 @@ export default function SectionBuilder() {
   /** Set by the phone bar's Download button: scroll to the download buttons once the preview shows. */
   const [scrollToDownload, setScrollToDownload] = useState(false);
   const downloadRowsRef = useRef<HTMLDivElement>(null);
+  /** Phones: the layout picker (stores, receipt types, templates) as a bottom sheet. */
+  const [pickerOpen, setPickerOpen] = useState(false);
   // For the builder_left summary row (see the effect that sends it).
   const openedAtRef = useRef(0);
   const downloadClickedRef = useRef(false);
@@ -1295,6 +1296,155 @@ export default function SectionBuilder() {
     downloadRowsRef.current?.scrollIntoView({ block: "end", behavior: "smooth" });
   }, [scrollToDownload, mobileTab]);
 
+  // Phones: open the full preview (the Preview tab).
+  const openPreview = (via: "tab" | "peek") => {
+    if (mobileTab !== "preview") analytics.builderPreview(via);
+    setMobileTab("preview");
+    window.scrollTo({ top: 0 });
+  };
+
+  // Phones: the bar's Download. Free visitors get the download sheet (format,
+  // then $3 or watermarked) straight away; the preview is shown underneath
+  // first because the export captures it, and a hidden element captures
+  // blank. Pro has no sheet to show, so it lands on the format buttons.
+  const openDownload = () => {
+    if (mobileTab !== "preview") analytics.builderPreview("download_bar");
+    if (account.isPro) {
+      setMobileTab("preview");
+      setScrollToDownload(true);
+      return;
+    }
+    flushSync(() => setMobileTab("preview"));
+    void requestExport("png");
+  };
+
+  const paperWidth = doc.settings.widthPx || 380;
+  const itemCount = doc.sections.reduce((n, s) => (s.type === "items" ? n + s.items.length : n), 0);
+
+  // Phones: the receipt itself, above the form. A visitor who came from a
+  // store page came for that store's receipt; until now it sat behind the
+  // Preview tab and the first screen was chips and a settings box. Shown
+  // part-way, with the full view one tap off.
+  const peek = (
+    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200/70 p-3 lg:hidden">
+      <div className="max-h-[300px] overflow-hidden">
+        <div className="relative mx-auto w-fit" style={{ zoom: Math.min(1, 300 / paperWidth) }}>
+          <ReceiptDocPaper doc={doc} />
+          {previewWatermark && <Watermark />}
+        </div>
+      </div>
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-slate-200 to-transparent" />
+      <button
+        type="button"
+        onClick={() => openPreview("peek")}
+        className="absolute bottom-4 left-1/2 min-h-11 -translate-x-1/2 rounded-full bg-white px-4 text-xs font-semibold text-slate-700 shadow"
+      >
+        ⤢ Full receipt
+      </button>
+    </div>
+  );
+
+  // Every layout picker: stores, receipt types, saved templates and the
+  // template strip. Inline on desktop; in a bottom sheet on phones.
+  const pickers = (
+    <>
+      {/* Start from a real store's layout. 2026-11-18: visitors who land on
+          /create reached Download 4% of the time (GA4 Oct 21–Nov 17) against
+          19% for visitors who arrive on a brand page's filled receipt — the
+          generic sample and type presets give them less to start from. These
+          are the brands with the most purchases and clicks; each loads the
+          same template its /brands page opens. */}
+      <div className="flex flex-wrap items-center gap-2 pt-4">
+        <span className="text-xs font-medium text-slate-500">Start from a store:</span>
+        {POPULAR_STORES.map((b) => (
+          <button
+            key={b.slug}
+            type="button"
+            onClick={() => applyTemplate(b.slug)}
+            aria-pressed={activeTemplate === b.slug}
+            className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-colors ${
+              activeTemplate === b.slug
+                ? "border-indigo-400 bg-indigo-50 text-indigo-700"
+                : "border-slate-200 bg-white text-slate-600 hover:border-indigo-300 hover:text-indigo-700"
+            }`}
+          >
+            {b.name}
+          </button>
+        ))}
+        <Link href="/brands" className="text-xs font-semibold text-indigo-600 hover:text-indigo-700">
+          All stores →
+        </Link>
+      </div>
+
+      {/* Start-from-scratch presets */}
+      <div className="flex flex-wrap items-center gap-2 pt-2">
+        <span className="text-xs font-medium text-slate-500">Receipt type:</span>
+        {PRESETS.map((p) => (
+          <button
+            key={p.id}
+            type="button"
+            onClick={() => applyPreset(p.id)}
+            className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:border-indigo-300 hover:text-indigo-700"
+          >
+            {p.label}
+          </button>
+        ))}
+      </div>
+
+      {/* My saved templates (browser-local, no account needed) */}
+      {myTemplates.length > 0 && (
+        <div className="flex flex-wrap items-center gap-2 pt-2">
+          <span className="text-xs font-medium text-slate-500">★ My templates:</span>
+          {myTemplates.map((t) => (
+            <span
+              key={t.id}
+              className="group inline-flex items-center rounded-full border border-amber-200 bg-amber-50 pl-1 pr-0.5 text-xs font-medium text-amber-900"
+            >
+              <button
+                type="button"
+                onClick={() => loadMyTemplate(t)}
+                className="cursor-pointer rounded-full px-2 py-2.5 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-600"
+                title="Load this template"
+              >
+                {t.name}
+              </button>
+              <button
+                type="button"
+                onClick={() => removeMyTemplate(t.id)}
+                aria-label={`Delete template ${t.name}`}
+                className="flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full text-amber-700 transition-colors hover:bg-amber-100 hover:text-amber-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-600"
+              >
+                <CloseIcon className="h-3.5 w-3.5" />
+              </button>
+            </span>
+          ))}
+        </div>
+      )}
+
+      {/* Template quick-switch (core set; full list lives on /templates) */}
+      <div className="-mx-4 overflow-x-auto px-4 pb-4 pt-3 sm:mx-0 sm:px-0">
+        <div className="flex gap-2">
+          {BUILDER_TEMPLATE_CHIPS.map((t) => (
+            <button key={t.slug} type="button" onClick={() => applyTemplate(t.slug)} className={`flex shrink-0 items-center gap-1.5 rounded-full border px-4 py-2.5 text-sm font-medium transition-colors ${activeTemplate === t.slug ? "border-indigo-600 bg-indigo-600 text-white" : "border-slate-200 bg-white text-slate-600 hover:border-indigo-300"}`}>
+              <span aria-hidden="true">{t.icon}</span>
+              {t.shortName}
+            </button>
+          ))}
+          <Link href="/templates" className="flex shrink-0 items-center gap-1.5 rounded-full border border-dashed border-slate-300 px-4 py-2.5 text-sm font-medium text-slate-500 hover:border-indigo-300 hover:text-indigo-600">
+            All templates →
+          </Link>
+        </div>
+      </div>
+    </>
+  );
+
+  // What the phone's layout button calls the loaded layout.
+  const activeLayoutName =
+    activeBrandName ||
+    POPULAR_STORES.find((b) => b.slug === activeTemplate)?.name ||
+    BUILDER_TEMPLATE_CHIPS.find((t) => t.slug === activeTemplate)?.shortName ||
+    activeTemplate.replace(/-/g, " ").replace(/^./, (c) => c.toUpperCase());
+
   // The AI box. Above everything for a blank or homepage arrival; below the
   // form when the visitor arrived with a store's receipt already filled in
   // (see arrivedWithTemplate).
@@ -1413,95 +1563,50 @@ export default function SectionBuilder() {
   );
 
   return (
-    <div className="mx-auto max-w-7xl px-4 pb-32 pt-4 sm:px-6 lg:px-8 lg:pb-20">
+    // w-full: /create puts this in a flex column on phones, where mx-auto
+    // alone would shrink it to its content.
+    <div className="mx-auto w-full max-w-7xl px-4 pb-32 pt-4 sm:px-6 lg:px-8 lg:pb-20">
       {!arrivedWithTemplate && aiBox}
 
-      {/* Start from a real store's layout. 2026-11-18: visitors who land on
-          /create reached Download 4% of the time (GA4 Oct 21–Nov 17) against
-          19% for visitors who arrive on a brand page's filled receipt — the
-          generic sample and type presets give them less to start from. These
-          are the brands with the most purchases and clicks; each loads the
-          same template its /brands page opens. */}
-      <div className="flex flex-wrap items-center gap-2 pt-4">
-        <span className="text-xs font-medium text-slate-500">Start from a store:</span>
-        {POPULAR_STORES.map((b) => (
-          <button
-            key={b.slug}
-            type="button"
-            onClick={() => applyTemplate(b.slug)}
-            aria-pressed={activeTemplate === b.slug}
-            className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-colors ${
-              activeTemplate === b.slug
-                ? "border-indigo-400 bg-indigo-50 text-indigo-700"
-                : "border-slate-200 bg-white text-slate-600 hover:border-indigo-300 hover:text-indigo-700"
-            }`}
-          >
-            {b.name}
-          </button>
-        ))}
-        <Link href="/brands" className="text-xs font-semibold text-indigo-600 hover:text-indigo-700">
-          All stores →
-        </Link>
-      </div>
+      {/* Desktop: every layout picker inline, as before. */}
+      <div className="hidden lg:block">{pickers}</div>
 
-      {/* Start-from-scratch presets */}
-      <div className="flex flex-wrap items-center gap-2 pt-2">
-        <span className="text-xs font-medium text-slate-500">Receipt type:</span>
-        {PRESETS.map((p) => (
+      {/* Phones: one row instead of three blocks of chips. The 2026-11-20
+          phone screenshot from a Walmart link showed the heading, the intro
+          and three rows of chips before the first field; the competitors'
+          builders open on the form. A loaded store reads as one button; a
+          blank start keeps the popular stores in a single swipeable row. */}
+      <div className="pt-4 lg:hidden">
+        {activeTemplate ? (
           <button
-            key={p.id}
             type="button"
-            onClick={() => applyPreset(p.id)}
-            className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:border-indigo-300 hover:text-indigo-700"
+            onClick={() => setPickerOpen(true)}
+            className="flex min-h-11 w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-left text-sm shadow-sm"
           >
-            {p.label}
+            <span className="min-w-0 truncate font-semibold text-slate-800">{activeLayoutName} layout</span>
+            <span className="shrink-0 text-xs font-semibold text-indigo-600">Change ▾</span>
           </button>
-        ))}
-      </div>
-
-      {/* My saved templates (browser-local, no account needed) */}
-      {myTemplates.length > 0 && (
-        <div className="flex flex-wrap items-center gap-2 pt-2">
-          <span className="text-xs font-medium text-slate-500">★ My templates:</span>
-          {myTemplates.map((t) => (
-            <span
-              key={t.id}
-              className="group inline-flex items-center rounded-full border border-amber-200 bg-amber-50 pl-1 pr-0.5 text-xs font-medium text-amber-900"
+        ) : (
+          <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1">
+            {POPULAR_STORES.map((b) => (
+              <button
+                key={b.slug}
+                type="button"
+                onClick={() => applyTemplate(b.slug)}
+                className="shrink-0 rounded-full border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-600"
+              >
+                {b.name}
+              </button>
+            ))}
+            <button
+              type="button"
+              onClick={() => setPickerOpen(true)}
+              className="shrink-0 rounded-full border border-dashed border-indigo-300 px-3 py-2 text-xs font-semibold text-indigo-600"
             >
-              <button
-                type="button"
-                onClick={() => loadMyTemplate(t)}
-                className="cursor-pointer rounded-full px-2 py-2.5 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-600"
-                title="Load this template"
-              >
-                {t.name}
-              </button>
-              <button
-                type="button"
-                onClick={() => removeMyTemplate(t.id)}
-                aria-label={`Delete template ${t.name}`}
-                className="flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full text-amber-700 transition-colors hover:bg-amber-100 hover:text-amber-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-600"
-              >
-                <CloseIcon className="h-3.5 w-3.5" />
-              </button>
-            </span>
-          ))}
-        </div>
-      )}
-
-      {/* Template quick-switch (core set; full list lives on /templates) */}
-      <div className="-mx-4 overflow-x-auto px-4 pb-4 pt-3 sm:mx-0 sm:px-0">
-        <div className="flex gap-2">
-          {BUILDER_TEMPLATE_CHIPS.map((t) => (
-            <button key={t.slug} type="button" onClick={() => applyTemplate(t.slug)} className={`flex shrink-0 items-center gap-1.5 rounded-full border px-4 py-2.5 text-sm font-medium transition-colors ${activeTemplate === t.slug ? "border-indigo-600 bg-indigo-600 text-white" : "border-slate-200 bg-white text-slate-600 hover:border-indigo-300"}`}>
-              <span aria-hidden="true">{t.icon}</span>
-              {t.shortName}
+              More layouts
             </button>
-          ))}
-          <Link href="/templates" className="flex shrink-0 items-center gap-1.5 rounded-full border border-dashed border-slate-300 px-4 py-2.5 text-sm font-medium text-slate-500 hover:border-indigo-300 hover:text-indigo-600">
-            All templates →
-          </Link>
-        </div>
+          </div>
+        )}
       </div>
 
       {/* grid-cols-[minmax(0,1fr)] below lg, not the implicit column: an
@@ -1511,9 +1616,12 @@ export default function SectionBuilder() {
           visible screen (found 2026-11-20). */}
       <div className="grid grid-cols-[minmax(0,1fr)] gap-8 lg:grid-cols-[minmax(0,1fr)_440px]">
         {/* EDITOR */}
-        <div className={`space-y-4 ${mobileTab === "edit" ? "" : "hidden"} lg:block`}>
+        {/* On phones a flex column, so Settings (fonts, paper, currency) can
+            sit after the sections people actually change. */}
+        <div className={`${mobileTab === "edit" ? "flex flex-col gap-4" : "hidden"} lg:block lg:space-y-4`}>
+          {peek}
           {/* Settings */}
-          <div className="rounded-2xl border border-slate-200 bg-white shadow-sm">
+          <div className="order-last rounded-2xl border border-slate-200 bg-white shadow-sm lg:order-none">
             <button type="button" onClick={() => setSettingsOpen((o) => !o)} className="flex w-full items-center justify-between p-4 text-sm font-semibold text-slate-900">
               <span>⚙️ Settings</span>
               <span>{settingsOpen ? "▴" : "▾"}</span>
@@ -1736,74 +1844,150 @@ export default function SectionBuilder() {
         </div>
       </div>
 
-      {/* Mobile bottom bar: Edit/Preview switch kept in thumb reach, with the
-          live total visible while editing, and a Download button. Desktop uses
-          the two-column layout.
+      {/* Mobile bottom bar: Preview (with the live total) and Download, in
+          thumb reach. The page itself is the editor, so the old Edit tab
+          became the way back from the preview. Desktop uses the two-column
+          layout.
 
-          The Download button exists because every download button lives on
-          the Preview tab. Nov 6–20 2026, phone visitors who finished a receipt
-          (named, priced, totalled) mostly never pressed one: brand pages 98
-          finished, 41 download clicks; receipt-help 26 finished, 4 clicks —
-          against roughly one click per editor on desktop, where the buttons
-          sit beside the form. */}
+          Download is here because every download button lives in the
+          preview: Nov 6–20 2026, phone visitors who finished a receipt mostly
+          never pressed one (brand pages 98 finished, 41 download clicks;
+          receipt-help 26 finished, 4 clicks). */}
       <div
         className="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/95 px-4 pt-2 backdrop-blur-lg lg:hidden"
         style={{ paddingBottom: "max(0.5rem, env(safe-area-inset-bottom))" }}
       >
         <div className="mx-auto flex max-w-md items-center gap-2">
-          <div className="grid min-w-0 flex-1 grid-cols-2 gap-1 rounded-full bg-slate-100 p-1">
+          {mobileTab === "edit" ? (
+            <button
+              type="button"
+              onClick={() => openPreview("tab")}
+              className="min-w-0 flex-1 truncate rounded-full bg-slate-100 px-3 py-3 text-sm font-semibold text-slate-700"
+            >
+              Preview{" "}
+              <span className="text-xs font-medium text-slate-500">{formatMoney(grandTotal, doc.settings.currency)}</span>
+            </button>
+          ) : (
             <button
               type="button"
               onClick={() => {
                 setMobileTab("edit");
                 window.scrollTo({ top: 0 });
               }}
-              className={`rounded-full py-2.5 text-sm font-semibold ${mobileTab === "edit" ? "bg-white text-slate-900 shadow-sm" : "text-slate-500"}`}
+              className="min-w-0 flex-1 rounded-full bg-slate-100 px-3 py-3 text-sm font-semibold text-slate-700"
             >
-              Edit
+              ← Edit
             </button>
-            <button
-              type="button"
-              onClick={() => {
-                if (mobileTab !== "preview") analytics.builderPreview("tab");
-                setMobileTab("preview");
-                window.scrollTo({ top: 0 });
-              }}
-              className={`truncate rounded-full px-2 py-2.5 text-sm font-semibold ${mobileTab === "preview" ? "bg-white text-slate-900 shadow-sm" : "text-slate-500"}`}
-            >
-              Preview{" "}
-              <span className="text-xs font-medium">{formatMoney(grandTotal, doc.settings.currency)}</span>
-            </button>
-          </div>
+          )}
           <button
             type="button"
-            onClick={() => {
-              if (mobileTab !== "preview") analytics.builderPreview("download_bar");
-              setMobileTab("preview");
-              setScrollToDownload(true);
-            }}
-            className="shrink-0 rounded-full bg-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700"
+            onClick={openDownload}
+            disabled={!!exporting}
+            className="min-w-0 flex-1 rounded-full bg-indigo-600 px-3 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 disabled:opacity-60"
           >
-            Download
+            {exporting ? "Preparing…" : "Download"}
           </button>
         </div>
       </div>
+
+      {/* Phones: the layout pickers. Picking one closes the sheet; deleting a
+          saved template does not. */}
+      {pickerOpen && (
+        <Modal
+          sheet
+          onClose={() => setPickerOpen(false)}
+          labelledBy="layout-sheet-title"
+          panelClassName="max-h-[85vh] w-full overflow-y-auto rounded-t-3xl bg-white px-4 pb-8 pt-4 shadow-2xl sm:max-w-lg sm:rounded-3xl"
+        >
+          <div
+            onClick={(e) => {
+              const btn = (e.target as HTMLElement).closest("button");
+              if (btn && !btn.getAttribute("aria-label")?.startsWith("Delete")) setPickerOpen(false);
+            }}
+          >
+            <div className="flex items-center justify-between">
+              <h3 id="layout-sheet-title" className="text-base font-bold text-slate-900">
+                Choose a layout
+              </h3>
+              <button
+                type="button"
+                aria-label="Close"
+                className="flex h-11 w-11 items-center justify-center rounded-full text-slate-500 hover:bg-slate-100"
+              >
+                <CloseIcon className="h-4 w-4" />
+              </button>
+            </div>
+            {pickers}
+          </div>
+        </Modal>
+      )}
 
       {showAdd && <AddSectionModal onPick={addSection} onClose={() => setShowAdd(false)} />}
 
       {/* Download paywall: every non-Pro download, logged in or not. */}
       {pendingExport && (
+        // A bottom sheet on phones (the bar's Download opens it with PNG
+        // chosen, the format that saves to a phone's photos); centred from sm.
+        // The receipt and its total sit at the top so the choice is made
+        // looking at what they built, and the format can be changed here
+        // instead of going back for another button.
         <Modal
+          sheet
           onClose={() => setPendingExport(null)}
           labelledBy="paywall-title"
-          panelClassName="w-full max-w-md rounded-3xl bg-white p-7 shadow-2xl"
+          panelClassName="max-h-[92vh] w-full overflow-y-auto rounded-t-3xl bg-white px-5 pb-8 pt-5 shadow-2xl sm:max-w-md sm:rounded-3xl sm:p-7"
         >
           <div>
-            <TagIcon className="h-8 w-8 text-indigo-600" />
-            <h3 id="paywall-title" className="mt-3 text-xl font-bold text-slate-900">
-              Download without the watermark?
-            </h3>
-            <p className="mt-2 text-sm leading-relaxed text-slate-600">
+            <div className="flex items-center gap-4">
+              <div className="relative h-24 w-16 shrink-0 overflow-hidden rounded-md border border-slate-200 bg-white" aria-hidden="true">
+                <div style={{ zoom: 64 / paperWidth }}>
+                  <ReceiptDocPaper doc={doc} />
+                </div>
+              </div>
+              <div className="min-w-0">
+                <h3 id="paywall-title" className="text-lg font-bold text-slate-900">
+                  Your receipt is ready
+                </h3>
+                <p className="mt-0.5 truncate text-sm text-slate-500">
+                  {[
+                    activeTemplate ? `${activeLayoutName} layout` : null,
+                    `${itemCount} item${itemCount === 1 ? "" : "s"}`,
+                    formatMoney(grandTotal, doc.settings.currency),
+                  ]
+                    .filter(Boolean)
+                    .join(" · ")}
+                </p>
+              </div>
+            </div>
+            <div className="mt-5 grid grid-cols-3 gap-2" role="radiogroup" aria-label="File format">
+              {(
+                [
+                  { kind: "png", label: "PNG", hint: "image" },
+                  { kind: "pdf", label: "PDF", hint: "document" },
+                  { kind: "jpg", label: "JPG", hint: "smaller image" },
+                ] as const
+              ).map((f) => {
+                const on = pendingExport === f.kind || (f.kind === "pdf" && pendingExport === "pdf-print");
+                return (
+                  <button
+                    key={f.kind}
+                    type="button"
+                    role="radio"
+                    aria-checked={on}
+                    onClick={() => {
+                      if (!on) setPendingExport(f.kind);
+                    }}
+                    className={`min-h-11 rounded-xl border py-2 text-sm font-semibold ${
+                      on ? "border-2 border-indigo-500 bg-indigo-50 text-indigo-700" : "border-slate-200 text-slate-700 hover:bg-slate-50"
+                    }`}
+                  >
+                    {f.label}
+                    <span className={`block text-[11px] font-medium ${on ? "text-indigo-500" : "text-slate-400"}`}>{f.hint}</span>
+                  </button>
+                );
+              })}
+            </div>
+            <p className="mt-4 text-sm leading-relaxed text-slate-600">
               Free downloads carry a small <strong>{SITE.name}</strong> watermark. Pro removes it
               from every download, with HD exports and unlimited AI receipts. One-time payment, no
               account needed, never renews.
