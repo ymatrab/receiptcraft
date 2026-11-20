@@ -4,7 +4,7 @@ import Reviewed from "@/components/Reviewed";
 import { brandReviewedAt } from "@/lib/content-dates";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { BRAND_TEMPLATES, brandCategoryFor } from "@/lib/brands";
+import { BRAND_TEMPLATES, anBrand, brandCategoryFor } from "@/lib/brands";
 import { CATEGORY_NOUN } from "@/lib/brand-categories";
 import { previewFromTemplate } from "@/lib/receipt";
 import { docFromReceiptData } from "@/lib/sections";
@@ -228,7 +228,7 @@ export default async function BrandTemplatePage({ params }: Props) {
             </h2>
             <p className="mt-3 leading-relaxed text-slate-600">
               The {template.shortName} receipt generator is a {SITE.name} template that
-              lays out a {template.shortName}-style receipt with{" "}
+              lays out {anBrand(template.shortName)}-style receipt with{" "}
               {d.hideItems ? "the payee, amount, date and transaction details" : CATEGORY_NOUN[category]}{" "}
               already filled in. You edit every field in your browser with a live
               preview and download a PDF or PNG with no account. Free downloads carry
@@ -240,7 +240,7 @@ export default async function BrandTemplatePage({ params }: Props) {
             <ContextLinks path={`/brands/${template.slug}`} />
 
             <h2 className="mt-12 text-xl font-bold text-slate-900">
-              Common uses for a {template.name.toLowerCase()}
+              Common uses for {anBrand(template.shortName)} receipt
             </h2>
             <ul className="mt-4 space-y-3">
               {template.useCases.map((useCase) => (
@@ -270,10 +270,10 @@ export default async function BrandTemplatePage({ params }: Props) {
         {/* What's on this receipt — data-driven, unique per brand */}
         <section className="mt-20" aria-labelledby="whats-on-heading">
           <h2 id="whats-on-heading" className="text-2xl font-bold text-slate-900">
-            What&apos;s on a {template.shortName} receipt
+            What&apos;s on {anBrand(template.shortName)} receipt
           </h2>
           <p className="mt-4 max-w-3xl leading-relaxed text-slate-600">
-            This {template.name.toLowerCase()} template opens pre-filled with{" "}
+            This {template.shortName} receipt template opens pre-filled with{" "}
             {d.businessName ?? template.shortName}
             {addr ? ` (${addr})` : ""} and {preview.items.length}{" "}
             sample {preview.items.length === 1 ? "item" : "items"} totalling{" "}
@@ -316,7 +316,7 @@ export default async function BrandTemplatePage({ params }: Props) {
           </div>
 
           <h3 className="mt-10 text-lg font-bold text-slate-900">
-            How to make a {template.shortName} receipt
+            How to make {anBrand(template.shortName)} receipt
           </h3>
           <ol className="mt-4 max-w-3xl list-decimal space-y-2 pl-5 text-slate-600">
             <li>Open the {template.shortName} template — it loads with sample items and {d.taxLabel ?? "tax"} already filled in.</li>
@@ -383,7 +383,7 @@ export default async function BrandTemplatePage({ params }: Props) {
         {depth && (
           <section className="mt-20" aria-labelledby="real-receipt-heading">
             <h2 id="real-receipt-heading" className="text-2xl font-bold text-slate-900">
-              How to read a {template.shortName} receipt
+              How to read {anBrand(template.shortName)} receipt
             </h2>
             <p className="mt-4 max-w-3xl leading-relaxed text-slate-600">{depth.note}</p>
             <dl className="mt-6 max-w-3xl divide-y divide-slate-100 rounded-2xl border border-slate-200 bg-white">

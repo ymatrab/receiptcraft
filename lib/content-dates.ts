@@ -434,8 +434,16 @@ function brandPoolCopyChanged(slug: string): boolean {
   );
 }
 
+// 2026-11-20: copy guardrails on every brand page. The "Common uses" list no
+// longer offers to replace a lost receipt (for returns, warranty or claims),
+// the FAQ says the template is not proof of purchase, and the shared headings
+// use a/an properly ("an Apple Store receipt", not "a Apple Store receipt").
+// The headings sit on all ~354 brand pages, so all of them move.
+export const BRANDS_COPY_GUARDRAILS_UPDATED = "2026-11-20";
+
 export function brandReviewedAt(slug: string): string {
   return newest(
+    BRANDS_COPY_GUARDRAILS_UPDATED,
     BRANDS_SELL_PAGES.has(slug) || brandPoolCopyChanged(slug) ? BRANDS_SELL_PAGES_UPDATED : null,
     brandReceiptChanged(slug) ? BRANDS_RECEIPT_UPDATED : null,
     BRANDS_UPDATED,
@@ -932,7 +940,18 @@ const TEMPLATES_CATEGORY_TITLES_UPDATED = "2026-11-18";
 const TEMPLATES_CATEGORY_TITLES_2: ReadonlySet<string> = new Set(["gas-station", "airline-receipt"]);
 const TEMPLATES_CATEGORY_TITLES_2_UPDATED = "2026-11-19";
 
+// 2026-11-20: copy guardrails. "Replace a lost … receipt" uses are rewritten
+// as record-keeping, business or mockup uses, and the insurance-claim FAQs
+// (electronics, veterinary) now say a made receipt is not proof of purchase.
+const TEMPLATES_COPY_GUARDRAILS: ReadonlySet<string> = new Set([
+  "airline-receipt", "bar", "car-rental-receipt", "dry-cleaning-receipt", "electronics-store-receipt",
+  "fast-food-receipt", "hardware-store-receipt", "hotel", "pet-store-receipt", "pizza-receipt",
+  "restaurant", "spa-receipt", "veterinary-receipt",
+]);
+const TEMPLATES_COPY_GUARDRAILS_UPDATED = "2026-11-20";
+
 export function templateReviewedAt(t: ReceiptTemplate): string {
+  if (TEMPLATES_COPY_GUARDRAILS.has(t.slug)) return TEMPLATES_COPY_GUARDRAILS_UPDATED;
   if (TEMPLATES_CATEGORY_TITLES_2.has(t.slug)) return TEMPLATES_CATEGORY_TITLES_2_UPDATED;
   if (TEMPLATES_CATEGORY_TITLES.has(t.slug)) return TEMPLATES_CATEGORY_TITLES_UPDATED;
   if (TEMPLATES_SELL_PAGES.has(t.slug)) return TEMPLATES_SELL_PAGES_UPDATED;
