@@ -328,7 +328,10 @@ export default async function IntentPage({
       {/* The hand-off again, for readers who reached the end without
           getting their original back. */}
       {handoff && (
-        <div className="mt-12 rounded-2xl border border-indigo-200 bg-indigo-50/60 px-5 py-4">
+        <div
+          data-offer-cta=""
+          className="mt-12 rounded-2xl border border-indigo-200 bg-indigo-50/60 px-5 py-4"
+        >
           <p className="leading-relaxed text-slate-700">
             <strong className="font-semibold text-slate-900">Need to make one instead?</strong>{" "}
             Build a {page.brandName}-style receipt for your own records with the{" "}
