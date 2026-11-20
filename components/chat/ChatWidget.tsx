@@ -224,7 +224,7 @@ export default function ChatWidget() {
       </button>
 
       {open && (
-        <div className={`fixed ${panelPos} right-5 z-50 flex h-[30rem] max-h-[calc(100dvh-7.5rem)] w-[22rem] max-w-[calc(100vw-2.5rem)] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
+        <div className={`fixed ${panelPos} right-5 z-50 flex h-[30rem] max-h-[calc(100dvh-7.5rem)] w-[22rem] max-w-[calc(100vw-2.5rem)] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl`}>
           <div className="border-b border-slate-100 bg-slate-50 px-4 py-3">
             <p className="text-sm font-semibold text-slate-900">Support</p>
             <p className="flex items-center gap-1.5 text-xs text-slate-600">
