@@ -56,6 +56,13 @@ export const EVENT_NAMES = [
   "review_prompt_shown",
   "review_prompt_clicked",
   "review_prompt_dismissed",
+  // hand-offs from blog posts and receipt-help guides to a sell page — the
+  // in-article button card (components/HandoffCard.tsx) and the bottom bar
+  // (components/OfferBar.tsx)
+  "handoff_click",
+  "offer_bar_shown",
+  "offer_bar_click",
+  "offer_bar_dismissed",
 ] as const;
 
 export type EventName = (typeof EVENT_NAMES)[number];
