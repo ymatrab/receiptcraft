@@ -36,6 +36,8 @@ import {
   type ReceiptLabelKey,
 } from "@/lib/sections";
 import { BUILDER_TEMPLATE_CHIPS } from "@/lib/builder-templates";
+import { keepAiPrompt } from "@/lib/ai-prompt-keep";
+import { AI_RESUME_PATH } from "@/lib/new-account";
 import {
   deleteTemplate,
   listTemplates,
@@ -268,7 +270,21 @@ export default function SectionBuilder() {
   const [aiPrompt, setAiPrompt] = useState("");
   const [aiLoading, setAiLoading] = useState(false);
   const [aiError, setAiError] = useState<string | null>(null);
-  const [aiNeedsAuth, setAiNeedsAuth] = useState(false);
+  /**
+   * Arrived on a ?template= link — from a brand page, a template page or a
+   * receipt-help guide. The store's receipt is already filled in, so the form
+   * comes first and the AI box moves below it. Nov 6–20 2026: the AI box was
+   * the first thing a phone visitor from a brand page saw, and the first thing
+   * 151 of them tried; signed out, every one of those attempts failed.
+   */
+  const [arrivedWithTemplate, setArrivedWithTemplate] = useState(false);
+  /** Set by the phone bar's Download button: scroll to the download buttons once the preview shows. */
+  const [scrollToDownload, setScrollToDownload] = useState(false);
+  const downloadRowsRef = useRef<HTMLDivElement>(null);
+  // For the builder_left summary row (see the effect that sends it).
+  const openedAtRef = useRef(0);
+  const downloadClickedRef = useRef(false);
+  const mobileTabRef = useRef<"edit" | "preview">("edit");
   // Set by a successful generation, for the one-line "now download it" nudge.
   const [aiMade, setAiMade] = useState(false);
   const [saveState, setSaveState] = useState<"idle" | "saving" | "saved">("idle");
@@ -340,6 +356,7 @@ export default function SectionBuilder() {
       // while /api/me is in flight, so gating now would show a paying
       // subscriber the upgrade wall on every arrival from a brand page.
       setPendingTemplate(slug);
+      setArrivedWithTemplate(true);
       analytics.builderOpened("template");
       return;
     }
@@ -575,11 +592,27 @@ export default function SectionBuilder() {
     setCollapsed({});
   };
 
+  /**
+   * AI needs an account. A signed-out visitor goes straight to sign-up with
+   * what they typed (and the store they had open) kept; the homepage picks it
+   * up on the way back (AI_RESUME_PATH), generates it and hands the receipt
+   * back to this builder — the same round trip the homepage AI box has used
+   * since 2026-10-24. Before this, the builder sent the request, got a 401 and
+   * showed an error under a "Free to try" badge: 283 signed-out attempts on
+   * Nov 6–20 2026, none of which could succeed.
+   */
+  const sendAiToSignUp = () => {
+    saveAutosave(doc);
+    keepAiPrompt(aiPrompt, activeTemplate || null);
+    analytics.upgradeClick("builder_ai_signup");
+    window.location.assign(`/login?signup=1&next=${encodeURIComponent(AI_RESUME_PATH)}`);
+  };
+
   const generateAi = async () => {
     if (!aiPrompt.trim() || aiLoading) return;
+    if (!accountLoading && !account.isLoggedIn) return sendAiToSignUp();
     setAiLoading(true);
     setAiError(null);
-    setAiNeedsAuth(false);
     setAiMade(false);
     analytics.aiGenerate("start", activeTemplate || undefined);
     try {
@@ -591,7 +624,8 @@ export default function SectionBuilder() {
       const data = await res.json();
       if (!res.ok) {
         analytics.aiGenerate("error", activeTemplate || undefined);
-        if (res.status === 401 || data.needsAuth) setAiNeedsAuth(true);
+        // Only reached when the account had not loaded yet at the click.
+        if (res.status === 401 || data.needsAuth) return sendAiToSignUp();
         setAiError(data.error ?? "Generation failed.");
         return;
       }
@@ -709,6 +743,7 @@ export default function SectionBuilder() {
       account.isPro ? "pro" : account.isLoggedIn ? "free" : "anon"
     );
 
+    downloadClickedRef.current = true;
     if (account.isPro) return handleExport(kind, false);
 
     const fmt = kind === "pdf-print" ? "pdf" : kind;
@@ -1215,120 +1250,171 @@ export default function SectionBuilder() {
     }
   }
 
-  return (
-    <div className="mx-auto max-w-7xl px-4 pb-32 pt-4 sm:px-6 lg:px-8 lg:pb-20">
-      {/* AI generator */}
-      <div className="mt-4 rounded-2xl border border-indigo-100 bg-gradient-to-br from-indigo-50 to-violet-50 p-4">
-        <div className="flex items-center gap-2">
-          <span aria-hidden="true">✨</span>
-          <span className="text-sm font-semibold text-slate-900">Generate with AI</span>
-          {/* The download credits were always counted out loud; the AI
-              allowance said only "limited per month", so the only way to learn
-              how many were left was to run out and read the error. */}
-          {!account.isPro && (
-            <span
-              className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${
-                account.isLoggedIn && dl.aiRemaining === 0
-                  ? "bg-amber-100 text-amber-800"
-                  : "bg-white text-indigo-600"
-              }`}
-            >
-              {!account.isLoggedIn
-                ? "Free to try"
-                : dl.aiRemaining === null
-                  ? `${FREE_LIMITS.aiGenerationsPerMonth} a month free`
-                  : dl.aiRemaining === 0
-                    ? "None left this month"
-                    : `${dl.aiRemaining} of ${FREE_LIMITS.aiGenerationsPerMonth} left this month`}
-            </span>
-          )}
-          {!account.isPro && account.isLoggedIn && dl.aiRemaining === 0 && (
-            // Straight to checkout: the 11 accounts that hit the cap by
-            // October were sent to /pricing and none of them bought.
-            <a
-              href="/api/checkout?plan=pro_weekly"
-              rel="nofollow"
-              onClick={() => {
-                rememberPendingExport(null);
-                analytics.upgradeClick("builder_ai_counter");
-                analytics.beginCheckout("weekly", "builder_ai_counter");
-              }}
-              className="text-[11px] font-semibold text-indigo-600 hover:text-indigo-700"
-            >
-              Unlimited for {formatPlanPrice(PLANS.pro_weekly)}
-            </a>
-          )}
-        </div>
-        <div className="mt-3 flex flex-col gap-2 sm:flex-row">
-          <input
-            value={aiPrompt}
-            onChange={(e) => setAiPrompt(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && generateAi()}
-            aria-label="Describe the receipt you want"
-            aria-invalid={aiError ? true : undefined}
-            aria-describedby={aiError ? "ai-error" : undefined}
-            placeholder="e.g. Starbucks receipt, 2 lattes and a muffin, this morning"
-            className={`min-w-0 flex-1 ${inputClass}`}
-          />
-          <button
-            type="button"
-            onClick={generateAi}
-            disabled={aiLoading || !aiPrompt.trim()}
-            aria-busy={aiLoading}
-            className="flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
+  useEffect(() => {
+    mobileTabRef.current = mobileTab;
+  }, [mobileTab]);
+
+  // builder_left: one row per builder page view, sent the first time the page
+  // is hidden (tab switch, app switch, closing it) or the builder unmounts on
+  // a client-side navigation. sendBeacon carries it through the unload. A
+  // phone visitor who switches apps and comes back is counted at the switch.
+  useEffect(() => {
+    openedAtRef.current = Date.now();
+    let sent = false;
+    const send = () => {
+      if (sent) return;
+      sent = true;
+      analytics.builderLeft({
+        seconds: Math.round((Date.now() - openedAtRef.current) / 1000),
+        edited: editTracked.current,
+        completed: completedRef.current !== null,
+        download_clicked: downloadClickedRef.current,
+        tab: window.matchMedia("(min-width: 1024px)").matches ? "desktop" : mobileTabRef.current,
+      });
+    };
+    const onVisibility = () => {
+      if (document.visibilityState === "hidden") send();
+    };
+    window.addEventListener("pagehide", send);
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => {
+      window.removeEventListener("pagehide", send);
+      document.removeEventListener("visibilitychange", onVisibility);
+      send();
+    };
+    // Refs only: registered once per page view.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // The phone bar's Download: the preview pane is hidden until this render,
+  // so the scroll waits for it. Lands with the receipt's foot and every
+  // download button on screen, clear of the bar (scroll-mb-24).
+  useEffect(() => {
+    if (!scrollToDownload || mobileTab !== "preview") return;
+    setScrollToDownload(false);
+    downloadRowsRef.current?.scrollIntoView({ block: "end", behavior: "smooth" });
+  }, [scrollToDownload, mobileTab]);
+
+  // The AI box. Above everything for a blank or homepage arrival; below the
+  // form when the visitor arrived with a store's receipt already filled in
+  // (see arrivedWithTemplate).
+  const aiBox = (
+    <div className="mt-4 rounded-2xl border border-indigo-100 bg-gradient-to-br from-indigo-50 to-violet-50 p-4">
+      <div className="flex items-center gap-2">
+        <span aria-hidden="true">✨</span>
+        <span className="text-sm font-semibold text-slate-900">Generate with AI</span>
+        {/* The download credits were always counted out loud; the AI
+            allowance said only "limited per month", so the only way to learn
+            how many were left was to run out and read the error. */}
+        {!account.isPro && (
+          <span
+            className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${
+              account.isLoggedIn && dl.aiRemaining === 0
+                ? "bg-amber-100 text-amber-800"
+                : "bg-white text-indigo-600"
+            }`}
           >
-            {aiLoading && <SpinnerIcon className="h-4 w-4" />}
-            {aiLoading ? "Generating…" : "Generate"}
-          </button>
-        </div>
-        {aiError && (
-          <p id="ai-error" role="alert" className="mt-2 text-xs font-medium text-red-700">
-            {aiError}{" "}
-            {/* Signed-out visitors get offered the free step first: AI needs an
-                account, and that step costs them nothing. Driven by the route's
-                needsAuth flag, so rewording the message cannot drop the link. */}
-            {aiNeedsAuth ? (
-              <Link href="/login?next=/create&signup=1" className="font-semibold underline">
-                Create a free account
-              </Link>
-            ) : aiError.includes("Upgrade") || aiError.includes("upgrade") ? (
-              <a
-                href="/api/checkout?plan=pro_weekly"
-                rel="nofollow"
-                onClick={() => {
-                  rememberPendingExport(null);
-                  analytics.upgradeClick("builder_ai_limit");
-                  analytics.beginCheckout("weekly", "builder_ai_limit");
-                }}
-                className="font-semibold underline"
-              >
-                Get unlimited AI — {formatPlanPrice(PLANS.pro_weekly)} for 7 days
-              </a>
-            ) : null}
-          </p>
+            {/* Not "Free to try": signed out, it cannot be tried at all. */}
+            {!account.isLoggedIn
+              ? "Free account"
+              : dl.aiRemaining === null
+                ? `${FREE_LIMITS.aiGenerationsPerMonth} a month free`
+                : dl.aiRemaining === 0
+                  ? "None left this month"
+                  : `${dl.aiRemaining} of ${FREE_LIMITS.aiGenerationsPerMonth} left this month`}
+          </span>
         )}
-        {/* Most people who generated a receipt never downloaded it (77 of 124
-            accounts by October). Say what the next step is, and what it costs,
-            while the receipt is on screen. */}
-        {aiMade && !aiError && !account.isPro && (
-          <p className="mt-2 text-xs text-slate-600">
-            Your receipt is ready. Edit anything, then download it free with a watermark, or{" "}
+        {!account.isPro && account.isLoggedIn && dl.aiRemaining === 0 && (
+          // Straight to checkout: the 11 accounts that hit the cap by
+          // October were sent to /pricing and none of them bought.
+          <a
+            href="/api/checkout?plan=pro_weekly"
+            rel="nofollow"
+            onClick={() => {
+              rememberPendingExport(null);
+              analytics.upgradeClick("builder_ai_counter");
+              analytics.beginCheckout("weekly", "builder_ai_counter");
+            }}
+            className="text-[11px] font-semibold text-indigo-600 hover:text-indigo-700"
+          >
+            Unlimited for {formatPlanPrice(PLANS.pro_weekly)}
+          </a>
+        )}
+      </div>
+      <div className="mt-3 flex flex-col gap-2 sm:flex-row">
+        <input
+          value={aiPrompt}
+          onChange={(e) => setAiPrompt(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && generateAi()}
+          aria-label="Describe the receipt you want"
+          aria-invalid={aiError ? true : undefined}
+          aria-describedby={aiError ? "ai-error" : undefined}
+          placeholder="e.g. Starbucks receipt, 2 lattes and a muffin, this morning"
+          className={`min-w-0 flex-1 ${inputClass}`}
+        />
+        <button
+          type="button"
+          onClick={generateAi}
+          disabled={aiLoading || !aiPrompt.trim()}
+          aria-busy={aiLoading}
+          className="flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          {aiLoading && <SpinnerIcon className="h-4 w-4" />}
+          {aiLoading ? "Generating…" : "Generate"}
+        </button>
+      </div>
+      {!accountLoading && !account.isLoggedIn && (
+        <p className="mt-2 text-xs text-slate-600">
+          AI needs a free account, no card. It gives you {FREE_LIMITS.aiGenerationsPerMonth} AI
+          receipts a month, and we keep what you typed and make it as soon as you&apos;re in.
+        </p>
+      )}
+      {aiError && (
+        <p id="ai-error" role="alert" className="mt-2 text-xs font-medium text-red-700">
+          {aiError}{" "}
+          {aiError.includes("Upgrade") || aiError.includes("upgrade") ? (
             <a
               href="/api/checkout?plan=pro_weekly"
               rel="nofollow"
               onClick={() => {
                 rememberPendingExport(null);
-                analytics.upgradeClick("builder_ai_ready");
-                analytics.beginCheckout("weekly", "builder_ai_ready");
+                analytics.upgradeClick("builder_ai_limit");
+                analytics.beginCheckout("weekly", "builder_ai_limit");
               }}
               className="font-semibold underline"
             >
-              watermark-free for {formatPlanPrice(PLANS.pro_weekly)}
+              Get unlimited AI — {formatPlanPrice(PLANS.pro_weekly)} for 7 days
             </a>
-            .
-          </p>
-        )}
-      </div>
+          ) : null}
+        </p>
+      )}
+      {/* Most people who generated a receipt never downloaded it (77 of 124
+          accounts by October). Say what the next step is, and what it costs,
+          while the receipt is on screen. */}
+      {aiMade && !aiError && !account.isPro && (
+        <p className="mt-2 text-xs text-slate-600">
+          Your receipt is ready. Edit anything, then download it free with a watermark, or{" "}
+          <a
+            href="/api/checkout?plan=pro_weekly"
+            rel="nofollow"
+            onClick={() => {
+              rememberPendingExport(null);
+              analytics.upgradeClick("builder_ai_ready");
+              analytics.beginCheckout("weekly", "builder_ai_ready");
+            }}
+            className="font-semibold underline"
+          >
+            watermark-free for {formatPlanPrice(PLANS.pro_weekly)}
+          </a>
+          .
+        </p>
+      )}
+    </div>
+  );
+
+  return (
+    <div className="mx-auto max-w-7xl px-4 pb-32 pt-4 sm:px-6 lg:px-8 lg:pb-20">
+      {!arrivedWithTemplate && aiBox}
 
       {/* Start from a real store's layout. 2026-11-18: visitors who land on
           /create reached Download 4% of the time (GA4 Oct 21–Nov 17) against
@@ -1564,6 +1650,8 @@ export default function SectionBuilder() {
           ))}
 
           <button type="button" onClick={() => setShowAdd(true)} className="w-full rounded-2xl border border-dashed border-slate-300 py-3.5 text-sm font-semibold text-slate-500 hover:border-indigo-400 hover:text-indigo-600">+ Add Section</button>
+
+          {arrivedWithTemplate && aiBox}
         </div>
 
         {/* PREVIEW */}
@@ -1584,7 +1672,7 @@ export default function SectionBuilder() {
                 <button type="button" onClick={() => requestExport("pdf")} disabled={!!exporting} className="flex-1 rounded-full bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 disabled:opacity-60">{exporting === "pdf" ? "Preparing PDF…" : "Download PDF"}</button>
                 <button type="button" onClick={() => requestExport("png")} disabled={!!exporting} className="flex-1 rounded-full border border-indigo-200 bg-indigo-50 px-5 py-3 text-sm font-semibold text-indigo-700 hover:bg-indigo-100 disabled:opacity-60">{exporting === "png" ? "Preparing PNG…" : "Download PNG"}</button>
               </div>
-              <div className="mt-2 grid grid-cols-2 gap-3">
+              <div ref={downloadRowsRef} className="mt-2 grid scroll-mb-24 grid-cols-2 gap-3">
                 <button type="button" onClick={() => requestExport("jpg")} disabled={!!exporting} className="rounded-full border border-slate-200 bg-white px-4 py-2.5 text-xs font-semibold text-slate-600 hover:bg-slate-50 disabled:opacity-60">{exporting === "jpg" ? "Preparing JPG…" : "Download JPG"}</button>
                 <button type="button" onClick={() => requestExport("pdf-print")} disabled={!!exporting} className="rounded-full border border-slate-200 bg-white px-4 py-2.5 text-xs font-semibold text-slate-600 hover:bg-slate-50 disabled:opacity-60" title="A4 page, centered — prints cleanly on an office printer">{exporting === "pdf-print" ? "Preparing…" : "Print-ready PDF (A4)"}</button>
               </div>
@@ -1644,31 +1732,54 @@ export default function SectionBuilder() {
       </div>
 
       {/* Mobile bottom bar: Edit/Preview switch kept in thumb reach, with the
-          live total visible while editing. Desktop uses the two-column layout. */}
+          live total visible while editing, and a Download button. Desktop uses
+          the two-column layout.
+
+          The Download button exists because every download button lives on
+          the Preview tab. Nov 6–20 2026, phone visitors who finished a receipt
+          (named, priced, totalled) mostly never pressed one: brand pages 98
+          finished, 41 download clicks; receipt-help 26 finished, 4 clicks —
+          against roughly one click per editor on desktop, where the buttons
+          sit beside the form. */}
       <div
         className="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/95 px-4 pt-2 backdrop-blur-lg lg:hidden"
         style={{ paddingBottom: "max(0.5rem, env(safe-area-inset-bottom))" }}
       >
-        <div className="mx-auto grid max-w-md grid-cols-2 gap-1 rounded-full bg-slate-100 p-1">
+        <div className="mx-auto flex max-w-md items-center gap-2">
+          <div className="grid min-w-0 flex-1 grid-cols-2 gap-1 rounded-full bg-slate-100 p-1">
+            <button
+              type="button"
+              onClick={() => {
+                setMobileTab("edit");
+                window.scrollTo({ top: 0 });
+              }}
+              className={`rounded-full py-2.5 text-sm font-semibold ${mobileTab === "edit" ? "bg-white text-slate-900 shadow-sm" : "text-slate-500"}`}
+            >
+              Edit
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                if (mobileTab !== "preview") analytics.builderPreview("tab");
+                setMobileTab("preview");
+                window.scrollTo({ top: 0 });
+              }}
+              className={`truncate rounded-full px-2 py-2.5 text-sm font-semibold ${mobileTab === "preview" ? "bg-white text-slate-900 shadow-sm" : "text-slate-500"}`}
+            >
+              Preview{" "}
+              <span className="text-xs font-medium">{formatMoney(grandTotal, doc.settings.currency)}</span>
+            </button>
+          </div>
           <button
             type="button"
             onClick={() => {
-              setMobileTab("edit");
-              window.scrollTo({ top: 0 });
-            }}
-            className={`rounded-full py-2.5 text-sm font-semibold ${mobileTab === "edit" ? "bg-white text-slate-900 shadow-sm" : "text-slate-500"}`}
-          >
-            Edit
-          </button>
-          <button
-            type="button"
-            onClick={() => {
+              if (mobileTab !== "preview") analytics.builderPreview("download_bar");
               setMobileTab("preview");
-              window.scrollTo({ top: 0 });
+              setScrollToDownload(true);
             }}
-            className={`rounded-full py-2.5 text-sm font-semibold ${mobileTab === "preview" ? "bg-white text-slate-900 shadow-sm" : "text-slate-500"}`}
+            className="shrink-0 rounded-full bg-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700"
           >
-            Preview · {formatMoney(grandTotal, doc.settings.currency)}
+            Download
           </button>
         </div>
       </div>

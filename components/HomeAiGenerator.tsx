@@ -4,62 +4,12 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { analytics } from "@/lib/analytics";
 import { AI_RESUME_PATH } from "@/lib/new-account";
+import { keepAiPrompt, takeAiPrompt } from "@/lib/ai-prompt-keep";
 import { SparkleIcon, SpinnerIcon } from "@/components/Icons";
 import AiDemo from "@/components/AiDemo";
 
 /** Key used to hand the generated receipt to the builder on /create. */
 export const AI_HANDOFF_KEY = "rc_ai_receipt";
-
-/**
- * Holds the prompt across a sign-in round trip.
- *
- * AI generation needs an account, and the person who hits that wall has just
- * typed the one sentence describing exactly what they want. Making them retype
- * it after logging in is how the highest-intent moment in the funnel becomes an
- * abandoned one.
- */
-const AI_PROMPT_KEY = "rc_ai_prompt";
-
-/**
- * How long a kept prompt stays worth generating. localStorage rather than
- * sessionStorage, because the sign-up can end in another tab (an email link)
- * and sessionStorage does not cross tabs; the time limit stops a prompt typed
- * last week from firing on an unrelated visit.
- */
-const PROMPT_TTL_MS = 60 * 60 * 1000;
-
-function keepPrompt(prompt: string) {
-  try {
-    localStorage.setItem(AI_PROMPT_KEY, JSON.stringify({ prompt, at: Date.now() }));
-  } catch {
-    // Not fatal: what's on screen stays, it just won't survive the sign-in.
-  }
-}
-
-/** The kept prompt, if one is fresh, removed so it is used at most once. */
-function takePrompt(): string | null {
-  try {
-    const raw = localStorage.getItem(AI_PROMPT_KEY);
-    localStorage.removeItem(AI_PROMPT_KEY);
-    // Prompts kept by the previous version of this component.
-    const legacy = sessionStorage.getItem(AI_PROMPT_KEY);
-    sessionStorage.removeItem(AI_PROMPT_KEY);
-    if (raw) {
-      const kept = JSON.parse(raw) as { prompt?: unknown; at?: unknown };
-      if (
-        typeof kept.prompt === "string" &&
-        typeof kept.at === "number" &&
-        Date.now() - kept.at < PROMPT_TTL_MS
-      ) {
-        return kept.prompt;
-      }
-    }
-    return legacy || null;
-  } catch {
-    // Private-mode storage throws; not worth breaking the hero over.
-    return null;
-  }
-}
 
 /**
  * Homepage AI receipt generator. On success it stashes the result and sends the
@@ -76,9 +26,9 @@ export default function HomeAiGenerator() {
   // generate it straight away, which is the whole point of the round trip. On
   // any other visit a kept prompt is only restored, never sent.
   useEffect(() => {
-    const saved = takePrompt();
+    const saved = takeAiPrompt();
     if (!saved) return;
-    setPrompt(saved);
+    setPrompt(saved.prompt);
     const params = new URLSearchParams(window.location.search);
     if (params.get("ai") === "1") {
       // Drop only the marker: the auth callback can add ev/ev_method to the
@@ -86,14 +36,15 @@ export default function HomeAiGenerator() {
       params.delete("ai");
       const rest = params.toString();
       window.history.replaceState(null, "", rest ? `/?${rest}` : "/");
-      void generate(saved);
+      // A prompt kept by the builder's AI box carries the store it had open.
+      void generate(saved.prompt, saved.template);
     }
     // generate is stable enough for a once-on-mount call; re-running this on
     // every render would resend the prompt.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  async function generate(text: string = prompt) {
+  async function generate(text: string = prompt, template: string | null = null) {
     if (!text.trim() || loading) return;
     setLoading(true);
     setError(null);
@@ -102,7 +53,7 @@ export default function HomeAiGenerator() {
       const res = await fetch("/api/ai/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt: text }),
+        body: JSON.stringify({ prompt: text, template: template || undefined }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -112,7 +63,7 @@ export default function HomeAiGenerator() {
           // here (AI_RESUME_PATH) to generate the kept prompt. An error line
           // with a link was tried first — 12 of 334 clicked it — and an
           // in-page panel after that; the owner chose a full sign-up page.
-          keepPrompt(text);
+          keepAiPrompt(text, template);
           analytics.upgradeClick("home_ai_signup");
           router.push(`/login?signup=1&next=${encodeURIComponent(AI_RESUME_PATH)}`);
           return;
