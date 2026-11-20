@@ -741,6 +741,7 @@ const HANDOFF: Record<string, Partial<IntentHandoff>> = {
   "taco-bell": {},
   kfc: { anchor: "KFC receipt generator" },
   "dollar-tree": { anchor: "Dollar Tree receipt generator" },
+  nike: { anchor: "Nike receipt template" },
   shell: { anchor: "Shell receipt generator" },
   target: { anchor: "Target receipt generator" },
   chipotle: { anchor: "Chipotle receipt generator" },
@@ -810,7 +811,7 @@ export function intentContent(p: IntentPage): IntentContent {
     faqs: [
       ...c.faqs,
       {
-        question: `Can I make a replacement ${n} receipt?`,
+        question: `Can I make a ${n} receipt for my records?`,
         answer: `For your own records, yes. ${SITE.name}'s ${n} receipt generator lays out a ${n}-style receipt that you fill in with the items, prices, date and store details of your real purchase, then download as a PDF or PNG. It is not an official ${n} document, so use it only for a purchase that actually happened — never to return goods.`,
       },
     ],
@@ -842,7 +843,7 @@ function baseIntentContent(p: IntentPage): IntentContent {
         ]
       ),
       h1: `How to Find a Lost ${n} Receipt`,
-      lead: `Misplaced your ${n} receipt? Before you give up, there are a few quick places to look — and if the original is gone for good, you can recreate one for your records.`,
+      lead: `Misplaced your ${n} receipt? Before you give up, there are a few quick places to look — and if the original is gone for good, you can still make a ${n} receipt for your own records.`,
       sections: [
         {
           heading: `Where to look first`,
@@ -856,12 +857,12 @@ function baseIntentContent(p: IntentPage): IntentContent {
         },
         ...quirkSection(p.brandSlug, n),
         {
-          heading: `Can't find your ${n} receipt? Recreate it`,
-          body: `If the original is unrecoverable, you can recreate a ${n} receipt that matches the items, prices, date and store details of your real purchase — handy for an expense report, reimbursement or your own bookkeeping. Open the free ${n} receipt builder, fill in the details, and download it as a PDF or PNG.`,
+          heading: `Make a ${n} receipt for your records`,
+          body: `If the original is unrecoverable, you can fill in a ${n}-style receipt with the items, prices, date and store details of your real purchase for your own bookkeeping, then download it as a PDF or PNG. It is your own record, not a copy issued by ${n}, so it won't work as proof of purchase for a return, a refund or an expense claim.`,
         },
         {
           heading: `Use it responsibly`,
-          body: `Only recreate a receipt for a purchase that actually happened and for legitimate purposes such as personal records, reimbursement of real expenses, or replacing a lost copy. Creating a receipt to mislead a person, employer, retailer or tax authority is illegal.`,
+          body: `Only make a receipt for a purchase that actually happened, and keep it as your own record. Using a made receipt to get a refund, claim an expense or mislead a person, employer, retailer or tax authority is fraud.`,
         },
       ],
       faqs: [
@@ -871,10 +872,10 @@ function baseIntentContent(p: IntentPage): IntentContent {
         },
         {
           question: `Does ${n} keep receipts on file?`,
-          answer: `It varies. Purchases made through a ${n} app, loyalty program or online account are usually stored in your order history.${fact ? ` ${fact.quirk}` : ""} In-store cash purchases with no loyalty scan are the hardest to retrieve, which is when recreating a receipt for your records is most useful.`,
+          answer: `It varies. Purchases made through a ${n} app, loyalty program or online account are usually stored in your order history.${fact ? ` ${fact.quirk}` : ""} In-store cash purchases with no loyalty scan are the hardest to retrieve, which is when your card statement becomes the main record of the purchase.`,
         },
       ],
-      ctaHeading: `Recreate your ${n} receipt now`,
+      ctaHeading: `Make a ${n} receipt for your records`,
     };
   }
   if (p.kind === "receipt-copy") {
@@ -891,7 +892,7 @@ function baseIntentContent(p: IntentPage): IntentContent {
         ]
       ),
       h1: `How to Get a Copy of Your ${n} Receipt`,
-      lead: `Need another copy of a ${n} receipt for an expense report or your records? Here are the fastest ways to get one.`,
+      lead: `Need another copy of a ${n} receipt? Here are the fastest ways to get one from ${n}.`,
       sections: [
         {
           heading: `Ways to get a duplicate ${n} receipt`,
@@ -904,8 +905,8 @@ function baseIntentContent(p: IntentPage): IntentContent {
         },
         ...quirkSection(p.brandSlug, n),
         {
-          heading: `Or recreate a ${n} receipt`,
-          body: `If a reprint isn't available, you can rebuild a ${n} receipt with the same items, prices, date and store details, then download it as a PDF or PNG with no account. It takes about a minute.`,
+          heading: `Or make a ${n} receipt for your records`,
+          body: `If a reprint isn't available, you can fill in a ${n}-style receipt with the items, prices, date and store details for your own records, then download it as a PDF or PNG with no account. It is your own record, not a copy issued by ${n}, so it won't work as proof of purchase for a return, a refund or an expense claim.`,
         },
       ],
       faqs: [
@@ -913,7 +914,7 @@ function baseIntentContent(p: IntentPage): IntentContent {
           question: `Can ${n} reprint a receipt?`,
           answer: `In many cases yes — bring the card you paid with and the approximate date to the customer-service desk, and staff can often locate the transaction in the register system. ${fact ? `${fact.lookup} ` : ""}Reprint availability and time limits depend on the store's point-of-sale system, so the sooner you ask after the purchase, the better.`,
         },
-        { question: `Is it legal to recreate a ${n} receipt?`, answer: `Recreating a receipt for a real purchase — for your records, an expense report or replacing a lost copy — is legitimate. Using a fabricated receipt to deceive anyone is not.` },
+        { question: `Is it legal to make a ${n} receipt?`, answer: `Making a receipt of a real purchase to keep for your own records is fine. Using a made receipt as proof of purchase — for a return, a refund or an expense claim — or to deceive anyone is fraud.` },
       ],
       ctaHeading: `Make a copy of your ${n} receipt`,
     };
@@ -950,7 +951,7 @@ function baseIntentContent(p: IntentPage): IntentContent {
         ...quirkSection(p.brandSlug, n),
         {
           heading: `Lost the ${n} receipt for your records?`,
-          body: `If your refund is processed but you no longer have the original receipt, you can recreate a ${n} receipt that reflects the real transaction to keep with your expense records. Use a recreated receipt only honestly — never to misrepresent a charge.`,
+          body: `If your refund is processed but you no longer have the original receipt, you can make a ${n}-style receipt of the real transaction to keep in your own records. It is your own record, not a copy issued by ${n}, so it won't work as proof of purchase for a return, a refund or an expense claim.`,
         },
       ],
       faqs: [
@@ -960,7 +961,7 @@ function baseIntentContent(p: IntentPage): IntentContent {
         },
         { question: `Can I get a receipt for a ${n} refund?`, answer: `Yes — ${n} typically issues a refund confirmation by email or in your account. Keep it with the original receipt for your records.` },
       ],
-      ctaHeading: `Recreate your ${n} receipt`,
+      ctaHeading: `Make a ${n} receipt for your records`,
     };
   }
 
@@ -1006,7 +1007,7 @@ function baseIntentContent(p: IntentPage): IntentContent {
       ...quirkSection(p.brandSlug, n),
       {
         heading: `Lost your ${n} receipt before a return?`,
-        body: `If you've misplaced the receipt for a genuine purchase, first try your email and ${n} account. If you can't recover it, you can recreate a ${n} receipt that reflects your real purchase to keep with your records. Only use a recreated receipt honestly — not to misrepresent a purchase.`,
+        body: `If you've misplaced the receipt for a genuine purchase, first try your email and ${n} account. If you can't recover it, you can make a ${n}-style receipt of your real purchase to keep in your own records — but not for the return itself: a receipt you made is not a copy issued by ${n} and won't work as proof of purchase for a return, a refund or an expense claim.`,
       },
     ],
     faqs: [
@@ -1016,7 +1017,7 @@ function baseIntentContent(p: IntentPage): IntentContent {
       },
       { question: `How long do I have to return to ${n}?`, answer: `Return windows depend on the item and current policy, so confirm the timeframe on ${poss(n)} official return-policy page or your receipt before returning.` },
     ],
-    ctaHeading: `Recreate a lost ${n} receipt`,
+    ctaHeading: `Make a ${n} receipt for your records`,
   };
 }
 
@@ -1046,6 +1047,78 @@ function pick(c: IntentContent, prefix: string): IntentSection[] {
 }
 
 const CONTENT_OVERRIDES: Record<string, ContentOverride> = {
+  // 192 impressions at pos 6.8, 0 clicks (28 days to 2026-11-18): 175 of them
+  // are the exact question "do nike members need a receipt to make a return?",
+  // plus "nike receipt(s)". The generic return-policy title never asked it.
+  "nike-return-policy": (c) => ({
+    ...c,
+    title: `Do Nike Members Need a Receipt to Make a Return?`,
+    description: `Usually not: Nike Member purchases are saved under Orders in the Nike app or on nike.com. Where to find your Nike receipt, and what to bring as a guest.`,
+    h1: `Do Nike Members Need a Receipt to Make a Return?`,
+    lead: `Usually not. When you shop online or scan your member pass in a Nike store, the purchase is saved to your Nike Member account, and that record is your proof of purchase at a Nike store. Guest checkouts and in-store purchases made without scanning the pass are the exception: for those, bring the receipt or the card you paid with, and check Nike's current return policy before you go.`,
+    sections: [
+      {
+        heading: `Where to find your Nike receipt in the app or on nike.com`,
+        steps: [
+          `Open the Nike app, or sign in on nike.com, with the member account you shopped with.`,
+          `Go to Orders. Online orders and in-store purchases made with your member pass are both listed there.`,
+          `Open the purchase to see its details, and save or screenshot them if you need a copy for a return.`,
+        ],
+      },
+      {
+        heading: `What if you checked out as a guest or didn't scan your pass?`,
+        body: `Then the purchase is not in your member account. A guest online order can be found from its order confirmation email; an in-store purchase without a scan exists only on the paper receipt and your card statement, so bring the card you paid with if the receipt is gone.`,
+      },
+      ...pick(c, `What counts as proof`),
+      ...pick(c, `Good to know`),
+      ...pick(c, `Lost your`),
+    ],
+    faqs: [
+      {
+        question: `Do Nike members need a receipt to make a return?`,
+        answer: `Usually not. Purchases made online or with your member pass scanned in store are saved to your Nike Member account, which serves as proof of purchase. Check Nike's current return policy for the time limit and conditions.`,
+      },
+      {
+        question: `Where do I find my Nike receipts?`,
+        answer: `Under Orders in the Nike app or on nike.com, for purchases made with your member account. Guest orders are in the order confirmation email.`,
+      },
+      ...c.faqs,
+    ],
+  }),
+
+  // 303 impressions at pos 5.9 for "kfc receipt" and its variants ("kfc e
+  // receipt", "kfc order receipt", "kfc app receipt", "kfc receipt download",
+  // "how to get kfc bill online") but no AI answer cites it. Headings become
+  // the questions those queries ask, each answered in its first sentence.
+  "kfc-receipt-copy": (c) => ({
+    ...c,
+    lead: `To get a copy of a KFC receipt, check your email and the order history in your KFC account first: app and web orders are emailed and saved there. A counter purchase exists only on the paper receipt and your card statement, so for those ask the restaurant, with your card and the date, as soon as you can.`,
+    sections: [
+      {
+        heading: `How do I get a copy of my KFC receipt?`,
+        body: `It depends on how you ordered. App and web orders are in your email and your account's order history; counter orders need the restaurant.`,
+        cite: c.sections[0]?.cite,
+        steps: c.sections[0]?.steps,
+      },
+      {
+        heading: `Can I download a KFC receipt or invoice online?`,
+        body: `Yes, for orders placed in the KFC app or on the KFC website: the e-receipt is emailed at checkout and stays in your account's order history, where you can open and save it. Orders placed through a delivery app such as DoorDash or Uber Eats have their receipt in that app instead. Counter and drive-thru purchases are not stored anywhere you can download them.`,
+      },
+      {
+        heading: `What is printed on a KFC receipt?`,
+        body: `The items, prices, tax, total, payment method, and the store and visit time. KFC receipts also carry a guest-survey invitation tied to that specific store and visit.`,
+      },
+      ...pick(c, `Or make a`),
+    ],
+    faqs: [
+      {
+        question: `How do I get a KFC e-receipt?`,
+        answer: `Order in the KFC app or on the KFC website: the receipt is emailed to you and saved in your account's order history.`,
+      },
+      ...c.faqs,
+    ],
+  }),
+
   // 4,829 impressions, 6 clicks: "zara receipt finder" (696, pos 7.2), "zara
   // recover my receipt" (660, pos 5.4), "zara find my receipt", "zara retrieve
   // my receipt". The page answered "zara return policy" instead.
@@ -1116,7 +1189,7 @@ const CONTENT_OVERRIDES: Record<string, ContentOverride> = {
         body: `For a counter or drive-thru order, go back to the restaurant counter with the card you paid with and the approximate time. Whether a reprint is possible depends on the restaurant's register system, so ask soon after the purchase.`,
       },
       ...pick(c, `Good to know`),
-      ...pick(c, `Or recreate`),
+      ...pick(c, `Or make a`),
     ],
     faqs: [
       {
@@ -1156,7 +1229,7 @@ const CONTENT_OVERRIDES: Record<string, ContentOverride> = {
         body: `If you don't see a download option on the ride, resend the receipt to your email and save that email as a PDF: on a computer use Print, then Save as PDF; on a phone use Share or Print and save the preview as a PDF. If you ride for work often, a Lyft business profile forwards ride receipts to your work email, where expense tools can pick them up.`,
       },
       ...pick(c, `Good to know`),
-      ...pick(c, `Or recreate`),
+      ...pick(c, `Or make a`),
     ],
     faqs: [
       {
@@ -1207,7 +1280,7 @@ const CONTENT_OVERRIDES: Record<string, ContentOverride> = {
         heading: `Sheraton, Westin and other Marriott hotels`,
         body: `Sheraton, Westin, Courtyard, The Ritz-Carlton and the other Marriott Bonvoy hotels belong to Marriott, so a Sheraton receipt lookup works the same way: the stay appears in your Bonvoy account if you added your member number to the booking, and the folio request on marriott.com should cover it. If the stay is not in your account, ask the hotel directly.`,
       },
-      ...pick(c, `Or recreate`),
+      ...pick(c, `Or make a`),
     ],
     faqs: [
       {
@@ -1244,7 +1317,7 @@ const CONTENT_OVERRIDES: Record<string, ContentOverride> = {
         ],
       },
       ...pick(c, `Good to know`),
-      ...pick(c, `Or recreate`),
+      ...pick(c, `Or make a`),
     ],
     faqs: [
       {

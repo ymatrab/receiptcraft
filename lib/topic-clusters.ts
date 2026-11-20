@@ -32,7 +32,7 @@ const TEMPLATE_GROUPS: string[][] = [
   ],
   // Payments & rent
   [
-    "payment-receipt", "cash-receipt", "sales-receipt", "itemized-receipt", "proof-of-purchase",
+    "payment-receipt", "cash-receipt", "sales-receipt", "itemized-receipt", "email-receipt", "proof-of-purchase",
     "donation-receipt", "rent-receipt", "rent-receipt-india", "rent-receipt-ontario", "vat-receipt",
     "missing-receipt-form",
   ],
