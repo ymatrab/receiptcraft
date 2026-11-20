@@ -628,7 +628,9 @@ export const POLICY_UPDATED = "2026-08-31";
 // 2026-11-16: title and H1 become "Free Receipt Maker & Generator" so the page
 // names both head terms it owns.
 // 2026-11-19: the builder gains a "Start from a store" row of brand templates.
-export const CREATE_UPDATED = "2026-11-19";
+// 2026-11-20: phone layout — intro after the builder on phones, and the
+// "make a receipt on my phone" FAQ answer rewritten for the new bottom bar.
+export const CREATE_UPDATED = "2026-11-20";
 // 2026-10-13: lists the first-party measurement storage (mkc_* keys).
 // 2026-10-20: analytics section split by region — opt-in in the EEA/UK/CH,
 // on by default with Decline as the opt-out everywhere else.
