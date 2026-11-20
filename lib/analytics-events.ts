@@ -63,6 +63,11 @@ export const EVENT_NAMES = [
   "offer_bar_shown",
   "offer_bar_click",
   "offer_bar_dismissed",
+  // the builder on a phone: the Preview tab opened (by the tab or by the bar's
+  // Download button), and one summary row when the visitor leaves the builder
+  // (time spent, edited, finished, pressed download, which tab was showing)
+  "builder_preview",
+  "builder_left",
 ] as const;
 
 export type EventName = (typeof EVENT_NAMES)[number];
