@@ -1504,7 +1504,12 @@ export default function SectionBuilder() {
         </div>
       </div>
 
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_440px]">
+      {/* grid-cols-[minmax(0,1fr)] below lg, not the implicit column: an
+          implicit track is sized by its widest child, and on a 390px phone
+          that made the page 623px wide — cards cut off on the right, and on
+          Android the whole builder zoomed out with the bottom bar below the
+          visible screen (found 2026-11-20). */}
+      <div className="grid grid-cols-[minmax(0,1fr)] gap-8 lg:grid-cols-[minmax(0,1fr)_440px]">
         {/* EDITOR */}
         <div className={`space-y-4 ${mobileTab === "edit" ? "" : "hidden"} lg:block`}>
           {/* Settings */}
