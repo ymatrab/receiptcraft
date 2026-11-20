@@ -9,6 +9,8 @@ import { fitSeoDescription } from "@/lib/seo-description";
 import { absoluteUrl, SITE } from "@/lib/site";
 import { PLANS, formatPlanPrice } from "@/lib/plans";
 import { hubForPost } from "@/lib/related-posts";
+import HandoffCard from "@/components/HandoffCard";
+import OfferBar from "@/components/OfferBar";
 
 /**
  * Posts where the builder is what the visitor came for, not a footnote.
@@ -275,30 +277,27 @@ export default async function BlogPostPage({
   const ownHub = offerBody ? null : hubForPost(slug);
   const hub = offerBody ? null : ownHub ?? { href: "/templates", label: "receipt templates" };
   const hubSplit = hub && bodyBlocks.length > OFFER_AFTER_BLOCKS ? OFFER_AFTER_BLOCKS : bodyBlocks.length;
-  const hubLink = hub && (
-    <Link
-      href={hub.href}
-      className="font-medium text-indigo-700 underline decoration-indigo-300 underline-offset-2 hover:decoration-indigo-700"
-    >
-      {hub.label}
-    </Link>
-  );
+  // 2026-11-20: a card with a button, not a sentence with a text link in it.
+  // The blog took 356 sessions in the week to 11-19 and produced 13 builder
+  // opens. The button text keeps the hub's keyword: it is the anchor text.
   const hubAside = hub && (
-    <aside className="not-prose my-8 rounded-2xl border border-indigo-200 bg-indigo-50/60 px-5 py-4">
-      {ownHub ? (
-        <p className="leading-relaxed text-slate-700">
-          <strong className="font-semibold text-slate-900">Making one?</strong> Start from the{" "}
-          {hubLink}: the fields this guide covers are already laid out, and it is free to build and preview.
-        </p>
-      ) : (
-        <p className="leading-relaxed text-slate-700">
-          <strong className="font-semibold text-slate-900">Need to make a receipt?</strong> Pick one of the{" "}
-          {hubLink}: fill in the details and watch it build. Building and previewing are free; the free
-          download carries a small watermark.
-        </p>
-      )}
-    </aside>
+    <HandoffCard
+      heading={ownHub ? "Making one?" : "Need to make a receipt?"}
+      href={hub.href}
+      label={ownHub ? `Open the ${hub.label}` : "Browse receipt templates"}
+      location="blog_card"
+    >
+      {ownHub
+        ? "The fields this guide covers are already laid out. Building and previewing are free; the free download carries a small watermark."
+        : "Pick a template, fill in the details and watch it build. Building and previewing are free; the free download carries a small watermark."}
+    </HandoffCard>
   );
+  // The same destination for the bottom bar (components/OfferBar.tsx).
+  const bar = offerBody
+    ? { href: "/create", label: "Open the receipt maker" }
+    : ownHub
+      ? { href: ownHub.href, label: `Open the ${ownHub.label}` }
+      : { href: "/templates", label: "Browse receipt templates" };
   const faqJsonLd =
     faqs.length > 0
       ? {
@@ -398,30 +397,22 @@ export default async function BlogPostPage({
             offerBody ? (
               <>
                 <PortableText value={offerBody.lead as never} components={portableComponents} />
-                <aside className="not-prose my-8 rounded-2xl border border-indigo-200 bg-indigo-50/60 px-5 py-4">
-                  <p className="leading-relaxed text-slate-700">
-                    <strong className="font-semibold text-slate-900">
-                      Want to skip the comparison?
-                    </strong>{" "}
-                    {SITE.name} is the generator we build. Fill in the shop, items and
-                    totals and watch it build as you type —{" "}
-                    <Link
-                      href="/create"
-                      className="font-medium text-indigo-700 underline decoration-indigo-300 underline-offset-2 hover:decoration-indigo-700"
-                    >
-                      open the receipt maker
-                    </Link>
-                    . The rest of this guide covers the alternatives.
-                  </p>
-                  {/* The price comes from lib/plans.ts rather than a number
-                      written here: nine live pages once promised "your first
-                      three" when the real limit was one, and every one of them
-                      was a hand-written claim. */}
-                  <p className="mt-2 text-sm text-slate-500">
-                    No sign-up to build, preview or download. Free downloads carry a small
-                    watermark; Pro removes it, from {formatPlanPrice(PLANS.pro_weekly)} for 7 days.
-                  </p>
-                </aside>
+                {/* The price comes from lib/plans.ts rather than a number
+                    written here: nine live pages once promised "your first
+                    three" when the real limit was one, and every one of them
+                    was a hand-written claim. */}
+                <HandoffCard
+                  heading="Want to skip the comparison?"
+                  href="/create"
+                  label="Open the receipt maker"
+                  location="blog_card"
+                >
+                  {SITE.name} is the generator we build. Fill in the shop, items and totals and
+                  watch it build as you type. No sign-up to build, preview or download. Free
+                  downloads carry a small watermark; Pro removes it, from{" "}
+                  {formatPlanPrice(PLANS.pro_weekly)} for 7 days. The rest of this guide covers
+                  the alternatives.
+                </HandoffCard>
                 <PortableText value={offerBody.rest as never} components={portableComponents} />
               </>
             ) : hubAside ? (
@@ -455,7 +446,10 @@ export default async function BlogPostPage({
         )}
       </article>
 
-      <div className="mt-16 rounded-3xl bg-gradient-to-br from-indigo-600 to-violet-700 px-6 py-10 text-center">
+      <div
+        data-offer-cta=""
+        className="mt-16 rounded-3xl bg-gradient-to-br from-indigo-600 to-violet-700 px-6 py-10 text-center"
+      >
         <h2 className="text-2xl font-bold text-white">Need a receipt right now?</h2>
         <p className="mt-2 text-indigo-100">Create one free in under a minute.</p>
         <Link
@@ -465,6 +459,14 @@ export default async function BlogPostPage({
           Open the receipt maker
         </Link>
       </div>
+
+      <OfferBar
+        href={bar.href}
+        text="Need a receipt right now?"
+        label={bar.label}
+        shortLabel="Make a receipt now"
+        location="blog"
+      />
     </div>
   );
 }

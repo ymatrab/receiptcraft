@@ -13,12 +13,14 @@ import {
   type IntentKind,
 } from "@/lib/intent-pages";
 import { getTemplate } from "@/lib/templates";
-import { brandCategoryFor } from "@/lib/brands";
+import { anBrand, brandCategoryFor } from "@/lib/brands";
 import { hubTemplateForBrand } from "@/lib/topic-clusters";
 import { PLANS, formatPlanPrice } from "@/lib/plans";
 import { fitSeoDescription } from "@/lib/seo-description";
 import { absoluteUrl, SITE } from "@/lib/site";
 import RelatedPosts from "@/components/RelatedPosts";
+import HandoffCard from "@/components/HandoffCard";
+import OfferBar from "@/components/OfferBar";
 
 /** Which blog categories suit each guide. A "can I return without a receipt"
  *  page wants the legal reading; a lost-receipt page wants the recovery
@@ -214,42 +216,35 @@ export default async function IntentPage({
             the query first and offer the builder afterwards, not as the lead.
             The closing CTA stays too, as the exit for anyone who reads on. */}
         {si === 1 && (
-          <div className="mt-8 rounded-2xl border border-indigo-200 bg-indigo-50/60 px-5 py-4">
-            <p className="leading-relaxed text-slate-700">
-              <strong className="font-semibold text-slate-900">
-                Need a receipt for your own records?
-              </strong>{" "}
-              You can fill one in with the items, prices, date and store details of your
-              real purchase. It is not a copy issued by {page.brandName}, so it won&apos;t
-              work for a return or an expense claim.{" "}
-              {/* 2026-10-27: both links go to pages that can rank. This box
-                  used to open /create?template=…, which canonicalises to
-                  /create — a page with ~1,160 internal links already. The
-                  builder stays one click away: the line under the H1 and the
-                  closing CTA both open it. */}
-              Start from the{" "}
-              <Link
-                href={`/brands/${page.brandSlug}`}
-                className="font-medium text-indigo-700 underline decoration-indigo-300 underline-offset-2 hover:decoration-indigo-700"
-              >
-                {page.brandName} receipt generator
-              </Link>
-              {hubTemplate ? (
-                <>
-                  , or use the general{" "}
-                  <Link
-                    href={`/templates/${hubTemplate.slug}`}
-                    className="font-medium text-indigo-700 underline decoration-indigo-300 underline-offset-2 hover:decoration-indigo-700"
-                  >
-                    {hubTemplate.name.toLowerCase()} template
-                  </Link>{" "}
-                  if your copy looked different.
-                </>
-              ) : (
-                "."
-              )}
-            </p>
-          </div>
+          // 2026-11-20: a card with a button. This was a sentence with two
+          // text links in it; receipt-help took 688 sessions in the week to
+          // 11-19 and 100 of them opened the builder. Both links still go to
+          // pages that can rank (2026-10-27), never to /create?template=…,
+          // which canonicalises to /create. The button text keeps the brand
+          // page's keyword: it is the anchor text.
+          <HandoffCard
+            heading="Need a receipt for your own records?"
+            href={`/brands/${page.brandSlug}`}
+            label={`Open the ${page.brandName} receipt generator`}
+            location="receipt_help_card"
+          >
+            You can fill one in with the items, prices, date and store details of your real
+            purchase. It is not a copy issued by {page.brandName}, so it won&apos;t work for a
+            return or an expense claim.
+            {hubTemplate && (
+              <>
+                {" "}
+                If your copy looked different, use the general{" "}
+                <Link
+                  href={`/templates/${hubTemplate.slug}`}
+                  className="font-medium text-white underline decoration-indigo-200 underline-offset-2 hover:decoration-white"
+                >
+                  {hubTemplate.name.toLowerCase()} template
+                </Link>
+                .
+              </>
+            )}
+          </HandoffCard>
         )}
         <section className="mt-8">
           <h2 className="text-xl font-bold text-slate-900">{s.heading}</h2>
@@ -296,7 +291,10 @@ export default async function IntentPage({
       ))}
 
       {/* CTA */}
-      <div className="mt-12 rounded-3xl bg-gradient-to-br from-indigo-600 to-violet-700 px-6 py-10 text-center">
+      <div
+        data-offer-cta=""
+        className="mt-12 rounded-3xl bg-gradient-to-br from-indigo-600 to-violet-700 px-6 py-10 text-center"
+      >
         <h2 className="text-2xl font-bold text-white">{c.ctaHeading}</h2>
         <p className="mt-2 text-indigo-100">Match the items, prices, date and store details — then download as PDF or PNG.</p>
         <Link
@@ -384,6 +382,14 @@ export default async function IntentPage({
         categories={RELATED_CATEGORIES[page.kind]}
       />
       <Reviewed date={intentReviewedAt(page.brandSlug)} />
+
+      <OfferBar
+        href={handoff?.href ?? `/brands/${page.brandSlug}`}
+        text={`Need ${anBrand(page.brandName)} receipt for your own records?`}
+        label="Make one"
+        shortLabel={`Make ${anBrand(page.brandName)} receipt`}
+        location="receipt_help"
+      />
     </div>
   );
 }

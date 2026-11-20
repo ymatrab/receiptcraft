@@ -746,4 +746,15 @@ export const analytics = {
   reviewPromptShown: () => track("review_prompt_shown", {}),
   reviewPromptClicked: () => track("review_prompt_clicked", {}),
   reviewPromptDismissed: () => track("review_prompt_dismissed", {}),
+
+  // ---- hand-offs from blog posts and receipt-help guides ----
+  // The in-article button card. `location` is "blog_card" or
+  // "receipt_help_card". Whether the click reached a sell page is already
+  // recorded by `sell_reached`; this says which button sent it.
+  handoffClick: (location: string) => track("handoff_click", { location }),
+  // The bottom bar: shown / click / dismissed give its click-through rate and
+  // how many visitors close it. `location` is "blog" or "receipt_help".
+  offerBarShown: (location: string) => track("offer_bar_shown", { location }),
+  offerBarClick: (location: string) => track("offer_bar_click", { location }),
+  offerBarDismissed: (location: string) => track("offer_bar_dismissed", { location }),
 };
