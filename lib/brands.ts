@@ -85,22 +85,44 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     name: "Uber Receipt",
     shortName: "Uber",
     icon: "🚗",
-    seoTitle: "Free Uber Receipt Generator — Rideshare Receipt Maker",
+    seoTitle: "Uber Receipt Generator & Template — Uber Trip Receipt",
     seoDescription:
-      "Create an Uber-style rideshare receipt online. Add the base fare, distance, time and tip, edit the pickup details, then download a free watermarked PDF or PNG.",
-    heading: "Uber Receipt Generator",
+      "Uber receipt generator and template: trip fare, booking fee, tip, pickup and drop-off times, then a PDF or PNG. Free download is watermarked; a pass clears it.",
+    heading: "Uber Receipt Generator & Template",
     intro:
-      "Generate a rideshare receipt for your Uber trips. Include base fare, distance, wait time, and tip. Great for business travel expense reports.",
+      "Make an Uber-style trip receipt with the fare, booking fee and tip, the ride type and the pickup and drop-off times, then download it as a PDF or PNG.",
     useCases: [
       "Business travel expense claims",
-      "Lost digital receipt recovery",
+      "Keep your own record of rides and fares",
       "Client billing for travel costs",
+    ],
+    guidance: [
+      {
+        heading: "The fields of an Uber trip receipt",
+        body:
+          "The sample opens with an UberX ride: a trip fare line, a booking fee line, the pickup and drop-off times and a tip. Change the fare, fee, tip and times to match the trip and the total follows.",
+      },
+      {
+        heading: "Uber receipt template: start from the layout",
+        body:
+          "The template is a clean, minimal trip layout with the total, the fare breakdown and the trip details. Use it as the starting layout for your own ride records or mockups. Makecepeit is not affiliated with Uber, and a receipt made here is not proof of purchase.",
+      },
     ],
     faqs: [
       {
         question: "Can I add a tip to my Uber receipt?",
         answer:
           "Yes. Use the tip field to add a gratuity, and the total will be calculated automatically.",
+      },
+      {
+        question: "Is the Uber receipt generator free?",
+        answer:
+          `Building and a watermarked download are free with no account; a clean download needs a pass from ${PASS_FROM}.`,
+      },
+      {
+        question: "Is this an official Uber receipt?",
+        answer:
+          "No. Makecepeit is not affiliated with Uber; your official receipt comes from Uber itself.",
       },
     ],
     defaults: {
@@ -128,22 +150,49 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     name: "Target Receipt",
     shortName: "Target",
     icon: "🎯",
-    seoTitle: "Free Target Receipt Generator — Store Receipt Maker",
+    seoTitle: "Target Receipt Generator & Maker — Download PDF or PNG",
     seoDescription:
-      "Make an editable Target store receipt online. Itemize your purchases, tax and totals, edit the store details and date, then get a free watermarked PDF or PNG.",
-    heading: "Target Receipt Generator",
+      "Target receipt generator and maker: add items with item numbers and T tax flags, set the sales tax and store, then download a watermarked PDF or PNG free.",
+    heading: "Target Receipt Generator & Maker",
     intro:
-      "Create a department store receipt for Target. Add household goods, apparel, groceries, and more for expense tracking or replacements.",
+      "Make a Target-style store receipt: add household goods, apparel and groceries, each with its item number, set the sales tax, edit the store and date, then download a PDF or PNG.",
     useCases: [
-      "Replacing a lost store receipt",
+      "Keep your own record of Target purchases",
       "Reimbursement for office supplies",
       "Prop use for design and video",
     ],
+    guidance: [
+      {
+        heading: "Target receipt template: the thermal layout",
+        body:
+          "The Target template opens as a thermal store receipt in a monospaced font: the store name and address at the top, then each item in capitals with a 9-digit item number and a T tax flag, the subtotal, the tax line and the total. Under the total sit the card lines, a barcode and a return-policy footer. Every line is editable, so change the items, item numbers, store and date to match your own record.",
+      },
+      {
+        heading: "The Target receipt header and logo",
+        body:
+          "The header shows the store name and address with a logo. In the editor you can upload your own logo image, use a text heading instead, or leave the logo out. Makecepeit is not affiliated with Target, and a receipt made here is not proof of purchase.",
+      },
+    ],
     faqs: [
       {
-        question: "Does it look like a real Target receipt?",
+        question: "What layout does the Target template use?",
         answer:
-          "By choosing the 'Thermal' paper style and adding your items, it generates an accurate retail receipt structure.",
+          "A thermal store layout: item lines in capitals with a 9-digit item number and a T tax flag, then the subtotal, tax and total, the card lines, a barcode and a return-policy footer. Every field is editable.",
+      },
+      {
+        question: "Is the Target receipt generator free?",
+        answer:
+          `Building and a watermarked download are free with no account; a clean download needs a pass from ${PASS_FROM}.`,
+      },
+      {
+        question: "Can I change the tax rate and item numbers?",
+        answer:
+          "Yes. Every item, item number, tax rate, store and date is editable.",
+      },
+      {
+        question: "Is this affiliated with Target?",
+        answer:
+          "No. It is an independent template and not a proof of purchase.",
       },
     ],
     defaults: {
@@ -2022,22 +2071,44 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     name: "Best Buy Receipt",
     shortName: "Best Buy",
     icon: "💻",
-    seoTitle: "Free Best Buy Receipt Generator — Best Buy Receipt Maker",
+    seoTitle: "Best Buy Receipt Generator & Template — Edit Online",
     seoDescription:
-      "Create a Best Buy receipt online. Add electronics, appliances and accessories, edit the prices and tax, then download a free watermarked PDF or PNG receipt.",
-    heading: "Best Buy Receipt Generator",
+      "Best Buy receipt generator and template: add laptops, TVs and protection plans, edit SKUs, prices and tax, then download a watermarked PDF or PNG free.",
+    heading: "Best Buy Receipt Generator & Template",
     intro:
-      "Create a Best Buy receipt with electronics, laptops, TVs, and Geek Squad services.",
+      "Create a Best Buy-style receipt with laptops, TVs, accessories and protection plans, each line with its SKU, then download it as a PDF or PNG.",
     useCases: [
       "IT equipment purchase documentation",
       "Keep your own record of Best Buy purchases",
       "Business electronics reimbursement",
     ],
+    guidance: [
+      {
+        heading: "Best Buy receipt template: what opens pre-filled",
+        body:
+          "The template opens as a thermal Best Buy-style receipt: the store header, five sample lines with their SKUs (AirPods, a 50-inch TV, a two-year TV protection plan, a charger and a cable), the subtotal, tax and total, and a member points line in the footer. Change any line, SKU or price and the totals follow.",
+      },
+      {
+        heading: "Make a Best Buy laptop or TV receipt",
+        body:
+          "Replace a sample line with the laptop or TV: type the model in the item name, put its SKU in the SKU field and set the price. Add a protection plan as its own line under it. The {link:/examples/best-buy-receipt-laptop|Best Buy laptop receipt example} shows one filled in.",
+      },
+    ],
     faqs: [
       {
-        question: "Can I customize the items on the Best Buy receipt?",
+        question: "Is the Best Buy receipt generator free?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
+          `Building and a watermarked download are free with no account; a clean download needs a pass from ${PASS_FROM}.`,
+      },
+      {
+        question: "Can I edit the SKUs and the protection plan?",
+        answer:
+          "Yes. Every line, SKU, price, tax rate and the member line are editable.",
+      },
+      {
+        question: "Is this affiliated with Best Buy?",
+        answer:
+          "No. It is an independent template and not a proof of purchase.",
       },
     ],
     defaults: {
@@ -2301,23 +2372,49 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     name: "Apple Store Receipt",
     shortName: "Apple Store",
     icon: "📱",
-    seoTitle:
-      "Free Apple Store Receipt Generator — Apple Store Receipt Maker",
+    seoTitle: "Apple Receipt Generator — iPhone & Apple Store Receipts",
     seoDescription:
-      "Create an Apple Store receipt online. Add iPhones, MacBooks and accessories, edit the prices and tax, then download a free watermarked PDF or PNG receipt.",
-    heading: "Apple Store Receipt Generator",
+      `Apple receipt generator: add iPhone, AirPods and AppleCare lines, set the tax, get a PDF or PNG. The free download is watermarked; a ${PASS_FROM} pass removes it.`,
+    heading: "Apple Receipt Generator — Make an Apple Store Receipt",
     intro:
-      "Create a premium Apple Store receipt with iPhones, MacBooks, AirPods, and AppleCare protection.",
+      "Create an Apple Store-style receipt with an iPhone, AirPods, accessories and AppleCare+, set the tax, then download it as a PDF or PNG.",
     useCases: [
       "IT equipment purchase receipts",
       "Keep your own record of Apple purchases",
       "Business electronics documentation",
     ],
+    guidance: [
+      {
+        heading: "Make an iPhone receipt",
+        body:
+          "The sample opens with an iPhone 17 Pro 256GB line, AppleCare+ for it, AirPods Pro 3 and a USB-C cable. Change the model, storage and colour in the item name, set the price, and keep or delete the AppleCare+ line. The {link:/examples/apple-store-receipt-iphone|iPhone receipt example} shows one filled in.",
+      },
+      {
+        heading: "AirPods and accessory receipts",
+        body:
+          "Delete the iPhone and AppleCare+ lines to leave an AirPods-only or accessories receipt. The {link:/examples/apple-store-receipt-airpods|AirPods receipt example} shows one.",
+      },
+      {
+        heading: "Apple receipt template: the layout",
+        body:
+          "The template uses a clean sans-serif layout with a Specialist line and a return-by date under the items. Edit the store, Specialist, date and return-by line to match your own record. Makecepeit is not affiliated with Apple, and a receipt made here is not proof of purchase.",
+      },
+    ],
     faqs: [
       {
-        question: "Can I customize the items on the Apple Store receipt?",
+        question: "Is the Apple receipt generator free?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
+          `Building and a watermarked PDF or PNG are free with no account; a pass from ${PASS_FROM} removes the watermark.`,
+      },
+      {
+        question: "Can I add AppleCare to the receipt?",
+        answer:
+          "Yes. AppleCare+ is an editable line item with its own price.",
+      },
+      {
+        question: "Can I change the store and tax rate?",
+        answer:
+          "Yes. The store name, address, tax rate and currency are all editable.",
       },
     ],
     defaults: {
@@ -3616,11 +3713,38 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       "Keep your own record of Uber Eats purchases",
       "Business travel food documentation",
     ],
+    guidance: [
+      {
+        heading: "Download an Uber Eats receipt as a PDF",
+        body:
+          `The order layout downloads as a print-ready PDF or a PNG with no account. The free download carries a small watermark, and a pass from ${PASS_FROM} removes it.`,
+      },
+      {
+        heading: "Uber Eats order receipt example",
+        body:
+          "The sample is a takeout order of General Tso's chicken, vegetable fried rice and spring rolls, with the delivery address, courier and order lines, a delivery fee, a service fee, a tip and the total. Change the restaurant, dishes, fees and tip to match your order. The {link:/examples/uber-eats-receipt-order|Uber Eats receipt example} shows another.",
+      },
+      {
+        heading: "Other delivery apps",
+        body:
+          "Ordered through another app? Use the {link:/brands/doordash|DoorDash}, {link:/brands/grubhub|Grubhub}, {link:/brands/postmates|Postmates} or {link:/brands/instacart|Instacart} receipt generator.",
+      },
+    ],
     faqs: [
       {
-        question: "Can I customize the items on the Uber Eats receipt?",
+        question: "Can I download the Uber Eats receipt as a PDF?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
+          `Yes. Download a print-ready PDF or PNG; free downloads carry a watermark, and a pass from ${PASS_FROM} removes it.`,
+      },
+      {
+        question: "Can I edit the delivery fee, service fee and tip?",
+        answer:
+          "Yes. Every fee, tip, tax rate and line item is editable with a live preview.",
+      },
+      {
+        question: "Is this an official Uber Eats receipt?",
+        answer:
+          "No. It is an independent template, not issued by Uber, and not a proof of purchase.",
       },
     ],
     defaults: {
@@ -4436,22 +4560,49 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     name: "Chevron Receipt",
     shortName: "Chevron",
     icon: "⛽",
-    seoTitle: "Free Chevron Receipt Generator — Chevron Gas Receipt Maker",
+    seoTitle: "Chevron Receipt Generator — Make a Chevron Gas Receipt",
     seoDescription:
-      "Create a Chevron gas station receipt online. Add fuel and convenience items, edit the gallons, prices, tax and date, then get a free watermarked PDF or PNG.",
-    heading: "Chevron Receipt Generator",
+      "Chevron receipt generator: set the pump, fuel grade, gallons and price per gallon, then get a PDF or PNG. The free download is watermarked; a pass removes it.",
+    heading: "Chevron Receipt Generator — Chevron Gas Station Receipt",
     intro:
-      "Create a Chevron gas station receipt with Techron fuel and ExtraMile convenience items.",
+      "Create a Chevron-style gas station receipt: the fuel grade, gallons and price per gallon, any store items, the tax and the total, then download it as a PDF or PNG.",
     useCases: [
       "Company fuel reimbursement",
       "Track Chevron spending in a budget",
       "Mileage and fuel tracking",
     ],
+    guidance: [
+      {
+        heading: "Fuel lines: gallons at a price per gallon",
+        body:
+          "Enter the gallons as the quantity and the price per gallon as the price on the fuel line (the sample line is Regular/Self), and the line total and the receipt total follow. The invoice number, auth number and the last four card digits are editable lines under the total.",
+      },
+      {
+        heading: "Add snacks and drinks from the store",
+        body:
+          "Add convenience items as extra lines under the fuel, each with its own price, and set the sales tax rate for your area. The {link:/examples/chevron-receipt-gas|Chevron receipt example} shows a fill-up with a store item.",
+      },
+      {
+        heading: "Fuel receipts for your own mileage records",
+        body:
+          "Make one receipt per fill-up to keep a running record of what you spend on fuel. Makecepeit is not affiliated with Chevron, and a receipt made here is not proof of purchase.",
+      },
+    ],
     faqs: [
       {
-        question: "Can I customize the items on the Chevron receipt?",
+        question: "Can I change the gallons and price per gallon?",
         answer:
-          "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
+          "Yes. Enter the gallons as the quantity and the price per gallon as the price, and the total updates.",
+      },
+      {
+        question: "Can I add store items to a Chevron receipt?",
+        answer:
+          "Yes. Add any number of convenience lines and set the tax rate for your area.",
+      },
+      {
+        question: "Is the download free?",
+        answer:
+          `A watermarked PDF or PNG is free with no account; a pass from ${PASS_FROM} removes the watermark.`,
       },
     ],
     defaults: {
@@ -5989,6 +6140,91 @@ const BRAND_ITEMS: Record<string, Omit<LineItem, "id">[]> = {
   "cinemark": [{ name: "Adult Ticket", quantity: 2, price: 13.5 }, { name: "Large Popcorn", quantity: 1, price: 9.25 }, { name: "Soft Drink (L)", quantity: 2, price: 5.75 }],
 };
 
+/**
+ * Hand-written copy for generated brands whose queries need more than the
+ * variant pool (SEOZONE tasks, 2026-11-20). Replaces the picked title, meta,
+ * H1 and FAQs, and adds guidance sections; the FAQ list keeps the anchor.
+ */
+const SEED_COPY: Record<string, Partial<Pick<ReceiptTemplate, "seoTitle" | "seoDescription" | "heading" | "guidance" | "faqs">>> = {
+  "grab": {
+    seoTitle: "Grab Receipt Generator — Make a Grab Receipt PDF or PNG",
+    seoDescription:
+      "Make a Grab receipt PDF or PNG with the fare, platform fee, tolls and promo, and set GST and currency. The free download is watermarked; a pass removes it.",
+    heading: "Grab Receipt Generator — Make a Grab Receipt PDF",
+    guidance: [
+      {
+        heading: "Grab receipt sample: GrabCar ride",
+        body:
+          "The sample is a GrabCar ride in Singapore dollars: a booking ID, the ride type, the distance, pick-up and drop-off and the driver, then the fare, platform fee, ERP / tolls and a promotion line, paid by GrabPay Wallet. Every line is editable.",
+      },
+      {
+        heading: "Export your Grab receipt as a PDF, PNG or JPG",
+        body:
+          `Download a fitted or A4 print-ready PDF, a PNG or a JPG, all at 3x resolution. The free download carries a small watermark, and a pass from ${PASS_FROM} removes it.`,
+      },
+      {
+        heading: "Grab food and delivery orders",
+        body:
+          "For a food order, replace the fare and toll lines with the dishes, then add the delivery fee and a tip as lines of their own.",
+      },
+    ],
+    faqs: [
+      FAQ_ANCHOR("Grab", "grab"),
+      {
+        question: "Can I download the Grab receipt as a PDF?",
+        answer:
+          `Yes. Export a fitted or A4 print-ready PDF, a PNG or a JPG. The free download carries a small watermark, which a pass from ${PASS_FROM} removes.`,
+      },
+      {
+        question: "Can I change the currency from SGD?",
+        answer:
+          "Yes. The currency, GST rate and every fare line are editable.",
+      },
+      {
+        question: "Is this an official Grab receipt?",
+        answer:
+          "No. Makecepeit is an independent template, not affiliated with Grab.",
+      },
+    ],
+  },
+  "balenciaga": {
+    seoTitle: "Balenciaga Receipt Generator — Make a Balenciaga Receipt",
+    seoDescription:
+      "Balenciaga receipt generator: add bags, sneakers or slides, set the sales tax and currency, get a PDF or PNG. Free download is watermarked; a pass removes it.",
+    heading: "Balenciaga Receipt Generator for Bags, Sneakers & Slides",
+    guidance: [
+      {
+        heading: "Make a Balenciaga slides or sneakers receipt",
+        body:
+          "The sample opens with a small bag and a knit sneaker in size 42. Replace either line with the footwear you are recording and put the size and colour in the item name. Prices are yours to enter; the template suggests none.",
+      },
+      {
+        heading: "Boutique receipt vs online order receipt",
+        body:
+          "The template is a boutique receipt: a sales associate and client line, the card entry and auth code, and a returns line at the foot. For an online order, change the header to the online store and replace the associate line with your order number.",
+      },
+    ],
+    faqs: [
+      FAQ_ANCHOR("Balenciaga", "balenciaga"),
+      {
+        question: "Is the Balenciaga receipt generator free?",
+        answer:
+          `Building and a watermarked PDF or PNG are free with no account; a one-time pass from ${PASS_FROM} removes the watermark.`,
+      },
+      {
+        question: "Can I change the boutique and the items?",
+        answer:
+          "Yes. The store details, item descriptions, prices, tax rate and currency are all editable.",
+      },
+      {
+        question: "Is it affiliated with Balenciaga?",
+        answer:
+          "No. It is an independent template for your own records and mockups, not a proof of purchase.",
+      },
+    ],
+  },
+};
+
 function makeBrand(s: BrandSeed): ReceiptTemplate {
   const seed = hashSlug(s.slug);
   const noun = CATEGORY_NOUN[s.category];
@@ -6025,6 +6261,7 @@ function makeBrand(s: BrandSeed): ReceiptTemplate {
       paperStyle: s.paper ?? (s.category === "Digital & Subscriptions" ? "modern" : "thermal"),
       items,
     },
+    ...SEED_COPY[s.slug],
   };
 }
 

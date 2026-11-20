@@ -26,6 +26,7 @@ export const CONTEXT_LINKS: Readonly<Record<string, readonly string[]>> = {
   // "walmart receipt generator" → /brands/walmart (ranks 6.5, 2026-11-13).
   "/templates/retail-store": [
     "Rebuilding a supercenter receipt? The {link:/brands/walmart|Walmart receipt generator} opens with a Walmart-style layout, items and tax already filled in.",
+    "For a Target-style layout with item numbers and tax flags, use the {link:/brands/target|Target receipt maker}.",
   ],
   "/templates/grocery-store": [
     "Did the grocery run happen at Walmart? Start from the {link:/brands/walmart|Walmart receipt generator}, which already has the store fields and a grocery-and-household basket in place.",
@@ -35,6 +36,7 @@ export const CONTEXT_LINKS: Readonly<Record<string, readonly string[]>> = {
   ],
   "/compare/receiptbaker": [
     "ReceiptBaker's templates are organised by category. Makecepeit adds named brands on top of those: the {link:/brands/walmart|Walmart receipt generator}, for example, opens with a Walmart-style layout already filled in.",
+    "Comparing other receipt makers? See {link:/compare/makereceipt|Makecepeit vs MakeReceipt} and {link:/compare/receiptfaker|Makecepeit vs ReceiptFaker}.",
   ],
 
   // "restaurant receipt" → /templates/restaurant (ranks 27.2).
@@ -68,6 +70,7 @@ export const CONTEXT_LINKS: Readonly<Record<string, readonly string[]>> = {
   ],
   "/templates/electronics-store-receipt": [
     "Need a general store receipt? Use the {link:/templates/retail-store|retail store receipt} template.",
+    "For a Best Buy-style layout with SKUs and a protection plan line, start from the {link:/brands/best-buy|Best Buy receipt template}.",
   ],
   "/templates/hardware-store-receipt": [
     "Need a general store receipt? Use the {link:/templates/retail-store|retail store receipt} template.",
@@ -76,6 +79,7 @@ export const CONTEXT_LINKS: Readonly<Record<string, readonly string[]>> = {
   // Hand-offs to the sell page that owns a split query (keyword map, 2026-11-16).
   "/templates/taxi": [
     "Riding with Uber? The {link:/brands/uber|Uber receipt generator} lays out an Uber-style trip receipt; this template is for taxis, cabs and other car services.",
+    "Booked the ride with Grab in Southeast Asia? Use the {link:/brands/grab|Grab receipt generator}.",
   ],
   "/brands/sunoco": [
     "Filled up at a Costco warehouse instead? Use the {link:/brands/costco|Costco receipt generator}.",
@@ -94,6 +98,50 @@ export const CONTEXT_LINKS: Readonly<Record<string, readonly string[]>> = {
   ],
   "/brands/fedex": [
     "Sent it with UPS instead? Use the {link:/brands/ups|UPS receipt generator}.",
+  ],
+  // SEOZONE batch 2026-11-20: hand-offs between brand pages that split a query,
+  // and a body link into each sell page Google has discovered but never crawled.
+  "/brands/walmart": [
+    "Shopped at Target instead? Use the {link:/brands/target|Target receipt generator}.",
+  ],
+  "/brands/apple-store": [
+    "Bought the TV or laptop at Best Buy? Use the {link:/brands/best-buy|Best Buy receipt generator}.",
+  ],
+  "/brands/best-buy": [
+    "Bought the iPhone at an Apple Store? Use the {link:/brands/apple-store|Apple Store receipt generator}.",
+  ],
+  "/brands/uber": [
+    "Ordered food instead of a ride? Use the {link:/brands/uber-eats|Uber Eats receipt generator}.",
+  ],
+  "/brands/uber-eats": [
+    "Making a receipt for a ride, not a meal? Use the {link:/brands/uber|Uber receipt generator}.",
+  ],
+  "/brands/grubhub": [
+    "Ordered through Uber Eats instead? Use the {link:/brands/uber-eats|Uber Eats receipt generator}.",
+  ],
+  "/brands/chevron": [
+    "Not a Chevron station? The {link:/templates/gas-station|gas station receipt generator} works for any fuel stop.",
+  ],
+  "/brands/stockx": [
+    "Bought the sneakers on GOAT instead? Use the {link:/brands/goat|GOAT receipt generator}.",
+  ],
+  "/brands/dunkin": [
+    "Picked up doughnuts at Krispy Kreme instead? Use the {link:/brands/krispy-kreme|Krispy Kreme receipt generator}.",
+  ],
+  "/brands/venmo": [
+    "Paid with Cash App instead? Use the {link:/brands/cash-app|Cash App receipt generator}.",
+  ],
+  "/brands/cracker-barrel": [
+    "Eating at a buffet instead? Use the {link:/brands/golden-corral|Golden Corral receipt generator}.",
+  ],
+  "/brands/kohls": [
+    "Shopped at JCPenney instead? Use the {link:/brands/jcpenney|JCPenney receipt generator}.",
+  ],
+  "/brands/coach": [
+    "Bought a Kate Spade bag instead? Use the {link:/brands/kate-spade|Kate Spade receipt generator}.",
+  ],
+  "/brands/pizza-hut": [
+    "Making a receipt for your own pizzeria? Use the {link:/templates/pizza-receipt|pizza receipt} template.",
   ],
 };
 

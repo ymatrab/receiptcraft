@@ -217,10 +217,11 @@ export default async function IntentPage({
           <div className="mt-8 rounded-2xl border border-indigo-200 bg-indigo-50/60 px-5 py-4">
             <p className="leading-relaxed text-slate-700">
               <strong className="font-semibold text-slate-900">
-                Need a copy for your own records?
+                Need a receipt for your own records?
               </strong>{" "}
-              If {page.brandName} cannot retrieve the original, you can rebuild one from
-              what you remember — items, prices, date and store details.{" "}
+              You can fill one in with the items, prices, date and store details of your
+              real purchase. It is not a copy issued by {page.brandName}, so it won&apos;t
+              work for a return or an expense claim.{" "}
               {/* 2026-10-27: both links go to pages that can rank. This box
                   used to open /create?template=…, which canonicalises to
                   /create — a page with ~1,160 internal links already. The

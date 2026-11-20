@@ -62,7 +62,7 @@ function core(): MetadataRoute.Sitemap {
     { url: `${SITE.url}/templates`, lastModified: d(C.TEMPLATES_INDEX_UPDATED) },
     { url: `${SITE.url}/templates/google-docs`, lastModified: d(C.GOOGLE_DOCS_TEMPLATES_UPDATED) },
     { url: `${SITE.url}/examples`, lastModified: d(C.EXAMPLES_UPDATED) },
-    { url: `${SITE.url}/receipt-help`, lastModified: d(C.INTENT_UPDATED) },
+    { url: `${SITE.url}/receipt-help`, lastModified: d(C.INTENT_INDEX_UPDATED) },
     { url: `${SITE.url}/alternatives`, lastModified: d(C.alternativesUpdated()) },
     { url: `${SITE.url}/pricing`, lastModified: d(C.PRICING_UPDATED) },
     { url: `${SITE.url}/login`, lastModified: d(C.LOGIN_UPDATED) },

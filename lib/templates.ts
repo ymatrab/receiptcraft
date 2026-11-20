@@ -63,10 +63,10 @@ export const TEMPLATES: ReceiptTemplate[] = [
     // 2026-11-18: "grocery receipt" first — the page ranks ~12 for it.
     seoTitle: "Grocery Receipt Template — Grocery Store Receipt Generator",
     seoDescription:
-      `Make a grocery receipt online with items, weighed produce, coupons and sales tax. Watermarked PDF or PNG is free; a pass from ${PRO_FROM} removes it.`,
+      `Grocery receipt generator: list items, weighed produce, coupons and sales tax, then download a PDF or PNG. Free with a watermark; a pass from ${PRO_FROM} removes it.`,
     heading: "Grocery Receipt Template & Generator",
     intro:
-      `Create an editable supermarket or grocery store receipt with itemized products, weighed produce, coupons, sales tax and payment details. Use it for expense reports, shared-household and office-supply reimbursements, and bookkeeping records. Fill it in on the editor; the PDF or PNG download is free with a small watermark, and a pass from ${PRO_FROM} removes it.`,
+      `Use this grocery receipt generator to build an itemized supermarket or grocery store receipt with products, weighed produce, coupons, sales tax and payment details. Use it for expense reports, shared-household and office-supply reimbursements, and bookkeeping records. Fill it in on the editor; the PDF or PNG download is free with a small watermark, and a pass from ${PRO_FROM} removes it.`,
     // 2026-11-03: deepened (Notion "Get the 7 templates closest to page 1 into
     // the top 10"): field list, weighed-item maths, taxable vs exempt lines.
     leadAnswer:
@@ -132,6 +132,13 @@ export const TEMPLATES: ReceiptTemplate[] = [
         body:
           "Most US states exempt groceries from sales tax or tax them at a reduced rate, while household goods, alcohol and prepared food are taxed at the full rate. A supermarket receipt therefore charges tax on some lines only, and marks each line with a tax flag.\n\n" +
           "This template follows that. The food lines are set to 'Not taxed' and the paper towels are taxed at 6.25%, so the tax is 6.25% of $7.99, or $0.50, not 6.25% of the whole subtotal. If your state taxes food, untick 'Not taxed' and the rate applies to every line. Check the rate your state and city charge before you rely on the total.",
+      },
+      {
+        heading: "Make an itemized grocery receipt",
+        body:
+          "1. Weighed produce: put the weight in the quantity and the price per pound in the price, so the line reads weight × price per pound. A weighed line still counts as one item if you turn on the items-sold count.\n\n" +
+          "2. Coupons and loyalty savings: enter each saving in the item's discount field, or add an order discount under the totals, then turn on 'Show “You saved” after the total' to print the saving.\n\n" +
+          "3. Untaxed food: tick 'Not taxed' on the exempt lines, and the sales tax is worked out on the taxable lines only.",
       },
     ],
     useCases: [
@@ -533,6 +540,28 @@ export const TEMPLATES: ReceiptTemplate[] = [
         question: "How do I make a receipt for a cash taxi ride?",
         answer:
           "Enter the taxi company name, the trip date and time, then add line items such as base fare, distance charge and airport surcharge. Add a tip if you gave one, select Cash as the payment method, and download the PDF for your expense report.",
+      },
+      {
+        question: "Can I make a cab receipt for my own taxi business?",
+        answer:
+          "Yes. Put your company name, phone and cab or medallion number in the header, and your name on the driver line, then give each passenger a receipt for the fare they paid.",
+      },
+    ],
+    guidance: [
+      {
+        heading: "What goes on a taxi or cab receipt",
+        body:
+          "A cab receipt carries the company name and phone number, the cab or medallion number and the driver, the date, the pickup and drop-off points with their times, the distance, the fare, any tolls or surcharges, the tip and the total, with how it was paid. This template has a line for each: the cab number and driver sit in the header, and the fare is split into base fare, distance and wait time so a passenger can see how the total was reached.",
+      },
+      {
+        heading: "Issuing receipts as a driver or cab company",
+        body:
+          "If you drive a taxi or run a small car service, give every passenger a receipt, even for cash fares. Number them in order and keep a copy of each: they are your own record of what you took in, and they answer a passenger who asks later what a trip cost. Check your city's taxi rules for anything a receipt must show; they differ from place to place.",
+      },
+      {
+        heading: "A filled taxi receipt sample",
+        body:
+          "The sample is a Metro City Taxi trip in New York: a base fare of $3.50, 8.2 miles of distance at $19.68 and $2.50 of wait time, a subtotal of $25.68, then a $4.00 tip for a total of $29.68, with cab #4127 and the driver in the header. Change each line to your own trip and the total follows.",
       },
     ],
     defaults: {
@@ -1852,10 +1881,10 @@ export const TEMPLATES: ReceiptTemplate[] = [
     name: "Payment Receipt",
     shortName: "Payment",
     icon: "💳",
-    seoTitle: "Payment Receipt Template — Free Receipt of Payment Maker",
+    seoTitle: "Payment Receipt Template & Generator — Receipt of Payment",
     seoDescription:
-      "Make a payment receipt with the payer, payee, amount, payment method, date, reference and what it paid for. For freelancers, landlords and small sellers. PDF.",
-    heading: "Payment Receipt Template",
+      "Payment receipt template and generator: payer, payee, amount, method, date and reference. Free to build; the PDF or PNG download is watermarked until a pass.",
+    heading: "Payment Receipt Template & Generator",
     intro:
       "Create a receipt of payment that confirms money changed hands: who paid, who received it, how much, how and when it was paid, the transaction reference and what it paid for. Freelancers send one when an invoice is settled; landlords and small sellers send one when a customer pays by transfer, check or app.",
     leadAnswer:
@@ -1915,6 +1944,11 @@ export const TEMPLATES: ReceiptTemplate[] = [
       `Fill in the payment method, the reference and the balance remaining, then download a PDF or PNG with no account — free with a small watermark, or watermark-free with Pro from ${PRO_FROM}.`,
     ],
     guidance: [
+      {
+        heading: "Payment methods: cash, card, bank transfer or check",
+        body:
+          "Pick the method in the payment field and give the receipt the reference that lets both sides find the payment later. For a card, that is the last four digits; for a bank transfer, the transfer or transaction reference; for a check, the check number and bank; for cash, the receipt number on its own is the reference, so number every cash receipt in order. A payment app such as PayPal or Venmo gets its transaction ID.",
+      },
       {
         heading: "Payment receipt, invoice or cash receipt?",
         body:
@@ -3710,6 +3744,132 @@ export const TEMPLATES: ReceiptTemplate[] = [
       items: [
         { id: id(), name: "Office Visit Copay", quantity: 1, price: 30.0 },
         { id: id(), name: "Lab Work — Basic Panel", quantity: 1, price: 45.0 },
+      ],
+    },
+  },
+  {
+    slug: "email-receipt",
+    // 2026-11-20: "email receipt generator" (~140/mo, makereceipt.com #3) and
+    // "digital receipt maker" (~260/mo, our best page at ~28) had no owner. A
+    // receipt laid out like the one a small business emails after a sale.
+    name: "Email Receipt",
+    shortName: "Email",
+    icon: "📧",
+    seoTitle: "Email Receipt Generator — Make a Digital Receipt Online",
+    seoDescription:
+      "Make an email receipt: order number, items, tax, payment and a billed-to block in a clean digital layout. Free to build; the PDF or PNG download is watermarked.",
+    heading: "Email Receipt Generator — Digital Receipt Maker",
+    intro:
+      "Build the receipt a small business emails to a customer after an online or card payment: the business, an order number and date, who it was billed to, what was bought, the tax, the total and how it was paid. It comes in a clean digital layout you download as a PDF or PNG and attach to your own email.",
+    leadAnswer:
+      "An email receipt is the digital receipt a business sends after a sale. It shows the business name and contact details, an order or receipt number, the date, the customer it was billed to, each item with its price, any tax and shipping, the total, the payment method with the last four card digits, and where to get help. It replaces the paper slip, so it carries the same facts.",
+    useCases: [
+      "Small online shops sending a receipt after each order",
+      "Freelancers emailing a receipt when a client pays",
+      "Mockups of an order-confirmation email for an app or store",
+      "Keeping a PDF copy of your own sales",
+    ],
+    fields: [
+      {
+        name: "Business name and contact",
+        description:
+          "Your business name, address and website at the top, so the customer knows who the receipt is from and where to reach you.",
+      },
+      {
+        name: "Order number and date",
+        description:
+          "A number for each order, in sequence, and the date of the sale. The customer quotes it if they write to you about the order.",
+      },
+      {
+        name: "Billed to",
+        description:
+          "The customer's name and email address. Add a shipping address too if the order was sent by post.",
+      },
+      {
+        name: "Items, shipping and tax",
+        description:
+          "One line per item with its quantity and price, shipping as a line of its own, then the subtotal, any sales tax and the total.",
+      },
+      {
+        name: "Payment method",
+        description:
+          "How the order was paid, with the last four digits of the card, never the full number.",
+      },
+      {
+        name: "Help line",
+        description:
+          "One line at the foot telling the customer how to ask about the order, for example by replying to the email.",
+      },
+    ],
+    howToSteps: [
+      "Enter your business name, address and website, and set the order number and date.",
+      "Fill in the customer's name and email in the Billed to block.",
+      "Add each item with its quantity and price, then shipping as its own line, and set the sales tax rate if you charge one.",
+      `Choose the payment method, then download a PDF to attach to your email or a PNG to paste into it. The free download carries a small watermark; a pass from ${PRO_FROM} removes it.`,
+    ],
+    guidance: [
+      {
+        heading: "Email receipt vs printed receipt",
+        body:
+          "Both carry the same facts: who sold what, when, for how much and how it was paid. A printed till receipt adds the register, the cashier and the store number. An email receipt drops those and adds what an online sale needs instead: an order number, the customer's name and email, a shipping address when there is one, and a line on how to get help.",
+      },
+      {
+        heading: "Download as a PDF or image",
+        body:
+          `Download a PDF to attach to your email, or a PNG to paste into the body of the message. Both are rendered at 3x resolution, so they stay sharp on a phone and when printed. The free download carries a small watermark; a pass from ${PRO_FROM} removes it.`,
+      },
+    ],
+    faqs: [
+      {
+        question: "How do I make an email receipt?",
+        answer:
+          "Fill in your business details, the order number and date, the customer in the Billed to block and each item with its price, set the tax, choose the payment method and download a PDF or PNG.",
+      },
+      {
+        question: "How do I send the receipt to my customer?",
+        answer:
+          "Download the PDF and attach it to your email, or paste the PNG into the message. Makecepeit makes the receipt; you send it from your own email account.",
+      },
+      {
+        question: "Is a digital receipt the same as an email receipt?",
+        answer:
+          "Here, yes: a digital receipt is one made and sent on screen rather than printed. This template lays it out the way a business emails it.",
+      },
+      {
+        question: "Is the email receipt generator free?",
+        answer:
+          `Building and a watermarked download are free with no account; a clean download needs a pass from ${PRO_FROM}.`,
+      },
+    ],
+    defaults: {
+      businessName: "Lumen & Loom Studio",
+      addressLine1: "48 Market Street",
+      addressLine2: "Portland, OR 97204",
+      phone: "",
+      website: "lumenandloom.shop",
+      greeting: "Thanks for your order!",
+      numberLabel: "Order no.",
+      taxLabel: "Sales Tax",
+      taxRate: 0,
+      paymentMethod: "Credit Card",
+      cardLastFour: "4242",
+      hideStoreLine: true,
+      showBarcode: false,
+      fontFamily: "sans",
+      headerAlign: "left",
+      ruleStyle: "solid",
+      footerMessage: "Questions about your order? Reply to this email.",
+      paperStyle: "modern",
+      sections: [
+        {
+          title: "Billed to",
+          rows: [{ value: "Jordan Ellis" }, { value: "jordan.ellis@example.com" }],
+        },
+      ],
+      items: [
+        { id: id(), name: "Hand-poured candle, cedar", quantity: 2, price: 24.0 },
+        { id: id(), name: "Linen tea towel set", quantity: 1, price: 18.5 },
+        { id: id(), name: "Shipping", quantity: 1, price: 6.95 },
       ],
     },
   },

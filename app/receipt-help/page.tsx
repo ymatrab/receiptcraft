@@ -38,7 +38,7 @@ export default function ReceiptHelpHub() {
         <h1 className="text-4xl font-bold tracking-tight text-slate-900">Receipt help</h1>
         <p className="mt-4 text-lg leading-relaxed text-slate-600">
           Lost a receipt, need a duplicate, or returning an item? These guides show how to find,
-          reprint and replace receipts from popular brands — and how to recreate one for your records
+          reprint and replace receipts from popular brands — and how to make one for your own records
           when the original is gone.
         </p>
       </header>

@@ -511,6 +511,10 @@ export const AUTHORS_UPDATED = "2026-11-16";
 // with their original content, so this is the date the URL became reachable
 // again rather than a content review — the rewrite is queued separately.
 export const INTENT_UPDATED = "2026-09-01";
+
+// 2026-11-20: the /receipt-help index intro says "make one for your own records"
+// instead of "recreate one". Only the index moves onto this date.
+export const INTENT_INDEX_UPDATED = "2026-11-20";
 // 2026-08-31: the CTA names a Pro template before the click.
 // 2026-09-01: the builder offer moves up under the first answer on every guide
 // — it previously appeared only in the closing CTA, ~650 words down.
@@ -711,7 +715,8 @@ export const HOME_UPDATED = "2026-11-03";
 // 2026-10-24: the intro no longer says downloading needs a free account or that
 // the first download is watermark-free.
 // 2026-11-16: three new cards (billing statement, missing receipt form, superbill).
-export const TEMPLATES_INDEX_UPDATED = "2026-11-16";
+// 2026-11-20: new card (email receipt).
+export const TEMPLATES_INDEX_UPDATED = "2026-11-20";
 // /templates/google-docs — new on 2026-10-11. Lists the free templates
 // published as public Google Docs (lib/google-docs-templates.ts).
 // 2026-10-21: "Preview" became "Open in Google Docs", linking each Doc's /edit
@@ -735,6 +740,8 @@ export function compareReviewedAt(slug: string): string {
     COMPARE_COPY_UPDATED,
     COMPARE_PREVIEW_UPDATED,
     linksChangedNov16(`/compare/${slug}`) ? LINKS_NOV16_UPDATED : null,
+    // 2026-11-20: /compare/receiptbaker links the two other comparisons.
+    slug === "receiptbaker" ? "2026-11-20" : null,
   );
 }
 
@@ -813,6 +820,8 @@ const TEMPLATES_ADDED: Readonly<Record<string, string>> = {
   // 2026-11-16: template pages for creation demand that landed on blog posts
   // (strategy: billing statement, missing receipt form, superbill welcome).
   "billing-statement": "2026-11-16",
+  // 2026-11-20: "email receipt generator" / "digital receipt maker" had no owner.
+  "email-receipt": "2026-11-20",
   "missing-receipt-form": "2026-11-16",
   superbill: "2026-11-16",
   "payment-receipt": TEMPLATE_GAPS_ADDED,
@@ -950,7 +959,19 @@ const TEMPLATES_COPY_GUARDRAILS: ReadonlySet<string> = new Set([
 ]);
 const TEMPLATES_COPY_GUARDRAILS_UPDATED = "2026-11-20";
 
+// 2026-11-20: SEOZONE batch. Grocery (meta, intro, itemized section), payment
+// receipt (title, H1, meta, payment-methods section) and taxi (three sections,
+// one FAQ) changed; retail store and electronics gained a brand hand-off; the
+// new email receipt template joined the payments group, which moved the
+// related-template links of the four pages before it in that ring.
+const TEMPLATES_NOV20_BATCH: ReadonlySet<string> = new Set([
+  "grocery-store", "payment-receipt", "taxi", "retail-store", "electronics-store-receipt",
+  "email-receipt", "cash-receipt", "sales-receipt", "itemized-receipt",
+]);
+const TEMPLATES_NOV20_BATCH_UPDATED = "2026-11-20";
+
 export function templateReviewedAt(t: ReceiptTemplate): string {
+  if (TEMPLATES_NOV20_BATCH.has(t.slug)) return TEMPLATES_NOV20_BATCH_UPDATED;
   if (TEMPLATES_COPY_GUARDRAILS.has(t.slug)) return TEMPLATES_COPY_GUARDRAILS_UPDATED;
   if (TEMPLATES_CATEGORY_TITLES_2.has(t.slug)) return TEMPLATES_CATEGORY_TITLES_2_UPDATED;
   if (TEMPLATES_CATEGORY_TITLES.has(t.slug)) return TEMPLATES_CATEGORY_TITLES_UPDATED;
@@ -1027,6 +1048,7 @@ export function intentReviewedAt(brandSlug: string): string {
     INTENT_HUB_LINK_UPDATED,
     hasHandoff(brandSlug) ? INTENT_HANDOFF_UPDATED : null,
     INTENT_FAQ_EXPENSE_UPDATED,
+    INTENT_RECORDS_WORDING_UPDATED,
   );
 }
 
@@ -1034,6 +1056,12 @@ export function intentReviewedAt(brandSlug: string): string {
 // guide dropped "or claim an expense", which contradicted the guides' own
 // "handy for an expense report" section. Every guide carries that FAQ.
 const INTENT_FAQ_EXPENSE_UPDATED = "2026-11-16";
+
+// 2026-11-20: every guide's builder hand-off stopped offering to "recreate" a
+// lost receipt for an expense report or reimbursement. The sections, CTAs and
+// the shared FAQ now say "make a receipt for your records" and that it is not
+// proof of purchase. Nike and KFC also got their own rewrites the same day.
+const INTENT_RECORDS_WORDING_UPDATED = "2026-11-20";
 
 /** Latest of several ISO dates (YYYY-MM-DD sorts as text); nulls are skipped. */
 function newest(...dates: (string | null)[]): string {
