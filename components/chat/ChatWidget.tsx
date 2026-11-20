@@ -191,6 +191,19 @@ export default function ChatWidget() {
     );
   const unavailable = thread?.available === false && !thread.conversationId;
 
+  // The builder has its own bar along the bottom on phones (Preview /
+  // Download, components/builder/SectionBuilder.tsx). At bottom-5 the launcher
+  // sat on the right end of the Download button and won the tap; there it
+  // rises above the bar, and drops to z-40 so the download and layout sheets
+  // (z-50) cover it instead of the other way round.
+  const onBuilder = pathname === "/create";
+  const launcherPos = onBuilder
+    ? "bottom-[calc(5rem_+_env(safe-area-inset-bottom))] z-40 lg:bottom-5 lg:z-50"
+    : "bottom-5 z-50";
+  const panelPos = onBuilder
+    ? "bottom-[calc(9.5rem_+_env(safe-area-inset-bottom))] lg:bottom-24"
+    : "bottom-24";
+
   const greeting = account.isLoggedIn
     ? "Hi there 👋 How can we help you today?"
     : "Hi there 👋 What's your email, and how can we help you today? Leave both below and we'll get back to you, even if you leave the page.";
@@ -202,7 +215,7 @@ export default function ChatWidget() {
         onClick={() => setOpen((o) => !o)}
         aria-label={unread ? "Support chat, new reply" : "Support chat"}
         aria-expanded={open}
-        className="fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-indigo-600 text-2xl text-white shadow-lg transition-transform hover:scale-105"
+        className={`fixed ${launcherPos} right-5 flex h-14 w-14 items-center justify-center rounded-full bg-indigo-600 text-2xl text-white shadow-lg transition-transform hover:scale-105`}
       >
         {open ? "✕" : "💬"}
         {unread && (
@@ -211,7 +224,7 @@ export default function ChatWidget() {
       </button>
 
       {open && (
-        <div className="fixed bottom-24 right-5 z-50 flex h-[30rem] max-h-[calc(100dvh-7.5rem)] w-[22rem] max-w-[calc(100vw-2.5rem)] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
+        <div className={`fixed ${panelPos} right-5 z-50 flex h-[30rem] max-h-[calc(100dvh-7.5rem)] w-[22rem] max-w-[calc(100vw-2.5rem)] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
           <div className="border-b border-slate-100 bg-slate-50 px-4 py-3">
             <p className="text-sm font-semibold text-slate-900">Support</p>
             <p className="flex items-center gap-1.5 text-xs text-slate-600">
