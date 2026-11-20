@@ -34,6 +34,21 @@ export function writeConsent(value: "granted" | "denied"): void {
 }
 
 /**
+ * Forget the visitor's choice so the banner shows again ("Cookie settings" in
+ * the footer). The inline script in app/layout.tsx marks <html> with
+ * data-consent-set to hide the banner before paint, so that mark goes too.
+ */
+export function resetConsent(): void {
+  try {
+    localStorage.removeItem(CONSENT_KEY);
+  } catch {
+    /* storage unavailable — the banner is already showing */
+  }
+  document.documentElement.removeAttribute("data-consent-set");
+  window.dispatchEvent(new CustomEvent(CONSENT_EVENT, { detail: "unset" }));
+}
+
+/**
  * The visitor's cookie choice. `null` until localStorage has been read on the
  * client, so nothing renders differently between the server HTML and the first
  * paint.

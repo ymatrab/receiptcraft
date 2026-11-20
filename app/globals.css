@@ -25,6 +25,16 @@ html[data-consent-set] [data-consent-banner] {
   display: none;
 }
 
+/* A visible keyboard focus ring for anything that does not style its own.
+   In the base layer so a component's own focus utilities (ring, outline-none)
+   still win — an unlayered rule would beat every Tailwind utility. */
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--color-indigo-600);
+    outline-offset: 2px;
+  }
+}
+
 html {
   scroll-behavior: smooth;
   /* No gray flash on tap (iOS); tap feedback comes from our own styles. */

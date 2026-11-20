@@ -15,7 +15,7 @@ export default function PrivacyPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
       <h1 className="text-4xl font-bold tracking-tight text-slate-900">Privacy Policy</h1>
-      <p className="mt-3 text-sm text-slate-500">Last updated: October 20, 2026</p>
+      <p className="mt-3 text-sm text-slate-500">Last updated: November 20, 2026</p>
 
       <div className="mt-8 space-y-5 leading-relaxed text-slate-600">
         <H2>The short version</H2>
@@ -23,6 +23,14 @@ export default function PrivacyPage() {
           The receipt builder runs in your browser — the contents of your receipts stay on your
           device and are not sent to or stored on our servers. We only collect the limited data
           needed to run accounts, payments, AI generation and support, described below.
+        </p>
+
+        <H2>Who we are</H2>
+        <p>
+          {SITE.name} is operated by {SITE.legal.entity}, a {SITE.legal.jurisdiction} limited
+          liability company, {SITE.legal.address.join(", ")}. We are responsible for the personal
+          data described here. Contact us at{" "}
+          <a href={`mailto:${SITE.email}`} className="text-indigo-600 underline">{SITE.email}</a>.
         </p>
 
         <H2>Receipt data</H2>
@@ -35,22 +43,26 @@ export default function PrivacyPage() {
 
         <H2>Account data</H2>
         <p>
-          If you create an account, we store your email address and basic profile information to
-          authenticate you and manage your plan. Authentication and our database are operated by
-          Supabase on our behalf.
+          If you create an account, we store your email address to authenticate you and manage
+          your plan. If you sign in with Google, we also receive the name and profile picture on
+          your Google account. Authentication and our database are operated by Supabase on our
+          behalf, and account emails (confirmation and password reset) are delivered by Resend.
         </p>
 
         <H2>Payment data</H2>
         <p>
-          Payments are handled by a third-party payment provider. We receive confirmation of your
-          purchase and your plan status, but we never receive or store your full card number or
-          security details — those are handled by the payment provider under their own privacy policy.
+          Payments are handled by Stripe. We receive confirmation of your purchase, the email
+          address you gave at checkout and your plan status, but we never receive or store your
+          full card number or security details — Stripe handles those under its own privacy policy.
+          If you buy without an account, we create one for the email you gave Stripe so the pass
+          has somewhere to live; you can sign in to it later with that email.
         </p>
 
         <H2>AI generator</H2>
         <p>
-          When you use the AI generator, the text you enter is sent to a third-party AI provider
-          (such as Google, OpenAI or Anthropic) to produce suggested receipt content. Please don&apos;t
+          When you use the AI generator, the text you enter is sent to one third-party AI provider
+          to produce suggested receipt content. Depending on which is available, that is Groq,
+          Google (Gemini), OpenAI, xAI, Hugging Face or Cloudflare Workers AI. Please don&apos;t
           enter sensitive personal information into AI prompts. For each generation we record that
           it happened (to enforce fair-use limits), the text you entered, the business name in the
           result and which of our templates it matched. We use these to learn which receipts people
@@ -64,10 +76,19 @@ export default function PrivacyPage() {
           can read and reply. Don&apos;t share passwords or payment details in chat.
         </p>
 
+        <H2>Notifications to our team</H2>
+        <p>
+          So we can respond quickly, our team receives short alerts through a private Telegram bot
+          when someone signs up, subscribes to the newsletter, starts or completes a purchase,
+          reaches an AI limit, or sends a chat message. An alert can include your email address,
+          your plan and the first part of a chat message. Telegram stores these alerts on its
+          servers.
+        </p>
+
         <H2>Cookies &amp; local storage</H2>
         <p>
-          Essential cookies and storage — keeping you signed in, enforcing free AI-generation
-          limits, and autosaving drafts in your own browser — are always on. In the EEA, the UK
+          Essential cookies and storage — keeping you signed in and autosaving drafts in your own
+          browser — are always on. In the EEA, the UK
           and Switzerland, analytics cookies are set <strong>only if you accept them</strong> in
           the cookie banner: until then Google Analytics runs in cookieless consent mode. Elsewhere
           Google Analytics sets its cookies by default, and Decline in the banner turns them off.
@@ -84,7 +105,7 @@ export default function PrivacyPage() {
           features are popular and where the interface can improve. We also use Vercel Analytics,
           which is cookieless and only counts page views in aggregate. None of this is linked to
           your receipt contents. If you subscribe to our newsletter, we store your email address
-          to send you product updates; every email includes an unsubscribe option.
+          to send you product updates; every newsletter we send includes an unsubscribe link.
         </p>
         <p>
           We also keep our own record of product events in our database — a sign-up, a template
@@ -114,15 +135,33 @@ export default function PrivacyPage() {
         <H2>Service providers</H2>
         <p>
           We rely on a small set of processors to run {SITE.name}: hosting (Vercel), database &amp;
-          authentication (Supabase), payments (our payment provider), the AI provider you generate
-          with, and our blog CMS (Sanity). Each processes data only to provide its service to us.
+          authentication (Supabase), payments (Stripe), account email delivery (Resend), the AI
+          provider you generate with (listed above), team alerts (Telegram), analytics (Google
+          Analytics, Microsoft Clarity and Vercel Analytics) and our blog CMS (Sanity). Each
+          processes data only to provide its service to us. Some pages also show badges from the
+          directories that list us (Fazier, Turbo0 and LaunchZone); your browser loads those images
+          from their servers, which can see your IP address. These services are based in, or
+          transfer data to, the United States.
+        </p>
+        <p>
+          We do not sell your personal information, and we do not share it for cross-context
+          behavioral advertising.
         </p>
 
         <H2>Your rights &amp; retention</H2>
         <p>
           You can request access to, correction of, or deletion of your account data — including
-          saved receipts and chat history — by contacting us. We keep account data while your account
-          is active and for a reasonable period afterwards as required for legal and accounting purposes.
+          saved receipts and chat history — by contacting us, and we will not treat you differently
+          for doing so. We keep account data while your account is active and for a reasonable
+          period afterwards as required for legal and accounting purposes; payment records are kept
+          as long as tax law requires.
+        </p>
+
+        <H2>Children</H2>
+        <p>
+          {SITE.name} is not directed to children under 13, and we do not knowingly collect personal
+          information from them. If you believe a child has given us personal information, contact
+          us and we will delete it.
         </p>
 
         <H2>Contact</H2>

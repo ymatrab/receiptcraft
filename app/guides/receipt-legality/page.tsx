@@ -71,7 +71,7 @@ const FAQS = [
   },
   {
     q: "Is it legal to recreate a receipt I lost?",
-    a: "Recreating a record of a purchase you genuinely made, for your own files or an expense claim, is a bookkeeping exercise rather than a legal problem. The recreated document has to match the real transaction — same merchant, date and amount. If the details do not describe something that happened, it stops being a record of anything.",
+    a: "Recreating a record of a purchase you genuinely made, for your own files, is a bookkeeping exercise rather than a legal problem. The recreated document has to match the real transaction — same merchant, date and amount. If the details do not describe something that happened, it stops being a record of anything.",
   },
   {
     q: "What makes a receipt valid for taxes?",
@@ -231,8 +231,8 @@ export default function ReceiptLegalityPage() {
         </h2>
         <p className="mt-4 leading-relaxed text-slate-600">
           Receipts fade, wash, and vanish from inboxes. Reconstructing a record of
-          a purchase you genuinely made — for your own files, an expense claim or a
-          warranty — is a bookkeeping exercise, and it is what most people using a
+          a purchase you genuinely made — for your own files and
+          budgeting — is a bookkeeping exercise, and it is what most people using a
           receipt maker are doing.
         </p>
         <p className="mt-4 leading-relaxed text-slate-600">

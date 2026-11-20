@@ -25,7 +25,7 @@ Full reference with all templates, pricing, FAQs and guides: /llms-full.txt
 
 ${SITE.name} offers ${TEMPLATE_COUNT} receipt templates and ${BRAND_COUNT} brand-style layouts pre-filled with sample items and tax rates: grocery store, restaurant, coffee shop, gas station, taxi & rideshare, hotel, retail store, pharmacy, bar & pub, salon & spa, auto repair, and parking. An AI receipt generator turns a plain-English description into a complete receipt. Each receipt supports custom business details, unlimited line items, tax (any label and rate, e.g. Sales Tax, VAT, GST), discounts, tips, split payments, 10 currencies (USD, EUR, GBP, CAD, AUD, INR, JPY, AED, SAR, MAD), four paper styles (thermal, clean white, invoice, digital email), and optional barcode and QR sections.
 
-Typical legitimate uses: replacing lost or faded receipts for real purchases, expense report documentation, small-business receipt issuing, bookkeeping records, and design or film props. Creating receipts to defraud is illegal and against the terms of use.
+Typical legitimate uses: your own records of real purchases, small-business receipt issuing, bookkeeping records, and design or film props. Creating receipts to defraud is illegal and against the terms of use.
 
 ## Main pages
 

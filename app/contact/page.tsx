@@ -90,6 +90,18 @@ export default function ContactPage() {
         >
           {SITE.email}
         </a>
+        <p className="mt-4 text-sm font-semibold uppercase tracking-wide text-indigo-700">
+          Company &amp; postal address
+        </p>
+        <address className="mt-1 text-sm not-italic leading-relaxed text-slate-700">
+          {SITE.legal.entity}
+          {SITE.legal.address.map((line) => (
+            <span key={line}>
+              <br />
+              {line}
+            </span>
+          ))}
+        </address>
       </div>
 
       <div className="mt-8 grid gap-4 sm:grid-cols-2">

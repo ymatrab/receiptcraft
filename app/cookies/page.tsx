@@ -4,7 +4,7 @@ import { SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Cookie Policy",
-  description: `Which cookies ${SITE.name} uses and why: essential cookies for login and free-plan limits, plus anonymous analytics you can turn off anytime.`,
+  description: `Which cookies ${SITE.name} uses and why: essential cookies for login and drafts, plus analytics you can turn off anytime.`,
   alternates: { canonical: "/cookies" },
 };
 
@@ -24,8 +24,28 @@ const ESSENTIAL = [
     duration: "Until you clear browser data",
   },
   {
-    name: "Draft & template storage (local storage)",
+    name: "rc_autosave_v1, rc_templates_v1 (local storage)",
     purpose: "Autosaves your receipt draft and saved templates in your own browser.",
+    duration: "Until you clear browser data",
+  },
+  {
+    name: "rc_pending_export (local storage)",
+    purpose: "Remembers which download you asked for while you sign in or pay, so it can finish when you return.",
+    duration: "Removed once the download resumes",
+  },
+  {
+    name: "rc_ai_prompt (local storage), rc_ai_receipt (session storage)",
+    purpose: "Keeps the AI prompt you typed while you sign up, and hands the generated receipt to the builder.",
+    duration: "Removed once used",
+  },
+  {
+    name: "rc_chat (cookie), rc_chat_started (local storage)",
+    purpose: "Keeps your support chat conversation linked to this browser if you message us without an account.",
+    duration: "Up to 180 days",
+  },
+  {
+    name: "mkc_offer_bar_closed, mkc_review_asked (local storage)",
+    purpose: "Remembers that you closed the offer bar or were already asked for a review, so we don't ask again.",
     duration: "Until you clear browser data",
   },
 ];
@@ -38,7 +58,7 @@ const ANALYTICS = [
   },
   {
     name: "_clck, _clsk, CLID (Microsoft Clarity)",
-    purpose: "Anonymous session insights (heatmaps, where the interface confuses people).",
+    purpose: "Session recordings and heatmaps that show where the interface confuses people. Loaded only after you accept.",
     duration: "Up to 1 year",
   },
 ];
@@ -55,6 +75,12 @@ const MEASUREMENT = [
     purpose:
       "Which kind of site sent you (e.g. Google, Bing, direct) and whether this visit has been counted, so we can see where visitors come from and where they leave.",
     duration: "Source remembered for 7 days",
+  },
+  {
+    name: "mkc_human, mkc_landing, mkc_sell, mkc_pricing_seen (local storage)",
+    purpose:
+      "Whether this browser has interacted with the page (so bots are not counted), the page a visit started on, and whether this visit has already been counted as reaching a template or the pricing page.",
+    duration: "Until you clear browser data",
   },
   {
     name: "mkc_ai_source (session storage)",
@@ -92,21 +118,22 @@ export default function CookiesPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
       <h1 className="text-4xl font-bold tracking-tight text-slate-900">Cookie Policy</h1>
-      <p className="mt-3 text-sm text-slate-500">Last updated: October 20, 2026</p>
+      <p className="mt-3 text-sm text-slate-500">Last updated: November 20, 2026</p>
 
       <div className="mt-8 space-y-5 leading-relaxed text-slate-600">
         <p>
           This page lists every cookie and browser-storage item {SITE.name} uses, what it does,
           and how long it lives. We use no advertising cookies and no cross-site tracking —
-          only what&apos;s needed to run the product, plus anonymous analytics. In the EEA, the
+          only what&apos;s needed to run the product, plus analytics. In the EEA, the
           UK and Switzerland analytics cookies are set only if you accept them; elsewhere
-          they are on by default and you can turn them off with Decline.
+          they are on by default and you can turn them off with Decline. You can change your
+          choice at any time from Cookie settings in the footer.
         </p>
 
         <H2>Essential cookies &amp; storage (always on)</H2>
         <p>
-          These are required for the site to function — signing in, enforcing free-plan limits,
-          and keeping your draft receipts safe in your own browser. They can&apos;t be switched off.
+          These are required for the site to function — signing in, keeping your draft receipts
+          safe in your own browser, and finishing a download or chat you started. They can&apos;t be switched off.
         </p>
         <CookieTable rows={ESSENTIAL} />
 

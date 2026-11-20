@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { analytics } from "@/lib/analytics";
 import { CheckIcon, SpinnerIcon } from "@/components/Icons";
@@ -102,7 +103,10 @@ export default function NewsletterSignup({ source = "footer", className = "" }: 
         </p>
       )}
       <p className="mt-2 text-xs text-slate-500">
-        Receipt tips, new templates and product updates. No spam, unsubscribe anytime.
+        Receipt tips, new templates and product updates. No spam, unsubscribe anytime.{" "}
+        <Link href="/privacy" className="underline hover:text-slate-700">
+          Privacy Policy
+        </Link>
       </p>
     </form>
   );

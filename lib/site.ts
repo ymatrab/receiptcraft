@@ -19,6 +19,16 @@ export const SITE = {
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.makecepeit.com",
   twitter: "@makecepeit",
   email: "hello@makecepeit.com",
+  /**
+   * The business that sells the product. Terms, Privacy and the footer all
+   * name it, because a buyer (and a payment processor) must be able to see who
+   * they are dealing with. Never add the EIN or the owner's personal name here.
+   */
+  legal: {
+    entity: "YUMA TECHNOLOGIES LLC",
+    jurisdiction: "New Mexico",
+    address: ["8206 Louisiana Blvd NE, Ste A 10605", "Albuquerque, NM 87113", "United States"],
+  },
   gaId: process.env.NEXT_PUBLIC_GA_ID ?? "G-LD43YK0L5B",
   clarityId: process.env.NEXT_PUBLIC_CLARITY_ID ?? "xd2t5uav4n",
   /**
