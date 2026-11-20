@@ -199,7 +199,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
       "A restaurant receipt shows the restaurant's name and location, the server and table or check number, each dish and drink with its price, the food subtotal, sales tax, an optional tip or service charge, and the final total with the payment method. Large parties often see an automatic gratuity added as its own line.",
     useCases: [
       "Business meal expense reimbursement",
-      "Replace a lost dinner or lunch receipt",
+      "Keep your own record of a meal out",
       "Per-diem and travel expense documentation",
       "Restaurant POS mockups and menu pricing tests",
     ],
@@ -567,7 +567,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
       "Build a hotel folio-style receipt with nightly room rate, occupancy taxes, resort fees and incidentals. Useful for travel reimbursements and lodging records when the front desk copy went missing.",
     useCases: [
       "Travel reimbursement for lodging",
-      "Replace a lost hotel folio",
+      "Keep your own record of a hotel stay",
       "Per-diem lodging documentation",
       "Booking and travel app mockups",
     ],
@@ -847,7 +847,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     useCases: [
       "Client entertainment expense claims",
       "Team outing reimbursements",
-      "Replace a lost bar tab receipt",
+      "Keep your own record of a night out",
       "Hospitality POS mockups",
     ],
     faqs: [
@@ -3992,7 +3992,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     intro:
       "Create an editable fast food or drive-thru receipt with combo meals, add-ons, fountain drinks and sales tax. Great for replacing a lost meal receipt, expense reports or design mockups.",
     useCases: [
-      "Replace a lost drive-thru receipt for an expense report",
+      "Track drive-thru spending in a budget",
       "Per-diem and travel meal documentation",
       "Bookkeeping for daily meal spending",
       "Props for film, TV and advertising",
@@ -4030,7 +4030,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     intro:
       "Make an editable pizzeria or pizza delivery receipt with custom pies, toppings, sides, drinks, delivery fees and tip. Perfect for reimbursements, records or props.",
     useCases: [
-      "Replace a lost pizza delivery receipt",
+      "Track takeout and delivery spending",
       "Office party and catering expense records",
       "Bookkeeping for a small pizzeria",
       "Film and advertising props",
@@ -4173,14 +4173,14 @@ export const TEMPLATES: ReceiptTemplate[] = [
     intro:
       "Make an editable electronics or tech store receipt with devices, accessories, protection plans and sales tax. Ideal for warranty claims, insurance documentation, expense reports or props.",
     useCases: [
-      "Proof of purchase for a warranty or insurance claim",
+      "Issue receipts for an electronics or repair shop's own sales",
       "Business equipment expense documentation",
       "Records for a repair or resale shop",
       "Design and advertising mockups",
     ],
     faqs: [
       { question: "Can I add a serial number or warranty?", answer: "Yes — add a line for the protection plan, and include serial or model numbers in the item name or a custom note section." },
-      { question: "Is this good for insurance claims?", answer: "Many people recreate a lost proof of purchase for a device they really bought. You're responsible for using it honestly and lawfully." },
+      { question: "Can I use this for an insurance claim?", answer: "No. An insurer checks the purchase against the seller's own records, so a receipt you make here is not proof of purchase. If you lost the original, ask the store for a copy or use your card or bank statement." },
     ],
     defaults: {
       businessName: "VoltTech Electronics",
@@ -4213,7 +4213,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     useCases: [
       "Job-costing and contractor expense records",
       "Reimbursement for materials on a project",
-      "Replace a lost receipt for a return",
+      "Sample receipts for staff training",
       "Bookkeeping for a trades business",
     ],
     faqs: [
@@ -4252,7 +4252,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
       "Pet-care and supply expense documentation",
       "Reimbursement for a service animal's supplies",
       "Bookkeeping for a pet shop or groomer",
-      "Replace a lost receipt for a return",
+      "Issue receipts for a pet shop's own sales",
     ],
     faqs: [
       { question: "Can I add grooming or services?", answer: "Yes — add grooming, boarding or vet services as line items alongside products. Everything totals together." },
@@ -4327,7 +4327,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
       "Business travel expense reports",
       "Reimbursement for a rental on a trip",
       "Personal travel and trip records",
-      "Replace a lost rental agreement receipt",
+      "Issue receipts for a car or equipment rental business",
     ],
     faqs: [
       { question: "Can I add insurance and fees?", answer: "Yes — add daily insurance, young-driver fees, airport surcharges and a fuel charge as separate line items." },
@@ -4364,9 +4364,9 @@ export const TEMPLATES: ReceiptTemplate[] = [
       `Create an editable airline or flight ticket receipt with base fare, taxes, baggage, seat selection and booking fees. Perfect for travel expense reports and reimbursement. Fill it in on the editor; the PDF or PNG download is free with a small watermark, and a pass from ${PRO_FROM} removes it.`,
     useCases: [
       "Business travel expense reimbursement",
-      "Proof of purchase for a flight you booked",
+      "Sample airline receipts for travel app mockups",
       "Personal trip records and budgeting",
-      "Replace a lost e-ticket receipt",
+      "Keep your own record of flights and fees",
     ],
     faqs: [
       { question: "Can I add baggage and seat fees?", answer: "Yes — add checked-bag, seat-selection and booking fees as separate line items along with the base fare and taxes." },
@@ -4404,7 +4404,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
       "Business-attire and uniform expense records",
       "Reimbursement for work-related cleaning",
       "Bookkeeping for a cleaners or laundromat",
-      "Replace a lost claim ticket receipt",
+      "Claim tickets for a cleaners' own counter",
     ],
     faqs: [
       { question: "Can I list each garment?", answer: "Yes — add each shirt, suit or dress as a line item with its service price, or group them into one line." },
@@ -4521,7 +4521,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
       "Proof of payment for treatment",
     ],
     faqs: [
-      { question: "Is this good for a pet insurance claim?", answer: "Many pet owners recreate a lost vet receipt for care their pet actually received. Always use it truthfully." },
+      { question: "Can I use this for a pet insurance claim?", answer: "No. Pet insurers ask for the invoice the vet issued. If you lost it, ask the clinic for a copy; they keep records of every visit. This template is for a clinic's own receipts and for your own records." },
       { question: "Can I list medications?", answer: "Yes — add exams, vaccines, medications and procedures as separate line items with their own prices." },
     ],
     defaults: {
@@ -4556,7 +4556,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
       "Wellness reimbursement and gift records",
       "Bookkeeping for a spa or massage studio",
       "Proof of payment for a treatment",
-      "Replace a lost service receipt",
+      "Gift and package receipts for clients",
     ],
     faqs: [
       { question: "Can I add gratuity?", answer: "Yes — the builder has a dedicated tip field, or you can add gratuity as its own line item." },
