@@ -20,6 +20,8 @@ import { BRAND_SELL_LINKS } from "@/lib/sell-links";
 import SellLinks from "@/components/SellLinks";
 import { CitedText } from "@/components/Sources";
 import ContextLinks from "@/components/ContextLinks";
+import HandoffCard from "@/components/HandoffCard";
+import OfferBar from "@/components/OfferBar";
 import { examplesForBrand } from "@/lib/example-links";
 import { exampleSummary } from "@/lib/examples";
 
@@ -174,8 +176,24 @@ export default async function BrandTemplatePage({ params }: Props) {
           </ol>
         </nav>
 
-        <div className="mt-8 grid items-start gap-12 lg:grid-cols-2">
-          <div>
+        {/* PHONE ORDER (2026-11-21). On a phone the receipt was the second
+            screen, after the intro, the notice, "What is" and "Common uses",
+            and the button at the top was the page's only way into the
+            builder. Nov 6–20: of 192 phone visitors who never opened the
+            builder, 93 left from the first screen and 60 read past halfway.
+
+            The left column is `contents` below lg, so its three parts become
+            items of this grid and `order` can put the receipt (order-2)
+            straight after the button (order-1), with the notice (order-3)
+            and the explainer (order-4) after it. From lg it is an ordinary
+            column again, in its original order.
+
+            grid-cols-[minmax(0,1fr)]: an implicit column takes its widest
+            child, and the 380px receipt made the page 396px on a 390px
+            phone. */}
+        <div className="mt-8 grid grid-cols-[minmax(0,1fr)] items-start gap-8 lg:grid-cols-2 lg:gap-12">
+          <div className="contents lg:block">
+          <div className="order-1">
             {template.defaults.logoDataUrl ? (
               <span className="inline-flex h-12 items-center">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -195,35 +213,44 @@ export default async function BrandTemplatePage({ params }: Props) {
             <SellLinks links={BRAND_SELL_LINKS[template.slug]} />
 
             <div className="mt-8 flex flex-wrap gap-3">
+              {/* data-offer-cta: the phone offer bar stays hidden while this is on screen. */}
               <Link
                 href={`/create?template=${template.slug}`}
-                className="rounded-full bg-indigo-600 px-7 py-3.5 text-base font-semibold text-white shadow-lg shadow-indigo-600/25 transition-all hover:bg-indigo-700"
+                data-offer-cta=""
+                className="w-full rounded-full bg-indigo-600 px-7 py-3.5 text-center text-base font-semibold text-white shadow-lg shadow-indigo-600/25 transition-all hover:bg-indigo-700 sm:w-auto"
               >
                 Use This Template — Free
               </Link>
+              {/* Phones: the breadcrumb already links the brand list, and this
+                  second button stood between the first one and the receipt. */}
               <Link
                 href="/brands"
-                className="rounded-full border border-slate-300 bg-white px-7 py-3.5 text-base font-semibold text-slate-700 transition-colors hover:bg-slate-50"
+                className="hidden rounded-full border border-slate-300 bg-white px-7 py-3.5 text-base font-semibold text-slate-700 transition-colors hover:bg-slate-50 sm:inline-block"
               >
                 All Brands
               </Link>
             </div>
+            <p className="mt-2 text-center text-xs text-slate-500 sm:hidden">
+              Free with a small watermark · {formatPlanPrice(PLANS.pro_weekly)} removes it · no account
+            </p>
+          </div>
 
             {/* Non-affiliation / provenance notice, shown next to the CTA where
                 the trademark/misuse risk is highest. Uses the site's standard
                 brand-safety wording — keep in sync with the brands hub + Terms. */}
-            <p className="mt-4 rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-xs leading-relaxed text-slate-500">
+            <p className="order-3 rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-xs leading-relaxed text-slate-500 lg:mt-4">
               Independent, customizable template. {SITE.name} is not affiliated
               with, endorsed by, or issued by {template.shortName}. Receipts you
               create are for lawful records, personal mockups and authorized use
               only — not a proof of purchase.
             </p>
 
+            <div className="order-4">
             {/* A self-contained answer an AI engine can quote whole. Brand pages
                 had none (the intro is one line), while the receipt-help pages
                 AI Overviews cite do. Facts come from the template and
                 lib/plans.ts, never typed here. */}
-            <h2 className="mt-12 text-xl font-bold text-slate-900">
+            <h2 className="text-xl font-bold text-slate-900 lg:mt-12">
               What is the {template.shortName} receipt generator?
             </h2>
             <p className="mt-3 leading-relaxed text-slate-600">
@@ -258,12 +285,25 @@ export default async function BrandTemplatePage({ params }: Props) {
                 </li>
               ))}
             </ul>
+            </div>
           </div>
 
-          <div className="flex justify-center lg:sticky lg:top-24">
-            <div className="receipt-shadow">
-              <ReceiptDocPaper doc={docFromReceiptData(preview)} />
+          {/* Phones: the receipt part-way, scaled to the screen, and one tap
+              into the builder. From lg: the whole receipt, sticky, as before. */}
+          <div className="relative order-2 overflow-hidden rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200/70 p-3 lg:sticky lg:top-24 lg:order-none lg:overflow-visible lg:rounded-none lg:bg-none lg:p-0">
+            <div className="flex max-h-[340px] justify-center overflow-hidden lg:max-h-none lg:overflow-visible">
+              <div className="receipt-shadow [zoom:0.85] lg:[zoom:1]">
+                <ReceiptDocPaper doc={docFromReceiptData(preview)} />
+              </div>
             </div>
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-slate-200 to-transparent lg:hidden" />
+            <Link
+              href={`/create?template=${template.slug}`}
+              data-offer-cta=""
+              className="absolute bottom-4 left-1/2 inline-flex min-h-11 -translate-x-1/2 items-center whitespace-nowrap rounded-full bg-white px-5 text-sm font-semibold text-indigo-700 shadow lg:hidden"
+            >
+              Edit this receipt →
+            </Link>
           </div>
         </div>
 
@@ -313,6 +353,20 @@ export default async function BrandTemplatePage({ params }: Props) {
                 <dd className="tabular-nums">{money(totals.total)}</dd>
               </div>
             </dl>
+          </div>
+
+          {/* Phones: a way into the builder where the reading stops. The
+              hero button was the page's only one, and 60 of the phone
+              visitors who never opened the builder had read past halfway. */}
+          <div className="max-w-md lg:hidden">
+            <HandoffCard
+              heading={d.hideItems ? "This receipt is already in the template" : "These items are already in the template"}
+              href={`/create?template=${template.slug}`}
+              label={`Open the ${template.shortName} template`}
+              location="brand_card"
+            >
+              Change the store details, items, prices and date, then download a PDF or PNG.
+            </HandoffCard>
           </div>
 
           <h3 className="mt-10 text-lg font-bold text-slate-900">
@@ -475,6 +529,19 @@ export default async function BrandTemplatePage({ params }: Props) {
 
         <Reviewed date={brandReviewedAt(template.slug)} />
       </div>
+
+      {/* Phones: the builder one tap away while reading. Shows once the hero
+          button has scrolled off, and hides while any other button
+          (data-offer-cta) or the footer is on screen. */}
+      <OfferBar
+        href={`/create?template=${template.slug}`}
+        text={`Ready to make your ${template.shortName} receipt?`}
+        label="Use this template"
+        shortLabel={`Make this ${template.shortName} receipt`}
+        location="brand"
+        showAtPercent={0}
+        phonesOnly
+      />
     </>
   );
 }
