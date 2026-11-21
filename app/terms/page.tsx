@@ -15,14 +15,17 @@ export default function TermsPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
       <h1 className="text-4xl font-bold tracking-tight text-slate-900">Terms of Use</h1>
-      <p className="mt-3 text-sm text-slate-500">Last updated: July 2, 2026</p>
+      <p className="mt-3 text-sm text-slate-500">Last updated: November 20, 2026</p>
 
       <div className="mt-8 space-y-5 leading-relaxed text-slate-600">
         <H2>1. The service</H2>
         <p>
           {SITE.name} provides an online tool for creating receipt documents, including
-          templates, an AI-assisted generator, and PDF/PNG export. By accessing or using
-          the site you agree to these Terms of Use. If you do not agree, do not use the service.
+          templates, an AI-assisted generator, and PDF/PNG export. {SITE.name} is operated by{" "}
+          {SITE.legal.entity}, a {SITE.legal.jurisdiction} limited liability company
+          (&ldquo;we&rdquo;, &ldquo;us&rdquo;). These terms are an agreement between you and{" "}
+          {SITE.legal.entity}. By accessing or using the site you agree to these Terms of Use.
+          If you do not agree, do not use the service.
         </p>
 
         <H2>2. Accounts</H2>
@@ -31,8 +34,9 @@ export default function TermsPage() {
           Pro pass can be bought at checkout without one. Some features — the AI generator,
           saving receipts, and support chat — require you to create an account by signing in
           with your email or a supported provider. You are responsible
-          for activity under your account and for keeping access to your email secure. You must
-          be at least 18 years old, or the age of majority in your jurisdiction, to purchase a plan.
+          for activity under your account and for keeping access to your email secure. The service
+          is not directed to children: you must be at least 13 years old to create an account, and
+          at least 18 years old, or the age of majority in your jurisdiction, to purchase a plan.
         </p>
 
         <H2>3. Free plan, Pro plans &amp; billing</H2>
@@ -44,8 +48,8 @@ export default function TermsPage() {
         </p>
         <p>
           Payments are processed by a third-party payment provider. We do not receive or store
-          your full card details. Prices are shown at checkout and may be exclusive of taxes,
-          which are added where required. A Pro plan is sold as a pass for the period you buy:
+          your full card details. The price shown on our pricing page and at checkout is the full
+          price you pay; we do not add taxes or fees on top of it. A Pro plan is sold as a pass for the period you buy:
           it grants access until the end date shown on your account page and then ends on its
           own. It does not renew automatically and there is no recurring charge, unless the
           checkout you used states otherwise at the point of purchase and you expressly
@@ -103,6 +107,12 @@ export default function TermsPage() {
           that brand and must never be presented as one.
         </p>
         <p>
+          If you own a trademark and believe a template or page uses it improperly, email{" "}
+          <a href={`mailto:${SITE.email}`} className="text-indigo-600 underline">{SITE.email}</a>{" "}
+          with the subject &ldquo;Trademark notice&rdquo;, naming the mark and the page. We review
+          every notice promptly and change or remove material where appropriate.
+        </p>
+        <p>
           {SITE.name} is a document-design tool. You alone decide what you create with it and how
           you use the result. To the maximum extent permitted by law, we are not responsible for
           documents users create — including fake or fraudulent receipts, misuse of brand-styled
@@ -125,16 +135,32 @@ export default function TermsPage() {
           relating to the service will not exceed the amount you paid us in the 12 months before the claim.
         </p>
 
-        <H2>11. Changes</H2>
+        <H2>11. Indemnity</H2>
+        <p>
+          You agree to indemnify and hold harmless {SITE.legal.entity} and its members from any
+          claim, loss or expense, including reasonable legal fees, arising from documents you
+          create with {SITE.name}, from how you use them, or from your breach of these terms.
+        </p>
+
+        <H2>12. Governing law</H2>
+        <p>
+          These terms are governed by the laws of the State of {SITE.legal.jurisdiction}, USA,
+          without regard to its conflict-of-law rules. The state and federal courts located in{" "}
+          {SITE.legal.jurisdiction} have exclusive jurisdiction over any dispute about the service,
+          except where the law of the place you live gives you the right to bring a claim there.
+        </p>
+
+        <H2>13. Changes</H2>
         <p>
           We may update the service or these terms from time to time. Material changes will be
           reflected by the &ldquo;last updated&rdquo; date above; continued use after changes means you accept them.
         </p>
 
-        <H2>12. Contact</H2>
+        <H2>14. Contact</H2>
         <p>
           Questions about these terms? Contact{" "}
-          <a href={`mailto:${SITE.email}`} className="text-indigo-600 underline">{SITE.email}</a>.
+          <a href={`mailto:${SITE.email}`} className="text-indigo-600 underline">{SITE.email}</a>{" "}
+          or write to {SITE.legal.entity}, {SITE.legal.address.join(", ")}.
         </p>
       </div>
     </div>

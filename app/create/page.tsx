@@ -142,7 +142,7 @@ export default function CreatePage() {
           <p className="mt-2 max-w-2xl text-sm leading-relaxed text-slate-600">
             A receipt maker is an online tool that turns the details of a sale —
             seller, items, prices, tax and payment — into a finished receipt you
-            can download, print or attach to an expense claim. This is{" "}
+            can download, print or keep for your records. This is{" "}
             {SITE.name}&apos;s free receipt maker and generator — build your
             receipt section by section with a live preview, free and no sign-up to
             start. Pick any template or start from scratch, edit every field, then

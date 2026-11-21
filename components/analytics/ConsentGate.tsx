@@ -157,10 +157,11 @@ gtag('config', '${SITE.gaId}');`}
           className="fixed inset-x-4 bottom-4 z-50 mx-auto max-w-xl rounded-2xl border border-slate-200 bg-white p-5 shadow-2xl"
         >
           <p className="text-sm leading-relaxed text-slate-600">
-            🍪 We use anonymous analytics (Google Analytics, Microsoft Clarity)
-            to understand what to improve — no ads, no cross-site tracking.
-            Decline turns analytics off. Essential cookies (login, free-plan
-            limits) are always on.{" "}
+            🍪 We use Google Analytics and, if you accept, Microsoft Clarity
+            session recordings to understand what to improve — no ads, no
+            cross-site tracking. Decline turns them off. Essential storage
+            (login, drafts) is always on. Change this anytime from Cookie
+            settings in the footer.{" "}
             <Link href="/cookies" className="font-medium text-indigo-600 underline">
               Cookie policy
             </Link>

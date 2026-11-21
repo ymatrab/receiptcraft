@@ -35,9 +35,9 @@ export const RECEIPT_PADS: readonly string[] = [
   "Adjust the items, tax and totals to match.",
   "Edit the store details, items, prices and totals.",
   "Customize the items, prices, tax and totals in a few clicks.",
-  "Great for expense reports, records and replacing lost receipts.",
+  "Great for bookkeeping, budgeting and design mockups.",
   "Every detail is editable — items, prices, date, tax, totals and store info.",
-  "Handy for expense reports, reimbursements, bookkeeping and replacing lost receipts.",
+  "Handy for bookkeeping, budgeting, records and mockups.",
 ];
 
 // Editorial-neutral filler for blog/CMS copy, where receipt-maker phrasing would

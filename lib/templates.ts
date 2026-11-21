@@ -312,7 +312,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
       {
         question: "Can I use a recreated restaurant receipt for a business-meal expense claim?",
         answer:
-          "Many expense systems accept a recreated itemized receipt alongside the card-statement line for the meal. Recreate the real restaurant, date, dishes and amounts, keep alcohol on its own line if your policy excludes it, and submit both documents together. Always follow your employer's reimbursement rules.",
+          "Not as a substitute for the original. For a business-meal claim, submit the restaurant's own receipt, or your card-statement line with your company's missing-receipt form. A recreated receipt handed in as if it were the original misrepresents the document. This template is for your own records, or for issuing receipts if you run the restaurant.",
       },
     ],
     sources: ["irs-rr-2012-18", "irs-pub-531", "irs-pub-463"],

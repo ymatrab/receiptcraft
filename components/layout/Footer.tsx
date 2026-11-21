@@ -1,4 +1,5 @@
 import Link from "next/link";
+import CookieSettingsButton from "@/components/analytics/CookieSettingsButton";
 import { SITE } from "@/lib/site";
 import { TEMPLATES } from "@/lib/templates";
 import NewsletterSignup from "@/components/NewsletterSignup";
@@ -221,6 +222,9 @@ export default function Footer() {
                   Cookie Policy
                 </Link>
               </li>
+              <li>
+                <CookieSettingsButton className="cursor-pointer text-sm text-slate-500 transition-colors hover:text-indigo-600" />
+              </li>
             </ul>
           </nav>
         </div>
@@ -234,10 +238,11 @@ export default function Footer() {
 
         <div className="mt-10 border-t border-slate-200 pt-8">
           <p className="text-xs leading-relaxed text-slate-500">
-            © {new Date().getFullYear()} {SITE.name}. All rights reserved.
-            Receipts created with this tool are intended for legitimate
-            purposes such as record keeping, expense documentation and design
-            mockups. Creating receipts to defraud is illegal.
+            © {new Date().getFullYear()} {SITE.name}, operated by{" "}
+            {SITE.legal.entity}, {SITE.legal.address.slice(0, 2).join(", ")}.
+            All rights reserved. Receipts created with this tool are intended
+            for legitimate purposes such as personal record keeping, issuing
+            receipts for your own business and design mockups. Creating receipts to defraud is illegal.
           </p>
         </div>
       </div>

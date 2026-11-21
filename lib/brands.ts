@@ -92,7 +92,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Make an Uber-style trip receipt with the fare, booking fee and tip, the ride type and the pickup and drop-off times, then download it as a PDF or PNG.",
     useCases: [
-      "Business travel expense claims",
+      "Records of your own purchases",
       "Keep your own record of rides and fares",
       "Client billing for travel costs",
     ],
@@ -158,7 +158,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       "Make a Target-style store receipt: add household goods, apparel and groceries, each with its item number, set the sales tax, edit the store and date, then download a PDF or PNG.",
     useCases: [
       "Keep your own record of Target purchases",
-      "Reimbursement for office supplies",
+      "Records of your own purchases",
       "Prop use for design and video",
     ],
     guidance: [
@@ -222,10 +222,10 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       "Generate a McDonald's fast food receipt online. Add your meal, combos and tax, edit the store details and order date, then get a free watermarked PDF or PNG.",
     heading: "McDonald's Receipt Generator",
     intro:
-      "Recreate a fast food order from McDonald's. Perfect for per-diem travel meals and reimbursable expenses.",
+      "Recreate a fast food order from McDonald's. Handy for keeping your own record of a meal.",
     useCases: [
-      "Per-diem food expenses",
-      "Travel meal reimbursements",
+      "Records of your own purchases",
+      "Personal budgeting and bookkeeping",
       "Lost fast food receipt recovery",
     ],
     faqs: [
@@ -291,7 +291,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       `Fill in a Starbucks receipt template with your lattes, cold brews and pastries, then download it as a PDF or PNG. Building it and a watermarked download are free; a pass from ${PASS_FROM} removes the watermark.`,
     useCases: [
-      "Office coffee-run reimbursement",
+      "Records of your own purchases",
       "Petty cash documentation",
       "Personal expense tracking",
     ],
@@ -336,9 +336,9 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       "Create a Burger King receipt online. Add your Whoppers, fries and drinks, edit the prices, tax and order date, then download a free watermarked PDF or PNG.",
     heading: "Burger King Receipt Generator",
     intro:
-      "Generate an editable Burger King receipt for your flame-grilled meal. Perfect for per-diem travel meals and reimbursable expenses.",
+      "Generate an editable Burger King receipt for your flame-grilled meal. Handy for keeping your own record of a meal.",
     useCases: [
-      "Business and travel expense claims",
+      "Records of your own purchases",
       "Replace lost meal receipts",
       "Personal budget tracking",
     ],
@@ -377,7 +377,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       "Create a Wendy's receipt online. Add burgers, nuggets, fries and Frostys, edit the prices, tax and order date, then download a free watermarked PDF or PNG.",
     heading: "Wendy's Receipt Generator",
     intro:
-      "Generate a fresh, never-frozen Wendy's receipt. Ideal for meal expense tracking and reimbursement.",
+      "Generate a fresh, never-frozen Wendy's receipt. Ideal for tracking what you spend on meals.",
     useCases: [
       "Business travel meal expenses",
       "Replacing lost fast food receipts",
@@ -418,9 +418,9 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       "Create a Subway receipt online. Add your subs, drinks and cookies, edit the items, prices, tax and order date, then download a free watermarked PDF or PNG.",
     heading: "Subway Receipt Generator",
     intro:
-      "Build a Subway sandwich receipt with sub types, sizes, and extras. Great for work-lunch reimbursements.",
+      "Build a Subway sandwich receipt with sub types, sizes, and extras. Great for tracking what you spend on lunch.",
     useCases: [
-      "Lunch expense reimbursement",
+      "Records of your own purchases",
       "Replacing a lost Subway receipt",
       "Corporate catering documentation",
     ],
@@ -462,9 +462,9 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Generate a Taco Bell receipt with your favorite Mexican-inspired items. Perfect for on-the-go meal expense tracking.",
     useCases: [
-      "Travel meal expense documentation",
+      "Travel meal expense records",
       "Keep your own record of Taco Bell purchases",
-      "Per-diem food tracking",
+      "Records of your own purchases",
     ],
     faqs: [
       {
@@ -502,9 +502,9 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       "Create a KFC receipt online. Add chicken meals, sides and drinks, edit the items, prices, tax and order date, then download a free watermarked PDF or PNG.",
     heading: "KFC Receipt Generator",
     intro:
-      "Generate a finger-lickin' good KFC receipt. Include chicken buckets, sides, and drinks for travel meal reimbursement.",
+      "Generate a finger-lickin' good KFC receipt. Include chicken buckets, sides, and drinks for your own meal records.",
     useCases: [
-      "Team lunch expense claims",
+      "Records of your own purchases",
       "Lost KFC receipt replacement",
       "Personal food budget tracking",
     ],
@@ -546,9 +546,9 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       `Build a Chipotle Mexican Grill receipt with burritos, bowls and sides in the Chipotle receipt generator. Building it and a watermarked download are free; a clean download needs a pass from ${PASS_FROM}.`,
     useCases: [
-      "Work lunch reimbursement",
+      "Records of your own purchases",
       "Track Chipotle spending in a budget",
-      "Catering expense documentation",
+      "Catering expense records",
     ],
     faqs: [
       {
@@ -593,7 +593,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Generate a Domino's delivery or carryout receipt. Include pizzas, wings, sides, and delivery fee for expense tracking.",
     useCases: [
-      "Team pizza expense reimbursement",
+      "Records of your own purchases",
       "A sample delivery receipt for a mockup or demo",
       "Event catering documentation",
     ],
@@ -679,7 +679,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     useCases: [
       "Office pizza order documentation",
       "Lost delivery receipt replacement",
-      "Event food expense claims",
+      "Records of your own purchases",
     ],
     faqs: [
       {
@@ -720,9 +720,9 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Generate a Chick-fil-A receipt featuring their signature chicken sandwiches, nuggets, and classic lemonade.",
     useCases: [
-      "Team lunch expense documentation",
+      "Team lunch expense records",
       "Track Chick-fil-A spending in a budget",
-      "Per-diem meal tracking",
+      "Records of your own purchases",
     ],
     faqs: [
       {
@@ -762,7 +762,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       "Create a Panera Bread receipt online. Add soups, salads and sandwiches, edit the prices, tax and order date, then download a free watermarked PDF or PNG.",
     heading: "Panera Bread Receipt Generator",
     intro:
-      "Generate a Panera Bread receipt with soups, salads, sandwiches, and bakery items. Perfect for work-lunch reimbursement.",
+      "Generate a Panera Bread receipt with soups, salads, sandwiches, and bakery items. Perfect for tracking what you spend on lunch.",
     useCases: [
       "Client meeting lunch receipts",
       "Replace lost Panera receipt",
@@ -805,11 +805,11 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       "Create a Five Guys receipt online. Add your burgers, fries and shakes, edit the items, prices, tax and date, then download a free watermarked PDF or PNG.",
     heading: "Five Guys Receipt Generator",
     intro:
-      "Generate a Five Guys receipt with customizable burgers, Cajun fries, and milkshakes. Great for meal expense reports.",
+      "Generate a Five Guys receipt with customizable burgers, Cajun fries, and milkshakes. Great for tracking what you spend on meals.",
     useCases: [
-      "Business lunch reimbursement",
+      "Records of your own purchases",
       "A sample Five Guys receipt for a mockup or demo",
-      "Travel per-diem tracking",
+      "Personal budgeting and bookkeeping",
     ],
     faqs: [
       {
@@ -849,7 +849,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Generate an In-N-Out Burger receipt with your favorite secret-menu items. Quality you can taste.",
     useCases: [
-      "West coast travel expense claims",
+      "Records of your own purchases",
       "Keep your own record of In-N-Out purchases",
       "Personal meal budget tracking",
     ],
@@ -892,9 +892,9 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Generate a Shake Shack receipt with ShackBurgers, crinkle-cut fries, and frozen custard concretes.",
     useCases: [
-      "NYC dining expense documentation",
+      "NYC dining expense records",
       "Track Shake Shack spending in a budget",
-      "Team lunch reimbursement",
+      "Records of your own purchases",
     ],
     faqs: [
       {
@@ -935,7 +935,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Generate a Panda Express receipt with plates, bowls, and A La Carte items. Great for quick-service meal documentation.",
     useCases: [
-      "Mall food court expense claims",
+      "Records of your own purchases",
       "A sample Panda Express receipt for a mockup or demo",
       "Personal meal tracking",
     ],
@@ -979,7 +979,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Generate a Sonic Drive-In receipt with SuperSONIC burgers, tots, and classic Slushes. Perfect for carhop-style meal tracking.",
     useCases: [
-      "Travel meal reimbursement",
+      "Records of your own purchases",
       "Keep your own record of Sonic purchases",
       "Personal food budget tracking",
     ],
@@ -1021,7 +1021,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Generate a DQ receipt with Blizzard treats, burger baskets, and classic dipped cones. Happy tastes good.",
     useCases: [
-      "Dessert stop expense claims",
+      "Records of your own purchases",
       "Track DQ spending in a budget",
       "Party cake order documentation",
     ],
@@ -1062,9 +1062,9 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Generate an Arby's receipt with roast beef sandwiches, curly fries, and Jamocha shakes. We have the meats!",
     useCases: [
-      "Travel lunch expense documentation",
+      "Travel lunch expense records",
       "A sample Arby's receipt for a mockup or demo",
-      "Per-diem meal tracking",
+      "Records of your own purchases",
     ],
     faqs: [
       {
@@ -1105,7 +1105,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Generate a Jack in the Box receipt with their famous tacos, Jumbo Jack burgers, and late-night combos.",
     useCases: [
-      "Late-night meal expense claims",
+      "Records of your own purchases",
       "Keep your own record of JITB purchases",
       "Food budget tracking",
     ],
@@ -1147,9 +1147,9 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Generate a Popeyes Louisiana Kitchen receipt with spicy chicken, tenders, and buttermilk biscuits.",
     useCases: [
-      "Fast food expense reimbursement",
+      "Records of your own purchases",
       "Track Popeyes spending in a budget",
-      "Per-diem meal tracking",
+      "Personal budgeting and bookkeeping",
     ],
     faqs: [
       {
@@ -1189,7 +1189,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Make a Dunkin' receipt with iced coffees, donuts, and bagel sandwiches. America runs on Dunkin'.",
     useCases: [
-      "Morning coffee run reimbursement",
+      "Records of your own purchases",
       "A sample Dunkin' receipt for a mockup or demo",
       "Petty cash documentation",
     ],
@@ -1233,7 +1233,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Make a Tim Hortons receipt with double-doubles, Timbits, and breakfast wraps. Always fresh.",
     useCases: [
-      "Cross-border travel meal claims",
+      "Records of your own purchases",
       "Keep your own record of Tim Hortons purchases",
       "Office coffee run documentation",
     ],
@@ -1276,7 +1276,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Make a Peet's Coffee receipt with hand-roasted espresso drinks and pastries. Coffee of exceptional quality.",
     useCases: [
-      "Office coffee reimbursement",
+      "Records of your own purchases",
       "Track Peet's spending in a budget",
       "Personal caffeine budget tracking",
     ],
@@ -1402,7 +1402,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Make a Jamba receipt with smoothies, acai bowls, and energy boosts. Blend in the good.",
     useCases: [
-      "Health-focused meal reimbursement",
+      "Records of your own purchases",
       "Track Jamba spending in a budget",
       "Wellness expense tracking",
     ],
@@ -1443,7 +1443,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Make a Boba Guys receipt with premium milk teas, matcha drinks, and organic tapioca. Real ingredients, real boba.",
     useCases: [
-      "Boba run reimbursement",
+      "Records of your own purchases",
       "A sample bubble tea receipt for a mockup or demo",
       "Personal treat tracking",
     ],
@@ -1528,7 +1528,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Create a Sam's Club warehouse receipt with bulk groceries, office supplies, and electronics.",
     useCases: [
-      "Office supply bulk purchase claims",
+      "Records of your own purchases",
       "Track Sam's Club spending in a budget",
       "Small business inventory tracking",
     ],
@@ -1571,7 +1571,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Create a Whole Foods Market receipt with organic produce, 365 brand items, and specialty groceries.",
     useCases: [
-      "Organic grocery reimbursement",
+      "Records of your own purchases",
       "A sample Whole Foods receipt for a mockup or demo",
       "Health-focused budget tracking",
     ],
@@ -1615,7 +1615,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Create a Trader Joe's receipt with their iconic private-label products, frozen favorites, and specialty snacks.",
     useCases: [
-      "Grocery run expense documentation",
+      "Grocery run expense records",
       "Keep your own record of TJ's purchases",
       "Personal grocery budget tracking",
     ],
@@ -1658,7 +1658,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Create a Kroger receipt with weekly grocery items, produce, and household essentials. Fresh for everyone.",
     useCases: [
-      "Grocery shopping reimbursement",
+      "Records of your own purchases",
       "Track Kroger spending in a budget",
       "Household expense tracking",
     ],
@@ -1704,7 +1704,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Create a Publix receipt with deli subs, bakery items, and weekly BOGO deals. Where shopping is a pleasure.",
     useCases: [
-      "Southeast US grocery reimbursement",
+      "Records of your own purchases",
       "A sample Publix receipt for a mockup or demo",
       "Household grocery tracking",
     ],
@@ -1756,7 +1756,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Create a Safeway receipt with grocery items, Club Card savings, and weekly deals.",
     useCases: [
-      "Grocery reimbursement claims",
+      "Records of your own purchases",
       "Keep your own record of Safeway purchases",
       "Household budget documentation",
     ],
@@ -1805,7 +1805,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Create an Aldi receipt with their exclusive brands, Aldi Finds, and everyday low-price groceries.",
     useCases: [
-      "Budget grocery reimbursement",
+      "Records of your own purchases",
       "Track Aldi spending in a budget",
       "Personal savings tracking",
     ],
@@ -1847,7 +1847,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Create a Walgreens receipt with pharmacy items, health products, and convenience store essentials.",
     useCases: [
-      "Health expense reimbursement",
+      "Records of your own purchases",
       "A sample pharmacy receipt for a mockup or demo",
       "FSA/HSA documentation",
     ],
@@ -1935,7 +1935,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Create a Home Depot receipt with tools, building materials, and home improvement supplies.",
     useCases: [
-      "Contractor material reimbursement",
+      "Records of your own purchases",
       "Keep your own record of Home Depot purchases",
       "Home renovation expense tracking",
     ],
@@ -2035,9 +2035,9 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Create an IKEA receipt with flat-pack furniture, home décor, and even those famous Swedish meatballs.",
     useCases: [
-      "Office furniture reimbursement",
+      "Records of your own purchases",
       "A sample IKEA receipt for a mockup or demo",
-      "Moving expense documentation",
+      "Moving expense records",
     ],
     faqs: [
       {
@@ -2080,7 +2080,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     useCases: [
       "IT equipment purchase documentation",
       "Keep your own record of Best Buy purchases",
-      "Business electronics reimbursement",
+      "Records of your own purchases",
     ],
     guidance: [
       {
@@ -2144,7 +2144,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Create a Macy's department store receipt with apparel, beauty, and home products.",
     useCases: [
-      "Wardrobe expense documentation",
+      "Wardrobe expense records",
       "Track Macy's spending in a budget",
       "Gift purchase tracking",
     ],
@@ -2203,7 +2203,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Create a Nordstrom receipt with premium fashion, shoes, and beauty products. In style since 1901.",
     useCases: [
-      "Professional wardrobe reimbursement",
+      "Records of your own purchases",
       "A sample Nordstrom receipt for a mockup or demo",
       "Gift receipt documentation",
     ],
@@ -2295,7 +2295,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Create an Ulta Beauty receipt with drugstore and prestige beauty, plus salon services.",
     useCases: [
-      "Beauty supply reimbursement",
+      "Records of your own purchases",
       "Track Ulta spending in a budget",
       "Salon service documentation",
     ],
@@ -2530,7 +2530,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Create a Dick's Sporting Goods receipt with athletic apparel, footwear, and sports equipment.",
     useCases: [
-      "Team equipment reimbursement",
+      "Records of your own purchases",
       "Keep your own record of Dick's purchases",
       "Fitness expense tracking",
     ],
@@ -2614,9 +2614,9 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Create a PetSmart receipt with pet food, toys, grooming, and Banfield vet services.",
     useCases: [
-      "Pet supply reimbursement",
+      "Records of your own purchases",
       "A sample PetSmart receipt for a mockup or demo",
-      "Veterinary expense documentation",
+      "Veterinary expense records",
     ],
     faqs: [
       {
@@ -2656,7 +2656,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Create an AutoZone receipt with auto parts, motor oil, and vehicle accessories. Get in the zone!",
     useCases: [
-      "Vehicle maintenance reimbursement",
+      "Records of your own purchases",
       "Keep your own record of AutoZone purchases",
       "Fleet maintenance tracking",
     ],
@@ -2698,7 +2698,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Create an O'Reilly Auto Parts receipt with parts, tools, and car care products. The right parts, right price.",
     useCases: [
-      "Vehicle repair reimbursement",
+      "Records of your own purchases",
       "Track O'Reilly spending in a budget",
       "Company vehicle maintenance docs",
     ],
@@ -2738,10 +2738,10 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       "Create an Amazon receipt online in seconds. Add products, Prime delivery and order details, edit the prices and tax, then get a free watermarked PDF or PNG.",
     heading: "Amazon Receipt Generator",
     intro:
-      "Generate an Amazon order receipt with individual items, shipping, and payment details. Great for expense claims.",
+      "Generate an Amazon order receipt with individual items, shipping, and payment details. Great for your own purchase records.",
     useCases: [
-      "Online order expense documentation",
-      "Business purchase reimbursement",
+      "Online order expense records",
+      "Records of your own purchases",
       "Personal accounting records",
     ],
     faqs: [
@@ -2809,7 +2809,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Generate an eBay marketplace receipt for auction wins or Buy It Now purchases.",
     useCases: [
-      "Online marketplace purchase claims",
+      "Records of your own purchases",
       "A sample eBay payment receipt for a mockup or demo",
       "Resale business documentation",
     ],
@@ -3094,7 +3094,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Generate a Hulu subscription receipt for basic, premium, or live TV plans.",
     useCases: [
-      "Streaming expense documentation",
+      "Streaming expense records",
       "Track Hulu billing spending in a budget",
       "Household budget tracking",
     ],
@@ -3132,7 +3132,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Generate a Disney+ subscription receipt. Where the best stories in the world all live.",
     useCases: [
-      "Family entertainment expense docs",
+      "Family entertainment expense records",
       "A sample Disney+ billing receipt for a mockup or demo",
       "Subscription tracking",
     ],
@@ -3171,7 +3171,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Generate an Apple Services receipt for iCloud+, Apple Music, Apple TV+, or Apple One bundles.",
     useCases: [
-      "Cloud storage expense documentation",
+      "Cloud storage expense records",
       "Keep your own record of Apple billing purchases",
       "Subscription expense tracking",
     ],
@@ -3231,7 +3231,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Generate a Google Play receipt for app purchases, in-app buys, and subscription renewals.",
     useCases: [
-      "App purchase reimbursement",
+      "Records of your own purchases",
       "Track Google Play spending in a budget",
       "Digital expense tracking",
     ],
@@ -3295,7 +3295,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     useCases: [
       "Software license documentation",
       "A sample Microsoft receipt for a mockup or demo",
-      "Business IT expense claims",
+      "Records of your own purchases",
     ],
     faqs: [
       {
@@ -3332,7 +3332,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Generate a Steam digital storefront receipt for game purchases, DLC, and in-game items.",
     useCases: [
-      "Gaming expense documentation",
+      "Gaming expense records",
       "Keep your own record of Steam purchase purchases",
       "Entertainment budget tracking",
     ],
@@ -3372,7 +3372,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Generate a PlayStation Store receipt for digital game purchases and PS Plus subscriptions.",
     useCases: [
-      "Gaming expense documentation",
+      "Gaming expense records",
       "Track PS Store spending in a budget",
       "Subscription tracking",
     ],
@@ -3412,7 +3412,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Generate an Xbox Store receipt for digital games, Game Pass, and in-game purchases.",
     useCases: [
-      "Gaming expense documentation",
+      "Gaming expense records",
       "A sample Xbox receipt for a mockup or demo",
       "Subscription budget tracking",
     ],
@@ -3451,7 +3451,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Generate an Adobe receipt for Creative Cloud, Acrobat Pro, and Stock subscriptions.",
     useCases: [
-      "Creative software reimbursement",
+      "Records of your own purchases",
       "Keep your own record of Adobe billing purchases",
       "Business subscription documentation",
     ],
@@ -3510,9 +3510,9 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Generate a Zoom receipt for Workplace Pro, Business, or Webinar plan subscriptions.",
     useCases: [
-      "Business communication reimbursement",
+      "Records of your own purchases",
       "Track Zoom billing spending in a budget",
-      "Remote work expense documentation",
+      "Remote work expense records",
     ],
     faqs: [
       {
@@ -3635,7 +3635,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Create a DoorDash food delivery receipt with restaurant items, delivery fee, service fee, and driver tip.",
     useCases: [
-      "Food delivery expense claims",
+      "Records of your own purchases",
       "A sample DoorDash receipt for a mockup or demo",
       "Travel meal documentation",
     ],
@@ -3709,7 +3709,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Create an Uber Eats food delivery receipt with restaurant items, fees, and tip.",
     useCases: [
-      "Delivery meal expense claims",
+      "Records of your own purchases",
       "Keep your own record of Uber Eats purchases",
       "Business travel food documentation",
     ],
@@ -3779,9 +3779,9 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Create a Grubhub food delivery receipt with restaurant items, delivery fees, and tip.",
     useCases: [
-      "Food delivery reimbursement",
+      "Records of your own purchases",
       "Track Grubhub spending in a budget",
-      "Per-diem meal expense tracking",
+      "Personal budgeting and bookkeeping",
     ],
     faqs: [
       {
@@ -3847,7 +3847,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     useCases: [
       "On-demand delivery documentation",
       "A sample Postmates receipt for a mockup or demo",
-      "Business meal reimbursement",
+      "Records of your own purchases",
     ],
     faqs: [
       {
@@ -3905,7 +3905,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Create an Instacart grocery delivery receipt with items, delivery fee, service fee, and shopper tip.",
     useCases: [
-      "Grocery delivery reimbursement",
+      "Records of your own purchases",
       "Keep your own record of Instacart purchases",
       "Household grocery tracking",
     ],
@@ -3946,9 +3946,9 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       "Create an Airbnb receipt online in seconds. Add nightly rates, cleaning and service fees, edit the dates and totals, then get a free watermarked PDF or PNG.",
     heading: "Airbnb Receipt Generator",
     intro:
-      "Make an Airbnb receipt with nightly rates, cleaning fees, and service charges for travel reimbursement.",
+      "Make an Airbnb receipt with nightly rates, cleaning fees, and service charges for your own travel records.",
     useCases: [
-      "Business travel lodging claims",
+      "Records of your own purchases",
       "Track Airbnb spending in a budget",
       "Rental host income documentation",
     ],
@@ -3986,7 +3986,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       "Create an Expedia receipt online in seconds. Add hotel, flight and car rental bookings, edit the dates and charges, then get a free watermarked PDF or PNG.",
     heading: "Expedia Receipt Generator",
     intro:
-      "Make an Expedia receipt for hotel bookings, flights, or car rentals for business travel reimbursement.",
+      "Make an Expedia receipt for hotel bookings, flights, or car rentals for your own travel records.",
     useCases: [
       "Corporate travel booking documentation",
       "A sample Expedia receipt for a mockup or demo",
@@ -4026,9 +4026,9 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       "Create a Booking.com receipt online. Add hotel booking details, nightly rates and fees, edit the dates, then download a free watermarked PDF or PNG receipt.",
     heading: "Booking.com Receipt Generator",
     intro:
-      "Make a Booking.com receipt with hotel booking details, nightly rates, and taxes for trip reimbursement.",
+      "Make a Booking.com receipt with hotel booking details, nightly rates, and taxes for your own travel records.",
     useCases: [
-      "International travel lodging claims",
+      "Records of your own purchases",
       "Keep your own record of Booking.com purchases",
       "Conference travel documentation",
     ],
@@ -4068,9 +4068,9 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Make a Delta Air Lines receipt with flight charges, seat upgrades, and checked baggage fees.",
     useCases: [
-      "Business flight reimbursement",
+      "Records of your own purchases",
       "Track Delta boarding spending in a budget",
-      "Travel expense documentation",
+      "Travel expense records",
     ],
     faqs: [
       {
@@ -4109,7 +4109,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Make an American Airlines receipt with base fare, seat selection, and baggage fees.",
     useCases: [
-      "Corporate flight expense claims",
+      "Records of your own purchases",
       "A sample AA receipt for a mockup or demo",
       "Travel budget tracking",
     ],
@@ -4150,7 +4150,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Make a United Airlines receipt with airfare, Economy Plus upgrades, and in-flight purchases.",
     useCases: [
-      "Business flight reimbursement",
+      "Records of your own purchases",
       "Keep your own record of United purchases",
       "Corporate travel documentation",
     ],
@@ -4191,7 +4191,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Make a Southwest Airlines receipt with Wanna Get Away, Anytime, or Business Select fares.",
     useCases: [
-      "No-frills flight reimbursement",
+      "Records of your own purchases",
       "Track Southwest spending in a budget",
       "Low-cost travel documentation",
     ],
@@ -4231,7 +4231,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Make a Marriott hotel receipt with room charges, resort fees, valet parking, and room service.",
     useCases: [
-      "Business hotel stay reimbursement",
+      "Records of your own purchases",
       "Keep your own record of Marriott stays",
       "Conference travel documentation",
     ],
@@ -4273,7 +4273,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Make a Hilton hotel receipt with room rates, parking, dining charges, and Hilton Honors points.",
     useCases: [
-      "Business hotel reimbursement",
+      "Records of your own purchases",
       "Keep your own record of Hilton stays",
       "Loyalty points documentation",
     ],
@@ -4316,7 +4316,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     useCases: [
       "Luxury hotel stay documentation",
       "Keep your own record of Hyatt stays",
-      "Conference travel reimbursement",
+      "Records of your own purchases",
     ],
     faqs: [
       {
@@ -4355,7 +4355,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Make a Hertz car rental receipt with daily rate, fuel charges, and insurance options.",
     useCases: [
-      "Business car rental reimbursement",
+      "Records of your own purchases",
       "A sample Hertz rental receipt for a mockup or demo",
       "Travel fleet expense tracking",
     ],
@@ -4396,7 +4396,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Make an Enterprise Rent-A-Car receipt with daily rates, insurance, and fuel charges.",
     useCases: [
-      "Company car rental reimbursement",
+      "Records of your own purchases",
       "Keep your own record of Enterprise purchases",
       "Fleet rental documentation",
     ],
@@ -4527,7 +4527,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Create a Shell gas station receipt with fuel purchases and convenience store items for mileage logs.",
     useCases: [
-      "Fuel expense reimbursement",
+      "Records of your own purchases",
       "Keep your own record of Shell gas purchases",
       "Fleet fuel tracking",
     ],
@@ -4567,7 +4567,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Create a Chevron-style gas station receipt: the fuel grade, gallons and price per gallon, any store items, the tax and the total, then download it as a PDF or PNG.",
     useCases: [
-      "Company fuel reimbursement",
+      "Records of your own purchases",
       "Track Chevron spending in a budget",
       "Mileage and fuel tracking",
     ],
@@ -4634,7 +4634,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Create an Exxon gas station receipt with Synergy fuel and convenience purchases.",
     useCases: [
-      "Fleet fuel expense claims",
+      "Records of your own purchases",
       "A sample Exxon gas receipt for a mockup or demo",
       "Company vehicle fuel tracking",
     ],
@@ -4675,7 +4675,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Create a Mobil gas station receipt with Synergy Supreme+ fuel and On the Run® convenience items.",
     useCases: [
-      "Business fuel reimbursement",
+      "Records of your own purchases",
       "Keep your own record of Mobil gas purchases",
       "Fleet fuel documentation",
     ],
@@ -4809,7 +4809,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     useCases: [
       "East Coast road trip receipts",
       "Keep your own record of Wawa purchases",
-      "Lunch and fuel expense claims",
+      "Records of your own purchases",
     ],
     faqs: [
       {
@@ -4938,9 +4938,9 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Create a Barnes & Noble receipt with bestsellers, stationery, and café drinks.",
     useCases: [
-      "Book purchase reimbursement",
+      "Records of your own purchases",
       "Keep your own record of B&N purchases",
-      "Education expense documentation",
+      "Education expense records",
     ],
     faqs: [
       {
@@ -4980,7 +4980,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Create a Michaels receipt with craft supplies, picture frames, and seasonal décor.",
     useCases: [
-      "Craft supply reimbursement",
+      "Records of your own purchases",
       "Track Michaels spending in a budget",
       "Art project expense tracking",
     ],
@@ -5023,7 +5023,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     useCases: [
       "Sewing project expense tracking",
       "A sample Joann receipt for a mockup or demo",
-      "Crafting supply reimbursement",
+      "Records of your own purchases",
     ],
     faqs: [
       {
@@ -5112,7 +5112,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     intro:
       "Create an H&M receipt with affordable fashion essentials, basics, and Conscious Collection items.",
     useCases: [
-      "Fashion expense documentation",
+      "Fashion expense records",
       "Track H&M spending in a budget",
       "Wardrobe budget tracking",
     ],
@@ -5153,7 +5153,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     heading: "FedEx Receipt Generator",
     intro: "Generate a FedEx shipping receipt with ship-from/to details, tracking number and charges.",
     useCases: [
-      "Shipping expense documentation",
+      "Shipping expense records",
       "A sample FedEx receipt for a mockup or demo",
       "Business mailing records",
     ],
@@ -5597,7 +5597,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     seoDescription: "Create a Lidl grocery receipt online. Add weekly items, produce and prices, edit the store details, tax and date, then download a free watermarked PDF or PNG.",
     heading: "Lidl Receipt Generator",
     intro: "Create a Lidl grocery receipt with discount-store items, prices and totals.",
-    useCases: ["Grocery reimbursement", "Keep your own record of Lidl purchases", "Household budgeting"],
+    useCases: ["Records of your own purchases", "Keep your own record of Lidl purchases", "Household budgeting"],
     faqs: [
       {
         question: "Can I edit the Lidl receipt?",
@@ -5709,7 +5709,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     useCases: [
       "Entertainment expense records",
       "Track ticket spending in a budget",
-      "Reimbursement",
+      "Records of your own purchases",
     ],
     faqs: [
       {
@@ -5856,7 +5856,7 @@ function pickDistinct<T>(arr: T[], n: number, seed: number): T[] {
 // `city` is optional (BrandSeed) — every variant either uses it or ignores it,
 // so pages without a city just render the city-free half of the sentence.
 const INTRO_VARIANTS: ((n: string, noun: string, city?: string) => string)[] = [
-  (n, noun) => `Create an editable ${n} receipt with ${noun}. Perfect for replacing a lost ${n} receipt, expense reports, bookkeeping records or design mockups.`,
+  (n, noun) => `Create an editable ${n} receipt with ${noun}. Perfect for your own records of a real ${n} purchase, budgeting or design mockups.`,
   (n, noun) => `Need ${anBrand(n)} receipt fast? Build one with ${noun}, then download a PDF or PNG with no account. Free downloads carry a small watermark; Pro removes it.`,
   (n, noun) => `Lay out ${anBrand(n)}-style receipt complete with ${noun}. Adjust the totals and export it for your own records.`,
   (n, noun) => `Make ${anBrand(n)} receipt online in seconds. Lay it out with ${noun} — subtotal, tax and total included — ready to print or save.`,
@@ -5973,7 +5973,7 @@ const FAQ_POOL: FaqVariant[] = [
     answer: `Yes. Building and previewing ${anBrand(n)} receipt is free with no account, and so is a download with a small watermark. A watermark-free download needs Pro, from ${PRO_FROM} for 7 days, which also unlocks unlimited AI generation.`,
   }),
   (n) => ({ question: `Can I edit the items and prices on ${anBrand(n)} receipt?`, answer: `Every line, quantity, price and the tax rate is fully editable, so your ${n} receipt matches exactly what you need.` }),
-  (n) => ({ question: `Can I download ${anBrand(n)} receipt as a PDF?`, answer: `Yes — export your ${n} receipt as a high-resolution PDF or PNG, ready to print or attach to an expense report.` }),
+  (n) => ({ question: `Can I download ${anBrand(n)} receipt as a PDF?`, answer: `Yes — export your ${n} receipt as a high-resolution PDF or PNG, ready to print or keep with your own records.` }),
   (n) => ({ question: `What does the ${n} receipt template include?`, answer: `It opens with ${anBrand(n)}-style layout: a logo, itemized lines, subtotal, tax and total, all editable. It is an independent template for your own records and mockups, not a receipt issued by ${n}.` }),
   (n) => ({
     question: `Do I need an account to make ${anBrand(n)} receipt?`,

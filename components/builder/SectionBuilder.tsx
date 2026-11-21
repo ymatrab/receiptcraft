@@ -1425,7 +1425,7 @@ export default function SectionBuilder() {
       <div className="-mx-4 overflow-x-auto px-4 pb-4 pt-3 sm:mx-0 sm:px-0">
         <div className="flex gap-2">
           {BUILDER_TEMPLATE_CHIPS.map((t) => (
-            <button key={t.slug} type="button" onClick={() => applyTemplate(t.slug)} className={`flex shrink-0 items-center gap-1.5 rounded-full border px-4 py-2.5 text-sm font-medium transition-colors ${activeTemplate === t.slug ? "border-indigo-600 bg-indigo-600 text-white" : "border-slate-200 bg-white text-slate-600 hover:border-indigo-300"}`}>
+            <button key={t.slug} type="button" onClick={() => applyTemplate(t.slug)} aria-pressed={activeTemplate === t.slug} className={`flex shrink-0 items-center gap-1.5 rounded-full border px-4 py-2.5 text-sm font-medium transition-colors ${activeTemplate === t.slug ? "border-indigo-600 bg-indigo-600 text-white" : "border-slate-200 bg-white text-slate-600 hover:border-indigo-300"}`}>
               <span aria-hidden="true">{t.icon}</span>
               {t.shortName}
             </button>
@@ -1662,6 +1662,7 @@ export default function SectionBuilder() {
                         key={w.id}
                         type="button"
                         onClick={() => patchSettings({ widthPx: w.px })}
+                        aria-pressed={doc.settings.widthPx === w.px}
                         className={`rounded-full border px-3 py-1 text-xs font-medium transition-colors ${
                           doc.settings.widthPx === w.px
                             ? "border-indigo-300 bg-indigo-50 text-indigo-700"
@@ -1809,7 +1810,7 @@ export default function SectionBuilder() {
                 </button>
               </div>
               {account.isPro ? (
-                <p className="mt-3 text-center text-[11px] leading-relaxed text-emerald-600">
+                <p className="mt-3 text-center text-[11px] leading-relaxed text-emerald-700">
                   ✓ Pro · watermark-free HD downloads
                 </p>
               ) : (
@@ -2032,6 +2033,17 @@ export default function SectionBuilder() {
                 See all plans
               </Link>
             </div>
+            <p className="mt-4 text-center text-xs leading-relaxed text-slate-500">
+              By paying you agree to the{" "}
+              <Link href="/terms" target="_blank" className="underline hover:text-slate-700">
+                Terms of Use
+              </Link>{" "}
+              and{" "}
+              <Link href="/privacy" target="_blank" className="underline hover:text-slate-700">
+                Privacy Policy
+              </Link>
+              . Use receipts for your own records, never as proof of a purchase that did not happen.
+            </p>
           </div>
         </Modal>
       )}

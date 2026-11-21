@@ -12,7 +12,7 @@
  *   too subtle to be the only focus indicator for keyboard users.
  */
 export const authFieldClass =
-  "w-full rounded-full border border-slate-300 px-4 py-3 text-base text-slate-900 transition-colors placeholder:text-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 sm:text-sm";
+  "w-full rounded-full border border-slate-300 px-4 py-3 text-base text-slate-900 transition-colors placeholder:text-slate-500 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm";
 
 export const authLabelClass = "mb-1.5 block px-1 text-xs font-medium text-slate-600";
 

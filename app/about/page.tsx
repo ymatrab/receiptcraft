@@ -77,14 +77,13 @@ export default function AboutPage() {
             <p className="font-semibold text-slate-900">The {SITE.name} team</p>
             <p className="text-sm text-slate-500">Product &amp; editorial</p>
             <p className="mt-2 text-sm leading-relaxed">
-              {SITE.name} is built and maintained by a small team with hands-on
-              experience in small-business bookkeeping and expense reporting —
-              born out of one too many faded thermal receipts at tax time. We
+              {SITE.name} is built and maintained by YUMA TECHNOLOGIES LLC, an
+              independent software business in New Mexico — born out of one too many faded thermal receipts at tax time. We
               write the guides on our{" "}
               <Link href="/blog" className="font-medium text-indigo-600 hover:underline">
                 blog
               </Link>
-              , review every template for realism, and answer support ourselves.
+              , review every template for accurate fields, and answer support ourselves.
             </p>
             <p className="mt-2 text-sm">
               <Link

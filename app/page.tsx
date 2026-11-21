@@ -119,7 +119,7 @@ const FEATURES = [
     tint: "bg-violet-50 ring-violet-100",
     title: "PDF & PNG export",
     description:
-      "Download print-ready PDFs or crisp 3x-resolution PNG images. Perfect for expense reports and records.",
+      "Download print-ready PDFs or crisp 3x-resolution PNG images. Perfect for bookkeeping and records.",
   },
   {
     icon: "🎨",
@@ -224,9 +224,9 @@ const USE_CASES: {
   {
     icon: "🧾",
     tint: "bg-violet-50 ring-violet-100",
-    title: "You need it for an expense report",
+    title: "You run a small business",
     description:
-      "Itemized totals, tax lines and payment method in a layout finance teams accept — exported as a print-ready PDF.",
+      "Give customers an itemized receipt with tax lines and payment method — exported as a print-ready PDF.",
     href: "/templates",
     cta: "Browse templates",
   },

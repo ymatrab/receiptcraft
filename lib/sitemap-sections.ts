@@ -68,7 +68,7 @@ function core(): MetadataRoute.Sitemap {
     { url: `${SITE.url}/login`, lastModified: d(C.LOGIN_UPDATED) },
     { url: `${SITE.url}/blog`, lastModified: d(C.STATIC_UPDATED) },
     { url: `${SITE.url}/about`, lastModified: d(C.ABOUT_UPDATED) },
-    { url: `${SITE.url}/contact`, lastModified: d(C.STATIC_UPDATED) },
+    { url: `${SITE.url}/contact`, lastModified: d(C.CONTACT_UPDATED) },
     { url: `${SITE.url}/authors`, lastModified: d(C.AUTHORS_UPDATED) },
     { url: `${SITE.url}/editorial-policy`, lastModified: d(C.POLICY_UPDATED) },
     { url: `${SITE.url}/privacy`, lastModified: d(C.PRIVACY_UPDATED) },

@@ -270,7 +270,7 @@ const FAQ = [
 function Tick({ yes }: { yes: boolean }) {
   return (
     <>
-      <span aria-hidden className={yes ? "font-bold text-emerald-600" : "text-slate-300"}>
+      <span aria-hidden className={yes ? "font-bold text-emerald-600" : "text-slate-500"}>
         {yes ? "✓" : "✗"}
       </span>
       <span className="sr-only">{yes ? "Included" : "Not included"}</span>
@@ -281,8 +281,8 @@ function Tick({ yes }: { yes: boolean }) {
 /** One line in a plan card. */
 function Feature({ yes = true, children }: { yes?: boolean; children: React.ReactNode }) {
   return (
-    <li className={`flex gap-2 ${yes ? "" : "text-slate-400"}`}>
-      <span aria-hidden className={yes ? "text-emerald-600" : "text-slate-300"}>
+    <li className={`flex gap-2 ${yes ? "" : "text-slate-500"}`}>
+      <span aria-hidden className={yes ? "text-emerald-600" : "text-slate-500"}>
         {yes ? "✓" : "✗"}
       </span>
       <span>
@@ -489,6 +489,12 @@ export default function PricingPage() {
           );
         })}
       </div>
+
+      <p className="mt-4 text-center text-xs text-slate-500">
+        By buying a plan you agree to our{" "}
+        <Link href="/terms" className="underline hover:text-slate-700">Terms of Use</Link> and{" "}
+        <Link href="/privacy" className="underline hover:text-slate-700">Privacy Policy</Link>.
+      </p>
 
       {/* The same information as a grid. Cards are for deciding; a table is the
           fastest way to read four options against each other, which is what a

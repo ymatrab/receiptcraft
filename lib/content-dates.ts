@@ -29,11 +29,15 @@ import { contextLinksFor } from "./contextual-links";
 // style, and saving your own templates is now Pro. Every page that stated the
 // old numbers changed with it.
 export const STATIC_UPDATED = "2026-08-31";
+// 2026-11-20: /contact shows the company name and postal address. Its own
+// constant because STATIC_UPDATED also stamps pages that did not change.
+export const CONTACT_UPDATED = "2026-11-20";
 // 2026-10-24: /about stopped saying a free account is needed to download and
 // that the first receipt is watermark-free (paywall change). Its own constant
 // because STATIC_UPDATED also stamps /blog, /contact and /authors, which did
 // not change.
-export const ABOUT_UPDATED = "2026-10-24";
+// 2026-11-20: names the operating company and says templates are reviewed for accurate fields, not "for realism".
+export const ABOUT_UPDATED = "2026-11-20";
 // 2026-10-24: the calculator's footer note said an account is needed to
 // download; downloading no longer needs one. /tools/receipt-calculator only —
 // CONTENT_UPDATED also stamps the split-payment checker, which did not change.
@@ -66,7 +70,8 @@ export const TOOLS_INDEX_UPDATED = "2026-08-31";
 // 2026-10-27: the AI generator section now says the prompt, the result's
 // business name and the matched template are stored, and the prompt is deleted
 // after 90 days.
-export const PRIVACY_UPDATED = "2026-10-27";
+// 2026-11-20: names the seller (YUMA TECHNOLOGIES LLC) and every processor — Stripe, Resend, Telegram alerts, each AI provider, the directory badges — adds a children section and drops the AI-limit cookie that no longer exists.
+export const PRIVACY_UPDATED = "2026-11-20";
 // 2026-09-04: sections 3 and 4 now describe the billing model that actually
 // runs. The old text said a plan "continues for successive periods until
 // cancelled" and that you "authorize the recurring charge until you cancel",
@@ -78,7 +83,8 @@ export const PRIVACY_UPDATED = "2026-10-27";
 // about when it changed.
 // 2026-10-24: section 2 — watermarked downloads and buying a Pro pass need no
 // account; the AI generator, saving and support chat still do.
-export const TERMS_UPDATED = "2026-10-24";
+// 2026-11-20: names YUMA TECHNOLOGIES LLC as the party, adds a 13+ account age, indemnity, New Mexico governing law and a trademark-notice contact, and says prices are final (no tax added).
+export const TERMS_UPDATED = "2026-11-20";
 export const TEMPLATES_UPDATED = "2026-07-20";
 export const TEMPLATES_CITED_UPDATED = "2026-08-20";
 export const TEMPLATES_FIGURE_UPDATED = "2026-08-21";
@@ -439,6 +445,9 @@ function brandPoolCopyChanged(slug: string): boolean {
 // the FAQ says the template is not proof of purchase, and the shared headings
 // use a/an properly ("an Apple Store receipt", not "a Apple Store receipt").
 // The headings sit on all ~354 brand pages, so all of them move.
+// Same day, same guardrails: brand use cases and intros no longer offer the receipt
+// for reimbursement, expense claims or per-diem, and the generated FAQ no longer
+// says to attach it to an expense report.
 export const BRANDS_COPY_GUARDRAILS_UPDATED = "2026-11-20";
 
 export function brandReviewedAt(slug: string): string {
@@ -599,7 +608,8 @@ export const GUIDES_UPDATED = "2026-08-20";
 // /guides/receipt-legality — new on 2026-08-21. Its own constant so the new URL
 // carries a date newer than the IndexNow cron's last run and is actually
 // submitted, without restamping /guides/receipt-anatomy, which did not change.
-export const GUIDES_LEGALITY_UPDATED = "2026-08-21";
+// 2026-11-20: recreating a receipt is described as for your own files, no longer for an expense claim.
+export const GUIDES_LEGALITY_UPDATED = "2026-11-20";
 // 2026-08-31: free-tier limits changed — see STATIC_UPDATED above.
 export const POLICY_UPDATED = "2026-08-31";
 // /create and /cookies both sat on STATIC_UPDATED, which also stamps /login,
@@ -634,7 +644,8 @@ export const CREATE_UPDATED = "2026-11-20";
 // 2026-10-13: lists the first-party measurement storage (mkc_* keys).
 // 2026-10-20: analytics section split by region — opt-in in the EEA/UK/CH,
 // on by default with Decline as the opt-out everywhere else.
-export const COOKIES_UPDATED = "2026-10-20";
+// 2026-11-20: lists every storage key in use (drafts, pending download, AI hand-off, guest chat, offer bar, visit counters) and points to Cookie settings in the footer.
+export const COOKIES_UPDATED = "2026-11-20";
 // 2026-08-29: /login now leads with the log-in form instead of "Create your
 // free account" — the heading, the sub-heading and the form itself all change
 // for anyone arriving with a ?next=. Its own constant for the same reason as
@@ -683,7 +694,8 @@ export const LOGIN_UPDATED = "2026-08-31";
 // 2026-10-27: the watermark demo receipt now prints its register and cashier
 // line, which the renderer had been dropping.
 // 2026-10-27: a one-sentence price answer under the hero.
-export const PRICING_UPDATED = "2026-10-27";
+// 2026-11-20: a Terms and Privacy line under the plan cards; not-included features readable (contrast).
+export const PRICING_UPDATED = "2026-11-20";
 // 2026-08-23: the hero grid no longer stretches to the 380px receipt, so the
 // primary CTA is reachable again on phones under 412px — a visible change to
 // the page's most important element.
@@ -709,7 +721,8 @@ export const PRICING_UPDATED = "2026-10-27";
 // line — the renderer dropped it, though the anatomy copy beside it names both.
 // 2026-11-03: title, H1 and meta description move to "receipt templates" and
 // store receipt generators; the hero links /create as "receipt maker".
-export const HOME_UPDATED = "2026-11-03";
+// 2026-11-20: the expense-report card is now a small-business card, and the export card no longer pitches expense reports.
+export const HOME_UPDATED = "2026-11-20";
 // 2026-08-31: free-tier limits changed — see STATIC_UPDATED above.
 // 2026-10-11: links to the new Google Docs templates page from under the intro.
 // 2026-10-18: lists the new pro forma invoice and credit note templates.
