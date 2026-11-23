@@ -41,7 +41,7 @@ export default function HandoffCard({
   return (
     <aside
       data-offer-cta=""
-      className="not-prose my-8 rounded-2xl bg-gradient-to-br from-indigo-600 to-violet-700 px-6 py-6 sm:flex sm:items-center sm:justify-between sm:gap-6"
+      className="not-prose my-8 rounded-2xl bg-gradient-to-br from-indigo-600 to-violet-700 px-5 py-6 sm:px-6 sm:flex sm:items-center sm:justify-between sm:gap-6"
     >
       <div className="min-w-0">
         <p className="text-lg font-bold text-white">{heading}</p>
@@ -50,7 +50,7 @@ export default function HandoffCard({
       <Link
         href={href}
         onClick={() => analytics.handoffClick(location)}
-        className="mt-4 inline-flex min-h-11 w-full shrink-0 items-center justify-center rounded-full bg-white px-6 py-3 text-center text-sm font-semibold text-indigo-700 shadow-sm hover:bg-indigo-50 sm:mt-0 sm:w-auto sm:max-w-[16rem]"
+        className="mt-4 inline-flex min-h-11 w-full shrink-0 items-center justify-center rounded-full bg-white px-4 py-3 text-center sm:px-6 text-sm font-semibold text-indigo-700 shadow-sm hover:bg-indigo-50 sm:mt-0 sm:w-auto sm:max-w-[16rem]"
       >
         {label}
       </Link>

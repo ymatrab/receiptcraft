@@ -1071,6 +1071,7 @@ export function intentReviewedAt(brandSlug: string): string {
     hasHandoff(brandSlug) ? INTENT_HANDOFF_UPDATED : null,
     INTENT_FAQ_EXPENSE_UPDATED,
     INTENT_RECORDS_WORDING_UPDATED,
+    INTENT_PHONE_LAYOUT_UPDATED,
   );
 }
 
@@ -1084,6 +1085,12 @@ const INTENT_FAQ_EXPENSE_UPDATED = "2026-11-16";
 // the shared FAQ now say "make a receipt for your records" and that it is not
 // proof of purchase. Nike and KFC also got their own rewrites the same day.
 const INTENT_RECORDS_WORDING_UPDATED = "2026-11-20";
+
+// 2026-11-23: phone layout on every guide — the offer under the answer is a
+// tappable row with new wording ("Make a {brand}-style receipt · for your own
+// records · free with a watermark"), and the card after the first answer drops
+// its hub-template sentence on phones. Visible text changed on all of them.
+const INTENT_PHONE_LAYOUT_UPDATED = "2026-11-23";
 
 /** Latest of several ISO dates (YYYY-MM-DD sorts as text); nulls are skipped. */
 function newest(...dates: (string | null)[]): string {

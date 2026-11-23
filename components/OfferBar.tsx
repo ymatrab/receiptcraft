@@ -53,6 +53,7 @@ export default function OfferBar({
   shortLabel,
   location,
   showAtPercent = SHOW_AT_PERCENT,
+  phoneShowAtPercent,
   phonesOnly = false,
 }: {
   href: string;
@@ -70,6 +71,14 @@ export default function OfferBar({
    * carries data-offer-cta.
    */
   showAtPercent?: number;
+  /**
+   * The same, below lg only, where it overrides showAtPercent. Receipt-help
+   * passes 0: on phones few readers reach 40% (9 bars shown in Nov 6–23), and
+   * the row under the answer carries data-offer-cta, so the bar still waits
+   * for it to scroll away. Desktop keeps 40%, because there nothing near the
+   * top carries data-offer-cta and 0 would show the bar on load.
+   */
+  phoneShowAtPercent?: number;
   /** Hide from lg up, where the page keeps its own button in view. */
   phonesOnly?: boolean;
 }) {
@@ -77,21 +86,24 @@ export default function OfferBar({
   const [closed, setClosed] = useState(true);
   const [deepEnough, setDeepEnough] = useState(false);
   const [offerOnScreen, setOfferOnScreen] = useState(false);
-  // phonesOnly: wide enough that the bar is hidden. Tracked here, not left to
-  // CSS alone, so a bar nobody can see never records offer_bar_shown.
+  // From lg up. phonesOnly: wide enough that the bar is hidden. Tracked here,
+  // not left to CSS alone, so a bar nobody can see never records
+  // offer_bar_shown. phoneShowAtPercent: which threshold applies.
   const [wide, setWide] = useState(false);
+  const watchWidth = phonesOnly || phoneShowAtPercent !== undefined;
+  const threshold = !wide && phoneShowAtPercent !== undefined ? phoneShowAtPercent : showAtPercent;
   const reported = useRef(false);
 
   useEffect(() => setClosed(alreadyClosed()), []);
 
   useEffect(() => {
-    if (!phonesOnly) return;
+    if (!watchWidth) return;
     const mq = window.matchMedia("(min-width: 1024px)");
     const update = () => setWide(mq.matches);
     update();
     mq.addEventListener("change", update);
     return () => mq.removeEventListener("change", update);
-  }, [phonesOnly]);
+  }, [watchWidth]);
 
   useEffect(() => {
     if (closed) return;
@@ -99,12 +111,12 @@ export default function OfferBar({
       const el = document.documentElement;
       const scrollable = el.scrollHeight - el.clientHeight;
       if (scrollable <= 0) return;
-      setDeepEnough((el.scrollTop / scrollable) * 100 >= showAtPercent);
+      setDeepEnough((el.scrollTop / scrollable) * 100 >= threshold);
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [closed, showAtPercent]);
+  }, [closed, threshold]);
 
   useEffect(() => {
     if (closed || typeof IntersectionObserver === "undefined") return;
