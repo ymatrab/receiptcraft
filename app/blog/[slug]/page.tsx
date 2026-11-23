@@ -312,7 +312,7 @@ export default async function BlogPostPage({
       : null;
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
+    <div className="mx-auto max-w-3xl px-4 pb-16 pt-6 sm:px-6 sm:pt-16">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
@@ -327,7 +327,9 @@ export default async function BlogPostPage({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
         />
       )}
-      {/* Visible breadcrumb — matches breadcrumbJsonLd (Home / Blog / title). */}
+      {/* Visible breadcrumb — matches breadcrumbJsonLd (Home / Blog / title).
+          On phones the title is left out: it repeated the H1 right below it
+          and took two lines of an 844px screen that showed no article text. */}
       <nav aria-label="Breadcrumb" className="text-sm text-slate-500">
         <ol className="flex flex-wrap items-center gap-1.5">
           <li>
@@ -337,18 +339,18 @@ export default async function BlogPostPage({
           <li>
             <Link href="/blog" className="hover:text-indigo-600">Blog</Link>
           </li>
-          <li aria-hidden="true">/</li>
-          <li className="font-medium text-slate-900">{post.title}</li>
+          <li aria-hidden="true" className="hidden sm:list-item">/</li>
+          <li className="hidden font-medium text-slate-900 sm:list-item">{post.title}</li>
         </ol>
       </nav>
 
-      <article className="mt-6">
+      <article className="mt-4 sm:mt-6">
         {post.category && (
           <span className="text-sm font-semibold uppercase tracking-wide text-indigo-600">
             {post.category}
           </span>
         )}
-        <h1 className="mt-2 text-4xl font-bold tracking-tight text-slate-900">{post.title}</h1>
+        <h1 className="mt-2 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">{post.title}</h1>
         <div className="mt-3 flex items-center gap-2 text-sm text-slate-500">
           {post.authorName && (
             <Link
@@ -388,11 +390,11 @@ export default async function BlogPostPage({
             height={810}
             fetchPriority="high"
             alt={post.title}
-            className="mt-8 aspect-video h-auto w-full rounded-2xl object-cover"
+            className="mt-5 aspect-video h-auto w-full rounded-2xl object-cover sm:mt-8"
           />
         )}
 
-        <div className="prose prose-slate mt-8 max-w-none prose-headings:font-bold prose-a:text-indigo-600">
+        <div className="prose prose-slate mt-5 max-w-none sm:mt-8 prose-headings:font-bold prose-a:text-indigo-600">
           {post.body ? (
             offerBody ? (
               <>
@@ -466,6 +468,7 @@ export default async function BlogPostPage({
         label={bar.label}
         shortLabel="Make a receipt now"
         location="blog"
+        phoneShowAtPercent={15}
       />
     </div>
   );
