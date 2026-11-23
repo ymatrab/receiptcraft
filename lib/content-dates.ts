@@ -450,8 +450,15 @@ function brandPoolCopyChanged(slug: string): boolean {
 // says to attach it to an expense report.
 export const BRANDS_COPY_GUARDRAILS_UPDATED = "2026-11-20";
 
+// 2026-11-21: phone layout on every brand page — the receipt comes straight
+// after the button, a line under the button says what is free, and a "these
+// items are already in the template" card follows the sample items. The card
+// and the line are in every page's HTML, so all ~354 brand pages move.
+export const BRANDS_PHONE_LAYOUT_UPDATED = "2026-11-21";
+
 export function brandReviewedAt(slug: string): string {
   return newest(
+    BRANDS_PHONE_LAYOUT_UPDATED,
     BRANDS_COPY_GUARDRAILS_UPDATED,
     BRANDS_SELL_PAGES.has(slug) || brandPoolCopyChanged(slug) ? BRANDS_SELL_PAGES_UPDATED : null,
     brandReceiptChanged(slug) ? BRANDS_RECEIPT_UPDATED : null,

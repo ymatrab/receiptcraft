@@ -52,6 +52,8 @@ export default function OfferBar({
   label,
   shortLabel,
   location,
+  showAtPercent = SHOW_AT_PERCENT,
+  phonesOnly = false,
 }: {
   href: string;
   /** The question, shown from `md` up, beside the button. */
@@ -60,16 +62,36 @@ export default function OfferBar({
   label: string;
   /** The whole bar below `md`, where there is room for one short line. */
   shortLabel: string;
-  /** "blog" or "receipt_help", for the events. */
+  /** "blog", "receipt_help" or "brand", for the events. */
   location: string;
+  /**
+   * How far down the page before it may show. Brand pages pass 0: there the
+   * bar only has to wait for the hero button to scroll away, and that button
+   * carries data-offer-cta.
+   */
+  showAtPercent?: number;
+  /** Hide from lg up, where the page keeps its own button in view. */
+  phonesOnly?: boolean;
 }) {
   const consent = useConsent();
   const [closed, setClosed] = useState(true);
   const [deepEnough, setDeepEnough] = useState(false);
   const [offerOnScreen, setOfferOnScreen] = useState(false);
+  // phonesOnly: wide enough that the bar is hidden. Tracked here, not left to
+  // CSS alone, so a bar nobody can see never records offer_bar_shown.
+  const [wide, setWide] = useState(false);
   const reported = useRef(false);
 
   useEffect(() => setClosed(alreadyClosed()), []);
+
+  useEffect(() => {
+    if (!phonesOnly) return;
+    const mq = window.matchMedia("(min-width: 1024px)");
+    const update = () => setWide(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, [phonesOnly]);
 
   useEffect(() => {
     if (closed) return;
@@ -77,12 +99,12 @@ export default function OfferBar({
       const el = document.documentElement;
       const scrollable = el.scrollHeight - el.clientHeight;
       if (scrollable <= 0) return;
-      setDeepEnough((el.scrollTop / scrollable) * 100 >= SHOW_AT_PERCENT);
+      setDeepEnough((el.scrollTop / scrollable) * 100 >= showAtPercent);
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [closed]);
+  }, [closed, showAtPercent]);
 
   useEffect(() => {
     if (closed || typeof IntersectionObserver === "undefined") return;
@@ -99,7 +121,7 @@ export default function OfferBar({
   }, [closed]);
 
   const ready = consent === "granted" || consent === "denied";
-  const show = ready && !closed && deepEnough && !offerOnScreen;
+  const show = ready && !closed && deepEnough && !offerOnScreen && !(phonesOnly && wide);
 
   useEffect(() => {
     if (show && !reported.current) {
@@ -125,7 +147,7 @@ export default function OfferBar({
       role="complementary"
       aria-label="Receipt maker"
       data-nosnippet=""
-      className="fixed bottom-5 left-4 right-24 z-40 flex h-14 items-center rounded-full bg-gradient-to-r from-indigo-600 to-violet-700 pl-5 pr-1.5 text-white shadow-xl md:left-1/2 md:right-auto md:w-max md:max-w-[36rem] md:-translate-x-1/2 md:gap-4 md:pl-6"
+      className={`fixed bottom-5 left-4 right-24 z-40 ${phonesOnly ? "lg:hidden" : ""} flex h-14 items-center rounded-full bg-gradient-to-r from-indigo-600 to-violet-700 pl-5 pr-1.5 text-white shadow-xl md:left-1/2 md:right-auto md:w-max md:max-w-[36rem] md:-translate-x-1/2 md:gap-4 md:pl-6`}
     >
       {/* Below md: the bar is one link. */}
       <Link
