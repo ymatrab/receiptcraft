@@ -77,6 +77,9 @@ export default function OfferBar({
    * the row under the answer carries data-offer-cta, so the bar still waits
    * for it to scroll away. Desktop keeps 40%, because there nothing near the
    * top carries data-offer-cta and 0 would show the bar on load.
+   * Blog posts pass 15: nothing above their card carries data-offer-cta, so 0
+   * would show the bar on load there too; 15% of a 6,500–9,600px post is
+   * about where the card scrolls away (7 bars shown at 40%, Nov 6–23).
    */
   phoneShowAtPercent?: number;
   /** Hide from lg up, where the page keeps its own button in view. */
