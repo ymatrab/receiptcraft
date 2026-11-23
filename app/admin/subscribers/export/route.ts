@@ -1,5 +1,6 @@
 import { requireAdmin } from "@/lib/admin";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { unsubscribeUrl } from "@/lib/unsubscribe";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -20,11 +21,13 @@ export async function GET() {
   const admin = createAdminClient();
   const { data } = await admin
     .from("newsletter_subscribers")
-    .select("email, source, unsubscribed_at, created_at")
+    .select("id, email, source, unsubscribed_at, created_at")
     .order("created_at", { ascending: false });
 
   const rows = data ?? [];
-  const header = ["Email", "Source", "Status", "Signed up (UTC)"];
+  // The unsubscribe link goes into each email (and its List-Unsubscribe header)
+  // from whatever tool sends the newsletter. Never mail an "unsubscribed" row.
+  const header = ["Email", "Source", "Status", "Signed up (UTC)", "Unsubscribe link"];
   const lines = [
     header.map(cell).join(","),
     ...rows.map((r) =>
@@ -33,6 +36,7 @@ export async function GET() {
         cell(r.source),
         cell(r.unsubscribed_at ? "unsubscribed" : "subscribed"),
         cell(r.created_at ? new Date(r.created_at).toISOString() : ""),
+        cell(unsubscribeUrl(r.id)),
       ].join(",")
     ),
   ];
