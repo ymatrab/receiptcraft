@@ -50,9 +50,12 @@ export default function HandoffRow({
           // eslint-disable-next-line @next/next/no-img-element
           <img src={logo} alt="" className="h-3.5 w-auto max-w-[38px] object-contain" />
         ) : (
-          <span className="flex h-3.5 w-3.5 items-center justify-center rounded-full bg-slate-800 text-[8px] font-bold leading-none text-white">
-            {brandName.replace(/^The\s+/i, "").charAt(0).toUpperCase()}
-          </span>
+          // The letter comes from CSS, not a text node: as text it joined the
+          // link's anchor text ("MMake a McDonald's-style receipt").
+          <span
+            data-initial={brandName.replace(/^The\s+/i, "").charAt(0).toUpperCase()}
+            className="flex h-3.5 w-3.5 items-center justify-center rounded-full bg-slate-800 text-[8px] font-bold leading-none text-white before:content-[attr(data-initial)]"
+          />
         )}
         <span className="mt-0.5 h-[2px] w-8 rounded bg-slate-300" />
         <span className="h-[2px] w-6 rounded bg-slate-300" />
