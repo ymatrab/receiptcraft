@@ -21,6 +21,7 @@ import { absoluteUrl, SITE } from "@/lib/site";
 import RelatedPosts from "@/components/RelatedPosts";
 import HandoffCard from "@/components/HandoffCard";
 import OfferBar from "@/components/OfferBar";
+import HandoffRow from "@/components/HandoffRow";
 
 /** Which blog categories suit each guide. A "can I return without a receipt"
  *  page wants the legal reading; a lost-receipt page wants the recovery
@@ -183,8 +184,19 @@ export default async function IntentPage({
           fold sends readers to that page (the brand template, or the example
           that owns the brand's "receipt template" query) instead of /create,
           and states the download terms before the click. */}
+      {/* 2026-11-23, phones: the same offer as one tappable row. Below lg the
+          sentence after it is hidden (it stays in the HTML, anchor text and
+          all); from lg the sentence shows and the row does not. */}
+      <HandoffRow
+        href={handoff?.href ?? `/create?template=${encodeURIComponent(page.brandSlug)}`}
+        title={`Make ${anBrand(page.brandName)}-style receipt`}
+        sub={`For your own records · free with a watermark · ${passPrice} removes it`}
+        brandName={page.brandName}
+        logo={logo}
+        className="mt-4 lg:hidden"
+      />
       {handoff ? (
-        <p className="mt-3 text-sm text-slate-600">
+        <p className="mt-3 hidden text-sm text-slate-600 lg:block">
           Need a {page.brandName}-style receipt for your own records? Build one with the{" "}
           <Link
             href={handoff.href}
@@ -195,7 +207,7 @@ export default async function IntentPage({
           — free to build with a watermarked download; a clean download needs a pass from {passPrice}.
         </p>
       ) : (
-        <p className="mt-3 text-sm text-slate-500">
+        <p className="mt-3 hidden text-sm text-slate-500 lg:block">
           Can&apos;t get the original back?{" "}
           <Link
             href={`/create?template=${encodeURIComponent(page.brandSlug)}`}
@@ -231,8 +243,10 @@ export default async function IntentPage({
             You can fill one in with the items, prices, date and store details of your real
             purchase. It is not a copy issued by {page.brandName}, so it won&apos;t work for a
             return or an expense claim.
+            {/* Hidden on phones only, where it pushed the button a screen
+                down; it stays in the HTML as the guide's link to its hub. */}
             {hubTemplate && (
-              <>
+              <span className="hidden sm:inline">
                 {" "}
                 If your copy looked different, use the general{" "}
                 <Link
@@ -242,7 +256,7 @@ export default async function IntentPage({
                   {hubTemplate.name.toLowerCase()} template
                 </Link>
                 .
-              </>
+              </span>
             )}
           </HandoffCard>
         )}
@@ -392,6 +406,7 @@ export default async function IntentPage({
         label="Make one"
         shortLabel={`Make ${anBrand(page.brandName)} receipt`}
         location="receipt_help"
+        phoneShowAtPercent={0}
       />
     </div>
   );
