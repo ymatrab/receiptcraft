@@ -345,7 +345,7 @@ export default function PricingPage() {
   };
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-5xl px-4 pb-16 pt-8 sm:px-6 sm:pt-16 lg:px-8">
       <PricingViewed />
       <script
         type="application/ld+json"
@@ -374,10 +374,16 @@ export default function PricingPage() {
         </p>
       </div>
 
+      {/* PHONE ORDER (2026-11-23). Below sm this is a flex column and the
+          four-state list (order-last) moves under the cards: everything in it
+          is also on the cards or in the new-account banner, and it pushed the
+          first buy button to 1,157px (1,546px after sign-up). From sm the
+          order is the HTML order. */}
+      <div className="flex flex-col sm:block">
       {/* The free tier has four distinct states and they were previously only
           explained in prose scattered across the hero, /create and the FAQ.
           Stating them once, in order, is what lets those places stop. */}
-      <ol className="mx-auto mt-10 max-w-2xl divide-y divide-slate-200 rounded-2xl border border-slate-200 bg-white">
+      <ol className="order-last mx-auto mt-6 w-full max-w-2xl divide-y sm:mt-10 divide-slate-200 rounded-2xl border border-slate-200 bg-white">
         {[
           { step: "Build and preview", detail: "No account needed", free: true },
           { step: "Download", detail: "Free with a small watermark, no account", free: false },
@@ -410,7 +416,7 @@ export default function PricingPage() {
           also what search engines and AI answers quote about each plan. Every
           price carries its monthly equivalent, so $3 / $7.99 / $49 do not read
           as a rising ladder when per month they fall. */}
-      <div className="mx-auto mt-12 grid max-w-4xl gap-4 sm:grid-cols-3">
+      <div className="mx-auto mt-7 grid w-full max-w-4xl gap-4 sm:mt-12 sm:grid-cols-3">
         {PAID_ROWS.map((row) => {
           const plan = PLANS[row.id as Exclude<PlanRow["id"], "free">];
           const perMonth = monthlyEquivalent(plan);
@@ -447,7 +453,10 @@ export default function PricingPage() {
                 )}
               </p>
 
-              <ul className="mt-5 flex-1 space-y-2.5 text-sm text-slate-600">
+              {/* Phones: order-last puts the button and its payment line
+                  straight under the price; the list follows. From sm the
+                  list sits between them again, as the cards line up. */}
+              <ul className="order-last mt-5 flex-1 space-y-2.5 text-sm text-slate-600 sm:order-none">
                 <Feature yes>
                   <strong className="font-semibold text-slate-900">{row.downloads}</strong>{" "}
                   {row.downloadsNoun}
@@ -469,7 +478,7 @@ export default function PricingPage() {
 
               <PricingCta
                 planId={row.id as Exclude<PlanRow["id"], "free">}
-                className={`mt-6 flex min-h-11 items-center justify-center rounded-full px-4 text-sm font-semibold transition-colors ${
+                className={`mt-4 flex min-h-11 items-center justify-center rounded-full px-4 sm:mt-6 text-sm font-semibold transition-colors ${
                   best
                     ? "bg-indigo-600 text-white shadow-sm hover:bg-indigo-700"
                     : "border border-indigo-200 bg-indigo-50 text-indigo-700 hover:bg-indigo-100"
@@ -495,6 +504,7 @@ export default function PricingPage() {
         <Link href="/terms" className="underline hover:text-slate-700">Terms of Use</Link> and{" "}
         <Link href="/privacy" className="underline hover:text-slate-700">Privacy Policy</Link>.
       </p>
+      </div>
 
       {/* The same information as a grid. Cards are for deciding; a table is the
           fastest way to read four options against each other, which is what a
@@ -504,7 +514,10 @@ export default function PricingPage() {
         <h2 id="compare-heading" className="text-lg font-semibold text-slate-900">
           Compare every plan
         </h2>
-        <div className="mt-4 overflow-x-auto rounded-2xl border border-slate-200 bg-white">
+        {/* relative: the tick cells' screen-reader labels are absolutely
+            positioned, and without a positioned scroll box they escaped it and
+            made the whole page 484px wide on a 390px phone. */}
+        <div className="relative mt-4 overflow-x-auto rounded-2xl border border-slate-200 bg-white">
           <table className="w-full min-w-[34rem] border-collapse text-sm">
             <caption className="sr-only">
               Feature comparison across the free plan and the three Pro periods
