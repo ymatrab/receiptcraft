@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import type { Metadata } from "next";
 import Reviewed from "@/components/Reviewed";
 import { exampleReviewedAt } from "@/lib/content-dates";
@@ -20,6 +21,7 @@ import { formatMoney, formatDisplayDate } from "@/lib/format";
 import { SITE, absoluteUrl } from "@/lib/site";
 import { creativeWorkJsonLd } from "@/lib/schema";
 import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
+import OfferBar from "@/components/OfferBar";
 import { BRAND_TEMPLATES } from "@/lib/brands";
 import { brandSlugForExample } from "@/lib/example-links";
 
@@ -124,6 +126,11 @@ export default async function ExamplePage({
   // Examples whose brand page owns the query this example also shows for: the
   // main button opens the brand page instead of the generic category template.
   const brandFirst = Boolean(brandPage) && BRAND_FIRST_EXAMPLES.has(ex.slug);
+  const ctaHref = brandFirst && brandPage ? `/brands/${brandPage.slug}` : `/create?template=${encodeURIComponent(ex.base)}`;
+  const receiptDoc = docFromReceiptData(data);
+  // Phone scale for the receipt: 0.85 like brand pages, smaller for the wide
+  // layouts so they fit 334px (390px phone, minus page and box padding).
+  const receiptZoom = Math.min(0.85, 334 / (receiptDoc.settings.widthPx || 380));
 
   // The former ItemList of receipt line items had no per-item URLs, so it was
   // ineligible for any Google rich result — dropped as noise, and not revived.
@@ -148,7 +155,8 @@ export default async function ExamplePage({
   });
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
+    <>
+    <div className="mx-auto max-w-5xl px-4 pb-12 pt-6 sm:px-6 sm:pt-12 lg:px-8">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(workJsonLd) }} />
       <nav className="text-sm text-slate-500">
@@ -157,8 +165,20 @@ export default async function ExamplePage({
         <span className="text-slate-700">{ex.brand}</span>
       </nav>
 
-      <div className="mt-4 grid gap-10 lg:grid-cols-[minmax(0,1fr)_360px]">
-        <div>
+      {/* PHONE ORDER (2026-11-23). On a phone the receipt came after the
+          scenario, the notes, the item table and the closing text (1,059–
+          1,424px down), and wide receipts made the page up to 524px wide.
+
+          The left column is `contents` below lg, so its two parts become items
+          of this grid and `order` puts the receipt (order-2) between the button
+          (order-1) and the explanation (order-3). From lg it is an ordinary
+          column again; the HTML order never changes.
+
+          grid-cols-[minmax(0,1fr)]: an implicit column takes its widest child,
+          which is what made the page wider than the phone. */}
+      <div className="mt-4 grid grid-cols-[minmax(0,1fr)] gap-6 lg:grid-cols-[minmax(0,1fr)_360px] lg:gap-10">
+        <div className="contents lg:block">
+          <div className="order-1">
           <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
             {exampleHeading(ex.slug, ex.brand)}
           </h1>
@@ -168,21 +188,25 @@ export default async function ExamplePage({
 
           <div className="mt-6">
             <Link
-              href={brandFirst && brandPage ? `/brands/${brandPage.slug}` : `/create?template=${encodeURIComponent(ex.base)}`}
-              className="inline-block rounded-full bg-indigo-600 px-7 py-3.5 text-base font-semibold text-white shadow-lg shadow-indigo-600/25 hover:bg-indigo-700"
+              href={ctaHref}
+              data-offer-cta=""
+              className="block w-full rounded-full text-center sm:inline-block sm:w-auto bg-indigo-600 px-7 py-3.5 text-base font-semibold text-white shadow-lg shadow-indigo-600/25 hover:bg-indigo-700"
             >
               {brandFirst && brandPage ? `Open the ${brandPage.shortName} receipt template` : `Make a ${ex.brand} receipt`}
             </Link>
             {brandPage && !brandFirst && (
               <Link
                 href={`/brands/${brandPage.slug}`}
-                className="ml-4 text-sm font-medium text-indigo-700 underline decoration-indigo-300 underline-offset-2 hover:decoration-indigo-700"
+                className="mt-3 block text-center text-sm font-medium sm:ml-4 sm:mt-0 sm:inline text-indigo-700 underline decoration-indigo-300 underline-offset-2 hover:decoration-indigo-700"
               >
                 See the {brandPage.shortName} receipt template
               </Link>
             )}
           </div>
+          </div>
 
+          {/* -mt-4: the first heading below carries its own top margin. */}
+          <div className="order-3 -mt-4 lg:mt-0">
           {ex.scenario && (
             <>
               <h2 className="mt-10 text-xl font-bold text-slate-900">When you would need this receipt</h2>
@@ -233,13 +257,18 @@ export default async function ExamplePage({
 
           <h2 className="mt-10 text-xl font-bold text-slate-900">Make your own in under a minute</h2>
           <p className="mt-2 leading-relaxed text-slate-600">{exampleClosingText(ex, SITE.name)}</p>
+          </div>
         </div>
 
         {/* Rendered example receipt */}
-        <div className="lg:sticky lg:top-20">
-          <div className="rounded-3xl bg-gradient-to-b from-slate-100 to-slate-200/60 p-6">
+        {/* Phones: the whole receipt (it is the example), scaled to fit the
+            screen. From lg: full size, sticky, as before. */}
+        <div className="order-2 lg:sticky lg:top-20 lg:order-none">
+          <div className="rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200/60 p-3 sm:rounded-3xl sm:p-6">
             <div className="flex justify-center">
-              <ReceiptDocPaper doc={docFromReceiptData(data)} />
+              <div className="[zoom:var(--rz)] lg:[zoom:1]" style={{ "--rz": receiptZoom } as CSSProperties}>
+                <ReceiptDocPaper doc={receiptDoc} />
+              </div>
             </div>
           </div>
         </div>
@@ -266,5 +295,18 @@ export default async function ExamplePage({
       )}
       <Reviewed date={exampleReviewedAt(ex.slug)} />
     </div>
+
+    {/* Phones: the builder one tap away while reading. Shows once the main
+        button has scrolled off, and hides while it or the footer is on screen. */}
+    <OfferBar
+      href={ctaHref}
+      text={`Ready to make your ${ex.brand} receipt?`}
+      label="Make one like this"
+      shortLabel={`Make a ${ex.brand} receipt`}
+      location="example"
+      showAtPercent={0}
+      phonesOnly
+    />
+    </>
   );
 }
