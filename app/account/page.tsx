@@ -9,8 +9,10 @@ import { fulfilReturningBuyer } from "@/lib/stripe-passes";
 import { SITE } from "@/lib/site";
 import { BRAND_TEMPLATES } from "@/lib/brands";
 import LocalDate from "@/components/LocalDate";
+import { createAdminClient } from "@/lib/supabase/admin";
 import BillingNotice from "./BillingNotice";
-import { deleteReceiptAction } from "./actions";
+import DeleteAccount from "./DeleteAccount";
+import { deleteReceiptAction, setNewsletterAction } from "./actions";
 
 export const metadata: Metadata = {
   title: "Your Account",
@@ -76,7 +78,7 @@ export default async function AccountPage({
 
   // The subscription decides what the rest of the page says, but nothing here
   // depends on anything else here — so pay for one round trip, not four.
-  const [{ data: sub }, usage, { data: recentReceipts }] = await Promise.all([
+  const [{ data: sub }, usage, { data: recentReceipts }, { data: newsletter }] = await Promise.all([
     supabase
       .from("subscriptions")
       .select("id, status, plan, current_period_end, cancel_at_period_end, stripe_customer_id")
@@ -91,7 +93,17 @@ export default async function AccountPage({
       .eq("user_id", user.id)
       .order("created_at", { ascending: false })
       .limit(RECENT_LIMIT),
+    // Service role: the list has no RLS policy for members. Keyed by email,
+    // because that is what the list is keyed by.
+    user.email
+      ? createAdminClient()
+          .from("newsletter_subscribers")
+          .select("unsubscribed_at")
+          .eq("email", user.email.trim().toLowerCase())
+          .maybeSingle()
+      : Promise.resolve({ data: null }),
   ]);
+  const onNewsletter = Boolean(newsletter && !newsletter.unsubscribed_at);
 
   const isPro = isProEntitled(sub?.status, sub?.current_period_end);
   // A pass that has run out — whether it was still marked active or had been
@@ -393,6 +405,35 @@ export default async function AccountPage({
         )}
       </section>
 
+      {/* ------------------------------------------------------------- emails */}
+      {/* Account emails (password resets, purchase receipts) are not optional;
+          the newsletter is, and turning it off here does what the link in every
+          newsletter does. */}
+      <section aria-labelledby="emails-heading" className="mt-10">
+        <h2 id="emails-heading" className="text-lg font-semibold text-slate-900">
+          Emails
+        </h2>
+        <div className="mt-3 flex flex-col gap-3 rounded-2xl border border-slate-200 bg-white p-5 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="text-sm font-medium text-slate-900">
+              Newsletter: {onNewsletter ? "subscribed" : "not subscribed"}
+            </p>
+            <p className="mt-0.5 text-sm text-slate-600">
+              Occasional tips and new templates. Password and purchase emails always arrive.
+            </p>
+          </div>
+          <form action={setNewsletterAction}>
+            <input type="hidden" name="subscribe" value={onNewsletter ? "0" : "1"} />
+            <button
+              type="submit"
+              className="flex h-11 cursor-pointer items-center whitespace-nowrap rounded-full border border-slate-300 px-4 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+            >
+              {onNewsletter ? "Unsubscribe" : "Subscribe"}
+            </button>
+          </form>
+        </div>
+      </section>
+
       {/* -------------------------------------------------------------- signout */}
       {/* Separated from everything above, and given a real tap target — it was a
           ~60x20px text link, well under the 44x44 minimum. */}
@@ -405,6 +446,9 @@ export default async function AccountPage({
             Sign out
           </button>
         </form>
+        <div className="mt-2">
+          <DeleteAccount hasPro={isPro} />
+        </div>
       </div>
     </div>
   );

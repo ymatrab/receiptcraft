@@ -71,7 +71,8 @@ export const TOOLS_INDEX_UPDATED = "2026-08-31";
 // business name and the matched template are stored, and the prompt is deleted
 // after 90 days.
 // 2026-11-20: names the seller (YUMA TECHNOLOGIES LLC) and every processor — Stripe, Resend, Telegram alerts, each AI provider, the directory badges — adds a children section and drops the AI-limit cookie that no longer exists.
-export const PRIVACY_UPDATED = "2026-11-20";
+// 2026-11-23: account deletion is self-serve ("Delete my account" on /account) and the newsletter has one-click unsubscribe plus an account toggle.
+export const PRIVACY_UPDATED = "2026-11-23";
 // 2026-09-04: sections 3 and 4 now describe the billing model that actually
 // runs. The old text said a plan "continues for successive periods until
 // cancelled" and that you "authorize the recurring charge until you cancel",

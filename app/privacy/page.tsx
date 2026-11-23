@@ -15,7 +15,7 @@ export default function PrivacyPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
       <h1 className="text-4xl font-bold tracking-tight text-slate-900">Privacy Policy</h1>
-      <p className="mt-3 text-sm text-slate-500">Last updated: November 20, 2026</p>
+      <p className="mt-3 text-sm text-slate-500">Last updated: November 23, 2026</p>
 
       <div className="mt-8 space-y-5 leading-relaxed text-slate-600">
         <H2>The short version</H2>
@@ -105,7 +105,8 @@ export default function PrivacyPage() {
           features are popular and where the interface can improve. We also use Vercel Analytics,
           which is cookieless and only counts page views in aggregate. None of this is linked to
           your receipt contents. If you subscribe to our newsletter, we store your email address
-          to send you product updates; every newsletter we send includes an unsubscribe link.
+          to send you product updates; every newsletter we send includes a one-click unsubscribe
+          link, and signed-in members can also turn it off under Emails on their account page.
         </p>
         <p>
           We also keep our own record of product events in our database — a sign-up, a template
@@ -150,11 +151,13 @@ export default function PrivacyPage() {
 
         <H2>Your rights &amp; retention</H2>
         <p>
-          You can request access to, correction of, or deletion of your account data — including
-          saved receipts and chat history — by contacting us, and we will not treat you differently
-          for doing so. We keep account data while your account is active and for a reasonable
-          period afterwards as required for legal and accounting purposes; payment records are kept
-          as long as tax law requires.
+          You can delete your account yourself at any time with &ldquo;Delete my account&rdquo; at
+          the bottom of your account page. That removes your account, saved receipts, chat history,
+          usage records, product events and newsletter subscription straight away, and asks Stripe
+          to delete your customer record and any saved card. You can also request access to or
+          correction of your data by contacting us, and we will not treat you differently for
+          doing so. Payment records themselves are kept by Stripe and by us as long as tax law
+          requires.
         </p>
 
         <H2>Children</H2>
