@@ -25,7 +25,7 @@ export const maxDuration = 60;
  * so a run that fires a little early cannot cache a fresh 404. The 26-hour
  * lookback means a run that misses a post catches it the next time.
  *
- * Secured with CRON_SECRET the same way as /api/cron/indexnow, and fails open for
+ * Secured with CRON_SECRET the same way as the other cron routes, and fails open for
  * the same reason: the only effect is requesting our own public pages.
  */
 
