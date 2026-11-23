@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, type CSSProperties } from "react";
 import type { Metadata } from "next";
 import Reviewed from "@/components/Reviewed";
 import { templateReviewedAt } from "@/lib/content-dates";
@@ -11,6 +11,7 @@ import { fitSeoDescription } from "@/lib/seo-description";
 import { SITE, absoluteUrl } from "@/lib/site";
 import { creativeWorkJsonLd } from "@/lib/schema";
 import ReceiptDocPaper from "@/components/receipt/ReceiptDocPaper";
+import OfferBar from "@/components/OfferBar";
 import { CitedText, SourceList } from "@/components/Sources";
 import { citationJsonLd } from "@/lib/sources";
 import RelatedPosts from "@/components/RelatedPosts";
@@ -67,6 +68,10 @@ export default async function TemplatePage({ params }: Props) {
   if (!template) notFound();
 
   const preview = previewFromTemplate(template);
+  const receiptDoc = docFromReceiptData(preview);
+  // Phone scale for the receipt: 0.85 like brand pages, smaller for the wide
+  // layouts so they fit 334px (390px phone, minus page and box padding).
+  const receiptZoom = Math.min(0.85, 334 / (receiptDoc.settings.widthPx || 380));
   const googleDoc = googleDocFor(`/templates/${template.slug}`);
   // Invoice templates bill rather than confirm payment, so their headings say
   // "invoice"; the article follows the noun ("an airline receipt").
@@ -156,7 +161,7 @@ export default async function TemplatePage({ params }: Props) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
 
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 pb-12 pt-6 sm:px-6 sm:pt-12 lg:px-8">
         {/* Breadcrumb */}
         <nav aria-label="Breadcrumb" className="text-sm text-slate-500">
           <ol className="flex flex-wrap items-center gap-1.5">
@@ -172,64 +177,106 @@ export default async function TemplatePage({ params }: Props) {
           </ol>
         </nav>
 
-        <div className="mt-8 grid items-start gap-12 lg:grid-cols-2">
-          <div>
-            <span className="text-4xl" aria-hidden="true">{template.icon}</span>
-            <h1 className="mt-4 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
-              {template.heading}
-            </h1>
-            <p className="mt-4 text-lg leading-relaxed text-slate-600">{template.intro}</p>
-            <SellLinks links={TEMPLATE_SELL_LINKS[template.slug]} />
+        {/* PHONE ORDER (2026-11-23). On a phone the receipt came after the
+            intro, the answer box, the links, both buttons and "Common uses"
+            (821–1,402px down), and on four templates the button itself was
+            below the first screen. Wide receipts (airline 420px, car rental
+            440px) also made the page wider than the phone, cutting the text
+            off on the right.
 
-            {template.leadAnswer && (
-              <p className="mt-6 rounded-2xl border-l-4 border-indigo-500 bg-indigo-50/60 px-5 py-4 text-base leading-relaxed text-slate-700">
-                {template.leadAnswer}
-              </p>
-            )}
+            The left column is `contents` below lg, so its four groups become
+            items of this grid and `order` puts the button (order-2) and the
+            receipt (order-3) straight after the intro, with the answer and
+            links (order-4) and "Common uses" (order-5) after them. From lg it
+            is an ordinary column again, in its original order, and the HTML
+            order never changes.
 
-            {/* Hand-written hand-offs to the closest sell page (lib/contextual-links.ts) */}
-            <ContextLinks path={`/templates/${template.slug}`} />
+            grid-cols-[minmax(0,1fr)]: an implicit column takes its widest
+            child, which is what made the page 436px on a 390px phone. */}
+        <div className="mt-4 grid grid-cols-[minmax(0,1fr)] items-start gap-6 sm:mt-8 lg:grid-cols-2 lg:gap-12">
+          <div className="contents lg:block">
+            <div className="order-1">
+              <span className="text-3xl sm:text-4xl" aria-hidden="true">{template.icon}</span>
+              <h1 className="mt-2 text-3xl font-bold tracking-tight text-slate-900 sm:mt-4 sm:text-4xl">
+                {template.heading}
+              </h1>
+              <p className="mt-4 text-lg leading-relaxed text-slate-600">{template.intro}</p>
+            </div>
 
-            <div className="mt-8 flex flex-wrap gap-3">
+            {/* -mt-2 cancels most of the grid gap when none of these render. */}
+            <div className="order-4 -mt-2 lg:mt-0">
+              <SellLinks links={TEMPLATE_SELL_LINKS[template.slug]} />
+
+              {template.leadAnswer && (
+                <p className="mt-6 rounded-2xl border-l-4 border-indigo-500 bg-indigo-50/60 px-5 py-4 text-base leading-relaxed text-slate-700">
+                  {template.leadAnswer}
+                </p>
+              )}
+
+              {/* Hand-written hand-offs to the closest sell page (lib/contextual-links.ts) */}
+              <ContextLinks path={`/templates/${template.slug}`} />
+            </div>
+
+            <div className="order-2 flex flex-wrap gap-3 lg:mt-8">
+              {/* data-offer-cta: the phone offer bar stays hidden while this is on screen. */}
               <Link
                 href={`/create?template=${template.slug}`}
-                className="rounded-full bg-indigo-600 px-7 py-3.5 text-base font-semibold text-white shadow-lg shadow-indigo-600/25 transition-all hover:bg-indigo-700"
+                data-offer-cta=""
+                className="w-full rounded-full bg-indigo-600 px-7 py-3.5 text-center text-base font-semibold text-white shadow-lg shadow-indigo-600/25 transition-all hover:bg-indigo-700 sm:w-auto"
               >
                 Use This Template — Free
               </Link>
+              {/* Phones: the breadcrumb already links the template list, and
+                  this second button stood between the first one and the receipt. */}
               <Link
                 href="/templates"
-                className="rounded-full border border-slate-300 bg-white px-7 py-3.5 text-base font-semibold text-slate-700 transition-colors hover:bg-slate-50"
+                className="hidden rounded-full border border-slate-300 bg-white px-7 py-3.5 text-base font-semibold text-slate-700 transition-colors hover:bg-slate-50 sm:inline-block"
               >
                 All Templates
               </Link>
             </div>
 
-            <h2 className="mt-12 text-xl font-bold text-slate-900">
-              Common uses for {an(useLabel)} {useLabel}
-            </h2>
-            <ul className="mt-4 space-y-3">
-              {template.useCases.map((useCase) => (
-                <li key={useCase} className="flex items-start gap-3 text-slate-600">
-                  <svg
-                    className="mt-0.5 h-5 w-5 shrink-0 text-emerald-500"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  {useCase}
-                </li>
-              ))}
-            </ul>
+            <div className="order-5">
+              <h2 className="mt-4 text-xl font-bold text-slate-900 lg:mt-12">
+                Common uses for {an(useLabel)} {useLabel}
+              </h2>
+              <ul className="mt-4 space-y-3">
+                {template.useCases.map((useCase) => (
+                  <li key={useCase} className="flex items-start gap-3 text-slate-600">
+                    <svg
+                      className="mt-0.5 h-5 w-5 shrink-0 text-emerald-500"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    {useCase}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
 
-          <div className="flex justify-center lg:sticky lg:top-24">
-            <div className="receipt-shadow">
-              <ReceiptDocPaper doc={docFromReceiptData(preview)} />
+          {/* Phones: the receipt part-way, scaled to fit the screen, and one
+              tap into the builder. --rz fits the widest receipt (440px) into
+              the 334px a 390px phone leaves inside this box. From lg: the
+              whole receipt, sticky, as before. */}
+          <div className="relative order-3 overflow-hidden rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200/70 p-3 lg:sticky lg:top-24 lg:order-none lg:overflow-visible lg:rounded-none lg:bg-none lg:p-0">
+            <div className="flex max-h-[340px] justify-center overflow-hidden lg:max-h-none lg:overflow-visible">
+              <div className="receipt-shadow [zoom:var(--rz)] lg:[zoom:1]" style={{ "--rz": receiptZoom } as CSSProperties}>
+                <ReceiptDocPaper doc={receiptDoc} />
+              </div>
             </div>
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-slate-200 to-transparent lg:hidden" />
+            <Link
+              href={`/create?template=${template.slug}`}
+              data-offer-cta=""
+              className="absolute bottom-4 left-1/2 inline-flex min-h-11 -translate-x-1/2 items-center whitespace-nowrap rounded-full bg-white px-5 text-sm font-semibold text-indigo-700 shadow lg:hidden"
+            >
+              Edit this receipt →
+            </Link>
           </div>
         </div>
 
@@ -272,6 +319,7 @@ export default async function TemplatePage({ params }: Props) {
             </ol>
             <Link
               href={`/create?template=${template.slug}`}
+              data-offer-cta=""
               className="mt-8 inline-block rounded-full bg-indigo-600 px-7 py-3.5 text-base font-semibold text-white shadow-lg shadow-indigo-600/25 transition-all hover:bg-indigo-700"
             >
               Open the {template.shortName} template — Free
@@ -479,6 +527,20 @@ export default async function TemplatePage({ params }: Props) {
 
         <Reviewed date={templateReviewedAt(template)} />
       </div>
+
+      {/* Phones: the builder one tap away while reading. Shows once the hero
+          button has scrolled off, and hides while any other button
+          (data-offer-cta) or the footer is on screen. Template pages without
+          a "How to make" section had no other button above the footer. */}
+      <OfferBar
+        href={`/create?template=${template.slug}`}
+        text={`Ready to make your ${docLabel}?`}
+        label="Use this template"
+        shortLabel={`Make this ${docLabel}`}
+        location="template"
+        showAtPercent={0}
+        phonesOnly
+      />
     </>
   );
 }
