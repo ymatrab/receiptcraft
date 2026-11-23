@@ -2,6 +2,7 @@ import Link from "next/link";
 import { SITE, absoluteUrl } from "@/lib/site";
 import { BRAND_COUNT, TEMPLATE_COUNT, SITE_DESCRIPTION } from "@/lib/counts";
 import HomeAiGenerator from "@/components/HomeAiGenerator";
+import OfferBar from "@/components/OfferBar";
 import { TEMPLATES } from "@/lib/templates";
 import { BRAND_LIST } from "@/lib/brands";
 import { HOMEPAGE_FAQS } from "@/lib/faqs";
@@ -432,8 +433,17 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }}
       />
 
+      {/* PHONE ORDER (2026-11-23). On a 390px phone the page was ~24,000px,
+          the store picker sat at 7,543px and the template list at 8,672px —
+          behind the paper styles, "How it works" and the anatomy section —
+          although the page's title and its search query are "receipt
+          templates". Below lg this wrapper is a flex column and the hero,
+          brands and templates sections take negative `order`, so the two
+          pickers follow the hero. From lg it is a plain block, so desktop
+          keeps its order; the HTML order never changes. */}
+      <div className="flex flex-col lg:block">
       {/* ===== HERO ===== */}
-      <section className="bg-grid relative overflow-hidden">
+      <section className="bg-grid relative -order-3 overflow-hidden">
         <div className="pointer-events-none absolute -top-32 left-1/2 h-96 w-150 -translate-x-1/2 rounded-full bg-gradient-to-r from-indigo-200/40 to-violet-200/40 blur-3xl" />
         {/* grid-cols-[minmax(0,1fr)] is load-bearing below lg. The single
             implicit track is `auto`-sized, so the 380px hero receipt stretched
@@ -443,19 +453,22 @@ export default function HomePage() {
             to. Capping the track lets the decorative receipt clip against the
             section's existing overflow-hidden instead. */}
         <div className="relative mx-auto grid max-w-7xl grid-cols-[minmax(0,1fr)] items-center gap-12 px-4 pb-14 pt-10 sm:px-6 sm:pb-20 sm:pt-16 lg:grid-cols-2 lg:gap-8 lg:px-8 lg:pb-28 lg:pt-24">
-          <div>
-            <p className="inline-flex items-center gap-1.5 rounded-full border border-indigo-200 bg-indigo-50 px-3 py-1 text-xs font-medium text-indigo-700">
+          {/* Phones: a flex column where the badge, title, intro and buttons
+              (order-first, in HTML order) come before the AI box. The main
+              button was at 811px, under the AI box and its three examples. */}
+          <div className="flex flex-col lg:block">
+            <p className="order-first inline-flex items-center self-start gap-1.5 rounded-full border border-indigo-200 bg-indigo-50 px-3 py-1 text-xs font-medium text-indigo-700">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
               Free to build · {BRAND_COUNT} brand templates · No sign-up to
               download
             </p>
-            <h1 className="mt-5 text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
+            <h1 className="order-first mt-5 text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
               Receipt templates &amp;{" "}
               <span className="bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">
                 store receipt generators
               </span>
             </h1>
-            <p className="mt-5 max-w-xl text-lg leading-relaxed text-slate-600">
+            <p className="order-first mt-5 max-w-xl text-lg leading-relaxed text-slate-600">
               Pick one of {TEMPLATE_COUNT} receipt templates for your business
               or {BRAND_COUNT} store layouts, customize items, tax and payment
               details with a live preview, then download as a PDF or PNG in
@@ -471,9 +484,10 @@ export default function HomePage() {
 
             <HomeAiGenerator />
 
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="order-first mt-6 flex flex-wrap gap-3 lg:mt-8">
               <Link
                 href="/create"
+                data-offer-cta=""
                 className="w-full rounded-full bg-indigo-600 px-7 py-3.5 text-center text-base font-semibold text-white shadow-lg shadow-indigo-600/25 transition-all hover:bg-indigo-700 hover:shadow-xl hover:shadow-indigo-600/30 sm:w-auto"
               >
                 Create Your Receipt — Free
@@ -513,10 +527,21 @@ export default function HomePage() {
             </dl>
           </div>
 
-          <div className="flex justify-center lg:justify-end">
-            <div className="receipt-shadow origin-top scale-90 rotate-2 transition-transform duration-300 hover:rotate-0 sm:scale-100">
+          {/* Phones: a short peek with a way into the builder; the full
+              receipt took a whole screen and linked nowhere. From lg: the
+              tilted full receipt, as before. */}
+          <div className="relative flex max-h-[300px] justify-center overflow-hidden rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200/70 px-3 pt-4 lg:max-h-none lg:justify-end lg:overflow-visible lg:rounded-none lg:bg-none lg:p-0">
+            <div className="receipt-shadow origin-top transition-transform duration-300 [zoom:0.8] lg:rotate-2 lg:[zoom:1] lg:hover:rotate-0">
               <ReceiptDocPaper doc={docFromReceiptData(DEMO_RECEIPT)} />
             </div>
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-slate-200 to-transparent lg:hidden" />
+            <Link
+              href="/create?template=coffee-shop"
+              data-offer-cta=""
+              className="absolute bottom-4 left-1/2 inline-flex min-h-11 -translate-x-1/2 items-center whitespace-nowrap rounded-full bg-white px-5 text-sm font-semibold text-indigo-700 shadow lg:hidden"
+            >
+              Try the coffee shop template →
+            </Link>
           </div>
         </div>
       </section>
@@ -542,11 +567,13 @@ export default function HomePage() {
             </p>
           </div>
 
-          <ul className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {/* Phones: a swipe row, one card at a time, instead of four
+              stacked cards (~2,300px). */}
+          <ul className="-mx-4 mt-8 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 sm:mx-0 sm:mt-12 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-4">
             {PAPER_DEMOS.map((demo) => (
               <li
                 key={demo.finish}
-                className="flex flex-col rounded-2xl border border-slate-200 bg-white p-5 transition-all hover:-translate-y-0.5 hover:border-indigo-300 hover:shadow-lg hover:shadow-indigo-100"
+                className="flex w-[80%] shrink-0 snap-center flex-col rounded-2xl sm:w-auto border border-slate-200 bg-white p-5 transition-all hover:-translate-y-0.5 hover:border-indigo-300 hover:shadow-lg hover:shadow-indigo-100"
               >
                 {/* Fixed height with a fade at the base: receipt height varies
                     with the finish (invoice and digital add chrome), so the
@@ -744,7 +771,7 @@ export default function HomePage() {
       </section>
 
       {/* ===== BRAND RECEIPTS ===== */}
-      <section className="py-14 sm:py-20" aria-labelledby="brands-heading">
+      <section className="-order-2 py-14 sm:py-20" aria-labelledby="brands-heading">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl">
             <Eyebrow>Brand templates</Eyebrow>
@@ -760,12 +787,12 @@ export default function HomePage() {
               store and change the details to yours.
             </p>
           </div>
-          <ul className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+          <ul className="mt-6 grid grid-cols-2 gap-2 sm:mt-10 sm:grid-cols-3 sm:gap-4 lg:grid-cols-6">
             {POPULAR_BRANDS.map((brand) => (
               <li key={brand.slug}>
                 <Link
                   href={`/brands/${brand.slug}`}
-                  className="group flex h-full flex-col items-center justify-center gap-3 rounded-2xl border border-slate-200 bg-white p-5 text-center transition-all hover:-translate-y-0.5 hover:border-indigo-300 hover:shadow-lg hover:shadow-indigo-100"
+                  className="group flex h-full flex-col items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white p-3 sm:gap-3 sm:p-5 text-center transition-all hover:-translate-y-0.5 hover:border-indigo-300 hover:shadow-lg hover:shadow-indigo-100"
                 >
                   {brand.logo ? (
                     // Decorative: the brand name is in the adjacent label, so
@@ -814,7 +841,7 @@ export default function HomePage() {
 
       {/* ===== TEMPLATES ===== */}
       <section
-        className="border-t border-slate-100 bg-slate-50/60 py-14 sm:py-20"
+        className="-order-1 border-t border-slate-100 bg-slate-50/60 py-14 sm:py-20"
         aria-labelledby="templates-heading"
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -831,20 +858,23 @@ export default function HomePage() {
               for its business type — so you only change what you need to.
             </p>
           </div>
-          <ul className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+          {/* Phones: short rows (icon + name) instead of tall cards; the
+              59-card grid was ~6,500px. The sample-count line stays in the
+              page and shows from sm. */}
+          <ul className="mt-6 grid grid-cols-2 gap-2 sm:mt-10 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
             {TEMPLATES.map((t) => (
               <li key={t.slug}>
                 <Link
                   href={`/templates/${t.slug}`}
-                  className="group flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-5 transition-all hover:-translate-y-0.5 hover:border-indigo-300 hover:shadow-lg hover:shadow-indigo-100"
+                  className="group flex h-full items-center gap-2.5 rounded-2xl border border-slate-200 bg-white p-2.5 transition-all hover:-translate-y-0.5 hover:border-indigo-300 hover:shadow-lg hover:shadow-indigo-100 sm:flex-col sm:items-stretch sm:gap-0 sm:p-5"
                 >
-                  <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-50 text-2xl ring-1 ring-indigo-100">
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-indigo-50 text-lg ring-1 ring-indigo-100 sm:h-11 sm:w-11 sm:text-2xl">
                     <span aria-hidden="true">{t.icon}</span>
                   </span>
-                  <span className="mt-3 font-semibold text-slate-900 group-hover:text-indigo-700">
+                  <span className="text-sm font-semibold leading-tight text-slate-900 group-hover:text-indigo-700 sm:mt-3 sm:text-base sm:leading-normal">
                     {t.name}
                   </span>
-                  <span className="mt-1 text-sm text-slate-500">
+                  <span className="mt-1 hidden text-sm text-slate-500 sm:block">
                     {t.defaults.items.length} sample items included
                   </span>
                 </Link>
@@ -1172,6 +1202,7 @@ export default function HomePage() {
           <div className="relative mt-8 flex flex-wrap items-center justify-center gap-4">
             <Link
               href="/create"
+              data-offer-cta=""
               className="inline-block rounded-full bg-white px-8 py-4 text-base font-semibold text-indigo-700 shadow-xl transition-transform hover:scale-105"
             >
               Create Your Free Receipt
@@ -1185,6 +1216,20 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      </div>
+
+      {/* Phones: the builder one tap away while reading. Shows once the hero
+          button has scrolled off, and hides while a button (data-offer-cta)
+          or the footer is on screen. */}
+      <OfferBar
+        href="/create"
+        text="Ready to make your receipt?"
+        label="Create your receipt"
+        shortLabel="Create your receipt — free"
+        location="home"
+        showAtPercent={0}
+        phonesOnly
+      />
     </>
   );
 }
