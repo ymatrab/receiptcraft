@@ -433,15 +433,15 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }}
       />
 
-      {/* PHONE ORDER (2026-11-23). On a 390px phone the page was ~24,000px,
-          the store picker sat at 7,543px and the template list at 8,672px —
-          behind the paper styles, "How it works" and the anatomy section —
-          although the page's title and its search query are "receipt
-          templates". Below lg this wrapper is a flex column and the hero,
-          brands and templates sections take negative `order`, so the two
-          pickers follow the hero. From lg it is a plain block, so desktop
-          keeps its order; the HTML order never changes. */}
-      <div className="flex flex-col lg:block">
+      {/* SECTION ORDER. On a 390px phone the page was ~24,000px, the store
+          picker sat at 7,543px and the template list at 8,672px — behind the
+          paper styles, "How it works" and the anatomy section — although the
+          page's title and its search query are "receipt templates". This
+          wrapper is a flex column and the hero, brands and templates sections
+          take negative `order`, so the two pickers follow the hero. Phones
+          since 2026-11-23; desktop since 2026-11-24, where they sat at 3,706
+          and 4,319px on a 1366x768 laptop. The HTML order never changes. */}
+      <div className="flex flex-col">
       {/* ===== HERO ===== */}
       <section className="bg-grid relative -order-3 overflow-hidden">
         <div className="pointer-events-none absolute -top-32 left-1/2 h-96 w-150 -translate-x-1/2 rounded-full bg-gradient-to-r from-indigo-200/40 to-violet-200/40 blur-3xl" />
@@ -453,10 +453,13 @@ export default function HomePage() {
             to. Capping the track lets the decorative receipt clip against the
             section's existing overflow-hidden instead. */}
         <div className="relative mx-auto grid max-w-7xl grid-cols-[minmax(0,1fr)] items-center gap-12 px-4 pb-14 pt-10 sm:px-6 sm:pb-20 sm:pt-16 lg:grid-cols-2 lg:gap-8 lg:px-8 lg:pb-28 lg:pt-24">
-          {/* Phones: a flex column where the badge, title, intro and buttons
+          {/* A flex column where the badge, title, intro and buttons
               (order-first, in HTML order) come before the AI box. The main
-              button was at 811px, under the AI box and its three examples. */}
-          <div className="flex flex-col lg:block">
+              button was at 811px on phones, under the AI box and its three
+              examples, and at 821px on a 1366x768 laptop, just below the
+              first screen (desktop since 2026-11-24). From lg the price line
+              joins them, under the buttons. */}
+          <div className="flex flex-col">
             <p className="order-first inline-flex items-center self-start gap-1.5 rounded-full border border-indigo-200 bg-indigo-50 px-3 py-1 text-xs font-medium text-indigo-700">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
               Free to build · {BRAND_COUNT} brand templates · No sign-up to
@@ -499,7 +502,7 @@ export default function HomePage() {
                 Browse Templates
               </Link>
             </div>
-            <p className="mt-3 text-sm text-slate-500">
+            <p className="mt-3 text-sm text-slate-500 lg:order-first">
               Free to build, preview and download — no sign-up. Free downloads
               carry a small watermark; Pro removes it, from{" "}
               {formatPlanPrice(PLANS.pro_weekly)} for 7 days. The AI generator
@@ -529,19 +532,33 @@ export default function HomePage() {
 
           {/* Phones: a short peek with a way into the builder; the full
               receipt took a whole screen and linked nowhere. From lg: the
-              tilted full receipt, as before. */}
-          <div className="relative flex max-h-[300px] justify-center overflow-hidden rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200/70 px-3 pt-4 lg:max-h-none lg:justify-end lg:overflow-visible lg:rounded-none lg:bg-none lg:p-0">
-            <div className="receipt-shadow origin-top transition-transform duration-300 [zoom:0.8] lg:rotate-2 lg:[zoom:1] lg:hover:rotate-0">
-              <ReceiptDocPaper doc={docFromReceiptData(DEMO_RECEIPT)} />
-            </div>
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-slate-200 to-transparent lg:hidden" />
+              tilted full receipt, and since 2026-11-24 it opens the coffee
+              shop template too (it was the biggest thing on the first screen
+              and did nothing when clicked), with the button under it. */}
+          <div className="group relative flex max-h-[300px] justify-center overflow-hidden rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200/70 px-3 pt-4 lg:max-h-none lg:justify-end lg:overflow-visible lg:rounded-none lg:bg-none lg:p-0">
+            {/* Desktop: an empty overlay, out of the tab order, so the receipt
+                text stays plain content; the button is the keyboard route. */}
             <Link
               href="/create?template=coffee-shop"
-              data-offer-cta=""
-              className="absolute bottom-4 left-1/2 inline-flex min-h-11 -translate-x-1/2 items-center whitespace-nowrap rounded-full bg-white px-5 text-sm font-semibold text-indigo-700 shadow lg:hidden"
-            >
-              Try the coffee shop template →
-            </Link>
+              tabIndex={-1}
+              aria-label="Try the coffee shop template"
+              className="absolute inset-0 hidden lg:block"
+            />
+            {/* Not positioned, so the phone button below stays absolute to
+                the box above; from lg it stacks the button under the receipt. */}
+            <div className="flex flex-col items-center">
+              <div className="receipt-shadow origin-top transition-transform duration-300 [zoom:0.8] lg:rotate-2 lg:[zoom:1] lg:group-hover:rotate-0">
+                <ReceiptDocPaper doc={docFromReceiptData(DEMO_RECEIPT)} />
+              </div>
+              <Link
+                href="/create?template=coffee-shop"
+                data-offer-cta=""
+                className="absolute bottom-4 left-1/2 z-10 inline-flex min-h-11 -translate-x-1/2 items-center whitespace-nowrap rounded-full bg-white px-5 text-sm font-semibold text-indigo-700 shadow lg:relative lg:bottom-auto lg:left-auto lg:mt-10 lg:translate-x-0 lg:bg-indigo-600 lg:text-white lg:hover:bg-indigo-700"
+              >
+                Try the coffee shop template →
+              </Link>
+            </div>
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-slate-200 to-transparent lg:hidden" />
           </div>
         </div>
       </section>
