@@ -33,7 +33,10 @@ export default function ExamplesGrid({ page }: { page: number }) {
         )}
       </header>
 
-      <ul className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      {/* grid-cols-[minmax(0,1fr)]: the scaled previews keep their full
+          layout width, and an implicit column takes the widest one, which made
+          /examples/page/2 398px wide on a 390px phone. */}
+      <ul className="mt-12 grid grid-cols-[minmax(0,1fr)] gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {items.map((ex) => {
           const data = receiptFromExample(ex);
           return (
