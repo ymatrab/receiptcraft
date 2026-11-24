@@ -11,6 +11,7 @@ import { PLANS, formatPlanPrice } from "@/lib/plans";
 import { hubForPost } from "@/lib/related-posts";
 import HandoffCard from "@/components/HandoffCard";
 import OfferBar from "@/components/OfferBar";
+import SideOfferCard from "@/components/SideOfferCard";
 
 /**
  * Posts where the builder is what the visitor came for, not a footnote.
@@ -298,6 +299,18 @@ export default async function BlogPostPage({
     : ownHub
       ? { href: ownHub.href, label: `Open the ${ownHub.label}` }
       : { href: "/templates", label: "Browse receipt templates" };
+  // The card beside the article from xl (components/SideOfferCard.tsx): the
+  // bar's destination, with a sample receipt from the owner page's template.
+  // Posts with no owner page show a general store receipt.
+  const sideSlug = ownHub?.href.match(/^\/(?:brands|templates)\/([^/]+)$/)?.[1] ?? "retail-store";
+  const side = {
+    heading: ownHub ? "Making one?" : "Need to make a receipt?",
+    label: offerBody
+      ? "Open the receipt maker"
+      : ownHub
+        ? ownHub.label.replace(/^./, (ch) => ch.toUpperCase())
+        : "Browse receipt templates",
+  };
   const faqJsonLd =
     faqs.length > 0
       ? {
@@ -312,7 +325,10 @@ export default async function BlogPostPage({
       : null;
 
   return (
-    <div className="mx-auto max-w-3xl px-4 pb-16 pt-6 sm:px-6 sm:pt-16">
+    // From xl: the post and a side card in two columns (2026-11-24). Below xl
+    // it is the same single 768px column as before.
+    <div className="mx-auto max-w-3xl px-4 pb-16 pt-6 sm:px-6 sm:pt-16 xl:grid xl:max-w-6xl xl:grid-cols-[minmax(0,1fr)_17rem] xl:items-start xl:gap-12 xl:px-8">
+      <div className="min-w-0">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
@@ -469,6 +485,20 @@ export default async function BlogPostPage({
         shortLabel="Make a receipt now"
         location="blog"
         phoneShowAtPercent={15}
+      />
+      </div>
+
+      {/* Desktop, 1280px and wider. Nov 6–23: 177 desktop sessions landed on
+          a post and 22 opened the builder; the first screen was the title and
+          cover image, and the first offer sat at 600–1,040px. */}
+      <SideOfferCard
+        href={bar.href}
+        heading={side.heading}
+        sub="Fill it in, download a PDF or PNG"
+        label={side.label}
+        previewSlug={sideSlug}
+        passPrice={formatPlanPrice(PLANS.pro_weekly)}
+        location="blog_side"
       />
     </div>
   );

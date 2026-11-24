@@ -422,10 +422,12 @@ export default async function IntentPage({
           offer box was on screen at every scroll depth. */}
       <SideOfferCard
         href={handoff?.href ?? `/brands/${page.brandSlug}`}
-        brandName={page.brandName}
+        heading="Make one for your own records"
+        sub={`Edit this ${page.brandName} receipt`}
         label={(handoff?.anchor ?? `${page.brandName} receipt generator`).replace(/^./, (ch) => ch.toUpperCase())}
         previewSlug={brandTemplate ? page.brandSlug : null}
         passPrice={passPrice}
+        location="receipt_help_side"
       />
     </div>
   );
