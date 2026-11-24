@@ -282,6 +282,8 @@ export default function SectionBuilder() {
   const downloadRowsRef = useRef<HTMLDivElement>(null);
   /** Phones: the layout picker (stores, receipt types, templates) as a bottom sheet. */
   const [pickerOpen, setPickerOpen] = useState(false);
+  /** Desktop: the full picker rows, folded away on a ?template= arrival until "Change layout". */
+  const [desktopPickersOpen, setDesktopPickersOpen] = useState(false);
   // For the builder_left summary row (see the effect that sends it).
   const openedAtRef = useRef(0);
   const downloadClickedRef = useRef(false);
@@ -1568,8 +1570,28 @@ export default function SectionBuilder() {
     <div className="mx-auto w-full max-w-7xl px-4 pb-32 pt-4 sm:px-6 lg:px-8 lg:pb-20">
       {!arrivedWithTemplate && aiBox}
 
-      {/* Desktop: every layout picker inline, as before. */}
-      <div className="hidden lg:block">{pickers}</div>
+      {/* Desktop: every layout picker inline for a blank or homepage start.
+          A visitor who arrived on a store's filled receipt gets one row
+          instead: 2026-11-24, from a Walmart link on a 1366x768 laptop the
+          intro and three rows of chips put the first field at 973px and
+          Download at 1,311px. "Change layout" opens the full rows. */}
+      {arrivedWithTemplate && activeTemplate && !desktopPickersOpen ? (
+        <div className="hidden items-center gap-3 pt-4 lg:flex">
+          <span className="rounded-full border border-indigo-200 bg-indigo-50 px-3 py-1.5 text-xs font-semibold text-indigo-700">
+            {activeLayoutName} layout
+          </span>
+          <button
+            type="button"
+            onClick={() => setDesktopPickersOpen(true)}
+            className="group rounded-lg px-1 py-1.5 text-xs"
+          >
+            <span className="font-semibold text-indigo-600 group-hover:text-indigo-700">Change layout ▾</span>
+            <span className="text-slate-500"> · or start from Amazon, Target, Starbucks, Uber…</span>
+          </button>
+        </div>
+      ) : (
+        <div className="hidden lg:block">{pickers}</div>
+      )}
 
       {/* Phones: one row instead of three blocks of chips. The 2026-11-20
           phone screenshot from a Walmart link showed the heading, the intro
@@ -1771,12 +1793,17 @@ export default function SectionBuilder() {
         {/* PREVIEW */}
         <div className={`${mobileTab === "preview" ? "" : "hidden"} lg:block`}>
           <div className="lg:sticky lg:top-20">
-            <div className="rounded-3xl bg-gradient-to-b from-slate-100 to-slate-200/60 p-6 sm:p-8">
+            {/* Desktop: the card is capped to the screen and only the receipt
+                scrolls inside it, so Download stays in view while editing.
+                2026-11-24 on a 1366x768 laptop the card was 980px tall: pinned,
+                its Download buttons sat below the screen, and ~600px further
+                down the whole preview scrolled away mid-edit. */}
+            <div className="rounded-3xl bg-gradient-to-b from-slate-100 to-slate-200/60 p-6 sm:p-8 lg:flex lg:max-h-[calc(100vh-6rem)] lg:flex-col">
               <div className="mb-4 flex items-center justify-between">
                 <h2 className="text-sm font-semibold text-slate-700">Live Preview</h2>
                 <span className="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-medium text-emerald-700">Total: {formatMoney(grandTotal, doc.settings.currency)}</span>
               </div>
-              <div className="flex justify-center">
+              <div className="flex justify-center lg:min-h-0 lg:flex-1 lg:items-start lg:overflow-y-auto lg:overscroll-contain">
                 <div ref={receiptRef} className="relative">
                   <ReceiptDocPaper doc={doc} />
                   {renderWatermark && <Watermark />}
