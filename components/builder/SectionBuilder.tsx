@@ -1793,27 +1793,28 @@ export default function SectionBuilder() {
         {/* PREVIEW */}
         <div className={`${mobileTab === "preview" ? "" : "hidden"} lg:block`}>
           <div className="lg:sticky lg:top-20">
-            {/* Desktop: the card is capped to the screen and only the receipt
-                scrolls inside it, so Download stays in view while editing.
-                2026-11-24 on a 1366x768 laptop the card was 980px tall: pinned,
-                its Download buttons sat below the screen, and ~600px further
-                down the whole preview scrolled away mid-edit. */}
-            <div className="rounded-3xl bg-gradient-to-b from-slate-100 to-slate-200/60 p-6 sm:p-8 lg:flex lg:max-h-[calc(100vh-6rem)] lg:flex-col">
-              <div className="mb-4 flex items-center justify-between">
+            {/* Desktop: the whole receipt at full size, with Download PDF/PNG
+                moved above it (CSS order only). 2026-11-24 on a 1366x768 laptop
+                the pinned card was 980px tall, so buttons below the receipt
+                sat off screen; capping the card with the receipt scrolling
+                inside fixed that but cut the receipt off, and the owner wants
+                the full receipt in view. */}
+            <div className="rounded-3xl bg-gradient-to-b from-slate-100 to-slate-200/60 p-6 sm:p-8 lg:flex lg:flex-col">
+              <div className="mb-4 flex items-center justify-between lg:-order-2">
                 <h2 className="text-sm font-semibold text-slate-700">Live Preview</h2>
                 <span className="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-medium text-emerald-700">Total: {formatMoney(grandTotal, doc.settings.currency)}</span>
               </div>
-              <div className="flex justify-center lg:min-h-0 lg:flex-1 lg:items-start lg:overflow-y-auto lg:overscroll-contain">
+              <div className="flex justify-center">
                 <div ref={receiptRef} className="relative">
                   <ReceiptDocPaper doc={doc} />
                   {renderWatermark && <Watermark />}
                 </div>
               </div>
-              <div className="mt-6 flex gap-3">
+              <div className="mt-6 flex gap-3 lg:-order-1 lg:mb-5 lg:mt-0">
                 <button type="button" onClick={() => requestExport("pdf")} disabled={!!exporting} className="flex-1 rounded-full bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 disabled:opacity-60">{exporting === "pdf" ? "Preparing PDF…" : "Download PDF"}</button>
                 <button type="button" onClick={() => requestExport("png")} disabled={!!exporting} className="flex-1 rounded-full border border-indigo-200 bg-indigo-50 px-5 py-3 text-sm font-semibold text-indigo-700 hover:bg-indigo-100 disabled:opacity-60">{exporting === "png" ? "Preparing PNG…" : "Download PNG"}</button>
               </div>
-              <div ref={downloadRowsRef} className="mt-2 grid scroll-mb-24 grid-cols-2 gap-3">
+              <div ref={downloadRowsRef} className="mt-2 grid scroll-mb-24 grid-cols-2 gap-3 lg:mt-5">
                 <button type="button" onClick={() => requestExport("jpg")} disabled={!!exporting} className="rounded-full border border-slate-200 bg-white px-4 py-2.5 text-xs font-semibold text-slate-600 hover:bg-slate-50 disabled:opacity-60">{exporting === "jpg" ? "Preparing JPG…" : "Download JPG"}</button>
                 <button type="button" onClick={() => requestExport("pdf-print")} disabled={!!exporting} className="rounded-full border border-slate-200 bg-white px-4 py-2.5 text-xs font-semibold text-slate-600 hover:bg-slate-50 disabled:opacity-60" title="A4 page, centered — prints cleanly on an office printer">{exporting === "pdf-print" ? "Preparing…" : "Print-ready PDF (A4)"}</button>
               </div>
