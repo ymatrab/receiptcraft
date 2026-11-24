@@ -374,12 +374,14 @@ export default function PricingPage() {
         </p>
       </div>
 
-      {/* PHONE ORDER (2026-11-23). Below sm this is a flex column and the
-          four-state list (order-last) moves under the cards: everything in it
-          is also on the cards or in the new-account banner, and it pushed the
-          first buy button to 1,157px (1,546px after sign-up). From sm the
-          order is the HTML order. */}
-      <div className="flex flex-col sm:block">
+      {/* CARDS FIRST. A flex column, and the four-state list (order-last)
+          moves under the cards: everything in it is also on the cards or in
+          the new-account banner. Phones since 2026-11-23 (it pushed the first
+          buy button to 1,157px, 1,546px after sign-up); every size since
+          2026-11-24, when on a 1366x768 laptop the prices sat at 647px and the
+          buttons at 1,053px, below the first screen. The HTML order is
+          unchanged. */}
+      <div className="flex flex-col">
       {/* The free tier has four distinct states and they were previously only
           explained in prose scattered across the hero, /create and the FAQ.
           Stating them once, in order, is what lets those places stop. */}
@@ -453,10 +455,12 @@ export default function PricingPage() {
                 )}
               </p>
 
-              {/* Phones: order-last puts the button and its payment line
-                  straight under the price; the list follows. From sm the
-                  list sits between them again, as the cards line up. */}
-              <ul className="order-last mt-5 flex-1 space-y-2.5 text-sm text-slate-600 sm:order-none">
+              {/* order-last puts the button and its payment line straight
+                  under the price; the full list follows. Phones since
+                  2026-11-23, every size since 2026-11-24: on desktop the
+                  button sat under ten feature lines, at 1,053px. The cards'
+                  tops are the same height, so the buttons still line up. */}
+              <ul className="order-last mt-5 flex-1 space-y-2.5 text-sm text-slate-600">
                 <Feature yes>
                   <strong className="font-semibold text-slate-900">{row.downloads}</strong>{" "}
                   {row.downloadsNoun}
