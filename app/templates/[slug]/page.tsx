@@ -188,13 +188,15 @@ export default async function TemplatePage({ params }: Props) {
             items of this grid and `order` puts the button (order-2) and the
             receipt (order-3) straight after the intro, with the answer and
             links (order-4) and "Common uses" (order-5) after them. From lg it
-            is an ordinary column again, in its original order, and the HTML
-            order never changes.
+            is a flex column with the same order, so the button also comes
+            before the answer box on desktop (2026-11-24: on the 26 templates
+            with one, a 1366x768 laptop showed the button at the screen's
+            bottom edge, 711px). The HTML order never changes.
 
             grid-cols-[minmax(0,1fr)]: an implicit column takes its widest
             child, which is what made the page 436px on a 390px phone. */}
         <div className="mt-4 grid grid-cols-[minmax(0,1fr)] items-start gap-6 sm:mt-8 lg:grid-cols-2 lg:gap-12">
-          <div className="contents lg:block">
+          <div className="contents lg:flex lg:flex-col">
             <div className="order-1">
               <span className="text-3xl sm:text-4xl" aria-hidden="true">{template.icon}</span>
               <h1 className="mt-2 text-3xl font-bold tracking-tight text-slate-900 sm:mt-4 sm:text-4xl">
@@ -269,11 +271,22 @@ export default async function TemplatePage({ params }: Props) {
                 <ReceiptDocPaper doc={receiptDoc} />
               </div>
             </div>
+            {/* The whole sample opens the builder (2026-11-24: on desktop it
+                was the biggest thing on the first screen and did nothing when
+                clicked). An empty overlay, out of the tab order, so the
+                receipt text stays plain content; the link below is the
+                keyboard and screen-reader route. */}
+            <Link
+              href={`/create?template=${template.slug}`}
+              tabIndex={-1}
+              aria-label="Edit this receipt"
+              className="absolute inset-0 rounded-2xl"
+            />
             <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-slate-200 to-transparent lg:hidden" />
             <Link
               href={`/create?template=${template.slug}`}
               data-offer-cta=""
-              className="absolute bottom-4 left-1/2 inline-flex min-h-11 -translate-x-1/2 items-center whitespace-nowrap rounded-full bg-white px-5 text-sm font-semibold text-indigo-700 shadow lg:hidden"
+              className="absolute bottom-4 left-1/2 inline-flex min-h-11 -translate-x-1/2 items-center whitespace-nowrap rounded-full bg-white px-5 text-sm font-semibold text-indigo-700 shadow lg:relative lg:inset-auto lg:mx-auto lg:mt-6 lg:flex lg:w-fit lg:translate-x-0 lg:bg-indigo-600 lg:text-white lg:hover:bg-indigo-700"
             >
               Edit this receipt →
             </Link>
