@@ -536,14 +536,6 @@ export default function HomePage() {
               shop template too (it was the biggest thing on the first screen
               and did nothing when clicked), with the button under it. */}
           <div className="group relative flex max-h-[300px] justify-center overflow-hidden rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200/70 px-3 pt-4 lg:max-h-none lg:justify-end lg:overflow-visible lg:rounded-none lg:bg-none lg:p-0">
-            {/* Desktop: an empty overlay, out of the tab order, so the receipt
-                text stays plain content; the button is the keyboard route. */}
-            <Link
-              href="/create?template=coffee-shop"
-              tabIndex={-1}
-              aria-label="Try the coffee shop template"
-              className="absolute inset-0 hidden lg:block"
-            />
             {/* Not positioned, so the phone button below stays absolute to
                 the box above; from lg it stacks the button under the receipt. */}
             <div className="flex flex-col items-center">
@@ -559,6 +551,18 @@ export default function HomePage() {
               </Link>
             </div>
             <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-slate-200 to-transparent lg:hidden" />
+            {/* Desktop: an empty overlay, out of the tab order, so the receipt
+                text stays plain content; the button is the keyboard route.
+                It must come after the receipt: the tilted receipt (a
+                transform) paints in the positioned layer, in DOM order, so an
+                overlay before it sat underneath and caught no clicks. The
+                button stays above it with z-10. */}
+            <Link
+              href="/create?template=coffee-shop"
+              tabIndex={-1}
+              aria-label="Try the coffee shop template"
+              className="absolute inset-0 hidden lg:block"
+            />
           </div>
         </div>
       </section>
