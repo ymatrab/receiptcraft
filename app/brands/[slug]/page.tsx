@@ -289,18 +289,32 @@ export default async function BrandTemplatePage({ params }: Props) {
           </div>
 
           {/* Phones: the receipt part-way, scaled to the screen, and one tap
-              into the builder. From lg: the whole receipt, sticky, as before. */}
+              into the builder. From lg: the whole receipt, sticky, clickable,
+              with the "Edit this receipt" button under it. */}
           <div className="relative order-2 overflow-hidden rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200/70 p-3 lg:sticky lg:top-24 lg:order-none lg:overflow-visible lg:rounded-none lg:bg-none lg:p-0">
             <div className="flex max-h-[340px] justify-center overflow-hidden lg:max-h-none lg:overflow-visible">
               <div className="receipt-shadow [zoom:0.85] lg:[zoom:1]">
                 <ReceiptDocPaper doc={docFromReceiptData(preview)} />
               </div>
             </div>
+            {/* Desktop: the whole sample opens the builder (2026-11-24: it was
+                the biggest thing on the first screen and did nothing when
+                clicked; 101 of 166 desktop visitors who never opened the
+                builder left from that screen, Nov 6–23). An empty overlay, out
+                of the tab order, so the receipt text stays plain content; the
+                link below is the keyboard and screen-reader route. Phones keep
+                the peek as it was. */}
+            <Link
+              href={`/create?template=${template.slug}`}
+              tabIndex={-1}
+              aria-label="Edit this receipt"
+              className="absolute inset-0 hidden lg:block"
+            />
             <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-slate-200 to-transparent lg:hidden" />
             <Link
               href={`/create?template=${template.slug}`}
               data-offer-cta=""
-              className="absolute bottom-4 left-1/2 inline-flex min-h-11 -translate-x-1/2 items-center whitespace-nowrap rounded-full bg-white px-5 text-sm font-semibold text-indigo-700 shadow lg:hidden"
+              className="absolute bottom-4 left-1/2 inline-flex min-h-11 -translate-x-1/2 items-center whitespace-nowrap rounded-full bg-white px-5 text-sm font-semibold text-indigo-700 shadow lg:relative lg:inset-auto lg:mx-auto lg:mt-6 lg:flex lg:w-fit lg:translate-x-0 lg:bg-indigo-600 lg:text-white lg:hover:bg-indigo-700"
             >
               Edit this receipt →
             </Link>
@@ -355,10 +369,12 @@ export default async function BrandTemplatePage({ params }: Props) {
             </dl>
           </div>
 
-          {/* Phones: a way into the builder where the reading stops. The
-              hero button was the page's only one, and 60 of the phone
-              visitors who never opened the builder had read past halfway. */}
-          <div className="max-w-md lg:hidden">
+          {/* A way into the builder where the reading stops. The hero button
+              was the page's only one: 60 of the phone visitors who never
+              opened the builder had read past halfway (Nov 6–20), and so had
+              48 of 166 on desktop (Nov 6–23), so it shows on desktop too
+              since 2026-11-24. */}
+          <div className="max-w-md lg:max-w-3xl">
             <HandoffCard
               heading={d.hideItems ? "This receipt is already in the template" : "These items are already in the template"}
               href={`/create?template=${template.slug}`}
