@@ -133,12 +133,13 @@ export default function CreatePage() {
           Free Receipt Maker &amp; Generator
         </h1>
       </div>
-      {/* Phones show the intro after the builder (order-last), so the first
-          screen is the tool and the receipt, as on the competitors' builders;
-          desktop keeps it under the heading. Same text, same place in the
-          HTML, so nothing changes for search. */}
-      <div className="flex flex-col lg:block">
-        <div className="order-last mx-auto w-full max-w-7xl px-4 pt-6 sm:px-6 lg:order-none lg:px-8 lg:pt-0">
+      {/* The intro shows after the builder (order-last), so the first screen
+          is the tool and the receipt, as on the competitors' builders. Phones
+          since 2026-11-20; desktop since 2026-11-24, when a 1366x768 laptop
+          showed the first field at 973px and Download at 1,311px. Same text,
+          same place in the HTML, so nothing changes for search. */}
+      <div className="flex flex-col">
+        <div className="order-last mx-auto w-full max-w-7xl px-4 pt-6 sm:px-6 lg:px-8">
           <p className="mt-2 max-w-2xl text-sm leading-relaxed text-slate-600">
             A receipt maker is an online tool that turns the details of a sale —
             seller, items, prices, tax and payment — into a finished receipt you
