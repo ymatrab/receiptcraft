@@ -75,8 +75,9 @@ export default function OfferBar({
    * The same, below lg only, where it overrides showAtPercent. Receipt-help
    * passes 0: on phones few readers reach 40% (9 bars shown in Nov 6–23), and
    * the row under the answer carries data-offer-cta, so the bar still waits
-   * for it to scroll away. Desktop keeps 40%, because there nothing near the
-   * top carries data-offer-cta and 0 would show the bar on load.
+   * for it to scroll away. (Receipt-help is also phonesOnly since 2026-11-24:
+   * on desktop an offer box was on screen at every depth, so the bar showed 2
+   * times in 18 days; SideOfferCard does that job there.)
    * Blog posts pass 15: nothing above their card carries data-offer-cta, so 0
    * would show the bar on load there too; 15% of a 6,500–9,600px post is
    * about where the card scrolls away (7 bars shown at 40%, Nov 6–23).
