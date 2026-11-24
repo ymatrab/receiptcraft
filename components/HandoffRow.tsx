@@ -4,8 +4,9 @@ import Link from "next/link";
 import { analytics } from "@/lib/analytics";
 
 /**
- * The receipt-help offer under the answer, on phones: one tappable row with a
- * small receipt picture, in place of a sentence with a link inside it.
+ * The receipt-help offer under the answer: one tappable row with a small
+ * receipt picture, in place of a sentence with a link inside it. Phones since
+ * 2026-11-23, desktop since 2026-11-24.
  *
  * Nov 6–23, 2026: 636 phone sessions landed on receipt-help and 21% opened the
  * builder. 45 of the 136 who did never scrolled, so they used the line under

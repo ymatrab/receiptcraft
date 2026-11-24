@@ -22,6 +22,7 @@ import RelatedPosts from "@/components/RelatedPosts";
 import HandoffCard from "@/components/HandoffCard";
 import OfferBar from "@/components/OfferBar";
 import HandoffRow from "@/components/HandoffRow";
+import SideOfferCard from "@/components/SideOfferCard";
 
 /** Which blog categories suit each guide. A "can I return without a receipt"
  *  page wants the legal reading; a lost-receipt page wants the recovery
@@ -84,7 +85,8 @@ export default async function IntentPage({
   if (!page) notFound();
 
   const c = intentContent(page);
-  const logo = getTemplate(page.brandSlug)?.defaults.logoDataUrl ?? "";
+  const brandTemplate = getTemplate(page.brandSlug);
+  const logo = brandTemplate?.defaults.logoDataUrl ?? "";
   const siblings = siblingIntents(page);
   const handoff = intentHandoff(page);
   const passPrice = formatPlanPrice(PLANS.pro_weekly);
@@ -142,7 +144,10 @@ export default async function IntentPage({
   };
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-14 sm:px-6 lg:px-8">
+    // From xl: the article and a side card (SideOfferCard) in two columns.
+    // Below xl it is the same single 768px column as before.
+    <div className="mx-auto max-w-3xl px-4 py-14 sm:px-6 lg:px-8 xl:grid xl:max-w-6xl xl:grid-cols-[minmax(0,1fr)_17rem] xl:items-start xl:gap-12">
+      <div className="min-w-0">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       {howToJsonLd && (
@@ -184,19 +189,20 @@ export default async function IntentPage({
           fold sends readers to that page (the brand template, or the example
           that owns the brand's "receipt template" query) instead of /create,
           and states the download terms before the click. */}
-      {/* 2026-11-23, phones: the same offer as one tappable row. Below lg the
-          sentence after it is hidden (it stays in the HTML, anchor text and
-          all); from lg the sentence shows and the row does not. */}
+      {/* 2026-11-23, phones: the same offer as one tappable row, and from
+          2026-11-24 on desktop too (there the sentence was the first screen's
+          only offer: small grey text with a link). The sentence after it is
+          hidden at every size but stays in the HTML, anchor text and all. */}
       <HandoffRow
         href={handoff?.href ?? `/create?template=${encodeURIComponent(page.brandSlug)}`}
         title={`Make ${anBrand(page.brandName)}-style receipt`}
         sub={`For your own records · free with a watermark · ${passPrice} removes it`}
         brandName={page.brandName}
         logo={logo}
-        className="mt-4 lg:hidden"
+        className="mt-4"
       />
       {handoff ? (
-        <p className="mt-3 hidden text-sm text-slate-600 lg:block">
+        <p className="mt-3 hidden text-sm text-slate-600">
           Need a {page.brandName}-style receipt for your own records? Build one with the{" "}
           <Link
             href={handoff.href}
@@ -207,7 +213,7 @@ export default async function IntentPage({
           — free to build with a watermarked download; a clean download needs a pass from {passPrice}.
         </p>
       ) : (
-        <p className="mt-3 hidden text-sm text-slate-500 lg:block">
+        <p className="mt-3 hidden text-sm text-slate-500">
           Can&apos;t get the original back?{" "}
           <Link
             href={`/create?template=${encodeURIComponent(page.brandSlug)}`}
@@ -407,6 +413,19 @@ export default async function IntentPage({
         shortLabel={`Make ${anBrand(page.brandName)} receipt`}
         location="receipt_help"
         phoneShowAtPercent={0}
+        phonesOnly
+      />
+      </div>
+
+      {/* Desktop, 1280px and wider: the offer beside the article. Replaces
+          the bottom bar there (phonesOnly above), which never showed: an
+          offer box was on screen at every scroll depth. */}
+      <SideOfferCard
+        href={handoff?.href ?? `/brands/${page.brandSlug}`}
+        brandName={page.brandName}
+        label={(handoff?.anchor ?? `${page.brandName} receipt generator`).replace(/^./, (ch) => ch.toUpperCase())}
+        previewSlug={brandTemplate ? page.brandSlug : null}
+        passPrice={passPrice}
       />
     </div>
   );
