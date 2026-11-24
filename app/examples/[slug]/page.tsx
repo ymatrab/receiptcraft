@@ -127,6 +127,7 @@ export default async function ExamplePage({
   // main button opens the brand page instead of the generic category template.
   const brandFirst = Boolean(brandPage) && BRAND_FIRST_EXAMPLES.has(ex.slug);
   const ctaHref = brandFirst && brandPage ? `/brands/${brandPage.slug}` : `/create?template=${encodeURIComponent(ex.base)}`;
+  const ctaLabel = brandFirst && brandPage ? `Open the ${brandPage.shortName} receipt template` : `Make a ${ex.brand} receipt`;
   const receiptDoc = docFromReceiptData(data);
   // Phone scale for the receipt: 0.85 like brand pages, smaller for the wide
   // layouts so they fit 334px (390px phone, minus page and box padding).
@@ -192,7 +193,7 @@ export default async function ExamplePage({
               data-offer-cta=""
               className="block w-full rounded-full text-center sm:inline-block sm:w-auto bg-indigo-600 px-7 py-3.5 text-base font-semibold text-white shadow-lg shadow-indigo-600/25 hover:bg-indigo-700"
             >
-              {brandFirst && brandPage ? `Open the ${brandPage.shortName} receipt template` : `Make a ${ex.brand} receipt`}
+              {ctaLabel}
             </Link>
             {brandPage && !brandFirst && (
               <Link
@@ -257,12 +258,22 @@ export default async function ExamplePage({
 
           <h2 className="mt-10 text-xl font-bold text-slate-900">Make your own in under a minute</h2>
           <p className="mt-2 leading-relaxed text-slate-600">{exampleClosingText(ex, SITE.name)}</p>
+          {/* Desktop: the section that says "make your own" had no button
+              (2026-11-24). Phones keep the bottom bar for this instead. */}
+          <Link
+            href={ctaHref}
+            className="mt-5 hidden rounded-full bg-indigo-600 px-7 py-3.5 text-base font-semibold text-white shadow-lg shadow-indigo-600/25 hover:bg-indigo-700 lg:inline-flex"
+          >
+            {ctaLabel} →
+          </Link>
           </div>
         </div>
 
         {/* Rendered example receipt */}
         {/* Phones: the whole receipt (it is the example), scaled to fit the
-            screen. From lg: full size, sticky, as before. */}
+            screen. From lg: full size, sticky, and since 2026-11-24 it opens
+            the builder (it was the biggest thing on the page and did nothing
+            when clicked), with "Make one like this" under it. */}
         <div className="order-2 lg:sticky lg:top-20 lg:order-none">
           <div className="rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200/60 p-3 sm:rounded-3xl sm:p-6">
             <div className="flex justify-center">
@@ -271,6 +282,21 @@ export default async function ExamplePage({
               </div>
             </div>
           </div>
+          {/* Desktop: an empty overlay, out of the tab order, so the receipt
+              text stays plain content; the button below is the keyboard
+              route and sits above the overlay (positioned, later in DOM). */}
+          <Link
+            href={ctaHref}
+            tabIndex={-1}
+            aria-label={ctaLabel}
+            className="absolute inset-0 hidden lg:block"
+          />
+          <Link
+            href={ctaHref}
+            className="relative mx-auto mt-5 hidden w-fit items-center rounded-full bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow hover:bg-indigo-700 lg:flex"
+          >
+            Make one like this →
+          </Link>
         </div>
       </div>
 
