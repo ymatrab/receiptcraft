@@ -3,7 +3,14 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { supabaseConfigured } from "@/lib/supabase/config";
-import { isProEntitled, canEntitle, PLANS, FREE_LIMITS, formatPlanPrice } from "@/lib/plans";
+import {
+  isProEntitled,
+  canEntitle,
+  PLANS,
+  FREE_LIMITS,
+  formatPlanPrice,
+  type PaidPlanId,
+} from "@/lib/plans";
 import { getAccountUsage } from "@/lib/usage";
 import { fulfilReturningBuyer } from "@/lib/stripe-passes";
 import { SITE } from "@/lib/site";
@@ -12,7 +19,15 @@ import LocalDate from "@/components/LocalDate";
 import { createAdminClient } from "@/lib/supabase/admin";
 import BillingNotice from "./BillingNotice";
 import DeleteAccount from "./DeleteAccount";
-import { deleteReceiptAction, setNewsletterAction } from "./actions";
+import {
+  cancelRenewalAction,
+  deleteReceiptAction,
+  resumeRenewalAction,
+  setNewsletterAction,
+  switchPlanAction,
+} from "./actions";
+
+const PAID_PLANS: PaidPlanId[] = ["pro_weekly", "pro_monthly", "pro_yearly"];
 
 export const metadata: Metadata = {
   title: "Your Account",
@@ -116,13 +131,21 @@ export default async function AccountPage({
   const planName = plan?.name ?? (isPro ? sub?.plan ?? "Pro" : "Free");
 
   // Passes — Stripe, Shopify or an admin grant — are one-off purchases that
-  // simply end. Only a legacy Stripe subscription (a `sub_` row) renews, and
-  // only that has a billing portal to manage it.
+  // simply end. Only an auto-renewing plan (a `sub_` row, sold to new buyers
+  // since 2026-11-24) renews, and only that can be cancelled, resumed, switched
+  // and given a billing portal.
   const isSelfServeBilling = Boolean(
     sub?.id?.startsWith("sub_") &&
       sub.stripe_customer_id &&
       sub.stripe_customer_id !== "manual"
   );
+  const renewing =
+    isSelfServeBilling && isPro && !sub?.cancel_at_period_end && sub?.status !== "canceled";
+  const endingSoon = isSelfServeBilling && isPro && !renewing;
+  // A renewal the card refused: Stripe retries for a while, and Pro is paused
+  // until a payment goes through.
+  const paymentProblem =
+    isSelfServeBilling && ["past_due", "unpaid", "incomplete"].includes(sub?.status ?? "");
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
@@ -143,7 +166,7 @@ export default async function AccountPage({
       <BillingNotice />
 
       {/* ---------------------------------------------------------------- plan */}
-      <section aria-labelledby="plan-heading" className="mt-8">
+      <section id="plan" aria-labelledby="plan-heading" className="mt-8 scroll-mt-24">
         <h2 id="plan-heading" className="sr-only">
           Your plan
         </h2>
@@ -161,10 +184,14 @@ export default async function AccountPage({
             </div>
             <span
               className={`rounded-full px-3 py-1 text-xs font-semibold ${
-                isPro ? "bg-emerald-100 text-emerald-800" : "bg-slate-100 text-slate-700"
+                isPro
+                  ? "bg-emerald-100 text-emerald-800"
+                  : paymentProblem
+                    ? "bg-amber-100 text-amber-900"
+                    : "bg-slate-100 text-slate-700"
               }`}
             >
-              {isPro ? "Pro · active" : hasLapsed ? "Pro · ended" : "Free"}
+              {isPro ? "Pro · active" : paymentProblem ? "Payment due" : hasLapsed ? "Pro · ended" : "Free"}
             </span>
           </div>
 
@@ -175,13 +202,39 @@ export default async function AccountPage({
                   and telling that buyer their plan renews would say the exact
                   opposite of the thing the cancellation was meant to reassure
                   them about. */}
-              {isSelfServeBilling && !sub.cancel_at_period_end && sub.status !== "canceled"
-                ? "Renews on "
-                : isSelfServeBilling
-                  ? "Cancels on "
-                  : "Pro access until "}
+              {renewing ? "Renews on " : endingSoon ? "Pro until " : "Pro access until "}
               <LocalDate iso={sub.current_period_end} className="font-medium text-slate-900" />
+              {renewing && plan && <> at {formatPlanPrice(plan)}. Cancel anytime — you keep Pro until then.</>}
+              {endingSoon && <>. Your plan won&apos;t renew and you won&apos;t be charged again.</>}
             </p>
+          )}
+
+          {paymentProblem && (
+            <div role="alert" className="mt-4 rounded-2xl bg-amber-50 px-5 py-4 text-sm text-amber-900">
+              <p>
+                <strong className="font-semibold">Your last payment didn&apos;t go through.</strong>{" "}
+                Pro is paused until it does. Update your card and we&apos;ll retry, or cancel the
+                renewal if you&apos;d rather stop.
+              </p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                <form action="/api/stripe/portal" method="post">
+                  <button
+                    type="submit"
+                    className="cursor-pointer rounded-full bg-amber-900 px-4 py-2 text-sm font-semibold text-white hover:bg-amber-950 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-2"
+                  >
+                    Update card
+                  </button>
+                </form>
+                <form action={cancelRenewalAction}>
+                  <button
+                    type="submit"
+                    className="cursor-pointer rounded-full px-4 py-2 text-sm font-medium text-amber-900 underline hover:bg-amber-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700"
+                  >
+                    Cancel renewal
+                  </button>
+                </form>
+              </div>
+            </div>
           )}
 
           {isPro && !isSelfServeBilling && (
@@ -201,13 +254,23 @@ export default async function AccountPage({
           <div className="mt-6 flex flex-wrap gap-3">
             {/* The portal only exists for real Stripe customers; a manual grant
                 has no subscription to manage, and posting one used to 500. */}
-            {isPro && isSelfServeBilling && (
-              <form action="/api/stripe/portal" method="post">
+            {endingSoon && (
+              <form action={resumeRenewalAction}>
                 <button
                   type="submit"
                   className="cursor-pointer rounded-full bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
                 >
-                  Manage billing
+                  Resume renewal
+                </button>
+              </form>
+            )}
+            {isPro && isSelfServeBilling && (
+              <form action="/api/stripe/portal" method="post">
+                <button
+                  type="submit"
+                  className="cursor-pointer rounded-full border border-slate-300 px-5 py-2.5 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+                >
+                  Card &amp; invoices
                 </button>
               </form>
             )}
@@ -219,7 +282,7 @@ export default async function AccountPage({
                 Extend or change plan
               </Link>
             )}
-            {!isPro && (
+            {!isPro && !paymentProblem && (
               <Link
                 href="/pricing"
                 className="rounded-full bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
@@ -234,6 +297,72 @@ export default async function AccountPage({
               Make a receipt
             </Link>
           </div>
+
+          {renewing && (
+            <div className="mt-6 space-y-5 border-t border-slate-100 pt-5">
+              <div>
+                <h3 className="text-sm font-semibold text-slate-900">Change plan</h3>
+                <p className="mt-1 text-sm text-slate-600">
+                  The new plan starts today. The unused part of your current plan is credited, so
+                  you only pay the difference — or nothing, if the credit covers it.
+                </p>
+                <ul className="mt-3 grid gap-2 sm:grid-cols-3">
+                  {PAID_PLANS.map((id) => {
+                    const option = PLANS[id];
+                    const current = sub?.plan === id;
+                    return (
+                      <li key={id}>
+                        <form action={switchPlanAction} className="h-full">
+                          <input type="hidden" name="plan" value={id} />
+                          <button
+                            type="submit"
+                            disabled={current}
+                            aria-current={current ? "true" : undefined}
+                            className={`flex h-full w-full cursor-pointer flex-col items-start rounded-2xl border px-4 py-3 text-left transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 disabled:cursor-default ${
+                              current
+                                ? "border-indigo-600 bg-indigo-50"
+                                : "border-slate-200 hover:border-indigo-300 hover:bg-slate-50"
+                            }`}
+                          >
+                            <span className="text-sm font-semibold text-slate-900">{option.name}</span>
+                            <span className="text-sm text-slate-600">
+                              {formatPlanPrice(option)} / {option.interval}
+                            </span>
+                            <span className="mt-1 text-xs font-medium text-indigo-700">
+                              {current ? "Your plan" : "Switch to this"}
+                            </span>
+                          </button>
+                        </form>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+              <div>
+                <h3 className="text-sm font-semibold text-slate-900">Cancel renewal</h3>
+                <p className="mt-1 text-sm text-slate-600">
+                  You keep Pro until{" "}
+                  {sub?.current_period_end ? <LocalDate iso={sub.current_period_end} /> : "the end of this period"}{" "}
+                  and won&apos;t be charged again. You can resume any time before then.
+                </p>
+                <form action={cancelRenewalAction} className="mt-3">
+                  <button
+                    type="submit"
+                    className="cursor-pointer rounded-full border border-slate-300 px-5 py-2.5 text-sm font-semibold text-slate-700 transition-colors hover:border-red-300 hover:bg-red-50 hover:text-red-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
+                  >
+                    Cancel renewal
+                  </button>
+                </form>
+              </div>
+              <p className="text-sm text-slate-500">
+                Charged for a renewal you didn&apos;t mean to keep? Email{" "}
+                <a href={`mailto:${SITE.email}`} className="font-medium text-indigo-600 hover:underline">
+                  {SITE.email}
+                </a>{" "}
+                within 48 hours and, if you haven&apos;t downloaded since, we&apos;ll refund it.
+              </p>
+            </div>
+          )}
 
           {isPro && !isSelfServeBilling && (
             <p className="mt-6 border-t border-slate-100 pt-5 text-sm text-slate-600">

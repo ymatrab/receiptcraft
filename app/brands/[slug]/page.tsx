@@ -259,7 +259,7 @@ export default async function BrandTemplatePage({ params }: Props) {
               {d.hideItems ? "the payee, amount, date and transaction details" : CATEGORY_NOUN[category]}{" "}
               already filled in. You edit every field in your browser with a live
               preview and download a PDF or PNG with no account. Free downloads carry
-              a small watermark; a one-time Pro pass from {formatPlanPrice(PLANS.pro_weekly)}{" "}
+              a small watermark; Pro from {formatPlanPrice(PLANS.pro_weekly)} a week{" "}
               removes it.
             </p>
 

@@ -127,6 +127,13 @@ export const SERVER_ONLY_EVENT_NAMES = [
   "pass_grant_failed",
   "pass_refunded",
   "pass_disputed",
+  // Auto-renewing plans (new buyers from 2026-11-24): a renewal charged, a
+  // renewal that failed, and the member's own cancel / resume / switch.
+  "subscription_renewed",
+  "renewal_failed",
+  "renewal_cancelled",
+  "renewal_resumed",
+  "plan_switched",
 ] as const;
 
 /**

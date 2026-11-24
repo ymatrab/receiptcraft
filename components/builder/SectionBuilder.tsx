@@ -54,7 +54,7 @@ import { downloadPng, downloadJpg, downloadPdf, exportFilename, exportErrorReaso
 import { analytics, eventIdentity } from "@/lib/analytics";
 import ReviewPrompt, { reviewAlreadyAsked } from "./ReviewPrompt";
 import { useAccount } from "@/lib/useAccount";
-import { FREE_LIMITS, FREE_FONTS, FREE_PAPER_STYLE, PLANS, formatPlanPrice } from "@/lib/plans";
+import { FREE_LIMITS, FREE_FONTS, FREE_PAPER_STYLE, PLANS, formatPlanPrice, renewalPhrase } from "@/lib/plans";
 import { createClient } from "@/lib/supabase/client";
 import { supabaseConfigured } from "@/lib/supabase/config";
 import Link from "next/link";
@@ -1535,7 +1535,7 @@ export default function SectionBuilder() {
               }}
               className="font-semibold underline"
             >
-              Get unlimited AI — {formatPlanPrice(PLANS.pro_weekly)} for 7 days
+              Get unlimited AI — {formatPlanPrice(PLANS.pro_weekly)} a week, cancel anytime
             </a>
           ) : null}
         </p>
@@ -2018,8 +2018,8 @@ export default function SectionBuilder() {
             </div>
             <p className="mt-4 text-sm leading-relaxed text-slate-600">
               Free downloads carry a small <strong>{SITE.name}</strong> watermark. Pro removes it
-              from every download, with HD exports and unlimited AI receipts. One-time payment, no
-              account needed, never renews.
+              from every download, with HD exports and unlimited AI receipts. No account needed,
+              and you can cancel any time in one click.
             </p>
             <div className="mt-6 flex flex-col gap-2">
               <a
@@ -2037,8 +2037,10 @@ export default function SectionBuilder() {
                 }}
                 className="rounded-full bg-indigo-600 px-5 py-3 text-center text-sm font-semibold text-white hover:bg-indigo-700"
               >
-                Remove the watermark — {formatPlanPrice(PLANS.pro_weekly)} for 7 days
+                Remove the watermark — {formatPlanPrice(PLANS.pro_weekly)} a week
               </a>
+              {/* The renewal terms sit next to the button that starts them. */}
+              <p className="-mt-1 text-center text-xs text-slate-600">{renewalPhrase(PLANS.pro_weekly)}.</p>
               <button
                 type="button"
                 onClick={() => {

@@ -200,7 +200,7 @@ export default function AlternativesPage() {
               , live preview, and PDF plus high-resolution PNG export.
               You can build, preview and download with no signup; free
               downloads carry a small watermark, and Pro removes it — with
-              unlimited AI generation — as a one-time pass.
+              unlimited AI generation — from a weekly plan you can cancel in one click.
             </p>
             <p className="mt-3 text-sm font-medium text-slate-500">
               Pricing: Free · Pro $3/wk, $7.99/mo or $49/yr · Best for: anyone

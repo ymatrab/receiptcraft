@@ -7,9 +7,16 @@ import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { supabaseConfigured } from "@/lib/supabase/config";
 import { getStripe, stripeConfigured } from "@/lib/stripe";
-import { isProEntitled } from "@/lib/plans";
+import { PLANS, isPaidPlan, isProEntitled } from "@/lib/plans";
 import { notify } from "@/lib/telegram";
 import { SITE } from "@/lib/site";
+import { recordServerEvent, errorText } from "@/lib/server-events";
+import {
+  cancelCustomerSubscriptions,
+  memberSubscriptionRow,
+  setRenewal,
+  switchPlan,
+} from "@/lib/stripe-subscriptions";
 
 /**
  * Delete one saved receipt.
@@ -162,6 +169,10 @@ export async function deleteAccountAction(
   if (stripeConfigured) {
     for (const id of customers) {
       try {
+        // Stop the plan explicitly first: deleting the customer does cancel its
+        // subscriptions, but if that call is refused (a restricted key without
+        // the permission) the plan must still not charge a deleted account.
+        await cancelCustomerSubscriptions(id);
         await getStripe().customers.del(id);
       } catch (err) {
         console.error("[account] stripe customer delete failed", id, err);
@@ -175,7 +186,7 @@ export async function deleteAccountAction(
   after(() =>
     notify("🗑️ Account deleted", {
       "Had Pro": hadPro ? "yes" : "no",
-      "Stripe customer to delete by hand": stripeLeft.length ? stripeLeft.join(", ") : null,
+      "Stripe customer to delete by hand (and check no plan still charges)": stripeLeft.length ? stripeLeft.join(", ") : null,
     })
   );
 
@@ -183,4 +194,97 @@ export async function deleteAccountAction(
   // asking Supabase to revoke a session it has already dropped.
   await supabase.auth.signOut({ scope: "local" }).catch(() => undefined);
   redirect("/account-deleted");
+}
+
+/* ------------------------------------------------------- auto-renewing plan */
+
+/**
+ * The signed-in member's auto-renewing plan, or a redirect.
+ *
+ * Every action below acts only on the caller's own `sub_` row, looked up from
+ * their session — never on an id posted by the form.
+ */
+async function ownPlan() {
+  if (!supabaseConfigured || !stripeConfigured) redirect("/account?billing=unavailable");
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/login?next=/account");
+  const row = await memberSubscriptionRow(user.id);
+  if (!row) redirect("/account?billing=none");
+  return { userId: user.id, email: user.email ?? null, id: row.id as string, plan: row.plan as string | null };
+}
+
+/**
+ * "Cancel renewal": the plan stops at the end of the period already paid for.
+ *
+ * Has to be as easy as buying was — that is the law on auto-renewal, and the
+ * cheapest dispute protection there is. If Stripe refuses, the member is told
+ * they will not be charged and the owner is alerted to cancel it by hand, so a
+ * failed button never becomes a charge the member tried to stop.
+ */
+export async function cancelRenewalAction() {
+  const own = await ownPlan();
+  let ok = false;
+  try {
+    ok = Boolean(await setRenewal(own.id, false));
+  } catch (err) {
+    console.error("[account] cancel renewal failed", err);
+    after(() =>
+      notify("❌ Member could not cancel renewal — cancel it by hand in Stripe", {
+        Subscription: own.id,
+        Email: own.email,
+        Error: errorText(err),
+      })
+    );
+  }
+  // The "🔕 Renewal cancelled" alert comes from the webhook, which also sees
+  // cancels made in the Stripe portal.
+  if (ok) await recordServerEvent("renewal_cancelled", own.userId, { plan: own.plan, subscription: own.id });
+  revalidatePath("/account");
+  redirect(`/account?billing=${ok ? "cancelled" : "cancel_failed"}#plan`);
+}
+
+/** "Resume renewal": undo a cancel before the period ends. */
+export async function resumeRenewalAction() {
+  const own = await ownPlan();
+  let ok = false;
+  try {
+    ok = Boolean(await setRenewal(own.id, true));
+  } catch (err) {
+    console.error("[account] resume renewal failed", err);
+  }
+  if (ok) await recordServerEvent("renewal_resumed", own.userId, { plan: own.plan, subscription: own.id });
+  revalidatePath("/account");
+  redirect(`/account?billing=${ok ? "resumed" : "failed"}#plan`);
+}
+
+/** Move to another plan from today; see switchPlan for how the money works. */
+export async function switchPlanAction(formData: FormData) {
+  const target = formData.get("plan");
+  if (!isPaidPlan(target)) redirect("/account#plan");
+  const own = await ownPlan();
+  if (own.plan === target) redirect("/account#plan");
+
+  let outcome: "switched" | "switch_declined" | "failed" = "failed";
+  try {
+    outcome = (await switchPlan(own.id, target)) ? "switched" : "failed";
+  } catch (err) {
+    console.error("[account] plan switch failed", err);
+    // A declined card leaves the plan exactly as it was.
+    outcome = (err as { type?: string }).type === "StripeCardError" ? "switch_declined" : "failed";
+  }
+  if (outcome === "switched") {
+    await recordServerEvent("plan_switched", own.userId, { from: own.plan, to: target, subscription: own.id });
+    after(() =>
+      notify("🔀 Plan switched", {
+        From: PLANS[own.plan as keyof typeof PLANS]?.name ?? own.plan,
+        To: PLANS[target].name,
+        Email: own.email,
+      })
+    );
+  }
+  revalidatePath("/account");
+  redirect(`/account?billing=${outcome}#plan`);
 }

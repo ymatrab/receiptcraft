@@ -44,7 +44,7 @@ const BRAND_FAQS = [
   {
     question: "Are brand receipts downloaded with a watermark?",
     answer:
-      `Free downloads include a small Makecepeit watermark and need no account. Pro removes it, from ${PRO_FROM} for 7 days — a one-time pass you pay for at checkout, with no account needed and nothing that renews.`,
+      `Free downloads include a small Makecepeit watermark and need no account. Pro removes it, from ${PRO_FROM} a week, paid at checkout with no account needed and cancelled in one click.`,
   },
   {
     question: "Is my receipt data stored?",

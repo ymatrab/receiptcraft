@@ -1,63 +1,48 @@
 import { NextResponse, after } from "next/server";
 import type Stripe from "stripe";
-import { getStripe, stripeConfigured, planFromPriceId } from "@/lib/stripe";
-import { createAdminClient } from "@/lib/supabase/admin";
+import { getStripe, stripeConfigured } from "@/lib/stripe";
 import { supabaseConfigured } from "@/lib/supabase/config";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { notify } from "@/lib/telegram";
 import { recordServerEvent, errorText } from "@/lib/server-events";
 import { fulfillPassCheckout, endRefundedPass, endDisputedPass } from "@/lib/stripe-passes";
+import {
+  cancelCustomerSubscriptions,
+  invoiceSubscriptionId,
+  isCancelling,
+  planOfSubscription,
+  syncSubscriptionRow,
+} from "@/lib/stripe-subscriptions";
 import { PLANS } from "@/lib/plans";
 
 // Stripe needs the raw body for signature verification — force the Node runtime.
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-/** Upsert a subscription row from a Stripe Subscription object. */
-async function syncSubscription(
-  sub: Stripe.Subscription,
-  userId: string | null
-) {
-  const admin = createAdminClient();
-  const item = sub.items.data[0];
-  const priceId = item?.price.id ?? null;
+/** "$3.00 USD" from an amount in cents. */
+function money(cents: number | null | undefined, currency: string | null | undefined): string | null {
+  if (cents === null || cents === undefined) return null;
+  return `${(cents / 100).toFixed(2)} ${(currency ?? "").toUpperCase()}`;
+}
 
-  // Resolve the user: prefer the explicit id (from checkout), else look up by the
-  // existing row (subscription updates don't carry our client_reference_id).
-  let resolvedUserId = userId;
-  if (!resolvedUserId) {
-    const { data } = await admin
-      .from("subscriptions")
-      .select("user_id")
-      .eq("id", sub.id)
-      .maybeSingle();
-    resolvedUserId = data?.user_id ?? null;
-  }
-  if (!resolvedUserId) {
-    console.warn(`[stripe] no user for subscription ${sub.id}; skipping`);
-    return;
-  }
+/**
+ * Has this renewal invoice already been recorded? Stripe delivers an event at
+ * least once, and a repeat must not count the same renewal twice in revenue.
+ */
+async function renewalRecorded(invoiceId: string): Promise<boolean> {
+  const { data, error } = await createAdminClient()
+    .from("events")
+    .select("id")
+    .eq("name", "subscription_renewed")
+    .eq("props->>invoice", invoiceId)
+    .limit(1);
+  if (error) throw error;
+  return (data?.length ?? 0) > 0;
+}
 
-  const periodEnd = item?.current_period_end ?? null;
-
-  await admin.from("subscriptions").upsert(
-    {
-      id: sub.id,
-      user_id: resolvedUserId,
-      stripe_customer_id: String(sub.customer),
-      status: sub.status,
-      price_id: priceId,
-      plan: planFromPriceId(priceId),
-      current_period_end: periodEnd ? new Date(periodEnd * 1000).toISOString() : null,
-      cancel_at_period_end: sub.cancel_at_period_end,
-    },
-    { onConflict: "id" }
-  );
-
-  await admin.from("events").insert({
-    user_id: resolvedUserId,
-    name: "subscription_synced",
-    props: { status: sub.status, plan: planFromPriceId(priceId) },
-  });
+/** A plan's display name, or null. */
+function planName(plan: string | null | undefined): string | null {
+  return PLANS[plan as keyof typeof PLANS]?.name ?? null;
 }
 
 export async function POST(req: Request) {
@@ -88,18 +73,12 @@ export async function POST(req: Request) {
       case "checkout.session.completed":
       case "checkout.session.async_payment_succeeded": {
         const session = event.data.object as Stripe.Checkout.Session;
-        let userId = session.client_reference_id;
-        if (session.subscription) {
-          // Legacy: subscriptions bought before passes moved to one-time Checkout.
-          const sub = await stripe.subscriptions.retrieve(String(session.subscription));
-          await syncSubscription(sub, userId);
-        } else {
-          // A guest checkout has no client_reference_id; fulfilment resolves
-          // (or creates) the account from the checkout email and says which.
-          const granted = await fulfillPassCheckout(session);
-          if (!granted) break;
-          userId = granted.userId;
-        }
+        // A pass or an auto-renewing plan — fulfilment handles both. A guest
+        // checkout has no client_reference_id; fulfilment resolves (or
+        // creates) the account from the checkout email and says which.
+        const granted = await fulfillPassCheckout(session);
+        if (!granted) break;
+        const userId = granted.userId;
         if (session.payment_status !== "paid") break;
         // Money actually arrived. Stripe has already verified the signature
         // above, so unlike the client-side funnel events this one cannot be
@@ -112,7 +91,8 @@ export async function POST(req: Request) {
                   session.currency ?? ""
                 ).toUpperCase()}`
               : null,
-            Plan: PLANS[session.metadata?.plan as keyof typeof PLANS]?.name ?? null,
+            Plan: planName(session.metadata?.plan),
+            Renews: session.mode === "subscription" ? "yes, until cancelled" : null,
             User: userId,
             Guest: session.metadata?.guest === "1" ? "yes" : null,
           })
@@ -120,17 +100,53 @@ export async function POST(req: Request) {
         break;
       }
       case "charge.refunded": {
-        const userId = await endRefundedPass(event.data.object as Stripe.Charge);
+        const charge = event.data.object as Stripe.Charge;
+        let userId = await endRefundedPass(charge);
+        let stopped: string[] = [];
+        // Not a pass: a full refund of a plan charge also stops the plan, so
+        // the card is not charged again at the next renewal.
+        if (!userId && charge.refunded) {
+          const customer = typeof charge.customer === "string" ? charge.customer : charge.customer?.id;
+          const result = await cancelCustomerSubscriptions(customer, stripe);
+          userId = result.userId;
+          stopped = result.ids;
+        }
         if (userId) {
-          await recordServerEvent("pass_refunded", userId);
-          after(() => notify("↩️ Refund — Pro pass ended", { User: userId }));
+          await recordServerEvent("pass_refunded", userId, stopped.length ? { subscriptions: stopped.join(", ") } : undefined);
+          after(() =>
+            notify(stopped.length ? "↩️ Refund — plan stopped, Pro ended" : "↩️ Refund — Pro pass ended", {
+              User: userId,
+              Amount: money(charge.amount_refunded, charge.currency),
+            })
+          );
         }
         break;
       }
       case "charge.dispute.created": {
         const dispute = event.data.object as Stripe.Dispute;
-        const userId = await endDisputedPass(dispute);
-        await recordServerEvent("pass_disputed", userId, { reason: dispute.reason });
+        let userId = await endDisputedPass(dispute);
+        // Stop any plan on the same card at once: renewing after a chargeback
+        // is how one dispute becomes two.
+        const chargeId = typeof dispute.charge === "string" ? dispute.charge : dispute.charge?.id;
+        let stopped: string[] = [];
+        let stopFailed: string | null = null;
+        if (chargeId) {
+          // Never let this stop the alert below: the dispute has a deadline.
+          try {
+            const charge = await stripe.charges.retrieve(chargeId);
+            const customer = typeof charge.customer === "string" ? charge.customer : charge.customer?.id;
+            const result = await cancelCustomerSubscriptions(customer, stripe);
+            userId = userId ?? result.userId;
+            stopped = result.ids;
+          } catch (err) {
+            console.error("[stripe] could not stop plans after dispute", err);
+            stopFailed = errorText(err);
+          }
+        }
+        await recordServerEvent("pass_disputed", userId, {
+          reason: dispute.reason,
+          ...(stopped.length ? { subscriptions: stopped.join(", ") } : {}),
+        });
         // Always alert, pass or not: a dispute has a response deadline and
         // costs a fee whether or not anything is done about it.
         after(() =>
@@ -138,24 +154,86 @@ export async function POST(req: Request) {
             Amount: `${(dispute.amount / 100).toFixed(2)} ${dispute.currency.toUpperCase()}`,
             Reason: dispute.reason,
             User: userId,
+            "Plan stopped": stopped.length ? stopped.join(", ") : null,
+            "Could not stop plan — cancel it in Stripe": stopFailed,
           })
         );
         break;
       }
       case "customer.subscription.created":
       case "customer.subscription.updated": {
-        await syncSubscription(event.data.object as Stripe.Subscription, null);
+        const sub = event.data.object as Stripe.Subscription;
+        const userId = await syncSubscriptionRow(sub);
+        // A renewal switched off — from /account or the Stripe portal. Worth
+        // knowing while the person still remembers why.
+        const before = (event.data.previous_attributes ?? {}) as unknown as Partial<Stripe.Subscription>;
+        const wasCancelling =
+          before.cancel_at_period_end !== undefined || before.cancel_at !== undefined
+            ? Boolean(before.cancel_at_period_end) || Boolean(before.cancel_at)
+            : isCancelling(sub);
+        if (event.type === "customer.subscription.updated" && isCancelling(sub) && !wasCancelling) {
+          after(() =>
+            notify("🔕 Renewal cancelled", { Plan: planName(planOfSubscription(sub)), User: userId })
+          );
+        }
         break;
       }
       case "customer.subscription.deleted": {
         const sub = event.data.object as Stripe.Subscription;
-        await syncSubscription(sub, null);
-        // A cancellation is the one piece of bad news worth pushing: it is the
-        // only chance to ask why while the person still remembers.
+        const userId = await syncSubscriptionRow(sub);
         after(() =>
-          notify("⚠️ Subscription cancelled", {
+          notify("⚠️ Plan ended", {
+            Plan: planName(planOfSubscription(sub)),
+            User: userId,
             Subscription: sub.id,
-            Plan: planFromPriceId(sub.items.data[0]?.price.id ?? null),
+          })
+        );
+        break;
+      }
+      case "invoice.paid": {
+        const invoice = event.data.object as Stripe.Invoice;
+        const subscriptionId = invoiceSubscriptionId(invoice);
+        // The first charge is the checkout's, already counted and alerted above.
+        if (!subscriptionId || invoice.billing_reason !== "subscription_cycle") break;
+        if (invoice.id && (await renewalRecorded(invoice.id))) break;
+        const found = await stripe.subscriptions.retrieve(subscriptionId);
+        const userId = await syncSubscriptionRow(found);
+        const plan = planOfSubscription(found);
+        await recordServerEvent("subscription_renewed", userId, {
+          plan,
+          subscription: subscriptionId,
+          invoice: invoice.id,
+          amount: invoice.amount_paid,
+          livemode: invoice.livemode,
+        });
+        after(() =>
+          notify("🔁 Renewal paid", {
+            Plan: planName(plan),
+            Amount: money(invoice.amount_paid, invoice.currency),
+            Email: invoice.customer_email,
+            User: userId,
+          })
+        );
+        break;
+      }
+      case "invoice.payment_failed": {
+        const invoice = event.data.object as Stripe.Invoice;
+        const subscriptionId = invoiceSubscriptionId(invoice);
+        if (!subscriptionId) break;
+        const found = await stripe.subscriptions.retrieve(subscriptionId);
+        const userId = await syncSubscriptionRow(found);
+        await recordServerEvent("renewal_failed", userId, {
+          subscription: subscriptionId,
+          invoice: invoice.id,
+          attempt: invoice.attempt_count,
+        });
+        after(() =>
+          notify("💳 Plan payment failed", {
+            Plan: planName(planOfSubscription(found)),
+            Amount: money(invoice.amount_due, invoice.currency),
+            Attempt: invoice.attempt_count,
+            Email: invoice.customer_email,
+            User: userId,
           })
         );
         break;

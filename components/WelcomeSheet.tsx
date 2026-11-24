@@ -89,7 +89,7 @@ export default function WelcomeSheet() {
 
         <p className="mt-4 rounded-xl bg-indigo-50 px-4 py-3 text-sm text-indigo-900">
           When you want downloads without the watermark and unlimited AI, Pro starts at{" "}
-          {formatPlanPrice(PLANS.pro_weekly)} for 7 days, one-time.
+          {formatPlanPrice(PLANS.pro_weekly)} a week — cancel any time in one click.
         </p>
 
         <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">

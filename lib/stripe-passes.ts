@@ -2,16 +2,29 @@ import type Stripe from "stripe";
 import { getStripe, stripeConfigured, stripeTestConfigured, stripeModeForSession } from "@/lib/stripe";
 import { recordServerEvent, errorText } from "@/lib/server-events";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { PLANS, isPaidPlan, passEndsAt, type PaidPlanId, type PlanChange } from "@/lib/plans";
+import {
+  PLANS,
+  isPaidPlan,
+  passEndsAt,
+  renewalPhrase,
+  type PaidPlanId,
+  type PlanChange,
+} from "@/lib/plans";
 import { absoluteUrl } from "@/lib/site";
+import { subscriptionFields } from "@/lib/stripe-subscriptions";
+import { notify } from "@/lib/telegram";
 
 /**
  * Pro passes sold through Stripe Checkout.
  *
- * Every plan is a one-time payment for a fixed period — nothing auto-renews,
- * which is the owner's standing rule and a trust signal on the pricing page.
- * So this is Checkout in `payment` mode, not Billing: no Stripe subscription,
- * no renewal, no portal to cancel from.
+ * Two kinds of sale go through here:
+ *
+ *  - an auto-renewing plan — Checkout in `subscription` mode — for buyers with
+ *    no purchase history. Owner decision 2026-11-24; see
+ *    lib/stripe-subscriptions.ts.
+ *  - a one-time pass for a fixed period — Checkout in `payment` mode — for
+ *    everyone who bought before that, who was promised a pass that never
+ *    renews and keeps that promise.
  *
  * Prices come from lib/plans.ts as inline `price_data`, not dashboard Price
  * ids. /pricing renders from the same PLANS, so the figure a buyer reads is the
@@ -42,7 +55,23 @@ export async function createPassCheckout(opts: {
   test?: boolean;
   /** How this purchase relates to the buyer's current pass. */
   change: PlanChange;
+  /** Sell an auto-renewing plan instead of a one-time pass. */
+  renew?: boolean;
 }): Promise<string> {
+  if (opts.renew) {
+    // A refused renewing checkout must not cost the sale: fall back to the
+    // one-time pass, which charges less than the buyer agreed to, never more.
+    try {
+      return await createRenewingCheckout(opts);
+    } catch (err) {
+      console.error("[stripe] renewing checkout failed; selling a one-time pass instead", err);
+      await notify("⚠️ Renewing checkout failed — sold a one-time pass instead", {
+        Plan: PLANS[opts.plan].name,
+        Error: errorText(err),
+      });
+    }
+  }
+
   const plan = PLANS[opts.plan];
   const guest = opts.userId === null;
   const metadata: Record<string, string> = guest
@@ -88,6 +117,93 @@ export async function createPassCheckout(opts: {
     // autosaved draft, so backing out of checkout loses nothing.
     cancel_url: absoluteUrl(guest ? "/create" : "/pricing"),
   });
+
+  if (!session.url) throw new Error(`checkout session ${session.id} has no url`);
+  return session.url;
+}
+
+/**
+ * Checkout for an auto-renewing plan.
+ *
+ * What the law on auto-renewal asks for (ROSCA; California's Automatic Renewal
+ * Law is the strictest US version) and where it is met:
+ *  - the price, the interval and that it continues until cancelled, next to
+ *    the button — the submit text below, and the line under every buy button;
+ *  - the buyer's express consent — Stripe's required Terms checkbox, whose
+ *    label restates the renewal;
+ *  - a simple way to cancel online — "Cancel renewal" on /account.
+ *
+ * The checkbox only works once a Terms URL is saved in the Stripe Dashboard
+ * (Settings → Public details). Without it Stripe refuses the session, so this
+ * retries without the checkbox rather than lose the sale, and says so in the
+ * logs; the submit text still states the renewal and the Terms.
+ */
+async function createRenewingCheckout(opts: {
+  plan: PaidPlanId;
+  userId: string | null;
+  email: string | null;
+  test?: boolean;
+}): Promise<string> {
+  const plan = PLANS[opts.plan];
+  const guest = opts.userId === null;
+  const metadata: Record<string, string> = guest
+    ? { plan: opts.plan, change: "new", guest: "1", renews: "1" }
+    : { user_id: opts.userId!, plan: opts.plan, change: "new", renews: "1" };
+  const terms = absoluteUrl("/terms");
+  const renewal = `${renewalPhrase(plan)}. Cancel anytime from your account page; you keep Pro until the end of the period you paid for.`;
+  // Pro starts the moment payment goes through, which ends the 14-day right of
+  // withdrawal that EU and UK law gives online buyers — but only if the buyer
+  // asked for that, in so many words, before paying.
+  const waiver = "I ask for Pro to start now, so I give up the 14-day right of withdrawal some countries (including the EU and UK) give for online purchases.";
+
+  const base = {
+    mode: "subscription" as const,
+    line_items: [
+      {
+        quantity: 1,
+        price_data: {
+          currency: "usd",
+          unit_amount: Math.round(plan.price * 100),
+          recurring: { interval: plan.interval! },
+          // One product name for every plan: a plan switch reuses the product,
+          // and the interval already says which plan it is.
+          product_data: { name: "Makecepeit Pro", description: renewal },
+        },
+      },
+    ],
+    ...(guest ? {} : { client_reference_id: opts.userId! }),
+    metadata,
+    subscription_data: { metadata },
+    ...(opts.email ? { customer_email: opts.email } : {}),
+    success_url: absoluteUrl("/pro-activating?session_id={CHECKOUT_SESSION_ID}"),
+    cancel_url: absoluteUrl(guest ? "/create" : "/pricing"),
+  };
+
+  const stripe = getStripe(opts.test ? "test" : "live");
+  let session: Stripe.Checkout.Session;
+  try {
+    session = await stripe.checkout.sessions.create({
+      ...base,
+      consent_collection: { terms_of_service: "required" },
+      custom_text: {
+        submit: { message: renewal },
+        terms_of_service_acceptance: {
+          message: `I agree to the [Terms of Service](${terms}), including the automatic renewal above. ${waiver}`,
+        },
+      },
+    });
+  } catch (err) {
+    if (!/terms of service/i.test((err as Error)?.message ?? "")) throw err;
+    console.warn("[stripe] Terms URL not set in the Stripe Dashboard; checkout opened without the Terms checkbox");
+    session = await stripe.checkout.sessions.create({
+      ...base,
+      custom_text: {
+        submit: {
+          message: `${renewal} By subscribing you agree to the Terms of Service at ${terms}. ${waiver}`,
+        },
+      },
+    });
+  }
 
   if (!session.url) throw new Error(`checkout session ${session.id} has no url`);
   return session.url;
@@ -180,6 +296,7 @@ async function resolveGuestBuyer(admin: Admin, session: Stripe.Checkout.Session)
 export async function fulfillPassCheckout(
   session: Stripe.Checkout.Session
 ): Promise<{ plan: PaidPlanId; userId: string } | null> {
+  if (session.mode === "subscription") return fulfillSubscriptionCheckout(session);
   if (session.mode !== "payment" || session.payment_status !== "paid") return null;
 
   const plan = session.metadata?.plan;
@@ -254,6 +371,73 @@ export async function fulfillPassCheckout(
     amount: session.amount_total,
     livemode: session.livemode,
     guest,
+  });
+
+  return { plan, userId };
+}
+
+/**
+ * Record the auto-renewing plan a paid Checkout Session started. Safe to call
+ * more than once, like the pass grant above: the row id is the subscription id.
+ *
+ * This is the only place a subscription row is created — the subscription
+ * events that follow update it (syncSubscriptionRow) but cannot create it,
+ * because for a guest only the checkout knows which account it belongs to.
+ */
+async function fulfillSubscriptionCheckout(
+  session: Stripe.Checkout.Session
+): Promise<{ plan: PaidPlanId; userId: string } | null> {
+  if (session.status !== "complete") return null;
+  if (session.payment_status !== "paid" && session.payment_status !== "no_payment_required") return null;
+  const plan = session.metadata?.plan;
+  if (!isPaidPlan(plan) || !session.subscription) {
+    console.warn(`[stripe] subscription session ${session.id} has no plan or subscription; nothing granted`);
+    return null;
+  }
+  const subscriptionId =
+    typeof session.subscription === "string" ? session.subscription : session.subscription.id;
+
+  const admin = createAdminClient();
+  const { data: existing, error: readError } = await admin
+    .from("subscriptions")
+    .select("user_id")
+    .eq("id", subscriptionId)
+    .maybeSingle();
+  if (readError) throw readError;
+  if (existing) return { plan, userId: existing.user_id as string };
+
+  const guest = isGuestSession(session);
+  const userId = guest
+    ? await resolveGuestBuyer(admin, session)
+    : session.client_reference_id ?? session.metadata?.user_id ?? null;
+  if (!userId) {
+    console.warn(`[stripe] session ${session.id} has no user; nothing granted`);
+    return null;
+  }
+
+  const sub = await getStripe(session.livemode ? "live" : "test").subscriptions.retrieve(subscriptionId);
+  const fields = subscriptionFields(sub);
+  const { data: inserted, error: writeError } = await admin
+    .from("subscriptions")
+    .upsert(
+      { id: subscriptionId, user_id: userId, ...fields, plan: fields.plan ?? plan },
+      { onConflict: "id", ignoreDuplicates: true }
+    )
+    .select("id");
+  if (writeError) throw writeError;
+  if (!inserted || inserted.length === 0) return { plan, userId };
+
+  // `session` is the row id, which is what /admin revenue matches the amount
+  // to (lib/metrics-api.ts); the Checkout Session is kept alongside it.
+  await recordServerEvent("pass_purchased", userId, {
+    plan,
+    change: "new",
+    session: subscriptionId,
+    checkout: session.id,
+    amount: session.amount_total,
+    livemode: session.livemode,
+    guest,
+    renews: true,
   });
 
   return { plan, userId };

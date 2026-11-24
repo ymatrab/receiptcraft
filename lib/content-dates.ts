@@ -37,7 +37,8 @@ export const CONTACT_UPDATED = "2026-11-20";
 // because STATIC_UPDATED also stamps /blog, /contact and /authors, which did
 // not change.
 // 2026-11-20: names the operating company and says templates are reviewed for accurate fields, not "for realism".
-export const ABOUT_UPDATED = "2026-11-20";
+// 2026-11-24: auto-renewing plans for new buyers — copy no longer says Pro "never renews".
+export const ABOUT_UPDATED = "2026-11-24";
 // 2026-10-24: the calculator's footer note said an account is needed to
 // download; downloading no longer needs one. /tools/receipt-calculator only —
 // CONTENT_UPDATED also stamps the split-payment checker, which did not change.
@@ -85,7 +86,8 @@ export const PRIVACY_UPDATED = "2026-11-23";
 // 2026-10-24: section 2 — watermarked downloads and buying a Pro pass need no
 // account; the AI generator, saving and support chat still do.
 // 2026-11-20: names YUMA TECHNOLOGIES LLC as the party, adds a 13+ account age, indemnity, New Mexico governing law and a trademark-notice contact, and says prices are final (no tax added).
-export const TERMS_UPDATED = "2026-11-20";
+// 2026-11-24: sections 3–4 rewritten for auto-renewing plans: renewal terms, one-click cancel, plan switching, the 48-hour renewal refund and the EU/UK withdrawal waiver.
+export const TERMS_UPDATED = "2026-11-24";
 export const TEMPLATES_UPDATED = "2026-07-20";
 export const TEMPLATES_CITED_UPDATED = "2026-08-20";
 export const TEMPLATES_FIGURE_UPDATED = "2026-08-21";
@@ -145,7 +147,8 @@ export const BRANDS_UPDATED = "2026-08-31";
 // 2026-11-16: a "Most used" line under the intro links eight brand pages by the
 // query each one owns ("Starbucks receipt template", "Chipotle receipt
 // generator"). The hub's title and H1 did not change.
-export const BRANDS_INDEX_UPDATED = "2026-11-16";
+// 2026-11-24: auto-renewing plans for new buyers — copy no longer says Pro "never renews".
+export const BRANDS_INDEX_UPDATED = "2026-11-24";
 
 /**
  * The 36 brands whose visible copy changed with the article fix on 2026-09-01.
@@ -457,8 +460,13 @@ export const BRANDS_COPY_GUARDRAILS_UPDATED = "2026-11-20";
 // and the line are in every page's HTML, so all ~354 brand pages move.
 export const BRANDS_PHONE_LAYOUT_UPDATED = "2026-11-21";
 
+// 2026-11-24: every brand page's price line and shared FAQ say "from $3 a week,
+// cancel in one click" instead of "a one-time pass that never renews".
+const BRANDS_RENEWAL_UPDATED = "2026-11-24";
+
 export function brandReviewedAt(slug: string): string {
   return newest(
+    BRANDS_RENEWAL_UPDATED,
     BRANDS_PHONE_LAYOUT_UPDATED,
     BRANDS_COPY_GUARDRAILS_UPDATED,
     BRANDS_SELL_PAGES.has(slug) || brandPoolCopyChanged(slug) ? BRANDS_SELL_PAGES_UPDATED : null,
@@ -703,7 +711,8 @@ export const LOGIN_UPDATED = "2026-08-31";
 // line, which the renderer had been dropping.
 // 2026-10-27: a one-sentence price answer under the hero.
 // 2026-11-20: a Terms and Privacy line under the plan cards; not-included features readable (contrast).
-export const PRICING_UPDATED = "2026-11-20";
+// 2026-11-24: auto-renewing plans for new buyers — copy no longer says Pro "never renews".
+export const PRICING_UPDATED = "2026-11-24";
 // 2026-08-23: the hero grid no longer stretches to the 380px receipt, so the
 // primary CTA is reachable again on phones under 412px — a visible change to
 // the page's most important element.
@@ -730,7 +739,8 @@ export const PRICING_UPDATED = "2026-11-20";
 // 2026-11-03: title, H1 and meta description move to "receipt templates" and
 // store receipt generators; the hero links /create as "receipt maker".
 // 2026-11-20: the expense-report card is now a small-business card, and the export card no longer pitches expense reports.
-export const HOME_UPDATED = "2026-11-20";
+// 2026-11-24: two home FAQ answers (free? / watermark?) describe renewing plans instead of one-time passes.
+export const HOME_UPDATED = "2026-11-24";
 // 2026-08-31: free-tier limits changed — see STATIC_UPDATED above.
 // 2026-10-11: links to the new Google Docs templates page from under the intro.
 // 2026-10-18: lists the new pro forma invoice and credit note templates.
@@ -765,6 +775,9 @@ export function compareReviewedAt(slug: string): string {
     linksChangedNov16(`/compare/${slug}`) ? LINKS_NOV16_UPDATED : null,
     // 2026-11-20: /compare/receiptbaker links the two other comparisons.
     slug === "receiptbaker" ? "2026-11-20" : null,
+    // 2026-11-24: our pricing in the ReceiptFaker and ReceiptBaker answers no
+    // longer says Pro never renews.
+    slug === "receiptbaker" || slug === "receiptfaker" ? "2026-11-24" : null,
   );
 }
 
@@ -789,6 +802,9 @@ export function alternativesUpdated(): string {
     reviewed[reviewed.length - 1] ?? COMPARISONS_UPDATED,
     ALTERNATIVES_COPY_UPDATED,
     ALTERNATIVES_LINKS_UPDATED,
+    // 2026-11-24: our own entry says Pro is a weekly plan cancelled in one
+    // click, not a one-time pass.
+    "2026-11-24",
   );
 }
 

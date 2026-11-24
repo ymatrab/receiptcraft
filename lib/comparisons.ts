@@ -293,7 +293,7 @@ export const COMPETITORS: Competitor[] = [
       {
         question: "Is ReceiptFaker free?",
         answer:
-          "Yes for basic use — it still offers a free generator with no sign-up. It also sells subscriptions — $13.50/month or $60/year when we checked on 2026-10-24 — whose selling points are removing watermarks and unlimited downloads. Makecepeit is also free to build, preview and download with no account; its free downloads are watermarked, and a one-time Pro pass removes the watermark.",
+          "Yes for basic use — it still offers a free generator with no sign-up. It also sells subscriptions — $13.50/month or $60/year when we checked on 2026-10-24 — whose selling points are removing watermarks and unlimited downloads. Makecepeit is also free to build, preview and download with no account; its free downloads are watermarked, and a Pro plan removes the watermark.",
       },
       {
         question: "Are these receipts legal?",
@@ -349,7 +349,7 @@ export const COMPETITORS: Competitor[] = [
       transparent_pricing: yes("Weekly and monthly prices listed"),
     },
     verdict:
-      `Both Makecepeit and ReceiptBaker offer AI receipt generation, so this comes down to how much you get and what it costs. ReceiptBaker meters both plans — $5 a week for 25 AI generations, or $12 a month for 100. Makecepeit is $3 a week or $7.99 a month for unlimited AI generation, never renews on its own, is free to build, preview and download (watermarked) without an account, and offers ${BRAND_COUNT} specific brand templates with PDF and PNG export. ReceiptBaker is worth a look if its blog, rental-receipt templates or photorealistic renders match your niche.`,
+      `Both Makecepeit and ReceiptBaker offer AI receipt generation, so this comes down to how much you get and what it costs. ReceiptBaker meters both plans — $5 a week for 25 AI generations, or $12 a month for 100. Makecepeit is $3 a week or $7.99 a month for unlimited AI generation, cancels in one click, is free to build, preview and download (watermarked) without an account, and offers ${BRAND_COUNT} specific brand templates with PDF and PNG export. ReceiptBaker is worth a look if its blog, rental-receipt templates or photorealistic renders match your niche.`,
     chooseUs: [
       "You want AI generation and pricing you can see before committing",
       `You need a specific brand's receipt from a ${BRAND_COUNT}-template library`,
@@ -368,7 +368,7 @@ export const COMPETITORS: Competitor[] = [
       {
         question: "How much does ReceiptBaker cost?",
         answer:
-          "Read on 2026-10-24, it sells two plans with no free tier shown: $5 a week (25 AI generations, 8 photorealistic renders) or $12 a month (100 AI generations, 30 renders), both renewing until cancelled. Makecepeit's Pro is $3/week, $7.99/month or $49/year with unlimited AI generation, and passes never renew on their own.",
+          "Read on 2026-10-24, it sells two plans with no free tier shown: $5 a week (25 AI generations, 8 photorealistic renders) or $12 a month (100 AI generations, 30 renders), both renewing until cancelled. Makecepeit's Pro is $3/week, $7.99/month or $49/year with unlimited AI generation, also renewing until cancelled, with a one-click cancel on the account page.",
       },
       {
         question: "Which has more brand templates?",

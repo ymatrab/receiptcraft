@@ -32,7 +32,8 @@ import { PLANS, isPaidPlan } from "@/lib/plans";
  *               on the day it was bought — revenue nets the refund instead.
  * - customers — accounts whose FIRST purchase (as defined above) was that day.
  *               Guests are included: a guest buyer gets an account at checkout.
- * - revenue   — USD: the amount Stripe charged for each purchase that day
+ * - revenue   — USD: the amount Stripe charged for each purchase and each
+ *               plan renewal (subscription_renewed.amount) that day
  *               (pass_purchased.amount, recorded by fulfillPassCheckout; the
  *               plan's list price when the event is missing), minus the amount
  *               of every pass ended by a full refund or a chargeback, on the day
@@ -211,6 +212,25 @@ async function revenue(admin: Admin, range: Range): Promise<Row[]> {
     // went back. Legacy `sub_` rows cancel when a subscription ends, which
     // refunds nothing.
     if (s.id.startsWith("cs_live_") && s.status === "canceled") add(totals, s.updated_at, -amount, range);
+  }
+
+  // Renewals of auto-renewing plans (since 2026-11-24): each is money on the
+  // day it was charged. The first charge is the purchase above, not a renewal.
+  const renewals = await paged<{ created_at: string; amount: string | null; livemode: string | null }>(
+    "events",
+    (a, b) =>
+      admin
+        .from("events")
+        .select("created_at, amount:props->>amount, livemode:props->>livemode")
+        .eq("name", "subscription_renewed")
+        .gte("created_at", range.startIso)
+        .lt("created_at", range.endIso)
+        .order("id", { ascending: true })
+        .range(a, b)
+  );
+  for (const r of renewals) {
+    const cents = Number(r.amount);
+    if (r.livemode !== "false" && r.amount !== null && Number.isFinite(cents)) add(totals, r.created_at, cents / 100, range);
   }
   return toRows(range, totals, true);
 }
