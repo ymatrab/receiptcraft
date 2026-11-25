@@ -4223,11 +4223,14 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "👕",
     // 2026-11-18: "clothing receipt" first — the page ranks ~10 for it.
     seoTitle: "Clothing Receipt Template — Clothing Store Receipt Generator",
+    // 2026-11-25: description and intro name the garment details (size,
+    // colour, SKU) the template has; title and H1 unchanged (pos 10.9 for
+    // "clothing receipt template", re-read Search Console 2026-12-09).
     seoDescription:
-      `Make a clothing store receipt with items, sizes, markdowns and sales tax. Watermarked PDF or PNG is free; a pass from ${PRO_FROM} removes it.`,
+      `Clothing receipt template with sizes, colors, SKUs, markdowns and sales tax. Edit every line, preview live, get a watermarked PDF free; ${PRO_FROM} removes it.`,
     heading: "Clothing Receipt Template & Generator",
     intro:
-      `Create an editable clothing or fashion retail receipt with apparel items, sizes, markdowns and sales tax. Useful for a boutique's own sales, expense reports and bookkeeping. Fill it in on the editor; the PDF or PNG download is free with a small watermark, and a pass from ${PRO_FROM} removes it.`,
+      `Make a clothing store receipt with each garment's size, color and SKU, markdowns as minus lines and sales tax worked out after discounts. Build it free in the editor and download a watermarked PDF or PNG; a pass from ${PRO_FROM} removes the watermark.`,
     // 2026-11-03: deepened (Notion "Get the 7 templates closest to page 1 into
     // the top 10"): garment lines, markdowns before tax, clothing-exempt states.
     leadAnswer:

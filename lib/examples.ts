@@ -25,6 +25,9 @@ export interface Example {
   base: string;
   /** Optional city line override. */
   city?: string;
+  /** Optional phone override, when the base template's number belongs to
+   *  another city (the pizza template's is a 718 New York number). */
+  phone?: string;
   items: ExampleItem[];
   taxRate?: number;
   payment?: PaymentMethod;
@@ -118,7 +121,7 @@ export function receiptFromExample(ex: Example): ReceiptData {
     logoDataUrl: "",
     addressLine1: def.addressLine1 ?? "",
     addressLine2: ex.city ?? def.addressLine2 ?? "",
-    phone: def.phone ?? "",
+    phone: ex.phone ?? def.phone ?? "",
     website: "",
     receiptNumber: stableNumber(ex.slug),
     date: "2026-06-15",
@@ -520,7 +523,7 @@ export const EXAMPLES: Example[] = [
   { slug: "cheesecake-factory-receipt-cheesecake", brand: "The Cheesecake Factory", base: "restaurant", city: "Calabasas, CA 91302", items: [{ name: "Whole Original Cheesecake", quantity: 1, price: 59.95 }, { name: "Slice to Go", quantity: 2, price: 9.95 }] },
   { slug: "ihop-receipt-family-feast", brand: "IHOP", base: "restaurant", city: "Glendale, CA 91203", items: [{ name: "Family Feast (Pancakes)", quantity: 1, price: 39.99 }, { name: "Hash Browns (Family)", quantity: 1, price: 8.99 }] },
   { slug: "arbys-receipt-meat-mountain", brand: "Arby's", base: "fast-food-receipt", city: "Atlanta, GA 30339", items: [{ name: "Meat Mountain", quantity: 1, price: 10.0 }, { name: "Curly Fries (L)", quantity: 1, price: 3.29 }, { name: "Jamocha Shake", quantity: 1, price: 3.29 }], scenario: "Someone ordering a large lunch who keeps the receipt to check the order before leaving the drive-thru.", notes: ["The Meat Mountain is a single sandwich line priced at $10.00, the most expensive item on the receipt.", "The curly fries carry the size in the name, (L) for large, and the Jamocha Shake is Arby's coffee-chocolate shake on its own line."] },
-  { slug: "little-caesars-receipt-deep-dish", brand: "Little Caesars", base: "pizza-receipt", city: "Detroit, MI 48201", items: [{ name: "Deep Dish Pepperoni", quantity: 1, price: 9.99 }, { name: "Crazy Combo", quantity: 1, price: 4.49 }] },
+  { slug: "little-caesars-receipt-deep-dish", brand: "Little Caesars", base: "pizza-receipt", city: "Detroit, MI 48201", phone: "(313) 555-0142", items: [{ name: "Deep Dish Pepperoni", quantity: 1, price: 9.99 }, { name: "Crazy Combo", quantity: 1, price: 4.49 }] },
   { slug: "sonic-receipt-happy-hour", brand: "Sonic Drive-In", base: "fast-food-receipt", city: "Oklahoma City, OK 73102", items: [{ name: "Route 44 Slush", quantity: 2, price: 2.49 }, { name: "Mozzarella Sticks", quantity: 1, price: 4.29 }, { name: "Soft Pretzel Twist", quantity: 1, price: 2.99 }], scenario: "Two friends splitting an afternoon snack run at the drive-in, with each paying for their own drink and sharing the sides.", notes: ["Route 44 is a cup size, so two Route 44 Slushes share one line with a quantity of 2.", "The mozzarella sticks and the pretzel twist are single shared items, which makes them the lines to divide when splitting the bill."] },
 
   // ── Coffee ──

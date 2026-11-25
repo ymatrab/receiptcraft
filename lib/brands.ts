@@ -1840,22 +1840,54 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     name: "Walgreens Receipt",
     shortName: "Walgreens",
     icon: "💊",
-    seoTitle: "Free Walgreens Receipt Generator — Walgreens Receipt Maker",
+    // 2026-11-25: "template" first. The page ranked 10.2 for "walgreens
+    // receipt template" with 0 clicks in 28 days (117 impressions) while the
+    // title only said generator and maker. The savings, tax and card lines named
+    // below are the ones the researched receipt has (lib/brand-specs.ts).
+    seoTitle: "Walgreens Receipt Template & Generator — PDF or PNG",
     seoDescription:
-      "Create a Walgreens receipt online. Add pharmacy, health and convenience items, edit the prices and tax, then download a free watermarked PDF or PNG receipt.",
-    heading: "Walgreens Receipt Generator",
+      "Walgreens receipt template with pharmacy items, myWalgreens savings, sales tax and card line. Edit every field, download a watermarked PDF or PNG free.",
+    heading: "Walgreens Receipt Template & Generator",
     intro:
-      "Create a Walgreens receipt with pharmacy items, health products, and convenience store essentials.",
+      `Make a Walgreens-style pharmacy receipt with health and convenience items, a myWalgreens savings line, sales tax and the card's last four digits. Edit every field with a live preview and download a PDF or PNG; the free download is watermarked and a pass from ${PASS_FROM} removes it.`,
     useCases: [
       "Records of your own purchases",
       "A sample pharmacy receipt for a mockup or demo",
       "FSA/HSA documentation",
     ],
+    guidance: [
+      {
+        heading: "Pharmacy items, savings and prescription lines",
+        body:
+          "Each product is its own line. A sale or coupon price prints as a minus line under the item it reduces, labelled myWalgreens Savings, and the savings are added up near the total. Items your state does not tax can be marked untaxed so the tax line covers only the rest.\n\n" +
+          "To record a prescription, add it as its own line with the Rx number and the copay you paid. Keep FSA- or HSA-eligible items on separate lines too, so they are easy to pick out for your own records. For a receipt without the Walgreens layout, start from the {link:/templates/pharmacy|pharmacy receipt template}.",
+      },
+      {
+        heading: "Walgreens receipt template vs a blank pharmacy receipt",
+        body:
+          "Use this template when the receipt should follow the Walgreens layout: the register, transaction and store line, the savings lines and the card block. For an independent pharmacy or a drugstore with its own name, the pharmacy template starts from a plain layout you fill in yourself.",
+      },
+    ],
     faqs: [
+      {
+        question: "Is the Walgreens receipt template free?",
+        answer:
+          `Building it and a watermarked PDF or PNG are free with no account; a one-time pass from ${PASS_FROM} removes the watermark.`,
+      },
+      {
+        question: "Can I change the store number and address?",
+        answer:
+          "Yes. Every field is editable: the store, register and transaction numbers, the items, the tax rate and the payment.",
+      },
       {
         question: "Can I customize the items on the Walgreens receipt?",
         answer:
           "Yes, you can edit the line items, adjust the tax rate to match your local area, and download a print-ready PDF or image file.",
+      },
+      {
+        question: "Is this a receipt issued by Walgreens?",
+        answer:
+          "No. It is an independent template, not affiliated with Walgreens and not a proof of purchase.",
       },
     ],
     defaults: {
@@ -2861,16 +2893,27 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     name: "StockX Receipt",
     shortName: "StockX",
     icon: "👟",
-    seoTitle: "Free StockX Receipt Generator — StockX Order Receipt Maker",
+    // 2026-11-25: "template" first. The page ranks 9.1 for "stockx receipt
+    // template" at a 1.7% click rate; /blog/stockx-receipt keeps "stockx
+    // receipt" and hands its readers here.
+    seoTitle: "StockX Receipt Template & Generator — Sneaker Order Receipt",
     seoDescription:
-      "Make a StockX-style order receipt for sneakers and streetwear: item, size, style code, processing fee, shipping and tax, then download it as a PDF or PNG.",
-    heading: "StockX Receipt Generator",
+      "StockX receipt template for a sneaker order: style ID, size, purchase price, processing fee, shipping, sales tax and total. Download a watermarked PDF free.",
+    heading: "StockX Receipt Template & Generator",
     intro:
       "Make a StockX-style order receipt for a sneaker or streetwear purchase, with the size, style code, processing fee and shipping laid out the way a resale order is billed.",
     useCases: [
       "Resale business bookkeeping",
       "Tracking what a pair actually cost after fees",
       "Expense records for a sneaker collection",
+    ],
+    guidance: [
+      {
+        heading: "What a StockX order receipt shows",
+        body:
+          "The template follows the order confirmation StockX emails: an Order Confirmed header, the order number and date, then the item details (style ID, size, condition and the StockX Verified line) and the shipping address.\n\n" +
+          "Below that come the purchase price, the processing fee, shipping, sales tax and the total, with the card's last four digits. StockX works out its processing fee as a share of the price, with a minimum. The sample's numbers are invented: check the fee, shipping and tax against your own StockX order email before you rely on them.",
+      },
     ],
     faqs: [
       {
@@ -6146,6 +6189,26 @@ const BRAND_ITEMS: Record<string, Omit<LineItem, "id">[]> = {
  * H1 and FAQs, and adds guidance sections; the FAQ list keeps the anchor.
  */
 const SEED_COPY: Record<string, Partial<Pick<ReceiptTemplate, "seoTitle" | "seoDescription" | "heading" | "guidance" | "faqs">>> = {
+  // 2026-11-25: this page should own "little caesars receipt generator" and
+  // "little caesars receipt maker"; the maker query was going to the /brands
+  // hub (30.7). The lines named are the researched receipt's
+  // (lib/brand-specs.ts): pizzas, Crazy Bread, order number, tax, total.
+  "little-caesars": {
+    seoTitle: "Little Caesars Receipt Generator & Maker",
+    heading: "Little Caesars Receipt Generator & Maker",
+    seoDescription:
+      `Little Caesars receipt generator and maker: pizzas, Crazy Bread, order number, sales tax and total. Edit every line, get a watermarked PDF free; ${PASS_FROM} removes it.`,
+    guidance: [
+      {
+        heading: "How to make a Little Caesars receipt",
+        body:
+          "1. Open the generator: it starts with a Little Caesars-style carry-out order, two pizzas and Crazy Bread.\n\n" +
+          "2. Edit the store, the order number, the cashier and the items, with the price of each pizza on its own line.\n\n" +
+          "3. Set the sales tax rate for the store's address. The receipt works out the tax and the total from it.\n\n" +
+          `4. Download it as a PDF or PNG. The free download carries a small watermark; a pass from ${PASS_FROM} removes it.`,
+      },
+    ],
+  },
   "grab": {
     seoTitle: "Grab Receipt Generator — Make a Grab Receipt PDF or PNG",
     seoDescription:
