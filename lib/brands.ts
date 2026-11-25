@@ -1872,7 +1872,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Is the Walgreens receipt template free?",
         answer:
-          `Building it and a watermarked PDF or PNG are free with no account; a one-time pass from ${PASS_FROM} removes the watermark.`,
+          `Building it and a watermarked PDF or PNG are free with no account; Pro from ${PASS_FROM} a week removes the watermark.`,
       },
       {
         question: "Can I change the store number and address?",
@@ -6227,7 +6227,7 @@ const SEED_COPY: Record<string, Partial<Pick<ReceiptTemplate, "seoTitle" | "seoD
       {
         question: "Can I download the Deliveroo receipt as a PDF?",
         answer:
-          `Yes, as a PDF or PNG. The free download carries a small watermark, and a one-time pass from ${PASS_FROM} removes it.`,
+          `Yes, as a PDF or PNG. The free download carries a small watermark, and Pro from ${PASS_FROM} a week removes it.`,
       },
       {
         question: "Can I change the fees, tip and currency?",
@@ -6273,7 +6273,7 @@ const SEED_COPY: Record<string, Partial<Pick<ReceiptTemplate, "seoTitle" | "seoD
       {
         question: "Is the DiDi receipt generator free?",
         answer:
-          `Building a receipt and a watermarked download are free; a one-time pass from ${PASS_FROM} removes the watermark.`,
+          `Building a receipt and a watermarked download are free; Pro from ${PASS_FROM} a week removes the watermark.`,
       },
       {
         question: "Is this an official DiDi receipt or factura?",
