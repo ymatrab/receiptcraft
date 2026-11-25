@@ -5909,7 +5909,9 @@ const INTRO_VARIANTS: ((n: string, noun: string, city?: string) => string)[] = [
   // 2026-11-25: was "Rebuild … receipt from memory", which reads as recreating
   // a real receipt. 25 generated brand pages used it (content-dates INTRO_NOV25).
   (n, noun) => `Start from ${anBrand(n)} receipt layout with ${noun}, edit the totals, then export a PDF or PNG in under a minute.`,
-  (n, noun, city) => `Whether you're replacing a receipt from ${anBrand(n)}${city ? ` in ${city}` : ""} or issuing one yourself, this generator handles ${noun} and the totals in one editable layout.`,
+  // 2026-11-25: was "Whether you're replacing a receipt from …", which reads as
+  // recreating a real one, and ran "…sales tax and the totals" together.
+  (n, noun, city) => `Keeping a record of ${anBrand(n)} purchase${city ? ` in ${city}` : ""}? Fill in ${noun}. The totals add up as you type, and the receipt downloads as a PDF or PNG.`,
   (n, noun) => `A ${n} receipt template with ${noun} already laid out — change the items, prices and date to match your own purchase, then download.`,
   (n, noun) => `Generate ${anBrand(n)}-style receipt with ${noun}. Free to build, with a live preview as you edit.`,
   (n, noun, city) => `This ${n} receipt generator lays out ${noun}${city ? `, styled after the ${city} store` : ""} — edit every field, then export as PDF or PNG.`,
