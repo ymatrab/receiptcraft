@@ -6032,7 +6032,7 @@ const FAQ_POOL: FaqVariant[] = [
   (n) => ({ question: `What file formats does the ${n} receipt export to?`, answer: `PDF (fitted or print-ready A4), PNG and JPG, all rendered at 3x resolution so they stay sharp when printed or attached to an email.` }),
   (n) => ({
     question: `Will my ${n} receipt have a watermark?`,
-    answer: `Free downloads include a small watermark. A watermark-free download needs Pro, from ${PRO_FROM} for 7 days — a one-time pass that never renews.`,
+    answer: `Free downloads include a small watermark. A watermark-free download needs Pro, from ${PRO_FROM} a week — cancel any time in one click.`,
   }),
   (n) => ({ question: `Can I set a different currency or tax rate on ${anBrand(n)} receipt?`, answer: `Yes. Switch between 10 currencies and set any tax label and rate — the totals recalculate instantly.` }),
   (n) => ({ question: `Is my information saved when I make ${anBrand(n)} receipt?`, answer: `Only if you ask for it. The builder runs in your browser, so what you type stays on your device unless you save the receipt to your account.` }),
@@ -6365,7 +6365,7 @@ const SEED_COPY: Record<string, Partial<Pick<ReceiptTemplate, "seoTitle" | "seoD
       {
         question: "Is the Balenciaga receipt generator free?",
         answer:
-          `Building and a watermarked PDF or PNG are free with no account; a one-time pass from ${PASS_FROM} removes the watermark.`,
+          `Building and a watermarked PDF or PNG are free with no account; Pro from ${PASS_FROM} a week removes the watermark.`,
       },
       {
         question: "Can I change the boutique and the items?",

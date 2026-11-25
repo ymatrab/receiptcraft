@@ -14,7 +14,7 @@ export const HOMEPAGE_FAQS: Faq[] = [
   {
     question: "Is Makecepeit free?",
     answer:
-      `Yes, Makecepeit is free to use. All ${TEMPLATE_COUNT} receipt templates and ${BRAND_COUNT} brand-style layouts, unlimited line items and the live preview work with no account and no email address. The AI generator needs a free account: it gives you 3 receipts a month, and unlimited on Pro. Downloading needs no account either: free downloads (PDF, PNG or JPG) include a small Makecepeit watermark in the background. A watermark-free download needs Pro — a one-time pass of ${WEEK} for 7 days, ${MONTH} for a month or ${YEAR} for a year, paid at checkout with no account needed and never renewed automatically. Pro also unlocks unlimited AI receipt generation. There is no trial period that expires: the free tier stays free.`,
+      `Yes, Makecepeit is free to use. All ${TEMPLATE_COUNT} receipt templates and ${BRAND_COUNT} brand-style layouts, unlimited line items and the live preview work with no account and no email address. The AI generator needs a free account: it gives you 3 receipts a month, and unlimited on Pro. Downloading needs no account either: free downloads (PDF, PNG or JPG) include a small Makecepeit watermark in the background. A watermark-free download needs Pro — ${WEEK} a week, ${MONTH} a month or ${YEAR} a year, paid at checkout with no account needed; plans renew until you cancel, which takes one click on your account page. Pro also unlocks unlimited AI receipt generation. There is no trial period that expires: the free tier stays free.`,
   },
   {
     question: "Do I need to create an account to make a receipt?",
@@ -44,7 +44,7 @@ export const HOMEPAGE_FAQS: Faq[] = [
   {
     question: "Will my receipt have a watermark?",
     answer:
-      `Free downloads include a small Makecepeit watermark, with or without an account. Pro removes it completely — every download is watermark-free, with no branding anywhere on the document. Pro starts at ${WEEK} for 7 days and never renews on its own.`,
+      `Free downloads include a small Makecepeit watermark, with or without an account. Pro removes it completely — every download is watermark-free, with no branding anywhere on the document. Pro starts at ${WEEK} a week, and you can cancel any time in one click.`,
   },
   {
     question: "Is my data stored anywhere?",

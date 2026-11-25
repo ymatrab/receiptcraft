@@ -15,7 +15,7 @@ export default function TermsPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
       <h1 className="text-4xl font-bold tracking-tight text-slate-900">Terms of Use</h1>
-      <p className="mt-3 text-sm text-slate-500">Last updated: November 20, 2026</p>
+      <p className="mt-3 text-sm text-slate-500">Last updated: November 24, 2026</p>
 
       <div className="mt-8 space-y-5 leading-relaxed text-slate-600">
         <H2>1. The service</H2>
@@ -49,24 +49,47 @@ export default function TermsPage() {
         <p>
           Payments are processed by a third-party payment provider. We do not receive or store
           your full card details. The price shown on our pricing page and at checkout is the full
-          price you pay; we do not add taxes or fees on top of it. A Pro plan is sold as a pass for the period you buy:
-          it grants access until the end date shown on your account page and then ends on its
-          own. It does not renew automatically and there is no recurring charge, unless the
-          checkout you used states otherwise at the point of purchase and you expressly
-          authorize it.
+          price you pay; we do not add taxes or fees on top of it.
+        </p>
+        <p>
+          <strong>Automatic renewal.</strong> A Pro plan bought on or after November 24, 2026 is a
+          subscription that renews automatically. It is charged at the start and then again at
+          the start of every period — every week, month or year, depending on the plan — at
+          the price shown when you bought it, until you cancel. The renewal terms are shown next
+          to the buy button and on the checkout page, and you agree to them at checkout before
+          you pay. We will tell you before any price change takes effect, and you can cancel
+          before it does. For yearly plans we email a reminder before each renewal.
+        </p>
+        <p>
+          <strong>Passes bought before November 24, 2026.</strong> A Pro pass bought before that
+          date — and any further pass bought by an account that already held one — is a one-time
+          purchase for the period bought. It ends on its own on the date shown on your account
+          page and never renews.
+        </p>
+        <p>
+          <strong>Starting straight away.</strong> Pro starts as soon as your payment goes
+          through. If you live in a country that gives a 14-day right of withdrawal for online
+          purchases (such as the EU or the UK), you ask at checkout for Pro to start
+          immediately and acknowledge that you lose that right once it has started.
         </p>
 
-        <H2>4. Cancellation &amp; refunds</H2>
+        <H2>4. Cancellation, plan changes &amp; refunds</H2>
         <p>
-          Because a Pro pass does not renew automatically, there is normally nothing to cancel —
-          it simply ends on its date and you are not charged again. Where you did take out a
-          plan that renews, you can cancel it at any time from{" "}
-          <strong>Manage billing</strong> on your account page; access continues until the end
-          of the current paid period and is not renewed thereafter. Except where required by
-          law, payments are non-refundable, and cancelling does not entitle you to a refund for
-          the current period. If you believe you were charged in error, contact us at{" "}
+          You can cancel a renewing plan at any time with <strong>Cancel renewal</strong> on your
+          account page, without contacting us. You keep Pro until the end of the period you have
+          already paid for and are not charged again. You can resume the plan before that date.
+          You can also switch plan there: the new plan starts immediately, the unused part of
+          your current plan is credited, and you pay only the difference.
+        </p>
+        <p>
+          <strong>Renewal refunds.</strong> If you are charged for a renewal you did not mean to
+          keep, email us at{" "}
           <a href={`mailto:${SITE.email}`} className="text-indigo-600 underline">{SITE.email}</a>{" "}
-          and we will review it in good faith.
+          within 48 hours of the charge. If you have not downloaded a receipt since that charge,
+          we will refund it in full and cancel the plan. Otherwise, and except where the law
+          requires, payments are non-refundable and cancelling does not refund the current
+          period. If you believe you were charged in error, contact us and we will review it in
+          good faith.
         </p>
 
         <H2>5. AI generator</H2>

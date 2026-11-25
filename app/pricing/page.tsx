@@ -6,6 +6,8 @@ import {
   formatPlanPrice,
   freeAiPhrase,
   freeStylingPhrase,
+  renewalPhrase,
+  type PaidPlanId,
 } from "@/lib/plans";
 import { BRAND_TEMPLATES } from "@/lib/brands";
 import { docFromReceiptData } from "@/lib/sections";
@@ -157,10 +159,10 @@ const PLAN_ROWS: PlanRow[] = [
   },
   {
     id: "pro_weekly",
-    label: "7-day pass",
-    unit: "one week",
+    label: "Weekly",
+    unit: "per week",
     access: "7 days",
-    cta: "Get 7 days",
+    cta: "Go weekly",
     downloads: "Unlimited",
     downloadsNoun: "watermark-free downloads",
     clean: "Unlimited",
@@ -210,7 +212,7 @@ const PLAN_ROWS: PlanRow[] = [
  */
 const PAID_ROWS = PLAN_ROWS.filter((r) => r.id !== "free");
 
-/** Most checkout starts pick the 7-day pass (36 of 44, Sep–Oct 2026). */
+/** Most checkout starts pick the weekly plan (36 of 44, Sep–Oct 2026). */
 const MOST_POPULAR = "pro_weekly";
 
 /** Rows every plan shares. Brand templates, fonts and paper styles moved out —
@@ -233,7 +235,7 @@ const FAQ = [
   },
   {
     q: "Can I cancel anytime?",
-    a: `Yes — and in most cases there is nothing to cancel. Pro is a pass that runs for the period you bought and then stops on its own: there is no auto-renewal and no recurring charge, so you are never locked in. Your end date is shown on your account page. If you subscribed through a card subscription rather than a one-off pass, Manage billing on that page opens the billing portal, where you can end it yourself at any time. For anything else — stopping a future charge or asking for a refund — email ${SITE.email} and we'll sort it within one business day.`,
+    a: `Yes. Pro plans renew automatically until you cancel, and you can cancel at any time with one click — Cancel renewal on your account page, no email needed. You keep Pro until the end of the period you already paid for and are not charged again. Charged for a renewal you didn't mean to keep? Email ${SITE.email} within 48 hours and, if you haven't downloaded since, we'll refund it. Passes bought before November 24, 2026 never renew and simply end on their date.`,
   },
   // Only while Stripe is the rail: the Shopify fallback takes different
   // methods and is fulfilled by hand, so these answers would be wrong for it.
@@ -245,7 +247,7 @@ const FAQ = [
         },
         {
           q: "Can I switch plans?",
-          a: "Yes. Moving to a longer plan — weekly to monthly or yearly, or monthly to yearly — starts it straight away and keeps every day left on your current pass. Buying the same plan again adds another period after the current one ends. A shorter plan becomes available again once your current pass ends.",
+          a: "Yes, from your account page. The new plan starts straight away; the unused part of your current plan is credited, so you only pay the difference — or nothing, if the credit covers it. If you hold a pass bought before November 24, 2026, moving to a longer plan starts it straight away and keeps every day left on your pass.",
         },
       ]
     : []),
@@ -368,9 +370,9 @@ export default function PricingPage() {
             come from lib/plans.ts. */}
         <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-slate-500">
           {SITE.name} is free to build, preview and download with a small watermark, with no
-          account. A watermark-free download needs a Pro pass: {formatPlanPrice(PLANS.pro_weekly)} for
-          7 days, {formatPlanPrice(PLANS.pro_monthly)} for a month or {formatPlanPrice(PLANS.pro_yearly)} for
-          a year, each paid once and never renewed automatically.
+          account. A watermark-free download needs Pro: {formatPlanPrice(PLANS.pro_weekly)} a week,{" "}
+          {formatPlanPrice(PLANS.pro_monthly)} a month or {formatPlanPrice(PLANS.pro_yearly)} a year. Plans
+          renew automatically until you cancel, which takes one click on your account page.
         </p>
       </div>
 
@@ -491,12 +493,11 @@ export default function PricingPage() {
               />
 
               {/* Under the CTA because that is where "am I locking myself in?"
-                  gets asked. A pass runs for the period bought and stops on its
-                  own; app/terms/page.tsx says the same. */}
-              <p className="mt-3 text-center text-xs text-slate-500">
-                {stripeConfigured
-                  ? "Secure payment by Stripe · no auto-renewal"
-                  : "Cancel anytime — no auto-renewal"}
+                  gets asked — and because the law on auto-renewal wants the
+                  price, the interval and "until you cancel" next to the
+                  button, not in the Terms. app/terms/page.tsx says the same. */}
+              <p className="mt-3 text-center text-xs text-slate-600">
+                {renewalPhrase(PLANS[row.id as PaidPlanId])}. Cancel anytime in one click.
               </p>
             </div>
           );
@@ -504,7 +505,7 @@ export default function PricingPage() {
       </div>
 
       <p className="mt-4 text-center text-xs text-slate-500">
-        By buying a plan you agree to our{" "}
+        Plans renew automatically until you cancel. By buying a plan you agree to our{" "}
         <Link href="/terms" className="underline hover:text-slate-700">Terms of Use</Link> and{" "}
         <Link href="/privacy" className="underline hover:text-slate-700">Privacy Policy</Link>.
       </p>

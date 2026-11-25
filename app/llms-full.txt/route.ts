@@ -8,8 +8,8 @@ import { SOURCES } from "@/lib/sources";
 import { BRAND_TEMPLATES, brandCategoryFor } from "@/lib/brands";
 import { byDemand } from "@/lib/topic-clusters";
 
-/** "7 days" rather than "/week": a pass is paid once and never renews. */
-const PASS_LENGTH = { week: "7 days", month: "1 month", year: "1 year" } as const;
+/** "a week" — Pro plans renew every period until cancelled (since 2026-11-24). */
+const PERIOD = { week: "a week", month: "a month", year: "a year" } as const;
 
 // Regenerate hourly so newly published blog posts appear without a redeploy.
 export const revalidate = 3600;
@@ -47,7 +47,7 @@ export async function GET() {
       const price =
         p.price === 0 || !p.interval
           ? "Free"
-          : `${formatPlanPrice(p)} one-time pass for ${PASS_LENGTH[p.interval]}, never renews`;
+          : `${formatPlanPrice(p)} ${PERIOD[p.interval]}, renews automatically until cancelled; cancel in one click on the account page`;
       return `- **${p.name}** (${price}): ${p.features.join("; ")}`;
     })
     .join("\n");
@@ -67,7 +67,7 @@ export async function GET() {
 
   const body = `# ${SITE.name} — Full Reference
 
-> ${SITE.name} is a free online receipt maker at ${SITE.url}. Users build professional receipts with a live preview — free, with no sign-up. Downloading needs no account either: free downloads (PDF, PNG or JPG) carry a small watermark. A watermark-free download needs Pro, a one-time pass from ${formatPlanPrice(PLANS.pro_weekly)} for 7 days, bought at checkout with no account needed and never renewed; Pro also unlocks unlimited AI generation. Manual receipt building is processed entirely in the browser; only the optional AI generator and account features send data to a server.
+> ${SITE.name} is a free online receipt maker at ${SITE.url}. Users build professional receipts with a live preview — free, with no sign-up. Downloading needs no account either: free downloads (PDF, PNG or JPG) carry a small watermark. A watermark-free download needs Pro, from ${formatPlanPrice(PLANS.pro_weekly)} a week, bought at checkout with no account needed and renewing until cancelled; Pro also unlocks unlimited AI generation. Manual receipt building is processed entirely in the browser; only the optional AI generator and account features send data to a server.
 
 Written and reviewed by the ${SITE.name} team (${SITE.url}/authors); editorial standards at ${SITE.url}/editorial-policy. Contact: ${SITE.email}.
 

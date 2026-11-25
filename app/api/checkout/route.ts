@@ -6,6 +6,7 @@ import { PLANS, formatPlanPrice, planChange } from "@/lib/plans";
 import { absoluteUrl } from "@/lib/site";
 import { stripeConfigured, stripeTestConfigured } from "@/lib/stripe";
 import { createPassCheckout } from "@/lib/stripe-passes";
+import { hasPassHistory, memberSubscriptionRow } from "@/lib/stripe-subscriptions";
 import { recordServerEvent, errorText } from "@/lib/server-events";
 import { BOT_UA } from "@/lib/analytics-events";
 
@@ -77,8 +78,37 @@ function isAutomated(request: Request): boolean {
   return mode !== null && mode !== "navigate";
 }
 
+/**
+ * Should this member be sold an auto-renewing plan?
+ *
+ * Only someone who has never bought: everyone who already holds or held a pass
+ * was promised one that never renews, and keeps buying passes (owner decision,
+ * 2026-11-24). If the history cannot be read, sell the pass — the one that can
+ * never charge anyone by surprise.
+ */
+async function sellsRenewal(userId: string): Promise<boolean> {
+  try {
+    return !(await hasPassHistory(userId));
+  } catch (err) {
+    console.error("[checkout] could not read purchase history; selling a pass", err);
+    return false;
+  }
+}
+
+/** A plan that is still charging or still running — managed on /account, not bought twice. */
+async function hasLivePlan(userId: string): Promise<boolean> {
+  try {
+    const row = await memberSubscriptionRow(userId);
+    if (!row) return false;
+    return ["active", "trialing", "past_due", "unpaid"].includes(row.status as string);
+  } catch {
+    return false;
+  }
+}
+
 export async function GET(request: Request) {
-  const plan = new URL(request.url).searchParams.get("plan");
+  const params = new URL(request.url).searchParams;
+  const plan = params.get("plan");
   if (!isPlan(plan)) return go(absoluteUrl("/pricing"));
   // No session, no alert, no event. A person who somehow lands here is sent to
   // /pricing, one click from trying again.
@@ -102,17 +132,20 @@ export async function GET(request: Request) {
      */
     if (stripeConfigured) {
       try {
-        const url = await createPassCheckout({ plan, userId: null, email: null, change: "new" });
+        // A guest has no history we can see, so they are a new buyer: the plan
+        // renews, and the Stripe page says so before they pay.
+        const url = await createPassCheckout({ plan, userId: null, email: null, change: "new", renew: true });
         after(() =>
           notify("🛒 Checkout started", {
             Plan: `${chosen.name} (${formatPlanPrice(chosen)})`,
             Email: null,
             Rail: "Stripe",
+            Renews: "yes",
             User: "guest",
           })
         );
         after(() =>
-          recordServerEvent("checkout_opened", null, { plan, change: "new", rail: "stripe", guest: true })
+          recordServerEvent("checkout_opened", null, { plan, change: "new", rail: "stripe", guest: true, renews: true })
         );
         return go(url);
       } catch (err) {
@@ -132,8 +165,15 @@ export async function GET(request: Request) {
 
   // A member may extend or move to a longer plan, never to a shorter one while
   // the longer pass is still running — see planChange in lib/plans.ts.
+  // A member on an auto-renewing plan changes it from /account (switch, cancel,
+  // resume) — a second checkout would start a second plan on the same card.
+  if (await hasLivePlan(account.userId!)) return go(absoluteUrl("/account#plan"));
+
   const change = planChange(account.plan, plan);
   if (change === "downgrade") return go(absoluteUrl("/account"));
+  // An admin can rehearse the new-buyer checkout with ?renew=1 even though
+  // their own account has pass history.
+  const renew = (account.isAdmin && params.get("renew") === "1") || (await sellsRenewal(account.userId!));
 
   /**
    * Stripe, when a key is configured: a Checkout Session for a one-time pass,
@@ -152,12 +192,14 @@ export async function GET(request: Request) {
         email: account.email ?? null,
         test: stripeTest,
         change,
+        renew,
       });
       after(() =>
         notify("🛒 Checkout started", {
           Plan: `${chosen.name} (${formatPlanPrice(chosen)})`,
           Email: account.email,
           Rail: stripeTest ? "Stripe (test)" : "Stripe",
+          Renews: renew ? "yes" : "no (pass)",
           Change: change === "new" ? null : `${change} from ${PLANS[account.plan as keyof typeof PLANS]?.name}`,
           User: account.userId,
         })
@@ -167,6 +209,7 @@ export async function GET(request: Request) {
           plan,
           change,
           rail: stripeTest ? "stripe_test" : "stripe",
+          renews: renew,
         })
       );
       return go(url);

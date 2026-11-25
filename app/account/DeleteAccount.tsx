@@ -44,7 +44,7 @@ export default function DeleteAccount({ hasPro }: { hasPro: boolean }) {
       <h3 className="text-base font-semibold text-red-900">Delete your account</h3>
       <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-red-900">
         <li>Your saved receipts, chat history, usage and newsletter subscription are deleted.</li>
-        {hasPro && <li>Your Pro access ends now. Unused time is not refunded.</li>}
+        {hasPro && <li>Your Pro access ends now and nothing is charged again. Unused time is not refunded.</li>}
         <li>Payment records stay with Stripe, as tax law requires.</li>
         <li>This cannot be undone.</li>
       </ul>

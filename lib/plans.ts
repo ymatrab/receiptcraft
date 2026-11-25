@@ -196,6 +196,17 @@ export const PLANS: Record<PlanId, Plan> = {
   },
 };
 
+/**
+ * "Renews every week at $3 until you cancel" — the sentence every buy button
+ * for an auto-renewing plan carries. Written once, because the law that governs
+ * auto-renewal (ROSCA, and California's stricter version) asks for the price,
+ * the interval and the fact that it continues to sit next to the button, and a
+ * hand-typed copy of that sentence is the one that falls behind a price change.
+ */
+export function renewalPhrase(plan: Plan): string {
+  return `Renews every ${plan.interval} at ${formatPlanPrice(plan)} until you cancel`;
+}
+
 /** The three plans a buyer can pay for — everything in PLANS except free. */
 export type PaidPlanId = Exclude<PlanId, "free">;
 
@@ -260,8 +271,8 @@ export function isProStatus(status: string | null | undefined): boolean {
 /**
  * Statuses that can still entitle the holder, given an unexpired period.
  *
- * `canceled` belongs here, and that is the whole point. Nothing on this product
- * auto-renews: every plan is a pass bought for a period. A row is marked
+ * `canceled` belongs here, and that is the whole point. A pass (every sale
+ * before 2026-11-24) is bought for a period and never renews. A row is marked
  * cancelled so the buyer can see for themselves that they will not be charged
  * again — it is a trust signal about *billing*, not a revocation of *access*.
  *
