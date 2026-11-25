@@ -159,7 +159,7 @@ export default function ProActivating({ sessionId, guest = false }: { sessionId?
         title="Pro is active"
         body={
           label
-            ? `Your ${label} pass is on. Downloads are watermark-free from now on.`
+            ? `Your ${label} plan is on. Downloads are watermark-free from now on.`
             : "Downloads are watermark-free from now on."
         }
       >
@@ -195,7 +195,7 @@ export default function ProActivating({ sessionId, guest = false }: { sessionId?
         body={
           claimFailed
             ? "Pro is being added to the account for the email you paid with. Sign in with that email to download without the watermark — if you have never set a password, use “Forgot password” or continue with Google."
-            : `${label ? `Your ${label} pass` : "Pro"} was added to the account for the email you paid with. Sign in to it to download without the watermark — if you have never set a password, use “Forgot password” or continue with Google.`
+            : `${label ? `Your ${label} plan` : "Pro"} was added to the account for the email you paid with. Sign in to it to download without the watermark — if you have never set a password, use “Forgot password” or continue with Google.`
         }
       >
         <div className="mt-6 flex flex-wrap justify-center gap-3">

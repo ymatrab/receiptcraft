@@ -442,7 +442,7 @@ export default function LoginForm({
         : {
             title: `Welcome to ${SITE.name}`,
             blurb:
-              "Log in to use AI receipt generation and your Pro pass. The free builder and watermarked downloads work without an account.",
+              "Log in to use AI receipt generation and your Pro plan. The free builder and watermarked downloads work without an account.",
           };
 
   const header = (

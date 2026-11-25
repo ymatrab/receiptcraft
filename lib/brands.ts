@@ -47,10 +47,10 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     // went with the misuse review (the page draws "fake walmart receipt" queries).
     seoTitle: "Free Walmart Receipt Generator & Template — Itemized Receipt Maker",
     seoDescription:
-      `Fill in an editable Walmart receipt template with items, prices, tax, store details and date. Free watermarked PDF or PNG; a pass from ${PASS_FROM} removes the watermark.`,
+      `Fill in an editable Walmart receipt template with items, prices, tax, store details and date. Free watermarked PDF or PNG; Pro from ${PASS_FROM} a week removes it.`,
     heading: "Walmart Receipt Generator & Template",
     intro:
-      `Fill in a Walmart receipt template with itemized products, quantities, tax and payment details, then download it as a PDF or PNG. Building it and a watermarked download are free; a pass from ${PASS_FROM} removes the watermark.`,
+      `Fill in a Walmart receipt template with itemized products, quantities, tax and payment details, then download it as a PDF or PNG. Building it and a watermarked download are free; Pro from ${PASS_FROM} a week removes the watermark.`,
     useCases: [
       "Records of your own Walmart purchases",
       "Personal bookkeeping and budgeting",
@@ -87,7 +87,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🚗",
     seoTitle: "Uber Receipt Generator & Template — Uber Trip Receipt",
     seoDescription:
-      "Uber receipt generator and template: trip fare, booking fee, tip, pickup and drop-off times, then a PDF or PNG. Free download is watermarked; a pass clears it.",
+      "Uber receipt generator and template: trip fare, booking fee, tip, pickup and drop-off times, then a PDF or PNG. Free download is watermarked; Pro clears it.",
     heading: "Uber Receipt Generator & Template",
     intro:
       "Make an Uber-style trip receipt with the fare, booking fee and tip, the ride type and the pickup and drop-off times, then download it as a PDF or PNG.",
@@ -117,7 +117,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Is the Uber receipt generator free?",
         answer:
-          `Building and a watermarked download are free with no account; a clean download needs a pass from ${PASS_FROM}.`,
+          `Building and a watermarked download are free with no account; a clean download needs Pro from ${PASS_FROM} a week.`,
       },
       {
         question: "Is this an official Uber receipt?",
@@ -182,7 +182,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Is the Target receipt generator free?",
         answer:
-          `Building and a watermarked download are free with no account; a clean download needs a pass from ${PASS_FROM}.`,
+          `Building and a watermarked download are free with no account; a clean download needs Pro from ${PASS_FROM} a week.`,
       },
       {
         question: "Can I change the tax rate and item numbers?",
@@ -286,10 +286,10 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     // template" — the hub keeps its own title and links here with that anchor.
     seoTitle: "Starbucks Receipt Template & Generator — Coffee Receipt Maker",
     seoDescription:
-      `Fill in a Starbucks receipt template with your drinks, food, tax, store details and order date. Free watermarked PDF or PNG; a pass from ${PASS_FROM} removes the watermark.`,
+      `Fill in a Starbucks receipt template with your drinks, food, tax, store details and order date. Free watermarked PDF or PNG; Pro from ${PASS_FROM} a week removes it.`,
     heading: "Starbucks Receipt Template & Generator",
     intro:
-      `Fill in a Starbucks receipt template with your lattes, cold brews and pastries, then download it as a PDF or PNG. Building it and a watermarked download are free; a pass from ${PASS_FROM} removes the watermark.`,
+      `Fill in a Starbucks receipt template with your lattes, cold brews and pastries, then download it as a PDF or PNG. Building it and a watermarked download are free; Pro from ${PASS_FROM} a week removes the watermark.`,
     useCases: [
       "Records of your own purchases",
       "Petty cash documentation",
@@ -541,10 +541,10 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "🌯",
     seoTitle: "Free Chipotle Receipt Generator — Chipotle Receipt Maker",
     seoDescription:
-      `Chipotle receipt generator: add burritos, bowls, chips and guac, edit prices, tax and date. Free watermarked PDF; a pass from ${PASS_FROM} removes the watermark.`,
+      `Chipotle receipt generator: add burritos, bowls, chips and guac, edit prices, tax and date. Free watermarked PDF; Pro from ${PASS_FROM} a week removes the watermark.`,
     heading: "Chipotle Receipt Generator",
     intro:
-      `Build a Chipotle Mexican Grill receipt with burritos, bowls and sides in the Chipotle receipt generator. Building it and a watermarked download are free; a clean download needs a pass from ${PASS_FROM}.`,
+      `Build a Chipotle Mexican Grill receipt with burritos, bowls and sides in the Chipotle receipt generator. Building it and a watermarked download are free; a clean download needs Pro from ${PASS_FROM} a week.`,
     useCases: [
       "Records of your own purchases",
       "Track Chipotle spending in a budget",
@@ -1849,7 +1849,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       "Walgreens receipt template with pharmacy items, myWalgreens savings, sales tax and card line. Edit every field, download a watermarked PDF or PNG free.",
     heading: "Walgreens Receipt Template & Generator",
     intro:
-      `Make a Walgreens-style pharmacy receipt with health and convenience items, a myWalgreens savings line, sales tax and the card's last four digits. Edit every field with a live preview and download a PDF or PNG; the free download is watermarked and a pass from ${PASS_FROM} removes it.`,
+      `Make a Walgreens-style pharmacy receipt with health and convenience items, a myWalgreens savings line, sales tax and the card's last four digits. Edit every field with a live preview and download a PDF or PNG; the free download is watermarked and Pro from ${PASS_FROM} a week removes it.`,
     useCases: [
       "Records of your own purchases",
       "A sample pharmacy receipt for a mockup or demo",
@@ -2130,7 +2130,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Is the Best Buy receipt generator free?",
         answer:
-          `Building and a watermarked download are free with no account; a clean download needs a pass from ${PASS_FROM}.`,
+          `Building and a watermarked download are free with no account; a clean download needs Pro from ${PASS_FROM} a week.`,
       },
       {
         question: "Can I edit the SKUs and the protection plan?",
@@ -2406,7 +2406,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "📱",
     seoTitle: "Apple Receipt Generator — iPhone & Apple Store Receipts",
     seoDescription:
-      `Apple receipt generator: add iPhone, AirPods and AppleCare lines, set the tax, get a PDF or PNG. The free download is watermarked; a ${PASS_FROM} pass removes it.`,
+      `Apple receipt generator: add iPhone, AirPods and AppleCare lines, set the tax, get a PDF or PNG. Free download is watermarked; Pro from ${PASS_FROM} a week removes it.`,
     heading: "Apple Receipt Generator — Make an Apple Store Receipt",
     intro:
       "Create an Apple Store-style receipt with an iPhone, AirPods, accessories and AppleCare+, set the tax, then download it as a PDF or PNG.",
@@ -2436,7 +2436,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Is the Apple receipt generator free?",
         answer:
-          `Building and a watermarked PDF or PNG are free with no account; a pass from ${PASS_FROM} removes the watermark.`,
+          `Building and a watermarked PDF or PNG are free with no account; Pro from ${PASS_FROM} a week removes the watermark.`,
       },
       {
         question: "Can I add AppleCare to the receipt?",
@@ -3590,7 +3590,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     // receipt" join the title and H1 in creation terms.
     seoTitle: "Lyft Receipt Generator — Make a Lyft Ride Receipt PDF",
     seoDescription:
-      `Make a Lyft ride receipt online: fare, distance, time, tip and pickup. Free to build with a watermarked PDF or PNG; a pass from ${PASS_FROM} removes the watermark.`,
+      `Make a Lyft ride receipt online: fare, distance, time, tip and pickup. Free to build with a watermarked PDF or PNG; Pro from ${PASS_FROM} a week removes the watermark.`,
     heading: "Lyft Receipt Generator: Make a Lyft Ride Receipt PDF",
     intro:
       "Make a Lyft-style ride receipt with the fare, distance, time, service fee and tip, plus the ride type and timed pickup and drop-off, then download it as a PDF or PNG.",
@@ -3603,7 +3603,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         heading: "Download your Lyft receipt template as a PDF or PNG",
         body:
-          `The editor exports a print-ready PDF or a high-resolution PNG, with no account needed. The free download carries a small watermark, and a pass from ${PASS_FROM} removes it. Print the PDF or attach the PNG wherever you keep your records.`,
+          `The editor exports a print-ready PDF or a high-resolution PNG, with no account needed. The free download carries a small watermark, and Pro from ${PASS_FROM} a week removes it. Print the PDF or attach the PNG wherever you keep your records.`,
       },
       {
         heading: "Add the fare, service fee, ride type and tip",
@@ -3616,7 +3616,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I download the Lyft receipt as a PDF?",
         answer:
-          `Yes. Download a PDF or PNG with no account; free downloads carry a small watermark, and a pass from ${PASS_FROM} removes it.`,
+          `Yes. Download a PDF or PNG with no account; free downloads carry a small watermark, and Pro from ${PASS_FROM} a week removes it.`,
       },
       {
         question: "Can I add a tip to the Lyft receipt?",
@@ -3760,7 +3760,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         heading: "Download an Uber Eats receipt as a PDF",
         body:
-          `The order layout downloads as a print-ready PDF or a PNG with no account. The free download carries a small watermark, and a pass from ${PASS_FROM} removes it.`,
+          `The order layout downloads as a print-ready PDF or a PNG with no account. The free download carries a small watermark, and Pro from ${PASS_FROM} a week removes it.`,
       },
       {
         heading: "Uber Eats order receipt example",
@@ -3777,7 +3777,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Can I download the Uber Eats receipt as a PDF?",
         answer:
-          `Yes. Download a print-ready PDF or PNG; free downloads carry a watermark, and a pass from ${PASS_FROM} removes it.`,
+          `Yes. Download a print-ready PDF or PNG; free downloads carry a watermark, and Pro from ${PASS_FROM} a week removes it.`,
       },
       {
         question: "Can I edit the delivery fee, service fee and tip?",
@@ -4605,7 +4605,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     icon: "⛽",
     seoTitle: "Chevron Receipt Generator — Make a Chevron Gas Receipt",
     seoDescription:
-      "Chevron receipt generator: set the pump, fuel grade, gallons and price per gallon, then get a PDF or PNG. The free download is watermarked; a pass removes it.",
+      "Chevron receipt generator: set the pump, fuel grade, gallons and price per gallon, then get a PDF or PNG. The free download is watermarked; Pro removes it.",
     heading: "Chevron Receipt Generator — Chevron Gas Station Receipt",
     intro:
       "Create a Chevron-style gas station receipt: the fuel grade, gallons and price per gallon, any store items, the tax and the total, then download it as a PDF or PNG.",
@@ -4645,7 +4645,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
       {
         question: "Is the download free?",
         answer:
-          `A watermarked PDF or PNG is free with no account; a pass from ${PASS_FROM} removes the watermark.`,
+          `A watermarked PDF or PNG is free with no account; Pro from ${PASS_FROM} a week removes the watermark.`,
       },
     ],
     defaults: {
@@ -5253,7 +5253,7 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     // copy says plainly what it is (a sample layout for your own records, with
     // a watermark on the free download) and drops the lost-receipt use case.
     seoDescription:
-      `Lay out a PayPal-style payment receipt with payee, amount, fees and date for your own records. Free watermarked PDF or PNG; a pass from ${PASS_FROM} removes the watermark.`,
+      `Lay out a PayPal-style payment receipt with payee, amount, fees and date for your own records. Free watermarked PDF or PNG; Pro from ${PASS_FROM} a week removes it.`,
     heading: "PayPal Receipt Generator",
     intro:
       "Lay out a PayPal-style payment receipt with payee, amount and transaction ID for your own records. It is a sample layout, not a confirmation from PayPal: only PayPal can confirm a payment.",
@@ -5679,10 +5679,10 @@ const HAND_BRANDS: ReceiptTemplate[] = [
     // on. No reimbursement or HSA/FSA angle, by the owner's brief.
     seoTitle: "Planet Fitness Receipt & Invoice Template — Free to Build",
     seoDescription:
-      `Make a Planet Fitness membership receipt or invoice with plan, club, billing date and dues. Watermarked download is free; a pass from ${PASS_FROM} removes it.`,
+      `Make a Planet Fitness membership receipt or invoice with plan, club, billing date and dues. Watermarked download is free; Pro from ${PASS_FROM} a week removes it.`,
     heading: "Planet Fitness Receipt Generator for Membership Dues",
     intro:
-      `Make a Planet Fitness membership receipt or invoice with your plan, home club, billing date and dues. Building it and a watermarked download are free; a pass from ${PASS_FROM} removes the watermark.`,
+      `Make a Planet Fitness membership receipt or invoice with your plan, home club, billing date and dues. Building it and a watermarked download are free; Pro from ${PASS_FROM} a week removes the watermark.`,
     useCases: [
       "Records of your own membership payments",
       "Household budgeting for gym dues",
@@ -6204,7 +6204,7 @@ const SEED_COPY: Record<string, Partial<Pick<ReceiptTemplate, "seoTitle" | "seoD
     seoDescription:
       "Deliveroo receipt generator: dishes, service fee, delivery fee, rider tip and total in £. Edit every line, then download a customer receipt PDF or PNG.",
     intro:
-      `Make a Deliveroo-style order receipt with the restaurant, each dish, the service fee, delivery fee, rider tip and total in pounds. Edit every field with a live preview and download a PDF or PNG; the free download carries a small watermark and a pass from ${PASS_FROM} removes it.`,
+      `Make a Deliveroo-style order receipt with the restaurant, each dish, the service fee, delivery fee, rider tip and total in pounds. Edit every field with a live preview and download a PDF or PNG; the free download carries a small watermark and Pro from ${PASS_FROM} a week removes it.`,
     guidance: [
       {
         heading: "Deliveroo receipt sample: a London food order",
@@ -6214,7 +6214,7 @@ const SEED_COPY: Record<string, Partial<Pick<ReceiptTemplate, "seoTitle" | "seoD
       {
         heading: "Save your Deliveroo receipt as a PDF",
         body:
-          `Download the receipt as a print-ready PDF or a PNG for your own records or expense notes. The free download carries a small watermark; a pass from ${PASS_FROM} removes it. It is an independent template, not issued by Deliveroo and not proof of purchase.`,
+          `Download the receipt as a print-ready PDF or a PNG for your own records or expense notes. The free download carries a small watermark; Pro from ${PASS_FROM} a week removes it. It is an independent template, not issued by Deliveroo and not proof of purchase.`,
       },
       {
         heading: "VAT on a Deliveroo receipt",
@@ -6250,7 +6250,7 @@ const SEED_COPY: Record<string, Partial<Pick<ReceiptTemplate, "seoTitle" | "seoD
     seoDescription:
       "DiDi receipt generator for a ride: base fare, per-km and per-minute charges, request fee and total in pesos or any currency. Watermarked PDF or PNG free.",
     intro:
-      `Make a DiDi-style trip receipt with the base fare, per-kilometre and per-minute charges, request fee and total, in Mexican pesos or any currency you set. Edit every field with a live preview and download a PDF or PNG; the free download is watermarked and a pass from ${PASS_FROM} removes it.`,
+      `Make a DiDi-style trip receipt with the base fare, per-kilometre and per-minute charges, request fee and total, in Mexican pesos or any currency you set. Edit every field with a live preview and download a PDF or PNG; the free download is watermarked and Pro from ${PASS_FROM} a week removes it.`,
     guidance: [
       {
         heading: "DiDi receipt sample: a DiDi Express ride in Mexico City",
@@ -6298,14 +6298,14 @@ const SEED_COPY: Record<string, Partial<Pick<ReceiptTemplate, "seoTitle" | "seoD
           "1. Open the generator: it starts with a Little Caesars-style carry-out order, two pizzas and Crazy Bread.\n\n" +
           "2. Edit the store, the order number, the cashier and the items, with the price of each pizza on its own line.\n\n" +
           "3. Set the sales tax rate for the store's address. The receipt works out the tax and the total from it.\n\n" +
-          `4. Download it as a PDF or PNG. The free download carries a small watermark; a pass from ${PASS_FROM} removes it.`,
+          `4. Download it as a PDF or PNG. The free download carries a small watermark; Pro from ${PASS_FROM} a week removes it.`,
       },
     ],
   },
   "grab": {
     seoTitle: "Grab Receipt Generator — Make a Grab Receipt PDF or PNG",
     seoDescription:
-      "Make a Grab receipt PDF or PNG with the fare, platform fee, tolls and promo, and set GST and currency. The free download is watermarked; a pass removes it.",
+      "Make a Grab receipt PDF or PNG with the fare, platform fee, tolls and promo, and set GST and currency. The free download is watermarked; Pro removes it.",
     heading: "Grab Receipt Generator — Make a Grab Receipt PDF",
     guidance: [
       {
@@ -6316,7 +6316,7 @@ const SEED_COPY: Record<string, Partial<Pick<ReceiptTemplate, "seoTitle" | "seoD
       {
         heading: "Export your Grab receipt as a PDF, PNG or JPG",
         body:
-          `Download a fitted or A4 print-ready PDF, a PNG or a JPG, all at 3x resolution. The free download carries a small watermark, and a pass from ${PASS_FROM} removes it.`,
+          `Download a fitted or A4 print-ready PDF, a PNG or a JPG, all at 3x resolution. The free download carries a small watermark, and Pro from ${PASS_FROM} a week removes it.`,
       },
       {
         heading: "Grab food and delivery orders",
@@ -6329,7 +6329,7 @@ const SEED_COPY: Record<string, Partial<Pick<ReceiptTemplate, "seoTitle" | "seoD
       {
         question: "Can I download the Grab receipt as a PDF?",
         answer:
-          `Yes. Export a fitted or A4 print-ready PDF, a PNG or a JPG. The free download carries a small watermark, which a pass from ${PASS_FROM} removes.`,
+          `Yes. Export a fitted or A4 print-ready PDF, a PNG or a JPG. The free download carries a small watermark, which Pro from ${PASS_FROM} a week removes.`,
       },
       {
         question: "Can I change the currency from SGD?",
@@ -6346,7 +6346,7 @@ const SEED_COPY: Record<string, Partial<Pick<ReceiptTemplate, "seoTitle" | "seoD
   "balenciaga": {
     seoTitle: "Balenciaga Receipt Generator — Make a Balenciaga Receipt",
     seoDescription:
-      "Balenciaga receipt generator: add bags, sneakers or slides, set the sales tax and currency, get a PDF or PNG. Free download is watermarked; a pass removes it.",
+      "Balenciaga receipt generator: add bags, sneakers or slides, set the sales tax and currency, get a PDF or PNG. Free download is watermarked; Pro removes it.",
     heading: "Balenciaga Receipt Generator for Bags, Sneakers & Slides",
     guidance: [
       {
