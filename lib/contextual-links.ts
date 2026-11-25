@@ -87,9 +87,13 @@ export const CONTEXT_LINKS: Readonly<Record<string, readonly string[]>> = {
   ],
 
   // Hand-offs to the sell page that owns a split query (keyword map, 2026-11-16).
+  "/templates/restaurant": [
+    "Ordered through Deliveroo for delivery? The {link:/brands/deliveroo|Deliveroo receipt generator} adds the delivery fee, service fee and rider tip.",
+  ],
   "/templates/taxi": [
     "Riding with Uber? The {link:/brands/uber|Uber receipt generator} lays out an Uber-style trip receipt; this template is for taxis, cabs and other car services.",
     "Booked the ride with Grab in Southeast Asia? Use the {link:/brands/grab|Grab receipt generator}.",
+    "Rode with DiDi in Mexico or Latin America? Use the {link:/brands/didi|DiDi receipt generator}.",
   ],
   "/brands/sunoco": [
     "Filled up at a Costco warehouse instead? Use the {link:/brands/costco|Costco receipt generator}.",

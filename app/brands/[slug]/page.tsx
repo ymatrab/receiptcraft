@@ -5,7 +5,7 @@ import { brandReviewedAt } from "@/lib/content-dates";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BRAND_TEMPLATES, anBrand, brandCategoryFor } from "@/lib/brands";
-import { CATEGORY_NOUN } from "@/lib/brand-categories";
+import { BRAND_NOUN, CATEGORY_NOUN } from "@/lib/brand-categories";
 import { previewFromTemplate } from "@/lib/receipt";
 import { docFromReceiptData } from "@/lib/sections";
 import { calcTotals, formatMoney } from "@/lib/format";
@@ -76,6 +76,7 @@ export default async function BrandTemplatePage({ params }: Props) {
   // receipt generator" ahead of /brands/target. Neighbours spread the links
   // evenly and keep each page's outbound anchors on its own topic.
   const category = brandCategoryFor(template.slug);
+  const noun = BRAND_NOUN[template.slug] ?? CATEGORY_NOUN[category];
   const siblings = BRAND_TEMPLATES.filter((t) => brandCategoryFor(t.slug) === category);
   const at = siblings.findIndex((t) => t.slug === template.slug);
   const related = Array.from({ length: Math.min(4, siblings.length - 1) }, (_, i) =>
@@ -256,7 +257,7 @@ export default async function BrandTemplatePage({ params }: Props) {
             <p className="mt-3 leading-relaxed text-slate-600">
               The {template.shortName} receipt generator is a {SITE.name} template that
               lays out {anBrand(template.shortName)}-style receipt with{" "}
-              {d.hideItems ? "the payee, amount, date and transaction details" : CATEGORY_NOUN[category]}{" "}
+              {d.hideItems ? "the payee, amount, date and transaction details" : noun}{" "}
               already filled in. You edit every field in your browser with a live
               preview and download a PDF or PNG with no account. Free downloads carry
               a small watermark; a one-time Pro pass from {formatPlanPrice(PLANS.pro_weekly)}{" "}
@@ -331,7 +332,7 @@ export default async function BrandTemplatePage({ params }: Props) {
             {d.businessName ?? template.shortName}
             {addr ? ` (${addr})` : ""} and {preview.items.length}{" "}
             sample {preview.items.length === 1 ? "item" : "items"} totalling{" "}
-            {money(totals.total)}. It shows {CATEGORY_NOUN[category]}, with{" "}
+            {money(totals.total)}. It shows {noun}, with{" "}
             {d.taxLabel ?? "tax"} set to {d.taxRate ?? 0}% on a{" "}
             {d.paperStyle ?? "thermal"}-style layout. Every field is editable —
             change the business details, items, prices, tax rate and currency,
