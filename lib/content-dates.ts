@@ -389,8 +389,9 @@ const INTRO_NOV25: ReadonlySet<string> = new Set([
   "frontier-airlines", "westin", "shipt", "canva", "epic-games", "patreon", "gnc",
   // Same day: "What's on … receipt" named no business on brands whose spec
   // leaves businessName empty ("opens pre-filled with and 1 sample item").
-  "amazon", "amazon-prime", "fedex", "hobby-lobby", "pandora", "party-city",
-  "paypal", "priceline", "sprouts", "total-wine", "vons", "walmart", "woolworths-au",
+  // (StockX, Coles, Shipt, Sprouts, Vons, Amazon Prime and Pandora are above.)
+  "amazon", "fedex", "hobby-lobby", "party-city", "paypal", "priceline",
+  "total-wine", "walmart", "woolworths-au",
 ]);
 const BRANDS_DEPTH_DROPPED_3: ReadonlySet<string> = new Set([
   "panda-express", "longhorn-steakhouse", "j-crew", "holiday-inn", "careem",
