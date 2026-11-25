@@ -358,8 +358,8 @@ const BRANDS_DEPTH_DROPPED_3_UPDATED = "2026-11-25";
 // example's brand link says "generator" and its phone is a Detroit number;
 // the Walgreens guides hand off to the brand page.
 const KEYWORDS_NOV25_UPDATED = "2026-11-25";
-const BRANDS_KEYWORDS_NOV25: ReadonlySet<string> = new Set(["walgreens", "stockx", "little-caesars"]);
-const TEMPLATES_KEYWORDS_NOV25: ReadonlySet<string> = new Set(["clothing-store-receipt", "pharmacy", "pizza-receipt"]);
+const BRANDS_KEYWORDS_NOV25: ReadonlySet<string> = new Set(["walgreens", "stockx", "little-caesars", "deliveroo", "didi"]);
+const TEMPLATES_KEYWORDS_NOV25: ReadonlySet<string> = new Set(["clothing-store-receipt", "pharmacy", "pizza-receipt", "restaurant", "taxi"]);
 const EXAMPLES_KEYWORDS_NOV25: ReadonlySet<string> = new Set(["little-caesars-receipt-deep-dish"]);
 const INTENT_HANDOFF_NOV25: ReadonlySet<string> = new Set(["walgreens"]);
 const BRANDS_DEPTH_DROPPED_3: ReadonlySet<string> = new Set([

@@ -6188,7 +6188,96 @@ const BRAND_ITEMS: Record<string, Omit<LineItem, "id">[]> = {
  * variant pool (SEOZONE tasks, 2026-11-20). Replaces the picked title, meta,
  * H1 and FAQs, and adds guidance sections; the FAQ list keeps the anchor.
  */
-const SEED_COPY: Record<string, Partial<Pick<ReceiptTemplate, "seoTitle" | "seoDescription" | "heading" | "guidance" | "faqs">>> = {
+const SEED_COPY: Record<string, Partial<Pick<ReceiptTemplate, "seoTitle" | "seoDescription" | "heading" | "intro" | "guidance" | "faqs">>> = {
+  // 2026-11-25: "deliveroo receipt pdf" / "deliveroo customer receipt pdf"
+  // (pos 8.5–11.5, 0 clicks). The page described a ride ("trip or order
+  // charges"); the lines named here are the researched order receipt's
+  // (lib/brand-specs.ts): dishes with add-ons, restaurant subtotal, delivery
+  // fee, service fee, rider tip, VAT line, total in pounds.
+  "deliveroo": {
+    seoTitle: "Deliveroo Receipt Generator — Customer Receipt PDF & PNG",
+    heading: "Deliveroo Receipt Generator & Template",
+    seoDescription:
+      "Deliveroo receipt generator: dishes, service fee, delivery fee, rider tip and total in £. Edit every line, then download a customer receipt PDF or PNG.",
+    intro:
+      `Make a Deliveroo-style order receipt with the restaurant, each dish, the service fee, delivery fee, rider tip and total in pounds. Edit every field with a live preview and download a PDF or PNG; the free download carries a small watermark and a pass from ${PASS_FROM} removes it.`,
+    guidance: [
+      {
+        heading: "Deliveroo receipt sample: a London food order",
+        body:
+          "The sample is a Deliveroo order receipt in pounds: the order number and date, the recipient, the restaurant and its address, the delivery address, then each dish with its add-ons, the restaurant subtotal, the delivery fee, the service fee and the rider tip. Every line is editable, so you can change the dishes, fees and tip to match the order.",
+      },
+      {
+        heading: "Save your Deliveroo receipt as a PDF",
+        body:
+          `Download the receipt as a print-ready PDF or a PNG for your own records or expense notes. The free download carries a small watermark; a pass from ${PASS_FROM} removes it. It is an independent template, not issued by Deliveroo and not proof of purchase.`,
+      },
+      {
+        heading: "VAT on a Deliveroo receipt",
+        body:
+          "The template's VAT line starts at 0% and can be set to any rate. For a receipt built around VAT, with the net amount, the rate and the VAT shown on their own lines, use the {link:/templates/vat-receipt|VAT receipt template}.",
+      },
+    ],
+    faqs: [
+      FAQ_ANCHOR("Deliveroo", "deliveroo"),
+      {
+        question: "Can I download the Deliveroo receipt as a PDF?",
+        answer:
+          `Yes, as a PDF or PNG. The free download carries a small watermark, and a one-time pass from ${PASS_FROM} removes it.`,
+      },
+      {
+        question: "Can I change the fees, tip and currency?",
+        answer:
+          "Yes. The service fee, delivery fee, rider tip, VAT rate and currency are all editable, along with every dish.",
+      },
+      {
+        question: "Is this an official Deliveroo receipt?",
+        answer:
+          "No. It is an independent template, not issued by Deliveroo and not proof of purchase.",
+      },
+    ],
+  },
+  // 2026-11-25: "didi receipt" (pos ~7, 0 clicks). The intro was the shared
+  // "Rebuild … from memory" line, which reads as recreating a real receipt.
+  // Fields named are the researched trip receipt's (lib/brand-specs.ts).
+  "didi": {
+    seoTitle: "DiDi Receipt Generator — Editable Trip Receipt PDF & PNG",
+    heading: "DiDi Receipt Generator",
+    seoDescription:
+      "DiDi receipt generator for a ride: base fare, per-km and per-minute charges, request fee and total in pesos or any currency. Watermarked PDF or PNG free.",
+    intro:
+      `Make a DiDi-style trip receipt with the base fare, per-kilometre and per-minute charges, request fee and total, in Mexican pesos or any currency you set. Edit every field with a live preview and download a PDF or PNG; the free download is watermarked and a pass from ${PASS_FROM} removes it.`,
+    guidance: [
+      {
+        heading: "DiDi receipt sample: a DiDi Express ride in Mexico City",
+        body:
+          "The sample is a DiDi Express trip receipt: the service type, origin and destination, distance, duration and driver, then the base fare, the distance and time charges, the request fee, the IVA line and the payment method. The sample is in Spanish; every label and line can be changed to any language.",
+      },
+      {
+        heading: "DiDi receipt vs a DiDi invoice (factura)",
+        body:
+          "The sample's footer notes that a factura is requested from the DiDi app. This template makes a trip receipt for your own records; it is not a tax invoice and not issued by DiDi.",
+      },
+    ],
+    faqs: [
+      FAQ_ANCHOR("DiDi", "didi"),
+      {
+        question: "Can I change the currency and IVA rate?",
+        answer:
+          "Yes. The currency, IVA rate, distance, time and every fare line are editable.",
+      },
+      {
+        question: "Is the DiDi receipt generator free?",
+        answer:
+          `Building a receipt and a watermarked download are free; a one-time pass from ${PASS_FROM} removes the watermark.`,
+      },
+      {
+        question: "Is this an official DiDi receipt or factura?",
+        answer:
+          "No. It is an independent template, not issued by DiDi and not proof of purchase.",
+      },
+    ],
+  },
   // 2026-11-25: this page should own "little caesars receipt generator" and
   // "little caesars receipt maker"; the maker query was going to the /brands
   // hub (30.7). The lines named are the researched receipt's

@@ -93,6 +93,16 @@ export const CATEGORY_NOUN: Record<BrandCategory, string> = {
   "Services & Other": "services, fees and tax",
 };
 
+/**
+ * Per-brand override of CATEGORY_NOUN where the category's phrasing is wrong
+ * for the receipt (2026-11-25: Deliveroo is a food order, not a trip). Named
+ * from the researched receipt in lib/brand-specs.ts.
+ */
+export const BRAND_NOUN: Record<string, string> = {
+  deliveroo: "dishes, the delivery fee, service fee and rider tip",
+  didi: "the base fare, distance and time charges and the request fee",
+};
+
 /** Fallback items when a generated brand seed doesn't specify its own. */
 export const CATEGORY_DEFAULT_ITEMS: Record<BrandCategory, Omit<LineItem, "id">[]> = {
   Restaurants: [
