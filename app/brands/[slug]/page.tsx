@@ -329,7 +329,9 @@ export default async function BrandTemplatePage({ params }: Props) {
           </h2>
           <p className="mt-4 max-w-3xl leading-relaxed text-slate-600">
             This {template.shortName} receipt template opens pre-filled with{" "}
-            {d.businessName ?? template.shortName}
+            {/* || not ??: 16 specs set businessName "" (the logo carries the
+                name), which rendered "opens pre-filled with and 1 sample item". */}
+            {d.businessName || template.shortName}
             {addr ? ` (${addr})` : ""} and {preview.items.length}{" "}
             sample {preview.items.length === 1 ? "item" : "items"} totalling{" "}
             {money(totals.total)}. It shows {noun}, with{" "}
