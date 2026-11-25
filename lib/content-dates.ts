@@ -370,6 +370,17 @@ const INTRO_NOV25: ReadonlySet<string> = new Set([
   "albertsons", "winco-foods", "shoprite", "coles", "kohls", "dollar-general", "rei",
   "cabelas", "tiffany-co", "coach", "kate-spade", "citgo", "kwik-trip", "jetblue",
   "spirit-airlines", "grammarly", "rite-aid", "dhl", "orangetheory",
+  // Same day: two more variants stopped naming tax twice ("…and sales tax —
+  // subtotal, tax and total included", "…sales tax, tax and totals").
+  "jersey-mike-s", "zaxbys", "church-s-chicken", "red-robin", "denny-s", "portillos",
+  "blue-bottle-coffee", "pret-a-manger", "einstein-bros-bagels", "giant-food",
+  "harris-teeter", "giant-eagle", "carrefour", "newegg", "kay-jewelers", "prada",
+  "chanel", "phillips-66", "days-inn", "comfort-inn", "grab", "gopuff", "caviar",
+  "apple-tv-plus", "microsoft-365", "equinox",
+  "hardees", "marco-s-pizza", "blaze-pizza", "cracker-barrel", "philz-coffee", "vons",
+  "fred-meyer", "loblaws", "jcpenney", "bed-bath-beyond", "hollister", "lululemon",
+  "adidas", "crate-barrel", "pandora", "marathon-gas", "sunoco", "air-canada",
+  "sheraton", "sixt", "bolt", "youtube-tv", "amazon-prime",
 ]);
 const BRANDS_DEPTH_DROPPED_3: ReadonlySet<string> = new Set([
   "panda-express", "longhorn-steakhouse", "j-crew", "holiday-inn", "careem",

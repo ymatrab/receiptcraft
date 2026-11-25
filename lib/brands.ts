@@ -5898,16 +5898,18 @@ function pickDistinct<T>(arr: T[], n: number, seed: number): T[] {
 
 // `city` is optional (BrandSeed) — every variant either uses it or ignores it,
 // so pages without a city just render the city-free half of the sentence.
+// Every CATEGORY_NOUN but Health & Pharmacy already ends in tax, so no variant
+// names tax again after ${noun} (2026-11-25: "…and sales tax, set the tax").
 const INTRO_VARIANTS: ((n: string, noun: string, city?: string) => string)[] = [
   (n, noun) => `Create an editable ${n} receipt with ${noun}. Perfect for your own records of a real ${n} purchase, budgeting or design mockups.`,
   (n, noun) => `Need ${anBrand(n)} receipt fast? Build one with ${noun}, then download a PDF or PNG with no account. Free downloads carry a small watermark; Pro removes it.`,
   (n, noun) => `Lay out ${anBrand(n)}-style receipt complete with ${noun}. Adjust the totals and export it for your own records.`,
-  (n, noun) => `Make ${anBrand(n)} receipt online in seconds. Lay it out with ${noun} — subtotal, tax and total included — ready to print or save.`,
+  (n, noun) => `Make ${anBrand(n)} receipt online in seconds. Lay it out with ${noun}, plus the subtotal and total, ready to print or save.`,
   (n, noun, city) => `Build ${anBrand(n)} receipt${city ? ` for a visit to the ${city} location` : ""} with ${noun}. Edit the totals, then download it for expenses or your own records.`,
   // 2026-11-25: was "Rebuild … receipt from memory", which reads as recreating
   // a real receipt. 25 generated brand pages used it (content-dates INTRO_NOV25).
-  (n, noun) => `Start from ${anBrand(n)} receipt layout, add ${noun}, set the tax and total, then export a PDF or PNG in under a minute.`,
-  (n, noun, city) => `Whether you're replacing a receipt from ${anBrand(n)}${city ? ` in ${city}` : ""} or issuing one yourself, this generator handles ${noun}, tax and totals in one editable layout.`,
+  (n, noun) => `Start from ${anBrand(n)} receipt layout with ${noun}, edit the totals, then export a PDF or PNG in under a minute.`,
+  (n, noun, city) => `Whether you're replacing a receipt from ${anBrand(n)}${city ? ` in ${city}` : ""} or issuing one yourself, this generator handles ${noun} and the totals in one editable layout.`,
   (n, noun) => `A ${n} receipt template with ${noun} already laid out — change the items, prices and date to match your own purchase, then download.`,
   (n, noun) => `Generate ${anBrand(n)}-style receipt with ${noun}. Free to build, with a live preview as you edit.`,
   (n, noun, city) => `This ${n} receipt generator lays out ${noun}${city ? `, styled after the ${city} store` : ""} — edit every field, then export as PDF or PNG.`,
