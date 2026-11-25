@@ -365,6 +365,22 @@ const BRANDS_KEYWORDS_NOV25: ReadonlySet<string> = new Set(["walgreens", "stockx
 const TEMPLATES_KEYWORDS_NOV25: ReadonlySet<string> = new Set(["clothing-store-receipt", "pharmacy", "pizza-receipt", "restaurant", "taxi"]);
 const EXAMPLES_KEYWORDS_NOV25: ReadonlySet<string> = new Set(["little-caesars-receipt-deep-dish"]);
 const INTENT_HANDOFF_NOV25: ReadonlySet<string> = new Set(["walgreens"]);
+// 2026-11-25: the "What's on … receipt" total and sample box left out per-item
+// discounts (calcTotals), so they disagreed with the receipt shown above them
+// (Walgreens $25.46 vs $23.46). These are the brands whose sample has one.
+const BRANDS_DISCOUNT_TOTALS_NOV25: ReadonlySet<string> = new Set([
+  "publix", "kroger", "whole-foods", "safeway", "sam-s-club", "h-m", "ulta-beauty",
+  "costco", "macy-s", "walgreens", "stop-shop", "woolworths-au", "food-lion",
+  "morrisons", "barnes-noble", "albert-heijn", "epic-games", "dick-s-sporting-goods",
+  "petco", "michael-kors", "shoprite", "giant-food", "harbor-freight", "jcpenney",
+  "fred-meyer", "sobeys", "vitamin-shoppe", "burlington", "bed-bath-beyond",
+  "marco-s-pizza", "meijer", "ralphs", "sainsburys", "h-e-b", "bath-body-works", "zales",
+  "wegmans", "qdoba", "world-market", "sprouts", "total-wine", "joann", "coles",
+  "albertsons", "kohls", "harris-teeter", "hollister", "giant-eagle", "michaels",
+  "hobby-lobby", "victorias-secret", "rite-aid", "pep-boys", "academy-sports", "gap",
+  "pottery-barn", "american-eagle", "urban-outfitters", "boots-pharmacy", "vons",
+  "old-navy", "denny-s", "banana-republic", "gnc", "duane-reade",
+]);
 // 2026-11-25: the shared "Rebuild … receipt from memory" intro (INTRO_VARIANTS
 // in lib/brands.ts) was reworded. These are the generated brand pages that pick
 // it; DiDi had its own intro already and is dated above.
@@ -384,6 +400,14 @@ const INTRO_NOV25: ReadonlySet<string> = new Set([
   "fred-meyer", "loblaws", "jcpenney", "bed-bath-beyond", "hollister", "lululemon",
   "adidas", "crate-barrel", "pandora", "marathon-gas", "sunoco", "air-canada",
   "sheraton", "sixt", "bolt", "youtube-tv", "amazon-prime",
+  // Same day: the "Recreate a … receipt" meta description variant was reworded.
+  "moe-s-southwest-grill", "longhorn-steakhouse", "sprouts", "hy-vee",
+  "frontier-airlines", "westin", "shipt", "canva", "epic-games", "patreon", "gnc",
+  // Same day: "What's on … receipt" named no business on brands whose spec
+  // leaves businessName empty ("opens pre-filled with and 1 sample item").
+  // (StockX, Coles, Shipt, Sprouts, Vons, Amazon Prime and Pandora are above.)
+  "amazon", "fedex", "hobby-lobby", "party-city", "paypal", "priceline",
+  "total-wine", "walmart", "woolworths-au",
 ]);
 const BRANDS_DEPTH_DROPPED_3: ReadonlySet<string> = new Set([
   "panda-express", "longhorn-steakhouse", "j-crew", "holiday-inn", "careem",
@@ -529,7 +553,8 @@ export function brandReviewedAt(slug: string): string {
     BRANDS_SOURCE_FIXED.has(slug) ? BRANDS_SOURCE_FIXED_UPDATED : null,
     BRANDS_WITH_HELP_SECTION.has(slug) ? BRANDS_HELP_REMOVED_UPDATED : null,
     brandMetaSaysWatermarked(slug) ? META_WATERMARK_UPDATED : null,
-    BRANDS_KEYWORDS_NOV25.has(slug) || INTRO_NOV25.has(slug) ? KEYWORDS_NOV25_UPDATED : null,
+    BRANDS_KEYWORDS_NOV25.has(slug) || INTRO_NOV25.has(slug) || BRANDS_DISCOUNT_TOTALS_NOV25.has(slug)
+      ? KEYWORDS_NOV25_UPDATED : null,
   );
 }
 

@@ -254,6 +254,8 @@ export interface ReceiptData {
 
 export interface ReceiptTotals {
   subtotal: number;
+  /** Per-item discounts (LineItem.discount), summed. */
+  itemDiscount: number;
   discount: number;
   tax: number;
   tip: number;

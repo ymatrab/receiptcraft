@@ -5909,7 +5909,9 @@ const INTRO_VARIANTS: ((n: string, noun: string, city?: string) => string)[] = [
   // 2026-11-25: was "Rebuild … receipt from memory", which reads as recreating
   // a real receipt. 25 generated brand pages used it (content-dates INTRO_NOV25).
   (n, noun) => `Start from ${anBrand(n)} receipt layout with ${noun}, edit the totals, then export a PDF or PNG in under a minute.`,
-  (n, noun, city) => `Whether you're replacing a receipt from ${anBrand(n)}${city ? ` in ${city}` : ""} or issuing one yourself, this generator handles ${noun} and the totals in one editable layout.`,
+  // 2026-11-25: was "Whether you're replacing a receipt from …", which reads as
+  // recreating a real one, and ran "…sales tax and the totals" together.
+  (n, noun, city) => `Keeping a record of ${anBrand(n)} purchase${city ? ` in ${city}` : ""}? Fill in ${noun}. The totals add up as you type, and the receipt downloads as a PDF or PNG.`,
   (n, noun) => `A ${n} receipt template with ${noun} already laid out — change the items, prices and date to match your own purchase, then download.`,
   (n, noun) => `Generate ${anBrand(n)}-style receipt with ${noun}. Free to build, with a live preview as you edit.`,
   (n, noun, city) => `This ${n} receipt generator lays out ${noun}${city ? `, styled after the ${city} store` : ""} — edit every field, then export as PDF or PNG.`,
@@ -5926,7 +5928,9 @@ const SEO_DESC_VARIANTS: ((n: string, noun: string) => string)[] = [
   (n, noun) => `Build ${anBrand(n)} receipt online with ${noun}, editable totals and tax. Free live preview — download as a PDF or PNG, no account needed.`,
   (n, noun) => `Free ${n} receipt maker: add ${noun}, set the date and totals, then export a PDF or PNG with no account.`,
   (n, noun) => `${n} receipt generator: lay out ${noun}, edit the totals and tax, then export a PDF or PNG. Free to build and preview.`,
-  (n, noun) => `Recreate ${anBrand(n)} receipt with ${noun} in a couple of clicks. Free preview and watermarked PDF or PNG, no account needed.`,
+  // 2026-11-25: was "Recreate a … receipt" — the same recreate-a-real-receipt
+  // reading as the old "from memory" intro. 15 pages (content-dates INTRO_NOV25).
+  (n, noun) => `Put together ${anBrand(n)} receipt with ${noun} in a couple of clicks. Free preview and watermarked PDF or PNG, no account needed.`,
   (n, noun) => `Build an editable ${n} receipt — ${noun}, custom tax and totals — and get a free watermarked PDF or PNG.`,
   (n, noun) => `A free ${n} receipt template with ${noun} pre-filled. Adjust the details and download a print-ready PDF or PNG.`,
   (n, noun) => `Fast, free ${n} receipt generator. Add ${noun}, set the tax rate, preview live, then export as a PDF or PNG.`,

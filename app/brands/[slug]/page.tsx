@@ -329,7 +329,9 @@ export default async function BrandTemplatePage({ params }: Props) {
           </h2>
           <p className="mt-4 max-w-3xl leading-relaxed text-slate-600">
             This {template.shortName} receipt template opens pre-filled with{" "}
-            {d.businessName ?? template.shortName}
+            {/* || not ??: 16 specs set businessName "" (the logo carries the
+                name), which rendered "opens pre-filled with and 1 sample item". */}
+            {d.businessName || template.shortName}
             {addr ? ` (${addr})` : ""} and {preview.items.length}{" "}
             sample {preview.items.length === 1 ? "item" : "items"} totalling{" "}
             {money(totals.total)}. It shows {noun}, with{" "}
@@ -359,6 +361,12 @@ export default async function BrandTemplatePage({ params }: Props) {
                 <dt>Subtotal</dt>
                 <dd className="tabular-nums">{money(totals.subtotal)}</dd>
               </div>
+              {totals.itemDiscount + totals.discount > 0 && (
+                <div className="flex justify-between text-slate-600">
+                  <dt>Discounts</dt>
+                  <dd className="tabular-nums">-{money(totals.itemDiscount + totals.discount)}</dd>
+                </div>
+              )}
               <div className="flex justify-between text-slate-600">
                 <dt>{d.taxLabel ?? "Tax"} ({d.taxRate ?? 0}%)</dt>
                 <dd className="tabular-nums">{money(totals.tax)}</dd>

@@ -82,11 +82,16 @@ export function taxLineAmounts(items: LineItem[], lines: TaxLine[], share: numbe
 export function calcTotals(data: ReceiptData): ReceiptTotals {
   const items = resolveItems(data.items);
   const subtotal = items.reduce((sum, item) => sum + itemGross(item), 0);
-  const discount = Math.min(Math.max(data.discount || 0, 0), subtotal);
-  const taxable = subtotal - discount;
+  // Per-item discounts come off before the order discount, as in itemsTotals
+  // (lib/sections.ts). Leaving them out made /brands/walgreens say $25.46
+  // beside a receipt that prints $23.46.
+  const itemDiscount = items.reduce((sum, item) => sum + itemGross(item) - itemNet(item), 0);
+  const afterItemDisc = subtotal - itemDiscount;
+  const discount = Math.min(Math.max(data.discount || 0, 0), afterItemDisc);
+  const taxable = afterItemDisc - discount;
   // Same rule as itemsTotals in lib/sections.ts (taxLineAmounts).
   const lines = data.taxLines?.length ? data.taxLines : [{ label: data.taxLabel, rate: data.taxRate || 0 }];
-  const share = subtotal > 0 ? 1 - discount / subtotal : 0;
+  const share = afterItemDisc > 0 ? 1 - discount / afterItemDisc : 0;
   const tax = taxLineAmounts(items, lines, share, data.taxIncluded).reduce((sum, l) => sum + l.amount, 0);
   const tip = Math.max(data.tip || 0, 0);
   const fees = Math.max(data.deliveryFee || 0, 0) + Math.max(data.serviceFee || 0, 0);
@@ -95,7 +100,7 @@ export function calcTotals(data: ReceiptData): ReceiptTotals {
     data.paymentMethod === "Cash" && data.amountTendered > total
       ? data.amountTendered - total
       : 0;
-  return { subtotal, discount, tax, tip, total, change };
+  return { subtotal, itemDiscount, discount, tax, tip, total, change };
 }
 
 export function formatDisplayDate(isoDate: string, order?: "dmy"): string {
