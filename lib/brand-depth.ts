@@ -1001,4 +1001,74 @@ export const BRAND_DEPTH: Record<string, BrandDepth> = {
     ],
     note: "A Regal receipt carries two codes after the payment: a survey access code and a Crown Club credit claim code, each valid for seven days. A boxed line above them states that the receipt is not valid for admission.",
   },
+  "panda-express": {
+    lines: [
+      { label: "Store number", meaning: "The restaurant's number prints with the name, e.g. Panda Express #1342." },
+      { label: "TO GO + order number", meaning: "Whether the order was for here or to go, and the order number called at the counter." },
+      { label: "Cashier", meaning: "The first name of the person who rang up the order." },
+      { label: "Plate / Bowl", meaning: "The meal size prints as the item, with the chosen entrees and side listed underneath it." },
+      { label: "Tax / Total", meaning: "Tax at the local rate, then the total." },
+      { label: "Survey Code", meaning: "A long code for the PandaGuestExperience.com survey at the bottom." },
+    ],
+    note: "On a Panda Express receipt the price belongs to the meal size, not to each dish: a Plate or Bowl is one line, and the entrees and side picked for it print beneath it without their own prices. Anything ordered on its own, like rangoons or a drink, gets a separate priced line.",
+    sources: [
+      { title: "Panda Express guest survey", url: "https://www.pandaguestexperience.com/" },
+    ],
+  },
+  "longhorn-steakhouse": {
+    lines: [
+      { label: "LongHorn + store number", meaning: "The restaurant prints as LongHorn followed by its four-digit store number." },
+      { label: "Check #", meaning: "The check number for the table." },
+      { label: "Table + server", meaning: "The table number and the server's name on their own lines." },
+      { label: "Gst", meaning: "The number of guests at the table." },
+      { label: "Guest No. headings", meaning: "Items are grouped under Guest No.1, Guest No.2 and so on, by who ordered them." },
+      { label: "Sales Tax / Total", meaning: "Sales tax on the food and drink, then the total." },
+      { label: "Card block", meaning: "Card type, masked number and an Auth code from the payment." },
+    ],
+    note: "A LongHorn check groups the order by seat, so each guest's steak, sides and drinks sit under their own Guest No. heading. That makes it easy to see who had what when the bill is split or one person's meal is claimed as an expense.",
+  },
+  "j-crew": {
+    lines: [
+      { label: "Store number", meaning: "The store's number prints in the address line, e.g. Store 0417." },
+      { label: "Associate + register", meaning: "The sales associate's name and the register number." },
+      { label: "SKU first", meaning: "Each item starts with its five-character style code, e.g. BV481, before the name." },
+      { label: "Color + size", meaning: "The item name carries the color and size, e.g. WHITE M or KHAKI 32x32." },
+      { label: "Sales Tax", meaning: "Tax applies only to the items that are taxable where the store is." },
+      { label: "Card + barcode", meaning: "The masked card number with its authorization, then a barcode for returns." },
+      { label: "Return line", meaning: "Store purchases can be returned to any J.Crew store with proof of purchase." },
+    ],
+    note: "J.Crew prints the style code ahead of each item and spells out color and size, which is what a return or exchange is matched against. In New York, clothing under $110 an item is exempt from sales tax, so on the template only the $148 sweater is taxed.",
+    sources: [
+      { title: "J.Crew returns", url: "https://www.jcrew.com/footie/returns.jsp" },
+      { title: "New York State: clothing and footwear exemption", url: "https://www.tax.ny.gov/pubs_and_bulls/tg_bulletins/st/clothing_and_footwear.htm" },
+    ],
+  },
+  "holiday-inn": {
+    lines: [
+      { label: "GUEST FOLIO", meaning: "A hotel folio rather than a till receipt, with the hotel's name and address at the top." },
+      { label: "Room No / Folio No", meaning: "The room number, the folio number and the confirmation number of the booking." },
+      { label: "Arrival / Departure", meaning: "Check-in and check-out dates, with the adult and child count." },
+      { label: "Rate", meaning: "The nightly room rate." },
+      { label: "IHG One Rewards #", meaning: "The masked loyalty number, when the guest is a member." },
+      { label: "GUEST ROOM lines", meaning: "One charge per night at the room rate, with any per-night hotel fee on its own line." },
+      { label: "Tax lines", meaning: "State/local sales tax and a city hotel/motel tax, each on a separate line." },
+      { label: "BALANCE 0.00", meaning: "Shows the folio is settled at checkout." },
+    ],
+    note: "A Holiday Inn folio charges each night separately and splits the taxes by authority, which is what travel and expense teams check. Georgia adds a flat hotel fee per night, so the Atlanta template carries a GA HOTEL FEE line next to the room charges.",
+  },
+  careem: {
+    lines: [
+      { label: "Emailed receipt", meaning: "The receipt arrives by email after the trip, addressed to the rider by name." },
+      { label: "Ride fare", meaning: "The fare for the trip itself." },
+      { label: "Salik (toll)", meaning: "Dubai road tolls passed through on the trip, on their own line." },
+      { label: "Booking fee", meaning: "The fee Careem adds for the booking, on its own line." },
+      { label: "VAT included", meaning: "UAE VAT at 5% is included in the total and shown on its own line." },
+      { label: "Total in AED", meaning: "The total in dirhams, with the card used." },
+      { label: "Trip details", meaning: "Captain's name, car type, distance and time, and the pickup and drop-off points with times." },
+    ],
+    note: "A Careem receipt reads like an email, not a till slip. It breaks the price into fare, Salik tolls and the booking fee, states the VAT already included, and ends with the captain, route and times: the details an expense claim for a ride usually asks for.",
+    sources: [
+      { title: "Careem Help: getting a trip receipt", url: "https://help.careem.com/hc/en-us/articles/360001592268-How-can-I-get-my-trip-receipt" },
+    ],
+  },
 };

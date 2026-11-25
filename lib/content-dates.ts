@@ -346,6 +346,13 @@ export const BRANDS_ANSWER_UPDATED = "2026-10-27";
 // Only those pages move; the other ~338 keep their date.
 export const BRANDS_DEPTH_UPDATED = "2026-11-03";
 
+// 2026-11-25: a third URL Inspection (all 1,234 sitemap URLs) found 5 more
+// dropped brand pages without the section. Cartier still stays without one.
+const BRANDS_DEPTH_DROPPED_3_UPDATED = "2026-11-25";
+const BRANDS_DEPTH_DROPPED_3: ReadonlySet<string> = new Set([
+  "panda-express", "longhorn-steakhouse", "j-crew", "holiday-inn", "careem",
+]);
+
 // 2026-11-17: a fresh URL Inspection of every sitemap URL found 23 more brand
 // pages "Crawled – currently not indexed" (last crawled Jun–Aug), none of which
 // had the section yet. Cartier stays without one, as on 11-09.
@@ -473,7 +480,8 @@ export function brandReviewedAt(slug: string): string {
     BRANDS_PAYWALL_UPDATED,
     BRANDS_ANSWER_UPDATED,
     slug in BRAND_DEPTH
-      ? BRANDS_DEPTH_DROPPED_2.has(slug) ? BRANDS_DEPTH_DROPPED_2_UPDATED
+      ? BRANDS_DEPTH_DROPPED_3.has(slug) ? BRANDS_DEPTH_DROPPED_3_UPDATED
+        : BRANDS_DEPTH_DROPPED_2.has(slug) ? BRANDS_DEPTH_DROPPED_2_UPDATED
         : BRANDS_DEPTH_DROPPED.has(slug) ? BRANDS_DEPTH_DROPPED_UPDATED : BRANDS_DEPTH_UPDATED
       : null,
     linksChangedNov16(`/brands/${slug}`) || examplesForBrand(slug).length > 0 ? LINKS_NOV16_UPDATED : null,
