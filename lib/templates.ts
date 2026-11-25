@@ -63,10 +63,10 @@ export const TEMPLATES: ReceiptTemplate[] = [
     // 2026-11-18: "grocery receipt" first — the page ranks ~12 for it.
     seoTitle: "Grocery Receipt Template — Grocery Store Receipt Generator",
     seoDescription:
-      `Grocery receipt generator: list items, weighed produce, coupons and sales tax, then download a PDF or PNG. Free with a watermark; a pass from ${PRO_FROM} removes it.`,
+      `Grocery receipt generator: list items, weighed produce, coupons and sales tax, then download a PDF or PNG. Free with a watermark; Pro from ${PRO_FROM} a week removes it.`,
     heading: "Grocery Receipt Template & Generator",
     intro:
-      `Use this grocery receipt generator to build an itemized supermarket or grocery store receipt with products, weighed produce, coupons, sales tax and payment details. Use it for expense reports, shared-household and office-supply reimbursements, and bookkeeping records. Fill it in on the editor; the PDF or PNG download is free with a small watermark, and a pass from ${PRO_FROM} removes it.`,
+      `Use this grocery receipt generator to build an itemized supermarket or grocery store receipt with products, weighed produce, coupons, sales tax and payment details. Use it for expense reports, shared-household and office-supply reimbursements, and bookkeeping records. Fill it in on the editor; the PDF or PNG download is free with a small watermark, and Pro from ${PRO_FROM} a week removes it.`,
     // 2026-11-03: deepened (Notion "Get the 7 templates closest to page 1 into
     // the top 10"): field list, weighed-item maths, taxable vs exempt lines.
     leadAnswer:
@@ -198,10 +198,10 @@ export const TEMPLATES: ReceiptTemplate[] = [
     // "restaurant receipt"; the title and H1 now name the template.
     seoTitle: "Restaurant Receipt Template & Generator — Itemized Bill with Tip",
     seoDescription:
-      `Make an itemized restaurant receipt with dishes, drinks, tax, tip, server and table. Watermarked PDF or PNG is free; a pass from ${PRO_FROM} removes it.`,
+      `Make an itemized restaurant receipt with dishes, drinks, tax, tip, server and table. Watermarked PDF or PNG is free; Pro from ${PRO_FROM} a week removes it.`,
     heading: "Restaurant Receipt Template & Generator",
     intro:
-      `Build an itemized restaurant bill with dishes, drinks, sales tax, tip and payment method. Ideal for business meal expense claims, per-diem documentation and replacing lost dinner receipts. Fill it in on the editor; the PDF or PNG download is free with a small watermark, and a pass from ${PRO_FROM} removes it.`,
+      `Build an itemized restaurant bill with dishes, drinks, sales tax, tip and payment method. Ideal for business meal expense claims, per-diem documentation and replacing lost dinner receipts. Fill it in on the editor; the PDF or PNG download is free with a small watermark, and Pro from ${PRO_FROM} a week removes it.`,
     leadAnswer:
       "A restaurant receipt shows the restaurant's name and location, the server and table or check number, each dish and drink with its price, the food subtotal, sales tax, an optional tip or service charge, and the final total with the payment method. Large parties often see an automatic gratuity added as its own line.",
     useCases: [
@@ -388,10 +388,10 @@ export const TEMPLATES: ReceiptTemplate[] = [
     // with 1,090 impressions and 7 clicks in 28 days.
     seoTitle: "Gas Station Receipt Template — Fuel & Gas Receipt Generator",
     seoDescription:
-      `Make a gas station receipt with gallons, price per gallon and pump number. Watermarked PDF or PNG is free; a pass from ${PRO_FROM} removes it.`,
+      `Make a gas station receipt with gallons, price per gallon and pump number. Watermarked PDF or PNG is free; Pro from ${PRO_FROM} a week removes it.`,
     heading: "Gas Station Receipt Template & Fuel Receipt Generator",
     intro:
-      `Create a gas station receipt that shows the station, the pump number, the fuel grade, the gallons pumped, the price per gallon and the fuel total, worked out as gallons times price. Use it for mileage and fuel expense records, fleet logs and company-card reconciliation. Fill it in on the editor; the PDF or PNG download is free with a small watermark, and a pass from ${PRO_FROM} removes it.`,
+      `Create a gas station receipt that shows the station, the pump number, the fuel grade, the gallons pumped, the price per gallon and the fuel total, worked out as gallons times price. Use it for mileage and fuel expense records, fleet logs and company-card reconciliation. Fill it in on the editor; the PDF or PNG download is free with a small watermark, and Pro from ${PRO_FROM} a week removes it.`,
     // 2026-10-19: deepened against makereceipt and makemyreceipt (SEO.md §6):
     // field list, the gallons × price maths, a how-to and a uses list. The
     // "pump didn't print my receipt" FAQ was retrieval intent and is gone.
@@ -631,7 +631,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     // 2026-11-16: "store receipt" first — the page ranks ~17 for it.
     seoTitle: "Store Receipt Generator — Retail Receipt Template",
     seoDescription:
-      `Make a store receipt online with SKUs, quantities, discounts and sales tax. Watermarked PDF or PNG is free; a pass from ${PRO_FROM} removes it.`,
+      `Make a store receipt online with SKUs, quantities, discounts and sales tax. Watermarked PDF or PNG is free; Pro from ${PRO_FROM} a week removes it.`,
     heading: "Store Receipt Generator: Make a Retail Store Receipt",
     intro:
       "Create a department store or boutique receipt with SKU-style line items, sales tax and card payment details. Handy for a shop's own sales, expense records and point-of-sale mockups.",
@@ -756,7 +756,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     // added, and the HSA/FSA claim positioning removed by the owner's brief.
     seoTitle: "Pharmacy Receipt Template — Rx & OTC Receipt Maker",
     seoDescription:
-      `Make a pharmacy receipt with Rx lines, OTC items and sales tax. Edit online; the watermarked PDF is free and a pass from ${PRO_FROM} removes the watermark.`,
+      `Make a pharmacy receipt with Rx lines, OTC items and sales tax. Edit online; the watermarked PDF is free and Pro from ${PRO_FROM} a week removes the watermark.`,
     heading: "Pharmacy Receipt Generator for Rx and OTC Purchases",
     intro:
       "Fill in a pharmacy receipt template with prescription (Rx) lines, over-the-counter medicine and personal care items, then download it as a PDF or PNG.",
@@ -869,10 +869,10 @@ export const TEMPLATES: ReceiptTemplate[] = [
     // 2026-11-18: "bar receipt" first — the page ranks ~7 for it.
     seoTitle: "Bar Receipt Template — Pub & Bar Tab Receipt Generator",
     seoDescription:
-      `Make a bar tab receipt with drinks, tax and tip, with a live preview. Watermarked PDF or PNG is free; a pass from ${PRO_FROM} removes it.`,
+      `Make a bar tab receipt with drinks, tax and tip, with a live preview. Watermarked PDF or PNG is free; Pro from ${PRO_FROM} a week removes it.`,
     heading: "Bar Receipt Template: Pub & Bar Tab Receipts",
     intro:
-      `Recreate a bar tab with drinks, appetizers, tax and gratuity. Useful for client entertainment expense claims and team outing reimbursements. Fill it in on the editor; the PDF or PNG download is free with a small watermark, and a pass from ${PRO_FROM} removes it.`,
+      `Recreate a bar tab with drinks, appetizers, tax and gratuity. Useful for client entertainment expense claims and team outing reimbursements. Fill it in on the editor; the PDF or PNG download is free with a small watermark, and Pro from ${PRO_FROM} a week removes it.`,
     useCases: [
       "Client entertainment expense claims",
       "Team outing reimbursements",
@@ -955,7 +955,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     // their readers here.
     seoTitle: "Auto Repair & Mechanic Receipt Template — Parts & Labor",
     seoDescription:
-      `Make an auto repair or mechanic receipt with parts, labor, vehicle and warranty. Free watermarked PDF or PNG; a pass from ${PRO_FROM} removes the watermark.`,
+      `Make an auto repair or mechanic receipt with parts, labor, vehicle and warranty. Free watermarked PDF or PNG; Pro from ${PRO_FROM} a week removes the watermark.`,
     heading: "Auto Repair & Mechanic Receipt Template",
     intro:
       "Build a mechanic shop receipt with parts, labor hours and shop fees. Useful for vehicle maintenance records, warranty documentation and resale history.",
@@ -977,7 +977,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
         heading: "What a mechanic receipt includes",
         body:
           "Parts and labor on separate lines: each part with its name and price, and labor as hours times the shop's hourly rate. The vehicle it was done on, by year, make and model with the VIN or plate, so the receipt can only belong to one car. Add the mileage at the time of service if you record it. Then the warranty the shop gives on the work, which on the sample sits in the footer: 12 months or 12,000 miles on parts and labor.\n\n" +
-          `Put the vehicle details in a line of their own, and the warranty in the footer. The free download carries a small watermark; a clean copy needs a pass from ${PRO_FROM}.`,
+          `Put the vehicle details in a line of their own, and the warranty in the footer. The free download carries a small watermark; a clean copy needs Pro from ${PRO_FROM} a week.`,
       },
     ],
     defaults: {
@@ -1883,7 +1883,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
     icon: "💳",
     seoTitle: "Payment Receipt Template & Generator — Receipt of Payment",
     seoDescription:
-      "Payment receipt template and generator: payer, payee, amount, method, date and reference. Free to build; the PDF or PNG download is watermarked until a pass.",
+      "Payment receipt template and generator: payer, payee, amount, method, date and reference. Free to build; PDF or PNG downloads are watermarked until you go Pro.",
     heading: "Payment Receipt Template & Generator",
     intro:
       "Create a receipt of payment that confirms money changed hands: who paid, who received it, how much, how and when it was paid, the transaction reference and what it paid for. Freelancers send one when an invoice is settled; landlords and small sellers send one when a customer pays by transfer, check or app.",
@@ -3805,7 +3805,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
       "Enter your business name, address and website, and set the order number and date.",
       "Fill in the customer's name and email in the Billed to block.",
       "Add each item with its quantity and price, then shipping as its own line, and set the sales tax rate if you charge one.",
-      `Choose the payment method, then download a PDF to attach to your email or a PNG to paste into it. The free download carries a small watermark; a pass from ${PRO_FROM} removes it.`,
+      `Choose the payment method, then download a PDF to attach to your email or a PNG to paste into it. The free download carries a small watermark; Pro from ${PRO_FROM} a week removes it.`,
     ],
     guidance: [
       {
@@ -3816,7 +3816,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
       {
         heading: "Download as a PDF or image",
         body:
-          `Download a PDF to attach to your email, or a PNG to paste into the body of the message. Both are rendered at 3x resolution, so they stay sharp on a phone and when printed. The free download carries a small watermark; a pass from ${PRO_FROM} removes it.`,
+          `Download a PDF to attach to your email, or a PNG to paste into the body of the message. Both are rendered at 3x resolution, so they stay sharp on a phone and when printed. The free download carries a small watermark; Pro from ${PRO_FROM} a week removes it.`,
       },
     ],
     faqs: [
@@ -3838,7 +3838,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
       {
         question: "Is the email receipt generator free?",
         answer:
-          `Building and a watermarked download are free with no account; a clean download needs a pass from ${PRO_FROM}.`,
+          `Building and a watermarked download are free with no account; a clean download needs Pro from ${PRO_FROM} a week.`,
       },
     ],
     defaults: {
@@ -3919,10 +3919,10 @@ export const TEMPLATES: ReceiptTemplate[] = [
     // 2026-11-18: "childcare receipt" first — the page ranks ~11 for it.
     seoTitle: "Childcare Receipt Template — Daycare Receipt Generator",
     seoDescription:
-      `Create a childcare, daycare or babysitting receipt with dates, hours and rate. Watermarked PDF or PNG is free; a pass from ${PRO_FROM} removes it.`,
+      `Create a childcare, daycare or babysitting receipt with dates, hours and rate. Watermarked PDF or PNG is free; Pro from ${PRO_FROM} a week removes it.`,
     heading: "Childcare Receipt Template for Daycare & Babysitting",
     intro:
-      `Create a childcare or babysitting receipt showing the provider, dates, hours and rate. Parents use it for childcare tax credits and employer benefits; providers use it to give families a professional record. Fill it in on the editor; the PDF or PNG download is free with a small watermark, and a pass from ${PRO_FROM} removes it.`,
+      `Create a childcare or babysitting receipt showing the provider, dates, hours and rate. Parents use it for childcare tax credits and employer benefits; providers use it to give families a professional record. Fill it in on the editor; the PDF or PNG download is free with a small watermark, and Pro from ${PRO_FROM} a week removes it.`,
     // 2026-11-03: deepened (Notion "Get the 7 templates closest to page 1 into
     // the top 10") around IRS Pub 503's provider identification test. Citing
     // it replaces the Pub 463 business-expense figure, which never fitted
@@ -4230,7 +4230,7 @@ export const TEMPLATES: ReceiptTemplate[] = [
       `Clothing receipt template with sizes, colors, SKUs, markdowns and sales tax. Edit every line, preview live, get a watermarked PDF free; ${PRO_FROM} removes it.`,
     heading: "Clothing Receipt Template & Generator",
     intro:
-      `Make a clothing store receipt with each garment's size, color and SKU, markdowns as minus lines and sales tax worked out after discounts. Build it free in the editor and download a watermarked PDF or PNG; a pass from ${PRO_FROM} removes the watermark.`,
+      `Make a clothing store receipt with each garment's size, color and SKU, markdowns as minus lines and sales tax worked out after discounts. Build it free in the editor and download a watermarked PDF or PNG; Pro from ${PRO_FROM} a week removes the watermark.`,
     // 2026-11-03: deepened (Notion "Get the 7 templates closest to page 1 into
     // the top 10"): garment lines, markdowns before tax, clothing-exempt states.
     leadAnswer:
@@ -4369,10 +4369,10 @@ export const TEMPLATES: ReceiptTemplate[] = [
     // 2026-11-18: "hardware receipt" first — the page ranks ~9 for it.
     seoTitle: "Hardware Receipt Template — Hardware Store Receipt Generator",
     seoDescription:
-      `Make a hardware store receipt with tools, lumber, paint and supplies plus tax. Watermarked PDF or PNG is free; a pass from ${PRO_FROM} removes it.`,
+      `Make a hardware store receipt with tools, lumber, paint and supplies plus tax. Watermarked PDF or PNG is free; Pro from ${PRO_FROM} a week removes it.`,
     heading: "Hardware Receipt Template & Generator",
     intro:
-      `Create an editable hardware or home-improvement store receipt with tools, building materials, paint and supplies. Great for contractor expense tracking, reimbursements and job costing. Fill it in on the editor; the PDF or PNG download is free with a small watermark, and a pass from ${PRO_FROM} removes it.`,
+      `Create an editable hardware or home-improvement store receipt with tools, building materials, paint and supplies. Great for contractor expense tracking, reimbursements and job costing. Fill it in on the editor; the PDF or PNG download is free with a small watermark, and Pro from ${PRO_FROM} a week removes it.`,
     useCases: [
       "Job-costing and contractor expense records",
       "Reimbursement for materials on a project",
@@ -4521,10 +4521,10 @@ export const TEMPLATES: ReceiptTemplate[] = [
     // with 714 impressions in 28 days ("airline receipt", "airline ticket receipt").
     seoTitle: "Airline Receipt Template — Flight Ticket Receipt Generator",
     seoDescription:
-      `Make an airline ticket receipt with fare, taxes, baggage and seat fees. Watermarked PDF or PNG is free; a pass from ${PRO_FROM} removes it.`,
+      `Make an airline ticket receipt with fare, taxes, baggage and seat fees. Watermarked PDF or PNG is free; Pro from ${PRO_FROM} a week removes it.`,
     heading: "Airline Ticket Receipt Template & Generator",
     intro:
-      `Create an editable airline or flight ticket receipt with base fare, taxes, baggage, seat selection and booking fees. Perfect for travel expense reports and reimbursement. Fill it in on the editor; the PDF or PNG download is free with a small watermark, and a pass from ${PRO_FROM} removes it.`,
+      `Create an editable airline or flight ticket receipt with base fare, taxes, baggage, seat selection and booking fees. Perfect for travel expense reports and reimbursement. Fill it in on the editor; the PDF or PNG download is free with a small watermark, and Pro from ${PRO_FROM} a week removes it.`,
     useCases: [
       "Business travel expense reimbursement",
       "Sample airline receipts for travel app mockups",

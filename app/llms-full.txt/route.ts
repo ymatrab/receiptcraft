@@ -76,7 +76,7 @@ Written and reviewed by the ${SITE.name} team (${SITE.url}/authors); editorial s
 - [Receipt maker](${SITE.url}/create): the builder — pick a template, edit every field with a live preview, download as PDF or PNG
 - [Receipt templates](${SITE.url}/templates): ${TEMPLATES.length} receipt and invoice templates by business type
 - [Brand receipt generators](${SITE.url}/brands): ${BRAND_COUNT} brand-style receipt layouts
-- [Pricing](${SITE.url}/pricing): free to build; watermark-free downloads from ${formatPlanPrice(PLANS.pro_weekly)}, one-time
+- [Pricing](${SITE.url}/pricing): free to build; watermark-free downloads from ${formatPlanPrice(PLANS.pro_weekly)} a week, renewing until you cancel
 - [Receipt maker comparisons](${SITE.url}/alternatives): ${SITE.name} compared with other receipt generators, prices included
 
 ## Pricing

@@ -73,7 +73,8 @@ export const TOOLS_INDEX_UPDATED = "2026-08-31";
 // after 90 days.
 // 2026-11-20: names the seller (YUMA TECHNOLOGIES LLC) and every processor — Stripe, Resend, Telegram alerts, each AI provider, the directory badges — adds a children section and drops the AI-limit cookie that no longer exists.
 // 2026-11-23: account deletion is self-serve ("Delete my account" on /account) and the newsletter has one-click unsubscribe plus an account toggle.
-export const PRIVACY_UPDATED = "2026-11-23";
+// 2026-11-25: "pass" wording replaced now that new buyers get a renewing plan.
+export const PRIVACY_UPDATED = "2026-11-25";
 // 2026-09-04: sections 3 and 4 now describe the billing model that actually
 // runs. The old text said a plan "continues for successive periods until
 // cancelled" and that you "authorize the recurring charge until you cancel",
@@ -87,7 +88,8 @@ export const PRIVACY_UPDATED = "2026-11-23";
 // account; the AI generator, saving and support chat still do.
 // 2026-11-20: names YUMA TECHNOLOGIES LLC as the party, adds a 13+ account age, indemnity, New Mexico governing law and a trademark-notice contact, and says prices are final (no tax added).
 // 2026-11-24: sections 3–4 rewritten for auto-renewing plans: renewal terms, one-click cancel, plan switching, the 48-hour renewal refund and the EU/UK withdrawal waiver.
-export const TERMS_UPDATED = "2026-11-24";
+// 2026-11-25: "pass" wording replaced now that new buyers get a renewing plan.
+export const TERMS_UPDATED = "2026-11-25";
 export const TEMPLATES_UPDATED = "2026-07-20";
 export const TEMPLATES_CITED_UPDATED = "2026-08-20";
 export const TEMPLATES_FIGURE_UPDATED = "2026-08-21";
@@ -528,8 +530,22 @@ export const BRANDS_PHONE_LAYOUT_UPDATED = "2026-11-21";
 // cancel in one click" instead of "a one-time pass that never renews".
 const BRANDS_RENEWAL_UPDATED = "2026-11-24";
 
+// 2026-11-25: second renewal sweep. Pages that still sold "a pass from $3"
+// (a one-off) now say "Pro from $3 a week". Listed from a crawl of the live
+// site, so only pages whose text changed move.
+const PASS_WORDING_UPDATED = "2026-11-25";
+const BRANDS_PASS_WORDING: ReadonlySet<string> = new Set([
+  "apple-store", "balenciaga", "best-buy", "chevron", "chipotle", "deliveroo", "didi", "grab", "little-caesars",
+  "lyft", "paypal", "planet-fitness", "starbucks", "target", "uber", "uber-eats", "walgreens", "walmart",
+]);
+const TEMPLATES_PASS_WORDING: ReadonlySet<string> = new Set([
+  "airline-receipt", "auto-repair", "bar", "childcare-receipt", "clothing-store-receipt", "email-receipt", "gas-station",
+  "grocery-store", "hardware-store-receipt", "payment-receipt", "pharmacy", "restaurant", "retail-store",
+]);
+
 export function brandReviewedAt(slug: string): string {
   return newest(
+    BRANDS_PASS_WORDING.has(slug) ? PASS_WORDING_UPDATED : null,
     BRANDS_RENEWAL_UPDATED,
     BRANDS_PHONE_LAYOUT_UPDATED,
     BRANDS_COPY_GUARDRAILS_UPDATED,
@@ -738,7 +754,8 @@ export const COOKIES_UPDATED = "2026-11-20";
 // 2026-08-30: "Continue with Google" moved above the email form, so the visible
 // order of the page's controls changed.
 // 2026-08-31: free-tier limits changed — see STATIC_UPDATED above.
-export const LOGIN_UPDATED = "2026-08-31";
+// 2026-11-25: "pass" wording replaced now that new buyers get a renewing plan.
+export const LOGIN_UPDATED = "2026-11-25";
 // 2026-08-21: /pricing now shows the watermark it asks people to pay to remove.
 // 2026-08-29: the price table moved above that watermark comparison. Measured on
 // a 375px phone, the comparison ran 594px to 2,024px and pushed the first price
@@ -780,7 +797,8 @@ export const LOGIN_UPDATED = "2026-08-31";
 // 2026-10-27: a one-sentence price answer under the hero.
 // 2026-11-20: a Terms and Privacy line under the plan cards; not-included features readable (contrast).
 // 2026-11-24: auto-renewing plans for new buyers — copy no longer says Pro "never renews".
-export const PRICING_UPDATED = "2026-11-24";
+// 2026-11-25: "pass" wording replaced now that new buyers get a renewing plan.
+export const PRICING_UPDATED = "2026-11-25";
 // 2026-08-23: the hero grid no longer stretches to the 380px receipt, so the
 // primary CTA is reachable again on phones under 412px — a visible change to
 // the page's most important element.
@@ -1078,6 +1096,7 @@ const TEMPLATES_NOV20_BATCH: ReadonlySet<string> = new Set([
 const TEMPLATES_NOV20_BATCH_UPDATED = "2026-11-20";
 
 export function templateReviewedAt(t: ReceiptTemplate): string {
+  if (TEMPLATES_PASS_WORDING.has(t.slug)) return PASS_WORDING_UPDATED;
   if (TEMPLATES_KEYWORDS_NOV25.has(t.slug)) return KEYWORDS_NOV25_UPDATED;
   if (TEMPLATES_NOV20_BATCH.has(t.slug)) return TEMPLATES_NOV20_BATCH_UPDATED;
   if (TEMPLATES_COPY_GUARDRAILS.has(t.slug)) return TEMPLATES_COPY_GUARDRAILS_UPDATED;
@@ -1159,6 +1178,8 @@ export function intentReviewedAt(brandSlug: string): string {
     INTENT_FAQ_EXPENSE_UPDATED,
     INTENT_RECORDS_WORDING_UPDATED,
     INTENT_PHONE_LAYOUT_UPDATED,
+    // 2026-11-25: the hand-off says "Pro, from $3 a week", not "a pass from $3".
+    hasHandoff(brandSlug) ? PASS_WORDING_UPDATED : null,
   );
 }
 

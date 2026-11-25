@@ -210,7 +210,7 @@ export default async function IntentPage({
           >
             {handoff.anchor}
           </Link>{" "}
-          — free to build with a watermarked download; a clean download needs a pass from {passPrice}.
+          — free to build with a watermarked download; a clean download needs Pro, from {passPrice} a week.
         </p>
       ) : (
         <p className="mt-3 hidden text-sm text-slate-500">
@@ -361,7 +361,7 @@ export default async function IntentPage({
             >
               {handoff.anchor}
             </Link>
-            . Building it and downloading a watermarked copy are free; a clean download needs a pass from {passPrice}.
+            . Building it and downloading a watermarked copy are free; a clean download needs Pro, from {passPrice} a week.
           </p>
         </div>
       )}

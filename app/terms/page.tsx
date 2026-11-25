@@ -15,7 +15,7 @@ export default function TermsPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
       <h1 className="text-4xl font-bold tracking-tight text-slate-900">Terms of Use</h1>
-      <p className="mt-3 text-sm text-slate-500">Last updated: November 24, 2026</p>
+      <p className="mt-3 text-sm text-slate-500">Last updated: November 25, 2026</p>
 
       <div className="mt-8 space-y-5 leading-relaxed text-slate-600">
         <H2>1. The service</H2>
@@ -30,8 +30,8 @@ export default function TermsPage() {
 
         <H2>2. Accounts</H2>
         <p>
-          The free builder, including watermarked downloads, works without an account, and a
-          Pro pass can be bought at checkout without one. Some features — the AI generator,
+          The free builder, including watermarked downloads, works without an account, and
+          Pro can be bought at checkout without one. Some features — the AI generator,
           saving receipts, and support chat — require you to create an account by signing in
           with your email or a supported provider. You are responsible
           for activity under your account and for keeping access to your email secure. The service

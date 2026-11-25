@@ -15,7 +15,7 @@ export default function PrivacyPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
       <h1 className="text-4xl font-bold tracking-tight text-slate-900">Privacy Policy</h1>
-      <p className="mt-3 text-sm text-slate-500">Last updated: November 23, 2026</p>
+      <p className="mt-3 text-sm text-slate-500">Last updated: November 25, 2026</p>
 
       <div className="mt-8 space-y-5 leading-relaxed text-slate-600">
         <H2>The short version</H2>
@@ -54,7 +54,7 @@ export default function PrivacyPage() {
           Payments are handled by Stripe. We receive confirmation of your purchase, the email
           address you gave at checkout and your plan status, but we never receive or store your
           full card number or security details — Stripe handles those under its own privacy policy.
-          If you buy without an account, we create one for the email you gave Stripe so the pass
+          If you buy without an account, we create one for the email you gave Stripe so your Pro plan
           has somewhere to live; you can sign in to it later with that email.
         </p>
 

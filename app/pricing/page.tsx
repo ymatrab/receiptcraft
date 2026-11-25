@@ -243,7 +243,7 @@ const FAQ = [
     ? [
         {
           q: "How do I pay, and how fast does Pro switch on?",
-          a: "Checkout is handled by Stripe. You can pay by card (Visa, Mastercard, American Express) or with Apple Pay, Google Pay or Link where your device supports them. Pro switches on automatically within seconds of the payment going through. If you are signed in, it attaches to that account. You do not need an account to buy: Pro goes on the email you enter at checkout, and if that email already has an account the pass is added to it. We never see or store your card details.",
+          a: "Checkout is handled by Stripe. You can pay by card (Visa, Mastercard, American Express) or with Apple Pay, Google Pay or Link where your device supports them. Pro switches on automatically within seconds of the payment going through. If you are signed in, it attaches to that account. You do not need an account to buy: Pro goes on the email you enter at checkout, and if that email already has an account, Pro is added to it. We never see or store your card details.",
         },
         {
           q: "Can I switch plans?",
@@ -673,8 +673,8 @@ export default function PricingPage() {
             )}
           </ul>
           <p className="mt-3 text-sm text-slate-600">
-            Pro switches on automatically the moment your payment goes through. One-time
-            payment — nothing renews, and we never see your card details.
+            Pro switches on automatically the moment your payment goes through. Plans renew
+            until you cancel, which takes one click on your account page. We never see your card details.
           </p>
         </div>
       ) : (
