@@ -384,6 +384,9 @@ const INTRO_NOV25: ReadonlySet<string> = new Set([
   "fred-meyer", "loblaws", "jcpenney", "bed-bath-beyond", "hollister", "lululemon",
   "adidas", "crate-barrel", "pandora", "marathon-gas", "sunoco", "air-canada",
   "sheraton", "sixt", "bolt", "youtube-tv", "amazon-prime",
+  // Same day: the "Recreate a … receipt" meta description variant was reworded.
+  "moe-s-southwest-grill", "longhorn-steakhouse", "sprouts", "hy-vee",
+  "frontier-airlines", "westin", "shipt", "canva", "epic-games", "patreon", "gnc",
 ]);
 const BRANDS_DEPTH_DROPPED_3: ReadonlySet<string> = new Set([
   "panda-express", "longhorn-steakhouse", "j-crew", "holiday-inn", "careem",

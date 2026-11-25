@@ -5928,7 +5928,9 @@ const SEO_DESC_VARIANTS: ((n: string, noun: string) => string)[] = [
   (n, noun) => `Build ${anBrand(n)} receipt online with ${noun}, editable totals and tax. Free live preview — download as a PDF or PNG, no account needed.`,
   (n, noun) => `Free ${n} receipt maker: add ${noun}, set the date and totals, then export a PDF or PNG with no account.`,
   (n, noun) => `${n} receipt generator: lay out ${noun}, edit the totals and tax, then export a PDF or PNG. Free to build and preview.`,
-  (n, noun) => `Recreate ${anBrand(n)} receipt with ${noun} in a couple of clicks. Free preview and watermarked PDF or PNG, no account needed.`,
+  // 2026-11-25: was "Recreate a … receipt" — the same recreate-a-real-receipt
+  // reading as the old "from memory" intro. 15 pages (content-dates INTRO_NOV25).
+  (n, noun) => `Put together ${anBrand(n)} receipt with ${noun} in a couple of clicks. Free preview and watermarked PDF or PNG, no account needed.`,
   (n, noun) => `Build an editable ${n} receipt — ${noun}, custom tax and totals — and get a free watermarked PDF or PNG.`,
   (n, noun) => `A free ${n} receipt template with ${noun} pre-filled. Adjust the details and download a print-ready PDF or PNG.`,
   (n, noun) => `Fast, free ${n} receipt generator. Add ${noun}, set the tax rate, preview live, then export as a PDF or PNG.`,
