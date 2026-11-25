@@ -5904,7 +5904,9 @@ const INTRO_VARIANTS: ((n: string, noun: string, city?: string) => string)[] = [
   (n, noun) => `Lay out ${anBrand(n)}-style receipt complete with ${noun}. Adjust the totals and export it for your own records.`,
   (n, noun) => `Make ${anBrand(n)} receipt online in seconds. Lay it out with ${noun} — subtotal, tax and total included — ready to print or save.`,
   (n, noun, city) => `Build ${anBrand(n)} receipt${city ? ` for a visit to the ${city} location` : ""} with ${noun}. Edit the totals, then download it for expenses or your own records.`,
-  (n, noun) => `Rebuild ${anBrand(n)} receipt from memory — add ${noun}, set the tax and total, then export a PDF or PNG in under a minute.`,
+  // 2026-11-25: was "Rebuild … receipt from memory", which reads as recreating
+  // a real receipt. 25 generated brand pages used it (content-dates INTRO_NOV25).
+  (n, noun) => `Start from ${anBrand(n)} receipt layout, add ${noun}, set the tax and total, then export a PDF or PNG in under a minute.`,
   (n, noun, city) => `Whether you're replacing a receipt from ${anBrand(n)}${city ? ` in ${city}` : ""} or issuing one yourself, this generator handles ${noun}, tax and totals in one editable layout.`,
   (n, noun) => `A ${n} receipt template with ${noun} already laid out — change the items, prices and date to match your own purchase, then download.`,
   (n, noun) => `Generate ${anBrand(n)}-style receipt with ${noun}. Free to build, with a live preview as you edit.`,
