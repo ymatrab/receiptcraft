@@ -362,6 +362,15 @@ const BRANDS_KEYWORDS_NOV25: ReadonlySet<string> = new Set(["walgreens", "stockx
 const TEMPLATES_KEYWORDS_NOV25: ReadonlySet<string> = new Set(["clothing-store-receipt", "pharmacy", "pizza-receipt", "restaurant", "taxi"]);
 const EXAMPLES_KEYWORDS_NOV25: ReadonlySet<string> = new Set(["little-caesars-receipt-deep-dish"]);
 const INTENT_HANDOFF_NOV25: ReadonlySet<string> = new Set(["walgreens"]);
+// 2026-11-25: the shared "Rebuild … receipt from memory" intro (INTRO_VARIANTS
+// in lib/brands.ts) was reworded. These are the generated brand pages that pick
+// it; DiDi had its own intro already and is dated above.
+const INTRO_NOV25: ReadonlySet<string> = new Set([
+  "bojangles", "tgi-fridays", "ihop", "steak-n-shake", "noodles-company", "ralphs",
+  "albertsons", "winco-foods", "shoprite", "coles", "kohls", "dollar-general", "rei",
+  "cabelas", "tiffany-co", "coach", "kate-spade", "citgo", "kwik-trip", "jetblue",
+  "spirit-airlines", "grammarly", "rite-aid", "dhl", "orangetheory",
+]);
 const BRANDS_DEPTH_DROPPED_3: ReadonlySet<string> = new Set([
   "panda-express", "longhorn-steakhouse", "j-crew", "holiday-inn", "careem",
 ]);
@@ -501,7 +510,7 @@ export function brandReviewedAt(slug: string): string {
     BRANDS_SOURCE_FIXED.has(slug) ? BRANDS_SOURCE_FIXED_UPDATED : null,
     BRANDS_WITH_HELP_SECTION.has(slug) ? BRANDS_HELP_REMOVED_UPDATED : null,
     brandMetaSaysWatermarked(slug) ? META_WATERMARK_UPDATED : null,
-    BRANDS_KEYWORDS_NOV25.has(slug) ? KEYWORDS_NOV25_UPDATED : null,
+    BRANDS_KEYWORDS_NOV25.has(slug) || INTRO_NOV25.has(slug) ? KEYWORDS_NOV25_UPDATED : null,
   );
 }
 
