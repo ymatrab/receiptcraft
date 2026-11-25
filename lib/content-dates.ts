@@ -349,6 +349,19 @@ export const BRANDS_DEPTH_UPDATED = "2026-11-03";
 // 2026-11-25: a third URL Inspection (all 1,234 sitemap URLs) found 5 more
 // dropped brand pages without the section. Cartier still stays without one.
 const BRANDS_DEPTH_DROPPED_3_UPDATED = "2026-11-25";
+
+// 2026-11-25: pages worked for the query each one should own (SeoZone tasks).
+// Walgreens and StockX took "template" into the title and H1 with a new
+// section; Little Caesars became "Generator & Maker" with a how-to; the
+// clothing template got a new description and intro; the pharmacy and pizza
+// templates hand off to Walgreens and Little Caesars; the Little Caesars
+// example's brand link says "generator" and its phone is a Detroit number;
+// the Walgreens guides hand off to the brand page.
+const KEYWORDS_NOV25_UPDATED = "2026-11-25";
+const BRANDS_KEYWORDS_NOV25: ReadonlySet<string> = new Set(["walgreens", "stockx", "little-caesars"]);
+const TEMPLATES_KEYWORDS_NOV25: ReadonlySet<string> = new Set(["clothing-store-receipt", "pharmacy", "pizza-receipt"]);
+const EXAMPLES_KEYWORDS_NOV25: ReadonlySet<string> = new Set(["little-caesars-receipt-deep-dish"]);
+const INTENT_HANDOFF_NOV25: ReadonlySet<string> = new Set(["walgreens"]);
 const BRANDS_DEPTH_DROPPED_3: ReadonlySet<string> = new Set([
   "panda-express", "longhorn-steakhouse", "j-crew", "holiday-inn", "careem",
 ]);
@@ -488,6 +501,7 @@ export function brandReviewedAt(slug: string): string {
     BRANDS_SOURCE_FIXED.has(slug) ? BRANDS_SOURCE_FIXED_UPDATED : null,
     BRANDS_WITH_HELP_SECTION.has(slug) ? BRANDS_HELP_REMOVED_UPDATED : null,
     brandMetaSaysWatermarked(slug) ? META_WATERMARK_UPDATED : null,
+    BRANDS_KEYWORDS_NOV25.has(slug) ? KEYWORDS_NOV25_UPDATED : null,
   );
 }
 
@@ -614,6 +628,7 @@ export function exampleReviewedAt(slug: string): string {
     slug === "kroger-receipt-weekly-groceries" ? EXAMPLE_TEMPLATE_TITLE_UPDATED : null,
     EXAMPLES_DROPPED.has(slug) ? EXAMPLES_DROPPED_UPDATED : null,
     EXAMPLES_GROCERY_TAX.has(slug) ? EXAMPLES_GROCERY_TAX_UPDATED : null,
+    EXAMPLES_KEYWORDS_NOV25.has(slug) ? KEYWORDS_NOV25_UPDATED : null,
   );
 }
 
@@ -1002,6 +1017,7 @@ const TEMPLATES_NOV20_BATCH: ReadonlySet<string> = new Set([
 const TEMPLATES_NOV20_BATCH_UPDATED = "2026-11-20";
 
 export function templateReviewedAt(t: ReceiptTemplate): string {
+  if (TEMPLATES_KEYWORDS_NOV25.has(t.slug)) return KEYWORDS_NOV25_UPDATED;
   if (TEMPLATES_NOV20_BATCH.has(t.slug)) return TEMPLATES_NOV20_BATCH_UPDATED;
   if (TEMPLATES_COPY_GUARDRAILS.has(t.slug)) return TEMPLATES_COPY_GUARDRAILS_UPDATED;
   if (TEMPLATES_CATEGORY_TITLES_2.has(t.slug)) return TEMPLATES_CATEGORY_TITLES_2_UPDATED;
@@ -1078,6 +1094,7 @@ export function intentReviewedAt(brandSlug: string): string {
     INTENT_PAYWALL_UPDATED,
     INTENT_HUB_LINK_UPDATED,
     hasHandoff(brandSlug) ? INTENT_HANDOFF_UPDATED : null,
+    INTENT_HANDOFF_NOV25.has(brandSlug) ? KEYWORDS_NOV25_UPDATED : null,
     INTENT_FAQ_EXPENSE_UPDATED,
     INTENT_RECORDS_WORDING_UPDATED,
     INTENT_PHONE_LAYOUT_UPDATED,

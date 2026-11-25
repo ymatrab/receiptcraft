@@ -40,6 +40,12 @@ const OWNS_TEMPLATE_QUERY: ReadonlySet<string> = new Set([
   "kroger-receipt-weekly-groceries",
 ]);
 
+// Examples whose brand page owns "{brand} receipt generator": the link to the
+// brand page uses that anchor instead of "receipt template" (2026-11-25).
+const GENERATOR_ANCHOR: ReadonlySet<string> = new Set([
+  "little-caesars-receipt-deep-dish",
+]);
+
 function exampleHeading(slug: string, brand: string): string {
   return OWNS_TEMPLATE_QUERY.has(slug)
     ? `${brand} Receipt Template Example`
@@ -200,7 +206,9 @@ export default async function ExamplePage({
                 href={`/brands/${brandPage.slug}`}
                 className="mt-3 block text-center text-sm font-medium sm:ml-4 sm:mt-0 sm:inline text-indigo-700 underline decoration-indigo-300 underline-offset-2 hover:decoration-indigo-700"
               >
-                See the {brandPage.shortName} receipt template
+                {GENERATOR_ANCHOR.has(ex.slug)
+                  ? `Want your own order? Open the ${brandPage.shortName} receipt generator`
+                  : `See the ${brandPage.shortName} receipt template`}
               </Link>
             )}
           </div>

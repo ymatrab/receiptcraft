@@ -748,6 +748,10 @@ const HANDOFF: Record<string, Partial<IntentHandoff>> = {
   // "kroger receipt template" is split between this brand's copy guide and the
   // weekly-groceries example, which is the page meant to own it.
   kroger: { href: "/examples/kroger-receipt-weekly-groceries", anchor: "Kroger receipt template" },
+  // 2026-11-25: "walgreens receipt template" belongs to the brand page (10.2);
+  // the copy guide also showed for it at 22.3. Dated per brand in
+  // lib/content-dates.ts (INTENT_HANDOFF_NOV25).
+  walgreens: {},
 };
 
 /** Whether this brand's guides carry the sell-page hand-off (for dating). */

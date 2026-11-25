@@ -50,6 +50,16 @@ export const CONTEXT_LINKS: Readonly<Record<string, readonly string[]>> = {
     "Serving the meal at your own tables rather than catering an event? The {link:/templates/restaurant|restaurant receipt} template has the server, table and tip lines.",
   ],
 
+  // 2026-11-25: hand-offs to the brand pages that own "walgreens receipt
+  // template" (10.2) and "little caesars receipt generator". Their own batch
+  // date in lib/content-dates.ts (KEYWORDS_NOV25).
+  "/templates/pharmacy": [
+    "Need the Walgreens layout, with the register and store line and the myWalgreens savings lines? Start from the {link:/brands/walgreens|Walgreens receipt template}.",
+  ],
+  "/templates/pizza-receipt": [
+    "Picked up a carry-out order from Little Caesars? The {link:/brands/little-caesars|Little Caesars receipt generator} opens with the order number, cashier and pizza lines in place.",
+  ],
+
   // "pharmacy receipt" → /templates/pharmacy (ranks 11.2).
   "/templates/medical-receipt": [
     "Paying for over-the-counter medicine rather than a visit? Use the {link:/templates/pharmacy|pharmacy receipt} template.",
