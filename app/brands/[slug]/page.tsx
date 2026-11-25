@@ -361,6 +361,12 @@ export default async function BrandTemplatePage({ params }: Props) {
                 <dt>Subtotal</dt>
                 <dd className="tabular-nums">{money(totals.subtotal)}</dd>
               </div>
+              {totals.itemDiscount + totals.discount > 0 && (
+                <div className="flex justify-between text-slate-600">
+                  <dt>Discounts</dt>
+                  <dd className="tabular-nums">-{money(totals.itemDiscount + totals.discount)}</dd>
+                </div>
+              )}
               <div className="flex justify-between text-slate-600">
                 <dt>{d.taxLabel ?? "Tax"} ({d.taxRate ?? 0}%)</dt>
                 <dd className="tabular-nums">{money(totals.tax)}</dd>
