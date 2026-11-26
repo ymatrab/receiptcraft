@@ -271,10 +271,15 @@ export default function SectionBuilder() {
   const [aiError, setAiError] = useState<string | null>(null);
   /**
    * Arrived on a ?template= link — from a brand page, a template page or a
-   * receipt-help guide. The store's receipt is already filled in, so the form
-   * comes first and the AI box moves below it. Nov 6–20 2026: the AI box was
-   * the first thing a phone visitor from a brand page saw, and the first thing
-   * 151 of them tried; signed out, every one of those attempts failed.
+   * receipt-help guide. The store's receipt is already filled in, so the
+   * layout pickers fold into one row.
+   *
+   * The AI box stays on top for these arrivals too. From 2026-11-20 it sat
+   * below the form here, because signed out every attempt had failed. Moving
+   * it cost more than the dead end did: Nov 9–19, 181 signed-out visitors
+   * tried it, 55 started an account and 9 bought (9 of 28 purchases); Nov
+   * 21–25, 17 reached it and none bought. A signed-out Generate now goes to
+   * sign-up (sendAiToSignUp), so the top position no longer dead-ends.
    */
   const [arrivedWithTemplate, setArrivedWithTemplate] = useState(false);
   /** Set by the phone bar's Download button: scroll to the download buttons once the preview shows. */
@@ -1447,11 +1452,11 @@ export default function SectionBuilder() {
     BUILDER_TEMPLATE_CHIPS.find((t) => t.slug === activeTemplate)?.shortName ||
     activeTemplate.replace(/-/g, " ").replace(/^./, (c) => c.toUpperCase());
 
-  // The AI box. Above everything for a blank or homepage arrival; below the
-  // form when the visitor arrived with a store's receipt already filled in
-  // (see arrivedWithTemplate).
+  // The AI box, above everything on every arrival (see arrivedWithTemplate).
+  // Compact on phones (input and button on one row, a one-line note) so the
+  // receipt peek under it stays on the first screen: 126px at 390px wide.
   const aiBox = (
-    <div className="mt-4 rounded-2xl border border-indigo-100 bg-gradient-to-br from-indigo-50 to-violet-50 p-4">
+    <div className="mt-4 rounded-2xl border border-indigo-100 bg-gradient-to-br from-indigo-50 to-violet-50 p-3 sm:p-4">
       <div className="flex items-center gap-2">
         <span aria-hidden="true">✨</span>
         <span className="text-sm font-semibold text-slate-900">Generate with AI</span>
@@ -1468,7 +1473,7 @@ export default function SectionBuilder() {
           >
             {/* Not "Free to try": signed out, it cannot be tried at all. */}
             {!account.isLoggedIn
-              ? "Free account"
+              ? "Free with an account"
               : dl.aiRemaining === null
                 ? `${FREE_LIMITS.aiGenerationsPerMonth} a month free`
                 : dl.aiRemaining === 0
@@ -1493,7 +1498,7 @@ export default function SectionBuilder() {
           </a>
         )}
       </div>
-      <div className="mt-3 flex flex-col gap-2 sm:flex-row">
+      <div className="mt-2 flex gap-2 sm:mt-3">
         <input
           value={aiPrompt}
           onChange={(e) => setAiPrompt(e.target.value)}
@@ -1501,7 +1506,11 @@ export default function SectionBuilder() {
           aria-label="Describe the receipt you want"
           aria-invalid={aiError ? true : undefined}
           aria-describedby={aiError ? "ai-error" : undefined}
-          placeholder="e.g. Starbucks receipt, 2 lattes and a muffin, this morning"
+          placeholder={
+            arrivedWithTemplate && activeTemplate
+              ? `e.g. ${activeLayoutName} receipt, 3 items, paid by card yesterday`
+              : "e.g. Starbucks receipt, 2 lattes and a muffin, this morning"
+          }
           className={`min-w-0 flex-1 ${inputClass}`}
         />
         <button
@@ -1509,7 +1518,7 @@ export default function SectionBuilder() {
           onClick={generateAi}
           disabled={aiLoading || !aiPrompt.trim()}
           aria-busy={aiLoading}
-          className="flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
+          className="flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-lg bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60 sm:px-5"
         >
           {aiLoading && <SpinnerIcon className="h-4 w-4" />}
           {aiLoading ? "Generating…" : "Generate"}
@@ -1517,8 +1526,13 @@ export default function SectionBuilder() {
       </div>
       {!accountLoading && !account.isLoggedIn && (
         <p className="mt-2 text-xs text-slate-600">
-          AI needs a free account, no card. It gives you {FREE_LIMITS.aiGenerationsPerMonth} AI
-          receipts a month, and we keep what you typed and make it as soon as you&apos;re in.
+          Free account, no card. We keep what you typed
+          <span className="hidden sm:inline">
+            {" "}
+            and make it as soon as you&apos;re in. It gives you{" "}
+            {FREE_LIMITS.aiGenerationsPerMonth} AI receipts a month
+          </span>
+          .
         </p>
       )}
       {aiError && (
@@ -1568,7 +1582,7 @@ export default function SectionBuilder() {
     // w-full: /create puts this in a flex column on phones, where mx-auto
     // alone would shrink it to its content.
     <div className="mx-auto w-full max-w-7xl px-4 pb-32 pt-4 sm:px-6 lg:px-8 lg:pb-20">
-      {!arrivedWithTemplate && aiBox}
+      {aiBox}
 
       {/* Desktop: every layout picker inline for a blank or homepage start.
           A visitor who arrived on a store's filled receipt gets one row
@@ -1787,7 +1801,6 @@ export default function SectionBuilder() {
 
           <button type="button" onClick={() => setShowAdd(true)} className="w-full rounded-2xl border border-dashed border-slate-300 py-3.5 text-sm font-semibold text-slate-500 hover:border-indigo-400 hover:text-indigo-600">+ Add Section</button>
 
-          {arrivedWithTemplate && aiBox}
         </div>
 
         {/* PREVIEW */}
