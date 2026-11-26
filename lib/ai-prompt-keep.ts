@@ -65,3 +65,26 @@ export function takeAiPrompt(): KeptPrompt | null {
     return null;
   }
 }
+
+/**
+ * Is a fresh prompt waiting, without using it up?
+ *
+ * For /pro-activating: someone who typed a prompt, signed up, and bought a
+ * plan on the plans page instead of clicking "Make my receipt free" still has
+ * the prompt here. That page offers to make it; the homepage takes it.
+ */
+export function hasKeptAiPrompt(): boolean {
+  try {
+    const raw = localStorage.getItem(AI_PROMPT_KEY);
+    if (!raw) return false;
+    const kept = JSON.parse(raw) as { prompt?: unknown; at?: unknown };
+    return (
+      typeof kept.prompt === "string" &&
+      kept.prompt.trim() !== "" &&
+      typeof kept.at === "number" &&
+      Date.now() - kept.at < PROMPT_TTL_MS
+    );
+  } catch {
+    return false;
+  }
+}
