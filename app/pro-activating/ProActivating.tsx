@@ -3,7 +3,9 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import type { AccountStatus } from "@/lib/auth";
+import { hasKeptAiPrompt } from "@/lib/ai-prompt-keep";
 import { analytics } from "@/lib/analytics";
+import { AI_RESUME_PATH } from "@/lib/new-account";
 import { SITE } from "@/lib/site";
 import { createClient } from "@/lib/supabase/client";
 import { SpinnerIcon } from "@/components/Icons";
@@ -52,6 +54,13 @@ export default function ProActivating({ sessionId, guest = false }: { sessionId?
   const [newAccount, setNewAccount] = useState(false);
   /** The guest claim could not grant here; the webhook will. */
   const [claimFailed, setClaimFailed] = useState(false);
+  /**
+   * A prompt typed at an AI box is still waiting: this buyer signed up from
+   * the box and picked a plan on the plans page rather than "Make my receipt
+   * free", so nothing has generated it yet. Not when an export is waiting
+   * too: that buyer paid at Download and wants the receipt they built.
+   */
+  const [promptWaiting, setPromptWaiting] = useState(false);
   const startedAt = useRef(Date.now());
   const reported = useRef(false);
 
@@ -66,6 +75,11 @@ export default function ProActivating({ sessionId, guest = false }: { sessionId?
 
   useEffect(() => {
     analytics.purchaseLanded();
+    try {
+      setPromptWaiting(hasKeptAiPrompt() && !localStorage.getItem("rc_pending_export"));
+    } catch {
+      // Storage blocked: the page falls back to the builder button.
+    }
 
     let active = true;
     let timer: ReturnType<typeof setTimeout>;
@@ -158,9 +172,10 @@ export default function ProActivating({ sessionId, guest = false }: { sessionId?
         tone="success"
         title="Pro is active"
         body={
-          label
+          (label
             ? `Your ${label} plan is on. Downloads are watermark-free from now on.`
-            : "Downloads are watermark-free from now on."
+            : "Downloads are watermark-free from now on.") +
+          (promptWaiting ? " The receipt you described is next." : "")
         }
       >
         <div className="mt-6 flex flex-wrap justify-center gap-3">
@@ -168,11 +183,15 @@ export default function ProActivating({ sessionId, guest = false }: { sessionId?
               left waiting in rc_pending_export, so this lands on their receipt.
               A full load, not a client navigation: a guest was signed in a
               moment ago and the header should render with that session. */}
+          {/* With a prompt waiting, the homepage generates it on arrival and
+              hands the receipt to the builder (AI_RESUME_PATH). Before this,
+              the buyer landed on an empty builder and had to type it again,
+              while the free "Make my receipt free" route made it for them. */}
           <a
-            href="/create"
+            href={promptWaiting ? AI_RESUME_PATH : "/create"}
             className="rounded-full bg-indigo-600 px-6 py-3 text-sm font-semibold text-white hover:bg-indigo-700"
           >
-            Back to your receipt
+            {promptWaiting ? "Make my receipt" : "Back to your receipt"}
           </a>
           <Link
             href="/account"
