@@ -54,13 +54,16 @@ function isCheckoutBound(path: string): boolean {
 }
 
 /**
- * Where the homepage AI box sends someone to sign up: back to the homepage,
- * which finds the prompt they typed and generates it at once.
+ * Where an AI box (homepage or builder) sends someone to sign up: back to the
+ * homepage, which finds the prompt they typed and generates it at once.
  *
- * Exempt from the plans page, like checkout. This person signed up to get one
- * specific receipt drafted; showing them prices first stands between the free
- * thing they were promised and the moment they see it. They meet the paywall
- * at Download, in the builder, with the receipt in front of them.
+ * NOT exempt from the plans page. It was, from 2026-10-24 for the homepage box
+ * and from 2026-11-20 for the builder's, on the reasoning that prices should
+ * not stand between a new account and the receipt it was promised. Measured
+ * 2026-11-26: while the builder's AI sign-ups still landed on the plans, 46
+ * saw them in 11 days and 9 bought; once exempt, 8 signed up in 5 days and
+ * none bought. The new account now sees the plans with this path as `next`,
+ * and NewAccountBanner's button ("Make my receipt free") carries on to it.
  */
 export const AI_RESUME_PATH = "/?ai=1";
 
@@ -74,9 +77,8 @@ export const AI_RESUME_PATH = "/?ai=1";
 export function newAccountDestination(next?: string | null): string {
   const safe = safeInternalPath(next);
   if (!safe) return NEW_ACCOUNT_PATH;
-  // Exempt: mid-purchase, or mid-AI-request (see AI_RESUME_PATH).
+  // Exempt: mid-purchase only. An AI request sees the plans (AI_RESUME_PATH).
   if (isCheckoutBound(safe)) return safe;
-  if (safe === AI_RESUME_PATH) return safe;
   if (safe === DEFAULT_NEXT || safe === "/") return NEW_ACCOUNT_PATH;
   return `${NEW_ACCOUNT_PATH}&next=${encodeURIComponent(safe)}`;
 }

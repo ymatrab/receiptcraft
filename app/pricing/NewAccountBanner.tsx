@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { analytics } from "@/lib/analytics";
-import { DEFAULT_NEXT, safeInternalPath } from "@/lib/new-account";
+import { AI_RESUME_PATH, DEFAULT_NEXT, safeInternalPath } from "@/lib/new-account";
 import { FREE_LIMITS } from "@/lib/plans";
 
 /**
@@ -53,13 +53,18 @@ export default function NewAccountBanner() {
 
   if (!show) return null;
 
+  // Signed up at an AI box: the prompt they typed is waiting, so the banner
+  // leads with a solid button that goes and makes it, and the plans line
+  // follows. Every other sign-up keeps the quieter "Skip" link.
+  const aiWaiting = back === AI_RESUME_PATH;
+
   return (
     <div
       role="status"
       className="mb-10 rounded-2xl border border-emerald-200 bg-emerald-50/70 p-6 sm:p-7"
     >
       <h2 className="text-lg font-bold text-emerald-950 sm:text-xl">
-        You&apos;re in — your free account is ready
+        {aiWaiting ? "You\u2019re in. Your receipt is next" : "You\u2019re in — your free account is ready"}
       </h2>
 
       <p className="mt-2 text-sm text-emerald-900">It already includes:</p>
@@ -70,15 +75,30 @@ export default function NewAccountBanner() {
         <Item>Every template, with watermarked downloads</Item>
       </ul>
 
+      {aiWaiting && (
+        <div className="mt-5">
+          <Link
+            href={back}
+            onClick={() => analytics.newAccountPricingSkip(back)}
+            className="block rounded-full bg-emerald-600 px-6 py-3 text-center text-sm font-semibold text-white shadow-sm transition-colors hover:bg-emerald-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2 sm:inline-block"
+          >
+            Make my receipt free →
+          </Link>
+        </div>
+      )}
+
       <div className="mt-5 flex flex-col gap-3 border-t border-emerald-200/80 pt-5 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm text-emerald-900">
-          Want downloads without the watermark and unlimited AI? The plans are below.
+          {aiWaiting
+            ? "Want it without the watermark, plus unlimited AI? The plans are below."
+            : "Want downloads without the watermark and unlimited AI? The plans are below."}
         </p>
         {/* Declining the plans is not an upgrade click. This fired
             upgrade_click{new_account_pricing_skip}, which put every new account
             that walked past the price list into the count of people who showed
             buying intent — inflating the one number that says whether pricing
             works. It has its own event now. */}
+        {!aiWaiting && (
         <Link
           href={back}
           onClick={() => analytics.newAccountPricingSkip(back)}
@@ -86,6 +106,7 @@ export default function NewAccountBanner() {
         >
           Skip — start making receipts
         </Link>
+        )}
       </div>
     </div>
   );

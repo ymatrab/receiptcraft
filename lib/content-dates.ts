@@ -740,7 +740,9 @@ export const POLICY_UPDATED = "2026-08-31";
 // 2026-11-19: the builder gains a "Start from a store" row of brand templates.
 // 2026-11-20: phone layout — intro after the builder on phones, and the
 // "make a receipt on my phone" FAQ answer rewritten for the new bottom bar.
-export const CREATE_UPDATED = "2026-11-20";
+// 2026-11-26: the AI box is back above the form on arrivals from a brand or
+// template page, compact on phones, with the badge "Free with an account".
+export const CREATE_UPDATED = "2026-11-26";
 // 2026-10-13: lists the first-party measurement storage (mkc_* keys).
 // 2026-10-20: analytics section split by region — opt-in in the EEA/UK/CH,
 // on by default with Decline as the opt-out everywhere else.
