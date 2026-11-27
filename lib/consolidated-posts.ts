@@ -69,6 +69,26 @@ export const CONSOLIDATED_POSTS: ReadonlyMap<string, string> = new Map([
   // body was not merged into the brand page; nothing in it was verified as
   // unique enough to move.
   ["home-depot-receipt-generator", "/brands/home-depot"],
+  // The four Walmart sprint posts. Search Console, Oct 28–Nov 24 2026: between
+  // them 2,382 impressions and 15 clicks, almost all on "walmart receipt
+  // generator / maker / template", against 2,853 impressions and 143 clicks for
+  // /brands/walmart on the same searches. None of the 18 visitors who landed
+  // on them bought; /brands/walmart sold 5 from 152. A live Google check on
+  // 2026-11-27 showed the "printable" post at #3 for "walmart receipt
+  // generator" and the brand page outside the top 20, so the split was costing
+  // the page that sells its place.
+  //
+  // Retitling was tried first (Sanity patch of 2026-11-17 gave each a
+  // different subject); Google still showed them, under their old titles, for
+  // the brand page's searches. The owner approved these four 301s on
+  // 2026-11-27. Like the Home Depot line above, that approval covers these
+  // slugs only. /blog/cvs-pharmacy-receipt and /blog/stockx-receipt were
+  // looked at the same day and left live: their searches are the bare brand
+  // name ("cvs receipts", "stockx receipt"), not the generator searches.
+  ["walmart-receipt-generator", "/brands/walmart"],
+  ["walmart-receipt-maker", "/brands/walmart"],
+  ["walmart-receipt-template", "/brands/walmart"],
+  ["printable-walmart-receipt-generator", "/brands/walmart"],
 ]);
 
 /** Where a consolidated post's URL should send readers, or null if it is live. */

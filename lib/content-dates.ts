@@ -543,8 +543,15 @@ const TEMPLATES_PASS_WORDING: ReadonlySet<string> = new Set([
   "grocery-store", "hardware-store-receipt", "payment-receipt", "pharmacy", "restaurant", "retail-store",
 ]);
 
+// 2026-11-27: /brands/walmart gains two sentences on printing (PDF at slip
+// width, print-ready A4), the one subject of the four Walmart blog posts it
+// did not already cover. Those posts now 301 to it (lib/consolidated-posts.ts).
+// Walmart alone, so no other brand page is restamped.
+const WALMART_PRINT_UPDATED = "2026-11-27";
+
 export function brandReviewedAt(slug: string): string {
   return newest(
+    slug === "walmart" ? WALMART_PRINT_UPDATED : null,
     BRANDS_PASS_WORDING.has(slug) ? PASS_WORDING_UPDATED : null,
     BRANDS_RENEWAL_UPDATED,
     BRANDS_PHONE_LAYOUT_UPDATED,
