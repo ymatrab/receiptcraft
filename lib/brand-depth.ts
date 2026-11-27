@@ -33,7 +33,7 @@ export const BRAND_DEPTH: Record<string, BrandDepth> = {
       { label: "# ITEMS SOLD", meaning: "A count of items in the basket, printed just above the TC#." },
       { label: "TC#", meaning: "The 20-digit transaction code. It is what Walmart's own receipt lookup and many cashback apps read." },
     ],
-    note: "A Walmart receipt is a long monospaced thermal slip. What sets it apart is the UPC printed after every item and the TC# near the bottom, plus a survey line with an ID # at the top. The template keeps that order.",
+    note: "A Walmart receipt is a long monospaced thermal slip. What sets it apart is the UPC printed after every item and the TC# near the bottom, plus a survey line with an ID # at the top. The template keeps that order. To print one, download the PDF: it keeps the narrow slip width, and the builder's print-ready PDF centres the same receipt on an A4 page for an office printer.",
     sources: [
       { title: "Ibotta: sending a Walmart receipt", url: "https://help.ibotta.com/hc/en-us/articles/360012110879-How-do-I-send-my-Walmart-receipt-" },
     ],
