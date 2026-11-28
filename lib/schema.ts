@@ -25,6 +25,7 @@ export function creativeWorkJsonLd({
   path,
   about,
   dateModified,
+  image,
 }: {
   name: string;
   description: string;
@@ -39,6 +40,8 @@ export function creativeWorkJsonLd({
   about?: string;
   /** ISO date, from the same content-dates constant the sitemap uses. */
   dateModified?: string;
+  /** Site-relative path of the page's own picture; the site-wide one if absent. */
+  image?: string;
 }) {
   return {
     "@context": "https://schema.org",
@@ -47,7 +50,7 @@ export function creativeWorkJsonLd({
     description,
     url: absoluteUrl(path),
     inLanguage: "en",
-    image: absoluteUrl("/opengraph-image"),
+    image: absoluteUrl(image ?? "/opengraph-image"),
     creator: {
       "@type": "Organization",
       name: SITE.name,

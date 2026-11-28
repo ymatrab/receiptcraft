@@ -5,6 +5,7 @@ import { templateReviewedAt } from "@/lib/content-dates";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { TEMPLATES, getTemplate, sourcedFigure } from "@/lib/templates";
+import { TEMPLATE_IMAGES } from "@/lib/template-images";
 import { previewFromTemplate } from "@/lib/receipt";
 import { docFromReceiptData } from "@/lib/sections";
 import { fitSeoDescription } from "@/lib/seo-description";
@@ -39,6 +40,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const template = getTemplate(slug);
   if (!template) return {};
   const description = fitSeoDescription(template.seoDescription);
+  // The template's own share preview (its sample receipt beside its name),
+  // made by scripts/template-images.ts. Until 2026-11-28 every template page
+  // shared the one site-wide picture.
+  const shareImage = absoluteUrl(
+    TEMPLATE_IMAGES[template.slug] ? `/og/templates/${template.slug}.jpg` : "/opengraph-image",
+  );
   return {
     title: { absolute: template.seoTitle },
     description,
@@ -50,14 +57,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       siteName: SITE.name,
       type: "website",
       // Setting openGraph explicitly drops the default opengraph-image, so
-      // re-add it — otherwise social previews render with no image.
-      images: [absoluteUrl("/opengraph-image")],
+      // an image has to be named here — otherwise social previews render with
+      // none.
+      images: [shareImage],
     },
     twitter: {
       card: "summary_large_image",
       title: template.seoTitle,
       description,
-      images: [absoluteUrl("/opengraph-image")],
+      images: [shareImage],
     },
   };
 }
@@ -137,6 +145,63 @@ export default async function TemplatePage({ params }: Props) {
     ],
   };
 
+  // A real picture of the sample receipt (scripts/template-images.ts). The
+  // sample at the top of the page is drawn in HTML, which gave Google Images
+  // nothing to show: on 2026-11-28 Pinterest pins and Etsy listings held most
+  // of page one for "rent / cash / donation receipt template" while no
+  // template page had an image of its own receipt.
+  const picture = TEMPLATE_IMAGES[template.slug];
+  const pictureSrc = `/template-images/${template.slug}.webp`;
+  const fieldNames = (template.fields ?? []).slice(0, 4).map((f) => f.name.toLowerCase());
+  const pictureAlt =
+    `${docTitle} template example: a filled-in sample` +
+    (fieldNames.length > 1
+      ? ` showing ${fieldNames.slice(0, -1).join(", ")} and ${fieldNames[fieldNames.length - 1]}`
+      : "");
+  // Narrower for the long receipts, so none stands much taller than 640px
+  // beside the field list. The whole receipt always shows; nothing is cropped.
+  const pictureWidth = picture ? Math.min(270, Math.round((640 * picture.w) / picture.h)) : 0;
+  const sampleFigure = picture ? (
+    <figure className="mx-auto w-full shrink-0 text-center lg:mx-0" style={{ maxWidth: pictureWidth }}>
+      <Link href={`/create?template=${template.slug}`} className="block">
+        {/* A plain img on purpose: the file is already sized and compressed,
+            and next/image would spend an optimisation on every one of them. */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={pictureSrc}
+          alt={pictureAlt}
+          width={picture.w}
+          height={picture.h}
+          loading="lazy"
+          decoding="async"
+          className="h-auto w-full rounded-md"
+        />
+      </Link>
+      <figcaption className="mt-2 text-xs leading-relaxed text-slate-500">
+        {docTitle} example. The names and amounts are sample data.
+        <br />
+        <Link href={`/create?template=${template.slug}`} className="font-semibold text-indigo-600 hover:text-indigo-700">
+          Edit this {isInvoice ? "invoice" : "receipt"} →
+        </Link>
+      </figcaption>
+    </figure>
+  ) : null;
+  const imageJsonLd = picture
+    ? {
+        "@context": "https://schema.org",
+        "@type": "ImageObject",
+        contentUrl: absoluteUrl(pictureSrc),
+        url: absoluteUrl(pictureSrc),
+        name: `${docTitle} template example`,
+        description: pictureAlt,
+        width: picture.w * 2,
+        height: picture.h * 2,
+        representativeOfPage: true,
+        creditText: SITE.name,
+        creator: { "@type": "Organization", name: SITE.name, url: SITE.url },
+      }
+    : null;
+
   // The page's subject. The FAQ and breadcrumb blocks describe what it answers
   // and where it sits; neither says what the page is.
   const workJsonLd = creativeWorkJsonLd({
@@ -144,6 +209,7 @@ export default async function TemplatePage({ params }: Props) {
     description: template.seoDescription,
     path: `/templates/${template.slug}`,
     dateModified: templateReviewedAt(template),
+    image: picture ? pictureSrc : undefined,
   });
 
   return (
@@ -160,6 +226,12 @@ export default async function TemplatePage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
+      {imageJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(imageJsonLd) }}
+        />
+      )}
 
       <div className="mx-auto max-w-7xl px-4 pb-12 pt-6 sm:px-6 sm:pt-12 lg:px-8">
         {/* Breadcrumb */}
@@ -308,14 +380,34 @@ export default async function TemplatePage({ params }: Props) {
               </Link>
               .
             </p>
-            <dl className="mt-6 grid gap-x-8 gap-y-5 sm:grid-cols-2">
-              {template.fields.map((f) => (
-                <div key={f.name} className="border-l-2 border-slate-200 pl-4">
-                  <dt className="font-semibold text-slate-900">{f.name}</dt>
-                  <dd className="mt-1 text-sm leading-relaxed text-slate-600">{f.description}</dd>
-                </div>
-              ))}
-            </dl>
+            {/* The picture sits above the list on phones and to its left from
+                lg, so each field can be read against the sample. */}
+            <div className="mt-6 flex flex-col gap-6 lg:flex-row lg:items-start lg:gap-10">
+              {sampleFigure}
+              <dl className="grid flex-1 gap-x-8 gap-y-5 sm:grid-cols-2">
+                {template.fields.map((f) => (
+                  <div key={f.name} className="border-l-2 border-slate-200 pl-4">
+                    <dt className="font-semibold text-slate-900">{f.name}</dt>
+                    <dd className="mt-1 text-sm leading-relaxed text-slate-600">{f.description}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          </section>
+        )}
+
+        {/* Templates with no field list still get the picture, in a short
+            section of its own. */}
+        {!(template.fields && template.fields.length > 0) && sampleFigure && (
+          <section className="mt-20" aria-labelledby="sample-heading">
+            <h2 id="sample-heading" className="text-2xl font-bold text-slate-900">
+              What {an(docLabel)} {docLabel} looks like
+            </h2>
+            <p className="mt-4 max-w-3xl leading-relaxed text-slate-600">
+              This is the sample the template opens with. Every line on it can be changed before
+              you download it.
+            </p>
+            <div className="mt-6">{sampleFigure}</div>
           </section>
         )}
 

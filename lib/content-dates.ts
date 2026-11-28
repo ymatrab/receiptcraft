@@ -8,6 +8,7 @@ import { hasHandoff, hasOfficialSource, INTENT_PAGES } from "./intent-pages";
 import { COMPETITORS, LAST_UPDATED } from "./comparisons";
 import { examplesForBrand, examplesForTemplate } from "./example-links";
 import { contextLinksFor } from "./contextual-links";
+import { TEMPLATE_IMAGES } from "./template-images";
 
 /**
  * When each section of the site was last genuinely reviewed.
@@ -1110,7 +1111,14 @@ const TEMPLATES_NOV20_BATCH: ReadonlySet<string> = new Set([
 ]);
 const TEMPLATES_NOV20_BATCH_UPDATED = "2026-11-20";
 
+// 2026-11-28: every template page shows a real picture of its sample receipt
+// (beside the field list, or in a short section of its own), with its own
+// share preview and ImageObject markup. Keyed on the generated size table, so
+// a template is stamped only once its picture exists.
+const TEMPLATES_PICTURE_UPDATED = "2026-11-28";
+
 export function templateReviewedAt(t: ReceiptTemplate): string {
+  if (t.slug in TEMPLATE_IMAGES) return TEMPLATES_PICTURE_UPDATED;
   if (TEMPLATES_PASS_WORDING.has(t.slug)) return PASS_WORDING_UPDATED;
   if (TEMPLATES_KEYWORDS_NOV25.has(t.slug)) return KEYWORDS_NOV25_UPDATED;
   if (TEMPLATES_NOV20_BATCH.has(t.slug)) return TEMPLATES_NOV20_BATCH_UPDATED;
