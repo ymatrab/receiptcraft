@@ -89,6 +89,27 @@ export const CONSOLIDATED_POSTS: ReadonlyMap<string, string> = new Map([
   ["walmart-receipt-maker", "/brands/walmart"],
   ["walmart-receipt-template", "/brands/walmart"],
   ["printable-walmart-receipt-generator", "/brands/walmart"],
+  // Two sprint posts that carry their template's own keyword in the title and
+  // take most of the impressions on its search. Search Console, Oct 28–Nov 24
+  // 2026, position on the shared search:
+  //
+  //                                    post            template
+  //   cash receipt generator           p32 (97 impr)   p85 (25 impr)
+  //   donation receipt generator       p13 (56 impr)   p38 (46 impr)
+  //
+  // Neither post brought one visitor in Oct 25–Nov 25; the cash template had
+  // two and sold one. A live Google check on 2026-11-28 found no blog article
+  // on page one for any template search, so a post cannot win these and a
+  // template can. The owner approved these two 301s on 2026-11-28, for these
+  // slugs only.
+  //
+  // Looked at the same day and left live: itemized-receipt-template (ranks for
+  // "what is an itemized receipt", and the template is already ahead of it on
+  // the maker searches), oil-change-receipt (an explainer at p2 for "oil
+  // change receipts", edited 2026-11-25) and 501c3-donation-receipt-template
+  // (the tax-requirement searches, a different subject).
+  ["cash-receipt-generator", "/templates/cash-receipt"],
+  ["free-donation-receipt-template", "/templates/donation-receipt"],
 ]);
 
 /** Where a consolidated post's URL should send readers, or null if it is live. */
