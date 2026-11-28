@@ -1071,4 +1071,83 @@ export const BRAND_DEPTH: Record<string, BrandDepth> = {
       { title: "Careem Help: getting a trip receipt", url: "https://help.careem.com/hc/en-us/articles/360001592268-How-can-I-get-my-trip-receipt" },
     ],
   },
+  // 2026-11-28: the five brands among the 22 with real buyer-search demand
+  // (Search Console, Oct 28–Nov 24) that had no section here. Lines follow
+  // lib/brand-specs.ts; every outside fact is from the page under `sources`,
+  // read 2026-11-27/28.
+  stockx: {
+    lines: [
+      { label: "Order Confirmed", meaning: "StockX confirms a purchase by email; there is no till slip." },
+      { label: "Order Number + Order Date", meaning: "The reference for the purchase and the day it was placed." },
+      { label: "Style ID, Size, Condition", meaning: "The item is identified by the maker's style code and the size bought, not by a barcode." },
+      { label: "Purchase Price", meaning: "The price of the item itself, before fees. It stands where a store receipt prints a subtotal." },
+      { label: "Processing Fee", meaning: "A buyer fee added on top of the price. StockX says it depends on the item price, location and market conditions." },
+      { label: "Shipping", meaning: "Charged as its own line." },
+      { label: "Sales Tax + Total", meaning: "Tax where it applies, then the amount charged." },
+    ],
+    note: "A StockX receipt is an order confirmation for one item bought through a marketplace, so the fees matter as much as the price: the total is the purchase price plus the processing fee, shipping and sales tax. The template keeps each as a separate line.",
+    sources: [
+      { title: "StockX Help: fees for buyers", url: "https://stockx.com/help/articles/what-are-stockx-fees-for-buyers" },
+    ],
+  },
+  zelle: {
+    lines: [
+      { label: "You sent money with Zelle", meaning: "A payment confirmation shown in a bank's or credit union's app or online banking. Zelle has no paper receipt." },
+      { label: "To", meaning: "The name of the person or business paid." },
+      { label: "Enrolled with Zelle as", meaning: "The email address or U.S. mobile number the money was sent to." },
+      { label: "Sent on", meaning: "The date of the payment." },
+      { label: "Message + Amount", meaning: "The sender's note and the amount. There is no subtotal and no tax." },
+      { label: "From", meaning: "The account the money left, shown by its last four digits." },
+      { label: "Confirmation number + Status", meaning: "The reference for the payment and whether it completed." },
+    ],
+    note: "A Zelle confirmation records a transfer between bank accounts, not a sale, so it has no store, items or tax. Zelle says money sent to an enrolled recipient is typically available within minutes and cannot be cancelled, which is why the confirmation number and the status are the lines worth keeping.",
+    sources: [
+      { title: "Zelle: frequently asked questions", url: "https://www.zelle.com/faq" },
+    ],
+  },
+  doordash: {
+    lines: [
+      { label: "Thanks for your order", meaning: "An emailed receipt that opens with the customer's first name." },
+      { label: "Order details", meaning: "The order number with the times it was placed and delivered." },
+      { label: "Delivered to / Ordered from", meaning: "The delivery address and the restaurant's, as two blocks." },
+      { label: "Subtotal", meaning: "The food at menu prices, before any DoorDash charge." },
+      { label: "Delivery Fee", meaning: "A DoorDash charge per order; DoorDash says it varies by merchant." },
+      { label: "Service Fee", meaning: "A second, separate charge; DoorDash says it varies with factors like distance and order size." },
+      { label: "Estimated Tax", meaning: "Tax on the order." },
+      { label: "Dasher Tip", meaning: "The tip for the driver, on its own line." },
+      { label: "Total", meaning: "What the card was charged." },
+    ],
+    note: "A DoorDash receipt separates the restaurant's food from DoorDash's own charges. Besides the delivery and service fees, DoorDash lists a small order fee and a long distance fee that appear on some orders. The template keeps the fees and the tip apart from the subtotal, the way the email does.",
+    sources: [
+      { title: "DoorDash Help: what fees do I pay", url: "https://help.doordash.com/consumers/s/article/What-fees-do-I-pay" },
+    ],
+  },
+  "chick-fil-a": {
+    lines: [
+      { label: "Restaurant name", meaning: "Each restaurant prints its own location name, address and phone at the top." },
+      { label: "CARRY OUT", meaning: "The order type, printed in capitals." },
+      { label: "Name + ORDER number", meaning: "The guest's first name and the order number, above the items." },
+      { label: "Meal lines", meaning: "A numbered meal is one priced line, with its side and drink indented beneath it." },
+      { label: "Tax + Total", meaning: "Tax, then the total and the card used." },
+      { label: "Survey line + Serial #", meaning: "Some receipts end with an invitation to mycfavisit.com and a serial number to enter there." },
+    ],
+    note: "A Chick-fil-A receipt puts the guest's name and order number ahead of the food, and prints a meal as one line with its parts beneath. The survey serial number at the bottom is the other distinctive line. Chick-fil-A says not every receipt carries one, and the survey has to be taken within two days.",
+    sources: [
+      { title: "Chick-fil-A: where to find the Customer Experience Survey", url: "https://www.chick-fil-a.com/customer-support/events-and-promotions/receipt-survey/where-can-i-find-the-customer-experience-survey" },
+    ],
+  },
+  "dollar-tree": {
+    lines: [
+      { label: "DOLLAR TREE + store number", meaning: "The store's number, address and phone under the name." },
+      { label: "Item lines", meaning: "Quantity, a short all-caps item name and the price." },
+      { label: "SUBTOTAL + TAX", meaning: "The subtotal, then tax, then the total." },
+      { label: "Card block", meaning: "For a card payment, the terminal's approval details print under the total." },
+      { label: "Barcode", meaning: "A barcode at the foot of the slip." },
+      { label: "THANK YOU FOR SHOPPING AT DOLLAR TREE", meaning: "The closing line." },
+    ],
+    note: "A Dollar Tree receipt is a short thermal slip, and the store's return policy turns on it. Dollar Tree says that with a receipt an item can be exchanged or refunded in the original form of payment; without one, it can only be exchanged at the current scanned price.",
+    sources: [
+      { title: "Dollar Tree: return policy", url: "https://www.dollartree.com/company-faq-return-policy" },
+    ],
+  },
 };

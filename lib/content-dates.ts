@@ -548,10 +548,16 @@ const TEMPLATES_PASS_WORDING: ReadonlySet<string> = new Set([
 // did not already cover. Those posts now 301 to it (lib/consolidated-posts.ts).
 // Walmart alone, so no other brand page is restamped.
 const WALMART_PRINT_UPDATED = "2026-11-27";
+// 2026-11-28: "How to read a … receipt" sections for the five brands among the
+// 22 with real buyer-search demand that had none (lib/brand-depth.ts). Named
+// here because BRANDS_DEPTH_UPDATED would give them the 2026-11-03 date.
+const BRANDS_DEPTH_NOV28: ReadonlySet<string> = new Set(["stockx", "zelle", "doordash", "chick-fil-a", "dollar-tree"]);
+const BRANDS_DEPTH_NOV28_UPDATED = "2026-11-28";
 
 export function brandReviewedAt(slug: string): string {
   return newest(
     slug === "walmart" ? WALMART_PRINT_UPDATED : null,
+    BRANDS_DEPTH_NOV28.has(slug) ? BRANDS_DEPTH_NOV28_UPDATED : null,
     BRANDS_PASS_WORDING.has(slug) ? PASS_WORDING_UPDATED : null,
     BRANDS_RENEWAL_UPDATED,
     BRANDS_PHONE_LAYOUT_UPDATED,
